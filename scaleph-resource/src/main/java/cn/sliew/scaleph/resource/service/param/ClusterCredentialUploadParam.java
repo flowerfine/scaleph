@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.resource.service.param;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -27,12 +27,12 @@ import javax.validation.constraints.NotBlank;
 public class ClusterCredentialUploadParam {
 
     @NotBlank
-    @ApiModelProperty("flink 版本")
+    @Schema(description = "flink 版本")
     private String name;
 
-    @ApiModelProperty("current context")
+    @Schema(description = "current context")
     private String context;
 
-    @ApiModelProperty("备注")
+    @Schema(description = "备注")
     private String remark;
 }

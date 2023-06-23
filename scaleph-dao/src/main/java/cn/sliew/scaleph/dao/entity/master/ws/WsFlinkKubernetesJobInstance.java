@@ -21,8 +21,6 @@ package cn.sliew.scaleph.dao.entity.master.ws;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.Date;
@@ -34,7 +32,6 @@ import java.util.Date;
  */
 @Data
 @TableName("ws_flink_kubernetes_job_instance")
-@ApiModel(value = "WsFlinkKubernetesJobInstance对象", description = "flink kubernetes job instance")
 public class WsFlinkKubernetesJobInstance extends BaseDO {
 
     private static final long serialVersionUID = 1L;
@@ -60,15 +57,12 @@ public class WsFlinkKubernetesJobInstance extends BaseDO {
     @TableField("state")
     private String state;
 
-    @ApiModelProperty("开始时间")
     @TableField("start_time")
     private Date startTime;
 
-    @ApiModelProperty("结束时间")
     @TableField("end_time")
     private Date endTime;
 
-    @ApiModelProperty("耗时")
     @TableField("duration")
     private Long duration;
 

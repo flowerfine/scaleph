@@ -23,11 +23,11 @@ import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.engine.sql.service.WsFlinkArtifactSqlService;
 import cn.sliew.scaleph.engine.sql.service.dto.WsFlinkArtifactSqlDTO;
 import cn.sliew.scaleph.engine.sql.service.param.*;
-import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.model.ResponseVO;
+import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +37,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
-@Api(tags = "Flink管理-artifact-sql")
+@Tag(name = "Flink管理-artifact-sql")
 @RestController
 @RequestMapping(path = "/api/flink/artifact/sql")
 public class WsArtifactSqlController {
@@ -47,7 +47,7 @@ public class WsArtifactSqlController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询 artifact sql 列表", notes = "查询 artifact sql 列表")
+    @Operation(summary = "查询 artifact sql 列表", description = "查询 artifact sql 列表")
     public ResponseEntity<Page<WsFlinkArtifactSqlDTO>> list(@Valid WsFlinkArtifactSqlListParam param) {
         Page<WsFlinkArtifactSqlDTO> result = wsFlinkArtifactSqlService.list(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -55,7 +55,7 @@ public class WsArtifactSqlController {
 
     @Logging
     @GetMapping("/page")
-    @ApiOperation(value = "根据 id 分页查询 artifact sql 列表", notes = "根据 id 分页查询 artifact sql 列表")
+    @Operation(summary = "根据 id 分页查询 artifact sql 列表", description = "根据 id 分页查询 artifact sql 列表")
     public ResponseEntity<Page<WsFlinkArtifactSqlDTO>> listByArtifact(@Valid WsFlinkArtifactSqlHistoryParam param) {
         final Page<WsFlinkArtifactSqlDTO> result = wsFlinkArtifactSqlService.listByArtifact(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -63,7 +63,7 @@ public class WsArtifactSqlController {
 
     @Logging
     @GetMapping("/all")
-    @ApiOperation(value = "查询 artifact sql 列表", notes = "查询 artifact sql 列表")
+    @Operation(summary = "查询 artifact sql 列表", description = "查询 artifact sql 列表")
     public ResponseEntity<List<WsFlinkArtifactSqlDTO>> listAll(@Valid WsFlinkArtifactSqlSelectListParam param) {
         final List<WsFlinkArtifactSqlDTO> result = wsFlinkArtifactSqlService.listAll(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -71,7 +71,7 @@ public class WsArtifactSqlController {
 
     @Logging
     @GetMapping("/{id}")
-    @ApiOperation(value = "查询 artifact sql 详情", notes = "查询 artifact sql 详情")
+    @Operation(summary = "查询 artifact sql 详情", description = "查询 artifact sql 详情")
     public ResponseEntity<WsFlinkArtifactSqlDTO> selectOne(@PathVariable("id") Long id) {
         WsFlinkArtifactSqlDTO result = wsFlinkArtifactSqlService.selectOne(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -79,7 +79,7 @@ public class WsArtifactSqlController {
 
     @Logging
     @PutMapping
-    @ApiOperation(value = "新增 artifact sql", notes = "新增 artifact sql")
+    @Operation(summary = "新增 artifact sql", description = "新增 artifact sql")
     public ResponseEntity<ResponseVO> insert(@RequestBody @Valid WsFlinkArtifactSqlInsertParam param) throws IOException, UidGenerateException {
         wsFlinkArtifactSqlService.insert(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -87,7 +87,7 @@ public class WsArtifactSqlController {
 
     @Logging
     @PostMapping
-    @ApiOperation(value = "修改 artifact sql", notes = "修改 artifact sql")
+    @Operation(summary = "修改 artifact sql", description = "修改 artifact sql")
     public ResponseEntity<ResponseVO> update(@RequestBody @Valid WsFlinkArtifactSqlUpdateParam param) {
         wsFlinkArtifactSqlService.update(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -95,7 +95,7 @@ public class WsArtifactSqlController {
 
     @Logging
     @PostMapping("script")
-    @ApiOperation(value = "修改 artifact sql", notes = "修改 artifact sql")
+    @Operation(summary = "修改 artifact sql", description = "修改 artifact sql")
     public ResponseEntity<ResponseVO> updateScript(@RequestBody @Valid WsFlinkArtifactSqlScriptUpdateParam param) {
         wsFlinkArtifactSqlService.updateScript(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -103,7 +103,7 @@ public class WsArtifactSqlController {
 
     @Logging
     @DeleteMapping("/{id}")
-    @ApiOperation(value = "删除 artifact sql", notes = "删除 artifact sql")
+    @Operation(summary = "删除 artifact sql", description = "删除 artifact sql")
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) throws ScalephException, IOException {
         wsFlinkArtifactSqlService.deleteOne(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -111,7 +111,7 @@ public class WsArtifactSqlController {
 
     @Logging
     @DeleteMapping("/all/{id}")
-    @ApiOperation(value = "删除所有 artifact sql", notes = "删除所有 artifact sql")
+    @Operation(summary = "删除所有 artifact sql", description = "删除所有 artifact sql")
     public ResponseEntity<ResponseVO> deleteAll(@PathVariable("id") Long id) throws ScalephException {
         wsFlinkArtifactSqlService.deleteAll(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);

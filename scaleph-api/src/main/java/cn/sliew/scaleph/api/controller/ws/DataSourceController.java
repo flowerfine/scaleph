@@ -19,20 +19,19 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.common.exception.ScalephException;
+import cn.sliew.scaleph.common.util.I18nUtil;
 import cn.sliew.scaleph.common.util.PropertyUtil;
 import cn.sliew.scaleph.meta.service.MetaDatasourceService;
 import cn.sliew.scaleph.meta.service.dto.MetaDatasourceDTO;
 import cn.sliew.scaleph.meta.service.param.MetaDatasourceParam;
 import cn.sliew.scaleph.plugin.framework.property.Property;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
-import cn.sliew.scaleph.common.util.I18nUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,10 +47,9 @@ import java.util.List;
 /**
  * @author gleiyu
  */
-@Slf4j
-@Api(tags = "数据开发-数据源")
-@RestController
 @Deprecated
+@Tag(name = "数据开发-数据源")
+@RestController
 @RequestMapping(path = {"/api/datadev/datasource", "/api/di/datasource"})
 public class DataSourceController {
 
@@ -60,7 +58,7 @@ public class DataSourceController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "分页查询数据源", notes = "分页查询数据源信息")
+    @Operation(summary = "分页查询数据源", description = "分页查询数据源信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_SELECT)")
     public ResponseEntity<Page<MetaDatasourceDTO>> listDataSource(MetaDatasourceParam param) {
         Page<MetaDatasourceDTO> page = this.metaDatasourceService.selectPage(param);
@@ -69,9 +67,9 @@ public class DataSourceController {
 
     @Logging
     @GetMapping(path = "type/{type}")
-    @ApiOperation(value = "按类型查询数据源列表", notes = "按类型查询数据源信息")
+    @Operation(summary = "按类型查询数据源列表", description = "按类型查询数据源信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_SELECT)")
-    public ResponseEntity<List<DictVO>> listDataSourceByType(@PathVariable(value = "type") String type) {
+    public ResponseEntity<List<DictVO>> listDataSourceByType(@PathVariable("type") String type) {
         List<DictVO> dsList = new ArrayList<>();
         if (StringUtils.hasText(type)) {
             List<MetaDatasourceDTO> list = this.metaDatasourceService.listByType(type);
@@ -85,10 +83,9 @@ public class DataSourceController {
 
     @Logging
     @PostMapping
-    @ApiOperation(value = "新增数据源", notes = "新增数据源")
+    @Operation(summary = "新增数据源", description = "新增数据源")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_ADD)")
-    public ResponseEntity<ResponseVO> addDataSource(
-            @Validated @RequestBody MetaDatasourceDTO metaDatasourceDTO) {
+    public ResponseEntity<ResponseVO> addDataSource(@Validated @RequestBody MetaDatasourceDTO metaDatasourceDTO) {
         if (StringUtils.hasText(metaDatasourceDTO.getAdditionalPropsStr())) {
             metaDatasourceDTO.setAdditionalProps(
                     PropertyUtil.formatPropFromStr(
@@ -101,10 +98,9 @@ public class DataSourceController {
 
     @Logging
     @PutMapping
-    @ApiOperation(value = "修改数据源", notes = "修改数据源")
+    @Operation(summary = "修改数据源", description = "修改数据源")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_EDIT)")
-    public ResponseEntity<ResponseVO> editDataSource(
-            @Validated @RequestBody MetaDatasourceDTO metaDatasourceDTO) {
+    public ResponseEntity<ResponseVO> editDataSource(@Validated @RequestBody MetaDatasourceDTO metaDatasourceDTO) {
         if (StringUtils.hasText(metaDatasourceDTO.getAdditionalPropsStr())) {
             metaDatasourceDTO.setAdditionalProps(
                     PropertyUtil.formatPropFromStr(
@@ -117,16 +113,16 @@ public class DataSourceController {
 
     @Logging
     @DeleteMapping(path = "/{id}")
-    @ApiOperation(value = "删除数据源", notes = "删除数据源")
+    @Operation(summary = "删除数据源", description = "删除数据源")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_DELETE)")
-    public ResponseEntity<ResponseVO> deleteDataSource(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<ResponseVO> deleteDataSource(@PathVariable("id") Long id) {
         this.metaDatasourceService.deleteById(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
     @PostMapping(path = "/batch")
-    @ApiOperation(value = "批量删除数据源", notes = "批量删除数据源")
+    @Operation(summary = "批量删除数据源", description = "批量删除数据源")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_DELETE)")
     public ResponseEntity<ResponseVO> deleteDataSource(@RequestBody List<Long> ids) {
         this.metaDatasourceService.deleteBatch(ids);
@@ -135,10 +131,9 @@ public class DataSourceController {
 
     @Logging
     @GetMapping(path = "/passwd/{id}")
-    @ApiOperation(value = "查看数据源密码", notes = "查看数据源明文密码")
+    @Operation(summary = "查看数据源密码", description = "查看数据源明文密码")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_SECURITY)")
-    public ResponseEntity<ResponseVO> showPassword(@PathVariable(value = "id") Long id)
-            throws Exception {
+    public ResponseEntity<ResponseVO> showPassword(@PathVariable("id") Long id) throws Exception {
         MetaDatasourceDTO metaDatasourceDTO = this.metaDatasourceService.selectOne(id, false);
         String pluginName = metaDatasourceDTO.getDatasourceType().getValue();
         List<PropertyDescriptor> propDescList = this.metaDatasourceService.getSupportedProperties(pluginName);
@@ -158,10 +153,9 @@ public class DataSourceController {
 
     @Logging
     @PostMapping("/test")
-    @ApiOperation(value = "测试数据源连通性", notes = "测试数据源连通性")
+    @Operation(summary = "测试数据源连通性", description = "测试数据源连通性")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_SELECT)")
-    public ResponseEntity<ResponseVO> connectionTest(
-            @Validated @RequestBody MetaDatasourceDTO metaDatasourceDTO) throws Exception {
+    public ResponseEntity<ResponseVO> connectionTest(@Validated @RequestBody MetaDatasourceDTO metaDatasourceDTO) throws Exception {
         try {
             if (StringUtils.hasText(metaDatasourceDTO.getAdditionalPropsStr())) {
                 metaDatasourceDTO.setAdditionalProps(

@@ -32,8 +32,8 @@ import cn.sliew.scaleph.security.service.dto.SecUserDeptDTO;
 import cn.sliew.scaleph.security.service.param.SecDeptListParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,7 +57,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/admin/dept")
-@Api(tags = "系统管理-部门管理")
+@Tag(name = "系统管理-部门管理")
 public class SecDeptController {
 
     @Autowired
@@ -67,7 +67,7 @@ public class SecDeptController {
 
     @Logging
     @GetMapping("list")
-    @ApiOperation(value = "查询部门树", notes = "查询部门树")
+    @Operation(summary = "查询部门树", description = "查询部门树")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PagePrivilege).ADMIN_DEPT_SHOW)")
     public ResponseEntity<Page<SecDeptTreeDTO>> listByPage(@Valid SecDeptListParam param) {
         Page<SecDeptTreeDTO> result = secDeptService.listByPage(param);
@@ -76,7 +76,7 @@ public class SecDeptController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询部门树", notes = "查询部门树")
+    @Operation(summary = "查询部门树", description = "查询部门树")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PagePrivilege).ADMIN_DEPT_SHOW)")
     public ResponseEntity<List<Tree<Long>>> listDept() {
         List<SecDeptDTO> list = this.secDeptService.listAll();
@@ -96,7 +96,7 @@ public class SecDeptController {
 
     @Logging
     @GetMapping(path = "/{pid}")
-    @ApiOperation(value = "查询子节点部门树", notes = "查询子节点部门树")
+    @Operation(summary = "查询子节点部门树", description = "查询子节点部门树")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PagePrivilege).ADMIN_DEPT_SHOW)")
     public ResponseEntity<List<Tree<Long>>> listChildDept(@PathVariable("pid") Long pid) {
         return new ResponseEntity<>(selectChilds(pid), HttpStatus.OK);
@@ -121,7 +121,7 @@ public class SecDeptController {
 
     @Logging
     @PostMapping
-    @ApiOperation(value = "新增部门", notes = "新增部门")
+    @Operation(summary = "新增部门", description = "新增部门")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_DEPT_ADD)")
     public ResponseEntity<ResponseVO> addDept(@Validated @RequestBody SecDeptDTO secDeptDTO) {
         this.secDeptService.insert(secDeptDTO);
@@ -131,7 +131,7 @@ public class SecDeptController {
 
     @Logging
     @PutMapping
-    @ApiOperation(value = "修改部门", notes = "修改部门")
+    @Operation(summary = "修改部门", description = "修改部门")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_DEPT_EDIT)")
     public ResponseEntity<ResponseVO> editDept(@Validated @RequestBody SecDeptDTO secDeptDTO) {
         this.secDeptService.update(secDeptDTO);
@@ -140,7 +140,7 @@ public class SecDeptController {
 
     @Logging
     @DeleteMapping(path = "/{id}")
-    @ApiOperation(value = "删除部门", notes = "删除部门")
+    @Operation(summary = "删除部门", description = "删除部门")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_DEPT_DELETE)")
     public ResponseEntity<ResponseVO> deleteDept(@PathVariable("id") Long id) {
         secDeptService.deleteById(id);
@@ -149,7 +149,7 @@ public class SecDeptController {
 
     @Logging
     @DeleteMapping(path = "/batch")
-    @ApiOperation(value = "删除部门", notes = "删除部门")
+    @Operation(summary = "删除部门", description = "删除部门")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_DEPT_DELETE)")
     public ResponseEntity<ResponseVO> deleteDept(@RequestBody List<Long> ids) {
         secDeptService.deleteBatch(ids);
@@ -158,7 +158,7 @@ public class SecDeptController {
 
     @Logging
     @PostMapping(path = "/grant")
-    @ApiOperation(value = "部门分配用户", notes = "部门分配用户")
+    @Operation(summary = "部门分配用户", description = "部门分配用户")
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_DEPT_AUTHORIZE)")
     public ResponseEntity<ResponseVO> grantDept(@NotNull Long deptId, @NotNull String userIds) {
@@ -184,4 +184,3 @@ public class SecDeptController {
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 }
-

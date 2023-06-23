@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.resource.service.param;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -28,9 +28,9 @@ import javax.validation.constraints.NotNull;
 public class FlinkReleaseUploadParam {
 
     @NotNull
-    @ApiModelProperty("flink 版本")
+    @Schema(description = "flink 版本")
     private FlinkVersion version;
 
-    @ApiModelProperty("备注")
+    @Schema(description = "备注")
     private String remark;
 }

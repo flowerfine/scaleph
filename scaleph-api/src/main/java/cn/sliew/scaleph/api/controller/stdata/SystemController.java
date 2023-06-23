@@ -24,8 +24,8 @@ import cn.sliew.scaleph.meta.service.dto.MetaSystemDTO;
 import cn.sliew.scaleph.meta.service.param.MetaSystemParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +39,7 @@ import java.util.List;
 /**
  * @author gleiyu
  */
-@Api(tags = "数据标准-业务系统")
+@Tag(name = "数据标准-业务系统")
 @RestController
 @RequestMapping(path = "/api/stdata/system")
 public class SystemController {
@@ -49,7 +49,7 @@ public class SystemController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "分页查询业务系统", notes = "分页查询业务系统信息")
+    @Operation(summary = "分页查询业务系统", description = "分页查询业务系统信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_SELECT)")
     public ResponseEntity<Page<MetaSystemDTO>> listMetaSystem(@Valid MetaSystemParam param) {
         Page<MetaSystemDTO> page = metaSystemService.listByPage(param);
@@ -58,7 +58,7 @@ public class SystemController {
 
     @Logging
     @PutMapping
-    @ApiOperation(value = "新增业务系统", notes = "新增业务系统")
+    @Operation(summary = "新增业务系统", description = "新增业务系统")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_ADD)")
     public ResponseEntity<ResponseVO> addMetaSystem(@Validated @RequestBody MetaSystemDTO metaSystemDTO) {
         metaSystemService.insert(metaSystemDTO);
@@ -67,7 +67,7 @@ public class SystemController {
 
     @Logging
     @PostMapping
-    @ApiOperation(value = "修改业务系统", notes = "修改业务系统")
+    @Operation(summary = "修改业务系统", description = "修改业务系统")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_EDIT)")
     public ResponseEntity<ResponseVO> editMetaSystem(@Validated @RequestBody MetaSystemDTO metaSystemDTO) {
         metaSystemService.update(metaSystemDTO);
@@ -76,7 +76,7 @@ public class SystemController {
 
     @Logging
     @DeleteMapping(path = "/{id}")
-    @ApiOperation(value = "删除业务系统", notes = "删除业务系统")
+    @Operation(summary = "删除业务系统", description = "删除业务系统")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaSystem(@PathVariable(value = "id") Long id) {
         metaSystemService.deleteById(id);
@@ -85,7 +85,7 @@ public class SystemController {
 
     @Logging
     @DeleteMapping(path = "/batch")
-    @ApiOperation(value = "批量删除业务系统", notes = "批量删除业务系统")
+    @Operation(summary = "批量删除业务系统", description = "批量删除业务系统")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaSystem(@RequestBody List<Long> ids) {
         metaSystemService.deleteBatch(ids);

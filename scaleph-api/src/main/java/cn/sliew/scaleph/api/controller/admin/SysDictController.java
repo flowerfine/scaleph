@@ -28,8 +28,8 @@ import cn.sliew.scaleph.system.service.dto.SysDictDTO;
 import cn.sliew.scaleph.system.service.param.SysDictParam;
 import cn.sliew.scaleph.system.service.param.SysDictTypeParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,7 +50,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/admin/dict")
-@Api(tags = "系统管理-数据字典管理")
+@Tag(name = "系统管理-数据字典管理")
 public class SysDictController {
 
     @Autowired
@@ -59,8 +59,8 @@ public class SysDictController {
     private SysDictService sysDictService;
 
     @Logging
-    @GetMapping(path = "/data")
-    @ApiOperation(value = "查询数据字典", notes = "分页查询数据字典")
+    @GetMapping("/data")
+    @Operation(summary = "查询数据字典", description = "分页查询数据字典")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DICT_DATA_SELECT)")
     public ResponseEntity<Page<SysDictDTO>> listDict(SysDictParam sysDictParam) {
         Page<SysDictDTO> pageDTO = sysDictService.listByPage(sysDictParam);
@@ -68,16 +68,16 @@ public class SysDictController {
     }
 
     @AnonymousAccess
-    @GetMapping(path = "/data/v2/{dictTypeCode}")
-    @ApiOperation(value = "查询数据字典", notes = "根据字典类型code查询数据字典")
+    @GetMapping("/data/v2/{dictTypeCode}")
+    @Operation(summary = "查询数据字典", description = "根据字典类型code查询数据字典")
     public ResponseEntity<List<DictInstance>> listDictByType(@PathVariable("dictTypeCode") DictType dictType) {
         List<DictInstance> list = sysDictService.selectByType(dictType);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @Logging
-    @GetMapping(path = "/type")
-    @ApiOperation(value = "查询数据字典类型", notes = "分页查询数据字典类型")
+    @GetMapping("/type")
+    @Operation(summary = "查询数据字典类型", description = "分页查询数据字典类型")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DICT_TYPE_SELECT)")
     public ResponseEntity<Page<DictType>> listDictType(SysDictTypeParam sysDictTypeParam) {
         Page<DictType> pageDTO = sysDictTypeService.listByPage(sysDictTypeParam);
@@ -85,12 +85,11 @@ public class SysDictController {
     }
 
     @AnonymousAccess
-    @GetMapping(path = "/type/all")
-    @ApiOperation(value = "查询数据字典类型", notes = "从缓存中查询所有数据字典类型")
+    @GetMapping("/type/all")
+    @Operation(summary = "查询数据字典类型", description = "从缓存中查询所有数据字典类型")
     public ResponseEntity<List<DictType>> listDictTypeAll() {
         List<DictType> result = sysDictTypeService.selectAll();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 }
-

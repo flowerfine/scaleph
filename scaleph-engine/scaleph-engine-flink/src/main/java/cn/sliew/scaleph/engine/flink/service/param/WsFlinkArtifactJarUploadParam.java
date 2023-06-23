@@ -20,7 +20,7 @@ package cn.sliew.scaleph.engine.flink.service.param;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.project.service.param.AbstractWsFlinkArtifactAddParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -30,13 +30,13 @@ import javax.validation.constraints.NotNull;
 public class WsFlinkArtifactJarUploadParam extends AbstractWsFlinkArtifactAddParam {
 
     @NotNull
-    @ApiModelProperty("flink 版本")
+    @Schema(description = "flink 版本")
     private FlinkVersion flinkVersion;
 
     @NotBlank
-    @ApiModelProperty("Main Method")
+    @Schema(description = "Main Method")
     private String entryClass;
 
-    @ApiModelProperty("Main Args")
+    @Schema(description = "Main Args")
     private String jarParams;
 }

@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.engine.seatunnel.service.param;
 
 import cn.sliew.scaleph.engine.seatunnel.service.vo.JobGraphVO;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -30,11 +30,11 @@ import javax.validation.constraints.NotNull;
 public class WsDiJobGraphParam {
 
     @NotNull
-    @ApiModelProperty("job id")
+    @Schema(description = "job id")
     private Long jobId;
 
     @NotNull
-    @ApiModelProperty(value = "job graph")
+    @Schema(description = "job graph")
     private JobGraphVO jobGraph;
 
 }

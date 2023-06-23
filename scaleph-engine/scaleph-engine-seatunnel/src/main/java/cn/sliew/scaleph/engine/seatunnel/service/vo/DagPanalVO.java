@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.vo;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -29,21 +29,21 @@ public class DagPanalVO {
     /**
      * @see cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName
      */
-    @ApiModelProperty("connector name")
+    @Schema(description = "connector name")
     private String name;
 
     /**
      * @see cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType
      */
-    @ApiModelProperty("connector type")
+    @Schema(description = "connector type")
     private String type;
 
     /**
      * @see cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType
      */
-    @ApiModelProperty("engine type")
+    @Schema(description = "engine type")
     private String engine;
 
-    @ApiModelProperty("connector display name")
+    @Schema(description = "connector display name")
     private String displayName;
 }

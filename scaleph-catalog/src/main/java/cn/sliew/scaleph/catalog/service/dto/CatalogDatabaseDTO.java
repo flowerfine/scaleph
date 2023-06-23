@@ -19,7 +19,6 @@
 package cn.sliew.scaleph.catalog.service.dto;
 
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.util.Map;
@@ -28,7 +27,6 @@ import java.util.Map;
  * @see org.apache.flink.table.catalog.CatalogDatabaseImpl
  */
 @Data
-@ApiModel(value = "CatalogDatabase对象", description = "database")
 public class CatalogDatabaseDTO extends BaseDTO {
 
     private String catalog;

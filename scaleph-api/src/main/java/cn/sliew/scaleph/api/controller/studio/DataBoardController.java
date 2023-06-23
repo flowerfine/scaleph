@@ -27,8 +27,8 @@ import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobLogDTO;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobLogListParam;
 import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
 import cn.sliew.scaleph.project.service.WsProjectService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Api(tags = "工作台-数据看板")
+@Tag(name = "工作台-数据看板")
 @RestController
 @RequestMapping(path = "/api/studio/databoard")
 public class DataBoardController {
@@ -58,7 +58,7 @@ public class DataBoardController {
 
     @Logging
     @GetMapping(path = "/project")
-    @ApiOperation(value = "查询项目数量", notes = "查询项目数量")
+    @Operation(summary = "查询项目数量", description = "查询项目数量")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STUDIO_DATA_BOARD_SHOW)")
     public ResponseEntity<Long> countProject() {
         Long result = this.wsProjectService.totalCnt();
@@ -67,7 +67,7 @@ public class DataBoardController {
 
     @Logging
     @GetMapping(path = "/cluster")
-    @ApiOperation(value = "查询集群数量", notes = "查询集群数量")
+    @Operation(summary = "查询集群数量", description = "查询集群数量")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STUDIO_DATA_BOARD_SHOW)")
     public ResponseEntity<Long> countCluster() {
         Long result = this.wsFlinkClusterInstanceService.totalCnt();
@@ -76,7 +76,7 @@ public class DataBoardController {
 
     @Logging
     @GetMapping(path = "/job")
-    @ApiOperation(value = "查询作业数量", notes = "查询作业数量")
+    @Operation(summary = "查询作业数量", description = "查询作业数量")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STUDIO_DATA_BOARD_SHOW)")
     public ResponseEntity<Long> countJob(@RequestParam(value = "jobType") String jobType) {
         Long result = this.wsDiJobService.totalCnt(jobType);
@@ -85,7 +85,7 @@ public class DataBoardController {
 
     @Logging
     @GetMapping(path = "/topBatch100")
-    @ApiOperation(value = "查询近7日周期任务运行时长TOP100", notes = "查询近7日周期任务运行时长TOP100")
+    @Operation(summary = "查询近7日周期任务运行时长TOP100", description = "查询近7日周期任务运行时长TOP100")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STUDIO_DATA_BOARD_SHOW)")
     public ResponseEntity<List<WsFlinkJobLogDTO>> batchTop100In7d() {
         //todo 查询近7日周期任务运行时长TOP100
@@ -97,7 +97,7 @@ public class DataBoardController {
 
     @Logging
     @GetMapping(path = "/realtimeJob")
-    @ApiOperation(value = "统计实时任务运行状态分布", notes = "统计实时任务运行状态分布")
+    @Operation(summary = "统计实时任务运行状态分布", description = "统计实时任务运行状态分布")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STUDIO_DATA_BOARD_SHOW)")
     public ResponseEntity<List<TransferVO>> realtimeJobRuntimeStatus() {
         //todo

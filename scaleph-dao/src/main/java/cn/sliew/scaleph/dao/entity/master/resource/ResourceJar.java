@@ -21,8 +21,6 @@ package cn.sliew.scaleph.dao.entity.master.resource;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -34,24 +32,19 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("resource_jar")
-@ApiModel(value = "ResourceJar对象", description = "java jar")
 public class ResourceJar extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("jar group")
     @TableField("`group`")
     private String group;
 
-    @ApiModelProperty("文件名称")
     @TableField("file_name")
     private String fileName;
 
-    @ApiModelProperty("存储路径")
     @TableField("path")
     private String path;
 
-    @ApiModelProperty("备注")
     @TableField("remark")
     private String remark;
 

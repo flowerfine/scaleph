@@ -18,22 +18,22 @@
 
 package cn.sliew.scaleph.api.controller.admin;
 
-import cn.hutool.json.JSONUtil;
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.enums.ErrorShowTypeEnum;
 import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
+import cn.sliew.scaleph.common.util.I18nUtil;
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.mail.service.EmailService;
 import cn.sliew.scaleph.mail.service.vo.EmailConfigVO;
+import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.system.service.SysConfigService;
 import cn.sliew.scaleph.system.service.dto.SysConfigDTO;
 import cn.sliew.scaleph.system.service.vo.BasicConfigVO;
-import cn.sliew.scaleph.common.util.I18nUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,21 +50,19 @@ import static cn.sliew.scaleph.common.constant.Constants.CODEC_STR_PREFIX;
  */
 @RestController
 @RequestMapping("/api/admin/config")
-@Api(tags = "系统管理-系统配置")
+@Tag(name = "系统管理-系统配置")
 public class SysConfigController {
 
     @Autowired
     private SysConfigService sysConfigService;
-
     @Autowired
     private EmailService emailService;
 
     @Logging
-    @PutMapping(path = "email")
-    @ApiOperation(value = "设置系统邮箱", notes = "设置系统邮箱")
+    @PutMapping("email")
+    @Operation(summary = "设置系统邮箱", description = "设置系统邮箱")
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
-    public ResponseEntity<ResponseVO> configEmail(
-            @Validated @RequestBody EmailConfigVO emailConfig) {
+    public ResponseEntity<ResponseVO> configEmail(@Validated @RequestBody EmailConfigVO emailConfig) {
         String password = emailConfig.getPassword();
         if (!password.startsWith(CODEC_STR_PREFIX)) {
             emailConfig.setPassword(CODEC_STR_PREFIX + CodecUtil.encodeToBase64(password));
@@ -74,20 +72,20 @@ public class SysConfigController {
         this.sysConfigService.deleteByCode(Constants.CFG_EMAIL_CODE);
         SysConfigDTO sysConfig = new SysConfigDTO();
         sysConfig.setCfgCode(Constants.CFG_EMAIL_CODE);
-        sysConfig.setCfgValue(JSONUtil.toJsonStr(emailConfig));
+        sysConfig.setCfgValue(JacksonUtil.toJsonString(emailConfig));
         this.sysConfigService.insert(sysConfig);
         this.emailService.configEmail(emailConfig);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
-    @GetMapping(path = "email")
-    @ApiOperation(value = "查询系统邮箱", notes = "查询系统邮箱")
+    @GetMapping("email")
+    @Operation(summary = "查询系统邮箱", description = "查询系统邮箱")
     public ResponseEntity<EmailConfigVO> showEmail() {
         SysConfigDTO sysConfig =
                 this.sysConfigService.selectByCode(Constants.CFG_EMAIL_CODE);
         if (sysConfig != null) {
-            EmailConfigVO config = JSONUtil.toBean(sysConfig.getCfgValue(), EmailConfigVO.class);
+            EmailConfigVO config = JacksonUtil.parseJsonString(sysConfig.getCfgValue(), EmailConfigVO.class);
             return new ResponseEntity<>(config, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new EmailConfigVO(), HttpStatus.OK);
@@ -96,11 +94,10 @@ public class SysConfigController {
 
 
     @Logging
-    @PutMapping(path = "basic")
-    @ApiOperation(value = "设置基础配置", notes = "设置基础配置")
+    @PutMapping("basic")
+    @Operation(summary = "设置基础配置", description = "设置基础配置")
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
-    public ResponseEntity<ResponseVO> configBasic(
-            @Validated @RequestBody BasicConfigVO basicConfig) {
+    public ResponseEntity<ResponseVO> configBasic(@Validated @RequestBody BasicConfigVO basicConfig) {
         String seatunnelHome = basicConfig.getSeatunnelHome().replace("\\", "/");
         if (seatunnelHome.endsWith("/")) {
             seatunnelHome += "lib";
@@ -129,19 +126,19 @@ public class SysConfigController {
         this.sysConfigService.deleteByCode(Constants.CFG_BASIC_CODE);
         SysConfigDTO sysConfig = new SysConfigDTO();
         sysConfig.setCfgCode(Constants.CFG_BASIC_CODE);
-        sysConfig.setCfgValue(JSONUtil.toJsonStr(basicConfig));
+        sysConfig.setCfgValue(JacksonUtil.toJsonString(basicConfig));
         this.sysConfigService.insert(sysConfig);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
-    @GetMapping(path = "basic")
-    @ApiOperation(value = "查询基础设置", notes = "查询基础设置")
+    @GetMapping("basic")
+    @Operation(summary = "查询基础设置", description = "查询基础设置")
     public ResponseEntity<BasicConfigVO> showBasic() {
         SysConfigDTO sysConfig =
                 this.sysConfigService.selectByCode(Constants.CFG_BASIC_CODE);
         if (sysConfig != null) {
-            BasicConfigVO config = JSONUtil.toBean(sysConfig.getCfgValue(), BasicConfigVO.class);
+            BasicConfigVO config = JacksonUtil.parseJsonString(sysConfig.getCfgValue(), BasicConfigVO.class);
             return new ResponseEntity<>(config, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new BasicConfigVO(), HttpStatus.OK);

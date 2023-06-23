@@ -23,8 +23,8 @@ import cn.sliew.scaleph.engine.flink.service.WsFlinkJobLogService;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobLogDTO;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobLogListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-@Api(tags = "Flink管理-任务实例管理")
+@Tag(name = "Flink管理-任务实例管理")
 @RestController
 @RequestMapping(path = "/api/flink/job-log")
 public class WsFlinkJobLogController {
@@ -44,7 +44,7 @@ public class WsFlinkJobLogController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询任务运行日志列表", notes = "分页任务运行日志列表")
+    @Operation(summary = "查询任务运行日志列表", description = "分页任务运行日志列表")
     public ResponseEntity<Page<WsFlinkJobLogDTO>> list(@Valid WsFlinkJobLogListParam param) {
         Page<WsFlinkJobLogDTO> page = wsFlinkJobLogService.list(param);
         return new ResponseEntity<>(page, HttpStatus.OK);

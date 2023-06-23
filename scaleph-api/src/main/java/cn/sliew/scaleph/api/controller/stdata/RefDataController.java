@@ -30,8 +30,8 @@ import cn.sliew.scaleph.meta.service.param.MetaDataSetParam;
 import cn.sliew.scaleph.meta.service.param.MetaDataSetTypeParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +42,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(tags = "数据标准-参考数据")
+@Tag(name = "数据标准-参考数据")
 @RestController
 @RequestMapping(path = "/api/stdata/ref")
 public class RefDataController {
@@ -56,7 +56,7 @@ public class RefDataController {
 
     @Logging
     @GetMapping(path = "/data")
-    @ApiOperation(value = "分页查询参考数据", notes = "分页查询参考数据信息")
+    @Operation(summary = "分页查询参考数据", description = "分页查询参考数据信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_SELECT)")
     public ResponseEntity<Page<MetaDataSetDTO>> listMetaDataSet(@Valid MetaDataSetParam param) {
         Page<MetaDataSetDTO> page = metaDataSetService.listByPage(param);
@@ -65,7 +65,7 @@ public class RefDataController {
 
     @Logging
     @GetMapping(path = "/data/type/{type}")
-    @ApiOperation(value = "按类型查询参考数据", notes = "按类型查询参考数据")
+    @Operation(summary = "按类型查询参考数据", description = "按类型查询参考数据")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_SELECT)")
     public ResponseEntity<ResponseVO<List<MetaDataSetDTO>>> listMetaDataByType(@PathVariable("type") Long typeId) {
         List<MetaDataSetDTO> list = metaDataSetService.listByType(typeId);
@@ -74,7 +74,7 @@ public class RefDataController {
 
     @Logging
     @PutMapping(path = "/data")
-    @ApiOperation(value = "新增参考数据", notes = "新增参考数据")
+    @Operation(summary = "新增参考数据", description = "新增参考数据")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_ADD)")
     public ResponseEntity<ResponseVO> addMetaDataSet(@Validated @RequestBody MetaDataSetDTO metaDataSetDTO) {
         metaDataSetService.insert(metaDataSetDTO);
@@ -83,7 +83,7 @@ public class RefDataController {
 
     @Logging
     @PostMapping(path = "/data")
-    @ApiOperation(value = "修改参考数据", notes = "修改参考数据")
+    @Operation(summary = "修改参考数据", description = "修改参考数据")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_EDIT)")
     public ResponseEntity<ResponseVO> editMetaDataSet(@Validated @RequestBody MetaDataSetDTO metaDataSetDTO) {
         metaDataSetService.update(metaDataSetDTO);
@@ -92,7 +92,7 @@ public class RefDataController {
 
     @Logging
     @DeleteMapping(path = "/data/{id}")
-    @ApiOperation(value = "删除参考数据", notes = "删除参考数据")
+    @Operation(summary = "删除参考数据", description = "删除参考数据")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaDataSet(@PathVariable("id") Long id) {
         metaDataSetService.deleteById(id);
@@ -101,7 +101,7 @@ public class RefDataController {
 
     @Logging
     @DeleteMapping(path = "/data/batch")
-    @ApiOperation(value = "批量删除参考数据", notes = "批量删除参考数据")
+    @Operation(summary = "批量删除参考数据", description = "批量删除参考数据")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaDataSet(@RequestBody List<Long> ids) {
         metaDataSetService.deleteBatch(ids);
@@ -110,7 +110,7 @@ public class RefDataController {
 
     @Logging
     @GetMapping(path = "/type")
-    @ApiOperation(value = "分页查询参考数据类型", notes = "分页查询参考数据类型信息")
+    @Operation(summary = "分页查询参考数据类型", description = "分页查询参考数据类型信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_TYPE_SELECT)")
     public ResponseEntity<Page<MetaDataSetTypeDTO>> listMetaDataSetType(MetaDataSetTypeParam param) {
         Page<MetaDataSetTypeDTO> page = metaDataSetTypeService.listByPage(param);
@@ -119,7 +119,7 @@ public class RefDataController {
 
     @Logging
     @PutMapping(path = "/type")
-    @ApiOperation(value = "新增参考数据类型", notes = "新增参考数据类型")
+    @Operation(summary = "新增参考数据类型", description = "新增参考数据类型")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_TYPE_ADD)")
     public ResponseEntity<ResponseVO> addMetaDataSetType(@Validated @RequestBody MetaDataSetTypeDTO metaDataSetTypeDTO) {
         metaDataSetTypeService.insert(metaDataSetTypeDTO);
@@ -128,7 +128,7 @@ public class RefDataController {
 
     @Logging
     @PostMapping(path = "/type")
-    @ApiOperation(value = "修改参考数据类型", notes = "修改参考数据类型")
+    @Operation(summary = "修改参考数据类型", description = "修改参考数据类型")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_TYPE_EDIT)")
     public ResponseEntity<ResponseVO> editMetaDataSetType(@Validated @RequestBody MetaDataSetTypeDTO metaDataSetTypeDTO) {
         metaDataSetTypeService.update(metaDataSetTypeDTO);
@@ -137,7 +137,7 @@ public class RefDataController {
 
     @Logging
     @DeleteMapping(path = "/type/{id}")
-    @ApiOperation(value = "删除参考数据类型", notes = "删除参考数据类型")
+    @Operation(summary = "删除参考数据类型", description = "删除参考数据类型")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_TYPE_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaDataSetType(@PathVariable(value = "id") Long id) {
         metaDataSetTypeService.deleteById(id);
@@ -146,7 +146,7 @@ public class RefDataController {
 
     @Logging
     @DeleteMapping(path = "/type/batch")
-    @ApiOperation(value = "批量删除参考数据类型", notes = "批量删除参考数据类型")
+    @Operation(summary = "批量删除参考数据类型", description = "批量删除参考数据类型")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_TYPE_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaDataSetType(@RequestBody List<Long> ids) {
         metaDataSetTypeService.deleteBatch(ids);
@@ -155,7 +155,7 @@ public class RefDataController {
 
     @Logging
     @GetMapping(path = "/map")
-    @ApiOperation(value = "分页查询参考数据映射", notes = "分页查询参考数据映射信息")
+    @Operation(summary = "分页查询参考数据映射", description = "分页查询参考数据映射信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_MAP_SELECT)")
     public ResponseEntity<Page<MetaDataMapDTO>> listMetaDataMap(MetaDataMapParam param) {
         Page<MetaDataMapDTO> page = metaDataMapService.listByPage(param);
@@ -164,7 +164,7 @@ public class RefDataController {
 
     @Logging
     @PutMapping(path = "/map")
-    @ApiOperation(value = "新增参考数据映射", notes = "新增参考数据映射")
+    @Operation(summary = "新增参考数据映射", description = "新增参考数据映射")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_MAP_ADD)")
     public ResponseEntity<ResponseVO> addMetaDataMap(@Validated @RequestBody MetaDataMapDTO metaDataSetTypeDTO) {
         metaDataMapService.insert(metaDataSetTypeDTO);
@@ -173,7 +173,7 @@ public class RefDataController {
 
     @Logging
     @PostMapping(path = "/map")
-    @ApiOperation(value = "修改参考数据映射", notes = "修改参考数据映射")
+    @Operation(summary = "修改参考数据映射", description = "修改参考数据映射")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_MAP_EDIT)")
     public ResponseEntity<ResponseVO> editMetaDataMap(@Validated @RequestBody MetaDataMapDTO metaDataSetTypeDTO) {
         metaDataMapService.update(metaDataSetTypeDTO);
@@ -182,7 +182,7 @@ public class RefDataController {
 
     @Logging
     @DeleteMapping(path = "/map/{id}")
-    @ApiOperation(value = "删除参考数据映射", notes = "删除参考数据映射")
+    @Operation(summary = "删除参考数据映射", description = "删除参考数据映射")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_MAP_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaDataMap(@PathVariable(value = "id") Long id) {
         metaDataMapService.deleteById(id);
@@ -191,7 +191,7 @@ public class RefDataController {
 
     @Logging
     @DeleteMapping(path = "/map/batch")
-    @ApiOperation(value = "批量删除参考数据映射", notes = "批量删除参考数据映射")
+    @Operation(summary = "批量删除参考数据映射", description = "批量删除参考数据映射")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_MAP_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaDataMap(@RequestBody List<Long> ids) {
         metaDataMapService.deleteBatch(ids);

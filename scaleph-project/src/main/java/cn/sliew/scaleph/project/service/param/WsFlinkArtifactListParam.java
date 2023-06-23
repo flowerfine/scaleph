@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.project.service.param;
 
 import cn.sliew.scaleph.system.model.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -30,9 +30,9 @@ import javax.validation.constraints.NotNull;
 public class WsFlinkArtifactListParam extends PaginationParam {
 
     @NotNull
-    @ApiModelProperty("项目id")
+    @Schema(description = "项目id")
     private Long projectId;
 
-    @ApiModelProperty("名称。支持模糊搜索")
+    @Schema(description = "名称。支持模糊搜索")
     private String name;
 }

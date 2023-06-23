@@ -24,7 +24,7 @@ import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.util.StringUtils;
@@ -40,13 +40,13 @@ import static cn.sliew.milky.common.check.Ensures.checkState;
 public class ElasticsearchDataSource extends AbstractDataSource {
 
     @NotBlank
-    @ApiModelProperty("hosts")
+    @Schema(description = "hosts")
     private String hosts;
 
-    @ApiModelProperty("username")
+    @Schema(description = "username")
     private String username;
 
-    @ApiModelProperty("password")
+    @Schema(description = "password")
     private String password;
 
     @Override

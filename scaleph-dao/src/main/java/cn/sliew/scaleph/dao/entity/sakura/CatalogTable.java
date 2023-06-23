@@ -22,12 +22,10 @@ import cn.sliew.scaleph.common.dict.catalog.CatalogTableKind;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 @Data
 @TableName("catalog_table")
-@ApiModel(value = "CatalogTable对象", description = "table")
 public class CatalogTable extends BaseDO {
 
     private static final long serialVersionUID = 1L;

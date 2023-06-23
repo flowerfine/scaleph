@@ -25,9 +25,8 @@ import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkClusterInstanceDTO;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkClusterInstanceParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,8 +35,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Slf4j
-@Api(tags = "Flink管理-集群实例管理")
+@Tag(name = "Flink管理-集群实例管理")
 @RestController
 @RequestMapping(path = "/api/flink/cluster-instance")
 public class WsClusterInstanceController {
@@ -49,15 +47,15 @@ public class WsClusterInstanceController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询集群实例列表", notes = "分页查询集群实例列表")
+    @Operation(summary = "查询集群实例列表", description = "分页查询集群实例列表")
     public ResponseEntity<Page<WsFlinkClusterInstanceDTO>> list(@Valid WsFlinkClusterInstanceParam param) {
         Page<WsFlinkClusterInstanceDTO> page = wsFlinkClusterInstanceService.list(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @Logging
-    @GetMapping({"{id}"})
-    @ApiOperation(value = "查询集群实例", notes = "查询集群实例")
+    @GetMapping("{id}")
+    @Operation(summary = "查询集群实例", description = "查询集群实例")
     public ResponseEntity<WsFlinkClusterInstanceDTO> selectOne(@PathVariable("id") Long id) {
         final WsFlinkClusterInstanceDTO result = wsFlinkClusterInstanceService.selectOne(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -65,7 +63,7 @@ public class WsClusterInstanceController {
 
     @Logging
     @PutMapping
-    @ApiOperation(value = "创建 session 集群", notes = "创建 session 集群")
+    @Operation(summary = "创建 session 集群", description = "创建 session 集群")
     public ResponseEntity<ResponseVO> createSessionCluster(@Valid @RequestBody WsFlinkClusterInstanceDTO param) throws Exception {
         wsFlinkService.createSessionCluster(param.getProjectId(), param.getFlinkClusterConfigId());
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -73,7 +71,7 @@ public class WsClusterInstanceController {
 
     @Logging
     @DeleteMapping("{id}")
-    @ApiOperation(value = "关闭集群", notes = "关闭集群")
+    @Operation(summary = "关闭集群", description = "关闭集群")
     public ResponseEntity<ResponseVO> shutdownCluster(@PathVariable("id") Long id) throws Exception {
         wsFlinkService.shutdown(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -81,7 +79,7 @@ public class WsClusterInstanceController {
 
     @Logging
     @DeleteMapping(path = "/batch")
-    @ApiOperation(value = "批量关闭集群", notes = "批量关闭集群")
+    @Operation(summary = "批量关闭集群", description = "批量关闭集群")
     public ResponseEntity<ResponseVO> shutdownClusterBatch(@RequestBody List<Long> ids) throws Exception {
         wsFlinkService.shutdownBatch(ids);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);

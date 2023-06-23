@@ -25,8 +25,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.system.model.BaseDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -40,27 +39,27 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "定时任务日志信息", description = "定时任务运行日志表")
+@Schema(name = "定时任务日志信息", description = "定时任务运行日志表")
 public class LogScheduleDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1976884925111874156L;
 
-    @ApiModelProperty(value = "任务组")
+    @Schema(description = "任务组")
     private String taskGroup;
 
-    @ApiModelProperty(value = "任务名称")
+    @Schema(description = "任务名称")
     private String taskName;
 
-    @ApiModelProperty(value = "开始时间")
+    @Schema(description = "开始时间")
     private Date startTime;
 
-    @ApiModelProperty(value = "结束时间")
+    @Schema(description = "结束时间")
     private Date endTime;
 
-    @ApiModelProperty(value = "日志内容明细")
+    @Schema(description = "日志内容明细")
     private String traceLog;
 
-    @ApiModelProperty(value = "任务结果")
+    @Schema(description = "任务结果")
     private DictVO result;
 
     public LogScheduleDTO appendLog(String raw) {

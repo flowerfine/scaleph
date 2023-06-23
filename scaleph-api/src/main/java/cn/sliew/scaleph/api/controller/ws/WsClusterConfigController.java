@@ -20,14 +20,13 @@ package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkClusterConfigService;
-import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkClusterConfigDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.KubernetesOptionsDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkClusterConfigDTO;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkClusterConfigParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,8 +36,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
-@Slf4j
-@Api(tags = "Flink管理-集群配置管理")
+@Tag(name = "Flink管理-集群配置管理")
 @RestController
 @RequestMapping(path = "/api/flink/cluster-config")
 public class WsClusterConfigController {
@@ -48,15 +46,15 @@ public class WsClusterConfigController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询集群配置列表", notes = "分页查询集群配置列表")
+    @Operation(summary = "查询集群配置列表", description = "分页查询集群配置列表")
     public ResponseEntity<Page<WsFlinkClusterConfigDTO>> list(@Valid WsFlinkClusterConfigParam param) {
         Page<WsFlinkClusterConfigDTO> page = wsFlinkClusterConfigService.listByPage(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @Logging
-    @GetMapping({"{id}"})
-    @ApiOperation(value = "查询集群配置", notes = "查询集群配置")
+    @GetMapping("{id}")
+    @Operation(summary = "查询集群配置", description = "查询集群配置")
     public ResponseEntity<WsFlinkClusterConfigDTO> selectOne(@PathVariable("id") Long id) {
         final WsFlinkClusterConfigDTO result = wsFlinkClusterConfigService.selectOne(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -64,15 +62,15 @@ public class WsClusterConfigController {
 
     @Logging
     @PutMapping
-    @ApiOperation(value = "新增集群配置", notes = "新增集群配置")
+    @Operation(summary = "新增集群配置", description = "新增集群配置")
     public ResponseEntity<ResponseVO> insert(@Valid @RequestBody WsFlinkClusterConfigDTO param) {
-       wsFlinkClusterConfigService.insert(param);
+        wsFlinkClusterConfigService.insert(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
     @PostMapping("{id}/kubernetes")
-    @ApiOperation(value = "修改 kubernetes 配置", notes = "修改 kubernetes 配置")
+    @Operation(summary = "修改 kubernetes 配置", description = "修改 kubernetes 配置")
     public ResponseEntity<ResponseVO> update(@PathVariable("id") Long id, @Valid @RequestBody KubernetesOptionsDTO options) {
         wsFlinkClusterConfigService.updateKubernetesOptions(id, options);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -80,7 +78,7 @@ public class WsClusterConfigController {
 
     @Logging
     @PostMapping("{id}/flink")
-    @ApiOperation(value = "修改 flink 配置", notes = "修改 flink 配置")
+    @Operation(summary = "修改 flink 配置", description = "修改 flink 配置")
     public ResponseEntity<ResponseVO> update(@PathVariable("id") Long id, @RequestBody Map<String, String> options) {
         wsFlinkClusterConfigService.updateFlinkConfig(id, options);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -88,7 +86,7 @@ public class WsClusterConfigController {
 
     @Logging
     @PostMapping
-    @ApiOperation(value = "修改集群配置", notes = "修改集群配置")
+    @Operation(summary = "修改集群配置", description = "修改集群配置")
     public ResponseEntity<ResponseVO> update(@Valid @RequestBody WsFlinkClusterConfigDTO param) {
         wsFlinkClusterConfigService.update(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -96,7 +94,7 @@ public class WsClusterConfigController {
 
     @Logging
     @DeleteMapping("{id}")
-    @ApiOperation(value = "删除集群配置", notes = "删除集群配置")
+    @Operation(summary = "删除集群配置", description = "删除集群配置")
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) {
         //todo check if exists cluster instance
         wsFlinkClusterConfigService.deleteById(id);
@@ -104,8 +102,8 @@ public class WsClusterConfigController {
     }
 
     @Logging
-    @DeleteMapping(path = "/batch")
-    @ApiOperation(value = "批量删除集群", notes = "批量删除集群")
+    @DeleteMapping("/batch")
+    @Operation(summary = "批量删除集群", description = "批量删除集群")
     public ResponseEntity<ResponseVO> deleteCluster(@RequestBody List<Long> ids) {
         wsFlinkClusterConfigService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);

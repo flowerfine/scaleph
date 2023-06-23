@@ -18,16 +18,14 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.dto;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
-import cn.sliew.scaleph.system.model.BaseDTO;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactSql;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import cn.sliew.scaleph.system.model.BaseDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -36,43 +34,43 @@ import lombok.Data;
  * </p>
  */
 @Data
-@ApiModel(value = "WsFlinkKubernetesJob对象", description = "flink kubernetes job")
+@Schema(name = "WsFlinkKubernetesJob对象", description = "flink kubernetes job")
 public class WsFlinkKubernetesJobDTO extends BaseDTO {
 
-    @ApiModelProperty("project id")
+    @Schema(description = "project id")
     private Long projectId;
 
-    @ApiModelProperty("name")
+    @Schema(description = "name")
     private String name;
 
-    @ApiModelProperty("job id")
+    @Schema(description = "job id")
     private String jobId;
 
-    @ApiModelProperty("flink execution mode")
+    @Schema(description = "flink execution mode")
     private FlinkRuntimeExecutionMode executionMode;
 
-    @ApiModelProperty("deployment kind")
+    @Schema(description = "deployment kind")
     private DeploymentKind deploymentKind;
 
-    @ApiModelProperty("flink deployment")
+    @Schema(description = "flink deployment")
     private WsFlinkKubernetesDeploymentDTO flinkDeployment;
 
-    @ApiModelProperty("flink session cluster")
+    @Schema(description = "flink session cluster")
     private WsFlinkKubernetesSessionClusterDTO flinkSessionCluster;
 
-    @ApiModelProperty("type")
+    @Schema(description = "type")
     private FlinkJobType type;
 
-    @ApiModelProperty("flink artifact jar")
+    @Schema(description = "flink artifact jar")
     private WsFlinkArtifactJar flinkArtifactJar;
 
-    @ApiModelProperty("flink artifact sql")
+    @Schema(description = "flink artifact sql")
     private WsFlinkArtifactSql flinkArtifactSql;
 
-    @ApiModelProperty("ws di job")
+    @Schema(description = "ws di job")
     private WsDiJob wsDiJob;
 
-    @ApiModelProperty("remark")
+    @Schema(description = "remark")
     private String remark;
 
 }

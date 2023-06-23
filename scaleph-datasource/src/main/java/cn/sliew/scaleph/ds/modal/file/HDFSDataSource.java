@@ -23,7 +23,7 @@ import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.util.StringUtils;
@@ -36,11 +36,11 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 public class HDFSDataSource extends AbstractDataSource {
 
-    @ApiModelProperty("hdfs hdfs-site.xml path")
+    @Schema(description = "hdfs hdfs-site.xml path")
     private String hdfsSitePath;
 
     @NotBlank
-    @ApiModelProperty("hdfs fs.defaultFS property")
+    @Schema(description = "hdfs fs.defaultFS property")
     private String fsDefaultFS;
 
     @Override

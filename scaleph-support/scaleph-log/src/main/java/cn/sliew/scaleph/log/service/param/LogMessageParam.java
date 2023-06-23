@@ -19,26 +19,26 @@
 package cn.sliew.scaleph.log.service.param;
 
 import cn.sliew.scaleph.system.model.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
  * @author gleiyu
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class LogMessageParam extends PaginationParam {
 
-    @ApiModelProperty(value = "收件人")
+    @Schema(description = "收件人")
     private String receiver;
 
-    @ApiModelProperty(value = "发件人")
+    @Schema(description = "发件人")
     private String sender;
 
-    @ApiModelProperty(value = "消息类型")
+    @Schema(description = "消息类型")
     private String messageType;
 
-    @ApiModelProperty(value = "是否读取")
+    @Schema(description = "是否读取")
     private String isRead;
 }

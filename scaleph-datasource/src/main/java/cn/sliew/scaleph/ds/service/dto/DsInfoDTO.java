@@ -18,10 +18,9 @@
 
 package cn.sliew.scaleph.ds.service.dto;
 
-import cn.sliew.scaleph.system.model.BaseDTO;
 import cn.sliew.scaleph.ds.modal.PropValuePair;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import cn.sliew.scaleph.system.model.BaseDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -35,27 +34,27 @@ import java.util.Map;
  */
 @Data
 @EqualsAndHashCode
-@ApiModel(value = "DsInfo对象", description = "data source info")
+@Schema(name = "DsInfo对象", description = "data source info")
 public class DsInfoDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("data source type id")
+    @Schema(description = "data source type id")
     private DsTypeDTO dsType;
 
-    @ApiModelProperty("version")
+    @Schema(description = "version")
     private String version;
 
-    @ApiModelProperty("name")
+    @Schema(description = "name")
     private String name;
 
-    @ApiModelProperty("props")
+    @Schema(description = "props")
     private Map<String, Object> props;
 
-    @ApiModelProperty("additional props")
+    @Schema(description = "additional props")
     private List<PropValuePair> additionalProps;
 
-    @ApiModelProperty("remark")
+    @Schema(description = "remark")
     private String remark;
 
 }

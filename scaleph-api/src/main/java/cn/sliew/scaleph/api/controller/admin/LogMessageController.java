@@ -18,25 +18,24 @@
 
 package cn.sliew.scaleph.api.controller.admin;
 
-import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.api.annotation.AnonymousAccess;
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.security.util.SecurityUtil;
-import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.enums.BoolEnum;
+import cn.sliew.scaleph.common.util.I18nUtil;
 import cn.sliew.scaleph.log.service.LogMessageService;
 import cn.sliew.scaleph.log.service.dto.LogMessageDTO;
 import cn.sliew.scaleph.log.service.param.LogMessageParam;
+import cn.sliew.scaleph.security.util.SecurityUtil;
+import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
-import cn.sliew.scaleph.common.util.I18nUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.common.base.Strings;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -50,7 +49,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RestController
 @RequestMapping("/api/msg")
-@Api(tags = "系统管理-消息管理")
+@Tag(name = "系统管理-消息管理")
 public class LogMessageController {
 
     @Autowired
@@ -58,62 +57,57 @@ public class LogMessageController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询用户的消息信息", notes = "用户登录后查询自己的消息列表")
+    @Operation(summary = "查询用户的消息信息", description = "用户登录后查询自己的消息列表")
     public ResponseEntity<Page<LogMessageDTO>> listMessage(LogMessageParam param) {
         String userName = SecurityUtil.getCurrentUserName();
-        if (!StrUtil.isEmpty(userName)) {
+        if (StringUtils.hasText(userName)) {
             param.setReceiver(userName);
             Page<LogMessageDTO> page = this.logMessageService.listByPage(param);
             return new ResponseEntity<>(page, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.OK);
         }
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @Logging
     @PutMapping
-    @ApiOperation(value = "更新消息读取状态", notes = "更新指定消息为已读状态")
+    @Operation(summary = "更新消息读取状态", description = "更新指定消息为已读状态")
     public ResponseEntity<ResponseVO> readMessage(@RequestBody LogMessageDTO message) {
         String userName = SecurityUtil.getCurrentUserName();
-        if (!Strings.isNullOrEmpty(userName)) {
+        if (StringUtils.hasText(userName)) {
             message.setIsRead(DictVO.toVO(DictConstants.YES_NO, BoolEnum.YES.getValue()));
             this.logMessageService.update(message);
             return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(
-                    ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
-                            I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
         }
+        return new ResponseEntity<>(
+                ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
+                        I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
     }
 
     @Logging
     @GetMapping(path = "/readAll")
-    @ApiOperation(value = "全部标记已读", notes = "更新用户全部未读消息为已读")
+    @Operation(summary = "全部标记已读", description = "更新用户全部未读消息为已读")
     public ResponseEntity<ResponseVO> readAllMessage() {
         String userName = SecurityUtil.getCurrentUserName();
-        if (!Strings.isNullOrEmpty(userName)) {
+        if (StringUtils.hasText(userName)) {
             this.logMessageService.readAll(userName);
             return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(
-                    ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
-                            I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
         }
+        return new ResponseEntity<>(
+                ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
+                        I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
     }
 
     @Logging
     @GetMapping(path = "/count")
     @AnonymousAccess
-    @ApiOperation(value = "查询用户的未读消息数量", notes = "用户登录后查询自己的未读消息数量")
+    @Operation(summary = "查询用户的未读消息数量", description = "用户登录后查询自己的未读消息数量")
     public ResponseEntity<Long> countUnReadMessage() {
         String userName = SecurityUtil.getCurrentUserName();
-        if (!Strings.isNullOrEmpty(userName)) {
+        if (StringUtils.hasText(userName)) {
             Long result = this.logMessageService.countUnReadMsg(userName);
             return new ResponseEntity<>(result, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(0L, HttpStatus.OK);
         }
+        return new ResponseEntity<>(0L, HttpStatus.OK);
     }
 
 }
-

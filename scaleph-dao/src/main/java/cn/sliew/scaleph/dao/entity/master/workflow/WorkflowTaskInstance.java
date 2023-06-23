@@ -23,8 +23,6 @@ import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.Date;
@@ -36,32 +34,25 @@ import java.util.Date;
  */
 @Data
 @TableName("workflow_task_instance")
-@ApiModel(value = "WorkflowTaskInstance对象", description = "workflow task instance")
 public class WorkflowTaskInstance extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("workflow task definition id")
     @TableField("workflow_task_definition_id")
     private Long workflowTaskDefinitionId;
 
-    @ApiModelProperty("state")
     @TableField("state")
     private WorkflowInstanceState state;
 
-    @ApiModelProperty("stage")
     @TableField("stage")
     private WorkflowTaskInstanceStage stage;
 
-    @ApiModelProperty("start time")
     @TableField("start_time")
     private Date startTime;
 
-    @ApiModelProperty("end time")
     @TableField("end_time")
     private Date endTime;
 
-    @ApiModelProperty("message")
     @TableField("message")
     private String message;
 

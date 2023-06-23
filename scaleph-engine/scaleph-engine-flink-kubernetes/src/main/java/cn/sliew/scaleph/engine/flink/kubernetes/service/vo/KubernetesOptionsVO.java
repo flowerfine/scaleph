@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.service.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -28,15 +28,15 @@ import lombok.EqualsAndHashCode;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class KubernetesOptionsVO {
 
-    @ApiModelProperty("flink image")
+    @Schema(description = "flink image")
     private String image;
 
-    @ApiModelProperty("flink image pull policy")
+    @Schema(description = "flink image pull policy")
     private String imagePullPolicy;
 
-    @ApiModelProperty("flink version")
+    @Schema(description = "flink version")
     private String flinkVersion;
 
-    @ApiModelProperty("kubernetes service account")
+    @Schema(description = "kubernetes service account")
     private String serviceAccount;
 }

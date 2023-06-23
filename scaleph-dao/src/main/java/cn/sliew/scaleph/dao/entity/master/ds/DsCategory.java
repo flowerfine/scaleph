@@ -21,8 +21,6 @@ package cn.sliew.scaleph.dao.entity.master.ds;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -34,20 +32,16 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode
 @TableName("ds_category")
-@ApiModel(value = "DsCategory对象", description = "data source category")
 public class DsCategory extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("name")
     @TableField("`name`")
     private String name;
 
-    @ApiModelProperty("order")
     @TableField("`order`")
     private Integer order;
 
-    @ApiModelProperty("remark")
     @TableField("remark")
     private String remark;
 

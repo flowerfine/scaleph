@@ -20,8 +20,7 @@ package cn.sliew.scaleph.engine.flink.service.dto;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkClusterStatus;
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -34,28 +33,27 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkClusterConfig对象", description = "flink 集群配置")
+@Schema(name = "FlinkClusterConfig对象", description = "flink 集群配置")
 public class WsFlinkClusterInstanceDTO extends BaseDTO {
 
     @NotNull
-    @ApiModelProperty("项目ID")
+    @Schema(description = "项目ID")
     private Long projectId;
 
     @NotNull
-    @ApiModelProperty("集群配置")
+    @Schema(description = "集群配置")
     private Long flinkClusterConfigId;
 
-    @ApiModelProperty("集群名称")
+    @Schema(description = "集群名称")
     private String name;
 
-    @ApiModelProperty("集群id")
+    @Schema(description = "集群id")
     private String clusterId;
 
-    @ApiModelProperty("集群 web-ui 链接")
+    @Schema(description = "集群 web-ui 链接")
     private String webInterfaceUrl;
 
-    @ApiModelProperty("集群状态。0: 已创建, 1: 运行中, 2: 停止")
+    @Schema(description = "集群状态。0: 已创建, 1: 运行中, 2: 停止")
     private FlinkClusterStatus status;
-
 
 }

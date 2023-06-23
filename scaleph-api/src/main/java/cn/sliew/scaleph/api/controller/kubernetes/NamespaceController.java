@@ -22,8 +22,8 @@ import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.kubernetes.service.NamespaceService;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import io.fabric8.kubernetes.api.model.Namespace;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.text.ParseException;
 import java.util.List;
 
-@Api(tags = "Kubernetes管理-namespace")
+@Tag(name = "Kubernetes管理-namespace")
 @RestController
 @RequestMapping(path = {"/api/kubernetes/namespace/{clusterCredentialId}"})
 public class NamespaceController {
@@ -45,7 +45,7 @@ public class NamespaceController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询 namespace 列表", notes = "查询 namespace 列表")
+    @Operation(summary = "查询 namespace 列表", description = "查询 namespace 列表")
     public ResponseEntity<ResponseVO<List<Namespace>>> get(@PathVariable("clusterCredentialId") Long clusterCredentialId) throws ParseException {
         List<Namespace> result = namespaceService.getNamespaces(clusterCredentialId);
         return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);

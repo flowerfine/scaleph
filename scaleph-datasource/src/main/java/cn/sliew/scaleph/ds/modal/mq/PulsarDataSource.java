@@ -24,7 +24,7 @@ import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.util.StringUtils;
@@ -38,17 +38,17 @@ import java.util.Map;
 public class PulsarDataSource extends AbstractDataSource {
 
     @NotBlank
-    @ApiModelProperty("admin web service url")
+    @Schema(description = "admin web service url")
     private String webServiceUrl;
 
     @NotBlank
-    @ApiModelProperty("client service url")
+    @Schema(description = "client service url")
     private String clientServiceUrl;
 
-    @ApiModelProperty("authentication plugin")
+    @Schema(description = "authentication plugin")
     private String authPlugin;
 
-    @ApiModelProperty("authentication plugin parameters")
+    @Schema(description = "authentication plugin parameters")
     private String authParams;
 
     @Override

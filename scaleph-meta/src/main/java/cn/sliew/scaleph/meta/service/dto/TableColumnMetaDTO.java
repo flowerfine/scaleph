@@ -20,13 +20,13 @@ package cn.sliew.scaleph.meta.service.dto;
 
 import cn.sliew.scaleph.system.model.BaseDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "元数据-列信息", description = "元数据-列信息")
+@Schema(name = "元数据-列信息", description = "元数据-列信息")
 public class TableColumnMetaDTO extends BaseDTO {
 
     private static final long serialVersionUID = -6282945619070309858L;

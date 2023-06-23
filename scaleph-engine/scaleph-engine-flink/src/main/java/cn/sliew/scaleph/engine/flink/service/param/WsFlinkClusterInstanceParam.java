@@ -20,7 +20,7 @@ package cn.sliew.scaleph.engine.flink.service.param;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkClusterStatus;
 import cn.sliew.scaleph.system.model.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -28,15 +28,15 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class WsFlinkClusterInstanceParam extends PaginationParam {
 
-    @ApiModelProperty("项目ID")
+    @Schema(description = "项目ID")
     private Long projectId;
 
-    @ApiModelProperty("集群配置")
+    @Schema(description = "集群配置")
     private Long flinkClusterConfigId;
 
-    @ApiModelProperty("集群名称。支持模糊匹配")
+    @Schema(description = "集群名称。支持模糊匹配")
     private String name;
 
-    @ApiModelProperty("集群状态。0: 停止, 1: 运行")
+    @Schema(description = "集群状态。0: 停止, 1: 运行")
     private FlinkClusterStatus status;
 }

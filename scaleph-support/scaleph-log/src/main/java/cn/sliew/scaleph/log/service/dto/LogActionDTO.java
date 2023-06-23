@@ -21,8 +21,7 @@ package cn.sliew.scaleph.log.service.dto;
 import java.util.Date;
 
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -35,37 +34,36 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "操作日志信息", description = "用户操作日志")
+@Schema(name = "操作日志信息", description = "用户操作日志")
 public class LogActionDTO extends BaseDTO {
 
     private static final long serialVersionUID = 8003025002075099514L;
 
-    @ApiModelProperty(value = "用户名")
+    @Schema(description = "用户名")
     private String userName;
 
-    @ApiModelProperty(value = "操作时间")
+    @Schema(description = "操作时间")
     private Date actionTime;
 
-    @ApiModelProperty(value = "ip地址")
+    @Schema(description = "ip地址")
     private String ipAddress;
 
-    @ApiModelProperty(value = "操作接口地址")
+    @Schema(description = "操作接口地址")
     private String actionUrl;
 
-    @ApiModelProperty(value = "会话token字符串")
+    @Schema(description = "会话token字符串")
     private String token;
 
-    @ApiModelProperty(value = "客户端信息")
+    @Schema(description = "客户端信息")
     private String clientInfo;
 
-    @ApiModelProperty(value = "操作系统信息")
+    @Schema(description = "操作系统信息")
     private String osInfo;
 
-    @ApiModelProperty(value = "浏览器信息")
+    @Schema(description = "浏览器信息")
     private String browserInfo;
 
-    @ApiModelProperty(value = "接口执行信息，包含请求结果")
+    @Schema(description = "接口执行信息，包含请求结果")
     private String actionInfo;
-
 
 }

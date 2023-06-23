@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.service.param;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -27,6 +27,6 @@ import javax.validation.constraints.NotNull;
 public class WsFlinkJobForSeaTunnelSubmitParam {
 
     @NotNull
-    @ApiModelProperty("flink job for seatunnel id")
+    @Schema(description = "flink job for seatunnel id")
     private Long flinkJobId;
 }

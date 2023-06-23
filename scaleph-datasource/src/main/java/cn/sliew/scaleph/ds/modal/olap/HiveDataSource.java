@@ -23,7 +23,7 @@ import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.util.StringUtils;
@@ -37,16 +37,16 @@ import java.util.Map;
 public class HiveDataSource extends AbstractDataSource {
 
     @NotBlank
-    @ApiModelProperty("hive metastore uri")
+    @Schema(description = "hive metastore uri")
     private String metastoreUri;
 
-    @ApiModelProperty("path of hdfs-site.xml")
+    @Schema(description = "path of hdfs-site.xml")
     private String hdfsSitePath;
 
-    @ApiModelProperty("kerberos keytab path")
+    @Schema(description = "kerberos keytab path")
     private String kerberosKeytabPath;
 
-    @ApiModelProperty("kerberos principal")
+    @Schema(description = "kerberos principal")
     private String kerberosPrincipal;
 
     @Override

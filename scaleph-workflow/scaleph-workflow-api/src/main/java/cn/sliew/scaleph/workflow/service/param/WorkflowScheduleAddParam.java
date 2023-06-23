@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.workflow.service.param;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -31,25 +31,25 @@ import java.util.Date;
 public class WorkflowScheduleAddParam {
 
     @NotNull
-    @ApiModelProperty("workflow definition id")
+    @Schema(description = "workflow definition id")
     private Long workflowDefinitionId;
 
-    @ApiModelProperty("schedule cron timezone")
+    @Schema(description = "schedule cron timezone")
     private String timezone;
 
     @NotBlank
-    @ApiModelProperty("schedule crontab expression")
+    @Schema(description = "schedule crontab expression")
     private String crontab;
 
     @NotNull
-    @ApiModelProperty("schedule start time")
+    @Schema(description = "schedule start time")
     private Date startTime;
 
     @NotNull
-    @ApiModelProperty("schedule end time")
+    @Schema(description = "schedule end time")
     private Date endTime;
 
-    @ApiModelProperty("remark")
+    @Schema(description = "remark")
     private String remark;
 
 }

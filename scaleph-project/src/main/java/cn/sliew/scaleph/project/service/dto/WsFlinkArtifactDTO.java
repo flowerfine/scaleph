@@ -20,8 +20,7 @@ package cn.sliew.scaleph.project.service.dto;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -31,21 +30,21 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
+@Schema(name = "FlinkArtifact对象", description = "flink artifact")
 public class WsFlinkArtifactDTO extends BaseDTO {
 
     @NotNull
-    @ApiModelProperty("项目id")
+    @Schema(description = "项目id")
     private Long projectId;
 
-    @ApiModelProperty("`type`")
+    @Schema(description = "`type`")
     private FlinkJobType type;
 
     @NotBlank
     @Length(max = 200)
-    @ApiModelProperty("名称")
+    @Schema(description = "名称")
     private String name;
 
-    @ApiModelProperty("备注")
+    @Schema(description = "备注")
     private String remark;
 }

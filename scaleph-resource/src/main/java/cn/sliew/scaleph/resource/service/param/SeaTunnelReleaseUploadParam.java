@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.resource.service.param;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelVersion;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -28,9 +28,9 @@ import javax.validation.constraints.NotNull;
 public class SeaTunnelReleaseUploadParam {
 
     @NotNull
-    @ApiModelProperty("seatunnel 版本")
+    @Schema(description = "seatunnel 版本")
     private SeaTunnelVersion version;
 
-    @ApiModelProperty("备注")
+    @Schema(description = "备注")
     private String remark;
 }

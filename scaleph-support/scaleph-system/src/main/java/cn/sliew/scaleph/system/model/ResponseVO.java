@@ -21,7 +21,7 @@ package cn.sliew.scaleph.system.model;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.ErrorShowTypeEnum;
 import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.SneakyThrows;
 
@@ -29,7 +29,7 @@ import lombok.SneakyThrows;
  * @author gleiyu
  */
 @Data
-@ApiModel(value = "通用响应体", description = "通用响应体")
+@Schema(name = "通用响应体", description = "通用响应体")
 public class ResponseVO<T> {
     /**
      * operate result

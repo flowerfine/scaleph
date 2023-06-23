@@ -20,28 +20,27 @@ package cn.sliew.scaleph.ds.service.dto;
 
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode
-@ApiModel(value = "DsType对象", description = "data source type")
+@Schema(name = "DsType对象", description = "data source type")
 public class DsTypeDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("name")
+    @Schema(description = "name")
     private DataSourceType type;
 
-    @ApiModelProperty("logo")
+    @Schema(description = "logo")
     private String logo;
 
-    @ApiModelProperty("order")
+    @Schema(description = "order")
     private Integer order;
 
-    @ApiModelProperty("remark")
+    @Schema(description = "remark")
     private String remark;
 
 }

@@ -19,8 +19,7 @@
 package cn.sliew.scaleph.security.service.dto;
 
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -33,16 +32,15 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "部门角色信息", description = "部门角色关联表")
+@Schema(name = "部门角色信息", description = "部门角色关联表")
 public class SecDeptRoleDTO extends BaseDTO {
 
     private static final long serialVersionUID = -2427411241694222941L;
 
-    @ApiModelProperty(value = "部门id")
+    @Schema(name = "部门id")
     private Long deptId;
 
-    @ApiModelProperty(value = "角色id")
+    @Schema(name = "角色id")
     private Long roleId;
-
 
 }

@@ -23,8 +23,8 @@ import cn.sliew.scaleph.resource.service.ResourceService;
 import cn.sliew.scaleph.resource.service.enums.ResourceType;
 import cn.sliew.scaleph.resource.service.param.ResourceListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Api(tags = "资源管理-资源服务")
+@Tag(name = "资源管理-资源服务")
 @RestController
 @RequestMapping(path = "/api/resource")
 public class ResourceController {
@@ -45,7 +45,7 @@ public class ResourceController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询支持的资源类型", notes = "查询支持的资源类型")
+    @Operation(summary = "查询支持的资源类型", description = "查询支持的资源类型")
     public ResponseEntity<List<ResourceType>> getTypes() {
         final List<ResourceType> resourceTypes = resourceService.getSupportedResources();
         return new ResponseEntity<>(resourceTypes, HttpStatus.OK);
@@ -53,7 +53,7 @@ public class ResourceController {
 
     @Logging
     @GetMapping("/{resourceType}")
-    @ApiOperation(value = "查询资源列表", notes = "查询资源列表")
+    @Operation(summary = "查询资源列表", description = "查询资源列表")
     public ResponseEntity<Page> list(@PathVariable("resourceType") ResourceType resourceType,
                                      ResourceListParam param) {
         final Page resourceVOS = resourceService.list(resourceType, param);
@@ -62,7 +62,7 @@ public class ResourceController {
 
     @Logging
     @GetMapping("/{resourceType}/{id}")
-    @ApiOperation(value = "查询资源详情", notes = "查询资源详情")
+    @Operation(summary = "查询资源详情", description = "查询资源详情")
     public ResponseEntity<Object> list(@PathVariable("resourceType") ResourceType resourceType,
                                        @PathVariable("id") Long id) {
         final Object resource = resourceService.getRaw(resourceType, id);

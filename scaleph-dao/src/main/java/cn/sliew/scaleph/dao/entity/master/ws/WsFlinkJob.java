@@ -22,8 +22,6 @@ import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -33,7 +31,6 @@ import lombok.Data;
  */
 @Data
 @TableName("ws_flink_job")
-@ApiModel(value = "FlinkJob对象", description = "flink job")
 public class WsFlinkJob extends BaseDO {
 
     private static final long serialVersionUID = 1L;
@@ -41,18 +38,15 @@ public class WsFlinkJob extends BaseDO {
     @TableField("project_id")
     private Long projectId;
 
-    @ApiModelProperty("job type. 0: jar, 1: sql+udf, 2: seatunnel")
     @TableField("`type`")
     private FlinkJobType type;
 
-    @ApiModelProperty("job code")
     @TableField("`code`")
     private Long code;
 
     @TableField("`name`")
     private String name;
 
-    @ApiModelProperty("jar: flink_artifact_jar_id")
     @TableField("flink_artifact_id")
     private Long flinkArtifactId;
 
@@ -77,6 +71,5 @@ public class WsFlinkJob extends BaseDO {
     @TableField("flink_config")
     private String flinkConfig;
 
-    @ApiModelProperty("jars")
     private String jars;
 }

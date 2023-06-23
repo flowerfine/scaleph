@@ -26,8 +26,8 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJ
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobUpdateParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(tags = "Flink Kubernetes管理-Job管理")
+@Tag(name = "Flink Kubernetes管理-Job管理")
 @RestController
 @RequestMapping(path = "/api/flink/kubernetes/job")
 public class WsFlinkKubernetesJobController {
@@ -46,7 +46,7 @@ public class WsFlinkKubernetesJobController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询 Job 列表", notes = "分页查询 Job 列表")
+    @Operation(summary = "查询 Job 列表", description = "分页查询 Job 列表")
     public ResponseEntity<Page<WsFlinkKubernetesJobDTO>> list(@Valid WsFlinkKubernetesJobListParam param) {
         Page<WsFlinkKubernetesJobDTO> page = wsFlinkKubernetesJobService.list(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
@@ -54,7 +54,7 @@ public class WsFlinkKubernetesJobController {
 
     @Logging
     @GetMapping("/{id}")
-    @ApiOperation(value = "查询 Job", notes = "查询 Job")
+    @Operation(summary = "查询 Job", description = "查询 Job")
     public ResponseEntity<ResponseVO<WsFlinkKubernetesJobDTO>> selectOne(@PathVariable("id") Long id) {
         WsFlinkKubernetesJobDTO dto = wsFlinkKubernetesJobService.selectOne(id);
         return new ResponseEntity(ResponseVO.success(dto), HttpStatus.OK);
@@ -62,7 +62,7 @@ public class WsFlinkKubernetesJobController {
 
     @Logging
     @GetMapping("/asYaml/{id}")
-    @ApiOperation(value = "查询 YAML 格式 Job", notes = "查询 YAML 格式 Job")
+    @Operation(summary = "查询 YAML 格式 Job", description = "查询 YAML 格式 Job")
     public ResponseEntity<ResponseVO<Object>> asYaml(@PathVariable("id") Long id) {
         Object dto = wsFlinkKubernetesJobService.asYaml(id);
         return new ResponseEntity(ResponseVO.success(dto), HttpStatus.OK);
@@ -70,7 +70,7 @@ public class WsFlinkKubernetesJobController {
 
     @Logging
     @PutMapping
-    @ApiOperation(value = "创建 Job", notes = "创建 Job")
+    @Operation(summary = "创建 Job", description = "创建 Job")
     public ResponseEntity<ResponseVO> insert(@RequestBody @Valid WsFlinkKubernetesJobAddParam param) {
         wsFlinkKubernetesJobService.insert(param);
         return new ResponseEntity(ResponseVO.success(), HttpStatus.OK);
@@ -78,7 +78,7 @@ public class WsFlinkKubernetesJobController {
 
     @Logging
     @PostMapping
-    @ApiOperation(value = "更新 Job", notes = "更新 Job")
+    @Operation(summary = "更新 Job", description = "更新 Job")
     public ResponseEntity<ResponseVO> update(@RequestBody @Valid WsFlinkKubernetesJobUpdateParam param) {
         wsFlinkKubernetesJobService.update(param);
         return new ResponseEntity(ResponseVO.success(), HttpStatus.OK);
@@ -86,7 +86,7 @@ public class WsFlinkKubernetesJobController {
 
     @Logging
     @DeleteMapping("{id}")
-    @ApiOperation(value = "删除 Job", notes = "删除 Job")
+    @Operation(summary = "删除 Job", description = "删除 Job")
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) {
         wsFlinkKubernetesJobService.deleteById(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -94,7 +94,7 @@ public class WsFlinkKubernetesJobController {
 
     @Logging
     @DeleteMapping("batch")
-    @ApiOperation(value = "批量删除 Job", notes = "批量删除 Job")
+    @Operation(summary = "批量删除 Job", description = "批量删除 Job")
     public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) {
         wsFlinkKubernetesJobService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);

@@ -27,8 +27,8 @@ import cn.sliew.scaleph.cache.util.RedisUtil;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.system.snowflake.UidGenerator;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +48,7 @@ import java.util.UUID;
  */
 @Controller
 @RequestMapping("/api")
-@Api(tags = "公共模块")
+@Tag(name = "公共模块")
 public class CommonController {
 
     @Autowired
@@ -63,7 +63,7 @@ public class CommonController {
      * @param resp response
      */
     @AnonymousAccess
-    @ApiOperation(value = "查询验证码", notes = "查询验证码信息")
+    @Operation(summary = "查询验证码", description = "查询验证码信息")
     @GetMapping(path = {"/authCode"})
     public ResponseEntity<Object> authCode(HttpServletRequest req, HttpServletResponse resp) {
         LineCaptcha lineCaptcha =
@@ -82,7 +82,7 @@ public class CommonController {
 
     @Logging
     @GetMapping(path = "/uid/snowflake")
-    @ApiOperation(value = "获取 snowflake uid", notes = "获取 snowflake uid")
+    @Operation(summary = "获取 snowflake uid", description = "获取 snowflake uid")
     public ResponseEntity<Long> getSnowflakeUid() throws UidGenerateException {
         return new ResponseEntity<>(defaultUidGenerator.getUID(), HttpStatus.OK);
     }

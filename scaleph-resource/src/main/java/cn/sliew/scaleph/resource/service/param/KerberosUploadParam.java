@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.resource.service.param;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -27,13 +27,13 @@ import javax.validation.constraints.NotBlank;
 public class KerberosUploadParam {
 
     @NotBlank
-    @ApiModelProperty("name")
+    @Schema(description = "name")
     private String name;
 
     @NotBlank
-    @ApiModelProperty("principal")
+    @Schema(description = "principal")
     private String principal;
 
-    @ApiModelProperty("remark")
+    @Schema(description = "remark")
     private String remark;
 }

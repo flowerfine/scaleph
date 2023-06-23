@@ -20,13 +20,13 @@ package cn.sliew.scaleph.engine.flink.service.param;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.project.service.param.WsFlinkArtifactListParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
 public class WsFlinkArtifactJarListParam extends WsFlinkArtifactListParam {
 
-    @ApiModelProperty("flink 版本")
+    @Schema(description = "flink 版本")
     private FlinkVersion flinkVersion;
 
 }

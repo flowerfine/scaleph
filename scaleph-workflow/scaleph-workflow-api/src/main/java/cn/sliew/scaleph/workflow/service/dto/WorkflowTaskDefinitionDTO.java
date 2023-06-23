@@ -20,7 +20,7 @@ package cn.sliew.scaleph.workflow.service.dto;
 
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskType;
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -30,22 +30,22 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 public class WorkflowTaskDefinitionDTO extends BaseDTO {
 
-    @ApiModelProperty("workflow definition id")
+    @Schema(description = "workflow definition id")
     private Long workflowDefinitionId;
 
-    @ApiModelProperty("workflow task type")
+    @Schema(description = "workflow task type")
     private WorkflowTaskType type;
 
-    @ApiModelProperty("workflow task name")
+    @Schema(description = "workflow task name")
     private String name;
 
-    @ApiModelProperty("workflow task handler")
+    @Schema(description = "workflow task handler")
     private String handler;
 
-    @ApiModelProperty("workflow task param")
+    @Schema(description = "workflow task param")
     private Map<String, Object> param;
 
-    @ApiModelProperty("备注")
+    @Schema(description = "备注")
     private String remark;
 
 }

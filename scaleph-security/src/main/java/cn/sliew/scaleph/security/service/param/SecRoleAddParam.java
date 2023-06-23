@@ -20,7 +20,7 @@ package cn.sliew.scaleph.security.service.param;
 
 import cn.sliew.scaleph.common.dict.security.RoleStatus;
 import cn.sliew.scaleph.common.dict.security.RoleType;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -31,23 +31,23 @@ import javax.validation.constraints.NotNull;
 public class SecRoleAddParam {
 
     @NotNull
-    @ApiModelProperty("type")
+    @Schema(description = "type")
     private RoleType type;
 
     @NotBlank
     @Length(min = 1, max = 30)
-    @ApiModelProperty(value = "角色编码")
+    @Schema(description = "角色编码")
     private String code;
 
     @NotBlank
     @Length(min = 1, max = 50)
-    @ApiModelProperty(value = "角色名称")
+    @Schema(description = "角色名称")
     private String name;
 
-    @ApiModelProperty(value = "角色状态")
+    @Schema(description = "角色状态")
     private RoleStatus status;
 
     @Length(max = 100)
-    @ApiModelProperty(value = "角色备注")
+    @Schema(description = "角色备注")
     private String remark;
 }

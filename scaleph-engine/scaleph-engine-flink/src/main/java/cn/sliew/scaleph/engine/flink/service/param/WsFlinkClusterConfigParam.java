@@ -21,9 +21,9 @@ package cn.sliew.scaleph.engine.flink.service.param;
 import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.system.model.PaginationParam;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkClusterConfig;
-import io.swagger.annotations.ApiModelProperty;
+import cn.sliew.scaleph.system.model.PaginationParam;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.beans.BeanUtils;
@@ -32,19 +32,19 @@ import org.springframework.beans.BeanUtils;
 @EqualsAndHashCode(callSuper = true)
 public class WsFlinkClusterConfigParam extends PaginationParam {
 
-    @ApiModelProperty("项目ID")
+    @Schema(description = "项目ID")
     private Long projectId;
 
-    @ApiModelProperty("名称。支持模糊搜索")
+    @Schema(description = "名称。支持模糊搜索")
     private String name;
 
-    @ApiModelProperty("集群版本")
+    @Schema(description = "集群版本")
     private FlinkVersion flinkVersion;
 
-    @ApiModelProperty("Resource。0: Standalone, 1: Native Kubernetes, 2: YARN")
+    @Schema(description = "Resource。0: Standalone, 1: Native Kubernetes, 2: YARN")
     private FlinkResourceProvider resourceProvider;
 
-    @ApiModelProperty("flink 部署模式。0: Application, 1: Per-Job, 2: Session")
+    @Schema(description = "flink 部署模式。0: Application, 1: Per-Job, 2: Session")
     private FlinkDeploymentMode deployMode;
 
     public WsFlinkClusterConfig toDo() {

@@ -28,8 +28,8 @@ import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseUploadParam;
 import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +43,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
 
-@Api(tags = "资源管理-seatunnel-release")
+@Tag(name = "资源管理-seatunnel-release")
 @RestController
 @RequestMapping(path = "/api/resource/seatunnel-release")
 public class SeaTunnelReleaseController {
@@ -53,7 +53,7 @@ public class SeaTunnelReleaseController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询 release 列表", notes = "查询 release 列表")
+    @Operation(summary = "查询 release 列表", description = "查询 release 列表")
     public ResponseEntity<Page<SeaTunnelReleaseDTO>> list(@Valid SeaTunnelReleaseListParam param) throws IOException {
         final Page<SeaTunnelReleaseDTO> releaseSeaTunnelDTOS = seaTunnelReleaseService.list(param);
         return new ResponseEntity<>(releaseSeaTunnelDTOS, HttpStatus.OK);
@@ -61,7 +61,7 @@ public class SeaTunnelReleaseController {
 
     @Logging
     @GetMapping("/{id}")
-    @ApiOperation(value = "查询 release 详情", notes = "查询 release 详情")
+    @Operation(summary = "查询 release 详情", description = "查询 release 详情")
     public ResponseEntity<SeaTunnelReleaseDTO> get(@PathVariable("id") Long id) throws IOException {
         final SeaTunnelReleaseDTO result = seaTunnelReleaseService.selectOne(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -69,7 +69,7 @@ public class SeaTunnelReleaseController {
 
     @Logging
     @GetMapping("/{id}/connectors")
-    @ApiOperation(value = "查询 release connectors", notes = "查询 release connectors")
+    @Operation(summary = "查询 release connectors", description = "查询 release connectors")
     public ResponseEntity<List<FileStatusVO>> listConnectors(@PathVariable("id") Long id) throws IOException {
         final List<FileStatusVO> result = seaTunnelReleaseService.listConnectors(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -80,7 +80,7 @@ public class SeaTunnelReleaseController {
      */
     @Logging
     @PostMapping("upload")
-    @ApiOperation(value = "上传 release", notes = "上传 release")
+    @Operation(summary = "上传 release", description = "上传 release")
     public ResponseEntity<ResponseVO<SeaTunnelReleaseDTO>> upload(@Valid SeaTunnelReleaseUploadParam param, @RequestPart("file") MultipartFile file) throws Exception {
         if (file.isEmpty()) {
             throw new ScalephException("缺少文件");
@@ -91,7 +91,7 @@ public class SeaTunnelReleaseController {
 
     @Logging
     @PostMapping("uploadConnector")
-    @ApiOperation(value = "上传 connector", notes = "上传 connector")
+    @Operation(summary = "上传 connector", description = "上传 connector")
     public ResponseEntity<ResponseVO> uploadConnector(@Valid SeaTunnelConnectorUploadParam param, @RequestPart("file") MultipartFile file) throws Exception {
         if (file.isEmpty()) {
             throw new ScalephException("缺少文件");
@@ -102,7 +102,7 @@ public class SeaTunnelReleaseController {
 
     @Logging
     @GetMapping("fetch")
-    @ApiOperation(value = "自动获取 connector", notes = "自动获取 connector")
+    @Operation(summary = "自动获取 connector", description = "自动获取 connector")
     public ResponseEntity<ResponseVO> fetchConnectors(@RequestParam("id") Long id) throws Exception {
         seaTunnelReleaseService.fetchConnectors(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -110,7 +110,7 @@ public class SeaTunnelReleaseController {
 
     @Logging
     @GetMapping("download/{id}")
-    @ApiOperation("下载 release")
+    @Operation(summary = "下载 release")
     public ResponseEntity<ResponseVO> download(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
         try (ServletOutputStream outputStream = response.getOutputStream()) {
             final String name = seaTunnelReleaseService.download(id, outputStream);
@@ -122,7 +122,7 @@ public class SeaTunnelReleaseController {
 
     @Logging
     @GetMapping("download/{id}/connectors/{connector}")
-    @ApiOperation("下载 release connector")
+    @Operation(summary = "下载 release connector")
     public ResponseEntity<ResponseVO> downloadConnector(@PathVariable("id") Long id, @PathVariable("connector") String connector, HttpServletResponse response) throws IOException {
         try (ServletOutputStream outputStream = response.getOutputStream()) {
             String name = seaTunnelReleaseService.downloadConnector(id, connector, outputStream);
@@ -134,7 +134,7 @@ public class SeaTunnelReleaseController {
 
     @Logging
     @DeleteMapping("{id}")
-    @ApiOperation(value = "删除 release", notes = "删除 release")
+    @Operation(summary = "删除 release", description = "删除 release")
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) throws IOException {
         seaTunnelReleaseService.delete(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -142,7 +142,7 @@ public class SeaTunnelReleaseController {
 
     @Logging
     @DeleteMapping(path = "/batch")
-    @ApiOperation(value = "批量删除 release", notes = "批量删除 release")
+    @Operation(summary = "批量删除 release", description = "批量删除 release")
     public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) throws IOException {
         seaTunnelReleaseService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);

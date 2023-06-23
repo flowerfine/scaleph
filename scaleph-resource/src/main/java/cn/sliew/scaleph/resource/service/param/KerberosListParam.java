@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.resource.service.param;
 
 import cn.sliew.scaleph.system.model.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -27,9 +27,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class KerberosListParam extends PaginationParam {
 
-    @ApiModelProperty("name")
+    @Schema(description = "name")
     private String name;
 
-    @ApiModelProperty("file name")
+    @Schema(description = "file name")
     private String fileName;
 }

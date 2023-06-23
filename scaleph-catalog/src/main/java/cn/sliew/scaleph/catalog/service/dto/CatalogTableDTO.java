@@ -20,7 +20,6 @@ package cn.sliew.scaleph.catalog.service.dto;
 
 import cn.sliew.scaleph.common.dict.catalog.CatalogTableKind;
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.util.Map;
@@ -30,7 +29,6 @@ import java.util.Map;
  * @see org.apache.flink.table.catalog.DefaultCatalogView
  */
 @Data
-@ApiModel(value = "CatalogTable对象", description = "table")
 public class CatalogTableDTO extends BaseDTO {
 
     private CatalogTableKind kind;

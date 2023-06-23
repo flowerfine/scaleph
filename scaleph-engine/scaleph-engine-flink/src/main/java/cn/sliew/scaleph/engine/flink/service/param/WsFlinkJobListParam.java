@@ -21,7 +21,7 @@ package cn.sliew.scaleph.engine.flink.service.param;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.system.model.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -31,16 +31,16 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = true)
 public class WsFlinkJobListParam extends PaginationParam {
 
-    @ApiModelProperty("job type. 0: jar, 1: sql+udf, 2: seatunnel")
+    @Schema(description = "job type. 0: jar, 1: sql+udf, 2: seatunnel")
     private FlinkJobType type;
 
-    @ApiModelProperty("名称。支持模糊搜索")
+    @Schema(description = "名称。支持模糊搜索")
     private String name;
 
     @NotNull
-    @ApiModelProperty("项目ID")
+    @Schema(description = "项目ID")
     private Long projectId;
 
-    @ApiModelProperty("flink作业状态")
+    @Schema(description = "flink作业状态")
     private FlinkJobState flinkJobState;
 }

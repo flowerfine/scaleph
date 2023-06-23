@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.security.service.param;
 
 import cn.sliew.scaleph.system.model.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -27,13 +27,13 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class SecDeptListParam extends PaginationParam {
 
-    @ApiModelProperty(value = "部门编号")
+    @Schema(description = "部门编号")
     private String deptCode;
 
-    @ApiModelProperty(value = "部门名称")
+    @Schema(description = "部门名称")
     private String deptName;
 
-    @ApiModelProperty(value = "上级部门id")
+    @Schema(description = "上级部门id")
     private Long pid;
 
 }

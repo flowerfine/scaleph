@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.resource.service.param;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -28,11 +28,11 @@ import javax.validation.constraints.NotNull;
 public class SeaTunnelConnectorUploadParam {
 
     @NotNull
-    @ApiModelProperty("seatunnel release id")
+    @Schema(description = "seatunnel release id")
     private Long id;
 
     @NotNull
-    @ApiModelProperty("seatunnel plugin name")
+    @Schema(description = "seatunnel plugin name")
     private SeaTunnelPluginName pluginName;
 
 }

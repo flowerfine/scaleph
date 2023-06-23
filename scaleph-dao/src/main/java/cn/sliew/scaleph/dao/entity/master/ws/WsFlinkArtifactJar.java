@@ -23,7 +23,6 @@ import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -35,7 +34,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("ws_flink_artifact_jar")
-@ApiModel(value = "FlinkArtifactJar对象", description = "flink artifact jar")
 public class WsFlinkArtifactJar extends BaseDO {
 
     private static final long serialVersionUID = 1L;

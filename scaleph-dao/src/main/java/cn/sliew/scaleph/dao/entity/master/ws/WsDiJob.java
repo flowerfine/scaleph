@@ -23,7 +23,6 @@ import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -33,7 +32,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("ws_di_job")
-@ApiModel(value = "WsDiJob对象", description = "数据集成-作业信息")
 public class WsDiJob extends BaseDO {
 
     private static final long serialVersionUID = -4141741507654897469L;

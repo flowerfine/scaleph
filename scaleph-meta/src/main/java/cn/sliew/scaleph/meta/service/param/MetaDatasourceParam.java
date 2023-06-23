@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.meta.service.param;
 
 import cn.sliew.scaleph.system.model.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -27,9 +27,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class MetaDatasourceParam extends PaginationParam {
 
-    @ApiModelProperty(value = "数据源名称")
+    @Schema(description = "数据源名称")
     private String datasourceName;
 
-    @ApiModelProperty(value = "数据源类型")
+    @Schema(description = "数据源类型")
     private String datasourceType;
 }

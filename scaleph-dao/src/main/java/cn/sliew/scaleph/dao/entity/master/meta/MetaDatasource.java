@@ -20,8 +20,6 @@ package cn.sliew.scaleph.dao.entity.master.meta;
 
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -31,24 +29,18 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("meta_datasource")
-@ApiModel(value = "MetaDatasource对象", description = "元数据-数据源信息")
 public class MetaDatasource extends BaseDO {
 
     private static final long serialVersionUID = 6434784666593575818L;
 
-    @ApiModelProperty(value = "数据源名称")
     private String datasourceName;
 
-    @ApiModelProperty(value = "数据源类型")
     private String datasourceType;
 
-    @ApiModelProperty(value = "数据源支持的属性")
     private String props;
 
-    @ApiModelProperty(value = "数据源支持的额外属性")
     private String additionalProps;
 
-    @ApiModelProperty(value = "备注")
     private String remark;
 
 }

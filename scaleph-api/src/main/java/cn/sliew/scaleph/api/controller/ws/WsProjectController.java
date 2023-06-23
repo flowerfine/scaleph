@@ -24,8 +24,8 @@ import cn.sliew.scaleph.project.service.dto.WsProjectDTO;
 import cn.sliew.scaleph.project.service.param.WsProjectParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(tags = "数据开发-项目管理")
+@Tag(name = "数据开发-项目管理")
 @RestController
 @RequestMapping(path = {"/api/datadev/project", "/api/di/project"})
 public class WsProjectController {
@@ -46,7 +46,7 @@ public class WsProjectController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询项目列表", notes = "分页查询项目列表")
+    @Operation(summary = "查询项目列表", description = "分页查询项目列表")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_PROJECT_SELECT)")
     public ResponseEntity<Page<WsProjectDTO>> listProject(@Valid WsProjectParam param) {
         Page<WsProjectDTO> page = wsProjectService.listByPage(param);
@@ -55,7 +55,7 @@ public class WsProjectController {
 
     @Logging
     @GetMapping(path = "{id}")
-    @ApiOperation(value = "查询项目信息", notes = "查询项目信息")
+    @Operation(summary = "查询项目信息", description = "查询项目信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_PROJECT_SELECT)")
     public ResponseEntity<WsProjectDTO> selectOne(@PathVariable("id") Long id) {
         WsProjectDTO project = wsProjectService.selectOne(id);
@@ -64,7 +64,7 @@ public class WsProjectController {
 
     @Logging
     @PutMapping
-    @ApiOperation(value = "新增项目", notes = "新增项目")
+    @Operation(summary = "新增项目", description = "新增项目")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_PROJECT_ADD)")
     public ResponseEntity<ResponseVO> addProject(@Validated @RequestBody WsProjectDTO wsProjectDTO) {
         wsProjectService.insert(wsProjectDTO);
@@ -73,7 +73,7 @@ public class WsProjectController {
 
     @Logging
     @PostMapping
-    @ApiOperation(value = "修改项目", notes = "修改项目")
+    @Operation(summary = "修改项目", description = "修改项目")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_PROJECT_EDIT)")
     public ResponseEntity<ResponseVO> editProject(@Validated @RequestBody WsProjectDTO wsProjectDTO) {
         wsProjectService.update(wsProjectDTO);
@@ -82,7 +82,7 @@ public class WsProjectController {
 
     @Logging
     @DeleteMapping(path = "{id}")
-    @ApiOperation(value = "删除项目", notes = "删除项目")
+    @Operation(summary = "删除项目", description = "删除项目")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_PROJECT_DELETE)")
     public ResponseEntity<ResponseVO> deleteProject(@PathVariable(value = "id") Long projectId) {
         wsProjectService.deleteById(projectId);
@@ -91,7 +91,7 @@ public class WsProjectController {
 
     @Logging
     @DeleteMapping(path = "batch")
-    @ApiOperation(value = "批量删除项目", notes = "批量删除项目")
+    @Operation(summary = "批量删除项目", description = "批量删除项目")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_PROJECT_DELETE)")
     public ResponseEntity<ResponseVO> deleteProject(@RequestBody List<Long> ids) {
         wsProjectService.deleteBatch(ids);

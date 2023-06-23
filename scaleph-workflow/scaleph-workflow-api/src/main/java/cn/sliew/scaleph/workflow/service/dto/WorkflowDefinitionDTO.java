@@ -21,7 +21,7 @@ package cn.sliew.scaleph.workflow.service.dto;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowExecuteType;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowType;
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -31,26 +31,26 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 public class WorkflowDefinitionDTO extends BaseDTO {
 
-    @ApiModelProperty("workflow type")
+    @Schema(description = "workflow type")
     private WorkflowType type;
 
-    @ApiModelProperty("workflow name")
+    @Schema(description = "workflow name")
     private String name;
 
     /**
      * task relations determinate execute type, not workflow
      */
     @Deprecated
-    @ApiModelProperty("workflow execute type")
+    @Schema(description = "workflow execute type")
     private WorkflowExecuteType executeType;
 
-    @ApiModelProperty("workflow param")
+    @Schema(description = "workflow param")
     private Map<String, Object> param;
 
-    @ApiModelProperty("备注")
+    @Schema(description = "备注")
     private String remark;
 
-    @ApiModelProperty("schedule")
+    @Schema(description = "schedule")
     private WorkflowScheduleDTO schedule;
 
 }

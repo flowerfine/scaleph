@@ -19,15 +19,15 @@
 package cn.sliew.scaleph.api.controller.resource;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.resource.service.KerberosService;
 import cn.sliew.scaleph.resource.service.dto.KerberosDTO;
 import cn.sliew.scaleph.resource.service.param.KerberosListParam;
 import cn.sliew.scaleph.resource.service.param.KerberosUploadParam;
+import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +41,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
 
-@Api(tags = "资源管理-jar")
+@Tag(name = "资源管理-jar")
 @RestController
 @RequestMapping(path = "/api/resource/kerberos")
 public class KerberosController {
@@ -51,7 +51,7 @@ public class KerberosController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询 kerberos 列表", notes = "查询 kerberos 列表")
+    @Operation(summary = "查询 kerberos 列表", description = "查询 kerberos 列表")
     public ResponseEntity<Page<KerberosDTO>> list(@Valid KerberosListParam param) throws IOException {
         final Page<KerberosDTO> kerberosDTOS = kerberosService.list(param);
         return new ResponseEntity<>(kerberosDTOS, HttpStatus.OK);
@@ -59,7 +59,7 @@ public class KerberosController {
 
     @Logging
     @GetMapping("/{id}")
-    @ApiOperation(value = "查询 kerberos 详情", notes = "查询 kerberos 详情")
+    @Operation(summary = "查询 kerberos 详情", description = "查询 kerberos 详情")
     public ResponseEntity<KerberosDTO> get(@PathVariable("id") Long id) throws IOException {
         final KerberosDTO result = kerberosService.selectOne(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -70,7 +70,7 @@ public class KerberosController {
      */
     @Logging
     @PostMapping("upload")
-    @ApiOperation(value = "上传 kerberos", notes = "上传 kerberos")
+    @Operation(summary = "上传 kerberos", description = "上传 kerberos")
     public ResponseEntity<ResponseVO> upload(@Valid KerberosUploadParam param, @RequestPart("file") MultipartFile file) throws Exception {
         if (file.isEmpty()) {
             throw new ScalephException("缺少文件");
@@ -81,7 +81,7 @@ public class KerberosController {
 
     @Logging
     @GetMapping("download/{id}")
-    @ApiOperation("下载 kerberos")
+    @Operation(summary = "下载 kerberos")
     public ResponseEntity<ResponseVO> download(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
         try (ServletOutputStream outputStream = response.getOutputStream()) {
             final String name = kerberosService.download(id, outputStream);
@@ -93,7 +93,7 @@ public class KerberosController {
 
     @Logging
     @DeleteMapping("{id}")
-    @ApiOperation(value = "删除 kerberos", notes = "删除 kerberos")
+    @Operation(summary = "删除 kerberos", description = "删除 kerberos")
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) throws IOException {
         kerberosService.delete(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -101,7 +101,7 @@ public class KerberosController {
 
     @Logging
     @DeleteMapping(path = "/batch")
-    @ApiOperation(value = "批量删除 kerberos", notes = "批量删除 kerberos")
+    @Operation(summary = "批量删除 kerberos", description = "批量删除 kerberos")
     public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) throws IOException {
         kerberosService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);

@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.resource.service.param;
 
 import cn.sliew.scaleph.system.model.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -27,10 +27,10 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class JarListParam extends PaginationParam {
 
-    @ApiModelProperty("jar group")
+    @Schema(description = "jar group")
     private String group;
 
-    @ApiModelProperty("文件名称。支持模糊匹配")
+    @Schema(description = "文件名称。支持模糊匹配")
     private String fileName;
 
 }

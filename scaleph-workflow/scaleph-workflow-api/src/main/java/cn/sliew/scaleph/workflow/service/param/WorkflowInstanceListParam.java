@@ -20,7 +20,7 @@ package cn.sliew.scaleph.workflow.service.param;
 
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
 import cn.sliew.scaleph.system.model.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -31,9 +31,9 @@ import javax.validation.constraints.NotNull;
 public class WorkflowInstanceListParam extends PaginationParam {
 
     @NotNull
-    @ApiModelProperty("workflow definition id")
+    @Schema(description = "workflow definition id")
     private Long workflowDefinitionId;
 
-    @ApiModelProperty("workflow instance state")
+    @Schema(description = "workflow instance state")
     private WorkflowInstanceState state;
 }

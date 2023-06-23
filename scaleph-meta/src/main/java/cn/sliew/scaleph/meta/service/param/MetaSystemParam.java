@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.meta.service.param;
 
 import cn.sliew.scaleph.system.model.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -29,10 +29,10 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class MetaSystemParam extends PaginationParam {
-    
-    @ApiModelProperty(value = "系统编码")
+
+    @Schema(description = "系统编码")
     private String systemCode;
 
-    @ApiModelProperty(value = "系统名称")
+    @Schema(description = "系统名称")
     private String systemName;
 }

@@ -21,8 +21,6 @@ package cn.sliew.scaleph.dao.entity.master.resource;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -34,28 +32,22 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("resource_cluster_credential")
-@ApiModel(value = "ResourceClusterCredential对象", description = "集群凭证")
 public class ResourceClusterCredential extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("配置名称")
     @TableField("`name`")
     private String name;
 
-    @ApiModelProperty("current context")
     @TableField("`context`")
     private String context;
 
-    @ApiModelProperty("kube config file name")
     @TableField("`file_name`")
     private String fileName;
 
-    @ApiModelProperty("kube config path")
     @TableField("`path`")
     private String path;
 
-    @ApiModelProperty("备注")
     @TableField("remark")
     private String remark;
 

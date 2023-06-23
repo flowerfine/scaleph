@@ -18,16 +18,16 @@
 
 package cn.sliew.scaleph.engine.flink.service.param;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
 public class WsFlinkArtifactJarSelectListParam {
 
-    @ApiModelProperty("Project ID")
+    @Schema(description = "Project ID")
     private Long projectId;
 
-    @ApiModelProperty("name")
+    @Schema(description = "name")
     private String name;
 
 }

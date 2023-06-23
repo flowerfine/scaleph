@@ -24,7 +24,7 @@ import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -36,15 +36,15 @@ import java.util.Map;
 public class DataHubDataSource extends AbstractDataSource {
 
     @NotBlank
-    @ApiModelProperty("endpoint")
+    @Schema(description = "endpoint")
     private String endpoint;
 
     @NotBlank
-    @ApiModelProperty("access id")
+    @Schema(description = "access id")
     private String accessId;
 
     @NotBlank
-    @ApiModelProperty("access key")
+    @Schema(description = "access key")
     private String accessKey;
 
     @Override

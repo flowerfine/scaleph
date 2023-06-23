@@ -35,12 +35,12 @@ import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobAttrService;
 import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobAttrDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
+import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.system.snowflake.UidGenerator;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
-import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,7 +51,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Api(tags = "Flink管理-任务管理")
+@Tag(name = "Flink管理-任务管理")
 @RestController
 @RequestMapping(path = "/api/flink/job")
 public class WsFlinkJobController {
@@ -73,7 +73,7 @@ public class WsFlinkJobController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询任务列表", notes = "分页查询任务列表")
+    @Operation(summary = "查询任务列表", description = "分页查询任务列表")
     public ResponseEntity<Page<WsFlinkJobDTO>> list(@Valid WsFlinkJobListParam param) {
         Page<WsFlinkJobDTO> page = wsFlinkJobService.list(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
@@ -81,7 +81,7 @@ public class WsFlinkJobController {
 
     @Logging
     @GetMapping("/{id}")
-    @ApiOperation(value = "查询任务信息", notes = "查询任务信息")
+    @Operation(summary = "查询任务信息", description = "查询任务信息")
     public ResponseEntity<ResponseVO<WsFlinkJobDTO>> selectOne(@PathVariable("id") Long id) {
         WsFlinkJobDTO dto = wsFlinkJobService.selectOne(id);
         return new ResponseEntity<ResponseVO<WsFlinkJobDTO>>(ResponseVO.success(dto), HttpStatus.OK);
@@ -89,7 +89,7 @@ public class WsFlinkJobController {
 
     @Logging
     @PutMapping
-    @ApiOperation(value = "新增任务", notes = "新增任务")
+    @Operation(summary = "新增任务", description = "新增任务")
     public ResponseEntity<ResponseVO> insert(@Valid @RequestBody WsFlinkJobDTO wsFlinkJobDTO) throws UidGenerateException {
         wsFlinkJobDTO.setCode(defaultUidGenerator.getUID());
         if (FlinkJobType.JAR.equals(wsFlinkJobDTO.getType())) {
@@ -133,7 +133,7 @@ public class WsFlinkJobController {
 
     @Logging
     @PostMapping
-    @ApiOperation(value = "修改任务", notes = "修改任务")
+    @Operation(summary = "修改任务", description = "修改任务")
     public ResponseEntity<ResponseVO> update(@Valid @RequestBody WsFlinkJobDTO param) {
         wsFlinkJobService.update(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -141,7 +141,7 @@ public class WsFlinkJobController {
 
     @Logging
     @DeleteMapping("/{id}")
-    @ApiOperation(value = "删除任务", notes = "删除任务")
+    @Operation(summary = "删除任务", description = "删除任务")
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) {
         wsFlinkJobService.delete(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);

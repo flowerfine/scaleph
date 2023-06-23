@@ -18,8 +18,7 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.List;
@@ -30,12 +29,12 @@ import java.util.List;
  * @author gleiyu
  */
 @Data
-@ApiModel(value = "作业图对象", description = "作业图信息")
+@Schema(name = "作业图对象", description = "作业图信息")
 public class JobGraphVO {
 
-    @ApiModelProperty("nodes")
+    @Schema(description = "nodes")
     private List<NodeCellVO> nodes;
 
-    @ApiModelProperty("edges")
+    @Schema(description = "edges")
     private List<EdgeCellVO> edges;
 }

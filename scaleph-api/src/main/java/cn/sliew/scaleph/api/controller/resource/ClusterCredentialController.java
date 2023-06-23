@@ -26,8 +26,8 @@ import cn.sliew.scaleph.resource.service.param.ClusterCredentialListParam;
 import cn.sliew.scaleph.resource.service.param.ClusterCredentialUploadParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +41,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
 
-@Api(tags = "资源管理-集群凭证")
+@Tag(name = "资源管理-集群凭证")
 @RestController
 @RequestMapping(path = "/api/resource/cluster-credential")
 public class ClusterCredentialController {
@@ -51,15 +51,15 @@ public class ClusterCredentialController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询部署配置列表", notes = "查询部署配置列表")
+    @Operation(summary = "查询部署配置列表", description = "查询部署配置列表")
     public ResponseEntity<Page<ClusterCredentialDTO>> list(@Valid ClusterCredentialListParam param) {
         Page<ClusterCredentialDTO> result = clusterCredentialService.list(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Logging
-    @GetMapping({"{id}"})
-    @ApiOperation(value = "查询部署配置", notes = "查询部署配置")
+    @GetMapping("{id}")
+    @Operation(summary = "查询部署配置", description = "查询部署配置")
     public ResponseEntity<ClusterCredentialDTO> selectOne(@PathVariable("id") Long id) {
         ClusterCredentialDTO result = clusterCredentialService.selectOne(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -67,7 +67,7 @@ public class ClusterCredentialController {
 
     @Logging
     @PostMapping("upload")
-    @ApiOperation(value = "上传部署配置", notes = "上传部署配置")
+    @Operation(summary = "上传部署配置", description = "上传部署配置")
     public ResponseEntity<ResponseVO> upload(@Valid ClusterCredentialUploadParam param, @RequestPart("file") MultipartFile file) throws Exception {
         if (file.isEmpty()) {
             throw new ScalephException("缺少文件");
@@ -78,7 +78,7 @@ public class ClusterCredentialController {
 
     @Logging
     @GetMapping("download/{id}")
-    @ApiOperation("下载部署配置")
+    @Operation(summary = "下载部署配置")
     public ResponseEntity<ResponseVO> download(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
         try (ServletOutputStream outputStream = response.getOutputStream()) {
             String name = clusterCredentialService.download(id, outputStream);
@@ -90,7 +90,7 @@ public class ClusterCredentialController {
 
     @Logging
     @DeleteMapping("{id}")
-    @ApiOperation(value = "删除部署配置", notes = "删除部署配置")
+    @Operation(summary = "删除部署配置", description = "删除部署配置")
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) throws IOException {
         clusterCredentialService.delete(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -98,7 +98,7 @@ public class ClusterCredentialController {
 
     @Logging
     @DeleteMapping(path = "/batch")
-    @ApiOperation(value = "批量删除部署配置", notes = "批量删除部署配置")
+    @Operation(summary = "批量删除部署配置", description = "批量删除部署配置")
     public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) throws IOException {
         clusterCredentialService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);

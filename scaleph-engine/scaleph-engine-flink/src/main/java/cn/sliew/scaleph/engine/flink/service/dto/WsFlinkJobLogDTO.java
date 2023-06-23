@@ -18,13 +18,13 @@
 
 package cn.sliew.scaleph.engine.flink.service.dto;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkJobLog对象", description = "flink job log")
+@Schema(name = "FlinkJobLog对象", description = "flink job log")
 public class WsFlinkJobLogDTO extends WsFlinkJobInstanceDTO {
 
 }

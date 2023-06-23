@@ -20,8 +20,7 @@ package cn.sliew.scaleph.security.service.dto;
 
 import cn.sliew.scaleph.common.dict.security.DeptStatus;
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -33,22 +32,22 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "部门信息", description = "部门表")
+@Schema(name = "部门信息", description = "部门表")
 public class SecDeptDTO extends BaseDTO {
     private static final long serialVersionUID = 1457138850402052741L;
 
-    @ApiModelProperty(value = "部门编号")
+    @Schema(description = "部门编号")
     private String deptCode;
 
     @NotNull
     @Length(max = 60)
-    @ApiModelProperty(value = "部门名称")
+    @Schema(description = "部门名称")
     private String deptName;
 
-    @ApiModelProperty(value = "上级部门id")
+    @Schema(description = "上级部门id")
     private Long pid;
 
-    @ApiModelProperty(value = "部门状态")
+    @Schema(description = "部门状态")
     private DeptStatus deptStatus;
 
 }

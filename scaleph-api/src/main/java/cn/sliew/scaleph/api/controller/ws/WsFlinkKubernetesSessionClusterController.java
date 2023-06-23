@@ -29,8 +29,8 @@ import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +40,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
-@Api(tags = "Flink Kubernetes管理-Flink SessionCluster管理")
+@Tag(name = "Flink Kubernetes管理-Flink SessionCluster管理")
 @RestController
 @RequestMapping(path = "/api/flink/kubernetes/session-cluster")
 public class WsFlinkKubernetesSessionClusterController {
@@ -52,7 +52,7 @@ public class WsFlinkKubernetesSessionClusterController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询 SessionCluster 列表", notes = "分页查询 SessionCluster 列表")
+    @Operation(summary = "查询 SessionCluster 列表", description = "分页查询 SessionCluster 列表")
     public ResponseEntity<Page<WsFlinkKubernetesSessionClusterDTO>> list(@Valid WsFlinkKubernetesSessionClusterListParam param) {
         Page<WsFlinkKubernetesSessionClusterDTO> page = wsFlinkKubernetesSessionClusterService.list(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
@@ -60,7 +60,7 @@ public class WsFlinkKubernetesSessionClusterController {
 
     @Logging
     @GetMapping("all")
-    @ApiOperation(value = "查询 SessionCluster 列表", notes = "查询 SessionCluster 列表")
+    @Operation(summary = "查询 SessionCluster 列表", description = "查询 SessionCluster 列表")
     public ResponseEntity<List<WsFlinkKubernetesSessionClusterDTO>> listAll(@Valid WsFlinkKubernetesSessionClusterSelectListParam param) {
         List<WsFlinkKubernetesSessionClusterDTO> page = wsFlinkKubernetesSessionClusterService.listAll(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
@@ -68,7 +68,7 @@ public class WsFlinkKubernetesSessionClusterController {
 
     @Logging
     @GetMapping("/{id}")
-    @ApiOperation(value = "查询 SessionCluster", notes = "查询 SessionCluster")
+    @Operation(summary = "查询 SessionCluster", description = "查询 SessionCluster")
     public ResponseEntity<ResponseVO<WsFlinkKubernetesSessionClusterDTO>> selectOne(@PathVariable("id") Long id) {
         WsFlinkKubernetesSessionClusterDTO dto = wsFlinkKubernetesSessionClusterService.selectOne(id);
         return new ResponseEntity(ResponseVO.success(dto), HttpStatus.OK);
@@ -76,7 +76,7 @@ public class WsFlinkKubernetesSessionClusterController {
 
     @Logging
     @PostMapping("asYAML")
-    @ApiOperation(value = "转换 SessionCluster", notes = "转换 SessionCluster")
+    @Operation(summary = "转换 SessionCluster", description = "转换 SessionCluster")
     public ResponseEntity<ResponseVO<FlinkSessionCluster>> asYAML(@RequestBody WsFlinkKubernetesSessionClusterDTO dto) {
         FlinkSessionCluster sessionCluster = wsFlinkKubernetesSessionClusterService.asYAML(dto);
         return new ResponseEntity(ResponseVO.success(sessionCluster), HttpStatus.OK);
@@ -84,7 +84,7 @@ public class WsFlinkKubernetesSessionClusterController {
 
     @Logging
     @GetMapping("fromTemplate")
-    @ApiOperation(value = "转换 SessionCluster", notes = "转换 SessionCluster")
+    @Operation(summary = "转换 SessionCluster", description = "转换 SessionCluster")
     public ResponseEntity<ResponseVO<WsFlinkKubernetesSessionClusterDTO>> fromTemplate(@RequestParam("templateId") Long templateId) {
         WsFlinkKubernetesSessionClusterDTO sessionCluster = wsFlinkKubernetesSessionClusterService.fromTemplate(templateId);
         return new ResponseEntity(ResponseVO.success(sessionCluster), HttpStatus.OK);
@@ -92,7 +92,7 @@ public class WsFlinkKubernetesSessionClusterController {
 
     @Logging
     @PutMapping
-    @ApiOperation(value = "新增 SessionCluster", notes = "新增 SessionCluster")
+    @Operation(summary = "新增 SessionCluster", description = "新增 SessionCluster")
     public ResponseEntity<ResponseVO> insert(@Valid @RequestBody WsFlinkKubernetesSessionClusterDTO param) throws UidGenerateException {
         wsFlinkKubernetesSessionClusterService.insert(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -100,7 +100,7 @@ public class WsFlinkKubernetesSessionClusterController {
 
     @Logging
     @PostMapping
-    @ApiOperation(value = "修改 SessionCluster", notes = "修改 SessionCluster")
+    @Operation(summary = "修改 SessionCluster", description = "修改 SessionCluster")
     public ResponseEntity<ResponseVO> update(@Valid @RequestBody WsFlinkKubernetesSessionClusterDTO param) {
         wsFlinkKubernetesSessionClusterService.update(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -108,7 +108,7 @@ public class WsFlinkKubernetesSessionClusterController {
 
     @Logging
     @PostMapping("{id}/sql-gateway")
-    @ApiOperation(value = "支持 Sql Gateway", notes = "支持 Sql Gateway")
+    @Operation(summary = "支持 Sql Gateway", description = "支持 Sql Gateway")
     public ResponseEntity<ResponseVO> enableSqlGateway(@PathVariable("id") Long id) {
         wsFlinkKubernetesSessionClusterService.enableSqlGateway(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -116,7 +116,7 @@ public class WsFlinkKubernetesSessionClusterController {
 
     @Logging
     @DeleteMapping("{id}/sql-gateway")
-    @ApiOperation(value = "禁用 Sql Gateway", notes = "禁用 Sql Gateway")
+    @Operation(summary = "禁用 Sql Gateway", description = "禁用 Sql Gateway")
     public ResponseEntity<ResponseVO> disableSqlGateway(@PathVariable("id") Long id) {
         wsFlinkKubernetesSessionClusterService.disableSqlGateway(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -124,7 +124,7 @@ public class WsFlinkKubernetesSessionClusterController {
 
     @Logging
     @DeleteMapping("/{id}")
-    @ApiOperation(value = "删除 SessionCluster", notes = "删除 SessionCluster")
+    @Operation(summary = "删除 SessionCluster", description = "删除 SessionCluster")
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) {
         wsFlinkKubernetesSessionClusterService.deleteById(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -132,7 +132,7 @@ public class WsFlinkKubernetesSessionClusterController {
 
     @Logging
     @DeleteMapping("/batch")
-    @ApiOperation(value = "批量删除 SessionCluster", notes = "批量删除 SessionCluster")
+    @Operation(summary = "批量删除 SessionCluster", description = "批量删除 SessionCluster")
     public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) {
         wsFlinkKubernetesSessionClusterService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -140,7 +140,7 @@ public class WsFlinkKubernetesSessionClusterController {
 
     @Logging
     @GetMapping("{id}/flinkui")
-    @ApiOperation(value = "获取 flink-ui 链接", notes = "获取 flink-ui 链接")
+    @Operation(summary = "获取 flink-ui 链接", description = "获取 flink-ui 链接")
     public ResponseEntity<ResponseVO<URI>> getFlinkUI(@PathVariable("id") Long id) throws Exception {
         URI endpoint = flinkJobManagerEndpointService.getSessionClusterJobManagerEndpoint(id);
         return new ResponseEntity<>(ResponseVO.success(endpoint), HttpStatus.OK);
@@ -148,7 +148,7 @@ public class WsFlinkKubernetesSessionClusterController {
 
     @Logging
     @PostMapping("deploy/{id}")
-    @ApiOperation(value = "启动 SessionCluster", notes = "启动 SessionCluster")
+    @Operation(summary = "启动 SessionCluster", description = "启动 SessionCluster")
     public ResponseEntity<ResponseVO> deploySessionCluster(@PathVariable("id") Long id) throws Exception {
         wsFlinkKubernetesSessionClusterService.deploy(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -156,7 +156,7 @@ public class WsFlinkKubernetesSessionClusterController {
 
     @Logging
     @PostMapping("shutdown/{id}")
-    @ApiOperation(value = "关闭 SessionCluster", notes = "关闭 SessionCluster")
+    @Operation(summary = "关闭 SessionCluster", description = "关闭 SessionCluster")
     public ResponseEntity<ResponseVO> shutdownSessionCluster(@PathVariable("id") Long id) throws Exception {
         wsFlinkKubernetesSessionClusterService.shutdown(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -164,7 +164,7 @@ public class WsFlinkKubernetesSessionClusterController {
 
     @Logging
     @GetMapping("{id}/status")
-    @ApiOperation(value = "获取 SessionCluster 状态", notes = "获取 SessionCluster 状态")
+    @Operation(summary = "获取 SessionCluster 状态", description = "获取 SessionCluster 状态")
     public ResponseEntity<ResponseVO<GenericKubernetesResource>> getSessionClusterStatus(@PathVariable("id") Long id) throws Exception {
         GenericKubernetesResource sessionCluster = wsFlinkKubernetesSessionClusterService.getStatusWithoutManagedFields(id);
         return new ResponseEntity<>(ResponseVO.success(sessionCluster), HttpStatus.OK);

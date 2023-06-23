@@ -22,8 +22,6 @@ import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -35,24 +33,19 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("resource_flink_release")
-@ApiModel(value = "ResourceFlinkRelease对象", description = "flink release")
 public class ResourceFlinkRelease extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("版本")
     @TableField("version")
     private FlinkVersion version;
 
-    @ApiModelProperty("文件名称")
     @TableField("`file_name`")
     private String fileName;
 
-    @ApiModelProperty("存储路径")
     @TableField("path")
     private String path;
 
-    @ApiModelProperty("备注")
     @TableField("remark")
     private String remark;
 

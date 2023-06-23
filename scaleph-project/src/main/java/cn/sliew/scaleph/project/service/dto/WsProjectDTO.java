@@ -19,8 +19,7 @@
 package cn.sliew.scaleph.project.service.dto;
 
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -30,7 +29,7 @@ import javax.validation.constraints.Pattern;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "项目信息", description = "数据集成-项目信息")
+@Schema(name = "项目信息", description = "数据集成-项目信息")
 public class WsProjectDTO extends BaseDTO {
 
     private static final long serialVersionUID = -4981655449048129521L;
@@ -38,15 +37,15 @@ public class WsProjectDTO extends BaseDTO {
     @NotBlank
     @Length(min = 1, max = 30)
     @Pattern(regexp = "\\w+$")
-    @ApiModelProperty(value = "项目编码")
+    @Schema(description = "项目编码")
     private String projectCode;
 
     @NotBlank
     @Length(min = 1, max = 60)
-    @ApiModelProperty(value = "项目名称")
+    @Schema(description = "项目名称")
     private String projectName;
 
     @Length(max = 200)
-    @ApiModelProperty(value = "备注")
+    @Schema(description = "备注")
     private String remark;
 }

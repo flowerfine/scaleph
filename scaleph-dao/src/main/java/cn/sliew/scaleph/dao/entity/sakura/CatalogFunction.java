@@ -22,12 +22,10 @@ import cn.sliew.scaleph.common.dict.catalog.CatalogFunctionLanguage;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 @Data
 @TableName("catalog_function")
-@ApiModel(value = "CatalogFunction对象", description = "function")
 public class CatalogFunction extends BaseDO {
 
     private static final long serialVersionUID = 1L;

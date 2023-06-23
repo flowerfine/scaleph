@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.service.param;
 
 import cn.sliew.scaleph.system.model.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -30,9 +30,9 @@ import javax.validation.constraints.NotNull;
 public class WsFlinkKubernetesTemplateListParam extends PaginationParam {
 
     @NotNull
-    @ApiModelProperty("project id")
+    @Schema(description = "project id")
     private Long projectId;
 
-    @ApiModelProperty("name")
+    @Schema(description = "name")
     private String name;
 }

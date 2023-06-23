@@ -22,8 +22,6 @@ import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -33,32 +31,25 @@ import lombok.Data;
  */
 @Data
 @TableName("workflow_task_definition")
-@ApiModel(value = "WorkflowTaskDefinition对象", description = "workflow task definition")
 public class WorkflowTaskDefinition extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("workflow definition id")
     @TableField("workflow_definition_id")
     private Long workflowDefinitionId;
 
-    @ApiModelProperty("type")
     @TableField("`type`")
     private WorkflowTaskType type;
 
-    @ApiModelProperty("name")
     @TableField("`name`")
     private String name;
 
-    @ApiModelProperty("handler")
     @TableField("`handler`")
     private String handler;
 
-    @ApiModelProperty("param")
     @TableField("param")
     private String param;
 
-    @ApiModelProperty("remark")
     @TableField("remark")
     private String remark;
 

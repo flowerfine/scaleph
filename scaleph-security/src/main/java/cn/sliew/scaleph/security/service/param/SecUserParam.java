@@ -20,32 +20,32 @@ package cn.sliew.scaleph.security.service.param;
 
 import cn.sliew.scaleph.common.dict.security.UserStatus;
 import cn.sliew.scaleph.system.model.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
  * @author gleiyu
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class SecUserParam extends PaginationParam {
 
-    @ApiModelProperty(value = "用户名")
+    @Schema(description = "用户名")
     private String userName;
 
-    @ApiModelProperty(value = "邮箱")
+    @Schema(description = "邮箱")
     private String email;
 
-    @ApiModelProperty(value = "昵称")
+    @Schema(description = "昵称")
     private String nickName;
 
-    @ApiModelProperty(value = "用户状态")
+    @Schema(description = "用户状态")
     private UserStatus userStatus;
 
-    @ApiModelProperty(value = "部门id")
+    @Schema(description = "部门id")
     private String deptId;
 
-    @ApiModelProperty(value = "角色id")
+    @Schema(description = "角色id")
     private String roleId;
 }

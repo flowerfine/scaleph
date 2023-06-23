@@ -23,8 +23,6 @@ import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -38,48 +36,37 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("ws_flink_job_instance")
-@ApiModel(value = "FlinkJobInstance对象", description = "flink job instance")
 public class WsFlinkJobInstance extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("flink job code")
     @TableField("flink_job_code")
     private Long flinkJobCode;
 
-    @ApiModelProperty("flink job ID")
     @TableField("job_id")
     private String jobId;
 
-    @ApiModelProperty("flink job name")
     @TableField("job_name")
     private String jobName;
 
-    @ApiModelProperty("flink job state")
     @TableField("`job_state`")
     private FlinkJobState jobState;
 
-    @ApiModelProperty("cluster ID")
     @TableField("cluster_id")
     private String clusterId;
 
-    @ApiModelProperty("flink web-ui url")
     @TableField("web_interface_url")
     private String webInterfaceUrl;
 
-    @ApiModelProperty("flink cluster status")
     @TableField("cluster_status")
     private FlinkClusterStatus clusterStatus;
 
-    @ApiModelProperty("job start time")
     @TableField("start_time")
     private Date startTime;
 
-    @ApiModelProperty("job end time")
     @TableField("end_time")
     private Date endTime;
 
-    @ApiModelProperty("flink cluster status")
     @TableField("duration")
     private Long duration;
 

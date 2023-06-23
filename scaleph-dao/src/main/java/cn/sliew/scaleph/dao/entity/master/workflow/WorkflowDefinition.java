@@ -23,34 +23,26 @@ import cn.sliew.scaleph.common.dict.workflow.WorkflowType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
 @TableName("workflow_definition")
-@ApiModel(value = "WorkflowDefinition对象", description = "workflow definition")
 public class WorkflowDefinition extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("0: system, 1: user")
     @TableField("`type`")
     private WorkflowType type;
 
-    @ApiModelProperty("name")
     @TableField("`name`")
     private String name;
 
-    @ApiModelProperty("0: sequential, 1: parallel, 2: dependent, 3: if, 4: switch, 5: while")
     @TableField("execute_type")
     private WorkflowExecuteType executeType;
 
-    @ApiModelProperty("param")
     @TableField("param")
     private String param;
 
-    @ApiModelProperty("remark")
     @TableField("remark")
     private String remark;
 
