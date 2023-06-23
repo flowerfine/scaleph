@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.sql.gateway.controller;
 
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import org.apache.flink.table.gateway.api.SqlGatewayService;
 import org.apache.flink.table.gateway.api.results.GatewayInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +36,11 @@ public class SqlGatewayController {
     private SqlGatewayService sqlGatewayService;
 
     @GetMapping
-    @ApiOperation(value = "gateway info", notes = "gateway info")
+    @Operation(summary = "gateway info", description = "gateway info")
     public ResponseEntity<GatewayInfo> getGatewayInfo() {
         GatewayInfo gatewayInfo = sqlGatewayService.getGatewayInfo();
         return new ResponseEntity<>(gatewayInfo, HttpStatus.OK);
     }
 
 
-    
 }
