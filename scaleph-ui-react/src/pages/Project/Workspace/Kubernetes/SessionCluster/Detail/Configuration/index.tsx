@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Props} from '@/app.d';
-import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
-import {useAccess, useIntl} from "umi";
+import {connect, useAccess, useIntl} from "umi";
 import {ProColumns, ProTable} from "@ant-design/pro-components";
 
 type Config = {
@@ -9,21 +7,23 @@ type Config = {
   value?: any;
 };
 
-const FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb: React.FC<Props<WsFlinkKubernetesSessionCluster>> = ({data}) => {
+const FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb: React.FC = (props: any) => {
   const intl = useIntl();
   const access = useAccess();
   const [dataSource, setDataSource] = useState<Config[]>([])
 
   useEffect(() => {
-    const config: Array<Config> = []
-    Object.entries<[string, any][]>(data.flinkConfiguration ? {...data.flinkConfiguration} : {}).forEach(([key, value]) => {
-      config.push({
-        key: key,
-        value: value
-      })
-    });
-    setDataSource(config)
-  }, []);
+    if (props.sessionClusterDetail.sessionCluster) {
+      const config: Array<Config> = []
+      Object.entries<[string, any][]>(props.sessionClusterDetail.sessionCluster.flinkConfiguration ? {...props.sessionClusterDetail.sessionCluster.flinkConfiguration} : {}).forEach(([key, value]) => {
+        config.push({
+          key: key,
+          value: value
+        })
+      });
+      setDataSource(config)
+    }
+  }, [props.sessionClusterDetail.sessionCluster]);
 
   const tableColumns: ProColumns<Config>[] = [
     {
@@ -48,4 +48,5 @@ const FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb: React.FC<Props<Ws
   );
 }
 
-export default FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb;
+const mapModelToProps = ({sessionClusterDetail}: any) => ({sessionClusterDetail})
+export default connect(mapModelToProps)(FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb);

@@ -1,15 +1,20 @@
-import React from "react";
-import {Props} from '@/app.d';
-import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
-import {useAccess, useIntl} from "umi";
+import React, {useEffect} from "react";
+import {connect, useAccess, useIntl} from "umi";
 
-const FlinkKubernetesSessinClusterDetailPodTemplateWeb: React.FC<Props<WsFlinkKubernetesSessionCluster>> = ({data}) => {
+const FlinkKubernetesSessinClusterDetailPodTemplateWeb: React.FC = (props: any) => {
   const intl = useIntl();
   const access = useAccess();
+
+  useEffect(() => {
+    if (props.sessionClusterDetail.sessionCluster) {
+
+    }
+  }, [props.sessionClusterDetail.sessionCluster]);
 
   return (
     <div>FlinkKubernetesSessinClusterDetailPodTemplateWeb</div>
   );
 }
 
-export default FlinkKubernetesSessinClusterDetailPodTemplateWeb;
+const mapModelToProps = ({sessionClusterDetail}: any) => ({sessionClusterDetail})
+export default connect(mapModelToProps)(FlinkKubernetesSessinClusterDetailPodTemplateWeb);

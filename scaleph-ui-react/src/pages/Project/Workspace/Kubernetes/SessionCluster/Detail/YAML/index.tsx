@@ -1,15 +1,13 @@
 import React, {useEffect, useRef, useState} from "react";
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
 import YAML from "yaml";
-import {Props} from '@/app.d';
 import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
+import {connect} from "umi";
 
-const FlinkKubernetesSessinClusterDetailYAMLWeb: React.FC<Props<WsFlinkKubernetesSessionCluster>> = ({data}) => {
-
+const FlinkKubernetesSessinClusterDetailYAMLWeb: React.FC = (props: any) => {
   const editorRef = useRef(null);
   const monaco = useMonaco();
-
   const [sessionCluster, setSessionCluster] = useState<string>()
 
   useEffect(() => {
@@ -18,16 +16,24 @@ const FlinkKubernetesSessinClusterDetailYAMLWeb: React.FC<Props<WsFlinkKubernete
   }, [monaco]);
 
   useEffect(() => {
-    if (data.state) {
-      WsFlinkKubernetesSessionClusterService.status(data).then((response) => {
+    if (props.sessionClusterDetail.sessionCluster) {
+      const sessionCluster: WsFlinkKubernetesSessionCluster = {...props.sessionClusterDetail.sessionCluster}
+      sessionCluster.supportSqlGateway = null
+      refreshYaml(sessionCluster)
+    }
+  }, [props.sessionClusterDetail.sessionCluster]);
+
+  const refreshYaml = (sessionCluster: WsFlinkKubernetesSessionCluster) => {
+    if (sessionCluster.state) {
+      WsFlinkKubernetesSessionClusterService.status(sessionCluster).then((response) => {
         setSessionCluster(YAML.stringify(response.data))
       })
     } else {
-      WsFlinkKubernetesSessionClusterService.asYAML(data).then((response) => {
+      WsFlinkKubernetesSessionClusterService.asYAML(sessionCluster).then((response) => {
         setSessionCluster(YAML.stringify(response.data))
       })
     }
-  }, []);
+  }
 
   const handleEditorDidMount = (editor, monaco: Monaco) => {
     editorRef.current = editor;
@@ -52,4 +58,5 @@ const FlinkKubernetesSessinClusterDetailYAMLWeb: React.FC<Props<WsFlinkKubernete
   );
 }
 
-export default FlinkKubernetesSessinClusterDetailYAMLWeb;
+const mapModelToProps = ({sessionClusterDetail}: any) => ({sessionClusterDetail})
+export default connect(mapModelToProps)(FlinkKubernetesSessinClusterDetailYAMLWeb);
