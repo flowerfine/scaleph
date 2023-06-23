@@ -19,25 +19,24 @@
 package cn.sliew.scaleph.ds.service.dto;
 
 import cn.sliew.scaleph.dao.entity.BaseDO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode
-@ApiModel(value = "DsCategory对象", description = "data source category")
+@Schema(name = "DsCategory对象", description = "data source category")
 public class DsCategoryDTO extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("name")
+    @Schema(description = "name")
     private String name;
 
-    @ApiModelProperty("order")
+    @Schema(description = "order")
     private Integer order;
 
-    @ApiModelProperty("remark")
+    @Schema(description = "remark")
     private String remark;
 
 }

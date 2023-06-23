@@ -20,8 +20,6 @@ package cn.sliew.scaleph.dao.entity.master.ws;
 
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -36,19 +34,14 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("ws_project")
-@ApiModel(value = "Project对象", description = "项目信息")
 public class WsProject extends BaseDO {
 
     private static final long serialVersionUID = 6755304433208751192L;
 
-    @ApiModelProperty(value = "项目编码")
     private String projectCode;
 
-    @ApiModelProperty(value = "项目名称")
     private String projectName;
 
-    @ApiModelProperty(value = "备注")
     private String remark;
-
 
 }

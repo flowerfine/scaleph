@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.api.vo;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -27,8 +27,10 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-@ApiModel(value = "TransferVO", description = "用于穿梭框数据交互")
+@Schema(name = "TransferVO", description = "用于穿梭框数据交互")
 public class TransferVO {
+
     private String value;
+
     private String name;
 }

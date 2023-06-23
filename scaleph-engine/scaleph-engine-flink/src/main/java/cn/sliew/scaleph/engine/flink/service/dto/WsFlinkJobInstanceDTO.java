@@ -21,8 +21,7 @@ package cn.sliew.scaleph.engine.flink.service.dto;
 import cn.sliew.scaleph.common.dict.flink.FlinkClusterStatus;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -30,37 +29,37 @@ import java.util.Date;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkJobInstance对象", description = "flink job instance")
+@Schema(name = "FlinkJobInstance对象", description = "flink job instance")
 public class WsFlinkJobInstanceDTO extends BaseDTO {
 
-    @ApiModelProperty("flink job code")
+    @Schema(description = "flink job code")
     private Long flinkJobCode;
 
-    @ApiModelProperty("flink job ID")
+    @Schema(description = "flink job ID")
     private String jobId;
 
-    @ApiModelProperty("flink job name")
+    @Schema(description = "flink job name")
     private String jobName;
 
-    @ApiModelProperty("flink job state")
+    @Schema(description = "flink job state")
     private FlinkJobState jobState;
 
-    @ApiModelProperty("cluster ID")
+    @Schema(description = "cluster ID")
     private String clusterId;
 
-    @ApiModelProperty("flink web-ui url")
+    @Schema(description = "flink web-ui url")
     private String webInterfaceUrl;
 
-    @ApiModelProperty("flink cluster status")
+    @Schema(description = "flink cluster status")
     private FlinkClusterStatus clusterStatus;
 
-    @ApiModelProperty("job start time")
+    @Schema(description = "job start time")
     private Date startTime;
 
-    @ApiModelProperty("job end time")
+    @Schema(description = "job end time")
     private Date endTime;
 
-    @ApiModelProperty("flink cluster status")
+    @Schema(description = "flink cluster status")
     private Long duration;
 
 }

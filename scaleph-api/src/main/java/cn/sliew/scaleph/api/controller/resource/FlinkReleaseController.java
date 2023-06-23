@@ -19,16 +19,15 @@
 package cn.sliew.scaleph.api.controller.resource;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.resource.service.FlinkReleaseService;
 import cn.sliew.scaleph.resource.service.dto.FlinkReleaseDTO;
 import cn.sliew.scaleph.resource.service.param.FlinkReleaseListParam;
 import cn.sliew.scaleph.resource.service.param.FlinkReleaseUploadParam;
+import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,8 +41,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
 
-@Slf4j
-@Api(tags = "资源管理-flink-release")
+@Tag(name = "资源管理-flink-release")
 @RestController
 @RequestMapping(path = "/api/resource/flink-release")
 public class FlinkReleaseController {
@@ -53,7 +51,7 @@ public class FlinkReleaseController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询 release 列表", notes = "查询 release 列表")
+    @Operation(summary = "查询 release 列表", description = "查询 release 列表")
     public ResponseEntity<Page<FlinkReleaseDTO>> list(@Valid FlinkReleaseListParam param) throws IOException {
         final Page<FlinkReleaseDTO> flinkReleaseDTOS = flinkReleaseService.list(param);
         return new ResponseEntity<>(flinkReleaseDTOS, HttpStatus.OK);
@@ -61,7 +59,7 @@ public class FlinkReleaseController {
 
     @Logging
     @GetMapping("/{id}")
-    @ApiOperation(value = "查询 release 详情", notes = "查询 release 详情")
+    @Operation(summary = "查询 release 详情", description = "查询 release 详情")
     public ResponseEntity<FlinkReleaseDTO> get(@PathVariable("id") Long id) throws IOException {
         final FlinkReleaseDTO result = flinkReleaseService.selectOne(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -72,7 +70,7 @@ public class FlinkReleaseController {
      */
     @Logging
     @PostMapping("upload")
-    @ApiOperation(value = "上传 release", notes = "上传 release")
+    @Operation(summary = "上传 release", description = "上传 release")
     public ResponseEntity<ResponseVO> upload(@Valid FlinkReleaseUploadParam param, @RequestPart("file") MultipartFile file) throws Exception {
         if (file.isEmpty()) {
             throw new ScalephException("缺少文件");
@@ -83,7 +81,7 @@ public class FlinkReleaseController {
 
     @Logging
     @GetMapping("download/{id}")
-    @ApiOperation("下载 release")
+    @Operation(summary = "下载 release")
     public ResponseEntity<ResponseVO> download(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
         try (ServletOutputStream outputStream = response.getOutputStream()) {
             final String name = flinkReleaseService.download(id, outputStream);
@@ -95,7 +93,7 @@ public class FlinkReleaseController {
 
     @Logging
     @DeleteMapping("{id}")
-    @ApiOperation(value = "删除 release", notes = "删除 release")
+    @Operation(summary = "删除 release", description = "删除 release")
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) throws IOException {
         flinkReleaseService.delete(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -103,7 +101,7 @@ public class FlinkReleaseController {
 
     @Logging
     @DeleteMapping(path = "/batch")
-    @ApiOperation(value = "批量删除 release", notes = "批量删除 release")
+    @Operation(summary = "批量删除 release", description = "批量删除 release")
     public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) throws IOException {
         flinkReleaseService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);

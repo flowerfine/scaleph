@@ -34,8 +34,8 @@ import cn.sliew.scaleph.security.service.param.SecPrivilegeUpdateParam;
 import cn.sliew.scaleph.security.web.OnlineUserService;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +59,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/admin/privilege")
-@Api(tags = "系统管理-权限管理")
+@Tag(name = "系统管理-权限管理")
 public class SecPrivilegeController {
 
     @Autowired
@@ -71,7 +71,7 @@ public class SecPrivilegeController {
 
     @Logging
     @GetMapping("list")
-    @ApiOperation(value = "查询权限树", notes = "查询权限树")
+    @Operation(summary = "查询权限树", description = "查询权限树")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).ROLE_GRANT)")
     public ResponseEntity<Page<SecPrivilegeDTO>> listByPage(@Valid SecPrivilegeListParam param) {
         Page<SecPrivilegeDTO> privilegeList = this.secPrivilegeService.listByPage(param);
@@ -80,7 +80,7 @@ public class SecPrivilegeController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询权限树", notes = "查询权限树")
+    @Operation(summary = "查询权限树", description = "查询权限树")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).ROLE_GRANT)")
     public ResponseEntity<List<Tree<Long>>> listAllPrivilege(@NotNull String resourceType) {
         List<SecPrivilegeDTO> privilegeList = this.secPrivilegeService.listAll(resourceType);
@@ -102,7 +102,7 @@ public class SecPrivilegeController {
 
     @Logging
     @GetMapping("list/{pid}")
-    @ApiOperation(value = "查询权限树", notes = "查询权限树")
+    @Operation(summary = "查询权限树", description = "查询权限树")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).ROLE_GRANT)")
     public ResponseEntity<ResponseVO<List<SecPrivilegeDTO>>> listByPid(@PathVariable("pid") Long pid) {
         List<SecPrivilegeDTO> privilegeList = this.secPrivilegeService.listByPid(pid, null);
@@ -111,7 +111,7 @@ public class SecPrivilegeController {
 
     @Logging
     @GetMapping("/role")
-    @ApiOperation(value = "查询权限树", notes = "查询权限树")
+    @Operation(summary = "查询权限树", description = "查询权限树")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).ROLE_GRANT)")
     public ResponseEntity<List<SecPrivilegeDTO>> listPrivilege(@NotNull Long roleId,
                                                                @NotNull String resourceType) {
@@ -126,7 +126,7 @@ public class SecPrivilegeController {
 
     @Logging
     @PostMapping
-    @ApiOperation(value = "角色授权权限", notes = "角色授权权限")
+    @Operation(summary = "角色授权权限", description = "角色授权权限")
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).ROLE_GRANT)")
     public ResponseEntity<ResponseVO> grantPrivilege(@NotNull Long roleId,
@@ -158,7 +158,7 @@ public class SecPrivilegeController {
 
     @Logging
     @PutMapping
-    @ApiOperation(value = "新增权限", notes = "新增权限")
+    @Operation(summary = "新增权限", description = "新增权限")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_ADD)")
     public ResponseEntity<ResponseVO> add(@Validated @RequestBody SecPrivilegeAddParam param) {
         secPrivilegeService.insert(param);
@@ -167,7 +167,7 @@ public class SecPrivilegeController {
 
     @Logging
     @PostMapping("{id}")
-    @ApiOperation(value = "修改权限", notes = "修改权限")
+    @Operation(summary = "修改权限", description = "修改权限")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_EDIT)")
     public ResponseEntity<ResponseVO> editMetaSystem(@PathVariable("id") Long id, @Validated @RequestBody SecPrivilegeUpdateParam param) {
         secPrivilegeService.update(id, param);
@@ -176,7 +176,7 @@ public class SecPrivilegeController {
 
     @Logging
     @DeleteMapping(path = "/{id}")
-    @ApiOperation(value = "删除权限", notes = "删除权限")
+    @Operation(summary = "删除权限", description = "删除权限")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaSystem(@PathVariable("id") Long id) {
         secPrivilegeService.deleteById(id);
@@ -185,7 +185,7 @@ public class SecPrivilegeController {
 
     @Logging
     @DeleteMapping(path = "/batch")
-    @ApiOperation(value = "批量删除权限", notes = "批量删除权限")
+    @Operation(summary = "批量删除权限", description = "批量删除权限")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaSystem(@RequestBody List<Long> ids) {
         secPrivilegeService.deleteBatch(ids);
@@ -193,4 +193,3 @@ public class SecPrivilegeController {
     }
 
 }
-

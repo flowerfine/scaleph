@@ -21,8 +21,6 @@ package cn.sliew.scaleph.dao.entity.master.ws;
 import cn.sliew.scaleph.common.dict.job.JobAttrType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -37,21 +35,16 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("ws_di_job_attr")
-@ApiModel(value = "WsDiJobAttr对象", description = "数据集成-作业参数")
 public class WsDiJobAttr extends BaseDO {
 
     private static final long serialVersionUID = 1709354370837885026L;
 
-    @ApiModelProperty(value = "作业id")
     private Long jobId;
 
-    @ApiModelProperty(value = "作业参数类型")
     private JobAttrType jobAttrType;
 
-    @ApiModelProperty(value = "作业参数key")
     private String jobAttrKey;
 
-    @ApiModelProperty(value = "作业参数value")
     private String jobAttrValue;
-    
+
 }

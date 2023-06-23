@@ -20,10 +20,9 @@ package cn.sliew.scaleph.engine.flink.service.dto;
 
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.system.model.BaseDTO;
 import cn.sliew.scaleph.project.service.dto.WsFlinkArtifactDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import cn.sliew.scaleph.system.model.BaseDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -37,31 +36,31 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkArtifactJar对象", description = "flink artifact jar")
+@Schema(name = "FlinkArtifactJar对象", description = "flink artifact jar")
 public class WsFlinkArtifactJarDTO extends BaseDTO {
 
     @NotNull
-    @ApiModelProperty("Flink Artifact")
+    @Schema(description = "Flink Artifact")
     private WsFlinkArtifactDTO wsFlinkArtifact;
 
     @NotNull
-    @ApiModelProperty("flink 版本")
+    @Schema(description = "flink 版本")
     private FlinkVersion flinkVersion;
 
     @NotBlank
-    @ApiModelProperty("Entry Class")
+    @Schema(description = "Entry Class")
     private String entryClass;
 
-    @ApiModelProperty("Jar 文件名")
+    @Schema(description = "Jar 文件名")
     private String fileName;
 
-    @ApiModelProperty("Jar 存储路径")
+    @Schema(description = "Jar 存储路径")
     private String path;
 
-    @ApiModelProperty("jar_params")
+    @Schema(description = "jar_params")
     private String jarParams;
 
-    @ApiModelProperty("current version")
+    @Schema(description = "current version")
     private YesOrNo current;
 
 }

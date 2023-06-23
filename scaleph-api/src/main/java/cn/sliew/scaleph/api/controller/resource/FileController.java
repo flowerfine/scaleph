@@ -19,12 +19,12 @@
 package cn.sliew.scaleph.api.controller.resource;
 
 import cn.sliew.scaleph.api.annotation.Logging;
+import cn.sliew.scaleph.common.util.I18nUtil;
 import cn.sliew.scaleph.security.util.SecurityUtil;
 import cn.sliew.scaleph.storage.service.FileSystemService;
-import cn.sliew.scaleph.common.util.I18nUtil;
 import cn.sliew.scaleph.system.model.ResponseVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +41,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
 
-@Api(tags = "资源管理-文件管理")
+@Tag(name = "资源管理-文件管理")
 @RestController
 @RequestMapping(path = "/api/resource/file")
 public class FileController {
@@ -51,7 +51,7 @@ public class FileController {
 
     @Logging
     @GetMapping(path = "download")
-    @ApiOperation(value = "下载", notes = "从公共目录下载文件")
+    @Operation(summary = "下载", description = "从公共目录下载文件")
     public ResponseEntity<ResponseVO> download(@RequestParam("path") String path, HttpServletResponse response) throws IOException {
         if (StringUtils.isEmpty(SecurityUtil.getCurrentUserName())) {
             return new ResponseEntity<>(

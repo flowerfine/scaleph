@@ -28,8 +28,8 @@ import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowDefinitionListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +41,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(tags = "workflow管理-workflow")
+@Tag(name = "workflow管理-workflow")
 @RestController
 @RequestMapping(path = {"/api/workflow"})
 public class WorkflowController {
@@ -57,7 +57,7 @@ public class WorkflowController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询 workflow 定义列表", notes = "查询 workflow 定义列表")
+    @Operation(summary = "查询 workflow 定义列表", description = "查询 workflow 定义列表")
     public ResponseEntity<Page<WorkflowDefinitionDTO>> listWorkflowDefinitions(@Valid WorkflowDefinitionListParam param) {
         final Page<WorkflowDefinitionDTO> result = workflowDefinitionService.list(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -65,7 +65,7 @@ public class WorkflowController {
 
     @Logging
     @GetMapping("{workflowDefinitionId}")
-    @ApiOperation(value = "查询 workflow 定义列表", notes = "查询 workflow 定义列表")
+    @Operation(summary = "查询 workflow 定义列表", description = "查询 workflow 定义列表")
     public ResponseEntity<ResponseVO<List<WorkflowTaskDefinitionDTO>>> listWorkflowTaskDefinitions(@PathVariable("workflowDefinitionId") Long workflowDefinitionId) {
         List<WorkflowTaskDefinitionDTO> result = workflowTaskDefinitionService.list(workflowDefinitionId);
         return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);

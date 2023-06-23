@@ -18,15 +18,15 @@
 
 package cn.sliew.scaleph.ds.modal;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
 public class PropValuePair {
 
-    @ApiModelProperty("property")
+    @Schema(description = "property")
     private String property;
 
-    @ApiModelProperty("value")
+    @Schema(description = "value")
     private String value;
 }

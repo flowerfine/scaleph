@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.project.service.param;
 
 import cn.sliew.scaleph.system.model.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -27,9 +27,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class WsProjectParam extends PaginationParam {
 
-    @ApiModelProperty("project code")
+    @Schema(description = "project code")
     private String projectCode;
 
-    @ApiModelProperty("project name")
+    @Schema(description = "project name")
     private String projectName;
 }

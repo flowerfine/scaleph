@@ -24,7 +24,6 @@ import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -36,7 +35,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode
 @TableName("ws_flink_kubernetes_session_cluster")
-@ApiModel(value = "WsFlinkKubernetesSessionCluster对象", description = "flink kubernetes session cluster")
 public class WsFlinkKubernetesSessionCluster extends BaseDO {
 
     private static final long serialVersionUID = 1L;

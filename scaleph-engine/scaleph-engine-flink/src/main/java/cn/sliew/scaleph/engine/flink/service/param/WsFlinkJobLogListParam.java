@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.engine.flink.service.param;
 
 import cn.sliew.scaleph.system.model.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -32,6 +32,6 @@ import javax.validation.constraints.NotNull;
 public class WsFlinkJobLogListParam extends PaginationParam {
 
     @NotNull
-    @ApiModelProperty("flink job code")
+    @Schema(description = "flink job code")
     private Long flinkJobCode;
 }

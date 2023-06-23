@@ -23,7 +23,7 @@ import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.util.StringUtils;
@@ -37,13 +37,13 @@ import java.util.Map;
 public class InfluxDBDataSource extends AbstractDataSource {
 
     @NotBlank
-    @ApiModelProperty("InfluxDB url")
+    @Schema(description = "InfluxDB url")
     private String url;
 
-    @ApiModelProperty("InfluxDB username")
+    @Schema(description = "InfluxDB username")
     private String username;
 
-    @ApiModelProperty("InfluxDB password")
+    @Schema(description = "InfluxDB password")
     private String password;
 
     @Override

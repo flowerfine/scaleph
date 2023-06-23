@@ -23,7 +23,7 @@ import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -33,7 +33,7 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 public class KuduDataSource extends AbstractDataSource {
 
-    @ApiModelProperty("kudu masters")
+    @Schema(description = "kudu masters")
     private String masters;
 
     @Override

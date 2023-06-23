@@ -19,16 +19,15 @@
 package cn.sliew.scaleph.api.controller.resource;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.resource.service.JarService;
 import cn.sliew.scaleph.resource.service.dto.JarDTO;
 import cn.sliew.scaleph.resource.service.param.JarListParam;
 import cn.sliew.scaleph.resource.service.param.JarUploadParam;
+import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,8 +41,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
 
-@Slf4j
-@Api(tags = "资源管理-jar")
+@Tag(name = "资源管理-jar")
 @RestController
 @RequestMapping(path = "/api/resource/jar")
 public class JarController {
@@ -53,7 +51,7 @@ public class JarController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询 jar 列表", notes = "查询 jar 列表")
+    @Operation(summary = "查询 jar 列表", description = "查询 jar 列表")
     public ResponseEntity<Page<JarDTO>> list(@Valid JarListParam param) throws IOException {
         final Page<JarDTO> jarDTOS = jarService.list(param);
         return new ResponseEntity<>(jarDTOS, HttpStatus.OK);
@@ -61,7 +59,7 @@ public class JarController {
 
     @Logging
     @GetMapping("/{id}")
-    @ApiOperation(value = "查询 jar 详情", notes = "查询 jar 详情")
+    @Operation(summary = "查询 jar 详情", description = "查询 jar 详情")
     public ResponseEntity<JarDTO> get(@PathVariable("id") Long id) throws IOException {
         final JarDTO result = jarService.selectOne(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -72,7 +70,7 @@ public class JarController {
      */
     @Logging
     @PostMapping("upload")
-    @ApiOperation(value = "上传 jar", notes = "上传 jar")
+    @Operation(summary = "上传 jar", description = "上传 jar")
     public ResponseEntity<ResponseVO> upload(@Valid JarUploadParam param, @RequestPart("file") MultipartFile file) throws Exception {
         if (file.isEmpty()) {
             throw new ScalephException("缺少文件");
@@ -83,7 +81,7 @@ public class JarController {
 
     @Logging
     @GetMapping("download/{id}")
-    @ApiOperation("下载 jar")
+    @Operation(summary = "下载 jar")
     public ResponseEntity<ResponseVO> download(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
         try (ServletOutputStream outputStream = response.getOutputStream()) {
             final String name = jarService.download(id, outputStream);
@@ -95,7 +93,7 @@ public class JarController {
 
     @Logging
     @DeleteMapping("{id}")
-    @ApiOperation(value = "删除 jar", notes = "删除 jar")
+    @Operation(summary = "删除 jar", description = "删除 jar")
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) throws IOException {
         jarService.delete(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -103,7 +101,7 @@ public class JarController {
 
     @Logging
     @DeleteMapping(path = "/batch")
-    @ApiOperation(value = "批量删除 jar", notes = "批量删除 jar")
+    @Operation(summary = "批量删除 jar", description = "批量删除 jar")
     public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) throws IOException {
         jarService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);

@@ -21,8 +21,6 @@ package cn.sliew.scaleph.dao.entity.master.resource;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -34,28 +32,22 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("resource_kerberos")
-@ApiModel(value = "ResourceKerberos对象", description = "kerberos")
 public class ResourceKerberos extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("name")
     @TableField("`name`")
     private String name;
 
-    @ApiModelProperty("principal")
     @TableField("principal")
     private String principal;
 
-    @ApiModelProperty("file name")
     @TableField("file_name")
     private String fileName;
 
-    @ApiModelProperty("path")
     @TableField("path")
     private String path;
 
-    @ApiModelProperty("remark")
     @TableField("remark")
     private String remark;
 

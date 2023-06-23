@@ -26,8 +26,8 @@ import cn.sliew.scaleph.workflow.service.dto.WorkflowScheduleDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleAddParam;
 import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleListParam;
 import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleUpdateParam;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +39,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
-@Api(tags = "workflow管理-调度管理")
+@Tag(name = "workflow管理-调度管理")
 @RestController
 @RequestMapping(path = {"/api/scheduler"})
 public class SchedulerController {
@@ -51,7 +51,7 @@ public class SchedulerController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询 workflow 调度列表", notes = "查询 workflow 调度列表")
+    @Operation(summary = "查询 workflow 调度列表", description = "查询 workflow 调度列表")
     public ResponseEntity<ResponseVO<List<WorkflowScheduleDTO>>> get(@Valid WorkflowScheduleListParam param) throws ParseException {
         List<WorkflowScheduleDTO> result = workflowScheduleService.list(param);
         return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
@@ -59,7 +59,7 @@ public class SchedulerController {
 
     @Logging
     @PutMapping
-    @ApiOperation(value = "新增 workflow 调度", notes = "新增 workflow 调度")
+    @Operation(summary = "新增 workflow 调度", description = "新增 workflow 调度")
     public ResponseEntity<ResponseVO> insert(@Valid @RequestBody WorkflowScheduleAddParam param) throws ParseException {
         workflowScheduleService.insert(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -67,7 +67,7 @@ public class SchedulerController {
 
     @Logging
     @PostMapping("{id}")
-    @ApiOperation(value = "修改 workflow 调度", notes = "修改 workflow 调度")
+    @Operation(summary = "修改 workflow 调度", description = "修改 workflow 调度")
     public ResponseEntity<ResponseVO> update(@PathVariable("id") Long id, @Valid @RequestBody WorkflowScheduleUpdateParam param) throws ParseException {
         workflowScheduleService.update(id, param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -75,7 +75,7 @@ public class SchedulerController {
 
     @Logging
     @DeleteMapping("{id}")
-    @ApiOperation(value = "删除 workflow 调度", notes = "删除 workflow 调度")
+    @Operation(summary = "删除 workflow 调度", description = "删除 workflow 调度")
     public ResponseEntity<ResponseVO> deleteById(@PathVariable("id") Long id) {
         workflowScheduleService.delete(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -83,7 +83,7 @@ public class SchedulerController {
 
     @Logging
     @DeleteMapping(path = "/batch")
-    @ApiOperation(value = "批量删除 workflow 调度", notes = "批量删除 workflow 调度")
+    @Operation(summary = "批量删除 workflow 调度", description = "批量删除 workflow 调度")
     public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) {
         workflowScheduleService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -91,7 +91,7 @@ public class SchedulerController {
 
     @Logging
     @PostMapping("{id}/enable")
-    @ApiOperation(value = "启用 workflow 调度", notes = "启用 workflow 调度")
+    @Operation(summary = "启用 workflow 调度", description = "启用 workflow 调度")
     public ResponseEntity<ResponseVO> enable(@PathVariable("id") Long id) throws ParseException {
         workflowScheduleService.enable(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -99,7 +99,7 @@ public class SchedulerController {
 
     @Logging
     @PostMapping("{id}/disable")
-    @ApiOperation(value = "启用 workflow 调度", notes = "启用 workflow 调度")
+    @Operation(summary = "启用 workflow 调度", description = "启用 workflow 调度")
     public ResponseEntity<ResponseVO> disable(@PathVariable("id") Long id) throws ParseException {
         workflowScheduleService.disable(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -107,7 +107,7 @@ public class SchedulerController {
 
     @Logging
     @GetMapping(path = "/cron/next")
-    @ApiOperation(value = "查询最近5次运行时间", notes = "查询最近5次运行时间")
+    @Operation(summary = "查询最近5次运行时间", description = "查询最近5次运行时间")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<List<Date>> listNext5FireTime(@RequestParam("crontabStr") String crontabStr) throws ParseException {
         List<Date> dates = schedulerService.listNext5FireTime(crontabStr);

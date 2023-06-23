@@ -23,7 +23,7 @@ import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.util.StringUtils;
@@ -39,19 +39,19 @@ import static cn.sliew.milky.common.check.Ensures.checkState;
 public class Neo4jDataSource extends AbstractDataSource {
 
     @NotBlank
-    @ApiModelProperty("uri")
+    @Schema(description = "uri")
     private String uri;
 
-    @ApiModelProperty("username")
+    @Schema(description = "username")
     private String username;
 
-    @ApiModelProperty("password")
+    @Schema(description = "password")
     private String password;
 
-    @ApiModelProperty("Bearer Token")
+    @Schema(description = "Bearer Token")
     private String bearerToken;
 
-    @ApiModelProperty("Kerberos Ticket")
+    @Schema(description = "Kerberos Ticket")
     private String kerberosTicket;
 
     @Override

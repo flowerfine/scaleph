@@ -22,8 +22,6 @@ import cn.sliew.scaleph.common.dict.flink.FlinkClusterStatus;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -35,7 +33,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("ws_flink_cluster_instance")
-@ApiModel(value = "FlinkClusterInstance对象", description = "flink 集群实例")
 public class WsFlinkClusterInstance extends BaseDO {
 
     private static final long serialVersionUID = 1L;
@@ -43,23 +40,18 @@ public class WsFlinkClusterInstance extends BaseDO {
     @TableField("project_id")
     private Long projectId;
 
-    @ApiModelProperty("集群配置")
     @TableField("flink_cluster_config_id")
     private Long flinkClusterConfigId;
 
-    @ApiModelProperty("集群名称")
     @TableField("`name`")
     private String name;
 
-    @ApiModelProperty("集群id")
     @TableField("cluster_id")
     private String clusterId;
 
-    @ApiModelProperty("集群 web-ui 链接")
     @TableField("web_interface_url")
     private String webInterfaceUrl;
 
-    @ApiModelProperty("集群状态。0: 已创建, 1: 运行中, 2: 停止")
     @TableField("`status`")
     private FlinkClusterStatus status;
 

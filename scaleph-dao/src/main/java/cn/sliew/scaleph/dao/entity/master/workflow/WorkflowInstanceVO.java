@@ -21,35 +21,27 @@ package cn.sliew.scaleph.dao.entity.master.workflow;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-@ApiModel(value = "WorkflowInstance对象", description = "workflow instance")
 public class WorkflowInstanceVO extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("workflow definition")
     @TableField(value = "workflow_definition_id", exist = false)
     private WorkflowDefinition workflowDefinition;
 
-    @ApiModelProperty("workflow instance state")
     @TableField("state")
     private WorkflowInstanceState state;
 
-    @ApiModelProperty("start time")
     @TableField("start_time")
     private Date startTime;
 
-    @ApiModelProperty("end time")
     @TableField("end_time")
     private Date endTime;
 
-    @ApiModelProperty("message")
     @TableField("message")
     private String message;
 

@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.ds.service.param;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -26,9 +26,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode
 public class DsTypeListParam {
 
-    @ApiModelProperty("ds category id")
+    @Schema(description = "ds category id")
     private Long categoryId;
 
-    @ApiModelProperty("ds type")
+    @Schema(description = "ds type")
     private String type;
 }

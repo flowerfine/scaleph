@@ -20,7 +20,7 @@ package cn.sliew.scaleph.workflow.service.dto;
 
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -30,19 +30,19 @@ import java.util.Date;
 @EqualsAndHashCode
 public class WorkflowInstanceDTO extends BaseDTO {
 
-    @ApiModelProperty("workflow definition")
+    @Schema(description = "workflow definition")
     private WorkflowDefinitionDTO workflowDefinition;
 
-    @ApiModelProperty("workflow instance state")
+    @Schema(description = "workflow instance state")
     private WorkflowInstanceState state;
 
-    @ApiModelProperty("workflow instance start time")
+    @Schema(description = "workflow instance start time")
     private Date startTime;
 
-    @ApiModelProperty("workflow instance end time")
+    @Schema(description = "workflow instance end time")
     private Date endTime;
 
-    @ApiModelProperty("workflow instance message")
+    @Schema(description = "workflow instance message")
     private String message;
 
 }

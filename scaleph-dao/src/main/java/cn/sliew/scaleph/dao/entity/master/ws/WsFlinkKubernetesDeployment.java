@@ -21,7 +21,6 @@ package cn.sliew.scaleph.dao.entity.master.ws;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -33,7 +32,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode
 @TableName("ws_flink_kubernetes_deployment")
-@ApiModel(value = "WsFlinkKubernetesDeployment对象", description = "flink kubernetes deployment")
 public class WsFlinkKubernetesDeployment extends BaseDO {
 
     private static final long serialVersionUID = 1L;

@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.system.model;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -32,19 +32,19 @@ public class BaseDTO implements Serializable {
 
     private static final long serialVersionUID = -3170630380110141492L;
 
-    @ApiModelProperty("ID")
+    @Schema(description = "ID")
     private Long id;
 
-    @ApiModelProperty("creator")
+    @Schema(description = "creator")
     private String creator;
 
-    @ApiModelProperty("create time")
+    @Schema(description = "create time")
     private Date createTime;
 
-    @ApiModelProperty("editor")
+    @Schema(description = "editor")
     private String editor;
 
-    @ApiModelProperty("update time")
+    @Schema(description = "update time")
     private Date updateTime;
 
 }

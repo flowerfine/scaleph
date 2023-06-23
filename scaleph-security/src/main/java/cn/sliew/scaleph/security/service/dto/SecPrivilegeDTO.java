@@ -20,8 +20,7 @@ package cn.sliew.scaleph.security.service.dto;
 
 import cn.sliew.scaleph.common.dict.security.ResourceType;
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -36,27 +35,27 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "权限信息", description = "权限表")
+@Schema(name = "权限信息", description = "权限表")
 public class SecPrivilegeDTO extends BaseDTO {
 
     private static final long serialVersionUID = 9063779257828908860L;
 
-    @ApiModelProperty(value = "权限标识")
+    @Schema(description = "权限标识")
     private String privilegeCode;
 
-    @ApiModelProperty(value = "权限名称")
+    @Schema(description = "权限名称")
     private String privilegeName;
 
-    @ApiModelProperty(value = "资源类型")
+    @Schema(description = "资源类型")
     private ResourceType resourceType;
 
-    @ApiModelProperty(value = "资源路径")
+    @Schema(description = "资源路径")
     private String resourcePath;
 
-    @ApiModelProperty(value = "上级权限id")
+    @Schema(description = "上级权限id")
     private Long pid;
 
-    @ApiModelProperty("下级资源")
+    @Schema(description = "下级资源")
     private List<SecPrivilegeDTO> children;
 
 }

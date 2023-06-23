@@ -22,7 +22,7 @@ import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -35,11 +35,11 @@ import java.util.Map;
 public class SocketDataSource extends AbstractDataSource {
 
     @NotBlank
-    @ApiModelProperty("host")
+    @Schema(description = "host")
     private String host;
 
     @NotNull
-    @ApiModelProperty("port")
+    @Schema(description = "port")
     private Integer port;
 
     @Override

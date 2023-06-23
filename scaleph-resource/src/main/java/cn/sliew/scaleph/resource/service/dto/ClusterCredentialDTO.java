@@ -19,8 +19,7 @@
 package cn.sliew.scaleph.resource.service.dto;
 
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -28,23 +27,23 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "ClusterCredential对象", description = "资源-集群凭证")
+@Schema(name = "ClusterCredential对象", description = "资源-集群凭证")
 public class ClusterCredentialDTO extends BaseDTO {
 
     @NotBlank
-    @ApiModelProperty("配置名称")
+    @Schema(description = "配置名称")
     private String name;
 
-    @ApiModelProperty("current context")
+    @Schema(description = "current context")
     private String context;
 
-    @ApiModelProperty("kube config file name")
+    @Schema(description = "kube config file name")
     private String fileName;
 
-    @ApiModelProperty("kube config path")
+    @Schema(description = "kube config path")
     private String path;
 
-    @ApiModelProperty("备注")
+    @Schema(description = "备注")
     private String remark;
 
 }

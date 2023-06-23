@@ -20,8 +20,7 @@ package cn.sliew.scaleph.engine.sql.service.dto;
 
 import cn.sliew.scaleph.common.dict.catalog.CatalogType;
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -29,19 +28,19 @@ import java.util.Map;
 
 @Data
 @EqualsAndHashCode
-@ApiModel(value = "FlinkCatalog对象", description = "flink catalog")
+@Schema(name = "FlinkCatalog对象", description = "flink catalog")
 public class WsFlinkCatalogDTO extends BaseDTO {
 
-    @ApiModelProperty("`type`")
+    @Schema(description = "`type`")
     private CatalogType type;
 
-    @ApiModelProperty("`name`")
+    @Schema(description = "`name`")
     private String name;
 
-    @ApiModelProperty("properties")
+    @Schema(description = "properties")
     private Map<String, String> properties;
 
-    @ApiModelProperty("remark")
+    @Schema(description = "remark")
     private String remark;
 
 }

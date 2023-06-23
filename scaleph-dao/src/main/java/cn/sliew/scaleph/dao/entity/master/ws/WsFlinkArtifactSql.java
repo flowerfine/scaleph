@@ -23,7 +23,6 @@ import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 /**
@@ -33,7 +32,6 @@ import lombok.Data;
  */
 @Data
 @TableName("ws_flink_artifact_sql")
-@ApiModel(value = "WsFlinkArtifactSql对象", description = "flink artifact sql")
 public class WsFlinkArtifactSql extends BaseDO {
 
     private static final long serialVersionUID = 1L;

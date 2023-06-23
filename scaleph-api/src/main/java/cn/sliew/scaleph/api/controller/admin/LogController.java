@@ -25,8 +25,8 @@ import cn.sliew.scaleph.log.service.dto.LogLoginDTO;
 import cn.sliew.scaleph.log.service.param.LogLoginParam;
 import cn.sliew.scaleph.security.util.SecurityUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +46,7 @@ import java.util.Date;
  */
 @RestController
 @RequestMapping("/api/admin/log")
-@Api(tags = "系统管理-日志管理")
+@Tag(name = "系统管理-日志管理")
 public class LogController {
 
     @Autowired
@@ -54,7 +54,7 @@ public class LogController {
 
     @Logging
     @GetMapping(path = "login")
-    @ApiOperation(value = "查询用户近30天的登录日志", notes = "查询用户近30天的登录日志")
+    @Operation(summary = "查询用户近30天的登录日志", description = "查询用户近30天的登录日志")
     public ResponseEntity<Page<LogLoginDTO>> listLoginLogNearlyOneMonth(LogLoginParam param) {
         String userName = SecurityUtil.getCurrentUserName();
         if (StringUtils.hasText(userName)) {
@@ -66,4 +66,3 @@ public class LogController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }
-

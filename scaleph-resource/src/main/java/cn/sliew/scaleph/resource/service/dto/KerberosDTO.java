@@ -19,29 +19,28 @@
 package cn.sliew.scaleph.resource.service.dto;
 
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "ResourceKerberos对象", description = "kerberos")
+@Schema(name = "ResourceKerberos对象", description = "kerberos")
 public class KerberosDTO extends BaseDTO {
 
-    @ApiModelProperty("name")
+    @Schema(description = "name")
     private String name;
 
-    @ApiModelProperty("principal")
+    @Schema(description = "principal")
     private String principal;
 
-    @ApiModelProperty("file name")
+    @Schema(description = "file name")
     private String fileName;
 
-    @ApiModelProperty("path")
+    @Schema(description = "path")
     private String path;
 
-    @ApiModelProperty("remark")
+    @Schema(description = "remark")
     private String remark;
 
 }

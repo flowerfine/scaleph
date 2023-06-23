@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.param;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -31,18 +31,18 @@ import java.util.Map;
 public class WsDiJobStepParam {
 
     @NotNull
-    @ApiModelProperty("job id")
+    @Schema(description = "job id")
     private Long jobId;
 
     @NotBlank
-    @ApiModelProperty("job grapth")
+    @Schema(description = "job grapth")
     private String jobGraph;
 
     @NotBlank
-    @ApiModelProperty("job step code")
+    @Schema(description = "job step code")
     private String stepCode;
 
-    @ApiModelProperty("job step attrs")
+    @Schema(description = "job step attrs")
     private Map<String, Object> stepAttrs;
 
 }

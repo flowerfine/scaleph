@@ -21,8 +21,7 @@ package cn.sliew.scaleph.engine.flink.service.dto;
 import cn.sliew.scaleph.common.dict.flink.FlinkCheckpointStatus;
 import cn.sliew.scaleph.common.dict.flink.FlinkCheckpointType;
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -33,55 +32,55 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "WsFlinkCheckpoint对象", description = "flink checkpoint")
+@Schema(name = "WsFlinkCheckpoint对象", description = "flink checkpoint")
 public class WsFlinkCheckpointDTO extends BaseDTO {
 
-    @ApiModelProperty("flink job instance id")
+    @Schema(description = "flink job instance id")
     private Long flinkJobInstanceId;
 
-    @ApiModelProperty("flink checkpoint id")
+    @Schema(description = "flink checkpoint id")
     private Long flinkCheckpointId;
 
-    @ApiModelProperty("checkpoint type")
+    @Schema(description = "checkpoint type")
     private FlinkCheckpointType checkpointType;
 
-    @ApiModelProperty("checkpoint status")
+    @Schema(description = "checkpoint status")
     private FlinkCheckpointStatus status;
 
-    @ApiModelProperty("is savepoint")
+    @Schema(description = "is savepoint")
     private boolean savepoint;
 
-    @ApiModelProperty("checkpoint trigger timestamp")
+    @Schema(description = "checkpoint trigger timestamp")
     private Long triggerTimestamp;
 
-    @ApiModelProperty("checkpoint duration")
+    @Schema(description = "checkpoint duration")
     private Long duration;
 
-    @ApiModelProperty("is discarded")
+    @Schema(description = "is discarded")
     private boolean discarded;
 
-    @ApiModelProperty("checkpoint path")
+    @Schema(description = "checkpoint path")
     private String externalPath;
 
-    @ApiModelProperty("state size")
+    @Schema(description = "state size")
     private Long stateSize;
 
-    @ApiModelProperty("processed data size")
+    @Schema(description = "processed data size")
     private Long processedData;
 
-    @ApiModelProperty("persisted data size")
+    @Schema(description = "persisted data size")
     private Long persistedData;
 
-    @ApiModelProperty("checkpoint alignment buffered size")
+    @Schema(description = "checkpoint alignment buffered size")
     private Long alignmentBuffered;
 
-    @ApiModelProperty("subtask nums")
+    @Schema(description = "subtask nums")
     private Integer numSubtasks;
 
-    @ApiModelProperty("acknowledged subtask nums")
+    @Schema(description = "acknowledged subtask nums")
     private Integer numAcknowledgedSubtasks;
 
-    @ApiModelProperty("latest acknowledged subtask timestamp")
+    @Schema(description = "latest acknowledged subtask timestamp")
     private Long latestAckTimestamp;
 
 }

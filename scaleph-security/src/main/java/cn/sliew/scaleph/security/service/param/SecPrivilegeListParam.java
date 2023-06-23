@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.security.service.param;
 
 import cn.sliew.scaleph.system.model.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -30,10 +30,10 @@ import javax.validation.constraints.NotNull;
 public class SecPrivilegeListParam extends PaginationParam {
 
     @NotNull
-    @ApiModelProperty("上级权限id")
+    @Schema(description = "上级权限id")
     private Long pid;
 
-    @ApiModelProperty("privilege name")
+    @Schema(description = "privilege name")
     private String privilegeName;
 
 }

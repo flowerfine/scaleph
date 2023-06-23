@@ -18,30 +18,29 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.vo;
 
-import javax.validation.constraints.NotNull;
-
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * @author gleiyu
  */
 @Data
-@ApiModel(value = "作业属性信息", description = "作业属性信息")
+@Schema(name = "作业属性信息", description = "作业属性信息")
 public class DiJobAttrVO {
 
     @NotNull
-    @ApiModelProperty(value = "作业id")
+    @Schema(description = "作业id")
     private Long jobId;
 
-    @ApiModelProperty(value = "作业变量")
+    @Schema(description = "作业变量")
     private String jobAttr;
 
-    @ApiModelProperty(value = "作业属性")
+    @Schema(description = "作业属性")
     private String jobProp;
 
-    @ApiModelProperty(value = "引擎属性")
+    @Schema(description = "引擎属性")
     private String engineProp;
 
 }

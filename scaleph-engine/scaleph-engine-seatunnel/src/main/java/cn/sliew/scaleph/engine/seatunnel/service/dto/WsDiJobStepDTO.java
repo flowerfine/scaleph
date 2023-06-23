@@ -21,8 +21,7 @@ package cn.sliew.scaleph.engine.seatunnel.service.dto;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -40,40 +39,40 @@ import java.util.Map;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "作业步骤信息", description = "数据集成-作业步骤信息")
+@Schema(name = "作业步骤信息", description = "数据集成-作业步骤信息")
 public class WsDiJobStepDTO extends BaseDTO {
 
     private static final long serialVersionUID = -5718957095121629912L;
 
     @NotNull
-    @ApiModelProperty(value = "作业id")
+    @Schema(description = "作业id")
     private Long jobId;
 
     @NotNull
     @Length(max = 36)
-    @ApiModelProperty(value = "步骤编码")
+    @Schema(description = "步骤编码")
     private String stepCode;
 
     @NotNull
     @Length(min = 1, max = 120)
-    @ApiModelProperty(value = "步骤标题")
+    @Schema(description = "步骤标题")
     private String stepTitle;
 
     @NotNull
-    @ApiModelProperty(value = "步骤类型")
+    @Schema(description = "步骤类型")
     private SeaTunnelPluginType stepType;
 
     @NotNull
     @Length(min = 1, max = 120)
-    @ApiModelProperty(value = "步骤名称")
+    @Schema(description = "步骤名称")
     private SeaTunnelPluginName stepName;
 
-    @ApiModelProperty(value = "x坐标")
+    @Schema(description = "x坐标")
     private Integer positionX;
 
-    @ApiModelProperty(value = "y坐标")
+    @Schema(description = "y坐标")
     private Integer positionY;
 
-    @ApiModelProperty(value = "作业步骤属性")
+    @Schema(description = "作业步骤属性")
     private Map<String, Object> stepAttrs;
 }

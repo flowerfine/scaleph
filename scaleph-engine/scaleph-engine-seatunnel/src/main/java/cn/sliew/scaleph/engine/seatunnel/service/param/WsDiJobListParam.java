@@ -20,7 +20,7 @@ package cn.sliew.scaleph.engine.seatunnel.service.param;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.project.service.param.WsFlinkArtifactListParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -28,6 +28,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class WsDiJobListParam extends WsFlinkArtifactListParam {
 
-    @ApiModelProperty("job engine")
+    @Schema(description = "job engine")
     private SeaTunnelEngineType jobEngine;
 }

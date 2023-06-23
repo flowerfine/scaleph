@@ -26,7 +26,7 @@ import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.util.CollectionUtils;
@@ -43,23 +43,23 @@ import java.util.Map;
 public class RedisDataSource extends AbstractDataSource {
 
     @NotBlank
-    @ApiModelProperty("host")
+    @Schema(description = "host")
     private String host;
 
     @NotNull
-    @ApiModelProperty("port")
+    @Schema(description = "port")
     private Integer port;
 
-    @ApiModelProperty("user")
+    @Schema(description = "user")
     private String user;
 
-    @ApiModelProperty("password")
+    @Schema(description = "password")
     private String password;
 
-    @ApiModelProperty("redis mode, single or cluster")
+    @Schema(description = "redis mode, single or cluster")
     private RedisMode mode;
 
-    @ApiModelProperty("redis nodes information, used in cluster mode")
+    @Schema(description = "redis nodes information, used in cluster mode")
     private List<Node> nodes;
 
     @Override

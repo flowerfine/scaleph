@@ -21,8 +21,7 @@ package cn.sliew.scaleph.system.model;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,17 +36,17 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "分页参数")
+@Schema(description = "分页参数")
 public class PaginationParam implements Serializable {
     private static final long serialVersionUID = -860020632404225667L;
 
-    @ApiModelProperty(value = "页码", example = "1")
+    @Schema(description = "页码", example = "1")
     private Long current = 1L;
 
-    @ApiModelProperty(value = "页面大小", example = "10")
+    @Schema(description = "页面大小", example = "10")
     private Long pageSize = 10L;
 
-    @ApiModelProperty(value = "排序", example = "[{direction: \"ASC\"" + "field: \"fieldName\"}]")
+    @Schema(description = "排序", example = "[{direction: \"ASC\"" + "field: \"fieldName\"}]")
     private List<SortArg> sorter;
 
     public List<OrderItem> buildSortItems() {
@@ -77,4 +76,3 @@ public class PaginationParam implements Serializable {
     }
 
 }
-

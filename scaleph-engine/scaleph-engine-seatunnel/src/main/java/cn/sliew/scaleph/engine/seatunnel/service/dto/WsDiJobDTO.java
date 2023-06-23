@@ -20,11 +20,10 @@ package cn.sliew.scaleph.engine.seatunnel.service.dto;
 
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
-import cn.sliew.scaleph.system.model.BaseDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.vo.JobGraphVO;
 import cn.sliew.scaleph.project.service.dto.WsFlinkArtifactDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import cn.sliew.scaleph.system.model.BaseDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -36,34 +35,34 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "作业信息", description = "数据集成-作业信息")
+@Schema(name = "作业信息", description = "数据集成-作业信息")
 public class WsDiJobDTO extends BaseDTO {
 
     private static final long serialVersionUID = -4161534628783250968L;
 
     @NotNull
-    @ApiModelProperty("Flink Artifact")
+    @Schema(description = "Flink Artifact")
     private WsFlinkArtifactDTO wsFlinkArtifact;
 
     @NotNull
-    @ApiModelProperty(value = "作业引擎")
+    @Schema(description = "作业引擎")
     private SeaTunnelEngineType jobEngine;
 
-    @ApiModelProperty(value = "作业编码")
+    @Schema(description = "作业编码")
     private String jobId;
 
-    @ApiModelProperty("current version")
+    @Schema(description = "current version")
     private YesOrNo current;
 
-    @ApiModelProperty(value = "作业属性信息")
+    @Schema(description = "作业属性信息")
     private List<WsDiJobAttrDTO> jobAttrList;
 
-    @ApiModelProperty(value = "作业连线信息")
+    @Schema(description = "作业连线信息")
     private List<WsDiJobLinkDTO> jobLinkList;
 
-    @ApiModelProperty(value = "步骤信息")
+    @Schema(description = "步骤信息")
     private List<WsDiJobStepDTO> jobStepList;
 
-    @ApiModelProperty(value = "作业图信息")
+    @Schema(description = "作业图信息")
     private JobGraphVO jobGraph;
 }

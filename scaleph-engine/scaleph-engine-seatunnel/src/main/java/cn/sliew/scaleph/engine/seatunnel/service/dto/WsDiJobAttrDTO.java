@@ -20,8 +20,7 @@ package cn.sliew.scaleph.engine.seatunnel.service.dto;
 
 import cn.sliew.scaleph.common.dict.job.JobAttrType;
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -39,25 +38,25 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "作业参数信息", description = "数据集成-作业参数")
+@Schema(name = "作业参数信息", description = "数据集成-作业参数")
 public class WsDiJobAttrDTO extends BaseDTO {
 
     private static final long serialVersionUID = -1088298944833438990L;
 
     @NotNull
-    @ApiModelProperty(value = "作业id")
+    @Schema(description = "作业id")
     private Long jobId;
 
     @NotNull
-    @ApiModelProperty(value = "作业参数类型")
+    @Schema(description = "作业参数类型")
     private JobAttrType jobAttrType;
 
     @NotBlank
     @Length(min = 1, max = 128)
-    @ApiModelProperty(value = "作业参数key")
+    @Schema(description = "作业参数key")
     private String jobAttrKey;
 
-    @ApiModelProperty(value = "作业参数value")
+    @Schema(description = "作业参数value")
     private String jobAttrValue;
 
 }

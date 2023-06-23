@@ -21,8 +21,6 @@ package cn.sliew.scaleph.dao.entity.master.snowflake;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -31,22 +29,17 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("snowflake_worker_node")
-@ApiModel(value = "SnowflakeWorkerNode对象", description = "Snowflake worker node")
 public class SnowflakeWorkerNode extends BaseDO {
 
-    @ApiModelProperty("Type of CONTAINER: HostName, ACTUAL : IP.")
     @TableField("host_name")
     private String hostName;
 
-    @ApiModelProperty("Type of CONTAINER: Port, ACTUAL : Timestamp + Random(0-10000)")
     @TableField("port")
     private String port;
 
-    @ApiModelProperty("node type: CONTAINER(1), ACTUAL(2), FAKE(3)")
     @TableField("type")
     private int type;
 
-    @ApiModelProperty("Worker launch date, default now")
     @TableField("launch_date")
     private Date launchDate = new Date();
 

@@ -36,7 +36,7 @@ import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -50,20 +50,20 @@ import java.util.List;
 public abstract class AbstractDataSource implements Polymorphic<DataSourceType> {
 
     @NotNull
-    @ApiModelProperty("data source type id")
+    @Schema(description = "data source type id")
     private Long dsTypeId;
 
-    @ApiModelProperty("version")
+    @Schema(description = "version")
     private String version;
 
     @NotBlank
-    @ApiModelProperty("name")
+    @Schema(description = "name")
     private String name;
 
-    @ApiModelProperty("remark")
+    @Schema(description = "remark")
     private String remark;
 
-    @ApiModelProperty("additional props")
+    @Schema(description = "additional props")
     private List<PropValuePair> additionalProps;
 
     public abstract DataSourceType getType();

@@ -20,7 +20,7 @@ package cn.sliew.scaleph.system.service.vo;
 
 import cn.sliew.scaleph.common.dict.DictInstance;
 import cn.sliew.scaleph.common.dict.DictType;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,7 +37,7 @@ import java.util.Optional;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "数据字典", description = "数据字典对象，用来前后端枚举值交互")
+@Schema(name = "数据字典", description = "数据字典对象，用来前后端枚举值交互")
 public class DictVO implements Serializable {
     private static final long serialVersionUID = 1357098965682678688L;
 

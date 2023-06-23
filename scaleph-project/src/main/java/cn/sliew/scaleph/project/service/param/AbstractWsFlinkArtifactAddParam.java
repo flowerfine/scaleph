@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.project.service.param;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -28,13 +28,13 @@ import javax.validation.constraints.NotNull;
 public abstract class AbstractWsFlinkArtifactAddParam {
 
     @NotNull
-    @ApiModelProperty("project id")
+    @Schema(description = "project id")
     private Long projectId;
 
     @NotBlank
-    @ApiModelProperty("name")
+    @Schema(description = "name")
     private String name;
 
-    @ApiModelProperty("remark")
+    @Schema(description = "remark")
     private String remark;
 }

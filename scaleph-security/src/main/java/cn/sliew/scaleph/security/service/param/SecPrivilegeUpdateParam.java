@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.security.service.param;
 
 import cn.sliew.scaleph.common.dict.security.ResourceType;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -30,19 +30,19 @@ import javax.validation.constraints.NotNull;
 public class SecPrivilegeUpdateParam {
 
     @NotNull
-    @ApiModelProperty("id")
+    @Schema(description = "id")
     private Long id;
 
-    @ApiModelProperty(value = "权限标识")
+    @Schema(description = "权限标识")
     private String privilegeCode;
 
-    @ApiModelProperty(value = "权限名称")
+    @Schema(description = "权限名称")
     private String privilegeName;
 
-    @ApiModelProperty(value = "资源类型")
+    @Schema(description = "资源类型")
     private ResourceType resourceType;
 
-    @ApiModelProperty(value = "资源路径")
+    @Schema(description = "资源路径")
     private String resourcePath;
 
 }

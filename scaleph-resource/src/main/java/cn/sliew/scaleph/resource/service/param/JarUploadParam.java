@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.resource.service.param;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -27,9 +27,9 @@ import javax.validation.constraints.NotBlank;
 public class JarUploadParam {
 
     @NotBlank
-    @ApiModelProperty("jar group")
+    @Schema(description = "jar group")
     private String group;
 
-    @ApiModelProperty("备注")
+    @Schema(description = "备注")
     private String remark;
 }

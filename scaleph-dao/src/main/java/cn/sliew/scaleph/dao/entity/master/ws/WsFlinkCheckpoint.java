@@ -23,8 +23,6 @@ import cn.sliew.scaleph.common.dict.flink.FlinkCheckpointType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -36,72 +34,55 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("ws_flink_checkpoint")
-@ApiModel(value = "WsFlinkCheckpoint对象", description = "flink checkpoint")
 public class WsFlinkCheckpoint extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("flink job instance id")
     @TableField("flink_job_instance_id")
     private Long flinkJobInstanceId;
 
-    @ApiModelProperty("flink checkpoint id")
     @TableField("flink_checkpoint_id")
     private Long flinkCheckpointId;
 
-    @ApiModelProperty("checkpoint type")
     @TableField("checkpoint_type")
     private FlinkCheckpointType checkpointType;
 
-    @ApiModelProperty("checkpoint status")
     @TableField("`status`")
     private FlinkCheckpointStatus status;
 
-    @ApiModelProperty("is savepoint")
     @TableField("`savepoint`")
     private boolean savepoint;
 
-    @ApiModelProperty("checkpoint trigger timestamp")
     @TableField("trigger_timestamp")
     private Long triggerTimestamp;
 
-    @ApiModelProperty("checkpoint duration")
     @TableField("duration")
     private Long duration;
 
-    @ApiModelProperty("is discarded")
     @TableField("discarded")
     private boolean discarded;
 
-    @ApiModelProperty("checkpoint path")
     @TableField("external_path")
     private String externalPath;
 
-    @ApiModelProperty("state size")
     @TableField("state_size")
     private Long stateSize;
 
-    @ApiModelProperty("processed data size")
     @TableField("processed_data")
     private Long processedData;
 
-    @ApiModelProperty("persisted data size")
     @TableField("persisted_data")
     private Long persistedData;
 
-    @ApiModelProperty("checkpoint alignment buffered size")
     @TableField("alignment_buffered")
     private Long alignmentBuffered;
 
-    @ApiModelProperty("subtask nums")
     @TableField("num_subtasks")
     private Integer numSubtasks;
 
-    @ApiModelProperty("acknowledged subtask nums")
     @TableField("num_acknowledged_subtasks")
     private Integer numAcknowledgedSubtasks;
 
-    @ApiModelProperty("latest acknowledged subtask timestamp")
     @TableField("latest_ack_timestamp")
     private Long latestAckTimestamp;
 

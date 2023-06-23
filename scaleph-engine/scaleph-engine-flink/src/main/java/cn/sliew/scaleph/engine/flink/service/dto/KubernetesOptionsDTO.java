@@ -18,50 +18,49 @@
 
 package cn.sliew.scaleph.engine.flink.service.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@ApiModel(value = "KubernetesOptions", description = "Kubernetes Options")
+@Schema(name = "KubernetesOptions", description = "Kubernetes Options")
 public class KubernetesOptionsDTO {
 
-    @ApiModelProperty("Kubeconfig context")
+    @Schema(description = "Kubeconfig context")
     private String context;
 
-    @ApiModelProperty("kubernetes namepace")
+    @Schema(description = "kubernetes namepace")
     private String namespace;
 
-    @ApiModelProperty("kubernetes service account")
+    @Schema(description = "kubernetes service account")
     private String serviceAccount;
 
-    @ApiModelProperty("image registry")
+    @Schema(description = "image registry")
     private String registry;
 
-    @ApiModelProperty("image repository")
+    @Schema(description = "image repository")
     private String repository;
 
-    @ApiModelProperty("image")
+    @Schema(description = "image")
     private String image;
 
-    @ApiModelProperty("image pull policy")
+    @Schema(description = "image pull policy")
     private String imagePullPolicy;
 
-    @ApiModelProperty("kubernetes JobManager pod cpu")
+    @Schema(description = "kubernetes JobManager pod cpu")
     private Double jobManagerCPU;
 
-    @ApiModelProperty("kubernetes JobManager memory")
+    @Schema(description = "kubernetes JobManager memory")
     private String jobManagerMemory;
 
-    @ApiModelProperty("kubernetes JobManager replica")
+    @Schema(description = "kubernetes JobManager replica")
     private Integer jobManagerReplicas;
 
-    @ApiModelProperty("kubernetes TaskManager pod")
+    @Schema(description = "kubernetes TaskManager pod")
     private Double taskManagerCPU;
 
-    @ApiModelProperty("kubernetes TaskManager memory")
+    @Schema(description = "kubernetes TaskManager memory")
     private String taskManagerMemory;
 
-    @ApiModelProperty("kubernetes TaskManager replica")
+    @Schema(description = "kubernetes TaskManager replica")
     private Integer taskManagerReplicas;
 }

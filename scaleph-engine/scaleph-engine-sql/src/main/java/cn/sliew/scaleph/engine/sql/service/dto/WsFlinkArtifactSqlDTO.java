@@ -20,25 +20,24 @@ package cn.sliew.scaleph.engine.sql.service.dto;
 
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.system.model.BaseDTO;
 import cn.sliew.scaleph.project.service.dto.WsFlinkArtifactDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import cn.sliew.scaleph.system.model.BaseDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@ApiModel(value = "WsFlinkArtifactSql对象", description = "flink artifact sql")
+@Schema(name = "WsFlinkArtifactSql对象", description = "flink artifact sql")
 public class WsFlinkArtifactSqlDTO extends BaseDTO {
 
-    @ApiModelProperty("作业artifact")
+    @Schema(description = "作业artifact")
     private WsFlinkArtifactDTO wsFlinkArtifact;
 
-    @ApiModelProperty("flink版本")
+    @Schema(description = "flink版本")
     private FlinkVersion flinkVersion;
-    
-    @ApiModelProperty("script")
+
+    @Schema(description = "script")
     private String script;
 
-    @ApiModelProperty("`current`")
+    @Schema(description = "`current`")
     private YesOrNo current;
 }

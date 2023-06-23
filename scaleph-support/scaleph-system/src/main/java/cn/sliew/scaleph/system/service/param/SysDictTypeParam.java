@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.system.service.param;
 
 import cn.sliew.scaleph.system.model.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -30,9 +30,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class SysDictTypeParam extends PaginationParam {
 
-    @ApiModelProperty(value = "字典类型编码")
+    @Schema(description = "字典类型编码")
     private String code;
 
-    @ApiModelProperty(value = "字典类型名称")
+    @Schema(description = "字典类型名称")
     private String name;
 }

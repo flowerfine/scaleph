@@ -19,8 +19,7 @@
 package cn.sliew.scaleph.system.service.dto;
 
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -34,16 +33,15 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "系统配置信息", description = "系统配置信息表")
+@Schema(name = "系统配置信息", description = "系统配置信息表")
 public class SysConfigDTO extends BaseDTO {
 
     private static final long serialVersionUID = -7747131256786691001L;
 
-    @ApiModelProperty(value = "配置编码")
+    @Schema(description = "配置编码")
     private String cfgCode;
 
-    @ApiModelProperty(value = "配置信息")
+    @Schema(description = "配置信息")
     private String cfgValue;
-
 
 }

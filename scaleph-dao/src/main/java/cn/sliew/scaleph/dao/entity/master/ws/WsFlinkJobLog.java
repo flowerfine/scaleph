@@ -19,7 +19,6 @@
 package cn.sliew.scaleph.dao.entity.master.ws;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -31,7 +30,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("ws_flink_job_log")
-@ApiModel(value = "FlinkJobLog对象", description = "flink job log")
 public class WsFlinkJobLog extends WsFlinkJobInstance {
 
     private static final long serialVersionUID = 1L;

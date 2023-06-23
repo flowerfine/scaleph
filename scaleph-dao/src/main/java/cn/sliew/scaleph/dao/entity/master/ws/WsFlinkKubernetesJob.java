@@ -18,14 +18,12 @@
 
 package cn.sliew.scaleph.dao.entity.master.ws;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 /**
@@ -35,7 +33,6 @@ import lombok.Data;
  */
 @Data
 @TableName("ws_flink_kubernetes_job")
-@ApiModel(value = "WsFlinkKubernetesJob对象", description = "flink kubernetes job")
 public class WsFlinkKubernetesJob extends BaseDO {
 
     private static final long serialVersionUID = 1L;

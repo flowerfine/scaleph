@@ -18,11 +18,10 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.param;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -32,40 +31,40 @@ import javax.validation.constraints.NotNull;
 public class WsFlinkKubernetesJobAddParam {
 
     @NotNull
-    @ApiModelProperty("project id")
+    @Schema(description = "project id")
     private Long projectId;
 
     @NotBlank
-    @ApiModelProperty("name")
+    @Schema(description = "name")
     private String name;
 
     @NotNull
-    @ApiModelProperty("execution mode")
+    @Schema(description = "execution mode")
     private FlinkRuntimeExecutionMode executionMode;
 
     @NotNull
-    @ApiModelProperty("deployment kind")
+    @Schema(description = "deployment kind")
     private DeploymentKind deploymentKind;
 
-    @ApiModelProperty("flink deployment id")
+    @Schema(description = "flink deployment id")
     private Long flinkDeploymentId;
 
-    @ApiModelProperty("flink session cluster id")
+    @Schema(description = "flink session cluster id")
     private Long flinkSessionClusterId;
 
     @NotNull
-    @ApiModelProperty("flink job type")
+    @Schema(description = "flink job type")
     private FlinkJobType type;
 
-    @ApiModelProperty("flink artifact jar id")
+    @Schema(description = "flink artifact jar id")
     private Long flinkArtifactJarId;
 
-    @ApiModelProperty("flink artifact sql id")
+    @Schema(description = "flink artifact sql id")
     private Long flinkArtifactSqlId;
 
-    @ApiModelProperty("ws di job id")
+    @Schema(description = "ws di job id")
     private Long wsDiJobId;
 
-    @ApiModelProperty("remark")
+    @Schema(description = "remark")
     private String remark;
 }

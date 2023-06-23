@@ -22,44 +22,34 @@ import cn.sliew.scaleph.common.dict.workflow.ScheduleStatus;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
 @TableName("workflow_schedule")
-@ApiModel(value = "WorkflowSchedule对象", description = "workflow schedule")
 public class WorkflowSchedule extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("worflow definition id")
     @TableField("workflow_definition_id")
     private Long workflowDefinitionId;
 
-    @ApiModelProperty("time zone")
     @TableField("timezone")
     private String timezone;
 
-    @ApiModelProperty("crontab expression")
     @TableField("crontab")
     private String crontab;
 
-    @ApiModelProperty("start time")
     @TableField("start_time")
     private Date startTime;
 
-    @ApiModelProperty("end time")
     @TableField("end_time")
     private Date endTime;
 
-    @ApiModelProperty("0: disabled, 1: enabled")
     @TableField("`status`")
     private ScheduleStatus status;
 
-    @ApiModelProperty("remark")
     @TableField("remark")
     private String remark;
 

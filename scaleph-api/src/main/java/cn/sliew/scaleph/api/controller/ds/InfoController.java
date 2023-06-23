@@ -26,8 +26,8 @@ import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.ds.service.param.DsInfoListParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(tags = "数据源管理-数据源")
+@Tag(name = "数据源管理-数据源")
 @RestController
 @RequestMapping(path = "/api/ds/info")
 public class InfoController {
@@ -46,7 +46,7 @@ public class InfoController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询数据源列表", notes = "查询数据源列表")
+    @Operation(summary = "查询数据源列表", description = "查询数据源列表")
     public ResponseEntity<Page<DsInfoDTO>> list(@Valid DsInfoListParam param) {
         final Page<DsInfoDTO> result = dsInfoService.list(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -54,7 +54,7 @@ public class InfoController {
 
     @Logging
     @GetMapping("{type}")
-    @ApiOperation(value = "查询指定数据源列表", notes = "查询指定数据源列表")
+    @Operation(summary = "查询指定数据源列表", description = "查询指定数据源列表")
     public ResponseEntity<ResponseVO<List<DsInfoDTO>>> listByType(@PathVariable("type") DataSourceType type) {
         final List<DsInfoDTO> result = dsInfoService.listByType(type);
         return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
@@ -62,7 +62,7 @@ public class InfoController {
 
     @Logging
     @GetMapping("/{id}")
-    @ApiOperation(value = "获取数据源详情", notes = "获取数据源详情")
+    @Operation(summary = "获取数据源详情", description = "获取数据源详情")
     public ResponseEntity<ResponseVO<DsInfoDTO>> get(@PathVariable("id") Long id) {
         final DsInfoDTO result = dsInfoService.selectOne(id, false);
         return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
@@ -70,7 +70,7 @@ public class InfoController {
 
     @Logging
     @PutMapping
-    @ApiOperation(value = "新增数据源", notes = "新增数据源")
+    @Operation(summary = "新增数据源", description = "新增数据源")
     public ResponseEntity<ResponseVO> insert(@Valid @RequestBody AbstractDataSource dataSource) {
         dsInfoService.insert(dataSource);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -78,7 +78,7 @@ public class InfoController {
 
     @Logging
     @PostMapping("{id}")
-    @ApiOperation(value = "修改数据源", notes = "修改数据源")
+    @Operation(summary = "修改数据源", description = "修改数据源")
     public ResponseEntity<ResponseVO> update(@PathVariable("id") Long id, @Valid @RequestBody AbstractDataSource dataSource) {
         dsInfoService.update(id, dataSource);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -86,7 +86,7 @@ public class InfoController {
 
     @Logging
     @DeleteMapping("{id}")
-    @ApiOperation(value = "删除数据源", notes = "删除数据源")
+    @Operation(summary = "删除数据源", description = "删除数据源")
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) {
         dsInfoService.deleteById(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -94,7 +94,7 @@ public class InfoController {
 
     @Logging
     @DeleteMapping("batch")
-    @ApiOperation(value = "批量删除数据源", notes = "批量删除数据源")
+    @Operation(summary = "批量删除数据源", description = "批量删除数据源")
     public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) {
         dsInfoService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);

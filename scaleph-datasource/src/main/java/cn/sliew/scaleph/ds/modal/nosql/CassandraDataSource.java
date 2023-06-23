@@ -24,7 +24,7 @@ import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.util.StringUtils;
@@ -38,20 +38,20 @@ import java.util.Map;
 public class CassandraDataSource extends AbstractDataSource {
 
     @NotBlank
-    @ApiModelProperty("host")
+    @Schema(description = "host")
     private String host;
 
     @NotBlank
-    @ApiModelProperty("keyspace")
+    @Schema(description = "keyspace")
     private String keyspace;
 
-    @ApiModelProperty("username")
+    @Schema(description = "username")
     private String username;
 
-    @ApiModelProperty("password")
+    @Schema(description = "password")
     private String password;
 
-    @ApiModelProperty("datacenter")
+    @Schema(description = "datacenter")
     private String datacenter;
 
     @Override

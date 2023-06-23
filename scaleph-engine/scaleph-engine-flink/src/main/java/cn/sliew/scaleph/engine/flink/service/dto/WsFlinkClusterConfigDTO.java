@@ -21,11 +21,10 @@ package cn.sliew.scaleph.engine.flink.service.dto;
 import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.system.model.BaseDTO;
 import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
 import cn.sliew.scaleph.resource.service.dto.FlinkReleaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import cn.sliew.scaleph.system.model.BaseDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -40,41 +39,41 @@ import java.util.Map;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkClusterConfig对象", description = "flink 集群配置")
+@Schema(name = "FlinkClusterConfig对象", description = "flink 集群配置")
 public class WsFlinkClusterConfigDTO extends BaseDTO {
 
     @NotNull
-    @ApiModelProperty("项目id")
+    @Schema(description = "项目id")
     private Long projectId;
 
     @NotBlank
-    @ApiModelProperty("名称")
+    @Schema(description = "名称")
     private String name;
 
-    @ApiModelProperty("集群版本")
+    @Schema(description = "集群版本")
     private FlinkVersion flinkVersion;
 
     @NotNull
-    @ApiModelProperty("Resource。0: Standalone, 1: Native Kubernetes, 2: YARN")
+    @Schema(description = "Resource。0: Standalone, 1: Native Kubernetes, 2: YARN")
     private FlinkResourceProvider resourceProvider;
 
     @NotNull
-    @ApiModelProperty("flink 部署模式。0: Application, 1: Per-Job, 2: Session")
+    @Schema(description = "flink 部署模式。0: Application, 1: Per-Job, 2: Session")
     private FlinkDeploymentMode deployMode;
 
     @NotNull
-    @ApiModelProperty("release id")
+    @Schema(description = "release id")
     private FlinkReleaseDTO flinkRelease;
 
-    @ApiModelProperty("集群凭证 id。如 hadoop 的 core-site.xml，kubernetes 的 kubeconfig")
+    @Schema(description = "集群凭证 id。如 hadoop 的 core-site.xml，kubernetes 的 kubeconfig")
     private ClusterCredentialDTO clusterCredential;
 
-    @ApiModelProperty("kubernetes 配置")
+    @Schema(description = "kubernetes 配置")
     private KubernetesOptionsDTO kubernetesOptionsDTO;
 
-    @ApiModelProperty("flink 集群配置项")
+    @Schema(description = "flink 集群配置项")
     private Map<String, String> configOptions;
 
-    @ApiModelProperty("备注")
+    @Schema(description = "备注")
     private String remark;
 }

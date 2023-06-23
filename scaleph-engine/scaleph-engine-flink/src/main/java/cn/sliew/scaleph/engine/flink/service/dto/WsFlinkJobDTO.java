@@ -20,8 +20,7 @@ package cn.sliew.scaleph.engine.flink.service.dto;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -31,43 +30,43 @@ import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkJob对象", description = "flink job")
+@Schema(name = "FlinkJob对象", description = "flink job")
 public class WsFlinkJobDTO extends BaseDTO {
 
     @NotNull
-    @ApiModelProperty("项目ID")
+    @Schema(description = "项目ID")
     private Long projectId;
 
     @NotNull
-    @ApiModelProperty("job type. 0: jar, 1: sql+udf, 2: seatunnel")
+    @Schema(description = "job type. 0: jar, 1: sql+udf, 2: seatunnel")
     private FlinkJobType type;
 
-    @ApiModelProperty("job code")
+    @Schema(description = "job code")
     private Long code;
 
-    @ApiModelProperty("job name")
+    @Schema(description = "job name")
     private String name;
 
     @NotNull
-    @ApiModelProperty("job artifact id")
+    @Schema(description = "job artifact id")
     private Long flinkArtifactId;
 
-    @ApiModelProperty("job config")
+    @Schema(description = "job config")
     private Map<String, String> jobConfig;
 
-    @ApiModelProperty("flink job instance")
+    @Schema(description = "flink job instance")
     private WsFlinkJobInstanceDTO wsFlinkJobInstance;
 
-    @ApiModelProperty("flink cluster config")
+    @Schema(description = "flink cluster config")
     private WsFlinkClusterConfigDTO wsFlinkClusterConfig;
 
     @NotNull
-    @ApiModelProperty("flink cluster instance")
+    @Schema(description = "flink cluster instance")
     private WsFlinkClusterInstanceDTO wsFlinkClusterInstance;
 
-    @ApiModelProperty("flink config")
+    @Schema(description = "flink config")
     private Map<String, String> flinkConfig;
 
-    @ApiModelProperty("jars")
+    @Schema(description = "jars")
     private List<Long> jars;
 }

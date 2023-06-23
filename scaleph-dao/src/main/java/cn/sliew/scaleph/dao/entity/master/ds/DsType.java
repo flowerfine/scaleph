@@ -22,12 +22,8 @@ import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * <p>
@@ -37,24 +33,19 @@ import lombok.Setter;
 @Data
 @EqualsAndHashCode
 @TableName("ds_type")
-@ApiModel(value = "DsType对象", description = "data source type")
 public class DsType extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("name")
     @TableField("`type`")
     private DataSourceType type;
 
-    @ApiModelProperty("logo")
     @TableField("logo")
     private String logo;
 
-    @ApiModelProperty("order")
     @TableField("`order`")
     private Integer order;
 
-    @ApiModelProperty("remark")
     @TableField("remark")
     private String remark;
 

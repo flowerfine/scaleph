@@ -19,26 +19,25 @@
 package cn.sliew.scaleph.resource.service.dto;
 
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "Jar对象", description = "java jar")
+@Schema(name = "Jar对象", description = "java jar")
 public class JarDTO extends BaseDTO {
 
-    @ApiModelProperty("jar group")
+    @Schema(description = "jar group")
     private String group;
 
-    @ApiModelProperty("文件名称")
+    @Schema(description = "文件名称")
     private String fileName;
 
-    @ApiModelProperty("存储路径")
+    @Schema(description = "存储路径")
     private String path;
 
-    @ApiModelProperty("备注")
+    @Schema(description = "备注")
     private String remark;
 
 }

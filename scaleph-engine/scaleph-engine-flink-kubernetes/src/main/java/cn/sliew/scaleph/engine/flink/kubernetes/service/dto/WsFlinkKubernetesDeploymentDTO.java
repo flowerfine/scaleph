@@ -24,8 +24,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.TaskManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
 import cn.sliew.scaleph.system.model.BaseDTO;
 import io.fabric8.kubernetes.api.model.Pod;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -33,46 +32,46 @@ import java.util.Map;
 
 @Data
 @EqualsAndHashCode
-@ApiModel(value = "WsFlinkKubernetesDeployment对象", description = "flink kubernetes deployment")
+@Schema(name = "WsFlinkKubernetesDeployment对象", description = "flink kubernetes deployment")
 public class WsFlinkKubernetesDeploymentDTO extends BaseDTO {
 
-    @ApiModelProperty("project id")
+    @Schema(description = "project id")
     private Long projectId;
 
-    @ApiModelProperty("cluster credential id")
+    @Schema(description = "cluster credential id")
     private Long clusterCredentialId;
 
-    @ApiModelProperty("name")
+    @Schema(description = "name")
     private String name;
 
-    @ApiModelProperty("deployment id")
+    @Schema(description = "deployment id")
     private String deploymentId;
 
-    @ApiModelProperty("namespace")
+    @Schema(description = "namespace")
     private String namespace;
 
-    @ApiModelProperty("kubernetes options")
+    @Schema(description = "kubernetes options")
     private KubernetesOptionsVO kubernetesOptions;
 
-    @ApiModelProperty("job manager spec")
+    @Schema(description = "job manager spec")
     private JobManagerSpec jobManager;
 
-    @ApiModelProperty("task manager spec")
+    @Schema(description = "task manager spec")
     private TaskManagerSpec taskManager;
 
-    @ApiModelProperty("pod template")
+    @Schema(description = "pod template")
     private Pod podTemplate;
 
-    @ApiModelProperty("flink configuration")
+    @Schema(description = "flink configuration")
     private Map<String, String> flinkConfiguration;
 
-    @ApiModelProperty("log configuration")
+    @Schema(description = "log configuration")
     private Map<String, String> logConfiguration;
 
-    @ApiModelProperty("ingress spec")
+    @Schema(description = "ingress spec")
     private IngressSpec ingress;
 
-    @ApiModelProperty("remark")
+    @Schema(description = "remark")
     private String remark;
 
 }

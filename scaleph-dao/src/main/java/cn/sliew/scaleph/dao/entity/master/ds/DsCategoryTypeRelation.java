@@ -21,8 +21,6 @@ package cn.sliew.scaleph.dao.entity.master.ds;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -34,16 +32,13 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode
 @TableName("ds_category_type_relation")
-@ApiModel(value = "DsCategoryTypeRelation对象", description = "data source category and type relation")
 public class DsCategoryTypeRelation extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("data source category id")
     @TableField("ds_category_id")
     private Long dsCategoryId;
 
-    @ApiModelProperty("data source type id")
     @TableField("ds_type_id")
     private Long dsTypeId;
 

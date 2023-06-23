@@ -24,8 +24,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.TaskManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
 import cn.sliew.scaleph.system.model.BaseDTO;
 import io.fabric8.kubernetes.api.model.Pod;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -38,43 +37,43 @@ import java.util.Map;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "WsFlinkKubernetesTemplate对象", description = "flink kubernetes template")
+@Schema(name = "WsFlinkKubernetesTemplate对象", description = "flink kubernetes template")
 public class WsFlinkKubernetesTemplateDTO extends BaseDTO {
 
-    @ApiModelProperty("project id")
+    @Schema(description = "project id")
     private Long projectId;
 
-    @ApiModelProperty("name")
+    @Schema(description = "name")
     private String name;
 
-    @ApiModelProperty("template id")
+    @Schema(description = "template id")
     private String templateId;
 
-    @ApiModelProperty("namespace")
+    @Schema(description = "namespace")
     private String namespace;
 
-    @ApiModelProperty("kubernetes options")
+    @Schema(description = "kubernetes options")
     private KubernetesOptionsVO kubernetesOptions;
 
-    @ApiModelProperty("job manager")
+    @Schema(description = "job manager")
     private JobManagerSpec jobManager;
 
-    @ApiModelProperty("task manager")
+    @Schema(description = "task manager")
     private TaskManagerSpec taskManager;
 
-    @ApiModelProperty("pod template")
+    @Schema(description = "pod template")
     private Pod podTemplate;
 
-    @ApiModelProperty("flink configuration")
+    @Schema(description = "flink configuration")
     private Map<String, String> flinkConfiguration;
 
-    @ApiModelProperty("log configuration")
+    @Schema(description = "log configuration")
     private Map<String, String> logConfiguration;
 
-    @ApiModelProperty("ingress")
+    @Schema(description = "ingress")
     private IngressSpec ingress;
 
-    @ApiModelProperty("remark")
+    @Schema(description = "remark")
     private String remark;
 
 }

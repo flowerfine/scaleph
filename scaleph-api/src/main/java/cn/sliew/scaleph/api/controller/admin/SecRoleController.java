@@ -35,8 +35,8 @@ import cn.sliew.scaleph.security.service.param.SecRoleUpdateParam;
 import cn.sliew.scaleph.security.web.OnlineUserService;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +59,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/admin/role")
-@Api(tags = "系统管理-角色管理")
+@Tag(name = "系统管理-角色管理")
 public class SecRoleController {
 
     @Autowired
@@ -75,7 +75,7 @@ public class SecRoleController {
 
     @Logging
     @GetMapping("list")
-    @ApiOperation(value = "查询角色列表", notes = "查询全部角色信息")
+    @Operation(summary = "查询角色列表", description = "查询全部角色信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PagePrivilege).ADMIN_ROLE_SHOW)")
     public ResponseEntity<Page<SecRoleDTO>> listByPage(@Validated SecRoleListParam param) {
         Page<SecRoleDTO> result = this.secRoleService.listByPage(param);
@@ -84,7 +84,7 @@ public class SecRoleController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询角色列表", notes = "查询全部角色信息")
+    @Operation(summary = "查询角色列表", description = "查询全部角色信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PagePrivilege).ADMIN_ROLE_SHOW)")
     public ResponseEntity<List<SecRoleDTO>> listAll() {
         List<SecRoleDTO> list = this.secRoleService.listAll();
@@ -93,7 +93,7 @@ public class SecRoleController {
 
     @Logging
     @PostMapping
-    @ApiOperation(value = "新增角色", notes = "新增角色")
+    @Operation(summary = "新增角色", description = "新增角色")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_ROLE_ADD)")
     public ResponseEntity<ResponseVO> addRole(@Validated @RequestBody SecRoleAddParam param) {
         this.secRoleService.insert(param);
@@ -102,7 +102,7 @@ public class SecRoleController {
 
     @Logging
     @PutMapping
-    @ApiOperation(value = "修改角色", notes = "修改角色")
+    @Operation(summary = "修改角色", description = "修改角色")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_ROLE_EDIT)")
     public ResponseEntity<ResponseVO> editRole(@Validated @RequestBody SecRoleUpdateParam param) {
         this.secRoleService.update(param);
@@ -110,8 +110,8 @@ public class SecRoleController {
     }
 
     @Logging
-    @DeleteMapping(path = "/{id}")
-    @ApiOperation(value = "删除角色", notes = "删除角色")
+    @DeleteMapping("/{id}")
+    @Operation(summary = "删除角色", description = "删除角色")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_ROLE_DELETE)")
     public ResponseEntity<ResponseVO> deleteRole(@PathVariable("id") Long id) {
         this.secRoleService.deleteById(id);
@@ -120,8 +120,8 @@ public class SecRoleController {
     }
 
     @Logging
-    @DeleteMapping(path = "/batch")
-    @ApiOperation(value = "批量删除角色", notes = "批量删除角色")
+    @DeleteMapping("/batch")
+    @Operation(summary = "批量删除角色", description = "批量删除角色")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_ROLE_DELETE)")
     public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) {
         secRoleService.deleteBatch(ids);
@@ -133,7 +133,7 @@ public class SecRoleController {
 
     @Logging
     @PostMapping(path = "/grant")
-    @ApiOperation(value = "用户授权角色", notes = "用户授权角色")
+    @Operation(summary = "用户授权角色", description = "用户授权角色")
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_ROLE_AUTHORIZE)")
     public ResponseEntity<ResponseVO> grantRole(@NotNull Long roleId, @NotNull String userIds) {
@@ -165,7 +165,7 @@ public class SecRoleController {
 
     @Logging
     @GetMapping("/dept")
-    @ApiOperation(value = "查询部门对应角色列表", notes = "查询部门对应角色列表")
+    @Operation(summary = "查询部门对应角色列表", description = "查询部门对应角色列表")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_DEPT_SELECT)")
     public ResponseEntity<List<SecRoleDTO>> listRoleByDept(String grant, @NotNull Long deptId) {
         List<SecRoleDTO> list = this.secRoleService.selectRoleByDept(grant, deptId);
@@ -174,7 +174,7 @@ public class SecRoleController {
 
     @Logging
     @GetMapping("/dept/grant")
-    @ApiOperation(value = "部门角色授权", notes = "部门角色授权")
+    @Operation(summary = "部门角色授权", description = "部门角色授权")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_DEPT_AUTHORIZE)")
     public ResponseEntity<ResponseVO> grantDeptRole(@NotNull SecDeptRoleDTO deptRole) {
         this.secDeptRoleService.insert(deptRole);
@@ -187,7 +187,7 @@ public class SecRoleController {
 
     @Logging
     @GetMapping("/dept/revoke")
-    @ApiOperation(value = "回收部门角色权限", notes = "回收部门角色权限")
+    @Operation(summary = "回收部门角色权限", description = "回收部门角色权限")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_DEPT_UNAUTHORIZE)")
     public ResponseEntity<ResponseVO> revokeDeptRole(@NotNull SecDeptRoleDTO deptRole) {
         this.secDeptRoleService.delete(deptRole);
@@ -198,4 +198,3 @@ public class SecRoleController {
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 }
-

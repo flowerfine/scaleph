@@ -20,7 +20,7 @@ package cn.sliew.scaleph.workflow.service.dto;
 
 import cn.sliew.scaleph.common.dict.workflow.ScheduleStatus;
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -30,24 +30,24 @@ import java.util.Date;
 @EqualsAndHashCode
 public class WorkflowScheduleDTO extends BaseDTO {
 
-    @ApiModelProperty("workflow definition id")
+    @Schema(description = "workflow definition id")
     private Long workflowDefinitionId;
 
-    @ApiModelProperty("schedule cron timezone")
+    @Schema(description = "schedule cron timezone")
     private String timezone;
 
-    @ApiModelProperty("schedule crontab expression")
+    @Schema(description = "schedule crontab expression")
     private String crontab;
 
-    @ApiModelProperty("schedule start time")
+    @Schema(description = "schedule start time")
     private Date startTime;
 
-    @ApiModelProperty("schedule end time")
+    @Schema(description = "schedule end time")
     private Date endTime;
 
-    @ApiModelProperty("status")
+    @Schema(description = "status")
     private ScheduleStatus status;
 
-    @ApiModelProperty("remark")
+    @Schema(description = "remark")
     private String remark;
 }

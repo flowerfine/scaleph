@@ -20,8 +20,7 @@ package cn.sliew.scaleph.meta.service.dto;
 
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -40,34 +39,34 @@ import javax.validation.constraints.Pattern;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "MetaDataSet对象", description = "元数据-参考数据")
+@Schema(name = "MetaDataSet对象", description = "元数据-参考数据")
 public class MetaDataSetDTO extends BaseDTO {
 
     private static final long serialVersionUID = -8370149134397925591L;
 
     @NotNull
-    @ApiModelProperty(value = "参考数据类型")
+    @Schema(description = "参考数据类型")
     private MetaDataSetTypeDTO dataSetType;
 
     @NotBlank
     @Length(min = 1, max = 32)
     @Pattern(regexp = "\\w+$")
-    @ApiModelProperty(value = "代码code")
+    @Schema(description = "代码code")
     private String dataSetCode;
 
     @NotBlank
     @Length(min = 1, max = 128)
-    @ApiModelProperty(value = "代码值")
+    @Schema(description = "代码值")
     private String dataSetValue;
 
-    @ApiModelProperty(value = "业务系统id")
+    @Schema(description = "业务系统id")
     private MetaSystemDTO system;
 
-    @ApiModelProperty(value = "是否标准参考数据")
+    @Schema(description = "是否标准参考数据")
     private YesOrNo isStandard;
 
     @Length(max = 256)
-    @ApiModelProperty(value = "备注")
+    @Schema(description = "备注")
     private String remark;
 
 }

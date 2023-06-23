@@ -24,8 +24,8 @@ import cn.sliew.scaleph.meta.service.dto.MetaDataElementDTO;
 import cn.sliew.scaleph.meta.service.param.MetaDataElementParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(tags = "数据标准-数据元")
+@Tag(name = "数据标准-数据元")
 @RestController
 @RequestMapping(path = "/api/stdata/element")
 public class DataElementController {
@@ -46,7 +46,7 @@ public class DataElementController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "分页查询数据元", notes = "分页查询数据元信息")
+    @Operation(summary = "分页查询数据元", description = "分页查询数据元信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_DATA_ELEMENT_SELECT)")
     public ResponseEntity<Page<MetaDataElementDTO>> listMetaDataElement(@Valid MetaDataElementParam param) {
         Page<MetaDataElementDTO> page = metaDataElementService.listByPage(param);
@@ -55,7 +55,7 @@ public class DataElementController {
 
     @Logging
     @PutMapping
-    @ApiOperation(value = "新增数据元", notes = "新增数据元")
+    @Operation(summary = "新增数据元", description = "新增数据元")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_DATA_ELEMENT_ADD)")
     public ResponseEntity<ResponseVO> addMetaDataElement(@Validated @RequestBody MetaDataElementDTO metaDataElementDTO) {
         metaDataElementService.insert(metaDataElementDTO);
@@ -64,7 +64,7 @@ public class DataElementController {
 
     @Logging
     @PostMapping
-    @ApiOperation(value = "修改数据元", notes = "修改数据元")
+    @Operation(summary = "修改数据元", description = "修改数据元")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_DATA_ELEMENT_EDIT)")
     public ResponseEntity<ResponseVO> editMetaDataElement(@Validated @RequestBody MetaDataElementDTO metaDataElementDTO) {
         metaDataElementService.update(metaDataElementDTO);
@@ -73,7 +73,7 @@ public class DataElementController {
 
     @Logging
     @DeleteMapping(path = "/{id}")
-    @ApiOperation(value = "删除数据元", notes = "删除数据元")
+    @Operation(summary = "删除数据元", description = "删除数据元")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_DATA_ELEMENT_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaDataElement(@PathVariable(value = "id") String id) {
         metaDataElementService.deleteById(Long.valueOf(id));
@@ -82,7 +82,7 @@ public class DataElementController {
 
     @Logging
     @DeleteMapping(path = "/batch")
-    @ApiOperation(value = "批量删除数据元", notes = "批量删除数据元")
+    @Operation(summary = "批量删除数据元", description = "批量删除数据元")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_DATA_ELEMENT_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaDataElement(@RequestBody List<Long> ids) {
         metaDataElementService.deleteBatch(ids);

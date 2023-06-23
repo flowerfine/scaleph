@@ -24,8 +24,8 @@ import cn.sliew.scaleph.ds.service.dto.DsCategoryDTO;
 import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
 import cn.sliew.scaleph.ds.service.param.DsTypeListParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(tags = "数据源管理-分类管理")
+@Tag(name = "数据源管理-分类管理")
 @RestController
 @RequestMapping(path = "/api/ds/category")
 public class CategoryController {
@@ -46,7 +46,7 @@ public class CategoryController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询分类列表", notes = "查询分类列表")
+    @Operation(summary = "查询分类列表", description = "查询分类列表")
     public ResponseEntity<ResponseVO<List<DsCategoryDTO>>> list() {
         List<DsCategoryDTO> result = dsCategoryService.list();
         return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
@@ -54,7 +54,7 @@ public class CategoryController {
 
     @Logging
     @GetMapping("type")
-    @ApiOperation(value = "查询数据源类型", notes = "查询数据源类型")
+    @Operation(summary = "查询数据源类型", description = "查询数据源类型")
     public ResponseEntity<ResponseVO<List<DsTypeDTO>>> listTypes(@Valid DsTypeListParam param) {
         List<DsTypeDTO> result = dsCategoryService.listTypes(param);
         return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);

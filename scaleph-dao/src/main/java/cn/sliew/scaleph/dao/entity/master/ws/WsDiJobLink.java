@@ -20,8 +20,6 @@ package cn.sliew.scaleph.dao.entity.master.ws;
 
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -36,22 +34,16 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("ws_di_job_link")
-@ApiModel(value = "WsDiJobLink对象", description = "数据集成-作业连线")
 public class WsDiJobLink extends BaseDO {
 
     private static final long serialVersionUID = 8533125383197913516L;
 
-    @ApiModelProperty(value = "作业id")
     private Long jobId;
 
-    @ApiModelProperty(value = "作业连线编码")
     private String linkCode;
 
-    @ApiModelProperty(value = "源步骤编码")
     private String fromStepCode;
 
-    @ApiModelProperty(value = "目标步骤编码")
     private String toStepCode;
-
 
 }

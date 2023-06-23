@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.engine.sql.service.param;
 
 import cn.sliew.scaleph.system.model.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -28,6 +28,6 @@ import javax.validation.constraints.NotNull;
 public class WsFlinkArtifactSqlHistoryParam extends PaginationParam {
 
     @NotNull
-    @ApiModelProperty("flink artifact id")
+    @Schema(description = "flink artifact id")
     private Long flinkArtifactId;
 }

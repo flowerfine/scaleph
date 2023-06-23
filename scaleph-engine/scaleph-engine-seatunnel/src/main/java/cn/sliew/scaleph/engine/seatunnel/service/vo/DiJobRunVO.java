@@ -18,28 +18,27 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.vo;
 
+import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-
 @Data
-@ApiModel(value = "作业启动参数", description = "作业启动参数")
+@Schema(name = "作业启动参数", description = "作业启动参数")
 public class DiJobRunVO {
 
     @NotNull
-    @ApiModelProperty("job id")
+    @Schema(description = "job id")
     private Long jobId;
 
     @NotNull
-    @ApiModelProperty("cluster id")
+    @Schema(description = "cluster id")
     private Long clusterId;
 
-    @ApiModelProperty("resources")
+    @Schema(description = "resources")
     private List<DictVO> resources;
 
     public WsDiJobDTO toDto() {

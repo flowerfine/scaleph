@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.service.param;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -29,18 +29,18 @@ import javax.validation.constraints.NotNull;
 public class WsFlinkKubernetesJobUpdateParam {
 
     @NotNull
-    @ApiModelProperty("id")
+    @Schema(description = "id")
     private Long id;
 
     @NotBlank
-    @ApiModelProperty("name")
+    @Schema(description = "name")
     private String name;
 
     @NotNull
-    @ApiModelProperty("execution mode")
+    @Schema(description = "execution mode")
     private FlinkRuntimeExecutionMode executionMode;
 
-    @ApiModelProperty("remark")
+    @Schema(description = "remark")
     private String remark;
 
 }

@@ -32,6 +32,7 @@ import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
 import cn.sliew.scaleph.common.util.I18nUtil;
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.mail.service.EmailService;
+import cn.sliew.scaleph.security.authentication.UserDetailInfo;
 import cn.sliew.scaleph.security.service.SecRoleService;
 import cn.sliew.scaleph.security.service.SecUserActiveService;
 import cn.sliew.scaleph.security.service.SecUserRoleService;
@@ -45,11 +46,10 @@ import cn.sliew.scaleph.security.util.SecurityUtil;
 import cn.sliew.scaleph.security.vo.OnlineUserVO;
 import cn.sliew.scaleph.security.web.OnlineUserService;
 import cn.sliew.scaleph.security.web.TokenProvider;
-import cn.sliew.scaleph.security.authentication.UserDetailInfo;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +87,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api")
-@Api(tags = "系统管理-用户管理")
+@Tag(name = "系统管理-用户管理")
 public class SecUserController {
 
     @Value("${app.name}")
@@ -124,10 +124,9 @@ public class SecUserController {
      * @return 登录成功后返回token
      */
     @AnonymousAccess
-    @PostMapping(path = "/user/login")
-    @ApiOperation(value = "用户登录", notes = "用户登录接口")
-    public ResponseEntity<ResponseVO> login(@Validated @RequestBody LoginInfoVO loginUser,
-                                            HttpServletRequest request) {
+    @PostMapping("/user/login")
+    @Operation(summary = "用户登录", description = "用户登录接口")
+    public ResponseEntity<ResponseVO> login(@Validated @RequestBody LoginInfoVO loginUser, HttpServletRequest request) {
         //检查验证码
         String authCode = (String) redisUtil.get(loginUser.getUuid());
         redisUtil.delKeys(loginUser.getUuid());
@@ -170,8 +169,8 @@ public class SecUserController {
     }
 
     @AnonymousAccess
-    @PostMapping(path = "/user/logout")
-    @ApiOperation(value = "用户登出", notes = "用户登出接口")
+    @PostMapping("/user/logout")
+    @Operation(summary = "用户登出", description = "用户登出接口")
     public ResponseEntity<ResponseVO> logout(String token) {
         if (token != null) {
             this.onlineUserService.logoutByToken(token);
@@ -180,7 +179,7 @@ public class SecUserController {
     }
 
     @AnonymousAccess
-    @PostMapping(path = "/user/passwd/edit")
+    @PostMapping("/user/passwd/edit")
     public ResponseEntity<ResponseVO> editPassword(@NotNull String oldPassword,
                                                    @NotNull String password,
                                                    @NotNull String confirmPassword) {
@@ -218,8 +217,8 @@ public class SecUserController {
      * @return ResponseVO
      */
     @Logging
-    @GetMapping(path = "/user/email/getAuth")
-    @ApiOperation(value = "获取邮箱验证码", notes = "用户登录后，绑定获取邮箱绑定验证码")
+    @GetMapping("/user/email/getAuth")
+    @Operation(summary = "获取邮箱验证码", description = "用户登录后，绑定获取邮箱绑定验证码")
     public ResponseEntity<ResponseVO> sendActiveEmail(@Email String email) {
         String userName = SecurityUtil.getCurrentUserName();
         if (StringUtils.hasText(userName)) {
@@ -248,10 +247,9 @@ public class SecUserController {
      * @return ResponseVO
      */
     @Logging
-    @GetMapping(path = "/user/email/auth")
+    @GetMapping("/user/email/auth")
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
-    public ResponseEntity<ResponseVO> getEmailAuthCode(@NotNull String authCode,
-                                                       @Email String email) {
+    public ResponseEntity<ResponseVO> getEmailAuthCode(@NotNull String authCode, @Email String email) {
         String userName = SecurityUtil.getCurrentUserName();
         if (StringUtils.hasText(userName)) {
             SecUserActiveDTO userActive = this.secUserActiveService.selectOne(userName, authCode);
@@ -282,10 +280,9 @@ public class SecUserController {
      * @return 用户及权限角色信息
      */
     @AnonymousAccess
-    @GetMapping(path = "/user/get/{token}")
-    @ApiOperation(value = "查询用户权限", notes = "根据token信息查询用户所有权限")
-    public ResponseEntity<ResponseVO> getOnlineUserInfo(
-            @PathVariable(value = "token") String token) {
+    @GetMapping("/user/get/{token}")
+    @Operation(summary = "查询用户权限", description = "根据token信息查询用户所有权限")
+    public ResponseEntity<ResponseVO> getOnlineUserInfo(@PathVariable(value = "token") String token) {
         OnlineUserVO onlineUser = this.onlineUserService.getAllPrivilegeByToken(token);
         ResponseVO info = ResponseVO.success();
         info.setData(onlineUser);
@@ -301,11 +298,10 @@ public class SecUserController {
      */
     @Logging
     @AnonymousAccess
-    @PostMapping(path = "/user/register")
-    @ApiOperation(value = "用户注册", notes = "用户注册接口")
+    @PostMapping("/user/register")
+    @Operation(summary = "用户注册", description = "用户注册接口")
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
-    public ResponseEntity<ResponseVO> register(@Validated @RequestBody RegisterInfoVO registerInfo,
-                                               HttpServletRequest httpServletRequest) {
+    public ResponseEntity<ResponseVO> register(@Validated @RequestBody RegisterInfoVO registerInfo) {
         //校验验证码是否一致
         String authCode = (String) redisUtil.get(registerInfo.getUuid());
         redisUtil.delKeys(registerInfo.getUuid());
@@ -345,10 +341,10 @@ public class SecUserController {
     }
 
     @Logging
-    @PostMapping(path = "/admin/user")
-    @ApiOperation(value = "新增用户", notes = "新增用户")
+    @PostMapping("/admin/user")
+    @Operation(summary = "新增用户", description = "新增用户")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).USER_ADD)")
-    public ResponseEntity<ResponseVO> addUser(@Validated @RequestBody SecUserDTO secUserDTO, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<ResponseVO> addUser(@Validated @RequestBody SecUserDTO secUserDTO) {
         Date date = new Date();
         String randomPassword = RandomStringUtils.randomAlphanumeric(10);
         secUserDTO.setPassword(this.passwordEncoder.encode(randomPassword));
@@ -369,8 +365,8 @@ public class SecUserController {
 
 
     @Logging
-    @PutMapping(path = "/admin/user")
-    @ApiOperation(value = "修改用户", notes = "修改用户")
+    @PutMapping("/admin/user")
+    @Operation(summary = "修改用户", description = "修改用户")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).USER_EDIT)")
     public ResponseEntity<ResponseVO> editUser(@Validated @RequestBody SecUserDTO secUserDTO) {
         this.secUserService.update(secUserDTO);
@@ -379,17 +375,17 @@ public class SecUserController {
 
 
     @Logging
-    @DeleteMapping(path = "/admin/user/{id}")
-    @ApiOperation(value = "删除用户", notes = "根据id删除用户")
+    @DeleteMapping("/admin/user/{id}")
+    @Operation(summary = "删除用户", description = "根据id删除用户")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).USER_DELETE)")
-    public ResponseEntity<ResponseVO> deleteUser(@PathVariable(value = "id") String id) {
+    public ResponseEntity<ResponseVO> deleteUser(@PathVariable("id") String id) {
         this.secUserService.deleteById(Long.valueOf(id));
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
-    @PostMapping(path = "/admin/user/batch")
-    @ApiOperation(value = "批量删除用户", notes = "根据id列表批量删除用户")
+    @PostMapping("/admin/user/batch")
+    @Operation(summary = "批量删除用户", description = "根据id列表批量删除用户")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).USER_DELETE)")
     public ResponseEntity<ResponseVO> deleteBatchUser(@RequestBody Map<Integer, Integer> map) {
         this.secUserService.deleteBatch(map);
@@ -397,8 +393,8 @@ public class SecUserController {
     }
 
     @Logging
-    @GetMapping(path = "/admin/user")
-    @ApiOperation(value = "分页查询用户", notes = "分页查询用户")
+    @GetMapping("/admin/user")
+    @Operation(summary = "分页查询用户", description = "分页查询用户")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).USER_SELECT)")
     public ResponseEntity<Page<SecUserDTO>> listUser(SecUserParam secUserParam) {
         Page<SecUserDTO> page = this.secUserService.listByPage(secUserParam);
@@ -445,8 +441,8 @@ public class SecUserController {
      */
     @Logging
     @AnonymousAccess
-    @ApiOperation(value = "判断用户是否存在", notes = "根据用户名，判断用户是否存在")
-    @GetMapping(path = "/user/validation/userName")
+    @GetMapping("/user/validation/userName")
+    @Operation(summary = "判断用户是否存在", description = "根据用户名，判断用户是否存在")
     public ResponseEntity<Boolean> isUserNameExists(String userName) {
         SecUserDTO user = this.secUserService.selectOne(userName);
         return new ResponseEntity<>(user == null, HttpStatus.OK);
@@ -460,16 +456,16 @@ public class SecUserController {
      */
     @Logging
     @AnonymousAccess
-    @ApiOperation(value = "判断邮箱是否存在", notes = "根据邮箱，判断用户是否存在")
-    @GetMapping(path = "/user/validation/email")
+    @GetMapping("/user/validation/email")
+    @Operation(summary = "判断邮箱是否存在", description = "根据邮箱，判断用户是否存在")
     public ResponseEntity<Boolean> isEmailExists(String email) {
         SecUserDTO user = this.secUserService.selectByEmail(email);
         return new ResponseEntity<>(user == null, HttpStatus.OK);
     }
 
     @Logging
-    @GetMapping(path = "/user/info")
-    @ApiOperation(value = "根据用户名查询用户信息", notes = "根据用户名查询用户信息")
+    @GetMapping("/user/info")
+    @Operation(summary = "根据用户名查询用户信息", description = "根据用户名查询用户信息")
     public ResponseEntity<SecUserDTO> listUserByUserName() {
         String userName = SecurityUtil.getCurrentUserName();
         if (StringUtils.hasText(userName)) {
@@ -489,11 +485,10 @@ public class SecUserController {
      * @return user list
      */
     @Logging
-    @PostMapping(path = "/user/role")
-    @ApiOperation(value = "查询角色下用户列表", notes = "配合前端穿梭框查询用户列表")
+    @PostMapping("/user/role")
+    @Operation(summary = "查询角色下用户列表", description = "配合前端穿梭框查询用户列表")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).ROLE_GRANT)")
-    public ResponseEntity<List<TransferVO>> listUserByUserAndRole(String userName, Long roleId,
-                                                                  String direction) {
+    public ResponseEntity<List<TransferVO>> listUserByUserAndRole(String userName, Long roleId, String direction) {
         List<TransferVO> result = new ArrayList<>();
         List<SecUserDTO> userList = this.secUserService.listByRole(roleId, userName, direction);
         userList.forEach(d -> {
@@ -511,11 +506,10 @@ public class SecUserController {
      * @return user list
      */
     @Logging
-    @PostMapping(path = "/user/dept")
-    @ApiOperation(value = "查询部门下用户列表", notes = "配合前端穿梭框查询用户列表")
+    @PostMapping("/user/dept")
+    @Operation(summary = "查询部门下用户列表", description = "配合前端穿梭框查询用户列表")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DEPT_GRANT)")
-    public ResponseEntity<List<TransferVO>> listUserByUserAndDept(String userName, Long deptId,
-                                                                  String direction) {
+    public ResponseEntity<List<TransferVO>> listUserByUserAndDept(String userName, Long deptId, String direction) {
         List<TransferVO> result = new ArrayList<>();
         List<SecUserDTO> userList = this.secUserService.listByDept(deptId, userName, direction);
         userList.forEach(d -> {
@@ -524,4 +518,3 @@ public class SecUserController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
-

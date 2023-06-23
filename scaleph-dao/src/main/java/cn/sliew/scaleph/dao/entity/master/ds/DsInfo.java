@@ -21,8 +21,6 @@ package cn.sliew.scaleph.dao.entity.master.ds;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -34,32 +32,25 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode
 @TableName("ds_info")
-@ApiModel(value = "DsInfo对象", description = "data source info")
 public class DsInfo extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("data source type id")
     @TableField("ds_type_id")
     private Long dsTypeId;
 
-    @ApiModelProperty("version")
     @TableField("version")
     private String version;
 
-    @ApiModelProperty("name")
     @TableField("`name`")
     private String name;
 
-    @ApiModelProperty("props")
     @TableField("props")
     private String props;
 
-    @ApiModelProperty("additional props")
     @TableField("additional_props")
     private String additionalProps;
 
-    @ApiModelProperty("remark")
     @TableField("remark")
     private String remark;
 

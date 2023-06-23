@@ -21,12 +21,10 @@ package cn.sliew.scaleph.dao.entity.sakura;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 @Data
 @TableName("catalog_database")
-@ApiModel(value = "CatalogDatabase对象", description = "database")
 public class CatalogDatabase extends BaseDO {
 
     private static final long serialVersionUID = 1L;
