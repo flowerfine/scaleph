@@ -24,8 +24,6 @@ import cn.sliew.scaleph.ds.service.dto.DsCategoryDTO;
 import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
 import cn.sliew.scaleph.ds.service.param.DsTypeListParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -18,13 +18,12 @@
 
 package cn.sliew.scaleph.security.service.dto;
 
-import java.util.Date;
-
 import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.Date;
 
 /**
  * <p>
@@ -36,22 +35,21 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "用户激活码信息", description = "用户邮箱激活日志表")
+@Schema(name = "用户激活码信息", description = "用户邮箱激活日志表")
 public class SecUserActiveDTO extends BaseDTO {
 
     private static final long serialVersionUID = 8583076330823769080L;
 
-    @ApiModelProperty(value = "用户名")
+    @Schema(description = "用户名")
     private String userName;
 
-    @ApiModelProperty(value = "激活码")
+    @Schema(description = "激活码")
     private String activeCode;
 
-    @ApiModelProperty(value = "激活码过期时间戳")
+    @Schema(description = "激活码过期时间戳")
     private Long expiryTime;
 
-    @ApiModelProperty(value = "激活时间")
+    @Schema(description = "激活时间")
     private Date activeTime;
-
 
 }
