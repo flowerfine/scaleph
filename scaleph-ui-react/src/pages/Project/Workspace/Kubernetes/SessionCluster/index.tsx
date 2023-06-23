@@ -154,6 +154,7 @@ const FlinkKubernetesSessionClusterWeb: React.FC = () => {
             <Button
               shape="default"
               type="link"
+              danger
               icon={<DeleteOutlined/>}
               disabled={record.state}
               onClick={() => {
