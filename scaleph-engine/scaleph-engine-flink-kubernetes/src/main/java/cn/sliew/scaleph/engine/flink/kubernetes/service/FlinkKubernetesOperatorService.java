@@ -22,9 +22,11 @@ import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSes
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 
+import java.util.Optional;
+
 public interface FlinkKubernetesOperatorService {
 
-    GenericKubernetesResource getSessionCluster(WsFlinkKubernetesSessionClusterDTO sessionClusterDTO) throws Exception;
+    Optional<GenericKubernetesResource> getSessionCluster(WsFlinkKubernetesSessionClusterDTO sessionClusterDTO) throws Exception;
 
     void deploySessionCluster(Long clusterCredentialId, FlinkSessionCluster sessionCluster) throws Exception;
 

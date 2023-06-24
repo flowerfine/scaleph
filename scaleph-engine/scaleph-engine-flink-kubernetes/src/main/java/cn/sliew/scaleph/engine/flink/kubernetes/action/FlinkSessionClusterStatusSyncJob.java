@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -56,9 +57,9 @@ public class FlinkSessionClusterStatusSyncJob extends AbstractWorkFlow {
 
     private void doProcess(Long sessionClusterId) {
         try {
-            GenericKubernetesResource genericKubernetesResource = wsFlinkKubernetesSessionClusterService.getStatus(sessionClusterId);
-            if (genericKubernetesResource != null) {
-                String json = JacksonUtil.toJsonString(genericKubernetesResource.get("status"));
+            Optional<GenericKubernetesResource> optional = wsFlinkKubernetesSessionClusterService.getStatus(sessionClusterId);
+            if (optional.isPresent()) {
+                String json = JacksonUtil.toJsonString(optional.get().get("status"));
                 FlinkDeploymentStatus status = JacksonUtil.parseJsonString(json, FlinkDeploymentStatus.class);
                 wsFlinkKubernetesSessionClusterService.updateStatus(sessionClusterId, status);
             } else {

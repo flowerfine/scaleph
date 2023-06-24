@@ -225,7 +225,7 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
     }
 
     @Override
-    public GenericKubernetesResource getStatus(Long id) {
+    public Optional<GenericKubernetesResource> getStatus(Long id) {
         try {
             WsFlinkKubernetesSessionClusterDTO sessionClusterDTO = selectOne(id);
             return flinkKubernetesOperatorService.getSessionCluster(sessionClusterDTO);
@@ -236,13 +236,17 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
     }
 
     @Override
-    public GenericKubernetesResource getStatusWithoutManagedFields(Long id) {
-        GenericKubernetesResource status = getStatus(id);
+    public Optional<GenericKubernetesResource> getStatusWithoutManagedFields(Long id) {
+        Optional<GenericKubernetesResource> optional = getStatus(id);
+        if (optional.isEmpty()) {
+            return Optional.empty();
+        }
+        GenericKubernetesResource status = optional.get();
         GenericKubernetesResourceBuilder builder = new GenericKubernetesResourceBuilder(status);
         ObjectMetaBuilder objectMetaBuilder = new ObjectMetaBuilder(status.getMetadata());
         objectMetaBuilder.removeMatchingFromManagedFields(Predicates.isTrue());
         builder.withMetadata(objectMetaBuilder.build());
-        return builder.build();
+        return Optional.of(builder.build());
     }
 
 }

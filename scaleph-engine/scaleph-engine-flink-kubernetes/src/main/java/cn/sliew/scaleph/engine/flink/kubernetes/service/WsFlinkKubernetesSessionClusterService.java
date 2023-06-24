@@ -65,7 +65,7 @@ public interface WsFlinkKubernetesSessionClusterService {
 
     void shutdown(Long id) throws Exception;
 
-    GenericKubernetesResource getStatus(Long id);
+    Optional<GenericKubernetesResource> getStatus(Long id);
 
-    GenericKubernetesResource getStatusWithoutManagedFields(Long id);
+    Optional<GenericKubernetesResource> getStatusWithoutManagedFields(Long id);
 }

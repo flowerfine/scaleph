@@ -1,9 +1,9 @@
-import {useAccess, useIntl, useLocation} from "umi";
-import React, {useState} from "react";
+import {connect, useAccess, useIntl, useLocation} from "umi";
+import React, {useEffect} from "react";
 import {PageContainer, ProDescriptions} from "@ant-design/pro-components";
 import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
 import {ProDescriptionsItemProps} from "@ant-design/pro-descriptions";
-import {Button, Space, Tabs} from "antd";
+import {Button, message, Popconfirm, Space, Tabs} from "antd";
 import {
   AreaChartOutlined,
   CameraOutlined,
@@ -23,12 +23,28 @@ import FlinkKubernetesSessinClusterDetailLogWeb from "@/pages/Project/Workspace/
 import FlinkKubernetesSessinClusterDetailPodTemplateWeb
   from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Detail/PodTemplate";
 
-const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
+const FlinkKubernetesSessionClusterDetailWeb: React.FC = (props: any) => {
   const urlParams = useLocation();
   const intl = useIntl();
   const access = useAccess();
 
-  const [data, setData] = useState<WsFlinkKubernetesSessionCluster>(urlParams.state as WsFlinkKubernetesSessionCluster)
+  useEffect(() => {
+    const data = urlParams.state as WsFlinkKubernetesSessionCluster
+    refreshSessionCluster(data.id)
+    let timer = setInterval(() => {
+      refreshSessionCluster(data.id)
+    }, 3000);
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+  const refreshSessionCluster = (id: number) => {
+    props.dispatch({
+      type: 'sessionClusterDetail/querySessionCluster',
+      payload: id
+    })
+  }
 
   const descriptionColumns: ProDescriptionsItemProps<WsFlinkKubernetesSessionCluster>[] = [
     {
@@ -61,14 +77,25 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
   const buttons: React.ReactNode =
     <Space>
       <div>
-        <Button
-          type="default"
-          icon={<CaretRightOutlined/>}
-          disabled={data.state}
-          onClick={() => WsFlinkKubernetesSessionClusterService.deploy(data)}
+        <Popconfirm
+          title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
+          disabled={props.sessionClusterDetail.sessionCluster?.state}
+          onConfirm={() => {
+            WsFlinkKubernetesSessionClusterService.deploy(props.sessionClusterDetail.sessionCluster).then(response => {
+              message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
+            })
+          }}
         >
-          {intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.deploy'})}
-        </Button>
+          <Button
+            type="default"
+            icon={<CaretRightOutlined/>}
+            disabled={props.sessionClusterDetail.sessionCluster?.state}
+            onClick={() => WsFlinkKubernetesSessionClusterService.deploy(props.sessionClusterDetail.sessionCluster)}
+          >
+            {intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.deploy'})}
+          </Button>
+        </Popconfirm>
+
         <Button
           type="default"
           icon={<PauseOutlined/>}
@@ -76,14 +103,25 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
         >
           {intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.suspend'})}
         </Button>
-        <Button
-          type="default"
-          icon={<CloseOutlined/>}
-          disabled={!data.state}
-          onClick={() => WsFlinkKubernetesSessionClusterService.shutdown(data)}
+
+        <Popconfirm
+          title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
+          disabled={!props.sessionClusterDetail.sessionCluster?.state}
+          onConfirm={() => {
+            WsFlinkKubernetesSessionClusterService.shutdown(props.sessionClusterDetail.sessionCluster).then(response => {
+              message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
+            })
+          }}
         >
-          {intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.shutdown'})}
-        </Button>
+          <Button
+            type="default"
+            icon={<CloseOutlined/>}
+            disabled={!props.sessionClusterDetail.sessionCluster?.state}
+            onClick={() => WsFlinkKubernetesSessionClusterService.shutdown(props.sessionClusterDetail.sessionCluster)}
+          >
+            {intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.shutdown'})}
+          </Button>
+        </Popconfirm>
       </div>
 
       <div>
@@ -100,8 +138,8 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
         <Button
           type="default"
           icon={<DashboardOutlined/>}
-          disabled={data.state?.value != 'STABLE'}
-          onClick={() => WsFlinkKubernetesSessionClusterService.flinkui(data)}
+          disabled={props.sessionClusterDetail.sessionCluster?.state?.value != 'STABLE'}
+          onClick={() => WsFlinkKubernetesSessionClusterService.flinkui(props.sessionClusterDetail.sessionCluster)}
         >
           {intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.flinkui'})}
         </Button>
@@ -126,27 +164,27 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
     {
       label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.options'}),
       key: 'options',
-      children: <FlinkKubernetesSessinClusterDetailOptionsWeb data={data}/>
+      children: <FlinkKubernetesSessinClusterDetailOptionsWeb/>
     },
     {
       label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.configuration'}),
       key: 'configuration',
-      children: <FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb data={data}/>
+      children: <FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb/>
     },
     {
       label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.log'}),
       key: 'log',
-      children: <FlinkKubernetesSessinClusterDetailLogWeb data={data}/>
+      children: <FlinkKubernetesSessinClusterDetailLogWeb/>
     },
     {
       label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.pod'}),
       key: 'pod',
-      children: <FlinkKubernetesSessinClusterDetailPodTemplateWeb data={data}/>
+      children: <FlinkKubernetesSessinClusterDetailPodTemplateWeb/>
     },
     {
       label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.yaml'}),
       key: 'yaml',
-      children: <FlinkKubernetesSessinClusterDetailYAMLWeb data={data}/>
+      children: <FlinkKubernetesSessinClusterDetailYAMLWeb/>
     },
   ]
 
@@ -154,7 +192,7 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
     <PageContainer>
       <ProDescriptions
         column={2}
-        dataSource={data}
+        dataSource={props.sessionClusterDetail.sessionCluster}
         columns={descriptionColumns}
         extra={buttons}
       />
@@ -166,4 +204,5 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
   );
 }
 
-export default FlinkKubernetesSessionClusterDetailWeb;
+const mapModelToProps = ({sessionClusterDetail}: any) => ({sessionClusterDetail})
+export default connect(mapModelToProps)(FlinkKubernetesSessionClusterDetailWeb);

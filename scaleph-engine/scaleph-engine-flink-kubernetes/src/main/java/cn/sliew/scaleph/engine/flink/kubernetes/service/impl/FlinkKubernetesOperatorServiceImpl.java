@@ -31,6 +31,8 @@ import io.fabric8.kubernetes.client.utils.Serialization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperatorService {
 
@@ -38,12 +40,13 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
     private KuberenetesService kuberenetesService;
 
     @Override
-    public GenericKubernetesResource getSessionCluster(WsFlinkKubernetesSessionClusterDTO sessionClusterDTO) throws Exception {
+    public Optional<GenericKubernetesResource> getSessionCluster(WsFlinkKubernetesSessionClusterDTO sessionClusterDTO) throws Exception {
         KubernetesClient client = kuberenetesService.getClient(sessionClusterDTO.getClusterCredentialId());
-        return client.genericKubernetesResources(Constant.API_VERSION, Constant.FLINK_DEPLOYMENT)
+        GenericKubernetesResource resource = client.genericKubernetesResources(Constant.API_VERSION, Constant.FLINK_DEPLOYMENT)
                 .inNamespace(sessionClusterDTO.getNamespace())
                 .withName(sessionClusterDTO.getSessionClusterId())
                 .get();
+        return Optional.ofNullable(resource);
     }
 
     @Override

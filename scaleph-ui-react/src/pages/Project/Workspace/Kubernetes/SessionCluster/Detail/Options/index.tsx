@@ -1,8 +1,6 @@
-import React from "react";
-import {Props} from '@/app.d';
-import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
-import {useAccess, useIntl} from "umi";
-import {ProForm} from "@ant-design/pro-components";
+import {connect} from "umi";
+import React, {useEffect, useRef} from "react";
+import {ProForm, ProFormInstance} from "@ant-design/pro-components";
 import AdvancedBasic from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedBasic";
 import AdvancedResource from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedResource";
 import AdvancedCheckpoint from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedCheckpoint";
@@ -16,16 +14,21 @@ import AdvancedHighAvailability
 import AdvancedAdditional from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedAdditional";
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
 
-const FlinkKubernetesSessinClusterDetailOptionsWeb: React.FC<Props<WsFlinkKubernetesSessionCluster>> = ({data}) => {
-  const intl = useIntl();
-  const access = useAccess();
+const FlinkKubernetesSessinClusterDetailOptionsWeb: React.FC = (props: any) => {
+  const formRef = useRef<ProFormInstance>();
+
+  useEffect(() => {
+    if (props.sessionClusterDetail.sessionCluster) {
+      formRef.current?.setFieldsValue(WsFlinkKubernetesTemplateService.parseData({...props.sessionClusterDetail.sessionCluster}))
+    }
+  }, [props.sessionClusterDetail.sessionCluster]);
 
   return (
     <ProForm
+      formRef={formRef}
       grid={true}
       disabled
       submitter={false}
-      initialValues={WsFlinkKubernetesTemplateService.parseData({...data})}
     >
       <AdvancedBasic/>
       <AdvancedResource/>
@@ -39,4 +42,5 @@ const FlinkKubernetesSessinClusterDetailOptionsWeb: React.FC<Props<WsFlinkKubern
   );
 }
 
-export default FlinkKubernetesSessinClusterDetailOptionsWeb;
+const mapModelToProps = ({sessionClusterDetail}: any) => ({sessionClusterDetail})
+export default connect(mapModelToProps)(FlinkKubernetesSessinClusterDetailOptionsWeb);

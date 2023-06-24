@@ -39,6 +39,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @Tag(name = "Flink Kubernetes管理-Flink SessionCluster管理")
 @RestController
@@ -166,7 +167,7 @@ public class WsFlinkKubernetesSessionClusterController {
     @GetMapping("{id}/status")
     @Operation(summary = "获取 SessionCluster 状态", description = "获取 SessionCluster 状态")
     public ResponseEntity<ResponseVO<GenericKubernetesResource>> getSessionClusterStatus(@PathVariable("id") Long id) throws Exception {
-        GenericKubernetesResource sessionCluster = wsFlinkKubernetesSessionClusterService.getStatusWithoutManagedFields(id);
-        return new ResponseEntity<>(ResponseVO.success(sessionCluster), HttpStatus.OK);
+        Optional<GenericKubernetesResource> sessionCluster = wsFlinkKubernetesSessionClusterService.getStatusWithoutManagedFields(id);
+        return new ResponseEntity<>(ResponseVO.success(sessionCluster.orElse(null)), HttpStatus.OK);
     }
 }

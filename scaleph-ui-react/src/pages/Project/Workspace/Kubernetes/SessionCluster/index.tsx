@@ -1,6 +1,6 @@
 import {history, useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
-import {Button, message, Modal, Space, Tooltip} from "antd";
+import {Button, message, Modal, Popconfirm, Space, Tooltip} from "antd";
 import {CaretRightOutlined, CloseOutlined, DeleteOutlined, EyeOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProFormSwitch, ProTable} from "@ant-design/pro-components";
 import {DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF} from "@/constant";
@@ -109,31 +109,52 @@ const FlinkKubernetesSessionClusterWeb: React.FC = () => {
             </Button>
           )}
           {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
-            <Button
-              shape="default"
-              type="link"
-              icon={<CaretRightOutlined/>}
+            <Popconfirm
+              title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
               disabled={record.state}
-              onClick={() => WsFlinkKubernetesSessionClusterService.deploy(record)}
+              onConfirm={() => {
+                WsFlinkKubernetesSessionClusterService.deploy(record).then(response => {
+                  message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
+                  actionRef.current?.reload()
+                })
+              }}
             >
-              {intl.formatMessage({id: 'app.common.operate.start.label'})}
-            </Button>
+              <Button
+                shape="default"
+                type="link"
+                disabled={record.state}
+                icon={<CaretRightOutlined/>}
+              >
+                {intl.formatMessage({id: 'app.common.operate.start.label'})}
+              </Button>
+            </Popconfirm>
           )}
           {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
-            <Button
-              shape="default"
-              type="link"
-              icon={<CloseOutlined/>}
+            <Popconfirm
+              title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
               disabled={!record.state}
-              onClick={() => WsFlinkKubernetesSessionClusterService.shutdown(record)}
+              onConfirm={() => {
+                WsFlinkKubernetesSessionClusterService.shutdown(record).then(response => {
+                  message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
+                  actionRef.current?.reload()
+                })
+              }}
             >
-              {intl.formatMessage({id: 'app.common.operate.stop.label'})}
-            </Button>
+              <Button
+                shape="default"
+                type="link"
+                icon={<CloseOutlined/>}
+                disabled={!record.state}
+              >
+                {intl.formatMessage({id: 'app.common.operate.stop.label'})}
+              </Button>
+            </Popconfirm>
           )}
           {access.canAccess(PRIVILEGE_CODE.datadevDatasourceDelete) && (
             <Button
               shape="default"
               type="link"
+              danger
               icon={<DeleteOutlined/>}
               disabled={record.state}
               onClick={() => {
