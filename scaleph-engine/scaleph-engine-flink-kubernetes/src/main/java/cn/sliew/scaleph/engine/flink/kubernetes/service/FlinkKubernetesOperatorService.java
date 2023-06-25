@@ -32,4 +32,8 @@ public interface FlinkKubernetesOperatorService {
 
     void shutdownSessionCluster(Long clusterCredentialId, FlinkSessionCluster sessionCluster) throws Exception;
 
+    void deployJob(Long clusterCredentialId, Object job) throws Exception;
+
+    void shutdownJob(Long clusterCredentialId, Object job) throws Exception;
+
 }

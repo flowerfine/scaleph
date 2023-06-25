@@ -43,7 +43,7 @@ public class JobSpec implements Diffable<JobSpec> {
     /**
      * Parallelism of the Flink job.
      */
-    private int parallelism;
+    private int parallelism = 1;
 
     /**
      * Fully qualified main class name of the Flink job.
