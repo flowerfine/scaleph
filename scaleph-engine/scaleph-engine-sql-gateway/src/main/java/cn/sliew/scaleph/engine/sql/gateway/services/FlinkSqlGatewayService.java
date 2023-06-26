@@ -16,31 +16,35 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.sql.gateway.controller;
+package cn.sliew.scaleph.engine.sql.gateway.services;
 
-import io.swagger.v3.oas.annotations.Operation;
 import org.apache.flink.table.gateway.api.SqlGatewayService;
 import org.apache.flink.table.gateway.api.results.GatewayInfo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("gateway")
-public class SqlGatewayController {
+import java.util.Optional;
 
-    @Autowired
-    private SqlGatewayService sqlGatewayService;
+public interface FlinkSqlGatewayService {
 
-    @GetMapping
-    @Operation(summary = "gateway info", description = "gateway info")
-    public ResponseEntity<GatewayInfo> getGatewayInfo() {
-        GatewayInfo gatewayInfo = sqlGatewayService.getGatewayInfo();
-        return new ResponseEntity<>(gatewayInfo, HttpStatus.OK);
-    }
+    /**
+     * Get a {@link SqlGatewayService} by given params.
+     * <p>
+     * If not exists, create a new one and store in memory.
+     * </p>
+     * <p>
+     *
+     * </p>
+     *
+     * @param clusterId Flink K8S session cluster id
+     * @return an Optional instance of {@link SqlGatewayService}
+     */
+    Optional<SqlGatewayService> getOrCreateSqlGatewayService(String clusterId) throws Throwable;
 
+    /**
+     * Destroy a {@link SqlGatewayService} by cluster id
+     *
+     * @param clusterId Flink K8S session cluster id
+     */
+    void destroySqlGatewayService(String clusterId) throws Throwable;
 
+    GatewayInfo getGatewayInfo(String clusterId);
 }

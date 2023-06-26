@@ -36,6 +36,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSes
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesTemplateDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesSessionClusterListParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesSessionClusterSelectListParam;
+import cn.sliew.scaleph.engine.sql.gateway.services.FlinkSqlGatewayService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -43,6 +44,7 @@ import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResourceBuilder;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import org.apache.commons.lang3.EnumUtils;
+import org.apache.flink.table.gateway.api.SqlGatewayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Predicates;
 import org.springframework.stereotype.Service;
@@ -64,6 +66,8 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
     private WsFlinkKubernetesTemplateService wsFlinkKubernetesTemplateService;
     @Autowired
     private FlinkKubernetesOperatorService flinkKubernetesOperatorService;
+    @Autowired
+    private FlinkSqlGatewayService flinkSqlGatewayService;
 
     @Override
     public Page<WsFlinkKubernetesSessionClusterDTO> list(WsFlinkKubernetesSessionClusterListParam param) {
@@ -158,14 +162,28 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
         WsFlinkKubernetesSessionCluster record = new WsFlinkKubernetesSessionCluster();
         record.setId(id);
         record.setSupportSqlGateway(YesOrNo.YES);
-        return wsFlinkKubernetesSessionClusterMapper.updateById(record);
+        try {
+            if (flinkSqlGatewayService.getOrCreateSqlGatewayService(wsFlinkKubernetesSessionClusterDTO.getSessionClusterId()).isPresent()) {
+                return wsFlinkKubernetesSessionClusterMapper.updateById(record);
+            } else {
+                return 0;
+            }
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public int disableSqlGateway(Long id) {
+        WsFlinkKubernetesSessionClusterDTO wsFlinkKubernetesSessionClusterDTO = selectOne(id);
         WsFlinkKubernetesSessionCluster record = new WsFlinkKubernetesSessionCluster();
         record.setId(id);
         record.setSupportSqlGateway(YesOrNo.NO);
+        try {
+            flinkSqlGatewayService.destroySqlGatewayService(wsFlinkKubernetesSessionClusterDTO.getSessionClusterId());
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
         return wsFlinkKubernetesSessionClusterMapper.updateById(record);
     }
 
