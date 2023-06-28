@@ -27,7 +27,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeploym
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeploymentConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.kubernetes.Constant;
-import cn.sliew.scaleph.kubernetes.ResourceConverter;
+import cn.sliew.scaleph.kubernetes.resource.ResourceConverter;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import org.springframework.util.StringUtils;
 

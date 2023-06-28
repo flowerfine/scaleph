@@ -21,7 +21,7 @@ package cn.sliew.scaleph.engine.flink.kubernetes.resource.job;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionJobSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.FlinkSessionJobStatus;
 import cn.sliew.scaleph.kubernetes.Constant;
-import cn.sliew.scaleph.kubernetes.Resource;
+import cn.sliew.scaleph.kubernetes.resource.Resource;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.fabric8.kubernetes.client.CustomResource;
 import io.fabric8.kubernetes.model.annotation.Group;

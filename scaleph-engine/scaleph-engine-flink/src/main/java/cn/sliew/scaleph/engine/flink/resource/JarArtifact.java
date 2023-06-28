@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.engine.flink.resource;
 
 import cn.sliew.scaleph.kubernetes.Constant;
-import cn.sliew.scaleph.kubernetes.Resource;
+import cn.sliew.scaleph.kubernetes.resource.Resource;
 import io.fabric8.kubernetes.client.CustomResource;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

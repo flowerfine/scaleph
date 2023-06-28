@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes;
+package cn.sliew.scaleph.kubernetes.resource.definition;
 
-public interface ResourceConverter<S, T extends Resource> {
+public interface ResourceCustomizer<T> {
 
-    T convertTo(S source);
+    void customize(T builder);
 
-    S convertFrom(T target);
+    ResourceCustomizer EMPTY = builder -> {};
 }
