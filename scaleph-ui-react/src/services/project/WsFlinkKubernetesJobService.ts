@@ -65,4 +65,15 @@ export const WsFlinkKubernetesJobService = {
     });
   },
 
+  deploy: async (row: WsFlinkKubernetesJob) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesJobService.url}/deploy/${row.id}`, {
+      method: 'POST',
+    });
+  },
+
+  shutdown: async (row: WsFlinkKubernetesJob) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesJobService.url}/shutdown/${row.id}`, {
+      method: 'POST',
+    });
+  },
 };

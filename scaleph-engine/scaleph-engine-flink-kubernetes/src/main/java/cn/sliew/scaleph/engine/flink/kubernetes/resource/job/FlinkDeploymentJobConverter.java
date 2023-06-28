@@ -45,7 +45,7 @@ public enum FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKube
         ObjectMetaBuilder builder = new ObjectMetaBuilder(flinkDeployment.getMetadata(), true);
         String name = StringUtils.hasText(source.getJobId()) ? source.getJobId() : source.getName();
         builder.withName(name);
-        builder.withAdditionalProperties(Map.of(Constant.SCALEPH_NAME, source.getName()));
+        builder.withLabels(Map.of(Constant.SCALEPH_NAME, source.getName()));
         deployment.setMetadata(builder.build());
         FlinkDeploymentSpec spec = flinkDeployment.getSpec();
         if (source.getFlinkArtifactJar() != null) {
