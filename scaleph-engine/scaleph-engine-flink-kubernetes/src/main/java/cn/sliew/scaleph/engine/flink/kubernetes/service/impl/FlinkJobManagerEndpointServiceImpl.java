@@ -107,7 +107,7 @@ public class FlinkJobManagerEndpointServiceImpl implements FlinkJobManagerEndpoi
      * @see FlinkTemplateFactory#createServiceConfiguration()
      */
     private Optional<URI> getEndpointByService(String namespace, String name, KubernetesClient client) {
-        Resource<Service> serviceResource = client.resources(Service.class)
+        Resource<Service> serviceResource = client.services()
                 .inNamespace(namespace)
                 .withName(String.format("%s-rest", name));
         if (serviceResource != null && serviceResource.isReady()) {
@@ -160,11 +160,16 @@ public class FlinkJobManagerEndpointServiceImpl implements FlinkJobManagerEndpoi
             return Optional.empty();
         }
         for (LoadBalancerIngress ingress : loadBalancer.getIngress()) {
-            String hostname = ingress.getHostname();
-            for (PortStatus portStatus : ingress.getPorts()) {
-                return Optional.of(String.format("%s:%d", hostname, portStatus.getPort()));
+            // Get by ip firstly
+            String hostOrIp = ingress.getIp();
+            if (!StringUtils.hasText(hostOrIp)) {
+                // If ip is empty, get by hostname
+                hostOrIp = ingress.getHostname();
             }
-            return Optional.ofNullable(hostname);
+            for (PortStatus portStatus : ingress.getPorts()) {
+                return Optional.of(String.format("%s:%d", hostOrIp, portStatus.getPort()));
+            }
+            return Optional.ofNullable(hostOrIp);
         }
         return Optional.empty();
     }
