@@ -103,7 +103,6 @@
         <module>scaleph-catalog</module>
 
         <module>scaleph-dist</module>
-        <module>scaleph-sql-gateway</module>
         <module>scaleph-file-fetcher</module>
 
     </modules>
