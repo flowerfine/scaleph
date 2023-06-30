@@ -1,7 +1,7 @@
 import {history, useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
-import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
+import {CaretRightOutlined, CloseOutlined, DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProFormSelect, ProTable} from "@ant-design/pro-components";
 import {DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF} from "@/constant";
 import {WsFlinkKubernetesJob} from "@/services/project/typings";
@@ -133,6 +133,29 @@ const FlinkKubernetesJobWeb: React.FC = () => {
               />
             </Tooltip>
           )}
+
+          {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
+            <Button
+              shape="default"
+              type="link"
+              icon={<CaretRightOutlined/>}
+              onClick={() => WsFlinkKubernetesJobService.deploy(record)}
+            >
+              {intl.formatMessage({id: 'app.common.operate.start.label'})}
+            </Button>
+          )}
+
+          {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
+            <Button
+              shape="default"
+              type="link"
+              icon={<CloseOutlined/>}
+              onClick={() => WsFlinkKubernetesJobService.shutdown(record)}
+            >
+              {intl.formatMessage({id: 'app.common.operate.stop.label'})}
+            </Button>
+          )}
+
           {access.canAccess(PRIVILEGE_CODE.datadevDatasourceDelete) && (
             <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
               <Button

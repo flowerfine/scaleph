@@ -42,4 +42,8 @@ public interface WsFlinkKubernetesJobService {
 
     int deleteBatch(List<Long> ids);
 
+    void deploy(Long id) throws Exception;
+
+    void shutdown(Long id) throws Exception;
+
 }

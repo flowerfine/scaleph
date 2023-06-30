@@ -27,7 +27,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeploym
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeploymentConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.kubernetes.Constant;
-import cn.sliew.scaleph.kubernetes.ResourceConverter;
+import cn.sliew.scaleph.kubernetes.resource.ResourceConverter;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import org.springframework.util.StringUtils;
 
@@ -45,7 +45,7 @@ public enum FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKube
         ObjectMetaBuilder builder = new ObjectMetaBuilder(flinkDeployment.getMetadata(), true);
         String name = StringUtils.hasText(source.getJobId()) ? source.getJobId() : source.getName();
         builder.withName(name);
-        builder.withAdditionalProperties(Map.of(Constant.SCALEPH_NAME, source.getName()));
+        builder.withLabels(Map.of(Constant.SCALEPH_NAME, source.getName()));
         deployment.setMetadata(builder.build());
         FlinkDeploymentSpec spec = flinkDeployment.getSpec();
         if (source.getFlinkArtifactJar() != null) {

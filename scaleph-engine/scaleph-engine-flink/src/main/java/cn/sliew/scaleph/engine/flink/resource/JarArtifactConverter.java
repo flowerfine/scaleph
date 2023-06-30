@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.engine.flink.resource;
 
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
-import cn.sliew.scaleph.kubernetes.ResourceConverter;
+import cn.sliew.scaleph.kubernetes.resource.ResourceConverter;
 
 public enum JarArtifactConverter implements ResourceConverter<WsFlinkArtifactJarDTO, JarArtifact> {
     INSTANCE;

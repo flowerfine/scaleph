@@ -23,6 +23,7 @@ import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJob;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobMapper;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.job.FlinkDeploymentJobConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.job.FlinkSessionJobConverter;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernetesJobConvert;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
@@ -43,6 +44,8 @@ public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobServ
 
     @Autowired
     private WsFlinkKubernetesJobMapper wsFlinkKubernetesJobMapper;
+    @Autowired
+    private FlinkKubernetesOperatorService flinkKubernetesOperatorService;
 
     @Override
     public Page<WsFlinkKubernetesJobDTO> list(WsFlinkKubernetesJobListParam param) {
@@ -97,5 +100,35 @@ public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobServ
     @Override
     public int deleteBatch(List<Long> ids) {
         return wsFlinkKubernetesJobMapper.deleteBatchIds(ids);
+    }
+
+    @Override
+    public void deploy(Long id) throws Exception {
+        WsFlinkKubernetesJobDTO jobDTO = selectOne(id);
+        Object job = asYaml(id);
+        switch (jobDTO.getDeploymentKind()) {
+            case FLINK_DEPLOYMENT:
+                flinkKubernetesOperatorService.deployJob(jobDTO.getFlinkDeployment().getClusterCredentialId(), job);
+                return;
+            case FLINK_SESSION_JOB:
+                flinkKubernetesOperatorService.deployJob(jobDTO.getFlinkSessionCluster().getClusterCredentialId(), job);
+                return;
+            default:
+        }
+    }
+
+    @Override
+    public void shutdown(Long id) throws Exception {
+        WsFlinkKubernetesJobDTO jobDTO = selectOne(id);
+        Object job = asYaml(id);
+        switch (jobDTO.getDeploymentKind()) {
+            case FLINK_DEPLOYMENT:
+                flinkKubernetesOperatorService.shutdownJob(jobDTO.getFlinkDeployment().getClusterCredentialId(), job);
+                return;
+            case FLINK_SESSION_JOB:
+                flinkKubernetesOperatorService.shutdownJob(jobDTO.getFlinkSessionCluster().getClusterCredentialId(), job);
+                return;
+            default:
+        }
     }
 }
