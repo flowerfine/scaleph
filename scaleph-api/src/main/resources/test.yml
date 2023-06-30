@@ -1,0 +1,11 @@
+spec:
+  containers:
+    - name: flink-main-container
+      volumeMounts:
+        - mountPath: /flink-data
+          name: flink-volume
+  volumes:
+    - name: flink-volume
+      hostPath:
+        path: /tmp/flink
+        type: Directory

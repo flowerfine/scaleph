@@ -63,4 +63,16 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
         FlinkDeployment deployment = FlinkDeploymentFactory.fromSessionCluster(sessionCluster);
         client.resource(Serialization.asYaml(deployment)).delete();
     }
+
+    @Override
+    public void deployJob(Long clusterCredentialId, Object job) throws Exception {
+        KubernetesClient client = kuberenetesService.getClient(clusterCredentialId);
+        client.resource(Serialization.asYaml(job)).createOrReplace();
+    }
+
+    @Override
+    public void shutdownJob(Long clusterCredentialId, Object job) throws Exception {
+        KubernetesClient client = kuberenetesService.getClient(clusterCredentialId);
+        client.resource(Serialization.asYaml(job)).delete();
+    }
 }

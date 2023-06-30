@@ -27,7 +27,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSes
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionClusterConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.kubernetes.Constant;
-import cn.sliew.scaleph.kubernetes.ResourceConverter;
+import cn.sliew.scaleph.kubernetes.resource.ResourceConverter;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import org.springframework.util.StringUtils;
 
@@ -45,14 +45,15 @@ public enum FlinkSessionJobConverter implements ResourceConverter<WsFlinkKuberne
         ObjectMetaBuilder builder = new ObjectMetaBuilder(flinkSessionCluster.getMetadata(), true);
         String name = StringUtils.hasText(source.getJobId()) ? source.getJobId() : source.getName();
         builder.withName(name);
-        builder.withAdditionalProperties(Map.of(Constant.SCALEPH_NAME, source.getName()));
+        builder.withLabels(Map.of(Constant.SCALEPH_NAME, source.getName()));
         session.setMetadata(builder.build());
         FlinkSessionJobSpec spec = new FlinkSessionJobSpec();
         spec.setDeploymentName(flinkSessionCluster.getMetadata().getName());
         if (source.getFlinkArtifactJar() != null) {
             WsFlinkArtifactJar flinkArtifactJar = source.getFlinkArtifactJar();
             JobSpec jobSpec = new JobSpec();
-            jobSpec.setJarURI(flinkArtifactJar.getFileName());
+//            jobSpec.setJarURI("local:///opt/flink/usrlib/" + flinkArtifactJar.getFileName());
+            jobSpec.setJarURI("file:///opt/flink/examples/streaming/" + flinkArtifactJar.getFileName());
             jobSpec.setEntryClass(flinkArtifactJar.getEntryClass());
             jobSpec.setArgs(StringUtils.split(flinkArtifactJar.getJarParams(), " "));
             spec.setJob(jobSpec);

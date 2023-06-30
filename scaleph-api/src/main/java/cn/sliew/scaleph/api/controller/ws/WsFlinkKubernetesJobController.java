@@ -99,4 +99,20 @@ public class WsFlinkKubernetesJobController {
         wsFlinkKubernetesJobService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
+
+    @Logging
+    @PostMapping("deploy/{id}")
+    @Operation(summary = "启动 Job", description = "启动 Job")
+    public ResponseEntity<ResponseVO> deploy(@PathVariable("id") Long id) throws Exception {
+        wsFlinkKubernetesJobService.deploy(id);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping("shutdown/{id}")
+    @Operation(summary = "关闭 Job", description = "关闭 Job")
+    public ResponseEntity<ResponseVO> shutdown(@PathVariable("id") Long id) throws Exception {
+        wsFlinkKubernetesJobService.shutdown(id);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
 }
