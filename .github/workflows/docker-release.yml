@@ -15,7 +15,7 @@ jobs:
     if: github.repository == 'flowerfine/scaleph'
     strategy:
       matrix:
-        image: [ scaleph-api, scaleph-ui-react, scaleph-sql-templates, mysql ]
+        image: [ scaleph-api, scaleph-ui-react, scaleph-sql-templates, scaleph-file-fetcher, mysql ]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -42,6 +42,8 @@ jobs:
         uses: docker/setup-buildx-action@v2
       - name: Build scaleph-ui-react
         run: cd scaleph-ui-react && npm install && npm run build --prod
+      - name: Build scaleph-file-fetcher
+        run: mvn -B -U -T 4 clean package -DskipTests -Dfast -am --projects scaleph-file-fetcher
       - name: Push image
         uses: docker/build-push-action@v4
         with:
