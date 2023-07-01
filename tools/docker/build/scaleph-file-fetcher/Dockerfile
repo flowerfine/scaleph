@@ -7,8 +7,6 @@ RUN mkdir -p $SCALEPH_HOME
 
 WORKDIR $SCALEPH_HOME
 
-COPY ./scaleph/scaleph-file-fetcher/target/scaleph-file-fetcher*.jar $SCALEPH_HOME/scaleph.jar
+COPY ./scaleph-file-fetcher/target/scaleph-file-fetcher*.jar $SCALEPH_HOME/scaleph-file-fetcher.jar
 
-EXPOSE 8080 8080
-
-ENTRYPOINT ["sh","-c","java -jar /opt/scaleph/scaleph.jar ${ENV_PARAMS}"]
+ENTRYPOINT ["sh","-c","java -jar /opt/scaleph/scaleph-file-fetcher.jar ${ENV_PARAMS}"]
