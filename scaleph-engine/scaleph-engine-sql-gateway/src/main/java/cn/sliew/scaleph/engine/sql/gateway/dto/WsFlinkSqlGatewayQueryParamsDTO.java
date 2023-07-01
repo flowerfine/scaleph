@@ -16,15 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph;
+package cn.sliew.scaleph.engine.sql.gateway.dto;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
-@SpringBootApplication
-public class SqlGatewayApplication {
+import java.util.Map;
 
-    public static void main(String[] args) {
-        SpringApplication.run(SqlGatewayApplication.class, args);
-    }
+@Data
+@EqualsAndHashCode
+@Schema(name = "SqlGateway执行Sql的参数", description = "SqlGateway执行Sql的参数")
+@NoArgsConstructor
+public class WsFlinkSqlGatewayQueryParamsDTO {
+    @NonNull
+    private String sql;
+    private Map<String, String> configuration;
 }

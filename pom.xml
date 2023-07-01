@@ -103,7 +103,6 @@
         <module>scaleph-catalog</module>
 
         <module>scaleph-dist</module>
-        <module>scaleph-sql-gateway</module>
         <module>scaleph-file-fetcher</module>
 
     </modules>
@@ -158,7 +157,7 @@
         <akka.version>2.5.21</akka.version>
         <protobuf.version>3.21.5</protobuf.version>
         <netty.version>4.1.82.Final</netty.version>
-        <flink.version>1.16.1</flink.version>
+        <flink.version>1.17.1</flink.version>
         <kubernetes.client.version>6.2.0</kubernetes.client.version>
         <spring-cloud-openfeign.version>3.1.7</spring-cloud-openfeign.version>
         <zjsonpatch.version>0.4.14</zjsonpatch.version>
@@ -284,6 +283,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-engine-flink-kubernetes</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-engine-sql-gateway</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

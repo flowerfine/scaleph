@@ -49,6 +49,8 @@ public interface WsFlinkKubernetesSessionClusterService {
 
     Optional<WsFlinkKubernetesSessionClusterDTO> getSqlGatewaySessionCluster(Long projectId);
 
+    List<WsFlinkKubernetesSessionClusterDTO> getAllSqlGatewaySessionClusters();
+
     int enableSqlGateway(Long id);
 
     int disableSqlGateway(Long id);
