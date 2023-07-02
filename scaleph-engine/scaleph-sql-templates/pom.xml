@@ -15,22 +15,19 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>cn.sliew</groupId>
+    <parent>
+        <groupId>cn.sliew</groupId>
+        <artifactId>scaleph-engine</artifactId>
+        <version>1.0.5-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
     <artifactId>scaleph-sql-templates</artifactId>
-    <version>1.0.5-SNAPSHOT</version>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-        <java.version>11</java.version>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
-        <flink.version>1.17.1</flink.version>
-    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.flink</groupId>
@@ -39,6 +36,7 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
     <build>
         <finalName>sql-runner</finalName>
     </build>

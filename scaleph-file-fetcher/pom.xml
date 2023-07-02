@@ -40,4 +40,33 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>dist</id>
+            <build>
+                <finalName>${project.artifactId}</finalName>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>scaleph-file-fetcher</id>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>src/main/assembly/scaleph-file-fetcher.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 </project>
