@@ -9,4 +9,4 @@ WORKDIR $SCALEPH_HOME
 
 COPY ./scaleph-file-fetcher/target/scaleph-file-fetcher*.jar $SCALEPH_HOME/scaleph-file-fetcher.jar
 
-ENTRYPOINT ["sh","-c","java -jar /opt/scaleph/scaleph-file-fetcher.jar ${ENV_PARAMS}"]
+ENTRYPOINT ["sh","-c","java -jar /opt/scaleph-file-fetcher/scaleph-file-fetcher.jar cn.sliew.scaleph.Application ${ENV_PARAMS} $0 $@"]
