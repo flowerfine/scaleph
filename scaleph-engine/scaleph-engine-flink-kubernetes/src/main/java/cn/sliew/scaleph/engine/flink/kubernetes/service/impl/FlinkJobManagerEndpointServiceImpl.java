@@ -25,7 +25,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesSession
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
-import cn.sliew.scaleph.kubernetes.service.KuberenetesService;
+import cn.sliew.scaleph.kubernetes.service.KubernetesService;
 import io.fabric8.kubernetes.api.model.*;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -47,7 +47,7 @@ public class FlinkJobManagerEndpointServiceImpl implements FlinkJobManagerEndpoi
     @Autowired
     private WsFlinkKubernetesJobService wsFlinkKubernetesJobService;
     @Autowired
-    private KuberenetesService kuberenetesService;
+    private KubernetesService kubernetesService;
 
     @Override
     public URI getSessionClusterJobManagerEndpoint(Long sessionClusterId) {
@@ -71,14 +71,14 @@ public class FlinkJobManagerEndpointServiceImpl implements FlinkJobManagerEndpoi
     private Optional<URI> getJobManagerEndpoint(WsFlinkKubernetesSessionClusterDTO sessionCluster) {
         String namespace = sessionCluster.getNamespace();
         String name = StringUtils.hasText(sessionCluster.getSessionClusterId()) ? sessionCluster.getSessionClusterId() : sessionCluster.getName();
-        KubernetesClient client = kuberenetesService.getClient(sessionCluster.getClusterCredentialId());
+        KubernetesClient client = kubernetesService.getClient(sessionCluster.getClusterCredentialId());
         return getEndpointByIngress(namespace, name, client).or(() -> getEndpointByService(namespace, name, client));
     }
 
     private Optional<URI> getJobManagerEndpoint(WsFlinkKubernetesDeploymentDTO deployment) {
         String namespace = deployment.getNamespace();
         String name = StringUtils.hasText(deployment.getDeploymentId()) ? deployment.getDeploymentId() : deployment.getName();
-        KubernetesClient client = kuberenetesService.getClient(deployment.getClusterCredentialId());
+        KubernetesClient client = kubernetesService.getClient(deployment.getClusterCredentialId());
         return getEndpointByIngress(namespace, name, client).or(() -> getEndpointByService(namespace, name, client));
     }
 

@@ -76,7 +76,7 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
     private void startExistsSqlGateways() {
         getAllSqlGatewaySessionClusters().forEach(e -> {
             try {
-                wsFlinkSqlGatewayService.createSqlGatewayService(e.getSessionClusterId());
+                wsFlinkSqlGatewayService.createSqlGatewayService(e.getClusterCredentialId(), e.getSessionClusterId());
             } catch (Throwable ex) {
                 throw new RuntimeException(ex);
             }
@@ -185,7 +185,9 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
         record.setId(id);
         record.setSupportSqlGateway(YesOrNo.YES);
         try {
-            if (wsFlinkSqlGatewayService.createSqlGatewayService(wsFlinkKubernetesSessionClusterDTO.getSessionClusterId()).isPresent()) {
+            Long clusterCredentialId = wsFlinkKubernetesSessionClusterDTO.getClusterCredentialId();
+            String sessionClusterId = wsFlinkKubernetesSessionClusterDTO.getSessionClusterId();
+            if (wsFlinkSqlGatewayService.createSqlGatewayService(clusterCredentialId, sessionClusterId).isPresent()) {
                 return wsFlinkKubernetesSessionClusterMapper.updateById(record);
             } else {
                 return 0;
