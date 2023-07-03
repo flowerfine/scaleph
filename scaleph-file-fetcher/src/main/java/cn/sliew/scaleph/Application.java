@@ -18,24 +18,13 @@
 
 package cn.sliew.scaleph;
 
-import cn.sliew.milky.common.util.JacksonUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.Arrays;
-
-@Slf4j
 @SpringBootApplication
 public class Application {
 
     public static void main(String[] args) {
-        log.info("命令行参数: {}", JacksonUtil.toJsonString(Arrays.asList(args)));
-        String[] customArgs = new String[]{
-                "-uri", "scaleph://scaleph/user/wangqi/jar/mysql/github-recovery-codes.txt",
-                "-path", "/Users/wangqi/Documents/repository/sliew/scaleph/temp/github-recovery-codes.txt",
-        };
-
-        SpringApplication.run(Application.class, customArgs);
+        SpringApplication.run(Application.class, args);
     }
 }
