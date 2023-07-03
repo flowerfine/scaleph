@@ -20,7 +20,7 @@ file-system:
   type: s3
   proxy: false
   bucket: ${spring.application.name}
-  endPoint: http://minio:9000
+  endPoint: http://127.0.0.1:9000
   accessKey: admin
   secretKey: password
 #  type: oss
