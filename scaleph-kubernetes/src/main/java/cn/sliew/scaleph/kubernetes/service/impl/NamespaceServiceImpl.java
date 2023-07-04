@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.kubernetes.service.impl;
 
-import cn.sliew.scaleph.kubernetes.service.KuberenetesService;
+import cn.sliew.scaleph.kubernetes.service.KubernetesService;
 import cn.sliew.scaleph.kubernetes.service.NamespaceService;
 import io.fabric8.kubernetes.api.model.Namespace;
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -31,7 +31,7 @@ import java.util.List;
 public class NamespaceServiceImpl implements NamespaceService {
 
     @Autowired
-    private KuberenetesService kubernetesService;
+    private KubernetesService kubernetesService;
 
     @Override
     public List<Namespace> getNamespaces(Long clusterCredentialId) {

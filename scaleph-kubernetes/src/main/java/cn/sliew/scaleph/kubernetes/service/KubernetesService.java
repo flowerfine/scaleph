@@ -18,14 +18,18 @@
 
 package cn.sliew.scaleph.kubernetes.service;
 
+import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
 import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.KubernetesClient;
 
 import java.io.IOException;
+import java.nio.file.Path;
 
-public interface KuberenetesService {
+public interface KubernetesService {
 
     KubernetesClient getClient(Long clusterCredentialId);
+
+    Path downloadConfig(ClusterCredentialDTO clusterCredential) throws IOException;
 
     Config getConfig(Long clusterCredentialId) throws IOException;
 

@@ -20,6 +20,9 @@ package cn.sliew.scaleph.engine.sql.gateway.services.impl;
 
 import cn.sliew.scaleph.engine.sql.gateway.dto.WsFlinkSqlGatewayQueryParamsDTO;
 import cn.sliew.scaleph.engine.sql.gateway.services.WsFlinkSqlGatewayService;
+import cn.sliew.scaleph.kubernetes.service.KubernetesService;
+import cn.sliew.scaleph.resource.service.ClusterCredentialService;
+import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.configuration.DeploymentOptions;
@@ -35,10 +38,12 @@ import org.apache.flink.table.gateway.rest.util.SqlGatewayRestAPIVersion;
 import org.apache.flink.table.gateway.service.SqlGatewayServiceImpl;
 import org.apache.flink.table.gateway.service.context.DefaultContext;
 import org.apache.flink.table.gateway.service.session.SessionManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
@@ -46,6 +51,16 @@ import java.util.function.Supplier;
 @Slf4j
 @Service
 public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
+
+    private KubernetesService kubernetesService;
+    private ClusterCredentialService clusterCredentialService;
+
+    @Autowired
+    public WsFlinkSqlGatewayServiceImpl(KubernetesService kubernetesService,
+                                        ClusterCredentialService clusterCredentialService) {
+        this.kubernetesService = kubernetesService;
+        this.clusterCredentialService = clusterCredentialService;
+    }
 
     /**
      * Store {@link SqlGatewayService}s in this map. </br>
@@ -80,15 +95,22 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
     /**
      * {@inheritDoc}
      *
+     * @param kubeCredentialId Cluster credential id
      * @param clusterId Flink K8S session cluster id
      * @return
      * @throws Exception
      */
     @Override
-    public Optional<SqlGatewayService> createSqlGatewayService(String clusterId) {
+    public Optional<SqlGatewayService> createSqlGatewayService(Long kubeCredentialId, String clusterId) {
         try {
+            ClusterCredentialDTO clusterCredential = clusterCredentialService.selectOne(kubeCredentialId);
+            Path path = kubernetesService.downloadConfig(clusterCredential);
             Configuration configuration = GlobalConfiguration.loadConfiguration();
             configuration.set(KubernetesConfigOptions.CLUSTER_ID, clusterId);
+            configuration.set(KubernetesConfigOptions.KUBE_CONFIG_FILE, path.toString());
+            if (StringUtils.hasText(clusterCredential.getContext())) {
+                configuration.set(KubernetesConfigOptions.CONTEXT, clusterCredential.getContext());
+            }
             configuration.set(DeploymentOptions.TARGET, "kubernetes-session");
             DefaultContext defaultContext = new DefaultContext(configuration, Collections.emptyList());
             SessionManager sessionManager = SessionManager.create(defaultContext);

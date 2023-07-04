@@ -46,10 +46,11 @@ public interface WsFlinkSqlGatewayService {
      * If not exists, create a new one and store in memory.
      * </p>
      *
+     * @param kubeCredentialId Cluster credential id
      * @param clusterId Flink K8S session cluster id
      * @return an Optional instance of {@link SqlGatewayService}
      */
-    Optional<SqlGatewayService> createSqlGatewayService(String clusterId);
+    Optional<SqlGatewayService> createSqlGatewayService(Long kubeCredentialId, String clusterId);
 
     /**
      * Destroy a {@link SqlGatewayService} by cluster id

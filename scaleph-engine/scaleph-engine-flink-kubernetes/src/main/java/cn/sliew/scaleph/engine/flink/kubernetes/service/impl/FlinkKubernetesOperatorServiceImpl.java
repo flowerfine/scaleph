@@ -24,7 +24,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSes
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.kubernetes.Constant;
-import cn.sliew.scaleph.kubernetes.service.KuberenetesService;
+import cn.sliew.scaleph.kubernetes.service.KubernetesService;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.utils.Serialization;
@@ -37,11 +37,11 @@ import java.util.Optional;
 public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperatorService {
 
     @Autowired
-    private KuberenetesService kuberenetesService;
+    private KubernetesService kubernetesService;
 
     @Override
     public Optional<GenericKubernetesResource> getSessionCluster(WsFlinkKubernetesSessionClusterDTO sessionClusterDTO) throws Exception {
-        KubernetesClient client = kuberenetesService.getClient(sessionClusterDTO.getClusterCredentialId());
+        KubernetesClient client = kubernetesService.getClient(sessionClusterDTO.getClusterCredentialId());
         GenericKubernetesResource resource = client.genericKubernetesResources(Constant.API_VERSION, Constant.FLINK_DEPLOYMENT)
                 .inNamespace(sessionClusterDTO.getNamespace())
                 .withName(sessionClusterDTO.getSessionClusterId())
@@ -51,7 +51,7 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
 
     @Override
     public void deploySessionCluster(Long clusterCredentialId, FlinkSessionCluster sessionCluster) throws Exception {
-        KubernetesClient client = kuberenetesService.getClient(clusterCredentialId);
+        KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
         FlinkDeployment deployment = FlinkDeploymentFactory.fromSessionCluster(sessionCluster);
         // fixme 这里多做了一层转化，用对象会报错
         client.resource(Serialization.asYaml(deployment)).createOrReplace();
@@ -59,20 +59,20 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
 
     @Override
     public void shutdownSessionCluster(Long clusterCredentialId, FlinkSessionCluster sessionCluster) throws Exception {
-        KubernetesClient client = kuberenetesService.getClient(clusterCredentialId);
+        KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
         FlinkDeployment deployment = FlinkDeploymentFactory.fromSessionCluster(sessionCluster);
         client.resource(Serialization.asYaml(deployment)).delete();
     }
 
     @Override
     public void deployJob(Long clusterCredentialId, Object job) throws Exception {
-        KubernetesClient client = kuberenetesService.getClient(clusterCredentialId);
+        KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
         client.resource(Serialization.asYaml(job)).createOrReplace();
     }
 
     @Override
     public void shutdownJob(Long clusterCredentialId, Object job) throws Exception {
-        KubernetesClient client = kuberenetesService.getClient(clusterCredentialId);
+        KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
         client.resource(Serialization.asYaml(job)).delete();
     }
 }

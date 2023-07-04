@@ -21,7 +21,7 @@ package cn.sliew.scaleph.kubernetes.service.impl;
 import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.scaleph.common.nio.FileUtil;
 import cn.sliew.scaleph.common.util.SystemUtil;
-import cn.sliew.scaleph.kubernetes.service.KuberenetesService;
+import cn.sliew.scaleph.kubernetes.service.KubernetesService;
 import cn.sliew.scaleph.resource.service.ClusterCredentialService;
 import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
 import io.fabric8.kubernetes.client.Config;
@@ -41,7 +41,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 @Service
-public class KubernetesServiceImpl implements KuberenetesService {
+public class KubernetesServiceImpl implements KubernetesService {
 
     private ConcurrentMap<Long, KubernetesClient> cache = new ConcurrentHashMap<>(4);
 
@@ -64,15 +64,21 @@ public class KubernetesServiceImpl implements KuberenetesService {
     }
 
     @Override
-    public Config getConfig(Long clusterCredentialId) throws IOException {
-        ClusterCredentialDTO clusterCredentialDTO = clusterCredentialService.selectOne(clusterCredentialId);
+    public Path downloadConfig(ClusterCredentialDTO clusterCredential) throws IOException {
+        Long clusterCredentialId = clusterCredential.getId();
         Path kubeConfigPath = SystemUtil.getKubeConfigPath();
-        Path kubeconfig = FileUtil.createFile(kubeConfigPath, clusterCredentialId.toString());
-        try (OutputStream outputStream = FileUtil.getOutputStream(kubeconfig)) {
+        Path kubeConfig = FileUtil.createFile(kubeConfigPath, clusterCredentialId.toString());
+        try (OutputStream outputStream = FileUtil.getOutputStream(kubeConfig)) {
             clusterCredentialService.download(clusterCredentialId, outputStream);
         }
+        return kubeConfig;
+    }
 
-        try (InputStream inputStream = FileUtil.getInputStream(kubeconfig)) {
+    @Override
+    public Config getConfig(Long clusterCredentialId) throws IOException {
+        ClusterCredentialDTO clusterCredentialDTO = clusterCredentialService.selectOne(clusterCredentialId);
+        Path kubeConfig = downloadConfig(clusterCredentialDTO);
+        try (InputStream inputStream = FileUtil.getInputStream(kubeConfig)) {
             String kubeContent = StreamUtils.copyToString(inputStream, Charset.forName("UTF-8"));
             if (StringUtils.hasText(clusterCredentialDTO.getContext())) {
                 return Config.fromKubeconfig(clusterCredentialDTO.getContext(), kubeContent, null);
