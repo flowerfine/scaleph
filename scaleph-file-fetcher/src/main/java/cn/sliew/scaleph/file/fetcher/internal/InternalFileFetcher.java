@@ -25,10 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URI;
 
 @Component
@@ -44,6 +41,9 @@ public class InternalFileFetcher implements FileFetcher {
 
     @Override
     public void fetch(URI uri, String path) throws IOException {
+        if (fileSystemService.exists(uri.getPath()) == false) {
+            throw new FileNotFoundException(uri.getPath());
+        }
         try (InputStream inputStream = fileSystemService.get(uri.getPath());
              OutputStream outputStream = FileUtil.getOutputStream(new File(path))) {
             FileCopyUtils.copy(inputStream, outputStream);

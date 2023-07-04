@@ -25,11 +25,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Application {
 
     public static void main(String[] args) {
-        String[] customArgs = new String[]{
-                "-uri", "scaleph://scaleph/user/wangqi/jar/mysql/github-recovery-codes.txt",
-                "-path", "/Users/wangqi/Documents/repository/sliew/scaleph/temp/github-recovery-codes.txt",
-        };
-
-        SpringApplication.run(Application.class, customArgs);
+        SpringApplication.run(Application.class, args);
     }
 }
