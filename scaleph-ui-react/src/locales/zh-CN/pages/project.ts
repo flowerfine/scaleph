@@ -924,6 +924,11 @@ export default {
   'pages.project.flink.kubernetes.deployment.name': '名称',
   'pages.project.flink.kubernetes.deployment.type': '类型',
   'pages.project.flink.kubernetes.deployment.namespace': 'Namespace',
+  'pages.project.flink.kubernetes.deployment.steps.cluster': 'Cluster & Template',
+  'pages.project.flink.kubernetes.deployment.steps.cluster.template': 'Template',
+  'pages.project.flink.kubernetes.deployment.steps.cluster.cluster': 'Cluster',
+  'pages.project.flink.kubernetes.deployment.steps.options': 'Options',
+  'pages.project.flink.kubernetes.deployment.steps.yaml': 'YAML',
 
   'pages.project.flink.kubernetes.deployment.detail': '详情',
   'pages.project.flink.kubernetes.deployment.detail.snapshot': '快照管理',

@@ -24,8 +24,8 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesDeploym
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesDeploymentListParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesDeploymentSelectListParam;
-import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.model.ResponseVO;
+import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -75,6 +75,14 @@ public class WsFlinkKubernetesDeploymentController {
     public ResponseEntity<ResponseVO<FlinkDeployment>> asYaml(@PathVariable("id") Long id) {
         FlinkDeployment dto = wsFlinkKubernetesDeploymentService.asYaml(id);
         return new ResponseEntity(ResponseVO.success(dto), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("fromTemplate")
+    @Operation(summary = "转换 Deployment", description = "转换 Deployment")
+    public ResponseEntity<ResponseVO<WsFlinkKubernetesDeploymentDTO>> fromTemplate(@RequestParam("templateId") Long templateId) {
+        WsFlinkKubernetesDeploymentDTO deployment = wsFlinkKubernetesDeploymentService.fromTemplate(templateId);
+        return new ResponseEntity(ResponseVO.success(deployment), HttpStatus.OK);
     }
 
     @Logging

@@ -43,6 +43,13 @@ export const WsFlinkKubernetesDeploymentService = {
     });
   },
 
+  fromTemplate: async (templateId: number) => {
+    return request<ResponseBody<WsFlinkKubernetesDeployment>>(`${WsFlinkKubernetesDeploymentService.url}/fromTemplate`, {
+      method: 'GET',
+      params: {templateId: templateId},
+    });
+  },
+
   add: async (row: WsFlinkKubernetesDeployment) => {
     return request<ResponseBody<any>>(`${WsFlinkKubernetesDeploymentService.url}`, {
       method: 'PUT',
