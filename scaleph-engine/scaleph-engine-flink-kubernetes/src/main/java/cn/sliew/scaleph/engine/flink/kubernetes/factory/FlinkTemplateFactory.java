@@ -57,6 +57,16 @@ public enum FlinkTemplateFactory {
         return create("default", "default", defaults);
     }
 
+    public static FlinkTemplate getSessionClusterDefaults() {
+        FlinkTemplate defaults = createFlinkTemplateDefaults();
+        return create("session-cluster", "default", defaults);
+    }
+
+    public static FlinkTemplate getDeploymentDefaults() {
+        FlinkTemplate defaults = createFlinkTemplateDefaults();
+        return create("deployment", "default", defaults);
+    }
+
     private static FlinkTemplate createFlinkTemplateDefaults() {
         FlinkTemplate template = new FlinkTemplate();
         FlinkTemplateSpec spec = new FlinkTemplateSpec();

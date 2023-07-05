@@ -115,6 +115,9 @@
         <java.version>11</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.plugin.compiler.version>3.8.1</maven.plugin.compiler.version>
+        <maven.plugin.frontend.version>1.6</maven.plugin.frontend.version>
+        <maven.plugin.assembly.version>3.5.0</maven.plugin.assembly.version>
 
         <docker.hub>flowerfine</docker.hub>
         <docker.repo>${project.name}</docker.repo>
@@ -161,10 +164,6 @@
         <kubernetes.client.version>6.2.0</kubernetes.client.version>
         <spring-cloud-openfeign.version>3.1.7</spring-cloud-openfeign.version>
         <zjsonpatch.version>0.4.14</zjsonpatch.version>
-
-        <maven.plugin.compiler.version>3.8.1</maven.plugin.compiler.version>
-        <maven.plugin.frontend.version>1.6</maven.plugin.frontend.version>
-        <maven.plugin.assembly.version>3.5.0</maven.plugin.assembly.version>
     </properties>
 
     <dependencyManagement>
@@ -522,6 +521,39 @@
                 <groupId>org.apache.hadoop</groupId>
                 <artifactId>hadoop-aws</artifactId>
                 <version>${hadoop.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.flink</groupId>
+                <artifactId>flink-clients</artifactId>
+                <version>${flink.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.flink</groupId>
+                <artifactId>flink-sql-gateway</artifactId>
+                <version>${flink.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.flink</groupId>
+                <artifactId>flink-table-api-java</artifactId>
+                <version>${flink.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.flink</groupId>
+                <artifactId>flink-table-runtime</artifactId>
+                <version>${flink.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.flink</groupId>
+                <artifactId>flink-table-planner_2.12</artifactId>
+                <version>${flink.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.flink</groupId>
+                <artifactId>flink-kubernetes</artifactId>
+                <version>${flink.version}</version>
             </dependency>
 
             <dependency>
