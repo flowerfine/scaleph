@@ -27,7 +27,6 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IOUtils;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -38,8 +37,11 @@ import java.util.stream.Collectors;
 @Service
 public class FileSystemServiceImpl implements FileSystemService {
 
-    @Resource
     private FileSystem fs;
+
+    public FileSystemServiceImpl(FileSystem fs) {
+        this.fs = fs;
+    }
 
     @Override
     public FileSystem getFileSystem() {
@@ -52,59 +54,54 @@ public class FileSystemServiceImpl implements FileSystemService {
     }
 
     @Override
-    public boolean exists(String fileName) throws IOException {
-        Path path = new Path(fs.getWorkingDirectory(), fileName);
-        return fs.exists(path);
+    public boolean exists(String path) throws IOException {
+        return fs.exists(new Path(path));
     }
 
     @Override
-    public List<String> list(String directory) throws IOException {
-        Path path = new Path(fs.getWorkingDirectory(), directory);
-        if (fs.exists(path) == false) {
+    public List<String> list(String path) throws IOException {
+        if (exists(path) == false) {
             return Collections.emptyList();
         }
-        final FileStatus[] fileStatuses = fs.listStatus(path);
+        FileStatus[] fileStatuses = fs.listStatus(new Path(path));
         return Arrays.stream(fileStatuses)
                 .map(fileStatus -> fileStatus.getPath().getName())
                 .collect(Collectors.toList());
     }
 
     @Override
-    public InputStream get(String fileName) throws IOException {
-        Path path = new Path(fs.getWorkingDirectory(), fileName);
-        return fs.open(path);
+    public InputStream get(String path) throws IOException {
+        return fs.open(new Path(path));
     }
 
     @Override
-    public void upload(InputStream inputStream, String fileName) throws IOException {
-        Path path = new Path(fs.getWorkingDirectory(), fileName);
-        if (fs.exists(path.getParent()) == false) {
-            fs.mkdirs(path.getParent());
+    public Path upload(InputStream inputStream, String path) throws IOException {
+        Path filePath = new Path(fs.getWorkingDirectory(), path);
+        if (fs.exists(filePath.getParent()) == false) {
+            fs.mkdirs(filePath.getParent());
         }
-        try (final FSDataOutputStream outputStream = fs.create(path, false)) {
+        try (FSDataOutputStream outputStream = fs.create(filePath, false)) {
             IOUtils.copyBytes(inputStream, outputStream, 1024);
         }
+        return filePath;
     }
 
     @Override
-    public boolean delete(String fileName) throws IOException {
-        Path path = new Path(fs.getWorkingDirectory(), fileName);
-        return fs.delete(path, true);
+    public boolean delete(String path) throws IOException {
+        return fs.delete(new Path(path), true);
     }
 
     @Override
-    public Long getFileSize(String fileName) throws IOException {
-        Path path = new Path(fs.getWorkingDirectory(), fileName);
-        final FileStatus fileStatus = fs.getFileStatus(path);
-        return fileStatus.getLen();
+    public Long getFileSize(String path) throws IOException {
+        return fs.getFileStatus(new Path(path)).getLen();
     }
 
     @Override
-    public List<FileStatus> listStatus(String directory) throws IOException {
-        Path path = new Path(fs.getWorkingDirectory(), directory);
-        if (fs.exists(path)) {
-            return Arrays.asList(fs.listStatus(path));
+    public List<FileStatus> listStatus(String path) throws IOException {
+        if (exists(path) == false) {
+            return Collections.emptyList();
         }
-        return Collections.emptyList();
+        Path filePath = new Path(fs.getWorkingDirectory(), path);
+        return Arrays.asList(fs.listStatus(filePath));
     }
 }

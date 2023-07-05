@@ -45,7 +45,7 @@ export const WsFlinkKubernetesSessionClusterService = {
   },
 
   fromTemplate: async (templateId: number) => {
-    return request<ResponseBody<any>>(`${WsFlinkKubernetesSessionClusterService.url}/fromTemplate`, {
+    return request<ResponseBody<WsFlinkKubernetesSessionCluster>>(`${WsFlinkKubernetesSessionClusterService.url}/fromTemplate`, {
       method: 'GET',
       params: {templateId: templateId},
     });

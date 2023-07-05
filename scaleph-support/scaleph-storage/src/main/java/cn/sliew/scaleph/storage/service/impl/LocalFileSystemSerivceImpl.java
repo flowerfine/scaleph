@@ -35,10 +35,13 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
-@Service
+//@Service
 public class LocalFileSystemSerivceImpl implements FileSystemService, InitializingBean, DisposableBean {
 
     private Cache<String, Path> cache = Caffeine.newBuilder()
@@ -77,14 +80,19 @@ public class LocalFileSystemSerivceImpl implements FileSystemService, Initializi
     }
 
     @Override
-    public boolean exists(String fileName) throws IOException {
-        Path path = new Path(fs.getWorkingDirectory(), fileName);
-        return fs.exists(path);
+    public boolean exists(String path) throws IOException {
+        return fs.exists(new Path(path));
     }
 
     @Override
-    public List<String> list(String directory) throws IOException {
-        throw new UnsupportedOperationException();
+    public List<String> list(String path) throws IOException {
+        if (exists(path) == false) {
+            return Collections.emptyList();
+        }
+        FileStatus[] fileStatuses = fs.listStatus(new Path(path));
+        return Arrays.stream(fileStatuses)
+                .map(fileStatus -> fileStatus.getPath().getName())
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -94,7 +102,7 @@ public class LocalFileSystemSerivceImpl implements FileSystemService, Initializi
     }
 
     @Override
-    public void upload(InputStream inputStream, String fileName) throws IOException {
+    public Path upload(InputStream inputStream, String fileName) throws IOException {
         Path path = new Path(fs.getWorkingDirectory(), fileName);
         if (fs.exists(path.getParent()) == false) {
             fs.mkdirs(path.getParent());
@@ -104,6 +112,7 @@ public class LocalFileSystemSerivceImpl implements FileSystemService, Initializi
         }
         // enable cache and will be evicted automatically in the later hour
         cache.put(fileName, path);
+        return path;
     }
 
     @Override
@@ -124,4 +133,6 @@ public class LocalFileSystemSerivceImpl implements FileSystemService, Initializi
     public List<FileStatus> listStatus(String directory) throws IOException {
         throw new UnsupportedOperationException();
     }
+
+
 }

@@ -21,6 +21,7 @@ package cn.sliew.scaleph.engine.flink.service.impl;
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.exception.ScalephException;
+import cn.sliew.scaleph.common.util.I18nUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactJarMapper;
 import cn.sliew.scaleph.engine.flink.resource.JarArtifact;
@@ -32,11 +33,10 @@ import cn.sliew.scaleph.engine.flink.service.param.*;
 import cn.sliew.scaleph.project.service.WsFlinkArtifactService;
 import cn.sliew.scaleph.project.service.dto.WsFlinkArtifactDTO;
 import cn.sliew.scaleph.storage.service.FileSystemService;
-import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
-import cn.sliew.scaleph.common.util.I18nUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.hadoop.fs.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
@@ -129,10 +129,10 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
     }
 
     @Override
-    public void upload(WsFlinkArtifactJarUploadParam param, MultipartFile file) throws IOException, UidGenerateException {
-        String path = getFlinkArtifactPath(param.getName(), file.getOriginalFilename());
+    public void upload(WsFlinkArtifactJarUploadParam param, MultipartFile file) throws IOException {
+        Path path = null;
         try (InputStream inputStream = file.getInputStream()) {
-            fileSystemService.upload(inputStream, path);
+            path = fileSystemService.upload(inputStream, getFlinkArtifactPath(param.getName(), file.getOriginalFilename()));
         }
         WsFlinkArtifactDTO flinkArtifact = new WsFlinkArtifactDTO();
         flinkArtifact.setProjectId(param.getProjectId());
@@ -145,14 +145,14 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
         record.setFlinkVersion(param.getFlinkVersion());
         record.setEntryClass(param.getEntryClass());
         record.setFileName(file.getOriginalFilename());
-        record.setPath(path);
+        record.setPath(path.toString());
         record.setJarParams(param.getJarParams());
         record.setCurrent(YesOrNo.YES);
         flinkArtifactJarMapper.insert(record);
     }
 
     @Override
-    public int update(WsFlinkArtifactJarUpdateParam param, MultipartFile file) throws UidGenerateException, IOException {
+    public int update(WsFlinkArtifactJarUpdateParam param, MultipartFile file) throws IOException {
         WsFlinkArtifactJarDTO wsFlinkArtifactJarDTO = selectOne(param.getId());
         WsFlinkArtifactDTO flinkArtifact = new WsFlinkArtifactDTO();
         flinkArtifact.setId(wsFlinkArtifactJarDTO.getWsFlinkArtifact().getId());
@@ -162,9 +162,9 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
         int upsert = 0;
         WsFlinkArtifactJar record = new WsFlinkArtifactJar();
         if (file != null) {
-            String path = getFlinkArtifactPath(param.getName(), file.getOriginalFilename());
+            Path path = null;
             try (InputStream inputStream = file.getInputStream()) {
-                fileSystemService.upload(inputStream, path);
+                path = fileSystemService.upload(inputStream, getFlinkArtifactPath(param.getName(), file.getOriginalFilename()));
             }
             WsFlinkArtifactJarDTO oldArtifactJarDTO = selectCurrent(flinkArtifact.getId());
             WsFlinkArtifactJar oldRecord = new WsFlinkArtifactJar();
@@ -176,7 +176,7 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
             record.setFlinkVersion(param.getFlinkVersion());
             record.setEntryClass(param.getEntryClass());
             record.setFileName(file.getOriginalFilename());
-            record.setPath(path);
+            record.setPath(path.toString());
             record.setJarParams(param.getJarParams());
             record.setCurrent(YesOrNo.YES);
             upsert = flinkArtifactJarMapper.insert(record);

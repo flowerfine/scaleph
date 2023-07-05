@@ -24,6 +24,7 @@
         <artifactId>scaleph</artifactId>
         <groupId>cn.sliew</groupId>
         <version>1.0.5-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>scaleph-catalog</artifactId>
 
@@ -36,12 +37,6 @@
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-runtime</artifactId>
-            <version>${flink.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-table-api-java</artifactId>
-            <version>${flink.version}</version>
         </dependency>
     </dependencies>
 </project>

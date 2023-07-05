@@ -359,35 +359,6 @@ export type WsFlinkKubernetesTemplateUpdateParam = {
   remark?: string;
 };
 
-export type WsFlinkKubernetesDeployment = {
-  id?: number;
-  projectId: number;
-  clusterCredentialId: number;
-  name: string;
-  namespace: string;
-  kubernetesOptions?: KubernetesOptionsVO;
-  jobManager?: Record<string, any>;
-  taskManager?: Record<string, any>;
-  podTemplate?: Record<string, any>;
-  flinkConfiguration?: Record<string, any>;
-  logConfiguration?: Record<string, any>;
-  ingress?: Record<string, any>;
-  remark?: string;
-  createTime?: Date;
-  updateTime?: Date;
-};
-
-export type WsFlinkKubernetesDeploymentParam = QueryParam & {
-  projectId: number;
-  clusterCredentialId?: number;
-  name?: string;
-};
-
-export type WsFlinkKubernetesDeploymentSelectListParam = {
-  projectId: number;
-  name?: string;
-};
-
 export type WsFlinkKubernetesSessionCluster = {
   id?: number;
   projectId: number;
@@ -418,6 +389,35 @@ export type WsFlinkKubernetesSessionClusterParam = QueryParam & {
 };
 
 export type WsFlinkKubernetesSessionClusterSelectListParam = {
+  projectId: number;
+  name?: string;
+};
+
+export type WsFlinkKubernetesDeployment = {
+  id?: number;
+  projectId: number;
+  clusterCredentialId: number;
+  name: string;
+  namespace: string;
+  kubernetesOptions?: KubernetesOptionsVO;
+  jobManager?: Record<string, any>;
+  taskManager?: Record<string, any>;
+  podTemplate?: Record<string, any>;
+  flinkConfiguration?: Record<string, any>;
+  logConfiguration?: Record<string, any>;
+  ingress?: Record<string, any>;
+  remark?: string;
+  createTime?: Date;
+  updateTime?: Date;
+};
+
+export type WsFlinkKubernetesDeploymentParam = QueryParam & {
+  projectId: number;
+  clusterCredentialId?: number;
+  name?: string;
+};
+
+export type WsFlinkKubernetesDeploymentSelectListParam = {
   projectId: number;
   name?: string;
 };

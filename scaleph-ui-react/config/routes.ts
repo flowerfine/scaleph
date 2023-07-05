@@ -128,6 +128,13 @@ export default [
             access: 'normalRouteFilter'
           },
           {
+            path: '/workspace/flink/kubernetes/deployment/steps',
+            exact: true,
+            component: './Project/Workspace/Kubernetes/Deployment/Steps',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
+          {
             path: '/workspace/flink/kubernetes/deployment/detail',
             exact: true,
             component: './Project/Workspace/Kubernetes/Deployment/Detail',

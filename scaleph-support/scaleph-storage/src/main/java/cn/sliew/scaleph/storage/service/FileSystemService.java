@@ -20,6 +20,7 @@ package cn.sliew.scaleph.storage.service;
 
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,17 +32,17 @@ public interface FileSystemService {
 
     boolean isDistributedFS();
 
-    boolean exists(String fileName) throws IOException;
+    boolean exists(String path) throws IOException;
 
-    List<String> list(String directory) throws IOException;
+    List<String> list(String path) throws IOException;
 
-    InputStream get(String fileName) throws IOException;
+    InputStream get(String path) throws IOException;
 
-    void upload(InputStream inputStream, String fileName) throws IOException;
+    Path upload(InputStream inputStream, String path) throws IOException;
 
-    boolean delete(String fileName) throws IOException;
+    boolean delete(String path) throws IOException;
 
-    Long getFileSize(String fileName) throws IOException;
+    Long getFileSize(String path) throws IOException;
 
-    List<FileStatus> listStatus(String directory) throws IOException;
+    List<FileStatus> listStatus(String path) throws IOException;
 }

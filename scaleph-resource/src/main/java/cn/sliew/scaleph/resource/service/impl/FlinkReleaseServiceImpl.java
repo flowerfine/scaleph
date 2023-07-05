@@ -32,6 +32,7 @@ import cn.sliew.scaleph.storage.service.FileSystemService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.hadoop.fs.Path;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.util.List;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
@@ -116,14 +116,14 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService {
     @Override
     public void upload(FlinkReleaseUploadParam param, MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
-        String filePath = getFlinkReleasePath(param.getVersion().getValue(), fileName);
+        Path path = null;
         try (final InputStream inputStream = file.getInputStream()) {
-            fileSystemService.upload(inputStream, filePath);
+            path = fileSystemService.upload(inputStream, getFlinkReleasePath(param.getVersion().getValue(), fileName));
         }
         ResourceFlinkRelease record = new ResourceFlinkRelease();
         BeanUtils.copyProperties(param, record);
         record.setFileName(fileName);
-        record.setPath(filePath);
+        record.setPath(path.toString());
         flinkReleaseMapper.insert(record);
     }
 

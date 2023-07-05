@@ -31,6 +31,7 @@ import cn.sliew.scaleph.resource.service.param.ResourceListParam;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.hadoop.fs.Path;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -98,14 +99,14 @@ public class KerberosServiceImpl implements KerberosService {
     @Override
     public void upload(KerberosUploadParam param, MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
-        String filePath = getKerberosPath(param.getName(), fileName);
+        Path path = null;
         try (final InputStream inputStream = file.getInputStream()) {
-            fileSystemService.upload(inputStream, filePath);
+            path = fileSystemService.upload(inputStream, getKerberosPath(param.getName(), fileName));
         }
         ResourceKerberos record = new ResourceKerberos();
         BeanUtils.copyProperties(param, record);
         record.setFileName(fileName);
-        record.setPath(filePath);
+        record.setPath(path.toString());
         kerberosMapper.insert(record);
     }
 
