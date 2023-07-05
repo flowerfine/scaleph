@@ -20,68 +20,65 @@ package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition;
 
 import cn.sliew.scaleph.common.dict.image.ImagePullPolicy;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.job.FlinkDeploymentJob;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.kubernetes.resource.definition.ResourceCustomizer;
-import cn.sliew.scaleph.kubernetes.resource.definition.ResourceCustomizerFactory;
 import io.fabric8.kubernetes.api.model.*;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class FileFetcherFactory implements ResourceCustomizerFactory<PodBuilder> {
+public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJobDTO, FlinkDeploymentJob> {
+    INSTANCE;
 
     private static final String FILE_FETCHER_CONTAINER_NAME = "scaleph-file-fetcher";
-//    private static final String FILE_FETCHER_CONTAINER_IMAGE = "ghcr.io/flowerfine/scaleph/scaleph-file-fetcher:latest";
+    //    private static final String FILE_FETCHER_CONTAINER_IMAGE = "ghcr.io/flowerfine/scaleph/scaleph-file-fetcher:latest";
     private static final String FILE_FETCHER_CONTAINER_IMAGE = "scaleph-file-fetcher:dev";
 
     private static final Map<String, Quantity> FILE_FETCHER_CONTAINER_CPU = Map.of("cpu", Quantity.parse("250m"));
     private static final Map<String, Quantity> FILE_FETCHER_CONTAINER_MEMORY = Map.of("memory", Quantity.parse("512Mi"));
 
     private static final String FILE_FETCHER_VOLUME_NAME = "file-fetcher-volume";
-    private static final String TARGET_DIRECTORY = "/flink/usrlib/";
-
-    private String fileSystemSchema;
-    private WsFlinkKubernetesJobDTO wsFlinkKubernetesJob;
-
-    public FileFetcherFactory(String fileSystemSchema, WsFlinkKubernetesJobDTO wsFlinkKubernetesJob) {
-        this.fileSystemSchema = fileSystemSchema;
-        this.wsFlinkKubernetesJob = wsFlinkKubernetesJob;
-    }
+    public static final String TARGET_DIRECTORY = "/flink/usrlib/";
 
     @Override
-    public ResourceCustomizer<PodBuilder> create() {
-        return builder -> {
-            addAdditionalJars(builder);
-            addArtifactJar(builder);
-        };
+    public void customize(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentJob job) {
+        JobManagerSpec jobManager = Optional.ofNullable(job.getSpec().getJobManager()).orElse(new JobManagerSpec());
+        PodBuilder builder = Optional.of(jobManager).map(JobManagerSpec::getPodTemplate).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
+        doCustomize(jobDTO, builder);
+        jobManager.setPodTemplate(builder.build());
+        job.getSpec().setJobManager(jobManager);
     }
 
-    private void addArtifactJar(PodBuilder builder) {
-        switch (wsFlinkKubernetesJob.getDeploymentKind()) {
+    private void doCustomize(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
+        addAdditionalJars(jobDTO, builder);
+        addArtifactJar(jobDTO, builder);
+    }
+
+    private void addArtifactJar(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
+        switch (jobDTO.getDeploymentKind()) {
             case FLINK_DEPLOYMENT:
-                doAddJars(builder);
+                doAddJars(jobDTO.getFlinkArtifactJar(), builder);
                 return;
             case FLINK_SESSION_JOB:
             default:
         }
     }
 
-    private void addAdditionalJars(PodBuilder builder) {
-        switch (wsFlinkKubernetesJob.getDeploymentKind()) {
+    private void addAdditionalJars(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
+        switch (jobDTO.getDeploymentKind()) {
             case FLINK_DEPLOYMENT:
-                doAddJars(builder);
+//                doAddJars(builder);
                 return;
             case FLINK_SESSION_JOB:
             default:
         }
     }
 
-    private void doAddJars(PodBuilder builder) {
-        wsFlinkKubernetesJob.getFlinkArtifactJar();
+    private void doAddJars(WsFlinkArtifactJar jarArtifact, PodBuilder builder) {
         PodFluent.SpecNested<PodBuilder> spec = builder.editOrNewSpec();
-        spec.addToInitContainers(addJarArtifact(wsFlinkKubernetesJob.getFlinkArtifactJar()));
+        spec.addToInitContainers(addJarArtifact(jarArtifact));
+        builder.withSpec(spec.endSpec().buildSpec());
     }
 
     private Container addJarArtifact(WsFlinkArtifactJar jarArtifact) {
@@ -98,12 +95,11 @@ public class FileFetcherFactory implements ResourceCustomizerFactory<PodBuilder>
     }
 
     private void addAdditionalJars(PodFluent.SpecNested<PodBuilder> spec, WsFlinkArtifactJar jarArtifact) {
-        // add init container
-        // add volume
+
     }
 
     private List<String> buildFileFetcherArgs(WsFlinkArtifactJar jarArtifact) {
-        return Arrays.asList("-uri", fileSystemSchema + jarArtifact.getPath(),
+        return Arrays.asList("-uri", jarArtifact.getPath(),
                 "-path", TARGET_DIRECTORY + jarArtifact.getFileName());
     }
 

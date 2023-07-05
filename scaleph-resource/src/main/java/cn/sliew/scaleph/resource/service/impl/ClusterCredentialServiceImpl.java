@@ -30,6 +30,7 @@ import cn.sliew.scaleph.resource.service.param.ResourceListParam;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.hadoop.fs.Path;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -92,14 +93,14 @@ public class ClusterCredentialServiceImpl implements ClusterCredentialService {
     @Override
     public void upload(ClusterCredentialUploadParam param, MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
-        String filePath = getCredentialFilePath(param.getName(), fileName);
+        Path path = null;
         try (InputStream inputStream = file.getInputStream()) {
-            fileSystemService.upload(inputStream, filePath);
+            path = fileSystemService.upload(inputStream, getCredentialFilePath(param.getName(), fileName));
         }
         ResourceClusterCredential record = new ResourceClusterCredential();
         BeanUtils.copyProperties(param, record);
         record.setFileName(fileName);
-        record.setPath(filePath);
+        record.setPath(path.toString());
         resourceClusterCredentialMapper.insert(record);
     }
 

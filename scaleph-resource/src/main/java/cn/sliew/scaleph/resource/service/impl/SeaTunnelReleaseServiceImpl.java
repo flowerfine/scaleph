@@ -138,14 +138,14 @@ public class SeaTunnelReleaseServiceImpl implements SeaTunnelReleaseService {
     @Override
     public SeaTunnelReleaseDTO upload(SeaTunnelReleaseUploadParam param, MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
-        String filePath = getReleasePath(param.getVersion().getValue(), fileName);
+        org.apache.hadoop.fs.Path path = null;
         try (InputStream inputStream = file.getInputStream()) {
-            fileSystemService.upload(inputStream, filePath);
+            path = fileSystemService.upload(inputStream, getReleasePath(param.getVersion().getValue(), fileName));
         }
         ResourceSeaTunnelRelease record = new ResourceSeaTunnelRelease();
         BeanUtils.copyProperties(param, record);
         record.setFileName(fileName);
-        record.setPath(filePath);
+        record.setPath(path.toString());
         releaseSeaTunnelMapper.insert(record);
         return selectOne(record.getId());
     }
@@ -155,9 +155,9 @@ public class SeaTunnelReleaseServiceImpl implements SeaTunnelReleaseService {
         SeaTunnelReleaseDTO dto = selectOne(param.getId());
         String version = dto.getVersion().getValue();
         String connector = SeaTunnelPluginMapping.of(param.getPluginName()).getPluginJarPrefix();
-        String connectorPath = getSeaTunnelConnectorPath(version, connector);
+        org.apache.hadoop.fs.Path connectorPath = null;
         try (InputStream inputStream = file.getInputStream()) {
-            fileSystemService.upload(inputStream, connectorPath);
+            connectorPath = fileSystemService.upload(inputStream, getSeaTunnelConnectorPath(version, connector));
         }
     }
 

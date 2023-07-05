@@ -38,6 +38,8 @@ public interface WsFlinkKubernetesDeploymentService {
 
     FlinkDeployment asYaml(Long id);
 
+    FlinkDeployment asYAML(WsFlinkKubernetesDeploymentDTO  param);
+
     int insert(WsFlinkKubernetesDeploymentDTO dto);
 
     int update(WsFlinkKubernetesDeploymentDTO dto);

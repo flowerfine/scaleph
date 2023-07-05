@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
+import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesDeployment;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesDeploymentMapper;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeployment;
@@ -26,7 +27,6 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesDeploym
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesTemplateService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernetesDeploymentConvert;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentDTO;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesTemplateDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesDeploymentListParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesDeploymentSelectListParam;
@@ -99,12 +99,18 @@ public class WsFlinkKubernetesDeploymentServiceImpl implements WsFlinkKubernetes
     @Override
     public FlinkDeployment asYaml(Long id) {
         WsFlinkKubernetesDeploymentDTO dto = selectOne(id);
-        return FlinkDeploymentConverter.INSTANCE.convertTo(dto);
+        return asYAML(dto);
+    }
+
+    @Override
+    public FlinkDeployment asYAML(WsFlinkKubernetesDeploymentDTO param) {
+        return FlinkDeploymentConverter.INSTANCE.convertTo(param);
     }
 
     @Override
     public int insert(WsFlinkKubernetesDeploymentDTO dto) {
         WsFlinkKubernetesDeployment record = WsFlinkKubernetesDeploymentConvert.INSTANCE.toDo(dto);
+        record.setDeploymentId(UUIDUtil.randomUUId());
         return wsFlinkKubernetesDeploymentMapper.insert(record);
     }
 

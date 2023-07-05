@@ -5,7 +5,6 @@ import {Props} from '@/app.d';
 import {WsFlinkKubernetesDeployment} from "@/services/project/typings";
 import {WsFlinkKubernetesDeploymentService} from "@/services/project/WsFlinkKubernetesDeploymentService";
 
-
 const FlinkKubernetesDeploymentDetailYAMLWeb: React.FC<Props<WsFlinkKubernetesDeployment>> = ({data}) => {
 
   const editorRef = useRef(null);

@@ -18,9 +18,7 @@
 
 package cn.sliew.scaleph.kubernetes.resource.definition;
 
-public interface ResourceCustomizer<T> {
+public interface ResourceCustomizer<S, T> {
 
-    void customize(T builder);
-
-    ResourceCustomizer EMPTY = builder -> {};
+    void customize(S source, T target);
 }

@@ -29,9 +29,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeploym
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.kubernetes.Constant;
 import cn.sliew.scaleph.kubernetes.resource.ResourceConverter;
-import cn.sliew.scaleph.kubernetes.resource.definition.ResourceCustomizer;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
-import io.fabric8.kubernetes.api.model.PodBuilder;
 import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
@@ -54,7 +52,7 @@ public enum FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKube
         if (source.getFlinkArtifactJar() != null) {
             WsFlinkArtifactJar flinkArtifactJar = source.getFlinkArtifactJar();
             JobSpec jobSpec = new JobSpec();
-            jobSpec.setJarURI(flinkArtifactJar.getFileName());
+            jobSpec.setJarURI("local://" + FileFetcherFactory.TARGET_DIRECTORY + flinkArtifactJar.getFileName());
             jobSpec.setEntryClass(flinkArtifactJar.getEntryClass());
             jobSpec.setArgs(StringUtils.split(flinkArtifactJar.getJarParams(), " "));
             spec.setJob(jobSpec);
@@ -77,13 +75,8 @@ public enum FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKube
             jobSpec.setArgs(args.toArray(new String[2]));
             spec.setJob(jobSpec);
         }
-
-        FileFetcherFactory fileFetcherFactory = new FileFetcherFactory("scaleph://scaleph", source);
-        ResourceCustomizer<PodBuilder> podBuilderResourceCustomizer = fileFetcherFactory.create();
-        PodBuilder podBuilder = new PodBuilder(spec.getPodTemplate());
-        podBuilderResourceCustomizer.customize(new PodBuilder());
-        spec.setPodTemplate(podBuilder.build());
         deployment.setSpec(spec);
+        FileFetcherFactory.INSTANCE.customize(source, deployment);
         return deployment;
     }
 

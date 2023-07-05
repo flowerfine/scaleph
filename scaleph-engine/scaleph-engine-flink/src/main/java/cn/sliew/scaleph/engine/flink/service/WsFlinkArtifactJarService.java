@@ -22,7 +22,6 @@ import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.engine.flink.resource.JarArtifact;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
 import cn.sliew.scaleph.engine.flink.service.param.*;
-import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,9 +47,9 @@ public interface WsFlinkArtifactJarService {
 
     int deleteAll(Long flinkArtifactId) throws IOException, ScalephException;
 
-    void upload(WsFlinkArtifactJarUploadParam param, MultipartFile file) throws IOException, UidGenerateException;
+    void upload(WsFlinkArtifactJarUploadParam param, MultipartFile file) throws IOException;
 
-    int update(WsFlinkArtifactJarUpdateParam param, MultipartFile file) throws UidGenerateException, IOException;
+    int update(WsFlinkArtifactJarUpdateParam param, MultipartFile file) throws IOException;
 
     String download(Long id, OutputStream outputStream) throws IOException;
 

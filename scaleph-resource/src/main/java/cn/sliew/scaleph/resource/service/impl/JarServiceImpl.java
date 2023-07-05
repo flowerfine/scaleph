@@ -31,6 +31,7 @@ import cn.sliew.scaleph.resource.service.param.ResourceListParam;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.hadoop.fs.Path;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -98,23 +99,21 @@ public class JarServiceImpl implements JarService {
     @Override
     public void upload(JarUploadParam param, MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
-        String filePath = getJarPath(param.getGroup(), fileName);
-        try (final InputStream inputStream = file.getInputStream()) {
-            fileSystemService.upload(inputStream, filePath);
+        Path path = null;
+        try (InputStream inputStream = file.getInputStream()) {
+            path = fileSystemService.upload(inputStream, getJarPath(param.getGroup(), fileName));
         }
         ResourceJar record = new ResourceJar();
         BeanUtils.copyProperties(param, record);
         record.setFileName(fileName);
-        record.setPath(filePath);
+        record.setPath(path.toString());
         jarMapper.insert(record);
     }
 
-
-
     @Override
     public String download(Long id, OutputStream outputStream) throws IOException {
-        final JarDTO dto = selectOne(id);
-        try (final InputStream inputStream = fileSystemService.get(dto.getPath())) {
+        JarDTO dto = selectOne(id);
+        try (InputStream inputStream = fileSystemService.get(dto.getPath())) {
             FileCopyUtils.copy(inputStream, outputStream);
         }
         return dto.getFileName();
@@ -138,7 +137,6 @@ public class JarServiceImpl implements JarService {
     private String getJarPath(String group, String fileName) {
         return String.format("%s/%s/%s", getJarRootPath(), group, fileName);
     }
-
 
 
     private String getJarRootPath() {

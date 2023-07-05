@@ -21,7 +21,7 @@ const DeploymentYAMLStepForm: React.FC = (props: any) => {
 
   useEffect(() => {
     if (props.deploymentStep.deployment) {
-      WsFlinkKubernetesDeploymentService.asYAML(props.deploymentStep.deployment).then(response => {
+      WsFlinkKubernetesDeploymentService.asYaml(props.deploymentStep.deployment).then(response => {
         if (response.data) {
           setYaml(YAML.stringify(response.data))
         }
