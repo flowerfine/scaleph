@@ -27,24 +27,28 @@ import org.springframework.util.FileCopyUtils;
 
 import java.io.*;
 import java.net.URI;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class InternalFileFetcher implements FileFetcher {
+
+    private List<String> SCHEMAS = Arrays.asList("s3a", "oss", "hdfs", "file");
 
     @Autowired
     private FileSystemServiceImpl fileSystemService;
 
     @Override
     public boolean support(URI uri) {
-        return uri.getScheme().equals("scaleph");
+        return SCHEMAS.contains(uri.getScheme());
     }
 
     @Override
     public void fetch(URI uri, String path) throws IOException {
-        if (fileSystemService.exists(uri.getPath()) == false) {
+        if (fileSystemService.exists(uri.toString()) == false) {
             throw new FileNotFoundException(uri.getPath());
         }
-        try (InputStream inputStream = fileSystemService.get(uri.getPath());
+        try (InputStream inputStream = fileSystemService.get(uri.toString());
              OutputStream outputStream = FileUtil.getOutputStream(new File(path))) {
             FileCopyUtils.copy(inputStream, outputStream);
         }

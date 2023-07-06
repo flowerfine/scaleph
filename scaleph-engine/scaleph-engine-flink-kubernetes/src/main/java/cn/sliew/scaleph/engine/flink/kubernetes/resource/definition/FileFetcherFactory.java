@@ -40,6 +40,8 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
 
     private static final String FILE_FETCHER_VOLUME_NAME = "file-fetcher-volume";
     public static final String TARGET_DIRECTORY = "/flink/usrlib/";
+    public static final String LOCAL_SCHEMA = "local://";
+    public static final String LOCAL_PATH = LOCAL_SCHEMA + TARGET_DIRECTORY;
 
     @Override
     public void customize(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentJob job) {
