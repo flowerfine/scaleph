@@ -26,6 +26,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplate;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplateSpec;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
+import org.apache.flink.configuration.ConfigOptions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,11 +60,17 @@ public enum FlinkTemplateFactory {
 
     public static FlinkTemplate getSessionClusterDefaults() {
         FlinkTemplate defaults = createFlinkTemplateDefaults();
+        Map<String, String> flinkConfiguration = new HashMap<>(createSessionClusterConfiguration());
+        flinkConfiguration.putAll(defaults.getSpec().getFlinkConfiguration());
+        defaults.getSpec().setFlinkConfiguration(flinkConfiguration);
         return create("session-cluster", "default", defaults);
     }
 
     public static FlinkTemplate getDeploymentDefaults() {
         FlinkTemplate defaults = createFlinkTemplateDefaults();
+        Map<String, String> flinkConfiguration = new HashMap<>(createDeploymentServiceConfiguration());
+        flinkConfiguration.putAll(defaults.getSpec().getFlinkConfiguration());
+        defaults.getSpec().setFlinkConfiguration(flinkConfiguration);
         return create("deployment", "default", defaults);
     }
 
@@ -105,7 +112,6 @@ public enum FlinkTemplateFactory {
         flinkConfiguration.putAll(createCheckpointConfiguration());
         flinkConfiguration.putAll(createPeriodicSavepointConfiguration());
         flinkConfiguration.putAll(createRestartConfiguration());
-        flinkConfiguration.putAll(createServiceConfiguration());
         return flinkConfiguration;
     }
 
@@ -148,10 +154,16 @@ public enum FlinkTemplateFactory {
         return flinkConfiguration;
     }
 
-    public static Map<String, String> createServiceConfiguration() {
+    public static Map<String, String> createDeploymentServiceConfiguration() {
+        Map<String, String> serviceConfiguration = new HashMap<>();
+        serviceConfiguration.put("kubernetes.rest-service.exposed.type", ServiceExposedType.NODE_PORT.getValue());
+        serviceConfiguration.put("kubernetes.rest-service.exposed.node-port-address-type", NodePortAddressType.EXTERNAL_IP.getValue());
+        return serviceConfiguration;
+    }
+
+    public static Map<String, String> createSessionClusterConfiguration() {
         Map<String, String> serviceConfiguration = new HashMap<>();
         serviceConfiguration.put("kubernetes.rest-service.exposed.type", ServiceExposedType.LOAD_BALANCER.getValue());
-//        serviceConfiguration.put("kubernetes.rest-service.exposed.node-port-address-type", NodePortAddressType.EXTERNAL_IP.getValue());
         return serviceConfiguration;
     }
 
