@@ -24,6 +24,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.job.FlinkDeploymentJob;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.kubernetes.resource.definition.ResourceCustomizer;
+import cn.sliew.scaleph.system.snowflake.utils.NetUtils;
 import io.fabric8.kubernetes.api.model.*;
 
 import java.util.*;
@@ -111,6 +112,7 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
         builder.withImage(FILE_FETCHER_CONTAINER_IMAGE);
         builder.withImagePullPolicy(ImagePullPolicy.IF_NOT_PRESENT.getValue());
         builder.withArgs(buildFileFetcherArgs(jarArtifact));
+        builder.withEnv(buildEnvs());
         builder.withResources(buildResource());
         builder.withVolumeMounts(buildVolumeMount());
         builder.withTerminationMessagePath("/dev/termination-log");
@@ -127,6 +129,14 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
                 "-path", TARGET_DIRECTORY + jarArtifact.getFileName());
     }
 
+    private List<EnvVar> buildEnvs() {
+        EnvVarBuilder builder = new EnvVarBuilder();
+        builder.withName("MINIO_ENDPOINT");
+        final String localAddress = NetUtils.getLocalIP();
+        builder.withValue(String.format("http://%s:9000", localAddress));
+        return Arrays.asList(builder.build());
+    }
+
     private ResourceRequirements buildResource() {
         ResourceRequirementsBuilder resourceRequirementsBuilder = new ResourceRequirementsBuilder();
         Map resource = new HashMap();
@@ -136,6 +146,7 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
         resourceRequirementsBuilder.addToLimits(resource);
         return resourceRequirementsBuilder.build();
     }
+
 
     private VolumeMount buildVolumeMount() {
         VolumeMountBuilder builder = new VolumeMountBuilder();
