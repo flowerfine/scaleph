@@ -45,14 +45,36 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
 
     @Override
     public void customize(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentJob job) {
+        PodBuilder podBuilder = Optional.ofNullable(job.getSpec().getPodTemplate()).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
+        cusomizePodTemplate(podBuilder);
+        job.getSpec().setPodTemplate(podBuilder.build());
+
         JobManagerSpec jobManager = Optional.ofNullable(job.getSpec().getJobManager()).orElse(new JobManagerSpec());
-        PodBuilder builder = Optional.of(jobManager).map(JobManagerSpec::getPodTemplate).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
-        doCustomize(jobDTO, builder);
-        jobManager.setPodTemplate(builder.build());
+        cusomizeJobManagerPodTemplate(jobDTO, jobManager);
         job.getSpec().setJobManager(jobManager);
     }
 
+    private void cusomizePodTemplate(PodBuilder builder) {
+        PodFluent.MetadataNested<PodBuilder> metadata = builder.editOrNewMetadata();
+        metadata.withName("pod-template");
+        builder.withMetadata(metadata.endMetadata().buildMetadata());
+
+        PodFluent.SpecNested<PodBuilder> spec = builder.editOrNewSpec();
+        spec.addToVolumes(buildVolume());
+        builder.withSpec(spec.endSpec().buildSpec());
+    }
+
+    private void cusomizeJobManagerPodTemplate(WsFlinkKubernetesJobDTO jobDTO, JobManagerSpec jobManager) {
+        PodBuilder builder = Optional.of(jobManager).map(JobManagerSpec::getPodTemplate).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
+        doCustomize(jobDTO, builder);
+        jobManager.setPodTemplate(builder.build());
+    }
+
+
     private void doCustomize(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
+        PodFluent.MetadataNested<PodBuilder> metadata = builder.editOrNewMetadata();
+        metadata.withName("job-manager-pod-template");
+        builder.withMetadata(metadata.endMetadata().buildMetadata());
         addAdditionalJars(jobDTO, builder);
         addArtifactJar(jobDTO, builder);
     }
@@ -119,6 +141,13 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
         VolumeMountBuilder builder = new VolumeMountBuilder();
         builder.withName(FILE_FETCHER_VOLUME_NAME);
         builder.withMountPath(TARGET_DIRECTORY);
+        return builder.build();
+    }
+
+    private Volume buildVolume() {
+        VolumeBuilder builder = new VolumeBuilder();
+        builder.withName(FILE_FETCHER_VOLUME_NAME);
+        builder.withEmptyDir(new EmptyDirVolumeSource());
         return builder.build();
     }
 
