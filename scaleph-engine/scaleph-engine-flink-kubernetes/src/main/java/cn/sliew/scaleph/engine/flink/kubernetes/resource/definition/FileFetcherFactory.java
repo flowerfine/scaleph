@@ -59,13 +59,20 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
     private void cusomizePodTemplate(PodBuilder builder) {
         builder.editOrNewMetadata()
                 .withName("pod-template")
-                .endMetadata()
-                .editOrNewSpec()
-                .addToVolumes(buildVolume()) // add volumes
-                .editMatchingContainer(containerBuilder -> containerBuilder.getName().equals(FLINK_MAIN_CONTAINER_NAME))
-                .addToVolumeMounts(buildVolumeMount()) // add volume mount
-                .endContainer()
-                .endSpec();
+                .endMetadata();
+        PodFluent.SpecNested<PodBuilder> spec = builder.editOrNewSpec();
+        spec.addToVolumes(buildVolume()); // add volumes
+        if (spec.hasMatchingContainer(containerBuilder -> containerBuilder.getName().equals(FLINK_MAIN_CONTAINER_NAME))) {
+            spec.editMatchingContainer((containerBuilder -> containerBuilder.getName().equals(FLINK_MAIN_CONTAINER_NAME)))
+                    .addToVolumeMounts(buildVolumeMount()) // add volume mount
+                    .endContainer();
+        } else {
+            spec.addNewContainer()
+                    .withName(FLINK_MAIN_CONTAINER_NAME)
+                    .addToVolumeMounts(buildVolumeMount()) // add volume mount
+                    .endContainer();
+        }
+        spec.endSpec();
     }
 
     private void cusomizeJobManagerPodTemplate(WsFlinkKubernetesJobDTO jobDTO, JobManagerSpec jobManager) {
