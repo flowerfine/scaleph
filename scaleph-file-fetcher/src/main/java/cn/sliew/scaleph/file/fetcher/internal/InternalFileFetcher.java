@@ -48,9 +48,21 @@ public class InternalFileFetcher implements FileFetcher {
         if (fileSystemService.exists(uri.toString()) == false) {
             throw new FileNotFoundException(uri.getPath());
         }
+
         try (InputStream inputStream = fileSystemService.get(uri.toString());
-             OutputStream outputStream = FileUtil.getOutputStream(new File(path))) {
+             OutputStream outputStream = FileUtil.getOutputStream(createFile(path))) {
             FileCopyUtils.copy(inputStream, outputStream);
         }
+    }
+
+    /**
+     * fixme this can fix a strange question when flink-main-container mounts jar
+     * fixme never try to replace it through FileUtil or other utility
+     * fixme until you have solved such mount problem
+     */
+    private File createFile(String path) throws IOException {
+        File file = new File(path);
+        file.createNewFile();
+        return file;
     }
 }

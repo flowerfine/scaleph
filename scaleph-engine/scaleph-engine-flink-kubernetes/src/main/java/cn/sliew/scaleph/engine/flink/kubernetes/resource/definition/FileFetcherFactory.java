@@ -32,6 +32,7 @@ import java.util.*;
 public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJobDTO, FlinkDeploymentJob> {
     INSTANCE;
 
+    private static final String FLINK_MAIN_CONTAINER_NAME = "flink-main-container";
     private static final String FILE_FETCHER_CONTAINER_NAME = "scaleph-file-fetcher";
     //    private static final String FILE_FETCHER_CONTAINER_IMAGE = "ghcr.io/flowerfine/scaleph/scaleph-file-fetcher:latest";
     private static final String FILE_FETCHER_CONTAINER_IMAGE = "scaleph-file-fetcher:dev";
@@ -56,13 +57,15 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
     }
 
     private void cusomizePodTemplate(PodBuilder builder) {
-        PodFluent.MetadataNested<PodBuilder> metadata = builder.editOrNewMetadata();
-        metadata.withName("pod-template");
-        builder.withMetadata(metadata.endMetadata().buildMetadata());
-
-        PodFluent.SpecNested<PodBuilder> spec = builder.editOrNewSpec();
-        spec.addToVolumes(buildVolume());
-        builder.withSpec(spec.endSpec().buildSpec());
+        builder.editOrNewMetadata()
+                .withName("pod-template")
+                .endMetadata()
+                .editOrNewSpec()
+                .addToVolumes(buildVolume()) // add volumes
+                .editMatchingContainer(containerBuilder -> containerBuilder.getName().equals(FLINK_MAIN_CONTAINER_NAME))
+                .addToVolumeMounts(buildVolumeMount()) // add volume mount
+                .endContainer()
+                .endSpec();
     }
 
     private void cusomizeJobManagerPodTemplate(WsFlinkKubernetesJobDTO jobDTO, JobManagerSpec jobManager) {
@@ -71,13 +74,12 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
         jobManager.setPodTemplate(builder.build());
     }
 
-
     private void doCustomize(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
-        PodFluent.MetadataNested<PodBuilder> metadata = builder.editOrNewMetadata();
-        metadata.withName("job-manager-pod-template");
-        builder.withMetadata(metadata.endMetadata().buildMetadata());
-        addAdditionalJars(jobDTO, builder);
+        builder.editOrNewMetadata()
+                .withName("job-manager-pod-template")
+                .endMetadata();
         addArtifactJar(jobDTO, builder);
+        addAdditionalJars(jobDTO, builder);
     }
 
     private void addArtifactJar(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
@@ -101,9 +103,7 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
     }
 
     private void doAddJars(WsFlinkArtifactJar jarArtifact, PodBuilder builder) {
-        PodFluent.SpecNested<PodBuilder> spec = builder.editOrNewSpec();
-        spec.addToInitContainers(addJarArtifact(jarArtifact));
-        builder.withSpec(spec.endSpec().buildSpec());
+        builder.editOrNewSpec().addToInitContainers(addJarArtifact(jarArtifact)).endSpec();
     }
 
     private Container addJarArtifact(WsFlinkArtifactJar jarArtifact) {
