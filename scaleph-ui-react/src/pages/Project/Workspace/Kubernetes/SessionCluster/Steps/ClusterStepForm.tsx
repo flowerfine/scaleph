@@ -7,6 +7,7 @@ import {ClusterCredentialService} from "@/services/resource/clusterCredential.se
 import {ClusterCredentialListParam} from "@/services/resource/typings";
 import {WORKSPACE_CONF} from "@/constant";
 import {connect} from "umi";
+import {DeploymentKind} from "@/constants/enum";
 
 const SessionClusterClusterStepForm: React.FC = (props: any) => {
   const intl = useIntl();
@@ -48,7 +49,8 @@ const SessionClusterClusterStepForm: React.FC = (props: any) => {
         request={((params, props) => {
           const param: WsFlinkKubernetesTemplateParam = {
             projectId: projectId,
-            name: params.keyWords
+            name: params.keyWords,
+            deploymentKind: DeploymentKind.SessionCluster
           };
           return WsFlinkKubernetesTemplateService.list(param).then((response) => {
             return response.data.map((item) => {

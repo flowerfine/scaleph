@@ -20,13 +20,12 @@ package cn.sliew.scaleph.engine.flink.kubernetes.factory;
 
 import cn.sliew.scaleph.common.dict.flink.*;
 import cn.sliew.scaleph.common.dict.image.ImagePullPolicy;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.*;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkVersion;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.*;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplate;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplateSpec;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
-import org.apache.flink.configuration.ConfigOptions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,11 +50,6 @@ public enum FlinkTemplateFactory {
         }
         template.setSpec(spec);
         return template;
-    }
-
-    public static FlinkTemplate getDefaults() {
-        FlinkTemplate defaults = createFlinkTemplateDefaults();
-        return create("default", "default", defaults);
     }
 
     public static FlinkTemplate getSessionClusterDefaults() {

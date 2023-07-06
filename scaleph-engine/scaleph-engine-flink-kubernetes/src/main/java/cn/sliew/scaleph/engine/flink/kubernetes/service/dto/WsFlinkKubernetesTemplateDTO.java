@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.dto;
 
+import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.IngressSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.TaskManagerSpec;
@@ -48,6 +49,9 @@ public class WsFlinkKubernetesTemplateDTO extends BaseDTO {
 
     @Schema(description = "template id")
     private String templateId;
+
+    @Schema(description = "deployment kind")
+    private DeploymentKind deploymentKind;
 
     @Schema(description = "namespace")
     private String namespace;

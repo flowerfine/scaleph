@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
+import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesTemplate;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesTemplateMapper;
@@ -58,6 +59,7 @@ public class WsFlinkKubernetesTemplateServiceImpl implements WsFlinkKubernetesTe
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(WsFlinkKubernetesTemplate.class)
                         .eq(WsFlinkKubernetesTemplate::getProjectId, param.getProjectId())
+                        .eq(param.getDeploymentKind() != null, WsFlinkKubernetesTemplate::getDeploymentKind, param.getDeploymentKind())
                         .like(StringUtils.hasText(param.getName()), WsFlinkKubernetesTemplate::getName, param.getName()));
         Page<WsFlinkKubernetesTemplateDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
@@ -86,11 +88,16 @@ public class WsFlinkKubernetesTemplateServiceImpl implements WsFlinkKubernetesTe
     public WsFlinkKubernetesTemplateDTO mergeDefault(WsFlinkKubernetesTemplateDTO dto) {
         FlinkTemplate customTemplate = FlinkTemplateConverter.INSTANCE.convertTo(dto);
         FlinkTemplate defaultTemplate = FlinkTemplateFactory.create("default", "default", customTemplate);
-        return doMergeDefault(FlinkTemplateConverter.INSTANCE.convertFrom(defaultTemplate));
+        switch (dto.getDeploymentKind()) {
+            case FLINK_DEPLOYMENT:
+            case FLINK_SESSION_JOB:
+                return doMergeDefault(FlinkTemplateConverter.INSTANCE.convertFrom(defaultTemplate), getGlobalDefault(dto.getDeploymentKind()));
+            default:
+                return null;
+        }
     }
 
-    private WsFlinkKubernetesTemplateDTO doMergeDefault(WsFlinkKubernetesTemplateDTO dto) {
-        WsFlinkKubernetesTemplateDTO globalDefault = getGlobalDefault();
+    private WsFlinkKubernetesTemplateDTO doMergeDefault(WsFlinkKubernetesTemplateDTO dto, WsFlinkKubernetesTemplateDTO globalDefault) {
         WsFlinkKubernetesTemplateDTO result = new WsFlinkKubernetesTemplateDTO();
         result.setName(dto.getName());
         result.setNamespace(StringUtils.hasText(dto.getNamespace()) ? dto.getNamespace() : globalDefault.getNamespace());
@@ -105,9 +112,17 @@ public class WsFlinkKubernetesTemplateServiceImpl implements WsFlinkKubernetesTe
         return result;
     }
 
-    private WsFlinkKubernetesTemplateDTO getGlobalDefault() {
-        FlinkTemplate template = FlinkTemplateFactory.getDefaults();
-        return FlinkTemplateConverter.INSTANCE.convertFrom(template);
+    private WsFlinkKubernetesTemplateDTO getGlobalDefault(DeploymentKind deploymentKind) {
+        switch (deploymentKind) {
+            case FLINK_DEPLOYMENT:
+                FlinkTemplate deploymentDefaults = FlinkTemplateFactory.getDeploymentDefaults();
+                return FlinkTemplateConverter.INSTANCE.convertFrom(deploymentDefaults);
+            case FLINK_SESSION_JOB:
+                FlinkTemplate sessionClusterDefaults = FlinkTemplateFactory.getSessionClusterDefaults();
+                return FlinkTemplateConverter.INSTANCE.convertFrom(sessionClusterDefaults);
+            default:
+                return null;
+        }
     }
 
     @Override

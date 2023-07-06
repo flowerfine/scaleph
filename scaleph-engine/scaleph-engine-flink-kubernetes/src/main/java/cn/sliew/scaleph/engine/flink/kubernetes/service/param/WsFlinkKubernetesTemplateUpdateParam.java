@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.param;
 
+import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -34,6 +35,9 @@ public class WsFlinkKubernetesTemplateUpdateParam {
     @NotBlank
     @Schema(description = "name")
     private String name;
+
+    @Schema(description = "deployment kind")
+    private DeploymentKind deploymentKind;
 
     @NotBlank
     @Schema(description = "namespace")

@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.dao.entity.master.ws;
 
+import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -44,6 +45,9 @@ public class WsFlinkKubernetesTemplate extends BaseDO {
 
     @TableField("template_id")
     private String templateId;
+
+    @TableField("deployment_kind")
+    private DeploymentKind deploymentKind;
 
     @TableField("namespace")
     private String namespace;

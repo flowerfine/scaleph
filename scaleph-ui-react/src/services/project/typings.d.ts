@@ -327,6 +327,7 @@ export type WsFlinkKubernetesTemplate = {
   id?: number;
   projectId: number;
   name?: string;
+  deploymentKind?: Dict;
   namespace: string;
   kubernetesOptions?: KubernetesOptionsVO;
   jobManager?: Record<string, any>;
@@ -343,11 +344,13 @@ export type WsFlinkKubernetesTemplate = {
 export type WsFlinkKubernetesTemplateParam = QueryParam & {
   projectId: number;
   name?: string;
+  deploymentKind?: string;
 };
 
 export type WsFlinkKubernetesTemplateAddParam = {
   projectId: number;
   name: string;
+  deploymentKind?: string;
   namespace: string;
   remark?: string;
 };
@@ -355,6 +358,7 @@ export type WsFlinkKubernetesTemplateAddParam = {
 export type WsFlinkKubernetesTemplateUpdateParam = {
   id: number;
   name: string;
+  deploymentKind?: string;
   namespace: string;
   remark?: string;
 };

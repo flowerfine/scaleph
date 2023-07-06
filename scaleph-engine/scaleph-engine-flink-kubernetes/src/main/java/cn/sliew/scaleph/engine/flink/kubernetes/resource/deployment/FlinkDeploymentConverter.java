@@ -40,7 +40,7 @@ public enum FlinkDeploymentConverter implements ResourceConverter<WsFlinkKuberne
         String name = StringUtils.hasText(source.getDeploymentId()) ? source.getDeploymentId() : source.getName();
         builder.withName(name);
         builder.withNamespace(source.getNamespace());
-        builder.withAdditionalProperties(Map.of(Constant.SCALEPH_NAME, source.getName()));
+        builder.withLabels(Map.of(Constant.SCALEPH_NAME, source.getName()));
         deployment.setMetadata(builder.build());
         FlinkDeploymentSpec spec = new FlinkDeploymentSpec();
         KubernetesOptionsVO kuberenetesOptions = source.getKubernetesOptions();
@@ -64,9 +64,9 @@ public enum FlinkDeploymentConverter implements ResourceConverter<WsFlinkKuberne
     public WsFlinkKubernetesDeploymentDTO convertFrom(FlinkDeployment target) {
         WsFlinkKubernetesDeploymentDTO dto = new WsFlinkKubernetesDeploymentDTO();
         String name = target.getMetadata().getName();
-        if (target.getMetadata().getAdditionalProperties() != null) {
-            Map<String, Object> additionalProperties = target.getMetadata().getAdditionalProperties();
-            name = (String) additionalProperties.computeIfAbsent(Constant.SCALEPH_NAME, key -> target.getMetadata().getName());
+        if (target.getMetadata().getLabels() != null) {
+            Map<String, String> labels = target.getMetadata().getLabels();
+            name = labels.computeIfAbsent(Constant.SCALEPH_NAME, key -> target.getMetadata().getName());
         }
         dto.setName(name);
         dto.setDeploymentId(target.getMetadata().getName());

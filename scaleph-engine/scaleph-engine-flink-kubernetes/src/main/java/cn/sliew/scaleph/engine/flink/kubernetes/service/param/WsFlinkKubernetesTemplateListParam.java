@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.param;
 
+import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.system.model.PaginationParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -32,6 +33,9 @@ public class WsFlinkKubernetesTemplateListParam extends PaginationParam {
     @NotNull
     @Schema(description = "project id")
     private Long projectId;
+
+    @Schema(description = "deployment kind")
+    private DeploymentKind deploymentKind;
 
     @Schema(description = "name")
     private String name;

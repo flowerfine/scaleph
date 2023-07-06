@@ -330,6 +330,7 @@ CREATE TABLE ws_flink_kubernetes_template
     project_id          bigint       not null comment '项目id',
     `name`              varchar(64)  not null,
     template_id         varchar(64)  not null,
+    deployment_kind     varchar(16)  not null,
     namespace           varchar(255) not null,
     kubernetes_options  varchar(255),
     job_manager         text,
@@ -346,10 +347,11 @@ CREATE TABLE ws_flink_kubernetes_template
     PRIMARY KEY (id),
     UNIQUE KEY uniq_name (`name`)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes deployment template';
-INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `namespace`, `kubernetes_options`,
-                                           `job_manager`, `task_manager`, `pod_template`, `flink_configuration`,
+INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
+                                           `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
+                                           `pod_template`, `flink_configuration`,
                                            `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
-VALUES (1, 1, 'simple-deployment', 'b4dc61d0-ad0e-4e39-b1a4-f0692122635f', 'default',
+VALUES (1, 1, 'simple-deployment', 'b4dc61d0-ad0e-4e39-b1a4-f0692122635f', 'FlinkDeployment', 'default',
         '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
@@ -357,10 +359,11 @@ VALUES (1, 1, 'simple-deployment', 'b4dc61d0-ad0e-4e39-b1a4-f0692122635f', 'defa
         '{"web.cancel.enable":"false","taskmanager.numberOfTaskSlots":"8","kubernetes.rest-service.exposed.type":"NodePort","kubernetes.rest-service.exposed.node-port-address-type":"ExternalIP"}',
         NULL, NULL, NULL, 'sys', 'sys');
 
-INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `namespace`, `kubernetes_options`,
-                                           `job_manager`, `task_manager`, `pod_template`, `flink_configuration`,
+INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
+                                           `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
+                                           `pod_template`, `flink_configuration`,
                                            `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
-VALUES (2, 1, 'simple-sessioin-cluster', '19b77b47-b9e4-418c-90a1-533ea6121c16', 'default',
+VALUES (2, 1, 'simple-sessioin-cluster', '19b77b47-b9e4-418c-90a1-533ea6121c16', 'FlinkSessionJob', 'default',
         '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
@@ -368,10 +371,11 @@ VALUES (2, 1, 'simple-sessioin-cluster', '19b77b47-b9e4-418c-90a1-533ea6121c16',
         '{"web.cancel.enable":"false","taskmanager.numberOfTaskSlots":"8","kubernetes.rest-service.exposed.type":"LoadBalancer"}',
         NULL, NULL, NULL, 'sys', 'sys');
 
-INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `namespace`, `kubernetes_options`,
-                                           `job_manager`, `task_manager`, `pod_template`, `flink_configuration`,
+INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
+                                           `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
+                                           `pod_template`, `flink_configuration`,
                                            `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
-VALUES (3, 1, 'deployment', '3f0c6600-b6d7-4e2c-b2e5-4a0b3cdb3cbb', 'default',
+VALUES (3, 1, 'deployment', '3f0c6600-b6d7-4e2c-b2e5-4a0b3cdb3cbb', 'FlinkDeployment', 'default',
         '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
@@ -379,10 +383,11 @@ VALUES (3, 1, 'deployment', '3f0c6600-b6d7-4e2c-b2e5-4a0b3cdb3cbb', 'default',
         '{"kubernetes.operator.savepoint.history.max.count":"10","execution.checkpointing.mode":"exactly_once","state.checkpoints.num-retained":"10","restart-strategy.failure-rate.delay":"10s","restart-strategy.failure-rate.max-failures-per-interval":"30","kubernetes.operator.savepoint.format.type":"NATIVE","web.cancel.enable":"false","kubernetes.operator.cluster.health-check.enabled":"true","execution.checkpointing.interval":"180s","execution.checkpointing.timeout":"10min","kubernetes.operator.savepoint.history.max.age":"72h","execution.checkpointing.externalized-checkpoint-retention":"RETAIN_ON_CANCELLATION","kubernetes.operator.cluster.health-check.restarts.threshold":"30","restart-strategy":"failurerate","restart-strategy.failure-rate.failure-rate-interval":"10min","execution.checkpointing.min-pause":"180s","kubernetes.operator.cluster.health-check.restarts.window":"10min","execution.checkpointing.max-concurrent-checkpoints":"1","kubernetes.operator.periodic.savepoint.interval":"1h","kubernetes.operator.savepoint.trigger.grace-period":"20min","execution.checkpointing.alignment-timeout":"120s","kubernetes.rest-service.exposed.type":"LoadBalancer","state.savepoints.dir":"file:///flink-data/savepoints","state.checkpoints.dir":"file:///flink-data/checkpoints"}',
         NULL, NULL, NULL, 'sys', 'sys');
 
-INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `namespace`, `kubernetes_options`,
-                                           `job_manager`, `task_manager`, `pod_template`, `flink_configuration`,
+INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
+                                           `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
+                                           `pod_template`, `flink_configuration`,
                                            `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
-VALUES (4, 1, 'session-cluster', '8b330683-05ec-4c29-b991-df35b2036e2d', 'default',
+VALUES (4, 1, 'session-cluster', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkSessionJob', 'default',
         '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
@@ -390,10 +395,11 @@ VALUES (4, 1, 'session-cluster', '8b330683-05ec-4c29-b991-df35b2036e2d', 'defaul
         '{"kubernetes.operator.savepoint.history.max.count":"10","execution.checkpointing.mode":"exactly_once","state.checkpoints.num-retained":"10","restart-strategy.failure-rate.delay":"10s","restart-strategy.failure-rate.max-failures-per-interval":"30","kubernetes.operator.savepoint.format.type":"NATIVE","web.cancel.enable":"false","kubernetes.operator.cluster.health-check.enabled":"true","execution.checkpointing.interval":"180s","execution.checkpointing.timeout":"10min","kubernetes.operator.savepoint.history.max.age":"72h","execution.checkpointing.externalized-checkpoint-retention":"RETAIN_ON_CANCELLATION","kubernetes.operator.cluster.health-check.restarts.threshold":"30","restart-strategy":"failurerate","restart-strategy.failure-rate.failure-rate-interval":"10min","execution.checkpointing.min-pause":"180s","kubernetes.operator.cluster.health-check.restarts.window":"10min","execution.checkpointing.max-concurrent-checkpoints":"1","kubernetes.operator.periodic.savepoint.interval":"1h","kubernetes.operator.savepoint.trigger.grace-period":"20min","execution.checkpointing.alignment-timeout":"120s","kubernetes.rest-service.exposed.type":"LoadBalancer","state.savepoints.dir":"file:///flink-data/savepoints","state.checkpoints.dir":"file:///flink-data/checkpoints"}',
         NULL, NULL, NULL, 'sys', 'sys');
 
-INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `namespace`, `kubernetes_options`,
-                                           `job_manager`, `task_manager`, `pod_template`, `flink_configuration`,
+INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
+                                           `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
+                                           `pod_template`, `flink_configuration`,
                                            `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
-VALUES (5, 1, 'empty-dir-volume', '8b330683-05ec-4c29-b991-df35b2036e2d', 'default',
+VALUES (5, 1, 'empty-dir-volume', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkDeployment', 'default',
         '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
@@ -401,10 +407,11 @@ VALUES (5, 1, 'empty-dir-volume', '8b330683-05ec-4c29-b991-df35b2036e2d', 'defau
         '{"kubernetes.operator.savepoint.history.max.count":"10","execution.checkpointing.mode":"exactly_once","state.checkpoints.num-retained":"10","restart-strategy.failure-rate.delay":"10s","restart-strategy.failure-rate.max-failures-per-interval":"30","kubernetes.operator.savepoint.format.type":"NATIVE","web.cancel.enable":"false","kubernetes.operator.cluster.health-check.enabled":"true","execution.checkpointing.interval":"180s","execution.checkpointing.timeout":"10min","kubernetes.operator.savepoint.history.max.age":"72h","execution.checkpointing.externalized-checkpoint-retention":"RETAIN_ON_CANCELLATION","kubernetes.operator.cluster.health-check.restarts.threshold":"30","restart-strategy":"failurerate","restart-strategy.failure-rate.failure-rate-interval":"10min","execution.checkpointing.min-pause":"180s","kubernetes.operator.cluster.health-check.restarts.window":"10min","execution.checkpointing.max-concurrent-checkpoints":"1","kubernetes.operator.periodic.savepoint.interval":"1h","kubernetes.operator.savepoint.trigger.grace-period":"20min","execution.checkpointing.alignment-timeout":"120s","kubernetes.rest-service.exposed.type":"LoadBalancer","state.savepoints.dir":"file:///flink-data/savepoints","state.checkpoints.dir":"file:///flink-data/checkpoints"}',
         NULL, NULL, NULL, 'sys', 'sys');
 
-INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `namespace`, `kubernetes_options`,
-                                           `job_manager`, `task_manager`, `pod_template`, `flink_configuration`,
+INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
+                                           `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
+                                           `pod_template`, `flink_configuration`,
                                            `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
-VALUES (6, 1, 'hostpath-volume', '8b330683-05ec-4c29-b991-df35b2036e2d', 'default',
+VALUES (6, 1, 'hostpath-volume', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkDeployment', 'default',
         '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
