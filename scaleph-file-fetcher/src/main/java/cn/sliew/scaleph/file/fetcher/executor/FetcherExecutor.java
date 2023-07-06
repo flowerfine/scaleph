@@ -42,10 +42,14 @@ public class FetcherExecutor implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        log.info("命令行参数: {}", JacksonUtil.toJsonString(Arrays.asList(args.getSourceArgs())));
-        CommandLine line = OptionsParser.parse(args.getSourceArgs(), true);
-        FetchOptions options = new FetchOptions(line);
-        Optional<FileFetcher> fileFetcher = fileFetcherFactory.find(options.getUri(), options.getProperties());
-        fileFetcher.orElseThrow().fetch(options.getUri(), options.getPath());
+        try {
+            log.info("命令行参数: {}", JacksonUtil.toJsonString(Arrays.asList(args.getSourceArgs())));
+            CommandLine line = OptionsParser.parse(args.getSourceArgs(), true);
+            FetchOptions options = new FetchOptions(line);
+            Optional<FileFetcher> fileFetcher = fileFetcherFactory.find(options.getUri(), options.getProperties());
+            fileFetcher.orElseThrow().fetch(options.getUri(), options.getPath());
+        } catch (Exception e) {
+            log.error("下载文件异常! 参数: {}", JacksonUtil.toJsonString(Arrays.asList(args.getSourceArgs())), e);
+        }
     }
 }

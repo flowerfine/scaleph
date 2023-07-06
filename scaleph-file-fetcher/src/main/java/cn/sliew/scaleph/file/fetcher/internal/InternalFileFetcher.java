@@ -27,26 +27,42 @@ import org.springframework.util.FileCopyUtils;
 
 import java.io.*;
 import java.net.URI;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class InternalFileFetcher implements FileFetcher {
+
+    private List<String> SCHEMAS = Arrays.asList("s3a", "oss", "hdfs", "file");
 
     @Autowired
     private FileSystemServiceImpl fileSystemService;
 
     @Override
     public boolean support(URI uri) {
-        return uri.getScheme().equals("scaleph");
+        return SCHEMAS.contains(uri.getScheme());
     }
 
     @Override
     public void fetch(URI uri, String path) throws IOException {
-        if (fileSystemService.exists(uri.getPath()) == false) {
+        if (fileSystemService.exists(uri.toString()) == false) {
             throw new FileNotFoundException(uri.getPath());
         }
-        try (InputStream inputStream = fileSystemService.get(uri.getPath());
-             OutputStream outputStream = FileUtil.getOutputStream(new File(path))) {
+
+        try (InputStream inputStream = fileSystemService.get(uri.toString());
+             OutputStream outputStream = FileUtil.getOutputStream(createFile(path))) {
             FileCopyUtils.copy(inputStream, outputStream);
         }
+    }
+
+    /**
+     * fixme this can fix a strange question when flink-main-container mounts jar
+     * fixme never try to replace it through FileUtil or other utility
+     * fixme until you have solved such mount problem
+     */
+    private File createFile(String path) throws IOException {
+        File file = new File(path);
+        file.createNewFile();
+        return file;
     }
 }

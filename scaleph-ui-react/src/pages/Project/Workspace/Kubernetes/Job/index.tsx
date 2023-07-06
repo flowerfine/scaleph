@@ -1,6 +1,6 @@
 import {history, useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
-import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
+import {Button, message, Modal, Popconfirm, Space, Tag, Tooltip} from "antd";
 import {CaretRightOutlined, CloseOutlined, DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProFormSelect, ProTable} from "@ant-design/pro-components";
 import {DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF} from "@/constant";
@@ -79,7 +79,7 @@ const FlinkKubernetesJobWeb: React.FC = () => {
       dataIndex: 'artifact',
       hideInSearch: true,
       render: (dom, entity) => {
-        return entity.flinkArtifactJar ? entity.flinkArtifactJar.wsFlinkArtifact?.name : (entity.flinkArtifactSql ? entity.flinkArtifactSql?.wsFlinkArtifact?.name: entity.wsDiJob?.wsFlinkArtifact?.name)
+        return entity.flinkArtifactJar ? entity.flinkArtifactJar.wsFlinkArtifact?.name : (entity.flinkArtifactSql ? entity.flinkArtifactSql?.wsFlinkArtifact?.name : entity.wsDiJob?.wsFlinkArtifact?.name)
       },
     },
     {
@@ -135,25 +135,38 @@ const FlinkKubernetesJobWeb: React.FC = () => {
           )}
 
           {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
-            <Button
-              shape="default"
-              type="link"
-              icon={<CaretRightOutlined/>}
-              onClick={() => WsFlinkKubernetesJobService.deploy(record)}
+            <Popconfirm
+              title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
+              onConfirm={() => {
+                WsFlinkKubernetesJobService.deploy(record).then(response => {
+                  message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
+                  actionRef.current?.reload()
+                })
+              }}
             >
-              {intl.formatMessage({id: 'app.common.operate.start.label'})}
-            </Button>
+              <Button
+                shape="default"
+                type="link"
+                icon={<CaretRightOutlined/>}
+              />
+            </Popconfirm>
           )}
-
           {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
-            <Button
-              shape="default"
-              type="link"
-              icon={<CloseOutlined/>}
-              onClick={() => WsFlinkKubernetesJobService.shutdown(record)}
+            <Popconfirm
+              title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
+              onConfirm={() => {
+                WsFlinkKubernetesJobService.shutdown(record).then(response => {
+                  message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
+                  actionRef.current?.reload()
+                })
+              }}
             >
-              {intl.formatMessage({id: 'app.common.operate.stop.label'})}
-            </Button>
+              <Button
+                shape="default"
+                type="link"
+                icon={<CloseOutlined/>}
+              />
+            </Popconfirm>
           )}
 
           {access.canAccess(PRIVILEGE_CODE.datadevDatasourceDelete) && (

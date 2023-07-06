@@ -18,9 +18,12 @@
 
 package cn.sliew.scaleph.system.snowflake.utils;
 
+import cn.sliew.milky.common.exception.Rethrower;
+
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.Enumeration;
 
 /**
@@ -82,4 +85,21 @@ public abstract class NetUtils {
         return localAddress.getHostAddress();
     }
 
+    public static String getLocalIP() {
+        try {
+            return InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            Rethrower.throwAs(e);
+            return null;
+        }
+    }
+
+    public static String getLocalHost() {
+        try {
+            return InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException e) {
+            Rethrower.throwAs(e);
+            return null;
+        }
+    }
 }

@@ -24,6 +24,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.job.FlinkDeploymentJob;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.kubernetes.resource.definition.ResourceCustomizer;
+import cn.sliew.scaleph.system.snowflake.utils.NetUtils;
 import io.fabric8.kubernetes.api.model.*;
 
 import java.util.*;
@@ -31,6 +32,7 @@ import java.util.*;
 public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJobDTO, FlinkDeploymentJob> {
     INSTANCE;
 
+    private static final String FLINK_MAIN_CONTAINER_NAME = "flink-main-container";
     private static final String FILE_FETCHER_CONTAINER_NAME = "scaleph-file-fetcher";
     //    private static final String FILE_FETCHER_CONTAINER_IMAGE = "ghcr.io/flowerfine/scaleph/scaleph-file-fetcher:latest";
     private static final String FILE_FETCHER_CONTAINER_IMAGE = "scaleph-file-fetcher:dev";
@@ -40,19 +42,51 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
 
     private static final String FILE_FETCHER_VOLUME_NAME = "file-fetcher-volume";
     public static final String TARGET_DIRECTORY = "/flink/usrlib/";
+    public static final String LOCAL_SCHEMA = "local://";
+    public static final String LOCAL_PATH = LOCAL_SCHEMA + TARGET_DIRECTORY;
 
     @Override
     public void customize(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentJob job) {
+        PodBuilder podBuilder = Optional.ofNullable(job.getSpec().getPodTemplate()).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
+        cusomizePodTemplate(podBuilder);
+        job.getSpec().setPodTemplate(podBuilder.build());
+
         JobManagerSpec jobManager = Optional.ofNullable(job.getSpec().getJobManager()).orElse(new JobManagerSpec());
-        PodBuilder builder = Optional.of(jobManager).map(JobManagerSpec::getPodTemplate).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
-        doCustomize(jobDTO, builder);
-        jobManager.setPodTemplate(builder.build());
+        cusomizeJobManagerPodTemplate(jobDTO, jobManager);
         job.getSpec().setJobManager(jobManager);
     }
 
+    private void cusomizePodTemplate(PodBuilder builder) {
+        builder.editOrNewMetadata()
+                .withName("pod-template")
+                .endMetadata();
+        PodFluent.SpecNested<PodBuilder> spec = builder.editOrNewSpec();
+        spec.addToVolumes(buildVolume()); // add volumes
+        if (spec.hasMatchingContainer(containerBuilder -> containerBuilder.getName().equals(FLINK_MAIN_CONTAINER_NAME))) {
+            spec.editMatchingContainer((containerBuilder -> containerBuilder.getName().equals(FLINK_MAIN_CONTAINER_NAME)))
+                    .addToVolumeMounts(buildVolumeMount()) // add volume mount
+                    .endContainer();
+        } else {
+            spec.addNewContainer()
+                    .withName(FLINK_MAIN_CONTAINER_NAME)
+                    .addToVolumeMounts(buildVolumeMount()) // add volume mount
+                    .endContainer();
+        }
+        spec.endSpec();
+    }
+
+    private void cusomizeJobManagerPodTemplate(WsFlinkKubernetesJobDTO jobDTO, JobManagerSpec jobManager) {
+        PodBuilder builder = Optional.of(jobManager).map(JobManagerSpec::getPodTemplate).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
+        doCustomize(jobDTO, builder);
+        jobManager.setPodTemplate(builder.build());
+    }
+
     private void doCustomize(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
-        addAdditionalJars(jobDTO, builder);
+        builder.editOrNewMetadata()
+                .withName("job-manager-pod-template")
+                .endMetadata();
         addArtifactJar(jobDTO, builder);
+        addAdditionalJars(jobDTO, builder);
     }
 
     private void addArtifactJar(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
@@ -76,9 +110,7 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
     }
 
     private void doAddJars(WsFlinkArtifactJar jarArtifact, PodBuilder builder) {
-        PodFluent.SpecNested<PodBuilder> spec = builder.editOrNewSpec();
-        spec.addToInitContainers(addJarArtifact(jarArtifact));
-        builder.withSpec(spec.endSpec().buildSpec());
+        builder.editOrNewSpec().addToInitContainers(addJarArtifact(jarArtifact)).endSpec();
     }
 
     private Container addJarArtifact(WsFlinkArtifactJar jarArtifact) {
@@ -87,6 +119,7 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
         builder.withImage(FILE_FETCHER_CONTAINER_IMAGE);
         builder.withImagePullPolicy(ImagePullPolicy.IF_NOT_PRESENT.getValue());
         builder.withArgs(buildFileFetcherArgs(jarArtifact));
+        builder.withEnv(buildEnvs());
         builder.withResources(buildResource());
         builder.withVolumeMounts(buildVolumeMount());
         builder.withTerminationMessagePath("/dev/termination-log");
@@ -103,6 +136,14 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
                 "-path", TARGET_DIRECTORY + jarArtifact.getFileName());
     }
 
+    private List<EnvVar> buildEnvs() {
+        EnvVarBuilder builder = new EnvVarBuilder();
+        builder.withName("MINIO_ENDPOINT");
+        final String localAddress = NetUtils.getLocalIP();
+        builder.withValue(String.format("http://%s:9000", localAddress));
+        return Arrays.asList(builder.build());
+    }
+
     private ResourceRequirements buildResource() {
         ResourceRequirementsBuilder resourceRequirementsBuilder = new ResourceRequirementsBuilder();
         Map resource = new HashMap();
@@ -113,10 +154,18 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
         return resourceRequirementsBuilder.build();
     }
 
+
     private VolumeMount buildVolumeMount() {
         VolumeMountBuilder builder = new VolumeMountBuilder();
         builder.withName(FILE_FETCHER_VOLUME_NAME);
         builder.withMountPath(TARGET_DIRECTORY);
+        return builder.build();
+    }
+
+    private Volume buildVolume() {
+        VolumeBuilder builder = new VolumeBuilder();
+        builder.withName(FILE_FETCHER_VOLUME_NAME);
+        builder.withEmptyDir(new EmptyDirVolumeSource());
         return builder.build();
     }
 

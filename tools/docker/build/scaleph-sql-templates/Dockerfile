@@ -15,5 +15,4 @@ RUN cd /scaleph/scaleph-engine/scaleph-sql-templates &&  \
 
 # Build flink
 FROM flink:${FLINK_VERSION}-java${JAVA_VERSION} as image
-RUN mkdir -p /opt/flink/usrlib
-COPY --from=builder /scaleph/scaleph-engine/scaleph-sql-templates/target/sql-runner.jar /opt/flink/usrlib/
+COPY --from=builder /scaleph/scaleph-engine/scaleph-sql-templates/target/sql-runner.jar /flink/usrlib/
