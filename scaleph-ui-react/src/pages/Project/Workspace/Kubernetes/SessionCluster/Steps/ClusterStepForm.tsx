@@ -40,6 +40,7 @@ const SessionClusterClusterStepForm: React.FC = (props: any) => {
         name="namespace"
         label={intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.namespace'})}
         rules={[{required: true}]}
+        initialValue={"default"}
       />
       <ProFormSelect
         name="templateId"
