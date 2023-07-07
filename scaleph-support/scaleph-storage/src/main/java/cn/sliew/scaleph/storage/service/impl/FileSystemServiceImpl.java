@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.storage.service.impl;
 
-import cn.sliew.scaleph.storage.configuration.FileSystemType;
+import cn.sliew.scaleph.config.storage.FileSystemType;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileStatus;

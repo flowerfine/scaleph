@@ -23,7 +23,7 @@ import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.job.FlinkDeploymentJob;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
-import cn.sliew.scaleph.kubernetes.resource.definition.ResourceCustomizer;
+import cn.sliew.scaleph.kubernetes.resource.custom.ResourceCustomizer;
 import cn.sliew.scaleph.system.snowflake.utils.NetUtils;
 import io.fabric8.kubernetes.api.model.*;
 

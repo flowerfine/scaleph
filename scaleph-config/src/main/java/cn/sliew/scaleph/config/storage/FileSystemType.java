@@ -16,9 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.resource.definition;
+package cn.sliew.scaleph.config.storage;
 
-public interface ResourceCustomizer<S, T> {
+import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.Getter;
 
-    void customize(S source, T target);
+@Getter
+public enum FileSystemType {
+
+    LOCAL("local", "file://"),
+    HDFS("hdfs", "hdfs://"),
+    S3("s3", "s3a://"),
+    OSS("oss", "oss://"),
+    ;
+
+    @JsonValue
+    private String type;
+    private String schema;
+
+    FileSystemType(String type, String schema) {
+        this.type = type;
+        this.schema = schema;
+    }
 }

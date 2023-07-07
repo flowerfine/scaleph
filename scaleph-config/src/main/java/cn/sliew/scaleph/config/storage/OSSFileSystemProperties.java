@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.storage.configuration;
+package cn.sliew.scaleph.config.storage;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.storage.configuration;
 
 import cn.sliew.scaleph.common.util.SystemUtil;
+import cn.sliew.scaleph.config.storage.*;
 import cn.sliew.scaleph.storage.util.HadoopUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hadoop.fs.FileSystem;
@@ -26,8 +27,6 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.aliyun.oss.AliyunOSSFileSystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
@@ -38,20 +37,10 @@ import java.net.URISyntaxException;
 
 @Slf4j
 @Configuration
-@EnableConfigurationProperties(FileSystemProperties.class)
 public class FileSystemConfiguration {
 
     @Autowired
     private SystemUtil systemUtil;
-
-    @SuppressWarnings("all")
-    @Bean
-    @ConfigurationProperties(prefix = "file-system")
-    @ConditionalOnProperty(value = "file-system.type", havingValue = "local")
-    public LocalFileSystemProperties localFileSystemProperties() {
-        return new LocalFileSystemProperties();
-    }
-
 
     @Bean
     @ConditionalOnProperty(value = "file-system.type", havingValue = "local")
@@ -60,14 +49,6 @@ public class FileSystemConfiguration {
         FileSystem fileSystem = FileSystem.getLocal(conf);
         setFsWorkingDirectory(fileSystem, systemUtil.getLocalStorageDir().toString());
         return fileSystem;
-    }
-
-    @SuppressWarnings("all")
-    @Bean
-    @ConfigurationProperties(prefix = "file-system")
-    @ConditionalOnProperty(value = "file-system.type", havingValue = "s3")
-    public S3FileSystemProperties s3FileSystemProperties() {
-        return new S3FileSystemProperties();
     }
 
     @Bean
@@ -82,14 +63,6 @@ public class FileSystemConfiguration {
         return FileSystem.get(uri, conf);
     }
 
-    @SuppressWarnings("all")
-    @Bean
-    @ConfigurationProperties(prefix = "file-system")
-    @ConditionalOnProperty(value = "file-system.type", havingValue = "oss")
-    public OSSFileSystemProperties ossFileSystemProperties() {
-        return new OSSFileSystemProperties();
-    }
-
     @Bean
     @ConditionalOnProperty(value = "file-system.type", havingValue = "oss")
     public FileSystem ossFileSystem(OSSFileSystemProperties ossFileSystemProperties) throws IOException, URISyntaxException {
@@ -101,14 +74,6 @@ public class FileSystemConfiguration {
         final AliyunOSSFileSystem aliyunOSSFileSystem = new AliyunOSSFileSystem();
         aliyunOSSFileSystem.initialize(uri, conf);
         return aliyunOSSFileSystem;
-    }
-
-    @SuppressWarnings("all")
-    @Bean
-    @ConfigurationProperties(prefix = "file-system")
-    @ConditionalOnProperty(value = "file-system.type", havingValue = "hdfs")
-    public HDFSFileSystemProperties hdfsFileSystemProperties() {
-        return new HDFSFileSystemProperties();
     }
 
     @Bean

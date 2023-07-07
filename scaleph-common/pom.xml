@@ -29,13 +29,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-config</artifactId>
         </dependency>
 
         <dependency>
@@ -68,11 +63,6 @@
         <dependency>
             <groupId>com.github.zafarkhaja</groupId>
             <artifactId>java-semver</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.sliew</groupId>
-            <artifactId>milky-common</artifactId>
         </dependency>
 
         <dependency>

@@ -91,6 +91,7 @@
         <module>scaleph-security</module>
         <module>scaleph-resource</module>
         <module>scaleph-support</module>
+        <module>scaleph-config</module>
 
         <module>scaleph-api</module>
         <module>scaleph-meta</module>
@@ -104,6 +105,7 @@
 
         <module>scaleph-dist</module>
         <module>scaleph-file-fetcher</module>
+        <module>scaleph-config</module>
 
     </modules>
 
@@ -232,6 +234,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-resource</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-config</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
