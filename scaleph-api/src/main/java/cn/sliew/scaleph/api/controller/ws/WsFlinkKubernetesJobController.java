@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkJobManagerEndpointService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobAddParam;
@@ -34,6 +35,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @Tag(name = "Flink Kubernetes管理-Job管理")
@@ -43,6 +45,8 @@ public class WsFlinkKubernetesJobController {
 
     @Autowired
     private WsFlinkKubernetesJobService wsFlinkKubernetesJobService;
+    @Autowired
+    private FlinkJobManagerEndpointService flinkJobManagerEndpointService;
 
     @Logging
     @GetMapping
@@ -98,6 +102,14 @@ public class WsFlinkKubernetesJobController {
     public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) {
         wsFlinkKubernetesJobService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("{id}/flinkui")
+    @Operation(summary = "获取 flink-ui 链接", description = "获取 flink-ui 链接")
+    public ResponseEntity<ResponseVO<URI>> getFlinkUI(@PathVariable("id") Long id) throws Exception {
+        URI endpoint = flinkJobManagerEndpointService.getJobManagerEndpoint(id);
+        return new ResponseEntity<>(ResponseVO.success(endpoint), HttpStatus.OK);
     }
 
     @Logging

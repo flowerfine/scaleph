@@ -16,33 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.service.param;
+package cn.sliew.scaleph.config.flink;
 
-import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
-import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
-public class WsFlinkKubernetesTemplateUpdateParam {
+@NoArgsConstructor
+@AllArgsConstructor
+public class FlinkVersionProperties {
 
-    @NotNull
-    @Schema(description = "id")
-    private Long id;
-
-    @NotBlank
-    @Schema(description = "name")
-    private String name;
-
-    @Schema(description = "deployment kind")
-    private DeploymentKind deploymentKind;
-
-    @NotBlank
-    @Schema(description = "namespace")
-    private String namespace;
-
-    @Schema(description = "remark")
-    private String remark;
+    private FlinkImageType type;
+    private String majorFlinkVersion;
+    private List<String> flinkVersions;
+    private String image;
 }

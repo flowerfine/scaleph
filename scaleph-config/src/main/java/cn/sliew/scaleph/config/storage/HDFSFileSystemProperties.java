@@ -16,22 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.storage.configuration;
+package cn.sliew.scaleph.config.storage;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class S3FileSystemProperties extends FileSystemProperties {
+public class HDFSFileSystemProperties extends FileSystemProperties {
 
-    private String bucket;
+    private String defaultFS;
 
-    private String region;
-
-    private String endpoint;
-
-    private String accessKey;
-
-    private String secretKey;
+    private String krb5ConfPath;
 }

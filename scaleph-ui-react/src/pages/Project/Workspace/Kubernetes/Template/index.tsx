@@ -1,14 +1,15 @@
 import {useAccess, useIntl, history} from "umi";
 import React, {useRef, useState} from "react";
-import {Button, message, Modal, Space, Tooltip} from "antd";
+import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
-import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {PRIVILEGE_CODE, WORKSPACE_CONF} from "@/constant";
+import {ActionType, ProColumns, ProFormInstance, ProFormSelect, ProTable} from "@ant-design/pro-components";
+import {DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF} from "@/constant";
 import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
 import {
   WsFlinkKubernetesTemplateService
 } from "@/services/project/WsFlinkKubernetesTemplateService";
 import DeploymentTemplateForm from "@/pages/Project/Workspace/Kubernetes/Template/DeploymentTemplateForm";
+import {DictDataService} from "@/services/admin/dictData.service";
 
 const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
   const intl = useIntl();
@@ -27,6 +28,22 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.name'}),
       dataIndex: 'name',
       width: 200,
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.deploymentKind'}),
+      dataIndex: 'deploymentKind',
+      render: (dom, entity) => {
+        return (<Tag>{entity.deploymentKind?.label}</Tag>)
+      },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <ProFormSelect
+            showSearch={false}
+            allowClear={true}
+            request={() => DictDataService.listDictDataByType2(DICT_TYPE.deploymentKind)}
+          />
+        );
+      }
     },
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.namespace'}),

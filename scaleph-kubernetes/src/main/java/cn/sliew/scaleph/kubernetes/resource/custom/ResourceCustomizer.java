@@ -16,16 +16,9 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.storage.configuration;
+package cn.sliew.scaleph.kubernetes.resource.custom;
 
-import lombok.Getter;
-import lombok.Setter;
+public interface ResourceCustomizer<S, T> {
 
-@Getter
-@Setter
-public class HDFSFileSystemProperties extends FileSystemProperties {
-
-    private String defaultFS;
-
-    private String krb5ConfPath;
+    void customize(S source, T target);
 }

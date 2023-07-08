@@ -65,6 +65,17 @@ export const WsFlinkKubernetesJobService = {
     });
   },
 
+  flinkui: async (row: WsFlinkKubernetesJob) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesJobService.url}/${row.id}/flinkui`, {
+      method: 'GET',
+    }).then((response) => {
+      const a = document.createElement('a');
+      a.href = response.data;
+      a.target = "_blank";
+      a.click();
+    });
+  },
+
   deploy: async (row: WsFlinkKubernetesJob) => {
     return request<ResponseBody<any>>(`${WsFlinkKubernetesJobService.url}/deploy/${row.id}`, {
       method: 'POST',

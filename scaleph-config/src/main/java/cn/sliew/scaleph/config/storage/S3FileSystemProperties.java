@@ -16,28 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.storage.configuration;
+package cn.sliew.scaleph.config.storage;
 
-import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-public enum FileSystemType {
+@Setter
+public class S3FileSystemProperties extends FileSystemProperties {
 
-    LOCAL(0, "local", "file://"),
-    HDFS(1, "hdfs", "hdfs://"),
-    S3(2, "s3", "s3a://"),
-    OSS(3, "oss", "oss://"),
-    ;
+    private String bucket;
 
-    private int code;
-    @JsonValue
-    private String type;
-    private String schema;
+    private String region;
 
-    FileSystemType(int code, String type, String schema) {
-        this.code = code;
-        this.type = type;
-        this.schema = schema;
-    }
+    private String endpoint;
+
+    private String accessKey;
+
+    private String secretKey;
 }

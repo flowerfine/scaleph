@@ -29,6 +29,7 @@
         <result column="project_id" property="projectId" />
         <result column="name" property="name" />
         <result column="template_id" property="templateId" />
+        <result column="deployment_kind" property="deploymentKind" />
         <result column="namespace" property="namespace" />
         <result column="kubernetes_options" property="kubernetesOptions" />
         <result column="job_manager" property="jobManager" />
@@ -43,7 +44,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        project_id, `name`, template_id, namespace,
+        project_id, `name`, template_id, deployment_kind, namespace,
         kubernetes_options, job_manager, task_manager,
         pod_template, flink_configuration, log_configuration,
         ingress, remark

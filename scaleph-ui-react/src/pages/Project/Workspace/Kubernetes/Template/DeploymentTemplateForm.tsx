@@ -1,13 +1,14 @@
 import {useIntl} from "umi";
 import React from "react";
 import {Form, message, Modal} from "antd";
-import {ProForm, ProFormDigit, ProFormText} from "@ant-design/pro-components";
+import {ProForm, ProFormDigit, ProFormRadio, ProFormSelect, ProFormText} from "@ant-design/pro-components";
 import {ModalFormProps} from '@/app.d';
 import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
 import {
   WsFlinkKubernetesTemplateService
 } from "@/services/project/WsFlinkKubernetesTemplateService";
-import {WORKSPACE_CONF} from "@/constant";
+import {DICT_TYPE, WORKSPACE_CONF} from "@/constant";
+import {DictDataService} from "@/services/admin/dictData.service";
 
 const DeploymentTemplateForm: React.FC<ModalFormProps<WsFlinkKubernetesTemplate>> = ({
                                                                                                  data,
@@ -63,6 +64,7 @@ const DeploymentTemplateForm: React.FC<ModalFormProps<WsFlinkKubernetesTemplate>
         initialValues={{
           id: data.id,
           name: data.name,
+          deploymentKind: data.deploymentKind?.value,
           namespace: data.namespace,
           remark: data.remark
         }}
@@ -72,6 +74,13 @@ const DeploymentTemplateForm: React.FC<ModalFormProps<WsFlinkKubernetesTemplate>
           name={"name"}
           label={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.name'})}
           rules={[{required: true}]}
+        />
+        <ProFormRadio.Group
+          name={"deploymentKind"}
+          label={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.deploymentKind'})}
+          rules={[{required: true}]}
+          disabled={data?.id}
+          request={() => DictDataService.listDictDataByType2(DICT_TYPE.deploymentKind)}
         />
         <ProFormText
           name={"namespace"}

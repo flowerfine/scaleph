@@ -32,21 +32,21 @@ export const WsFlinkKubernetesTemplateService = {
     });
   },
 
-  asYaml: async (row: any) => {
+  asYaml: async (row: WsFlinkKubernetesTemplate) => {
     return request<ResponseBody<any>>(`${WsFlinkKubernetesTemplateService.url}/asYaml`, {
       method: 'POST',
-      data: row,
+      data: {...row, deploymentKind: row.deploymentKind?.value},
     });
   },
 
-  asYamlWithDefault: async (row: any) => {
+  asYamlWithDefault: async (row: WsFlinkKubernetesTemplate) => {
     return request<ResponseBody<any>>(`${WsFlinkKubernetesTemplateService.url}/asYamlWithDefault`, {
       method: 'POST',
-      data: row,
+      data: {...row, deploymentKind: row.deploymentKind?.value},
     });
   },
 
-  mergeDefault: async (row: any) => {
+  mergeDefault: async (row: WsFlinkKubernetesTemplate) => {
     return request<ResponseBody<any>>(`${WsFlinkKubernetesTemplateService.url}/default`, {
       method: 'PATCH',
       data: row,
@@ -70,7 +70,7 @@ export const WsFlinkKubernetesTemplateService = {
   updateTemplate: async (param: WsFlinkKubernetesTemplate) => {
     return request<ResponseBody<any>>(`${WsFlinkKubernetesTemplateService.url}/template`, {
       method: 'POST',
-      data: param,
+      data: {...param, deploymentKind: param.deploymentKind?.value},
     });
   },
 

@@ -90,7 +90,6 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = (props: any) => {
             type="default"
             icon={<CaretRightOutlined/>}
             disabled={props.sessionClusterDetail.sessionCluster?.state}
-            onClick={() => WsFlinkKubernetesSessionClusterService.deploy(props.sessionClusterDetail.sessionCluster)}
           >
             {intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.deploy'})}
           </Button>
@@ -117,7 +116,6 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = (props: any) => {
             type="default"
             icon={<CloseOutlined/>}
             disabled={!props.sessionClusterDetail.sessionCluster?.state}
-            onClick={() => WsFlinkKubernetesSessionClusterService.shutdown(props.sessionClusterDetail.sessionCluster)}
           >
             {intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.shutdown'})}
           </Button>

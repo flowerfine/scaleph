@@ -890,6 +890,7 @@ export default {
 
   'pages.project.flink.kubernetes.deployment.template': 'Deployment Template',
   'pages.project.flink.kubernetes.deployment.template.name': '名称',
+  'pages.project.flink.kubernetes.deployment.template.deploymentKind': '部署模式',
   'pages.project.flink.kubernetes.deployment.template.namespace': 'Namespace',
   'pages.project.flink.kubernetes.deployment.template.define': '模板定义',
 
@@ -946,6 +947,14 @@ export default {
   'pages.project.flink.kubernetes.job.artifact': 'Artifact',
 
   'pages.project.flink.kubernetes.job.detail': '详情',
+  'pages.project.flink.kubernetes.job.detail.deploy': 'Deploy',
+  'pages.project.flink.kubernetes.job.detail.suspend': 'Suspend',
+  'pages.project.flink.kubernetes.job.detail.shutdown': 'Shutdown',
+  'pages.project.flink.kubernetes.job.detail.savepoint': 'Savepoint',
+  'pages.project.flink.kubernetes.job.detail.flinkui': 'Flink UI',
+  'pages.project.flink.kubernetes.job.detail.metrics': 'Metrics',
+  'pages.project.flink.kubernetes.job.detail.logs': 'Logs',
+
   'pages.project.flink.kubernetes.job.detail.yaml': 'YAML',
 
 };
