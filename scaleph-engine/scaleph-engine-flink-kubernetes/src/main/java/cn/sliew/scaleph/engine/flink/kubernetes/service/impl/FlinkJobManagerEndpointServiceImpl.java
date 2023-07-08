@@ -52,33 +52,27 @@ public class FlinkJobManagerEndpointServiceImpl implements FlinkJobManagerEndpoi
     @Override
     public URI getSessionClusterJobManagerEndpoint(Long sessionClusterId) {
         WsFlinkKubernetesSessionClusterDTO sessionClusterDTO = wsFlinkKubernetesSessionClusterService.selectOne(sessionClusterId);
-        return getJobManagerEndpoint(sessionClusterDTO).orElse(null);
+        return getJobManagerEndpoint(sessionClusterDTO.getNamespace(), sessionClusterDTO.getSessionClusterId(), sessionClusterDTO.getClusterCredentialId()).orElse(null);
     }
 
     @Override
     public URI getJobManagerEndpoint(Long jobId) {
-        final WsFlinkKubernetesJobDTO jobDTO = wsFlinkKubernetesJobService.selectOne(jobId);
+        WsFlinkKubernetesJobDTO jobDTO = wsFlinkKubernetesJobService.selectOne(jobId);
+        String name = jobDTO.getJobId();
         switch (jobDTO.getDeploymentKind()) {
             case FLINK_SESSION_JOB:
-                return getJobManagerEndpoint(jobDTO.getFlinkSessionCluster()).orElse(null);
+                WsFlinkKubernetesSessionClusterDTO sessionClusterDTO = jobDTO.getFlinkSessionCluster();
+                return getJobManagerEndpoint(sessionClusterDTO.getNamespace(), name, sessionClusterDTO.getClusterCredentialId()).orElse(null);
             case FLINK_DEPLOYMENT:
-                return getJobManagerEndpoint(jobDTO.getFlinkDeployment()).orElse(null);
+                WsFlinkKubernetesDeploymentDTO deploymentDTO = jobDTO.getFlinkDeployment();
+                return getJobManagerEndpoint(deploymentDTO.getNamespace(), name, deploymentDTO.getClusterCredentialId()).orElse(null);
             default:
         }
         return null;
     }
 
-    private Optional<URI> getJobManagerEndpoint(WsFlinkKubernetesSessionClusterDTO sessionCluster) {
-        String namespace = sessionCluster.getNamespace();
-        String name = StringUtils.hasText(sessionCluster.getSessionClusterId()) ? sessionCluster.getSessionClusterId() : sessionCluster.getName();
-        KubernetesClient client = kubernetesService.getClient(sessionCluster.getClusterCredentialId());
-        return getEndpointByIngress(namespace, name, client).or(() -> getEndpointByService(namespace, name, client));
-    }
-
-    private Optional<URI> getJobManagerEndpoint(WsFlinkKubernetesDeploymentDTO deployment) {
-        String namespace = deployment.getNamespace();
-        String name = StringUtils.hasText(deployment.getDeploymentId()) ? deployment.getDeploymentId() : deployment.getName();
-        KubernetesClient client = kubernetesService.getClient(deployment.getClusterCredentialId());
+    private Optional<URI> getJobManagerEndpoint(String namespace, String name, Long clusterCredentialId) {
+        KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
         return getEndpointByIngress(namespace, name, client).or(() -> getEndpointByService(namespace, name, client));
     }
 
