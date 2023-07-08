@@ -105,8 +105,6 @@
 
         <module>scaleph-dist</module>
         <module>scaleph-file-fetcher</module>
-        <module>scaleph-config</module>
-
     </modules>
 
     <properties>
