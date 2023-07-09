@@ -26,36 +26,12 @@ public class SqlFormatterTest {
 
     @Test
     void testSqlFormat() {
-        String script = "CREATE TEMPORARY TABLE source_table (\n" +
-                "  `id` bigint,\n" +
-                "  `name` string,\n" +
-                "  `age` int,\n" +
-                "  `address` string,\n" +
-                "  `create_time`TIMESTAMP(3),\n" +
-                "  `update_time`TIMESTAMP(3),\n" +
-                "  WATERMARK FOR `update_time` AS update_time - INTERVAL '1' MINUTE\n" +
-                ")\n" +
-                "COMMENT ''\n" +
-                "WITH (\n" +
-                "  'connector' = 'datagen',\n" +
-                "  'number-of-rows' = '100'\n" +
-                ");\n" +
-                "\n" +
-                "CREATE TEMPORARY TABLE `sink_table` (\n" +
-                "  `id` BIGINT,\n" +
-                "  `name` VARCHAR(2147483647),\n" +
-                "  `age` INT,\n" +
-                "  `address` VARCHAR(2147483647),\n" +
-                "  `create_time` TIMESTAMP(3),\n" +
-                "  `update_time` TIMESTAMP(3)\n" +
-                ")\n" +
-                "COMMENT ''\n" +
-                "WITH (\n" +
-                "  'connector' = 'print'\n" +
-                ");\n" +
-                "\n" +
-                "insert into sink_table\n" +
-                "select id, name, age, address, create_time, update_time from source_table;";
+        String script = "CREATE TABLE orders ( order_number BIGINT, price DECIMAL(32,2), buyer ROW<first_name\\\n" +
+                "      \\ STRING, last_name STRING>, order_time TIMESTAMP(3) ) WITH ( 'connector' =\\\n" +
+                "      \\ 'datagen' ); CREATE TABLE print_table WITH ('connector' = 'print') LIKE orders;\\\n" +
+                "      \\ CREATE TABLE blackhole_table WITH ('connector' = 'blackhole') LIKE orders;\\\n" +
+                "      \\ EXECUTE STATEMENT SET BEGIN INSERT INTO print_table SELECT * FROM orders;\\\n" +
+                "      \\ INSERT INTO blackhole_table SELECT * FROM orders; END;";
 
         List<String> statements = SqlFormatter.parseStatements(script);
         for (String statement : statements) {

@@ -63,7 +63,7 @@ public enum FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKube
             JobSpec jobSpec = new JobSpec();
             jobSpec.setJarURI(SqlScriptFactory.SQL_LOCAL_PATH + "sql-runner.jar");
             jobSpec.setEntryClass("cn.sliew.scaleph.engine.sql.SqlRunner");
-            List<String> args = Arrays.asList(flinkArtifactSql.getScript());
+            List<String> args = Arrays.asList(SqlUtil.format(flinkArtifactSql.getScript()));
             jobSpec.setArgs(args.toArray(new String[1]));
             spec.setJob(jobSpec);
         }

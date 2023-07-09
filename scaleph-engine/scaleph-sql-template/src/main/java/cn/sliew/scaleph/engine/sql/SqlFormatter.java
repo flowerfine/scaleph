@@ -35,7 +35,7 @@ public enum SqlFormatter {
 
         StringBuilder current = null;
         boolean statementSet = false;
-        for (String line : formatted.split("\n")) {
+        for (String line : formatted.split(STATEMENT_DELIMITER)) {
             var trimmed = line.trim();
             if (trimmed.isBlank()) {
                 continue;
@@ -47,13 +47,12 @@ public enum SqlFormatter {
                 statementSet = true;
             }
             current.append(trimmed);
-            current.append("\n");
-            if (trimmed.endsWith(STATEMENT_DELIMITER)) {
-                if (!statementSet || trimmed.equals("END;")) {
-                    statements.add(current.toString());
-                    current = null;
-                    statementSet = false;
-                }
+            current.append(STATEMENT_DELIMITER);
+            current.append(LINE_DELIMITER);
+            if (!statementSet || trimmed.endsWith("END")) {
+                statements.add(current.toString());
+                statementSet = false;
+                current = null;
             }
         }
         return statements;

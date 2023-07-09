@@ -36,7 +36,6 @@ public class SqlRunner {
         if (args.length != 1) {
             throw new Exception("Exactly one argument is expected.");
         }
-        LOG.info("参数: {}", args[0]);
         var statements = SqlFormatter.parseStatements(args[0]);
 
         var tableEnv = TableEnvironment.create(new Configuration());
