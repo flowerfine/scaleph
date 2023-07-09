@@ -34,8 +34,7 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
 
     public static final String FLINK_MAIN_CONTAINER_NAME = "flink-main-container";
     private static final String FILE_FETCHER_CONTAINER_NAME = "scaleph-file-fetcher";
-    //    private static final String FILE_FETCHER_CONTAINER_IMAGE = "ghcr.io/flowerfine/scaleph/scaleph-file-fetcher:latest";
-    private static final String FILE_FETCHER_CONTAINER_IMAGE = "scaleph-file-fetcher:dev";
+    private static final String FILE_FETCHER_CONTAINER_IMAGE = "ghcr.io/flowerfine/scaleph/scaleph-file-fetcher:latest";
 
     private static final Map<String, Quantity> FILE_FETCHER_CONTAINER_CPU = Map.of("cpu", Quantity.parse("250m"));
     private static final Map<String, Quantity> FILE_FETCHER_CONTAINER_MEMORY = Map.of("memory", Quantity.parse("512Mi"));
@@ -173,6 +172,7 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
         flinkLib.withMountPath(LIB_DIRECTORY);
         return Arrays.asList(scalephLib.build(), flinkLib.build());
     }
+
     private List<Volume> buildVolume() {
         VolumeBuilder scalephLib = new VolumeBuilder();
         scalephLib.withName(FILE_FETCHER_SCALEPH_VOLUME_NAME);
