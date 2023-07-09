@@ -67,7 +67,6 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
     @Override
     public void deployJob(Long clusterCredentialId, Object job) throws Exception {
         KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
-        System.out.println(Serialization.asYaml(job));
         client.resource(Serialization.asYaml(job)).createOrReplace();
     }
 
