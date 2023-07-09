@@ -38,9 +38,13 @@ create table ws_flink_artifact
 INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (1, 1, '0', 'simple sql', NULL, 'sys', 'sys');
 INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
-VALUES (2, 1, '2', 'fake', NULL, 'sys', 'sys');
+VALUES (2, 1, '0', 'sql-runner1', NULL, 'sys', 'sys');
 INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
-VALUES (3, 1, '2', 'e_commerce', NULL, 'sys', 'sys');
+VALUES (3, 1, '0', 'sql-runner2', NULL, 'sys', 'sys');
+INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+VALUES (4, 1, '2', 'fake', NULL, 'sys', 'sys');
+INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+VALUES (5, 1, '2', 'e_commerce', NULL, 'sys', 'sys');
 
 drop table if exists ws_flink_artifact_jar;
 create table ws_flink_artifact_jar
@@ -58,7 +62,7 @@ create table ws_flink_artifact_jar
     editor            varchar(32) comment '修改人',
     update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key               idx_flink_artifact (flink_artifact_id)
+    key idx_flink_artifact (flink_artifact_id)
 ) engine = innodb comment = 'flink artifact jar';
 
 DROP TABLE IF EXISTS ws_flink_artifact_sql;
@@ -74,13 +78,23 @@ CREATE TABLE ws_flink_artifact_sql
     editor            varchar(32),
     update_time       datetime    not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
-    key               idx_flink_artifact (flink_artifact_id)
+    key idx_flink_artifact (flink_artifact_id)
 ) ENGINE = INNODB COMMENT = 'flink artifact sql';
 
 INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
                                      `editor`)
 VALUES (1, 1, '1.16.1',
         'CREATE TEMPORARY TABLE source_table (\n  `id` bigint,\n  `name` string,\n  `age` int,\n  `address` string,\n  `create_time`TIMESTAMP(3),\n  `update_time`TIMESTAMP(3),\n  WATERMARK FOR `update_time` AS update_time - INTERVAL \'1\' MINUTE\n)\nCOMMENT \'\'\nWITH (\n  \' connector\' = \'datagen\',\n  \'number-of-rows\' = \'100\'\n);\n\nCREATE TEMPORARY TABLE `sink_table` (\n  `id` BIGINT,\n  `name` VARCHAR(2147483647),\n  `age` INT,\n  `address` VARCHAR(2147483647),\n  `create_time` TIMESTAMP(3),\n  `update_time` TIMESTAMP(3)\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'print\'\n);\n\ninsert into sink_table\nselect id, name, age, address, create_time, update_time from source_table;',
+        '1', 'sys', 'sys');
+INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`,
+                                     `creator`, `editor`)
+VALUES (2, 2, '1.17.1',
+        'CREATE TABLE orders (\n  order_number BIGINT,\n  price        DECIMAL(32,2),\n  buyer        ROW<first_name STRING, last_name STRING>,\n  order_time   TIMESTAMP(3)\n) WITH (\n  \'connector\' = \'datagen\'\n);\n\nCREATE TABLE print_table WITH (\'connector\' = \'print\')\n  LIKE orders;\n\nINSERT INTO print_table SELECT * FROM orders;',
+        '1', 'sys', 'sys');
+INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`,
+                                     `creator`, `editor`)
+VALUES (3, 3, '1.17.1',
+        'CREATE TABLE orders (\n  order_number BIGINT,\n  price        DECIMAL(32,2),\n  buyer        ROW<first_name STRING, last_name STRING>,\n  order_time   TIMESTAMP(3)\n) WITH (\n  \'connector\' = \'datagen\'\n);\n\nCREATE TABLE print_table WITH (\'connector\' = \'print\')\n    LIKE orders;\nCREATE TABLE blackhole_table WITH (\'connector\' = \'blackhole\')\n    LIKE orders;\n\nEXECUTE STATEMENT SET\nBEGIN\nINSERT INTO print_table SELECT * FROM orders;\nINSERT INTO blackhole_table SELECT * FROM orders;\nEND;',
         '1', 'sys', 'sys');
 
 /* 数据集成-作业信息*/
@@ -97,12 +111,12 @@ create table ws_di_job
     editor            varchar(32) comment '修改人',
     update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key               idx_flink_artifact (flink_artifact_id)
+    key idx_flink_artifact (flink_artifact_id)
 ) engine = innodb comment '数据集成-作业信息';
 INSERT INTO ws_di_job (id, flink_artifact_id, job_engine, job_id, current, creator, editor)
-VALUES (1, 2, 'seatunnel', 'b8e16c94-258c-4487-a88c-8aad40a38b35', 1, 'sys', 'sys');
+VALUES (1, 4, 'seatunnel', 'b8e16c94-258c-4487-a88c-8aad40a38b35', 1, 'sys', 'sys');
 INSERT INTO ws_di_job(id, flink_artifact_id, job_engine, job_id, current, creator, editor)
-VALUES (2, 3, 'seatunnel', '0a6d475e-ed50-46ee-82af-3ef90b7d8509', 1, 'sys', 'sys');
+VALUES (2, 5, 'seatunnel', '0a6d475e-ed50-46ee-82af-3ef90b7d8509', 1, 'sys', 'sys');
 
 /* 作业参数信息 作业参数*/
 drop table if exists ws_di_job_attr;
@@ -222,7 +236,7 @@ CREATE TABLE ws_flink_cluster_instance
     update_time             timestamp default current_timestamp on update current_timestamp comment '修改时间',
     PRIMARY KEY (id),
     unique key (project_id, flink_cluster_config_id, name),
-    KEY                     idx_name ( name)
+    KEY idx_name (name)
 ) ENGINE = INNODB COMMENT = 'flink cluster instance';
 
 drop table if exists ws_flink_job;
@@ -245,10 +259,10 @@ create table ws_flink_job
     update_time               timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique key idx_code (code),
-    key                       idx_name ( type, name),
-    key                       idx_flink_artifact ( type, flink_artifact_id),
-    key                       idx_flink_cluster_config (flink_cluster_config_id),
-    key                       idx_flink_cluster_instance (flink_cluster_instance_id)
+    key idx_name (type, name),
+    key idx_flink_artifact (type, flink_artifact_id),
+    key idx_flink_cluster_config (flink_cluster_config_id),
+    key idx_flink_cluster_instance (flink_cluster_instance_id)
 ) engine = innodb comment ='flink作业信息';
 
 drop table if exists ws_flink_job_instance;
@@ -347,23 +361,12 @@ CREATE TABLE ws_flink_kubernetes_template
     PRIMARY KEY (id),
     UNIQUE KEY uniq_name (`name`)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes deployment template';
-INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
-                                           `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
-                                           `pod_template`, `flink_configuration`,
-                                           `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
-VALUES (1, 1, 'simple-deployment', 'b4dc61d0-ad0e-4e39-b1a4-f0692122635f', 'FlinkDeployment', 'default',
-        '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
-        '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
-        '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
-        NULL,
-        '{"web.cancel.enable":"false","taskmanager.numberOfTaskSlots":"8","kubernetes.rest-service.exposed.type":"NodePort","kubernetes.rest-service.exposed.node-port-address-type":"ExternalIP"}',
-        NULL, NULL, NULL, 'sys', 'sys');
 
 INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
                                            `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
                                            `pod_template`, `flink_configuration`,
                                            `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
-VALUES (2, 1, 'simple-sessioin-cluster', '19b77b47-b9e4-418c-90a1-533ea6121c16', 'FlinkSessionJob', 'default',
+VALUES (1, 1, 'simple-sessioin-cluster', '19b77b47-b9e4-418c-90a1-533ea6121c16', 'FlinkSessionJob', 'default',
         '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
@@ -375,7 +378,44 @@ INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template
                                            `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
                                            `pod_template`, `flink_configuration`,
                                            `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
-VALUES (3, 1, 'deployment', '3f0c6600-b6d7-4e2c-b2e5-4a0b3cdb3cbb', 'FlinkDeployment', 'default',
+VALUES (2, 1, 'simple-jar-deployment', 'b4dc61d0-ad0e-4e39-b1a4-f0692122635f', 'FlinkDeployment', 'default',
+        '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
+        '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
+        '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
+        NULL,
+        '{"web.cancel.enable":"false","taskmanager.numberOfTaskSlots":"8","kubernetes.rest-service.exposed.type":"NodePort","kubernetes.rest-service.exposed.node-port-address-type":"ExternalIP"}',
+        NULL, NULL, NULL, 'sys', 'sys');
+
+INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
+                                           `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
+                                           `pod_template`, `flink_configuration`,
+                                           `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
+VALUES (3, 1, 'simple-sql-deployment', 'bceec5d5-6271-4079-b4d1-9936ab9fe9ca', 'FlinkDeployment', 'default',
+        '{"image":"scaleph-sql-template:dev","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
+        '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
+        '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
+        NULL,
+        '{"web.cancel.enable":"false","taskmanager.numberOfTaskSlots":"8","kubernetes.rest-service.exposed.type":"NodePort","kubernetes.rest-service.exposed.node-port-address-type":"ExternalIP"}',
+        NULL, NULL, NULL, 'sys', 'sys');
+
+
+INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
+                                           `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
+                                           `pod_template`, `flink_configuration`,
+                                           `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
+VALUES (4, 1, 'simple-seatunnel-deployment', '35e4a532-3c7b-4273-8cdb-edbef2cb9e49', 'FlinkDeployment', 'default',
+        '{"image":"scaleph-seatunnel:dev","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_16","serviceAccount":"flink"}',
+        '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
+        '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
+        NULL,
+        '{"web.cancel.enable":"false","taskmanager.numberOfTaskSlots":"8","kubernetes.rest-service.exposed.type":"NodePort","kubernetes.rest-service.exposed.node-port-address-type":"ExternalIP"}',
+        NULL, NULL, NULL, 'sys', 'sys');
+
+INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
+                                           `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
+                                           `pod_template`, `flink_configuration`,
+                                           `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
+VALUES (5, 1, 'deployment', '3f0c6600-b6d7-4e2c-b2e5-4a0b3cdb3cbb', 'FlinkDeployment', 'default',
         '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
@@ -387,7 +427,7 @@ INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template
                                            `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
                                            `pod_template`, `flink_configuration`,
                                            `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
-VALUES (4, 1, 'session-cluster', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkSessionJob', 'default',
+VALUES (6, 1, 'session-cluster', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkSessionJob', 'default',
         '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
@@ -399,7 +439,7 @@ INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template
                                            `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
                                            `pod_template`, `flink_configuration`,
                                            `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
-VALUES (5, 1, 'empty-dir-volume', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkDeployment', 'default',
+VALUES (7, 1, 'empty-dir-volume', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkDeployment', 'default',
         '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
@@ -411,7 +451,7 @@ INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template
                                            `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
                                            `pod_template`, `flink_configuration`,
                                            `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
-VALUES (6, 1, 'hostpath-volume', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkDeployment', 'default',
+VALUES (8, 1, 'hostpath-volume', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkDeployment', 'default',
         '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',

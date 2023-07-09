@@ -24,6 +24,7 @@ import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactSql;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.FileFetcherFactory;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.SqlScriptFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeployment;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeploymentConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
@@ -52,7 +53,7 @@ public enum FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKube
         if (source.getFlinkArtifactJar() != null) {
             WsFlinkArtifactJar flinkArtifactJar = source.getFlinkArtifactJar();
             JobSpec jobSpec = new JobSpec();
-            jobSpec.setJarURI(FileFetcherFactory.LOCAL_PATH + flinkArtifactJar.getFileName());
+            jobSpec.setJarURI(FileFetcherFactory.JAR_LOCAL_PATH + flinkArtifactJar.getFileName());
             jobSpec.setEntryClass(flinkArtifactJar.getEntryClass());
             jobSpec.setArgs(StringUtils.split(flinkArtifactJar.getJarParams(), " "));
             spec.setJob(jobSpec);
@@ -60,10 +61,10 @@ public enum FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKube
         if (source.getFlinkArtifactSql() != null) {
             WsFlinkArtifactSql flinkArtifactSql = source.getFlinkArtifactSql();
             JobSpec jobSpec = new JobSpec();
-            jobSpec.setJarURI(FileFetcherFactory.LOCAL_PATH + "sql-runner.jar");
+            jobSpec.setJarURI(SqlScriptFactory.SQL_LOCAL_PATH + "sql-runner.jar");
             jobSpec.setEntryClass("cn.sliew.scaleph.engine.sql.SqlRunner");
-            List<String> args = Arrays.asList("--script", flinkArtifactSql.getScript());
-            jobSpec.setArgs(args.toArray(new String[2]));
+            List<String> args = Arrays.asList(SqlUtil.format(flinkArtifactSql.getScript()));
+            jobSpec.setArgs(args.toArray(new String[1]));
             spec.setJob(jobSpec);
         }
         if (source.getWsDiJob() != null) {
