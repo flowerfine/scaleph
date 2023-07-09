@@ -19,11 +19,8 @@ package cn.sliew.scaleph.engine.sql;
 
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.table.api.TableEnvironment;
-import org.apache.flink.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
 
 /**
  * This file was copied from https://github.com/apache/flink-kubernetes-operator
@@ -39,8 +36,7 @@ public class SqlRunner {
         if (args.length != 1) {
             throw new Exception("Exactly one argument is expected.");
         }
-        var script = FileUtils.readFileUtf8(new File(args[0]));
-        var statements = SqlFormatter.parseStatements(script);
+        var statements = SqlFormatter.parseStatements(args[0]);
 
         var tableEnv = TableEnvironment.create(new Configuration());
 
