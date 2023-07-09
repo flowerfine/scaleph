@@ -63,8 +63,8 @@ public enum FlinkSessionJobConverter implements ResourceConverter<WsFlinkKuberne
             JobSpec jobSpec = new JobSpec();
             jobSpec.setJarURI("local:///sql-runner.jar");
             jobSpec.setEntryClass("cn.sliew.engine.flink.sql.SqlRunner");
-            List<String> args = Arrays.asList("--script", flinkArtifactSql.getScript());
-            jobSpec.setArgs(args.toArray(new String[2]));
+            List<String> args = Arrays.asList(flinkArtifactSql.getScript());
+            jobSpec.setArgs(args.toArray(new String[1]));
             spec.setJob(jobSpec);
         }
         if (source.getWsDiJob() != null) {

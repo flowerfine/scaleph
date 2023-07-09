@@ -24,8 +24,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This file was copied from https://github.com/apache/flink-kubernetes-operator
@@ -37,17 +35,12 @@ public class SqlRunner {
 
     private static final Logger LOG = LoggerFactory.getLogger(SqlRunner.class);
 
-    private static final String STATEMENT_DELIMITER = ";"; // a statement should end with `;`
-    private static final String LINE_DELIMITER = "\n";
-
-    private static final String COMMENT_PATTERN = "(--.*)|(((\\/\\*)+?[\\w\\W]+?(\\*\\/)+))";
-
     public static void main(String[] args) throws Exception {
         if (args.length != 1) {
             throw new Exception("Exactly one argument is expected.");
         }
         var script = FileUtils.readFileUtf8(new File(args[0]));
-        var statements = parseStatements(script);
+        var statements = SqlFormatter.parseStatements(script);
 
         var tableEnv = TableEnvironment.create(new Configuration());
 
@@ -55,46 +48,5 @@ public class SqlRunner {
             LOG.info("Executing:\n{}", statement);
             tableEnv.executeSql(statement);
         }
-    }
-
-    public static List<String> parseStatements(String script) {
-        var formatted = formatSqlFile(script).replaceAll(COMMENT_PATTERN, "");
-        var statements = new ArrayList<String>();
-
-        StringBuilder current = null;
-        boolean statementSet = false;
-        for (String line : formatted.split("\n")) {
-            var trimmed = line.trim();
-            if (trimmed.isBlank()) {
-                continue;
-            }
-            if (current == null) {
-                current = new StringBuilder();
-            }
-            if (trimmed.startsWith("EXECUTE STATEMENT SET")) {
-                statementSet = true;
-            }
-            current.append(trimmed);
-            current.append("\n");
-            if (trimmed.endsWith(STATEMENT_DELIMITER)) {
-                if (!statementSet || trimmed.equals("END;")) {
-                    statements.add(current.toString());
-                    current = null;
-                    statementSet = false;
-                }
-            }
-        }
-        return statements;
-    }
-
-    public static String formatSqlFile(String content) {
-        String trimmed = content.trim();
-        StringBuilder formatted = new StringBuilder();
-        formatted.append(trimmed);
-        if (!trimmed.endsWith(STATEMENT_DELIMITER)) {
-            formatted.append(STATEMENT_DELIMITER);
-        }
-        formatted.append(LINE_DELIMITER);
-        return formatted.toString();
     }
 }
