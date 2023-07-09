@@ -347,23 +347,12 @@ CREATE TABLE ws_flink_kubernetes_template
     PRIMARY KEY (id),
     UNIQUE KEY uniq_name (`name`)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes deployment template';
-INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
-                                           `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
-                                           `pod_template`, `flink_configuration`,
-                                           `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
-VALUES (1, 1, 'simple-deployment', 'b4dc61d0-ad0e-4e39-b1a4-f0692122635f', 'FlinkDeployment', 'default',
-        '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
-        '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
-        '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
-        NULL,
-        '{"web.cancel.enable":"false","taskmanager.numberOfTaskSlots":"8","kubernetes.rest-service.exposed.type":"NodePort","kubernetes.rest-service.exposed.node-port-address-type":"ExternalIP"}',
-        NULL, NULL, NULL, 'sys', 'sys');
 
 INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
                                            `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
                                            `pod_template`, `flink_configuration`,
                                            `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
-VALUES (2, 1, 'simple-sessioin-cluster', '19b77b47-b9e4-418c-90a1-533ea6121c16', 'FlinkSessionJob', 'default',
+VALUES (1, 1, 'simple-sessioin-cluster', '19b77b47-b9e4-418c-90a1-533ea6121c16', 'FlinkSessionJob', 'default',
         '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
@@ -375,7 +364,44 @@ INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template
                                            `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
                                            `pod_template`, `flink_configuration`,
                                            `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
-VALUES (3, 1, 'deployment', '3f0c6600-b6d7-4e2c-b2e5-4a0b3cdb3cbb', 'FlinkDeployment', 'default',
+VALUES (2, 1, 'simple-jar-deployment', 'b4dc61d0-ad0e-4e39-b1a4-f0692122635f', 'FlinkDeployment', 'default',
+        '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
+        '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
+        '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
+        NULL,
+        '{"web.cancel.enable":"false","taskmanager.numberOfTaskSlots":"8","kubernetes.rest-service.exposed.type":"NodePort","kubernetes.rest-service.exposed.node-port-address-type":"ExternalIP"}',
+        NULL, NULL, NULL, 'sys', 'sys');
+
+INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
+                                           `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
+                                           `pod_template`, `flink_configuration`,
+                                           `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
+VALUES (3, 1, 'simple-sql-deployment', 'bceec5d5-6271-4079-b4d1-9936ab9fe9ca', 'FlinkDeployment', 'default',
+        '{"image":"scaleph-sql-template:dev","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
+        '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
+        '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
+        NULL,
+        '{"web.cancel.enable":"false","taskmanager.numberOfTaskSlots":"8","kubernetes.rest-service.exposed.type":"NodePort","kubernetes.rest-service.exposed.node-port-address-type":"ExternalIP"}',
+        NULL, NULL, NULL, 'sys', 'sys');
+
+
+INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
+                                           `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
+                                           `pod_template`, `flink_configuration`,
+                                           `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
+VALUES (4, 1, 'simple-seatunnel-deployment', '35e4a532-3c7b-4273-8cdb-edbef2cb9e49', 'FlinkDeployment', 'default',
+        '{"image":"scaleph-seatunnel:dev","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_16","serviceAccount":"flink"}',
+        '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
+        '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
+        NULL,
+        '{"web.cancel.enable":"false","taskmanager.numberOfTaskSlots":"8","kubernetes.rest-service.exposed.type":"NodePort","kubernetes.rest-service.exposed.node-port-address-type":"ExternalIP"}',
+        NULL, NULL, NULL, 'sys', 'sys');
+
+INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
+                                           `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
+                                           `pod_template`, `flink_configuration`,
+                                           `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
+VALUES (5, 1, 'deployment', '3f0c6600-b6d7-4e2c-b2e5-4a0b3cdb3cbb', 'FlinkDeployment', 'default',
         '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
@@ -387,7 +413,7 @@ INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template
                                            `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
                                            `pod_template`, `flink_configuration`,
                                            `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
-VALUES (4, 1, 'session-cluster', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkSessionJob', 'default',
+VALUES (6, 1, 'session-cluster', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkSessionJob', 'default',
         '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
@@ -399,7 +425,7 @@ INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template
                                            `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
                                            `pod_template`, `flink_configuration`,
                                            `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
-VALUES (5, 1, 'empty-dir-volume', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkDeployment', 'default',
+VALUES (7, 1, 'empty-dir-volume', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkDeployment', 'default',
         '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
@@ -411,7 +437,7 @@ INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template
                                            `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
                                            `pod_template`, `flink_configuration`,
                                            `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
-VALUES (6, 1, 'hostpath-volume', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkDeployment', 'default',
+VALUES (8, 1, 'hostpath-volume', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkDeployment', 'default',
         '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',

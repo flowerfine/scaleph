@@ -94,6 +94,10 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
     }
 
     private void addArtifactJar(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
+        if (jobDTO.getFlinkArtifactJar() == null) {
+            return;
+        }
+
         switch (jobDTO.getDeploymentKind()) {
             case FLINK_DEPLOYMENT:
                 doAddJars(jobDTO.getFlinkArtifactJar(), builder);
@@ -177,7 +181,7 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
         VolumeBuilder flinkLib = new VolumeBuilder();
         flinkLib.withName(FILE_FETCHER_FLINK_VOLUME_NAME);
         flinkLib.withEmptyDir(new EmptyDirVolumeSource());
-        return Arrays.asList(scalephLib.build());
+        return Arrays.asList(scalephLib.build(), flinkLib.build());
     }
 
 }

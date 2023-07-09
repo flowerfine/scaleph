@@ -26,12 +26,12 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
   const tableColumns: ProColumns<WsFlinkKubernetesTemplate>[] = [
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.name'}),
-      dataIndex: 'name',
-      width: 200,
+      dataIndex: 'name'
     },
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.deploymentKind'}),
       dataIndex: 'deploymentKind',
+      width: 150,
       render: (dom, entity) => {
         return (<Tag>{entity.deploymentKind?.label}</Tag>)
       },
@@ -49,13 +49,12 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.namespace'}),
       dataIndex: 'namespace',
       hideInSearch: true,
-      width: 200
+      width: 150
     },
     {
       title: intl.formatMessage({id: 'app.common.data.remark'}),
       dataIndex: 'remark',
       hideInSearch: true,
-      width: 180,
     },
     {
       title: intl.formatMessage({id: 'app.common.data.createTime'}),
