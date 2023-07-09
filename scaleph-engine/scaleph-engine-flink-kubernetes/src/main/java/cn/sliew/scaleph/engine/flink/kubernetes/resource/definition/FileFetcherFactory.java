@@ -32,7 +32,7 @@ import java.util.*;
 public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJobDTO, FlinkDeploymentJob> {
     INSTANCE;
 
-    private static final String FLINK_MAIN_CONTAINER_NAME = "flink-main-container";
+    public static final String FLINK_MAIN_CONTAINER_NAME = "flink-main-container";
     private static final String FILE_FETCHER_CONTAINER_NAME = "scaleph-file-fetcher";
     //    private static final String FILE_FETCHER_CONTAINER_IMAGE = "ghcr.io/flowerfine/scaleph/scaleph-file-fetcher:latest";
     private static final String FILE_FETCHER_CONTAINER_IMAGE = "scaleph-file-fetcher:dev";
@@ -41,13 +41,13 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
     private static final Map<String, Quantity> FILE_FETCHER_CONTAINER_MEMORY = Map.of("memory", Quantity.parse("512Mi"));
 
     private static final String FILE_FETCHER_SCALEPH_VOLUME_NAME = "file-fetcher-scaleph-volume";
-    private static final String SCALEPH_DIRECTORY = "/scaleph/usrlib/";
+    private static final String SCALEPH_JAR_DIRECTORY = "/scaleph/jar/";
 
     private static final String FILE_FETCHER_FLINK_VOLUME_NAME = "file-fetcher-flink-volume";
     private static final String LIB_DIRECTORY = "/flink/usrlib/";
 
     public static final String LOCAL_SCHEMA = "local://";
-    public static final String LOCAL_PATH = LOCAL_SCHEMA + SCALEPH_DIRECTORY;
+    public static final String JAR_LOCAL_PATH = LOCAL_SCHEMA + SCALEPH_JAR_DIRECTORY;
 
     @Override
     public void customize(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentJob job) {
@@ -141,7 +141,7 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
 
     private List<String> buildFileFetcherArgs(WsFlinkArtifactJar jarArtifact) {
         return Arrays.asList("-uri", jarArtifact.getPath(),
-                "-path", SCALEPH_DIRECTORY + jarArtifact.getFileName());
+                "-path", SCALEPH_JAR_DIRECTORY + jarArtifact.getFileName());
     }
 
     private List<EnvVar> buildEnvs() {
@@ -166,7 +166,7 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
     private List<VolumeMount> buildVolumeMount() {
         VolumeMountBuilder scalephLib = new VolumeMountBuilder();
         scalephLib.withName(FILE_FETCHER_SCALEPH_VOLUME_NAME);
-        scalephLib.withMountPath(SCALEPH_DIRECTORY);
+        scalephLib.withMountPath(SCALEPH_JAR_DIRECTORY);
 
         VolumeMountBuilder flinkLib = new VolumeMountBuilder();
         flinkLib.withName(FILE_FETCHER_FLINK_VOLUME_NAME);

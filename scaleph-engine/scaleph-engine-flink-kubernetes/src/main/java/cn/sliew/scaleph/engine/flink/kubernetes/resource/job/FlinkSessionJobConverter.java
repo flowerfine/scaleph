@@ -23,6 +23,7 @@ import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactSql;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionJobSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.SqlScriptFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionClusterConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
@@ -61,8 +62,8 @@ public enum FlinkSessionJobConverter implements ResourceConverter<WsFlinkKuberne
         if (source.getFlinkArtifactSql() != null) {
             WsFlinkArtifactSql flinkArtifactSql = source.getFlinkArtifactSql();
             JobSpec jobSpec = new JobSpec();
-            jobSpec.setJarURI("local:///sql-runner.jar");
-            jobSpec.setEntryClass("cn.sliew.engine.flink.sql.SqlRunner");
+            jobSpec.setJarURI(SqlScriptFactory.SQL_LOCAL_PATH + "sql-runner.jar");
+            jobSpec.setEntryClass("cn.sliew.scaleph.engine.sql.SqlRunner");
             List<String> args = Arrays.asList(flinkArtifactSql.getScript());
             jobSpec.setArgs(args.toArray(new String[1]));
             spec.setJob(jobSpec);
