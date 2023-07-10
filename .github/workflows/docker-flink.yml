@@ -25,8 +25,8 @@ on:
         default: '1.16.1'
         type: choice
         options:
-          - 1.16.1
           - 1.17.0
+          - 1.16.1
 env:
   HUB: ghcr.io/flowerfine/scaleph_flink
   FLINK_VERSION: ${{ inputs.flinkVersion }}

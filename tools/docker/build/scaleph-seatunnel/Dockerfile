@@ -14,14 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG BASE_IMAGE=ghcr.io/flowerfine/scaleph_flink:1.16.1_2.12
+ARG FLINK_VERSION=1.17
 
-FROM $BASE_IMAGE
+FROM flink:${FLINK_VERSION}
 
-ARG SEATUNNEL_VERSION
+ENV SEATUNNEL_VERSION=2.3.1
+ENV SEATUNNEL_HOME = /opt/seatunnel
+
+RUN mkdir -p $SEATUNNEL_HOME
+
 ARG TAR_FILE=apache-seatunnel-incubating-${SEATUNNEL_VERSION}-bin.tar.gz
-
-ENV SEATUNNEL_HOME /opt/seatunnel
 
 # download from seatunnel release page
 RUN mkdir -p $SEATUNNEL_HOME ; cd $SEATUNNEL_HOME ; \
