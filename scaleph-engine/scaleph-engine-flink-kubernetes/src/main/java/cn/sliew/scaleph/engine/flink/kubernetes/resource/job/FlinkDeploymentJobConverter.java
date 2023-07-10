@@ -57,6 +57,7 @@ public enum FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKube
             jobSpec.setEntryClass(flinkArtifactJar.getEntryClass());
             jobSpec.setArgs(StringUtils.split(flinkArtifactJar.getJarParams(), " "));
             spec.setJob(jobSpec);
+            FileFetcherFactory.INSTANCE.customize(source, deployment);
         }
         if (source.getFlinkArtifactSql() != null) {
             WsFlinkArtifactSql flinkArtifactSql = source.getFlinkArtifactSql();
@@ -70,14 +71,13 @@ public enum FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKube
         if (source.getWsDiJob() != null) {
             WsDiJob wsDiJob = source.getWsDiJob();
             JobSpec jobSpec = new JobSpec();
-            jobSpec.setJarURI("local:///opt/seatunnel/starter/seatunnel-flink-starter.jar");
+            jobSpec.setJarURI(FileFetcherFactory.LOCAL_SCHEMA + "/opt/seatunnel/starter/seatunnel-flink-starter.jar");
             jobSpec.setEntryClass("org.apache.seatunnel.core.starter.flink.SeatunnelFlink");
             List<String> args = Arrays.asList("--config", "todo config");
             jobSpec.setArgs(args.toArray(new String[2]));
             spec.setJob(jobSpec);
         }
         deployment.setSpec(spec);
-        FileFetcherFactory.INSTANCE.customize(source, deployment);
         return deployment;
     }
 
