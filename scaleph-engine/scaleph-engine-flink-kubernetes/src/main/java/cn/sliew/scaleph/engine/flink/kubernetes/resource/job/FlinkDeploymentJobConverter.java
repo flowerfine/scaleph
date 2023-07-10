@@ -71,7 +71,7 @@ public enum FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKube
         if (source.getWsDiJob() != null) {
             WsDiJob wsDiJob = source.getWsDiJob();
             JobSpec jobSpec = new JobSpec();
-            jobSpec.setJarURI(FileFetcherFactory.LOCAL_SCHEMA + "/opt/seatunnel/starter/seatunnel-flink-starter.jar");
+            jobSpec.setJarURI(FileFetcherFactory.LOCAL_SCHEMA + "/opt/seatunnel/starter/seatunnel-flink-15-starter.jar");
             jobSpec.setEntryClass("org.apache.seatunnel.core.starter.flink.SeatunnelFlink");
             List<String> args = Arrays.asList("--config", "todo config");
             jobSpec.setArgs(args.toArray(new String[2]));

@@ -67,7 +67,7 @@ public class WsFlinkKubernetesJobController {
     @Logging
     @GetMapping("/asYaml/{id}")
     @Operation(summary = "查询 YAML 格式 Job", description = "查询 YAML 格式 Job")
-    public ResponseEntity<ResponseVO<Object>> asYaml(@PathVariable("id") Long id) {
+    public ResponseEntity<ResponseVO<Object>> asYaml(@PathVariable("id") Long id) throws Exception {
         Object dto = wsFlinkKubernetesJobService.asYaml(id);
         return new ResponseEntity(ResponseVO.success(dto), HttpStatus.OK);
     }

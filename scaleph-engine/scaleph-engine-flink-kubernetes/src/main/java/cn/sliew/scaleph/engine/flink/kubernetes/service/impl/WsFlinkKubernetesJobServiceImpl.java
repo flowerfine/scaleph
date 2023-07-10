@@ -18,9 +18,11 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJob;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobMapper;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.job.FlinkDeploymentJob;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.job.FlinkDeploymentJobConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.job.FlinkSessionJobConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
@@ -30,11 +32,15 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJob
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobAddParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobListParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobUpdateParam;
+import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
+import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
@@ -46,6 +52,10 @@ public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobServ
     private WsFlinkKubernetesJobMapper wsFlinkKubernetesJobMapper;
     @Autowired
     private FlinkKubernetesOperatorService flinkKubernetesOperatorService;
+    @Autowired
+    private SeatunnelConfigService seatunnelConfigService;
+    @Autowired
+    private WsDiJobService wsDiJobService;
 
     @Override
     public Page<WsFlinkKubernetesJobDTO> list(WsFlinkKubernetesJobListParam param) {
@@ -65,11 +75,19 @@ public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobServ
     }
 
     @Override
-    public Object asYaml(Long id) {
+    public Object asYaml(Long id) throws Exception {
         WsFlinkKubernetesJobDTO wsFlinkKubernetesJobDTO = selectOne(id);
         switch (wsFlinkKubernetesJobDTO.getDeploymentKind()) {
             case FLINK_DEPLOYMENT:
-                return FlinkDeploymentJobConverter.INSTANCE.convertTo(wsFlinkKubernetesJobDTO);
+                FlinkDeploymentJob flinkDeploymentJob = FlinkDeploymentJobConverter.INSTANCE.convertTo(wsFlinkKubernetesJobDTO);
+                if (wsFlinkKubernetesJobDTO.getWsDiJob() != null) {
+                    WsDiJobDTO wsDiJobDTO = wsDiJobService.queryJobGraph(wsFlinkKubernetesJobDTO.getWsDiJob().getId());
+                    wsDiJobDTO.getWsFlinkArtifact().setName(wsFlinkKubernetesJobDTO.getJobId());
+                    String config = seatunnelConfigService.buildConfig(wsDiJobDTO);
+                    List<String> args = Arrays.asList("--config", JacksonUtil.toJsonNode(config).toString());
+                    flinkDeploymentJob.getSpec().getJob().setArgs(args.toArray(new String[2]));
+                }
+                return flinkDeploymentJob;
             case FLINK_SESSION_JOB:
                 return FlinkSessionJobConverter.INSTANCE.convertTo(wsFlinkKubernetesJobDTO);
             default:

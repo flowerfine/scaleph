@@ -404,7 +404,7 @@ INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template
                                            `pod_template`, `flink_configuration`,
                                            `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
 VALUES (4, 1, 'simple-seatunnel-deployment', '35e4a532-3c7b-4273-8cdb-edbef2cb9e49', 'FlinkDeployment', 'default',
-        '{"image":"scaleph-seatunnel:dev","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_16","serviceAccount":"flink"}',
+        '{"image":"ghcr.io/flowerfine/scaleph-seatunnel:2.3.1-flink-1.15","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_16","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         NULL,
