@@ -51,6 +51,7 @@ public enum FlinkSessionJobConverter implements ResourceConverter<WsFlinkKuberne
         builder.withLabels(Map.of(Constant.SCALEPH_NAME, source.getName()));
         session.setMetadata(builder.build());
         FlinkSessionJobSpec spec = new FlinkSessionJobSpec();
+        session.setSpec(spec);
         spec.setDeploymentName(flinkSessionCluster.getMetadata().getName());
         if (source.getFlinkArtifactJar() != null) {
             WsFlinkArtifactJar flinkArtifactJar = source.getFlinkArtifactJar();
@@ -79,7 +80,6 @@ public enum FlinkSessionJobConverter implements ResourceConverter<WsFlinkKuberne
             jobSpec.setArgs(args.toArray(new String[2]));
             spec.setJob(jobSpec);
         }
-        session.setSpec(spec);
         return session;
     }
 

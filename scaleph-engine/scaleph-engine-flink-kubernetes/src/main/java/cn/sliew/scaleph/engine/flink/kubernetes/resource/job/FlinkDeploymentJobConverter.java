@@ -51,6 +51,7 @@ public enum FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKube
         builder.withLabels(Map.of(Constant.SCALEPH_NAME, source.getName()));
         deployment.setMetadata(builder.build());
         FlinkDeploymentSpec spec = flinkDeployment.getSpec();
+        deployment.setSpec(spec);
         if (source.getFlinkArtifactJar() != null) {
             WsFlinkArtifactJar flinkArtifactJar = source.getFlinkArtifactJar();
             JobSpec jobSpec = new JobSpec();
