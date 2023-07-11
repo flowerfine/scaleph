@@ -32,7 +32,7 @@ public interface WsFlinkKubernetesJobService {
 
     WsFlinkKubernetesJobDTO selectOne(Long id);
 
-    Object asYaml(Long id);
+    Object asYaml(Long id) throws Exception;
 
     int insert(WsFlinkKubernetesJobAddParam param);
 

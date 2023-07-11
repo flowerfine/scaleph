@@ -25,14 +25,20 @@ RUN mkdir -p $SEATUNNEL_HOME
 
 ARG TAR_FILE=apache-seatunnel-incubating-${SEATUNNEL_VERSION}-bin.tar.gz
 
+# forked from seatunnel k8s quick start
+RUN wget https://archive.apache.org/dist/incubator/seatunnel/${SEATUNNEL_VERSION}/$TAR_FILE
+RUN tar -xzvf $TAR_FILE
+RUN cp -r apache-seatunnel-incubating-${SEATUNNEL_VERSION}/* $SEATUNNEL_HOME/
+RUN rm -rf apache-seatunnel-incubating-${SEATUNNEL_VERSION}*
+
+# fixme this way has an empty $SEATUNNEL_HOME directory
 # download from seatunnel release page
-RUN mkdir -p $SEATUNNEL_HOME ; cd $SEATUNNEL_HOME ; \
-    curl -LSO https://archive.apache.org/dist/incubator/seatunnel/${SEATUNNEL_VERSION}/$TAR_FILE ; \
-    tar -zxf $TAR_FILE --strip 1 -C . ; \
-    rm $TAR_FILE
+#RUN cd $SEATUNNEL_HOME ; \
+#    curl -LSO https://archive.apache.org/dist/incubator/seatunnel/${SEATUNNEL_VERSION}/$TAR_FILE ; \
+#    tar -zxf $TAR_FILE --strip 1 -C . ; \
+#    rm $TAR_FILE
 
 # copy pre-downloaded seatunnel release
-#RUN mkdir -p $SEATUNNEL_HOME
 #COPY /path/to/$TAR_FILE $SEATUNNEL_HOME/$TAR_FILE
 #RUN cd $SEATUNNEL_HOME ;\
 #    tar -zxf $TAR_FILE --strip 1 -C . ; \

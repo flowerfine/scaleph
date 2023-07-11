@@ -46,6 +46,10 @@ jobs:
           platforms: amd64,arm64
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+      - name: Build scaleph-dist
+        run: mvn -B -U -T 4 clean package -Pdist -DskipTests -Dfast
+      - name: Build scaleph-ui-react-dist
+        run: mvn -B -U package -pl scaleph-ui-react -am -DskipTests
       - name: Build scaleph-ui-react
         run: cd scaleph-ui-react && npm install && npm run build --prod
       - name: Build scaleph-file-fetcher
