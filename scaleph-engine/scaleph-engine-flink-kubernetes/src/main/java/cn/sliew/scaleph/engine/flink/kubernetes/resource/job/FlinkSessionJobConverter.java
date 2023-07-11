@@ -18,11 +18,13 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.job;
 
+import cn.sliew.scaleph.common.util.SeaTunnelReleaseUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactSql;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionJobSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.FileFetcherFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.SqlScriptFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionClusterConverter;
@@ -71,8 +73,8 @@ public enum FlinkSessionJobConverter implements ResourceConverter<WsFlinkKuberne
         if (source.getWsDiJob() != null) {
             WsDiJob wsDiJob = source.getWsDiJob();
             JobSpec jobSpec = new JobSpec();
-            jobSpec.setJarURI("local:///opt/seatunnel/starter/seatunnel-flink-15-starter.jar");
-            jobSpec.setEntryClass("org.apache.seatunnel.core.starter.flink.SeatunnelFlink");
+            jobSpec.setJarURI(FileFetcherFactory.LOCAL_SCHEMA + "/opt/seatunnel/starter/" + SeaTunnelReleaseUtil.STARTER_JAR_NAME);
+            jobSpec.setEntryClass(SeaTunnelReleaseUtil.SEATUNNEL_MAIN_CLASS);
             List<String> args = Arrays.asList("--config", "todo config");
             jobSpec.setArgs(args.toArray(new String[2]));
             spec.setJob(jobSpec);
