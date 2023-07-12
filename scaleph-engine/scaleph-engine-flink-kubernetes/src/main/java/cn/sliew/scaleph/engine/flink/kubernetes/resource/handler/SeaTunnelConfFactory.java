@@ -16,11 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.resource;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.handler;
 
-public interface ResourceConverter<S, T extends Resource> {
+import org.springframework.stereotype.Component;
 
-    T convertTo(S source) throws Exception;
+@Component
+public class SeaTunnelConfFactory {
 
-    S convertFrom(T target);
+    // 构建 configmap
+    // 挂载到 flink 容器
+
+    // 任务停止时，销毁 configmap
 }

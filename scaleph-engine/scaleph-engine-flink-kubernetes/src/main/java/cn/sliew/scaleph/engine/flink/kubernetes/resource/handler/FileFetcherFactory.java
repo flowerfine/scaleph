@@ -24,19 +24,18 @@ import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.FlinkDeploymentJob;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
-import cn.sliew.scaleph.kubernetes.resource.custom.ResourceCustomizer;
 import cn.sliew.scaleph.system.snowflake.utils.NetUtils;
 import io.fabric8.kubernetes.api.model.*;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
-public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJobDTO, FlinkDeploymentJob> {
-    INSTANCE;
+@Component
+public class FileFetcherFactory {
 
     private static final Map<String, Quantity> FILE_FETCHER_CONTAINER_CPU = Map.of("cpu", Quantity.parse("250m"));
     private static final Map<String, Quantity> FILE_FETCHER_CONTAINER_MEMORY = Map.of("memory", Quantity.parse("512Mi"));
 
-    @Override
     public void customize(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentJob job) {
         PodBuilder podBuilder = Optional.ofNullable(job.getSpec().getPodTemplate()).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
         cusomizePodTemplate(podBuilder);
