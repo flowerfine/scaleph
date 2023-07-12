@@ -96,7 +96,7 @@ public class FileFetcherFactory {
     private void addAdditionalJars(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
         switch (jobDTO.getDeploymentKind()) {
             case FLINK_DEPLOYMENT:
-//                doAddJars(builder);
+                addAdditionalJars();
                 return;
             case FLINK_SESSION_JOB:
             default:
@@ -121,7 +121,7 @@ public class FileFetcherFactory {
         return builder.build();
     }
 
-    private void addAdditionalJars(PodFluent.SpecNested<PodBuilder> spec, WsFlinkArtifactJar jarArtifact) {
+    private void addAdditionalJars() {
 
     }
 
