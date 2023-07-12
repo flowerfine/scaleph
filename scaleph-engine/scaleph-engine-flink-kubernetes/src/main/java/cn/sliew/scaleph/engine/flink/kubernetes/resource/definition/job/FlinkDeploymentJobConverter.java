@@ -18,11 +18,9 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job;
 
-import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.util.SeaTunnelReleaseUtil;
 import cn.sliew.scaleph.config.resource.ResourceLabels;
 import cn.sliew.scaleph.config.resource.ResourceNames;
-import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactSql;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
@@ -30,12 +28,12 @@ import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.deployment.FlinkDeployment;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.deployment.FlinkDeploymentConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FileFetcherFactory;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.SeaTunnelConfHandler;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
-import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
 import cn.sliew.scaleph.kubernetes.resource.ResourceConverter;
+import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
+import io.fabric8.kubernetes.client.utils.Serialization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -45,17 +43,15 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKubernetesJobDTO, FlinkDeploymentJob> {
+public class FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKubernetesJobDTO, String> {
 
-    @Autowired
-    private SeatunnelConfigService seatunnelConfigService;
-    @Autowired
-    private WsDiJobService wsDiJobService;
     @Autowired
     private FileFetcherFactory fileFetcherFactory;
+    @Autowired
+    private SeaTunnelConfHandler seaTunnelConfHandler;
 
     @Override
-    public FlinkDeploymentJob convertTo(WsFlinkKubernetesJobDTO source) throws Exception {
+    public String convertTo(WsFlinkKubernetesJobDTO source) throws Exception {
         FlinkDeploymentJob deployment = new FlinkDeploymentJob();
         FlinkDeployment flinkDeployment = FlinkDeploymentConverter.INSTANCE.convertTo(source.getFlinkDeployment());
         ObjectMetaBuilder builder = new ObjectMetaBuilder(flinkDeployment.getMetadata(), true);
@@ -73,6 +69,7 @@ public class FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKub
             jobSpec.setArgs(StringUtils.split(flinkArtifactJar.getJarParams(), " "));
             spec.setJob(jobSpec);
             fileFetcherFactory.customize(source, deployment);
+            return Serialization.asYaml(deployment);
         }
         if (source.getFlinkArtifactSql() != null) {
             WsFlinkArtifactSql flinkArtifactSql = source.getFlinkArtifactSql();
@@ -82,26 +79,23 @@ public class FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKub
             List<String> args = Arrays.asList(SqlUtil.format(flinkArtifactSql.getScript()));
             jobSpec.setArgs(args.toArray(new String[1]));
             spec.setJob(jobSpec);
+            return Serialization.asYaml(deployment);
         }
         if (source.getWsDiJob() != null) {
-            WsDiJob wsDiJob = source.getWsDiJob();
             JobSpec jobSpec = new JobSpec();
             jobSpec.setJarURI(ResourceNames.LOCAL_SCHEMA + "/opt/seatunnel/starter/" + SeaTunnelReleaseUtil.STARTER_JAR_NAME);
             jobSpec.setEntryClass(SeaTunnelReleaseUtil.SEATUNNEL_MAIN_CLASS);
-            WsDiJobDTO wsDiJobDTO = wsDiJobService.queryJobGraph(wsDiJob.getId());
-            String config = seatunnelConfigService.buildConfig(wsDiJobDTO);
-            List<String> args = Arrays.asList("--config", JacksonUtil.toJsonNode(config).toString());
+            List<String> args = Arrays.asList("--config", ResourceNames.SEATUNNEL_CONF_LOCAL_PATH);
             jobSpec.setArgs(args.toArray(new String[2]));
             spec.setJob(jobSpec);
+            ConfigMap seatunnelConfConfigMap = seaTunnelConfHandler.customize(source, deployment);
+            return Serialization.asYaml(deployment) + Serialization.asYaml(seatunnelConfConfigMap);
         }
-        deployment.setSpec(spec);
-        return deployment;
+        return Serialization.asYaml(deployment);
     }
 
     @Override
-    public WsFlinkKubernetesJobDTO convertFrom(FlinkDeploymentJob target) {
-        WsFlinkKubernetesJobDTO dto = new WsFlinkKubernetesJobDTO();
-
-        return dto;
+    public WsFlinkKubernetesJobDTO convertFrom(String target) {
+        throw new UnsupportedOperationException();
     }
 }

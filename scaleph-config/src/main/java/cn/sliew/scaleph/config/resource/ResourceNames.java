@@ -51,7 +51,9 @@ public enum ResourceNames {
 
     public static final String SEATUNNEL_CONF_VOLUME_NAME = "seatunnel-conf-volume";
     public static final String SEATUNNEL_CONF_DIRECTORY = "/scaleph/seatunnel/";
-    public static final String SEATUNNEL_CONF_LOCAL_PATH = LOCAL_SCHEMA + SEATUNNEL_CONF_DIRECTORY;
+    public static final String SEATUNNEL_CONF_FILE = "conf.json";
+    public static final String SEATUNNEL_CONF_FILE_PATH = SEATUNNEL_CONF_DIRECTORY + SEATUNNEL_CONF_FILE;
+    public static final String SEATUNNEL_CONF_LOCAL_PATH = LOCAL_SCHEMA + SEATUNNEL_CONF_DIRECTORY + SEATUNNEL_CONF_FILE;
 
 
 }

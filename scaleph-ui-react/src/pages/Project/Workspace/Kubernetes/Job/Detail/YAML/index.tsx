@@ -20,7 +20,7 @@ const FlinkKubernetesJobDetailYAMLWeb: React.FC<Props<WsFlinkKubernetesJob>> = (
 
   useEffect(() => {
     WsFlinkKubernetesJobService.asYaml(data.id).then((response) => {
-      setJob(YAML.stringify(response.data))
+      setJob(response.data)
     })
   }, []);
 
