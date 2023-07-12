@@ -18,13 +18,56 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.handler;
 
+import cn.sliew.scaleph.config.resource.ResourceNames;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.FlinkDeploymentJob;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
+import io.fabric8.kubernetes.api.model.*;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 @Component
 public class SeaTunnelConfFactory {
 
-    // 构建 configmap
-    // 挂载到 flink 容器
+    public void customize(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentJob job) {
+        PodBuilder podBuilder = Optional.ofNullable(job.getSpec().getPodTemplate()).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
+        cusomizePodTemplate(podBuilder);
+        job.getSpec().setPodTemplate(podBuilder.build());
+    }
 
-    // 任务停止时，销毁 configmap
+    private void cusomizePodTemplate(PodBuilder builder) {
+        builder.editOrNewMetadata()
+                .withName(ResourceNames.POD_TEMPLATE_NAME)
+                .endMetadata();
+        PodFluent.SpecNested<PodBuilder> spec = builder.editOrNewSpec();
+        spec.addAllToVolumes(buildVolume()); // add volumes
+        if (spec.hasMatchingContainer(containerBuilder -> containerBuilder.getName().equals(ResourceNames.FLINK_MAIN_CONTAINER_NAME))) {
+            spec.editMatchingContainer((containerBuilder -> containerBuilder.getName().equals(ResourceNames.FLINK_MAIN_CONTAINER_NAME)))
+                    .addAllToVolumeMounts(buildVolumeMount()) // add volume mount
+                    .endContainer();
+        } else {
+            spec.addNewContainer()
+                    .withName(ResourceNames.FLINK_MAIN_CONTAINER_NAME)
+                    .addAllToVolumeMounts(buildVolumeMount()) // add volume mount
+                    .endContainer();
+        }
+        spec.endSpec();
+    }
+
+    private List<VolumeMount> buildVolumeMount() {
+        VolumeMountBuilder sqlScripts = new VolumeMountBuilder();
+        sqlScripts.withName(ResourceNames.SEATUNNEL_CONF_VOLUME_NAME);
+        sqlScripts.withMountPath(ResourceNames.SEATUNNEL_CONF_DIRECTORY);
+        return Arrays.asList(sqlScripts.build());
+    }
+
+    private List<Volume> buildVolume() {
+        VolumeBuilder sqlScripts = new VolumeBuilder();
+        sqlScripts.withName(ResourceNames.SEATUNNEL_CONF_VOLUME_NAME);
+//        sqlScripts.withConfi
+        sqlScripts.withEmptyDir(new EmptyDirVolumeSource());
+        return Arrays.asList(sqlScripts.build());
+    }
 }

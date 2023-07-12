@@ -49,5 +49,9 @@ public enum ResourceNames {
     public static final String SQL_SCRIPTS_DIRECTORY = "/scaleph/sql-scripts/";
     public static final String SQL_SCRIPTS_LOCAL_PATH = LOCAL_SCHEMA + SQL_SCRIPTS_DIRECTORY;
 
+    public static final String SEATUNNEL_CONF_VOLUME_NAME = "seatunnel-conf-volume";
+    public static final String SEATUNNEL_CONF_DIRECTORY = "/scaleph/seatunnel/";
+    public static final String SEATUNNEL_CONF_LOCAL_PATH = LOCAL_SCHEMA + SEATUNNEL_CONF_DIRECTORY;
+
 
 }
