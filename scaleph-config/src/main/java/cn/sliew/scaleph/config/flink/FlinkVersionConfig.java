@@ -51,19 +51,12 @@ public enum FlinkVersionConfig {
                     Arrays.asList("1.17.0", "1.17.1"),
                     "ghcr.io/flowerfine/scaleph/scaleph-sql-templates:1.17");
 
-    public static final FlinkVersionProperties FLINK_SEATUNNEL_1_16 =
+    public static final FlinkVersionProperties FLINK_SEATUNNEL_1_15 =
             new FlinkVersionProperties(
                     FlinkImageType.SEATUNNEL,
-                    "1.16",
+                    "1.15",
                     Arrays.asList("1.16.0", "1.16.1", "1.16.2"),
-                    "ghcr.io/flowerfine/scaleph/scaleph-seatunnel_2.3.1:1.16");
-
-    public static final FlinkVersionProperties FLINK_SEATUNNEL_1_17 =
-            new FlinkVersionProperties(
-                    FlinkImageType.SEATUNNEL,
-                    "1.17",
-                    Arrays.asList("1.17.0", "1.17.1"),
-                    "ghcr.io/flowerfine/scaleph/scaleph-seatunnel_2.3.1:1.17");
+                    "ghcr.io/flowerfine/scaleph-seatunnel:2.3.1-flink-1.15");
 
     public static String findImage(FlinkImageType type, String flinkVersion) {
         switch (type) {
@@ -72,7 +65,7 @@ public enum FlinkVersionConfig {
             case SQL:
                 return doFindImage(flinkVersion, FLINK_SQL_1_17.getImage(), FLINK_SQL_1_16, FLINK_SQL_1_17);
             case SEATUNNEL:
-                return doFindImage(flinkVersion, FLINK_SEATUNNEL_1_17.getImage(), FLINK_SEATUNNEL_1_16, FLINK_SEATUNNEL_1_17);
+                return doFindImage(flinkVersion, FLINK_SEATUNNEL_1_15.getImage(), FLINK_SEATUNNEL_1_15);
             default:
                 return null;
         }

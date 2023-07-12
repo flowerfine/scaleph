@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition;
 
+import cn.sliew.scaleph.config.resource.ResourceNames;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.job.FlinkDeploymentJob;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.kubernetes.resource.custom.ResourceCustomizer;
@@ -30,12 +31,6 @@ import java.util.Optional;
 public enum SqlScriptFactory implements ResourceCustomizer<WsFlinkKubernetesJobDTO, FlinkDeploymentJob> {
     INSTANCE;
 
-    private static final String SQL_SCRIPTS_VOLUME_NAME = "sql-scripts-volume";
-    private static final String SQL_DIRECTORY = "/scaleph/sql/";
-    private static final String SQL_SCRIPTS_DIRECTORY = "/scaleph/sql-scripts/";
-
-    public static final String SQL_LOCAL_PATH = FileFetcherFactory.LOCAL_SCHEMA + SQL_DIRECTORY;
-
     @Override
     public void customize(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentJob job) {
         PodBuilder podBuilder = Optional.ofNullable(job.getSpec().getPodTemplate()).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
@@ -45,17 +40,17 @@ public enum SqlScriptFactory implements ResourceCustomizer<WsFlinkKubernetesJobD
 
     private void cusomizePodTemplate(PodBuilder builder) {
         builder.editOrNewMetadata()
-                .withName("pod-template")
+                .withName(ResourceNames.POD_TEMPLATE_NAME)
                 .endMetadata();
         PodFluent.SpecNested<PodBuilder> spec = builder.editOrNewSpec();
         spec.addAllToVolumes(buildVolume()); // add volumes
-        if (spec.hasMatchingContainer(containerBuilder -> containerBuilder.getName().equals(FileFetcherFactory.FLINK_MAIN_CONTAINER_NAME))) {
-            spec.editMatchingContainer((containerBuilder -> containerBuilder.getName().equals(FileFetcherFactory.FLINK_MAIN_CONTAINER_NAME)))
+        if (spec.hasMatchingContainer(containerBuilder -> containerBuilder.getName().equals(ResourceNames.FLINK_MAIN_CONTAINER_NAME))) {
+            spec.editMatchingContainer((containerBuilder -> containerBuilder.getName().equals(ResourceNames.FLINK_MAIN_CONTAINER_NAME)))
                     .addAllToVolumeMounts(buildVolumeMount()) // add volume mount
                     .endContainer();
         } else {
             spec.addNewContainer()
-                    .withName(FileFetcherFactory.FLINK_MAIN_CONTAINER_NAME)
+                    .withName(ResourceNames.FLINK_MAIN_CONTAINER_NAME)
                     .addAllToVolumeMounts(buildVolumeMount()) // add volume mount
                     .endContainer();
         }
@@ -64,14 +59,14 @@ public enum SqlScriptFactory implements ResourceCustomizer<WsFlinkKubernetesJobD
 
     private List<VolumeMount> buildVolumeMount() {
         VolumeMountBuilder sqlScripts = new VolumeMountBuilder();
-        sqlScripts.withName(SQL_SCRIPTS_VOLUME_NAME);
-        sqlScripts.withMountPath(SQL_SCRIPTS_VOLUME_NAME);
+        sqlScripts.withName(ResourceNames.SQL_SCRIPTS_VOLUME_NAME);
+        sqlScripts.withMountPath(ResourceNames.SQL_SCRIPTS_VOLUME_NAME);
         return Arrays.asList(sqlScripts.build());
     }
 
     private List<Volume> buildVolume() {
         VolumeBuilder sqlScripts = new VolumeBuilder();
-        sqlScripts.withName(SQL_SCRIPTS_VOLUME_NAME);
+        sqlScripts.withName(ResourceNames.SQL_SCRIPTS_VOLUME_NAME);
 //        sqlScripts.withConfi
         sqlScripts.withEmptyDir(new EmptyDirVolumeSource());
         return Arrays.asList(sqlScripts.build());

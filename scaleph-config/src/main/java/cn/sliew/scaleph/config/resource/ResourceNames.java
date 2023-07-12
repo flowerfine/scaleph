@@ -1,0 +1,53 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package cn.sliew.scaleph.config.resource;
+
+public enum ResourceNames {
+    ;
+
+    public static final String LOCAL_SCHEMA = "local://";
+
+    public static final String FLINK_MAIN_CONTAINER_NAME = "flink-main-container";
+    public static final String FILE_FETCHER_CONTAINER_NAME = "scaleph-file-fetcher";
+
+    public static final String POD_TEMPLATE_NAME = "pod-template";
+    public static final String JOB_MANAGER_POD_TEMPLATE_NAME = "task-manager-pod-template";
+    public static final String TASK_MANAGER_POD_TEMPLATE_NAME = "task-manager-pod-template";
+
+    public static final String FILE_FETCHER_CONTAINER_IMAGE = "ghcr.io/flowerfine/scaleph/scaleph-file-fetcher:latest";
+    public static final String SQL_TEMPLATE_IMAGE = "ghcr.io/flowerfine/scaleph-sql-template:1.17";
+    public static final String SCALEPH_SEATUNNEL_IMAGE = "ghcr.io/flowerfine/scaleph-seatunnel:2.3.1-flink-1.15";
+
+    public static final String FILE_FETCHER_SCALEPH_VOLUME_NAME = "file-fetcher-scaleph-volume";
+    public static final String SCALEPH_JAR_DIRECTORY = "/scaleph/jar/";
+    public static final String JAR_LOCAL_PATH = LOCAL_SCHEMA + SCALEPH_JAR_DIRECTORY;
+
+    public static final String FILE_FETCHER_FLINK_VOLUME_NAME = "file-fetcher-flink-volume";
+    public static final String LIB_DIRECTORY = "/flink/usrlib/";
+    public static final String LIB_LOCAL_PATH = LOCAL_SCHEMA + LIB_DIRECTORY;
+
+    public static final String SQL_DIRECTORY = "/scaleph/sql/";
+    public static final String SQL_LOCAL_PATH = LOCAL_SCHEMA + SQL_DIRECTORY;
+
+    public static final String SQL_SCRIPTS_VOLUME_NAME = "sql-scripts-volume";
+    public static final String SQL_SCRIPTS_DIRECTORY = "/scaleph/sql-scripts/";
+    public static final String SQL_SCRIPTS_LOCAL_PATH = LOCAL_SCHEMA + SQL_SCRIPTS_DIRECTORY;
+
+
+}

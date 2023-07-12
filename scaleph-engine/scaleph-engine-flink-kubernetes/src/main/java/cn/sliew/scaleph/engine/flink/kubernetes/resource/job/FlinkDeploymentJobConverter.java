@@ -19,13 +19,13 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.job;
 
 import cn.sliew.scaleph.common.util.SeaTunnelReleaseUtil;
+import cn.sliew.scaleph.config.resource.ResourceNames;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactSql;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.FileFetcherFactory;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.SqlScriptFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeployment;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeploymentConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
@@ -55,7 +55,7 @@ public enum FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKube
         if (source.getFlinkArtifactJar() != null) {
             WsFlinkArtifactJar flinkArtifactJar = source.getFlinkArtifactJar();
             JobSpec jobSpec = new JobSpec();
-            jobSpec.setJarURI(FileFetcherFactory.JAR_LOCAL_PATH + flinkArtifactJar.getFileName());
+            jobSpec.setJarURI(ResourceNames.JAR_LOCAL_PATH + flinkArtifactJar.getFileName());
             jobSpec.setEntryClass(flinkArtifactJar.getEntryClass());
             jobSpec.setArgs(StringUtils.split(flinkArtifactJar.getJarParams(), " "));
             spec.setJob(jobSpec);
@@ -64,7 +64,7 @@ public enum FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKube
         if (source.getFlinkArtifactSql() != null) {
             WsFlinkArtifactSql flinkArtifactSql = source.getFlinkArtifactSql();
             JobSpec jobSpec = new JobSpec();
-            jobSpec.setJarURI(SqlScriptFactory.SQL_LOCAL_PATH + "sql-runner.jar");
+            jobSpec.setJarURI(ResourceNames.SQL_LOCAL_PATH + "sql-runner.jar");
             jobSpec.setEntryClass("cn.sliew.scaleph.engine.sql.SqlRunner");
             List<String> args = Arrays.asList(SqlUtil.format(flinkArtifactSql.getScript()));
             jobSpec.setArgs(args.toArray(new String[1]));
@@ -73,7 +73,7 @@ public enum FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKube
         if (source.getWsDiJob() != null) {
             WsDiJob wsDiJob = source.getWsDiJob();
             JobSpec jobSpec = new JobSpec();
-            jobSpec.setJarURI(FileFetcherFactory.LOCAL_SCHEMA + "/opt/seatunnel/starter/" + SeaTunnelReleaseUtil.STARTER_JAR_NAME);
+            jobSpec.setJarURI(ResourceNames.LOCAL_SCHEMA + "/opt/seatunnel/starter/" + SeaTunnelReleaseUtil.STARTER_JAR_NAME);
             jobSpec.setEntryClass(SeaTunnelReleaseUtil.SEATUNNEL_MAIN_CLASS);
             List<String> args = Arrays.asList("--config", "todo config");
             jobSpec.setArgs(args.toArray(new String[2]));

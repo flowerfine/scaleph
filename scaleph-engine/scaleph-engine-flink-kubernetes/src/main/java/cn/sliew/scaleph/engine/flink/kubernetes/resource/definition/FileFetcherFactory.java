@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition;
 
 import cn.sliew.scaleph.common.dict.image.ImagePullPolicy;
+import cn.sliew.scaleph.config.resource.ResourceNames;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.job.FlinkDeploymentJob;
@@ -32,21 +33,8 @@ import java.util.*;
 public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJobDTO, FlinkDeploymentJob> {
     INSTANCE;
 
-    public static final String FLINK_MAIN_CONTAINER_NAME = "flink-main-container";
-    private static final String FILE_FETCHER_CONTAINER_NAME = "scaleph-file-fetcher";
-    private static final String FILE_FETCHER_CONTAINER_IMAGE = "ghcr.io/flowerfine/scaleph/scaleph-file-fetcher:latest";
-
     private static final Map<String, Quantity> FILE_FETCHER_CONTAINER_CPU = Map.of("cpu", Quantity.parse("250m"));
     private static final Map<String, Quantity> FILE_FETCHER_CONTAINER_MEMORY = Map.of("memory", Quantity.parse("512Mi"));
-
-    private static final String FILE_FETCHER_SCALEPH_VOLUME_NAME = "file-fetcher-scaleph-volume";
-    private static final String SCALEPH_JAR_DIRECTORY = "/scaleph/jar/";
-
-    private static final String FILE_FETCHER_FLINK_VOLUME_NAME = "file-fetcher-flink-volume";
-    private static final String LIB_DIRECTORY = "/flink/usrlib/";
-
-    public static final String LOCAL_SCHEMA = "local://";
-    public static final String JAR_LOCAL_PATH = LOCAL_SCHEMA + SCALEPH_JAR_DIRECTORY;
 
     @Override
     public void customize(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentJob job) {
@@ -61,17 +49,17 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
 
     private void cusomizePodTemplate(PodBuilder builder) {
         builder.editOrNewMetadata()
-                .withName("pod-template")
+                .withName(ResourceNames.POD_TEMPLATE_NAME)
                 .endMetadata();
         PodFluent.SpecNested<PodBuilder> spec = builder.editOrNewSpec();
         spec.addAllToVolumes(buildVolume()); // add volumes
-        if (spec.hasMatchingContainer(containerBuilder -> containerBuilder.getName().equals(FLINK_MAIN_CONTAINER_NAME))) {
-            spec.editMatchingContainer((containerBuilder -> containerBuilder.getName().equals(FLINK_MAIN_CONTAINER_NAME)))
+        if (spec.hasMatchingContainer(containerBuilder -> containerBuilder.getName().equals(ResourceNames.FLINK_MAIN_CONTAINER_NAME))) {
+            spec.editMatchingContainer((containerBuilder -> containerBuilder.getName().equals(ResourceNames.FLINK_MAIN_CONTAINER_NAME)))
                     .addAllToVolumeMounts(buildVolumeMount()) // add volume mount
                     .endContainer();
         } else {
             spec.addNewContainer()
-                    .withName(FLINK_MAIN_CONTAINER_NAME)
+                    .withName(ResourceNames.FLINK_MAIN_CONTAINER_NAME)
                     .addAllToVolumeMounts(buildVolumeMount()) // add volume mount
                     .endContainer();
         }
@@ -86,7 +74,7 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
 
     private void doCustomize(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
         builder.editOrNewMetadata()
-                .withName("job-manager-pod-template")
+                .withName(ResourceNames.JOB_MANAGER_POD_TEMPLATE_NAME)
                 .endMetadata();
         addArtifactJar(jobDTO, builder);
         addAdditionalJars(jobDTO, builder);
@@ -122,8 +110,8 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
 
     private Container addJarArtifact(WsFlinkArtifactJar jarArtifact) {
         ContainerBuilder builder = new ContainerBuilder();
-        builder.withName(FILE_FETCHER_CONTAINER_NAME);
-        builder.withImage(FILE_FETCHER_CONTAINER_IMAGE);
+        builder.withName(ResourceNames.FILE_FETCHER_CONTAINER_NAME);
+        builder.withImage(ResourceNames.FILE_FETCHER_CONTAINER_IMAGE);
         builder.withImagePullPolicy(ImagePullPolicy.IF_NOT_PRESENT.getValue());
         builder.withArgs(buildFileFetcherArgs(jarArtifact));
         builder.withEnv(buildEnvs());
@@ -140,7 +128,7 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
 
     private List<String> buildFileFetcherArgs(WsFlinkArtifactJar jarArtifact) {
         return Arrays.asList("-uri", jarArtifact.getPath(),
-                "-path", SCALEPH_JAR_DIRECTORY + jarArtifact.getFileName());
+                "-path", ResourceNames.SCALEPH_JAR_DIRECTORY + jarArtifact.getFileName());
     }
 
     private List<EnvVar> buildEnvs() {
@@ -164,22 +152,22 @@ public enum FileFetcherFactory implements ResourceCustomizer<WsFlinkKubernetesJo
 
     private List<VolumeMount> buildVolumeMount() {
         VolumeMountBuilder scalephLib = new VolumeMountBuilder();
-        scalephLib.withName(FILE_FETCHER_SCALEPH_VOLUME_NAME);
-        scalephLib.withMountPath(SCALEPH_JAR_DIRECTORY);
+        scalephLib.withName(ResourceNames.FILE_FETCHER_SCALEPH_VOLUME_NAME);
+        scalephLib.withMountPath(ResourceNames.SCALEPH_JAR_DIRECTORY);
 
         VolumeMountBuilder flinkLib = new VolumeMountBuilder();
-        flinkLib.withName(FILE_FETCHER_FLINK_VOLUME_NAME);
-        flinkLib.withMountPath(LIB_DIRECTORY);
+        flinkLib.withName(ResourceNames.FILE_FETCHER_FLINK_VOLUME_NAME);
+        flinkLib.withMountPath(ResourceNames.LIB_DIRECTORY);
         return Arrays.asList(scalephLib.build(), flinkLib.build());
     }
 
     private List<Volume> buildVolume() {
         VolumeBuilder scalephLib = new VolumeBuilder();
-        scalephLib.withName(FILE_FETCHER_SCALEPH_VOLUME_NAME);
+        scalephLib.withName(ResourceNames.FILE_FETCHER_SCALEPH_VOLUME_NAME);
         scalephLib.withEmptyDir(new EmptyDirVolumeSource());
 
         VolumeBuilder flinkLib = new VolumeBuilder();
-        flinkLib.withName(FILE_FETCHER_FLINK_VOLUME_NAME);
+        flinkLib.withName(ResourceNames.FILE_FETCHER_FLINK_VOLUME_NAME);
         flinkLib.withEmptyDir(new EmptyDirVolumeSource());
         return Arrays.asList(scalephLib.build(), flinkLib.build());
     }
