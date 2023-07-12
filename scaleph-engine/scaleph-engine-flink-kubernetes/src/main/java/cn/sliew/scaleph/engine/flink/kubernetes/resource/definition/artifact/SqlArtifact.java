@@ -1,4 +1,4 @@
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.artifact;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.artifact;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
@@ -8,11 +8,9 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class JarArtifact implements Artifact {
+public class SqlArtifact implements Artifact {
 
-    private String jarUri;
-    private String entryClass;
-    private String mainArgs;
+    private String sql;
     private FlinkVersion flinkVersion;
     private DockerImage dockerImage;
     private List<String> additionalDependencies;

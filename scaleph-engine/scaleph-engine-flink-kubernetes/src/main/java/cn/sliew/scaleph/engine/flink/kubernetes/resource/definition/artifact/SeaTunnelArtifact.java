@@ -1,4 +1,4 @@
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.artifact;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.artifact;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;

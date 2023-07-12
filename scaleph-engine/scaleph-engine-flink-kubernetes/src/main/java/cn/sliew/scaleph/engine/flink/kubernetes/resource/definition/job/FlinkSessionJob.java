@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.job;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job;
 
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionJobSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.FlinkSessionJobStatus;

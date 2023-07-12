@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.job;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job;
 
 import cn.sliew.scaleph.common.util.SeaTunnelReleaseUtil;
 import cn.sliew.scaleph.config.resource.ResourceNames;
@@ -25,10 +25,8 @@ import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactSql;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionJobSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.FileFetcherFactory;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.SqlScriptFactory;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionClusterConverter;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.sessioncluster.FlinkSessionCluster;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.sessioncluster.FlinkSessionClusterConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.kubernetes.Constant;
 import cn.sliew.scaleph.kubernetes.resource.ResourceConverter;

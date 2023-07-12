@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.job;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.sessioncluster;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionClusterSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.FlinkDeploymentStatus;
 import cn.sliew.scaleph.kubernetes.Constant;
 import cn.sliew.scaleph.kubernetes.resource.Resource;
@@ -29,20 +29,24 @@ import io.fabric8.kubernetes.model.annotation.Version;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * same as FlinkDeployment
+ */
 @Data
 @Group(Constant.GROUP)
 @Version(Constant.VERSION)
 @EqualsAndHashCode
 @JsonPropertyOrder({"apiVersion", "kind", "metadata", "spec"})
-public class FlinkDeploymentJob extends CustomResource<FlinkDeploymentSpec, FlinkDeploymentStatus> implements Resource {
-
-    @Override
-    public String getKind() {
-        return Constant.FLINK_DEPLOYMENT;
-    }
+public class FlinkSessionCluster extends CustomResource<FlinkSessionClusterSpec, FlinkDeploymentStatus> implements Resource {
 
     @Override
     public String getApiVersion() {
         return Constant.API_VERSION;
     }
+
+    @Override
+    public String getKind() {
+        return Constant.FLINK_SESSION_CLUSTER;
+    }
+
 }

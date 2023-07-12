@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.template;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.template;
 
+import cn.sliew.scaleph.config.resource.ResourceLabels;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkVersion;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesTemplateDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
-import cn.sliew.scaleph.kubernetes.Constant;
 import cn.sliew.scaleph.kubernetes.resource.ResourceConverter;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import org.apache.commons.lang3.EnumUtils;
@@ -39,7 +39,7 @@ public enum FlinkTemplateConverter implements ResourceConverter<WsFlinkKubernete
         String name = StringUtils.hasText(source.getTemplateId()) ? source.getTemplateId() : source.getName();
         builder.withName(name);
         builder.withNamespace(source.getNamespace());
-        builder.withLabels(Map.of(Constant.SCALEPH_NAME, source.getName()));
+        builder.withLabels(Map.of(ResourceLabels.SCALEPH_LABEL_NAME, source.getName()));
         template.setMetadata(builder.build());
         FlinkTemplateSpec spec = new FlinkTemplateSpec();
         KubernetesOptionsVO kuberenetesOptions = source.getKubernetesOptions();
@@ -64,7 +64,7 @@ public enum FlinkTemplateConverter implements ResourceConverter<WsFlinkKubernete
         String name = target.getMetadata().getName();
         if (target.getMetadata().getLabels() != null) {
             Map<String, String> labels = target.getMetadata().getLabels();
-            name = labels.computeIfAbsent(Constant.SCALEPH_NAME, key -> target.getMetadata().getName());
+            name = labels.computeIfAbsent(ResourceLabels.SCALEPH_LABEL_NAME, key -> target.getMetadata().getName());
         }
         dto.setName(name);
         dto.setTemplateId(target.getMetadata().getName());

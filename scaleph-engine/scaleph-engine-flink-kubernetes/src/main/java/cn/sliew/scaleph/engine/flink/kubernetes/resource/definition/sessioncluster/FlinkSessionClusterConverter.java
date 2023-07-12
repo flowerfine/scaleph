@@ -16,13 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.sessioncluster;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
+import cn.sliew.scaleph.config.resource.ResourceLabels;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionClusterSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkVersion;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.KubernetesDeploymentMode;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
-import cn.sliew.scaleph.kubernetes.Constant;
 import cn.sliew.scaleph.kubernetes.resource.ResourceConverter;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import org.apache.commons.lang3.EnumUtils;
@@ -30,19 +31,19 @@ import org.springframework.util.StringUtils;
 
 import java.util.Map;
 
-public enum FlinkDeploymentConverter implements ResourceConverter<WsFlinkKubernetesDeploymentDTO, FlinkDeployment> {
+public enum FlinkSessionClusterConverter implements ResourceConverter<WsFlinkKubernetesSessionClusterDTO, FlinkSessionCluster> {
     INSTANCE;
 
     @Override
-    public FlinkDeployment convertTo(WsFlinkKubernetesDeploymentDTO source) {
-        FlinkDeployment deployment = new FlinkDeployment();
+    public FlinkSessionCluster convertTo(WsFlinkKubernetesSessionClusterDTO source) {
+        FlinkSessionCluster sessionCluster = new FlinkSessionCluster();
         ObjectMetaBuilder builder = new ObjectMetaBuilder(true);
-        String name = StringUtils.hasText(source.getDeploymentId()) ? source.getDeploymentId() : source.getName();
+        String name = StringUtils.hasText(source.getSessionClusterId()) ? source.getSessionClusterId() : source.getName();
         builder.withName(name);
         builder.withNamespace(source.getNamespace());
-        builder.withLabels(Map.of(Constant.SCALEPH_NAME, source.getName()));
-        deployment.setMetadata(builder.build());
-        FlinkDeploymentSpec spec = new FlinkDeploymentSpec();
+        builder.withLabels(Map.of(ResourceLabels.SCALEPH_LABEL_NAME, source.getName()));
+        sessionCluster.setMetadata(builder.build());
+        FlinkSessionClusterSpec spec = new FlinkSessionClusterSpec();
         KubernetesOptionsVO kuberenetesOptions = source.getKubernetesOptions();
         if (kuberenetesOptions != null) {
             spec.setImage(kuberenetesOptions.getImage());
@@ -50,41 +51,43 @@ public enum FlinkDeploymentConverter implements ResourceConverter<WsFlinkKuberne
             spec.setServiceAccount(kuberenetesOptions.getServiceAccount());
             spec.setFlinkVersion(EnumUtils.getEnum(FlinkVersion.class, kuberenetesOptions.getFlinkVersion()));
         }
+        spec.setFlinkConfiguration(source.getFlinkConfiguration());
         spec.setJobManager(source.getJobManager());
         spec.setTaskManager(source.getTaskManager());
         spec.setPodTemplate(source.getPodTemplate());
-        spec.setFlinkConfiguration(source.getFlinkConfiguration());
-        spec.setLogConfiguration(source.getLogConfiguration());
         spec.setIngress(source.getIngress());
-        deployment.setSpec(spec);
-        return deployment;
+        spec.setMode(KubernetesDeploymentMode.NATIVE);
+        sessionCluster.setSpec(spec);
+        return sessionCluster;
     }
 
     @Override
-    public WsFlinkKubernetesDeploymentDTO convertFrom(FlinkDeployment target) {
-        WsFlinkKubernetesDeploymentDTO dto = new WsFlinkKubernetesDeploymentDTO();
+    public WsFlinkKubernetesSessionClusterDTO convertFrom(FlinkSessionCluster target) {
+        WsFlinkKubernetesSessionClusterDTO dto = new WsFlinkKubernetesSessionClusterDTO();
         String name = target.getMetadata().getName();
         if (target.getMetadata().getLabels() != null) {
             Map<String, String> labels = target.getMetadata().getLabels();
-            name = labels.computeIfAbsent(Constant.SCALEPH_NAME, key -> target.getMetadata().getName());
+            name = labels.computeIfAbsent(ResourceLabels.SCALEPH_LABEL_NAME, key -> target.getMetadata().getName());
         }
         dto.setName(name);
-        dto.setDeploymentId(target.getMetadata().getName());
+        dto.setSessionClusterId(target.getMetadata().getName());
         dto.setNamespace(target.getMetadata().getNamespace());
-        FlinkDeploymentSpec spec = target.getSpec();
-        KubernetesOptionsVO optionsVO = new KubernetesOptionsVO();
-        optionsVO.setImage(spec.getImage());
-        optionsVO.setImagePullPolicy(spec.getImagePullPolicy());
-        optionsVO.setServiceAccount(spec.getServiceAccount());
-        if (spec.getFlinkVersion() != null) {
-            optionsVO.setFlinkVersion(spec.getFlinkVersion().name());
+        dto.setSessionClusterId(target.getMetadata().getUid());
+        FlinkSessionClusterSpec spec = target.getSpec();
+        KubernetesOptionsVO kuberenetesOptions = new KubernetesOptionsVO();
+        if (kuberenetesOptions != null) {
+            kuberenetesOptions.setImage(spec.getImage());
+            kuberenetesOptions.setImagePullPolicy(spec.getImagePullPolicy());
+            kuberenetesOptions.setServiceAccount(spec.getServiceAccount());
+            if (spec.getFlinkVersion() != null) {
+                kuberenetesOptions.setFlinkVersion(spec.getFlinkVersion().name());
+            }
         }
-        dto.setKubernetesOptions(optionsVO);
+        dto.setKubernetesOptions(kuberenetesOptions);
+        dto.setFlinkConfiguration(spec.getFlinkConfiguration());
         dto.setJobManager(spec.getJobManager());
         dto.setTaskManager(spec.getTaskManager());
         dto.setPodTemplate(spec.getPodTemplate());
-        dto.setFlinkConfiguration(spec.getFlinkConfiguration());
-        dto.setLogConfiguration(spec.getLogConfiguration());
         dto.setIngress(spec.getIngress());
         return dto;
     }

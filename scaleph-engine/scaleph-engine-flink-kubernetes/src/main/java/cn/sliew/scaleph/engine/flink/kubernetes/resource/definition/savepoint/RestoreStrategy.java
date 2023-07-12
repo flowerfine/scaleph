@@ -16,18 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.job;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.savepoint;
 
-public enum SqlUtil {
-    ;
+import lombok.Data;
 
-    public static String format(String script) {
-        return script
-                //去掉--开头的注释
-                .replaceAll("--[^\r\n]*", "")
-                //去掉空格和换行
-                .replace('\r', ' ').replace('\n', ' ').replaceAll(" {2,}", " ")
-                //去掉/**/的注释
-                .replaceAll("/\\*.+?\\*/", "").replaceAll(" {2,}", " ");
-    }
+@Data
+public class RestoreStrategy {
+
+    private String type;
+    private String initialSavepointPath;
+    private Boolean allowNonRestoredState;
 }

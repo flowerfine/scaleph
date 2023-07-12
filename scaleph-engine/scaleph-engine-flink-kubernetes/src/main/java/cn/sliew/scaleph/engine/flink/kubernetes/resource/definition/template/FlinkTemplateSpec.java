@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.template;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.template;
 
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

@@ -16,14 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.savepoint;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.logging;
 
 import lombok.Data;
 
 @Data
-public class RestoreStrategy {
+public class Logging {
 
-    private String type;
-    private String initialSavepointPath;
-    private Boolean allowNonRestoredState;
+    private String name;
+    private String level;
 }

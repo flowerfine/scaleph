@@ -16,39 +16,38 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.job;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.artifact;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.jackson.polymorphic.Polymorphic;
 import cn.sliew.scaleph.common.jackson.polymorphic.PolymorphicResolver;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.artifact.Artifact;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.savepoint.RestoreStrategy;
+import cn.sliew.scaleph.kubernetes.DockerImage;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 
-import java.util.Map;
+import java.util.Collections;
+import java.util.List;
 
-@JsonTypeIdResolver(Job.JobResolver.class)
+@JsonTypeIdResolver(Artifact.ArtifactResolver.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public interface Job extends Polymorphic<FlinkDeploymentMode> {
+public interface Artifact extends Polymorphic<FlinkJobType> {
 
-    String getName();
+    FlinkVersion getFlinkVersion();
 
-    Integer getParallelism();
+    DockerImage getDockerImage();
 
-    Artifact getArtifact();
+    default List<String> getAdditionalDependencies() {
+        return Collections.emptyList();
+    }
 
-    RestoreStrategy getRestoreStrategy();
+    final class ArtifactResolver extends PolymorphicResolver<FlinkJobType> {
 
-    Map<String, String> getFlinkConfiguration();
-
-    final class JobResolver extends PolymorphicResolver<FlinkDeploymentMode> {
-
-        public JobResolver() {
-            bindDefault(FlinkDeploymentJob.class);
-            bind(FlinkDeploymentMode.APPLICATION, FlinkDeploymentJob.class);
-            bind(FlinkDeploymentMode.SESSION, FlinkSessionJob.class);
+        public ArtifactResolver() {
+            bindDefault(JarArtifact.class);
+            bind(FlinkJobType.JAR, JarArtifact.class);
+            bind(FlinkJobType.SQL, SqlArtifact.class);
+            bind(FlinkJobType.SEATUNNEL, SeaTunnelArtifact.class);
         }
 
         @Override

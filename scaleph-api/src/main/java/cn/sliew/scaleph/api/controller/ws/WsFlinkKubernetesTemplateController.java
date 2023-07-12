@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplate;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.template.FlinkTemplate;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesTemplateService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesTemplateDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesTemplateAddParam;

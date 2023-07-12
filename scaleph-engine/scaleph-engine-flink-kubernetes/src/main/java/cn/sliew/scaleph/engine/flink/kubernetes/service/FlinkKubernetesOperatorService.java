@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 

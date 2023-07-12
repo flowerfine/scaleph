@@ -16,13 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.logging;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job;
 
-import lombok.Data;
+public enum SqlUtil {
+    ;
 
-@Data
-public class Logging {
-
-    private String name;
-    private String level;
+    public static String format(String script) {
+        return script
+                //去掉--开头的注释
+                .replaceAll("--[^\r\n]*", "")
+                //去掉空格和换行
+                .replace('\r', ' ').replace('\n', ' ').replaceAll(" {2,}", " ")
+                //去掉/**/的注释
+                .replaceAll("/\\*.+?\\*/", "").replaceAll(" {2,}", " ");
+    }
 }

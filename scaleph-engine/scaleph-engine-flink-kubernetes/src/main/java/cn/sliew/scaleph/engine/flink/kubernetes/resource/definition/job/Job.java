@@ -16,38 +16,39 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.artifact;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
-import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.jackson.polymorphic.Polymorphic;
 import cn.sliew.scaleph.common.jackson.polymorphic.PolymorphicResolver;
-import cn.sliew.scaleph.kubernetes.DockerImage;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.artifact.Artifact;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.savepoint.RestoreStrategy;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Map;
 
-@JsonTypeIdResolver(Artifact.ArtifactResolver.class)
+@JsonTypeIdResolver(Job.JobResolver.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public interface Artifact extends Polymorphic<FlinkJobType> {
+public interface Job extends Polymorphic<FlinkDeploymentMode> {
 
-    FlinkVersion getFlinkVersion();
+    String getName();
 
-    DockerImage getDockerImage();
+    Integer getParallelism();
 
-    default List<String> getAdditionalDependencies() {
-        return Collections.emptyList();
-    }
+    Artifact getArtifact();
 
-    final class ArtifactResolver extends PolymorphicResolver<FlinkJobType> {
+    RestoreStrategy getRestoreStrategy();
 
-        public ArtifactResolver() {
-            bindDefault(JarArtifact.class);
-            bind(FlinkJobType.JAR, JarArtifact.class);
-            bind(FlinkJobType.SQL, SqlArtifact.class);
-            bind(FlinkJobType.SEATUNNEL, SeaTunnelArtifact.class);
+    Map<String, String> getFlinkConfiguration();
+
+    final class JobResolver extends PolymorphicResolver<FlinkDeploymentMode> {
+
+        public JobResolver() {
+            bindDefault(FlinkDeploymentJob.class);
+            bind(FlinkDeploymentMode.APPLICATION, FlinkDeploymentJob.class);
+            bind(FlinkDeploymentMode.SESSION, FlinkSessionJob.class);
         }
 
         @Override

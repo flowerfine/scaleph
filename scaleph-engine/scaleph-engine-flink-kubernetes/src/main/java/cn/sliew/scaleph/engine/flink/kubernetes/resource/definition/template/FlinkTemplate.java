@@ -16,9 +16,8 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.template;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.FlinkDeploymentStatus;
 import cn.sliew.scaleph.kubernetes.Constant;
 import cn.sliew.scaleph.kubernetes.resource.Resource;
@@ -33,12 +32,12 @@ import lombok.EqualsAndHashCode;
 @Group(Constant.GROUP)
 @Version(Constant.VERSION)
 @EqualsAndHashCode
-@JsonPropertyOrder({"apiVersion", "kind", "metadata", "spec"})
-public class FlinkDeployment extends CustomResource<FlinkDeploymentSpec, FlinkDeploymentStatus> implements Resource {
+@JsonPropertyOrder({"apiVersion", "kind", "metadata", "spec", "status"})
+public class FlinkTemplate extends CustomResource<FlinkTemplateSpec, FlinkDeploymentStatus> implements Resource {
 
     @Override
     public String getKind() {
-        return Constant.FLINK_DEPLOYMENT;
+        return Constant.FLINK_TEMPLATE;
     }
 
     @Override

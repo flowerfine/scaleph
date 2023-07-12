@@ -16,20 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.job;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job;
 
 import cn.sliew.scaleph.common.util.SeaTunnelReleaseUtil;
+import cn.sliew.scaleph.config.resource.ResourceLabels;
 import cn.sliew.scaleph.config.resource.ResourceNames;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactSql;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.FileFetcherFactory;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeployment;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeploymentConverter;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FileFetcherFactory;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.deployment.FlinkDeployment;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.deployment.FlinkDeploymentConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
-import cn.sliew.scaleph.kubernetes.Constant;
 import cn.sliew.scaleph.kubernetes.resource.ResourceConverter;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import org.springframework.util.StringUtils;
@@ -48,7 +48,7 @@ public enum FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKube
         ObjectMetaBuilder builder = new ObjectMetaBuilder(flinkDeployment.getMetadata(), true);
         String name = StringUtils.hasText(source.getJobId()) ? source.getJobId() : source.getName();
         builder.withName(name);
-        builder.withLabels(Map.of(Constant.SCALEPH_NAME, source.getName()));
+        builder.withLabels(Map.of(ResourceLabels.SCALEPH_LABEL_NAME, source.getName()));
         deployment.setMetadata(builder.build());
         FlinkDeploymentSpec spec = flinkDeployment.getSpec();
         deployment.setSpec(spec);

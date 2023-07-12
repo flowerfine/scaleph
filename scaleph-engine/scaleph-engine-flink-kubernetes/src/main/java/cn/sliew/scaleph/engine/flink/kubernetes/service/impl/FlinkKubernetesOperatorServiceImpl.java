@@ -19,8 +19,8 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
 import cn.sliew.scaleph.engine.flink.kubernetes.factory.FlinkDeploymentFactory;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeployment;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.deployment.FlinkDeployment;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.kubernetes.Constant;
