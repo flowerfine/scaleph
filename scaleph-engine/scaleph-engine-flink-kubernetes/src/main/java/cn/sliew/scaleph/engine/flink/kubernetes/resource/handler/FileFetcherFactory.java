@@ -51,17 +51,12 @@ public class FileFetcherFactory {
                 .withName(ResourceNames.POD_TEMPLATE_NAME)
                 .endMetadata();
         PodFluent.SpecNested<PodBuilder> spec = builder.editOrNewSpec();
+
         spec.addAllToVolumes(buildVolume()); // add volumes
-        if (spec.hasMatchingContainer(containerBuilder -> containerBuilder.getName().equals(ResourceNames.FLINK_MAIN_CONTAINER_NAME))) {
-            spec.editMatchingContainer((containerBuilder -> containerBuilder.getName().equals(ResourceNames.FLINK_MAIN_CONTAINER_NAME)))
-                    .addAllToVolumeMounts(buildVolumeMount()) // add volume mount
-                    .endContainer();
-        } else {
-            spec.addNewContainer()
-                    .withName(ResourceNames.FLINK_MAIN_CONTAINER_NAME)
-                    .addAllToVolumeMounts(buildVolumeMount()) // add volume mount
-                    .endContainer();
-        }
+        ContainerUtil.findFlinkMainContainer(spec)
+                .addAllToVolumeMounts(buildVolumeMount()) // add volume mount
+                .endContainer();
+        
         spec.endSpec();
     }
 
@@ -133,8 +128,7 @@ public class FileFetcherFactory {
     private List<EnvVar> buildEnvs() {
         EnvVarBuilder builder = new EnvVarBuilder();
         builder.withName("MINIO_ENDPOINT");
-        final String localAddress = NetUtils.getLocalIP();
-        builder.withValue(String.format("http://%s:9000", localAddress));
+        builder.withValue(String.format("http://%s:9000", NetUtils.getLocalIP()));
         return Arrays.asList(builder.build());
     }
 

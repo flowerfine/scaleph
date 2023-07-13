@@ -28,6 +28,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.deployment.FlinkDeployment;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.deployment.FlinkDeploymentConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FileFetcherFactory;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FileSystemPluginHandler;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.SeaTunnelConfHandler;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.kubernetes.resource.ResourceConverter;
@@ -49,6 +50,8 @@ public class FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKub
     private FileFetcherFactory fileFetcherFactory;
     @Autowired
     private SeaTunnelConfHandler seaTunnelConfHandler;
+    @Autowired
+    private FileSystemPluginHandler fileSystemPluginHandler;
 
     @Override
     public String convertTo(WsFlinkKubernetesJobDTO source) throws Exception {
@@ -61,6 +64,7 @@ public class FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKub
         deployment.setMetadata(builder.build());
         FlinkDeploymentSpec spec = flinkDeployment.getSpec();
         deployment.setSpec(spec);
+        fileSystemPluginHandler.customize(source, deployment);
         if (source.getFlinkArtifactJar() != null) {
             WsFlinkArtifactJar flinkArtifactJar = source.getFlinkArtifactJar();
             JobSpec jobSpec = new JobSpec();
