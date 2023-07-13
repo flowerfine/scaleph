@@ -98,6 +98,7 @@ public class FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKub
             List<String> args = Arrays.asList("--config", ResourceNames.SEATUNNEL_CONF_LOCAL_PATH);
             jobSpec.setArgs(args.toArray(new String[2]));
             spec.setJob(jobSpec);
+            fileSystemPluginHandler.customize(deployment);
             flinkStateStorageHandler.customize(deployment);
             ConfigMap seatunnelConfConfigMap = seaTunnelConfHandler.customize(source, deployment);
             return Serialization.asYaml(deployment) + Serialization.asYaml(seatunnelConfConfigMap);
