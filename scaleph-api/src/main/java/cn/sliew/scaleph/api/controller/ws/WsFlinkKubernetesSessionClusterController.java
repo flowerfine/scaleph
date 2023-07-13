@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkJobManagerEndpointService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesSessionClusterService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;

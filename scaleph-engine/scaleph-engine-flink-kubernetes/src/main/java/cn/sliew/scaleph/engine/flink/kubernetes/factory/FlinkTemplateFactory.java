@@ -22,8 +22,8 @@ import cn.sliew.scaleph.common.dict.flink.*;
 import cn.sliew.scaleph.common.dict.image.ImagePullPolicy;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkVersion;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.*;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplate;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplateSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.template.FlinkTemplate;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.template.FlinkTemplateSpec;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 

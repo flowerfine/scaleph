@@ -16,20 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.logging;
 
-public enum Constant {
-    ;
+import lombok.Data;
 
-    public static final String GROUP = "flink.apache.org";
-    public static final String VERSION = "v1beta1";
-    public static final String API_VERSION = GROUP + "/" + VERSION;
+@Data
+public class Logging {
 
-    public static final String FLINK_TEMPLATE = "FlinkTemplate";
-    public static final String FLINK_DEPLOYMENT = "FlinkDeployment";
-    public static final String FLINK_SESSION_CLUSTER = "FlinkSessionCluster";
-    public static final String FLINK_SESSION_JOB = "FlinkSessionJob";
-    public static final String FLINK_JOB = "FlinkJob";
-    public static final String JAR_ARTIFACT = "JarArtifact";
-
+    private String name;
+    private String level;
 }

@@ -18,9 +18,9 @@
 
 package cn.sliew.scaleph.kubernetes.resource;
 
-public interface ResourceConverter<S, T extends Resource> {
+public interface ResourceConverter<S, T> {
 
-    T convertTo(S source);
+    T convertTo(S source) throws Exception;
 
     S convertFrom(T target);
 }

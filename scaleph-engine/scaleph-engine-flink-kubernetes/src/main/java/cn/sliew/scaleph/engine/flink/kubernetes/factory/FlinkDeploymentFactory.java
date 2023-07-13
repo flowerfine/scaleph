@@ -20,8 +20,8 @@ package cn.sliew.scaleph.engine.flink.kubernetes.factory;
 
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionClusterSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeployment;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.deployment.FlinkDeployment;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.sessioncluster.FlinkSessionCluster;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import org.springframework.beans.BeanUtils;
 

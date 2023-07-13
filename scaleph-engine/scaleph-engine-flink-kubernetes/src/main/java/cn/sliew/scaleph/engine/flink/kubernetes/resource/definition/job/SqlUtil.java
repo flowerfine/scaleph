@@ -16,20 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job;
 
-public enum Constant {
+public enum SqlUtil {
     ;
 
-    public static final String GROUP = "flink.apache.org";
-    public static final String VERSION = "v1beta1";
-    public static final String API_VERSION = GROUP + "/" + VERSION;
-
-    public static final String FLINK_TEMPLATE = "FlinkTemplate";
-    public static final String FLINK_DEPLOYMENT = "FlinkDeployment";
-    public static final String FLINK_SESSION_CLUSTER = "FlinkSessionCluster";
-    public static final String FLINK_SESSION_JOB = "FlinkSessionJob";
-    public static final String FLINK_JOB = "FlinkJob";
-    public static final String JAR_ARTIFACT = "JarArtifact";
-
+    public static String format(String script) {
+        return script
+                //去掉--开头的注释
+                .replaceAll("--[^\r\n]*", "")
+                //去掉空格和换行
+                .replace('\r', ' ').replace('\n', ' ').replaceAll(" {2,}", " ")
+                //去掉/**/的注释
+                .replaceAll("/\\*.+?\\*/", "").replaceAll(" {2,}", " ");
+    }
 }

@@ -19,8 +19,8 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
 import cn.sliew.scaleph.engine.flink.kubernetes.factory.FlinkDeploymentFactory;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeployment;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.deployment.FlinkDeployment;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.kubernetes.Constant;
@@ -31,6 +31,7 @@ import io.fabric8.kubernetes.client.utils.Serialization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
 import java.util.Optional;
 
 @Service
@@ -67,12 +68,17 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
     @Override
     public void deployJob(Long clusterCredentialId, Object job) throws Exception {
         KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
-        client.resource(Serialization.asYaml(job)).createOrReplace();
+        if (job instanceof String) {
+            client.load(new ByteArrayInputStream(((String) job).getBytes())).createOrReplace();
+//            client.resource((String) job).createOrReplace();
+        }
     }
 
     @Override
     public void shutdownJob(Long clusterCredentialId, Object job) throws Exception {
         KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
-        client.resource(Serialization.asYaml(job)).delete();
+        if (job instanceof String) {
+            client.load(new ByteArrayInputStream(((String) job).getBytes())).delete();
+        }
     }
 }
