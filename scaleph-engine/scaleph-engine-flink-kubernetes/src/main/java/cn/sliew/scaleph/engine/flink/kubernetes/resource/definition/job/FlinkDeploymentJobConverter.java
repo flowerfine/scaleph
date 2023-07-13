@@ -29,6 +29,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.deployment.F
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.deployment.FlinkDeploymentConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FileFetcherFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FileSystemPluginHandler;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FlinkStateStorageHandler;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.SeaTunnelConfHandler;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.kubernetes.resource.ResourceConverter;
@@ -52,6 +53,8 @@ public class FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKub
     private SeaTunnelConfHandler seaTunnelConfHandler;
     @Autowired
     private FileSystemPluginHandler fileSystemPluginHandler;
+    @Autowired
+    private FlinkStateStorageHandler flinkStateStorageHandler;
 
     @Override
     public String convertTo(WsFlinkKubernetesJobDTO source) throws Exception {
@@ -73,6 +76,7 @@ public class FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKub
             spec.setJob(jobSpec);
             fileFetcherFactory.customize(source, deployment);
             fileSystemPluginHandler.customize(deployment);
+            flinkStateStorageHandler.customize(deployment);
             return Serialization.asYaml(deployment);
         }
         if (source.getFlinkArtifactSql() != null) {
@@ -84,6 +88,7 @@ public class FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKub
             jobSpec.setArgs(args.toArray(new String[1]));
             spec.setJob(jobSpec);
             fileSystemPluginHandler.customize(deployment);
+            flinkStateStorageHandler.customize(deployment);
             return Serialization.asYaml(deployment);
         }
         if (source.getWsDiJob() != null) {
@@ -93,6 +98,7 @@ public class FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKub
             List<String> args = Arrays.asList("--config", ResourceNames.SEATUNNEL_CONF_LOCAL_PATH);
             jobSpec.setArgs(args.toArray(new String[2]));
             spec.setJob(jobSpec);
+            flinkStateStorageHandler.customize(deployment);
             ConfigMap seatunnelConfConfigMap = seaTunnelConfHandler.customize(source, deployment);
             return Serialization.asYaml(deployment) + Serialization.asYaml(seatunnelConfConfigMap);
         }

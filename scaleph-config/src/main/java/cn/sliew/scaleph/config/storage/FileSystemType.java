@@ -38,4 +38,13 @@ public enum FileSystemType {
         this.type = type;
         this.schema = schema;
     }
+
+    public static FileSystemType of(String type) {
+        for (FileSystemType fileSystemType : values()) {
+            if (fileSystemType.type.equals(type)) {
+                return fileSystemType;
+            }
+        }
+        throw new IllegalStateException("unknown file-system type for " + type);
+    }
 }
