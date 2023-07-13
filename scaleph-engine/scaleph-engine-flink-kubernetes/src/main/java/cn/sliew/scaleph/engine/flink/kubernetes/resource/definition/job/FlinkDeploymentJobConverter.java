@@ -64,7 +64,6 @@ public class FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKub
         deployment.setMetadata(builder.build());
         FlinkDeploymentSpec spec = flinkDeployment.getSpec();
         deployment.setSpec(spec);
-        fileSystemPluginHandler.customize(source, deployment);
         if (source.getFlinkArtifactJar() != null) {
             WsFlinkArtifactJar flinkArtifactJar = source.getFlinkArtifactJar();
             JobSpec jobSpec = new JobSpec();
@@ -73,6 +72,7 @@ public class FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKub
             jobSpec.setArgs(StringUtils.split(flinkArtifactJar.getJarParams(), " "));
             spec.setJob(jobSpec);
             fileFetcherFactory.customize(source, deployment);
+            fileSystemPluginHandler.customize(deployment);
             return Serialization.asYaml(deployment);
         }
         if (source.getFlinkArtifactSql() != null) {
@@ -83,6 +83,7 @@ public class FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKub
             List<String> args = Arrays.asList(SqlUtil.format(flinkArtifactSql.getScript()));
             jobSpec.setArgs(args.toArray(new String[1]));
             spec.setJob(jobSpec);
+            fileSystemPluginHandler.customize(deployment);
             return Serialization.asYaml(deployment);
         }
         if (source.getWsDiJob() != null) {

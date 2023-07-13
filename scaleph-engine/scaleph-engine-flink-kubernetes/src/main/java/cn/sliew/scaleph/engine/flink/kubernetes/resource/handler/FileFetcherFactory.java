@@ -20,12 +20,13 @@ package cn.sliew.scaleph.engine.flink.kubernetes.resource.handler;
 
 import cn.sliew.scaleph.common.dict.image.ImagePullPolicy;
 import cn.sliew.scaleph.config.resource.ResourceNames;
+import cn.sliew.scaleph.config.storage.S3FileSystemProperties;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.FlinkDeploymentJob;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
-import cn.sliew.scaleph.system.snowflake.utils.NetUtils;
 import io.fabric8.kubernetes.api.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -35,6 +36,11 @@ public class FileFetcherFactory {
 
     private static final Map<String, Quantity> FILE_FETCHER_CONTAINER_CPU = Map.of("cpu", Quantity.parse("250m"));
     private static final Map<String, Quantity> FILE_FETCHER_CONTAINER_MEMORY = Map.of("memory", Quantity.parse("512Mi"));
+
+    private static final String ENDPOINT = "MINIO_ENDPOINT";
+
+    @Autowired(required = false)
+    private S3FileSystemProperties s3FileSystemProperties;
 
     public void customize(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentJob job) {
         PodBuilder podBuilder = Optional.ofNullable(job.getSpec().getPodTemplate()).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
@@ -56,7 +62,7 @@ public class FileFetcherFactory {
         ContainerUtil.findFlinkMainContainer(spec)
                 .addAllToVolumeMounts(buildVolumeMount()) // add volume mount
                 .endContainer();
-        
+
         spec.endSpec();
     }
 
@@ -126,10 +132,13 @@ public class FileFetcherFactory {
     }
 
     private List<EnvVar> buildEnvs() {
-        EnvVarBuilder builder = new EnvVarBuilder();
-        builder.withName("MINIO_ENDPOINT");
-        builder.withValue(String.format("http://%s:9000", NetUtils.getLocalIP()));
-        return Arrays.asList(builder.build());
+        if (s3FileSystemProperties != null) {
+            EnvVarBuilder builder = new EnvVarBuilder();
+            builder.withName(ENDPOINT);
+            builder.withValue(MinioUtil.replaceLocalhost(s3FileSystemProperties.getEndpoint()));
+            return Arrays.asList(builder.build());
+        }
+        return Collections.emptyList();
     }
 
     private ResourceRequirements buildResource() {
