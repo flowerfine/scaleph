@@ -94,7 +94,7 @@ public class FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKub
             JobSpec jobSpec = new JobSpec();
             jobSpec.setJarURI(ResourceNames.LOCAL_SCHEMA + "/opt/seatunnel/starter/" + SeaTunnelReleaseUtil.STARTER_JAR_NAME);
             jobSpec.setEntryClass(SeaTunnelReleaseUtil.SEATUNNEL_MAIN_CLASS);
-            List<String> args = Arrays.asList("--config", ResourceNames.SEATUNNEL_CONF_LOCAL_PATH);
+            List<String> args = Arrays.asList("--config", ResourceNames.SEATUNNEL_CONF_FILE_PATH);
             jobSpec.setArgs(args.toArray(new String[2]));
             spec.setJob(jobSpec);
             ConfigMap seatunnelConfConfigMap = seaTunnelConfHandler.customize(source, deployment);
