@@ -42,22 +42,22 @@ public class FileSystemPluginHandler {
     @Autowired(required = false)
     private S3FileSystemProperties s3FileSystemProperties;
 
-    public void customize(FlinkDeploymentJob job) throws Exception {
+    public void customize(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentJob job) throws Exception {
         PodBuilder podBuilder = Optional.ofNullable(job.getSpec().getPodTemplate()).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
-        cusomizePodTemplate(podBuilder);
+        cusomizePodTemplate(jobDTO, podBuilder);
         job.getSpec().setPodTemplate(podBuilder.build());
 
         Map<String, String> flinkConfiguration = Optional.ofNullable(job.getSpec().getFlinkConfiguration()).orElse(new HashMap<>());
         addFileSystemConfigOption(flinkConfiguration);
     }
 
-    private void cusomizePodTemplate(PodBuilder builder) {
+    private void cusomizePodTemplate(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
         builder.editOrNewMetadata().withName(ResourceNames.POD_TEMPLATE_NAME)
                 .endMetadata();
         PodFluent.SpecNested<PodBuilder> spec = builder.editOrNewSpec();
 
         ContainerUtil.findFlinkMainContainer(spec)
-                .addAllToEnv(buildEnableFileSystemEnv())
+                .addAllToEnv(buildEnableFileSystemEnv(jobDTO))
                 .endContainer();
 
         spec.endSpec();
@@ -72,10 +72,14 @@ public class FileSystemPluginHandler {
         }
     }
 
-    private List<EnvVar> buildEnableFileSystemEnv() {
+    private List<EnvVar> buildEnableFileSystemEnv(WsFlinkKubernetesJobDTO jobDTO) {
         EnvVarBuilder builder = new EnvVarBuilder();
         builder.withName("ENABLE_BUILT_IN_PLUGINS");
-        builder.withValue("flink-s3-fs-hadoop-1.17.1.jar");
+        if (jobDTO.getWsDiJob() != null) {
+            builder.withValue("flink-s3-fs-hadoop-1.15.4.jar");
+        } else {
+            builder.withValue("flink-s3-fs-hadoop-1.17.1.jar");
+        }
         return Collections.singletonList(builder.build());
     }
 

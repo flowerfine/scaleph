@@ -31,6 +31,7 @@ import io.fabric8.kubernetes.client.utils.Serialization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
 import java.util.Optional;
 
 @Service
@@ -68,7 +69,8 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
     public void deployJob(Long clusterCredentialId, Object job) throws Exception {
         KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
         if (job instanceof String) {
-            client.resource((String) job).createOrReplace();
+            client.load(new ByteArrayInputStream(((String) job).getBytes())).createOrReplace();
+//            client.resource((String) job).createOrReplace();
         }
     }
 
@@ -76,7 +78,7 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
     public void shutdownJob(Long clusterCredentialId, Object job) throws Exception {
         KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
         if (job instanceof String) {
-            client.resource((String) job).delete();
+            client.load(new ByteArrayInputStream(((String) job).getBytes())).delete();
         }
     }
 }
