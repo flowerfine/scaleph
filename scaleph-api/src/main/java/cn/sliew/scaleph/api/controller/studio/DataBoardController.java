@@ -18,13 +18,8 @@
 
 package cn.sliew.scaleph.api.controller.studio;
 
-import cn.hutool.core.date.DateUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.TransferVO;
-import cn.sliew.scaleph.engine.flink.service.WsFlinkClusterInstanceService;
-import cn.sliew.scaleph.engine.flink.service.WsFlinkJobLogService;
-import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobLogDTO;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobLogListParam;
 import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
 import cn.sliew.scaleph.project.service.WsProjectService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,8 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
 
 @Tag(name = "工作台-数据看板")
@@ -50,11 +44,7 @@ public class DataBoardController {
     @Autowired
     private WsProjectService wsProjectService;
     @Autowired
-    private WsFlinkClusterInstanceService wsFlinkClusterInstanceService;
-    @Autowired
     private WsDiJobService wsDiJobService;
-    @Autowired
-    private WsFlinkJobLogService wsFlinkJobLogService;
 
     @Logging
     @GetMapping(path = "/project")
@@ -70,8 +60,7 @@ public class DataBoardController {
     @Operation(summary = "查询集群数量", description = "查询集群数量")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STUDIO_DATA_BOARD_SHOW)")
     public ResponseEntity<Long> countCluster() {
-        Long result = this.wsFlinkClusterInstanceService.totalCnt();
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(0L, HttpStatus.OK);
     }
 
     @Logging
@@ -87,12 +76,8 @@ public class DataBoardController {
     @GetMapping(path = "/topBatch100")
     @Operation(summary = "查询近7日周期任务运行时长TOP100", description = "查询近7日周期任务运行时长TOP100")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STUDIO_DATA_BOARD_SHOW)")
-    public ResponseEntity<List<WsFlinkJobLogDTO>> batchTop100In7d() {
-        //todo 查询近7日周期任务运行时长TOP100
-        Date currentDate = DateUtil.beginOfDay(new Date());
-        List<WsFlinkJobLogDTO> list =
-                this.wsFlinkJobLogService.list(new WsFlinkJobLogListParam(0L)).getRecords();
-        return new ResponseEntity<>(list, HttpStatus.OK);
+    public ResponseEntity<List> batchTop100In7d() {
+        return new ResponseEntity<>(Collections.emptyList(), HttpStatus.OK);
     }
 
     @Logging
@@ -100,12 +85,6 @@ public class DataBoardController {
     @Operation(summary = "统计实时任务运行状态分布", description = "统计实时任务运行状态分布")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STUDIO_DATA_BOARD_SHOW)")
     public ResponseEntity<List<TransferVO>> realtimeJobRuntimeStatus() {
-        //todo
-        List<TransferVO> list = new ArrayList<>();
-//        Map<String, String> map = this.diJobLogService.groupRealtimeJobRuntimeStatus();
-//        map.forEach((key, value) -> {
-//            list.add(new TransferVO(value, key));
-//        });
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        return new ResponseEntity<>(Collections.emptyList(), HttpStatus.OK);
     }
 }

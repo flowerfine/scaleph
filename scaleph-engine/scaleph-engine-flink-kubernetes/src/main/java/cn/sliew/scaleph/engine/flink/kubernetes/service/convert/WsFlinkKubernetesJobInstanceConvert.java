@@ -20,14 +20,11 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.convert;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesSessionCluster;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.IngressSpec;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstance;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.TaskManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.TaskManagerInfo;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
-import io.fabric8.kubernetes.api.model.Pod;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
@@ -38,15 +35,15 @@ import org.springframework.util.StringUtils;
 import java.util.Map;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface WsFlinkKubernetesSessionClusterConvert extends BaseConvert<WsFlinkKubernetesSessionCluster, WsFlinkKubernetesSessionClusterDTO> {
-    WsFlinkKubernetesSessionClusterConvert INSTANCE = Mappers.getMapper(WsFlinkKubernetesSessionClusterConvert.class);
+public interface WsFlinkKubernetesJobInstanceConvert extends BaseConvert<WsFlinkKubernetesJobInstance, WsFlinkKubernetesJobInstanceDTO> {
+    WsFlinkKubernetesJobInstanceConvert INSTANCE = Mappers.getMapper(WsFlinkKubernetesJobInstanceConvert.class);
 
     @Override
-    default WsFlinkKubernetesSessionCluster toDo(WsFlinkKubernetesSessionClusterDTO dto) {
-        WsFlinkKubernetesSessionCluster entity = new WsFlinkKubernetesSessionCluster();
+    default WsFlinkKubernetesJobInstance toDo(WsFlinkKubernetesJobInstanceDTO dto) {
+        WsFlinkKubernetesJobInstance entity = new WsFlinkKubernetesJobInstance();
         BeanUtils.copyProperties(dto, entity);
-        if (dto.getKubernetesOptions() != null) {
-            entity.setKubernetesOptions(JacksonUtil.toJsonString(dto.getKubernetesOptions()));
+        if (dto.getWsFlinkKubernetesJob() != null) {
+            entity.setWsFlinkKubernetesJob(WsFlinkKubernetesJobConvert.INSTANCE.toDo(dto.getWsFlinkKubernetesJob()));
         }
         if (dto.getJobManager() != null) {
             entity.setJobManager(JacksonUtil.toJsonString(dto.getJobManager()));
@@ -54,17 +51,8 @@ public interface WsFlinkKubernetesSessionClusterConvert extends BaseConvert<WsFl
         if (dto.getTaskManager() != null) {
             entity.setTaskManager(JacksonUtil.toJsonString(dto.getTaskManager()));
         }
-        if (dto.getPodTemplate() != null) {
-            entity.setPodTemplate(JacksonUtil.toJsonString(dto.getPodTemplate()));
-        }
-        if (CollectionUtils.isEmpty(dto.getFlinkConfiguration()) == false) {
-            entity.setFlinkConfiguration(JacksonUtil.toJsonString(dto.getFlinkConfiguration()));
-        }
-        if (CollectionUtils.isEmpty(dto.getLogConfiguration()) == false) {
-            entity.setLogConfiguration(JacksonUtil.toJsonString(dto.getLogConfiguration()));
-        }
-        if (dto.getIngress() != null) {
-            entity.setIngress(JacksonUtil.toJsonString(dto.getIngress()));
+        if (CollectionUtils.isEmpty(dto.getUserFlinkConfiguration()) == false) {
+            entity.setUserFlinkConfiguration(JacksonUtil.toJsonString(dto.getUserFlinkConfiguration()));
         }
         if (CollectionUtils.isEmpty(dto.getClusterInfo()) == false) {
             entity.setClusterInfo(JacksonUtil.toJsonString(dto.getClusterInfo()));
@@ -76,11 +64,11 @@ public interface WsFlinkKubernetesSessionClusterConvert extends BaseConvert<WsFl
     }
 
     @Override
-    default WsFlinkKubernetesSessionClusterDTO toDto(WsFlinkKubernetesSessionCluster entity) {
-        WsFlinkKubernetesSessionClusterDTO dto = new WsFlinkKubernetesSessionClusterDTO();
+    default WsFlinkKubernetesJobInstanceDTO toDto(WsFlinkKubernetesJobInstance entity) {
+        WsFlinkKubernetesJobInstanceDTO dto = new WsFlinkKubernetesJobInstanceDTO();
         BeanUtils.copyProperties(entity, dto);
-        if (StringUtils.hasText(entity.getKubernetesOptions())) {
-            dto.setKubernetesOptions(JacksonUtil.parseJsonString(entity.getKubernetesOptions(), KubernetesOptionsVO.class));
+        if (entity.getWsFlinkKubernetesJob() != null) {
+            dto.setWsFlinkKubernetesJob(WsFlinkKubernetesJobConvert.INSTANCE.toDto(entity.getWsFlinkKubernetesJob()));
         }
         if (StringUtils.hasText(entity.getJobManager())) {
             dto.setJobManager(JacksonUtil.parseJsonString(entity.getJobManager(), JobManagerSpec.class));
@@ -88,17 +76,8 @@ public interface WsFlinkKubernetesSessionClusterConvert extends BaseConvert<WsFl
         if (StringUtils.hasText(entity.getTaskManager())) {
             dto.setTaskManager(JacksonUtil.parseJsonString(entity.getTaskManager(), TaskManagerSpec.class));
         }
-        if (StringUtils.hasText(entity.getPodTemplate())) {
-            dto.setPodTemplate(JacksonUtil.parseJsonString(entity.getPodTemplate(), Pod.class));
-        }
-        if (StringUtils.hasText(entity.getFlinkConfiguration())) {
-            dto.setFlinkConfiguration(JacksonUtil.parseJsonString(entity.getFlinkConfiguration(), Map.class));
-        }
-        if (StringUtils.hasText(entity.getLogConfiguration())) {
-            dto.setLogConfiguration(JacksonUtil.parseJsonString(entity.getLogConfiguration(), Map.class));
-        }
-        if (StringUtils.hasText(entity.getIngress())) {
-            dto.setIngress(JacksonUtil.parseJsonString(entity.getIngress(), IngressSpec.class));
+        if (StringUtils.hasText(entity.getUserFlinkConfiguration())) {
+            dto.setUserFlinkConfiguration(JacksonUtil.parseJsonString(entity.getUserFlinkConfiguration(), Map.class));
         }
         if (StringUtils.hasText(entity.getClusterInfo())) {
             dto.setClusterInfo(JacksonUtil.parseJsonString(entity.getClusterInfo(), Map.class));

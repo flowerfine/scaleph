@@ -1,6 +1,5 @@
 import {Dict, QueryParam} from '@/app.d';
 import {UploadFile} from 'antd';
-import {ClusterCredential, FlinkRelease} from '@/services/resource/typings';
 
 export type WsProject = {
   id?: number;
@@ -100,57 +99,6 @@ export type WsDiJobStep = {
   updateTime?: Date;
 };
 
-export type WsFlinkJob = {
-  id?: number;
-  type: Dict;
-  projectId: number | string;
-  code?: number;
-  name?: string;
-  flinkArtifactId?: number;
-  jobConfig?: { [key: string]: any };
-  wsFlinkJobInstance?: WsFlinkJobInstance;
-  wsFlinkClusterConfig?: WsFlinkClusterConfig;
-  wsFlinkClusterInstance?: WsFlinkClusterInstance;
-  flinkConfig?: { [key: string]: any };
-  jars?: Array<number>;
-  version?: number;
-  remark?: string;
-  creator?: string;
-  createTime?: Date;
-  editor?: string;
-  updateTime?: Date;
-};
-
-export type WsFlinkJobListParam = QueryParam & {
-  type?: string;
-  name?: string;
-  projectId?: string | number;
-  flinkJobState?: string;
-};
-
-export type WsFlinkJobInstance = {
-  id: number;
-  type: Dict;
-  flinkJobCode: number;
-  jobId: string;
-  jobName: string;
-  jobState: Dict;
-  clusterId: string;
-  webInterfaceUrl: string;
-  clusterStatus: Dict;
-  startTime?: Date;
-  endTime?: Date;
-  duration?: number;
-  createTime: Date;
-  updateTime: Date;
-};
-
-export type WsFlinkJobLog = WsFlinkJobInstance & {};
-
-export type WsFlinkJobLogListParam = QueryParam & {
-  flinkJobCode: number;
-};
-
 export type WsFlinkArtifactJar = {
   id?: number;
   wsFlinkArtifact?: WsFlinkArtifact;
@@ -231,65 +179,6 @@ export type WsFlinkArtifactSqlAddParam = {
 export type WsFlinkArtifactSqlScriptUpdateParam = {
   id: number;
   script?: string;
-};
-
-export type WsFlinkClusterConfig = {
-  id?: number;
-  projectId?: number | string;
-  name?: string;
-  flinkVersion?: Dict;
-  resourceProvider?: Dict;
-  deployMode?: Dict;
-  flinkRelease?: FlinkRelease;
-  clusterCredential?: ClusterCredential;
-  kubernetesOptions?: KubernetesOptions;
-  configOptions?: { [key: string]: any };
-  remark?: string;
-  createTime?: Date;
-  updateTime?: Date;
-};
-
-export type KubernetesOptions = {
-  context?: string;
-  namespace?: string;
-  serviceAccount?: string;
-  registry?: string;
-  repository?: string;
-  image?: string;
-  imagePullPolicy?: string;
-  jobManagerCPU?: number;
-  jobManagerMemory?: string;
-  jobManagerReplicas?: number;
-  taskManagerCPU?: number;
-  taskManagerMemory?: string;
-  taskManagerReplicas?: number;
-};
-
-export type WsFlinkClusterConfigParam = QueryParam & {
-  projectId?: number | string;
-  name?: string;
-  flinkVersion?: string;
-  resourceProvider?: string;
-  deployMode?: string;
-};
-
-export type WsFlinkClusterInstance = {
-  id?: number;
-  flinkClusterConfigId?: number;
-  name?: string;
-  clusterId?: string;
-  webInterfaceUrl?: string;
-  status?: Dict;
-  remark?: number;
-  createTime?: Date;
-  updateTime?: Date;
-};
-
-export type WsFlinkClusterInstanceParam = QueryParam & {
-  projectId?: string | number;
-  name?: string;
-  flinkClusterConfigId?: number;
-  status?: string;
 };
 
 export type WsFlinkCheckPoint = {

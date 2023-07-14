@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.dao.entity.master.ws;
 
+import cn.sliew.scaleph.common.dict.flink.kubernetes.ResourceLifecycleState;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -39,8 +40,14 @@ public class WsFlinkKubernetesJobInstance extends BaseDO {
     @TableField("ws_flink_kubernetes_job_id")
     private Long wsFlinkKubernetesJobId;
 
-    @TableField("job_id")
-    private String jobId;
+    @TableField(exist = false)
+    private WsFlinkKubernetesJob wsFlinkKubernetesJob;
+
+    @TableField("instance_id")
+    private String instanceId;
+
+    @TableField("parallelism")
+    private Integer parallelism;
 
     @TableField("job_manager")
     private String jobManager;
@@ -51,11 +58,17 @@ public class WsFlinkKubernetesJobInstance extends BaseDO {
     @TableField("user_flink_configuration")
     private String userFlinkConfiguration;
 
-    @TableField("`status`")
-    private String status;
+    @TableField("`state`")
+    private ResourceLifecycleState state;
 
-    @TableField("state")
-    private String state;
+    @TableField("`error`")
+    private String error;
+
+    @TableField("cluster_info")
+    private String clusterInfo;
+
+    @TableField("task_manager_info")
+    private String taskManagerInfo;
 
     @TableField("start_time")
     private Date startTime;
