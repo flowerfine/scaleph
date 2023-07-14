@@ -65,65 +65,65 @@ export default [
     routes: [
       {
         path: '/workspace',
-        redirect: '/workspace/job',
+        redirect: '/workspace/artifact',
         pCode: PRIVILEGE_CODE.workspaceJobShow,
         access: 'normalRouteFilter',
       },
       {
-        name: 'project.job',
-        path: '/workspace/job',
+        name: 'project.artifact',
+        path: '/workspace/artifact',
         icon: 'code',
         pCode: PRIVILEGE_CODE.workspaceShow,
         access: 'normalRouteFilter',
         routes: [
           {
-            path: '/workspace/job',
-            redirect: '/workspace/job/artifact/jar',
+            path: '/workspace/artifact',
+            redirect: '/workspace/artifact/jar',
             pCode: PRIVILEGE_CODE.workspaceJobShow,
             access: 'normalRouteFilter',
           },
           {
             name: 'jar',
-            path: '/workspace/job/artifact/jar',
+            path: '/workspace/artifact/jar',
             exact: true,
-            component: './Project/Workspace/Job/Jar',
+            component: './Project/Workspace/Artifact/Jar',
             pCode: PRIVILEGE_CODE.workspaceJobArtifactShow,
             access: 'normalRouteFilter'
           },
           {
-            path: '/workspace/job/artifact/history',
+            path: '/workspace/artifact/history',
             exact: true,
-            component: './Project/Workspace/Job/Jar/History',
+            component: './Project/Workspace/Artifact/Jar/History',
             pCode: PRIVILEGE_CODE.workspaceJobArtifactJarShow,
             access: 'normalRouteFilter'
           },
           {
             name: 'sql',
-            path: '/workspace/job/artifact/sql',
+            path: '/workspace/artifact/sql',
             exact: true,
-            component: './Project/Workspace/Job/Sql',
+            component: './Project/Workspace/Artifact/Sql',
             pCode: PRIVILEGE_CODE.workspaceJobSqlShow,
             access: 'normalRouteFilter'
           },
           {
-            path: '/workspace/job/artifact/editor',
+            path: '/workspace/artifact/editor',
             exact: true,
-            component: './Project/Workspace/Job/Sql/CodeEditor',
+            component: './Project/Workspace/Artifact/Sql/CodeEditor',
             pCode: PRIVILEGE_CODE.workspaceJobSqlShow,
             access: 'normalRouteFilter'
           },
           {
             name: 'seatunnel',
-            path: '/workspace/job/seatunnel',
+            path: '/workspace/artifact/seatunnel',
             exact: true,
-            component: './Project/Workspace/Job/DI/DiJobView',
+            component: './Project/Workspace/Artifact/DI/DiJobView',
             pCode: PRIVILEGE_CODE.workspaceJobSeaTunnelShow,
             access: 'normalRouteFilter'
           },
           {
-            path: '/workspace/job/seatunnel/dag',
+            path: '/workspace/artifact/seatunnel/dag',
             exact: true,
-            component: './Project/Workspace/Job/DI/DiJobFlow',
+            component: './Project/Workspace/Artifact/DI/DiJobFlow',
             pCode: PRIVILEGE_CODE.workspaceClusterConfigOptionsShow,
             access: 'normalRouteFilter'
           },
