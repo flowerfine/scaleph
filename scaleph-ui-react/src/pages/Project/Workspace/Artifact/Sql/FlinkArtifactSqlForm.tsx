@@ -8,11 +8,11 @@ import {DictDataService} from "@/services/admin/dictData.service";
 import {FlinkArtifactSqlService} from "@/services/project/WsFlinkArtifactSqlService";
 
 const FlinkArtifactSqlForm: React.FC<ModalFormProps<WsFlinkArtifactSql>> = ({
-                                                                                 data,
-                                                                                 visible,
-                                                                                 onVisibleChange,
-                                                                                 onCancel
-                                                                               }) => {
+                                                                              data,
+                                                                              visible,
+                                                                              onVisibleChange,
+                                                                              onCancel
+                                                                            }) => {
   const intl = useIntl();
   const [form] = Form.useForm();
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
@@ -22,7 +22,7 @@ const FlinkArtifactSqlForm: React.FC<ModalFormProps<WsFlinkArtifactSql>> = ({
       open={visible}
       title={
         intl.formatMessage({id: 'app.common.operate.new.label'}) +
-        intl.formatMessage({id: 'pages.project.job.sql'})
+        intl.formatMessage({id: 'pages.project.artifact.sql'})
       }
       width={580}
       destroyOnClose={true}

@@ -49,7 +49,7 @@ const FlinkArtifactJarUpdateForm: React.FC<ModalFormProps<WsFlinkArtifactJar>> =
       open={visible}
       title={
         intl.formatMessage({id: 'app.common.operate.edit.label'}) +
-        intl.formatMessage({id: 'pages.project.job.jar'})
+        intl.formatMessage({id: 'pages.project.artifact.jar'})
       }
       width={580}
       destroyOnClose={true}

@@ -12,9 +12,9 @@ import {FlinkArtifactSqlService} from "@/services/project/WsFlinkArtifactSqlServ
 const JobArtifactSqlView: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
-  const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
+  const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
   const [flinkArtifactSqlFormData, setFlinkArtifactSqlFormData] = useState<{
     visiable: boolean;
     data: WsFlinkArtifactSql;

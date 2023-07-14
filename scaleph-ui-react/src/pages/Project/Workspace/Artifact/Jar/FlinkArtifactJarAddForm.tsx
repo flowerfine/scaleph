@@ -4,18 +4,15 @@ import {WsFlinkArtifactJar, WsFlinkArtifactJarUploadParam} from '@/services/proj
 import {Form, message, Modal, UploadFile, UploadProps} from 'antd';
 import {useIntl} from 'umi';
 import {FlinkArtifactJarService} from "@/services/project/flinkArtifactJar.service";
-import {
-  ProForm,
-  ProFormDigit,
-  ProFormSelect,
-  ProFormText,
-  ProFormTextArea,
-  ProFormUploadButton
-} from "@ant-design/pro-components";
+import {ProForm, ProFormSelect, ProFormText, ProFormTextArea, ProFormUploadButton} from "@ant-design/pro-components";
 import {useState} from "react";
 import {DictDataService} from "@/services/admin/dictData.service";
 
-const FlinkArtifactJarAddForm: React.FC<ModalFormProps<WsFlinkArtifactJar>> = ({visible, onVisibleChange, onCancel}) => {
+const FlinkArtifactJarAddForm: React.FC<ModalFormProps<WsFlinkArtifactJar>> = ({
+                                                                                 visible,
+                                                                                 onVisibleChange,
+                                                                                 onCancel
+                                                                               }) => {
   const intl = useIntl();
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
@@ -44,7 +41,7 @@ const FlinkArtifactJarAddForm: React.FC<ModalFormProps<WsFlinkArtifactJar>> = ({
       open={visible}
       title={
         intl.formatMessage({id: 'app.common.operate.new.label'}) +
-        intl.formatMessage({id: 'pages.project.job.jar'})
+        intl.formatMessage({id: 'pages.project.artifact.jar'})
       }
       width={580}
       destroyOnClose={true}

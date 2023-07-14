@@ -70,7 +70,7 @@ const CodeEditor: React.FC = () => {
               width="100%"
               theme="vs"
               options={{minimap: {autohide: true, side: "right"}}}
-              onChange= {(value, event) => {
+              onChange={(value, event) => {
                 setSqlScript(value)
               }}
             >

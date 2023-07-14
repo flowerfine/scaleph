@@ -10,12 +10,12 @@ import {FlinkArtifactJarService} from "@/services/project/flinkArtifactJar.servi
 import {DictDataService} from "@/services/admin/dictData.service";
 import FlinkArtifactJarUpdateForm from "@/pages/Project/Workspace/Artifact/Jar/FlinkArtifactJarUpdateForm";
 
-const JobArtifactJarView: React.FC = () => {
+const ArtifactJarView: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
-  const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
+  const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
   const [flinkArtifactJarAddFormData, setFlinkArtifactJarAddFormData] = useState<{
     visiable: boolean;
   }>({visiable: false});
@@ -223,4 +223,4 @@ const JobArtifactJarView: React.FC = () => {
     </div>
   );
 };
-export default JobArtifactJarView;
+export default ArtifactJarView;
