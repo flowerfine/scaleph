@@ -14,7 +14,7 @@ create table ws_project
     update_time  datetime    not null default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique key uniq_project (project_code)
-) engine = innodb comment '数据集成-项目信息';
+) engine = innodb comment '项目信息';
 
 insert into ws_project(id, project_code, project_name, remark, creator, editor)
 VALUES (1, 'seatunnel', 'seatunnel-examples', NULL, 'sys', 'sys');
@@ -83,21 +83,20 @@ CREATE TABLE ws_flink_artifact_sql
 
 INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
                                      `editor`)
-VALUES (1, 1, '1.16.1',
+VALUES (1, 1, '1.17.1',
         'CREATE TEMPORARY TABLE source_table (\n  `id` bigint,\n  `name` string,\n  `age` int,\n  `address` string,\n  `create_time`TIMESTAMP(3),\n  `update_time`TIMESTAMP(3),\n  WATERMARK FOR `update_time` AS update_time - INTERVAL \'1\' MINUTE\n)\nCOMMENT \'\'\nWITH (\n  \' connector\' = \'datagen\',\n  \'number-of-rows\' = \'100\'\n);\n\nCREATE TEMPORARY TABLE `sink_table` (\n  `id` BIGINT,\n  `name` VARCHAR(2147483647),\n  `age` INT,\n  `address` VARCHAR(2147483647),\n  `create_time` TIMESTAMP(3),\n  `update_time` TIMESTAMP(3)\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'print\'\n);\n\ninsert into sink_table\nselect id, name, age, address, create_time, update_time from source_table;',
         '1', 'sys', 'sys');
-INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`,
-                                     `creator`, `editor`)
+INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
+                                     `editor`)
 VALUES (2, 2, '1.17.1',
         'CREATE TABLE orders (\n  order_number BIGINT,\n  price        DECIMAL(32,2),\n  buyer        ROW<first_name STRING, last_name STRING>,\n  order_time   TIMESTAMP(3)\n) WITH (\n  \'connector\' = \'datagen\'\n);\n\nCREATE TABLE print_table WITH (\'connector\' = \'print\')\n  LIKE orders;\n\nINSERT INTO print_table SELECT * FROM orders;',
         '1', 'sys', 'sys');
-INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`,
-                                     `creator`, `editor`)
+INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
+                                     `editor`)
 VALUES (3, 3, '1.17.1',
         'CREATE TABLE orders (\n  order_number BIGINT,\n  price        DECIMAL(32,2),\n  buyer        ROW<first_name STRING, last_name STRING>,\n  order_time   TIMESTAMP(3)\n) WITH (\n  \'connector\' = \'datagen\'\n);\n\nCREATE TABLE print_table WITH (\'connector\' = \'print\')\n    LIKE orders;\nCREATE TABLE blackhole_table WITH (\'connector\' = \'blackhole\')\n    LIKE orders;\n\nEXECUTE STATEMENT SET\nBEGIN\nINSERT INTO print_table SELECT * FROM orders;\nINSERT INTO blackhole_table SELECT * FROM orders;\nEND;',
         '1', 'sys', 'sys');
 
-/* 数据集成-作业信息*/
 drop table if exists ws_di_job;
 create table ws_di_job
 (
@@ -118,7 +117,6 @@ VALUES (1, 4, 'seatunnel', 'b8e16c94-258c-4487-a88c-8aad40a38b35', 1, 'sys', 'sy
 INSERT INTO ws_di_job(id, flink_artifact_id, job_engine, job_id, current, creator, editor)
 VALUES (2, 5, 'seatunnel', '0a6d475e-ed50-46ee-82af-3ef90b7d8509', 1, 'sys', 'sys');
 
-/* 作业参数信息 作业参数*/
 drop table if exists ws_di_job_attr;
 create table ws_di_job_attr
 (
@@ -135,7 +133,7 @@ create table ws_di_job_attr
     unique key (job_id, job_attr_type, job_attr_key)
 ) engine = innodb comment '数据集成-作业参数';
 
-/* 作业步骤信息 包含source，transform，sink,note 等*/
+/* 作业步骤信息 包含source，transform，sink 等*/
 drop table if exists ws_di_job_step;
 create table ws_di_job_step
 (
@@ -198,117 +196,6 @@ INSERT INTO ws_di_job_link(job_id, link_code, from_step_code, to_step_code, crea
 VALUES (2, 'd57021a1-65c7-4dfe-ae89-3b73d00fcf72', '6223c6c3-b552-4c69-adab-5300b7514fad',
         'f08143b4-34dc-4190-8723-e8d8ce49738f', 'sys', 'sys');
 
-DROP TABLE IF EXISTS ws_flink_cluster_config;
-CREATE TABLE ws_flink_cluster_config
-(
-    id                    bigint       not null auto_increment comment '自增主键',
-    project_id            bigint       not null comment '项目id',
-    `name`                varchar(255) not null comment 'flink配置名称',
-    flink_version         varchar(32)  not null comment 'flink版本',
-    resource_provider     varchar(4)   not null comment '资源管理器：0: Standalone, 1: Native Kubernetes, 2: YARN',
-    deploy_mode           varchar(4)   not null comment '部署模式：0: Application, 1: Per-Job, 2: Session',
-    flink_release_id      bigint       not null comment 'flink release id',
-    cluster_credential_id bigint       not null comment '集群凭证id',
-    kubernetes_options    text comment 'k8s 配置',
-    config_options        text comment 'flink集群配置',
-    remark                varchar(255) comment '备注',
-    creator               varchar(32) comment '创建人',
-    create_time           timestamp default current_timestamp comment '创建时间',
-    editor                varchar(32) comment '修改人',
-    update_time           timestamp default current_timestamp on update current_timestamp comment '修改时间',
-    PRIMARY KEY (id),
-    unique key (project_id, name)
-) ENGINE = INNODB COMMENT = 'flink cluster config';
-
-DROP TABLE IF EXISTS ws_flink_cluster_instance;
-CREATE TABLE ws_flink_cluster_instance
-(
-    id                      bigint       not null auto_increment comment '自增主键',
-    project_id              bigint       not null comment '项目id',
-    flink_cluster_config_id bigint       not null comment 'flink集群配置id',
-    `name`                  varchar(255) not null comment 'flink实例名称',
-    cluster_id              varchar(64) comment 'flink集群内部id',
-    web_interface_url       varchar(255) comment 'WEB UI',
-    status                  varchar(4) comment '集群状态',
-    creator                 varchar(32) comment '创建人',
-    create_time             timestamp default current_timestamp comment '创建时间',
-    editor                  varchar(32) comment '修改人',
-    update_time             timestamp default current_timestamp on update current_timestamp comment '修改时间',
-    PRIMARY KEY (id),
-    unique key (project_id, flink_cluster_config_id, name),
-    KEY idx_name (name)
-) ENGINE = INNODB COMMENT = 'flink cluster instance';
-
-drop table if exists ws_flink_job;
-create table ws_flink_job
-(
-    id                        bigint       not null auto_increment comment '自增主键',
-    project_id                bigint       not null comment '项目id',
-    type                      varchar(4)   not null comment '作业类型 0: jar, 1: sql, 2: seatunnel',
-    code                      bigint       not null comment '作业编码',
-    name                      varchar(255) not null comment '作业名称',
-    flink_artifact_id         bigint       not null comment '作业artifact id',
-    flink_cluster_config_id   bigint       not null comment '集群配置id',
-    flink_cluster_instance_id bigint       not null comment '集群实例id',
-    job_config                text comment '作业配置，对应作业变量',
-    flink_config              text comment '作业级别集群配置',
-    jars                      text comment '作业依赖资源',
-    creator                   varchar(32) comment '创建人',
-    create_time               timestamp default current_timestamp comment '创建时间',
-    editor                    varchar(32) comment '修改人',
-    update_time               timestamp default current_timestamp on update current_timestamp comment '修改时间',
-    primary key (id),
-    unique key idx_code (code),
-    key idx_name (type, name),
-    key idx_flink_artifact (type, flink_artifact_id),
-    key idx_flink_cluster_config (flink_cluster_config_id),
-    key idx_flink_cluster_instance (flink_cluster_instance_id)
-) engine = innodb comment ='flink作业信息';
-
-drop table if exists ws_flink_job_instance;
-create table ws_flink_job_instance
-(
-    id                bigint       not null auto_increment comment '自增主键',
-    flink_job_code    bigint       not null comment 'flink作业编码',
-    job_id            varchar(64)  not null comment 'flink作业id',
-    job_name          varchar(64)  not null comment '作业名称',
-    job_state         varchar(16)  not null comment '作业状态',
-    cluster_id        varchar(64)  not null comment '集群id',
-    cluster_status    varchar(16)  not null comment '集群状态',
-    web_interface_url varchar(255) not null comment 'WEB UI',
-    start_time        datetime comment '开始时间',
-    end_time          datetime comment '结束时间',
-    duration          bigint comment '耗时',
-    creator           varchar(32) comment '创建人',
-    create_time       timestamp default current_timestamp comment '创建时间',
-    editor            varchar(32) comment '修改人',
-    update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
-    primary key (id),
-    unique key uniq_job (flink_job_code, job_id)
-) engine = innodb comment = 'flink作业实例';
-
-DROP TABLE IF EXISTS ws_flink_job_log;
-CREATE TABLE ws_flink_job_log
-(
-    id                bigint       not null auto_increment comment '自增主键',
-    flink_job_code    bigint       not null comment 'flink作业编码',
-    job_id            varchar(64)  not null comment 'flink作业id',
-    job_name          varchar(64)  not null comment '作业名称',
-    job_state         varchar(16)  not null comment '作业状态',
-    cluster_id        varchar(64)  not null comment '集群id',
-    cluster_status    varchar(16)  not null comment '集群状态',
-    web_interface_url varchar(255) not null comment 'WEB UI',
-    start_time        datetime comment '开始时间',
-    end_time          datetime comment '结束时间',
-    duration          bigint comment '耗时',
-    creator           varchar(32) comment '创建人',
-    create_time       timestamp default current_timestamp comment '创建时间',
-    editor            varchar(32) comment '修改人',
-    update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
-    PRIMARY KEY (id),
-    UNIQUE KEY uniq_job (flink_job_code, job_id)
-) ENGINE = INNODB COMMENT = 'flink作业日志';
-
 DROP TABLE IF EXISTS ws_flink_checkpoint;
 CREATE TABLE ws_flink_checkpoint
 (
@@ -359,7 +246,7 @@ CREATE TABLE ws_flink_kubernetes_template
     editor              varchar(32),
     update_time         datetime     not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
-    UNIQUE KEY uniq_name (`name`)
+    UNIQUE KEY uniq_name (project_id, `name`)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes deployment template';
 
 INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
@@ -435,30 +322,6 @@ VALUES (6, 1, 'session-cluster', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkS
         '{"kubernetes.operator.savepoint.history.max.count":"10","execution.checkpointing.mode":"exactly_once","state.checkpoints.num-retained":"10","restart-strategy.failure-rate.delay":"10s","restart-strategy.failure-rate.max-failures-per-interval":"30","kubernetes.operator.savepoint.format.type":"NATIVE","web.cancel.enable":"false","kubernetes.operator.cluster.health-check.enabled":"true","execution.checkpointing.interval":"180s","execution.checkpointing.timeout":"10min","kubernetes.operator.savepoint.history.max.age":"72h","execution.checkpointing.externalized-checkpoint-retention":"RETAIN_ON_CANCELLATION","kubernetes.operator.cluster.health-check.restarts.threshold":"30","restart-strategy":"failurerate","restart-strategy.failure-rate.failure-rate-interval":"10min","execution.checkpointing.min-pause":"180s","kubernetes.operator.cluster.health-check.restarts.window":"10min","execution.checkpointing.max-concurrent-checkpoints":"1","kubernetes.operator.periodic.savepoint.interval":"1h","kubernetes.operator.savepoint.trigger.grace-period":"20min","execution.checkpointing.alignment-timeout":"120s","kubernetes.rest-service.exposed.type":"LoadBalancer","state.savepoints.dir":"file:///flink-data/savepoints","state.checkpoints.dir":"file:///flink-data/checkpoints"}',
         NULL, NULL, NULL, 'sys', 'sys');
 
-INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
-                                           `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
-                                           `pod_template`, `flink_configuration`,
-                                           `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
-VALUES (7, 1, 'empty-dir-volume', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkDeployment', 'default',
-        '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
-        '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
-        '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
-        '{"apiVersion":"v1","kind":"Pod","spec":{"containers":[{"name":"flink-main-container","volumeMounts":[{"mountPath":"/flink-data","name":"flink-volume"}]}],"volumes":[{"emptyDir":{"sizeLimit":"500Mi"},"name":"flink-volume"}]}}',
-        '{"kubernetes.operator.savepoint.history.max.count":"10","execution.checkpointing.mode":"exactly_once","state.checkpoints.num-retained":"10","restart-strategy.failure-rate.delay":"10s","restart-strategy.failure-rate.max-failures-per-interval":"30","kubernetes.operator.savepoint.format.type":"NATIVE","web.cancel.enable":"false","kubernetes.operator.cluster.health-check.enabled":"true","execution.checkpointing.interval":"180s","execution.checkpointing.timeout":"10min","kubernetes.operator.savepoint.history.max.age":"72h","execution.checkpointing.externalized-checkpoint-retention":"RETAIN_ON_CANCELLATION","kubernetes.operator.cluster.health-check.restarts.threshold":"30","restart-strategy":"failurerate","restart-strategy.failure-rate.failure-rate-interval":"10min","execution.checkpointing.min-pause":"180s","kubernetes.operator.cluster.health-check.restarts.window":"10min","execution.checkpointing.max-concurrent-checkpoints":"1","kubernetes.operator.periodic.savepoint.interval":"1h","kubernetes.operator.savepoint.trigger.grace-period":"20min","execution.checkpointing.alignment-timeout":"120s","kubernetes.rest-service.exposed.type":"LoadBalancer","state.savepoints.dir":"file:///flink-data/savepoints","state.checkpoints.dir":"file:///flink-data/checkpoints"}',
-        NULL, NULL, NULL, 'sys', 'sys');
-
-INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
-                                           `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
-                                           `pod_template`, `flink_configuration`,
-                                           `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
-VALUES (8, 1, 'hostpath-volume', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkDeployment', 'default',
-        '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
-        '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
-        '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
-        '{"apiVersion":"v1","kind":"Pod","spec":{"containers":[{"name":"flink-main-container","volumeMounts":[{"mountPath":"/flink-data","name":"flink-volume"}]}],"volumes":[{"emptyDir":{"sizeLimit":"500Mi"},"name":"flink-volume"}]}}',
-        '{"kubernetes.operator.savepoint.history.max.count":"10","execution.checkpointing.mode":"exactly_once","state.checkpoints.num-retained":"10","restart-strategy.failure-rate.delay":"10s","restart-strategy.failure-rate.max-failures-per-interval":"30","kubernetes.operator.savepoint.format.type":"NATIVE","web.cancel.enable":"false","kubernetes.operator.cluster.health-check.enabled":"true","execution.checkpointing.interval":"180s","execution.checkpointing.timeout":"10min","kubernetes.operator.savepoint.history.max.age":"72h","execution.checkpointing.externalized-checkpoint-retention":"RETAIN_ON_CANCELLATION","kubernetes.operator.cluster.health-check.restarts.threshold":"30","restart-strategy":"failurerate","restart-strategy.failure-rate.failure-rate-interval":"10min","execution.checkpointing.min-pause":"180s","kubernetes.operator.cluster.health-check.restarts.window":"10min","execution.checkpointing.max-concurrent-checkpoints":"1","kubernetes.operator.periodic.savepoint.interval":"1h","kubernetes.operator.savepoint.trigger.grace-period":"20min","execution.checkpointing.alignment-timeout":"120s","kubernetes.rest-service.exposed.type":"LoadBalancer","state.savepoints.dir":"file:///flink-data/savepoints","state.checkpoints.dir":"file:///flink-data/checkpoints"}',
-        NULL, NULL, NULL, 'sys', 'sys');
-
 DROP TABLE IF EXISTS ws_flink_kubernetes_deployment;
 CREATE TABLE ws_flink_kubernetes_deployment
 (
@@ -481,7 +344,7 @@ CREATE TABLE ws_flink_kubernetes_deployment
     editor                varchar(32),
     update_time           datetime     not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
-    UNIQUE KEY uniq_name (cluster_credential_id, `name`)
+    UNIQUE KEY uniq_name (project_id, `name`, cluster_credential_id)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes deployment';
 
 DROP TABLE IF EXISTS ws_flink_kubernetes_session_cluster;
@@ -511,7 +374,7 @@ CREATE TABLE ws_flink_kubernetes_session_cluster
     editor                varchar(32),
     update_time           datetime     not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
-    UNIQUE KEY uniq_name (cluster_credential_id, `name`)
+    UNIQUE KEY uniq_name (project_id, `name`, cluster_credential_id)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes session cluster';
 
 DROP TABLE IF EXISTS ws_flink_kubernetes_job;
@@ -535,7 +398,7 @@ CREATE TABLE ws_flink_kubernetes_job
     editor                   varchar(32),
     update_time              datetime     not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
-    UNIQUE KEY uniq_name (deployment_kind, flink_deployment_id, `name`)
+    UNIQUE KEY uniq_name (project_id, `name`)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes job';
 
 DROP TABLE IF EXISTS ws_flink_kubernetes_job_instance;
@@ -543,7 +406,7 @@ CREATE TABLE ws_flink_kubernetes_job_instance
 (
     id                         bigint      not null auto_increment,
     ws_flink_kubernetes_job_id bigint      not null,
-    job_id                     varchar(32) not null,
+    instance_id                varchar(32) not null,
     job_manager                text,
     task_manager               text,
     user_flink_configuration   text,
@@ -557,27 +420,5 @@ CREATE TABLE ws_flink_kubernetes_job_instance
     editor                     varchar(32),
     update_time                datetime    not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
-    UNIQUE KEY uniq_name (ws_flink_kubernetes_job_id, job_id)
-) ENGINE = INNODB COMMENT = 'flink kubernetes job instance';
-
-DROP TABLE IF EXISTS ws_flink_kubernetes_job_instance;
-CREATE TABLE ws_flink_kubernetes_job_instance
-(
-    id                         bigint      not null auto_increment,
-    ws_flink_kubernetes_job_id bigint      not null,
-    job_id                     varchar(32) not null,
-    job_manager                text,
-    task_manager               text,
-    user_flink_configuration   text,
-    status                     text,
-    state                      varchar(32) not null,
-    start_time                 datetime comment '开始时间',
-    end_time                   datetime comment '结束时间',
-    duration                   bigint comment '耗时',
-    creator                    varchar(32),
-    create_time                datetime    not null default current_timestamp,
-    editor                     varchar(32),
-    update_time                datetime    not null default current_timestamp on update current_timestamp,
-    PRIMARY KEY (id),
-    UNIQUE KEY uniq_name (ws_flink_kubernetes_job_id, job_id)
+    UNIQUE KEY uniq_key (ws_flink_kubernetes_job_id, instance_id)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes job instance';
