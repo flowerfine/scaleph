@@ -20,7 +20,6 @@ package cn.sliew.scaleph.engine.flink.kubernetes.resource.handler;
 
 import cn.sliew.scaleph.config.storage.FileSystemType;
 import cn.sliew.scaleph.config.storage.S3FileSystemProperties;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,17 +33,17 @@ public class FlinkStateStorageHandler {
     @Autowired(required = false)
     private S3FileSystemProperties s3FileSystemProperties;
 
-    public void handle(String jobInstanceId, FlinkDeploymentSpec spec) throws Exception {
-        Map<String, String> flinkConfiguration = Optional.ofNullable(spec.getFlinkConfiguration()).orElse(new HashMap<>());
-        addStateStorageConfigOption(jobInstanceId, flinkConfiguration);
+    public void handle(String jobInstanceId, Map<String, String> flinkConfiguration) {
+        Map<String, String> configuration = Optional.ofNullable(flinkConfiguration).orElse(new HashMap<>());
+        addStateStorageConfigOption(jobInstanceId, configuration);
     }
 
-    private void addStateStorageConfigOption(String jobInstanceId, Map<String, String> flinkConfiguration) {
+    private void addStateStorageConfigOption(String jobInstanceId, Map<String, String> configuration) {
         String schemaAndPath = getSchemaAndPath();
-        flinkConfiguration.put("state.checkpoints.dir", getCheckpointPath(schemaAndPath, jobInstanceId));
-        flinkConfiguration.put("state.savepoints.dir", getSavepointPath(schemaAndPath, jobInstanceId));
-        flinkConfiguration.put("high-availability.storageDir", getHaPath(schemaAndPath, jobInstanceId));
-        flinkConfiguration.put("high-availability", "org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory");
+        configuration.put("state.checkpoints.dir", getCheckpointPath(schemaAndPath, jobInstanceId));
+        configuration.put("state.savepoints.dir", getSavepointPath(schemaAndPath, jobInstanceId));
+        configuration.put("high-availability.storageDir", getHaPath(schemaAndPath, jobInstanceId));
+        configuration.put("high-availability", "org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory");
     }
 
     private String getSchemaAndPath() {

@@ -2,7 +2,7 @@ import {PageResponse, ResponseBody} from '@/app.d';
 import {request} from 'umi';
 import {
   WsFlinkKubernetesJob,
-  WsFlinkKubernetesJobAddParam,
+  WsFlinkKubernetesJobAddParam, WsFlinkKubernetesJobInstanceDeployParam, WsFlinkKubernetesJobInstanceShutdownParam,
   WsFlinkKubernetesJobParam,
   WsFlinkKubernetesJobUpdateParam
 } from './typings';
@@ -76,15 +76,17 @@ export const WsFlinkKubernetesJobService = {
     });
   },
 
-  deploy: async (row: WsFlinkKubernetesJob) => {
-    return request<ResponseBody<any>>(`${WsFlinkKubernetesJobService.url}/deploy/${row.id}`, {
+  deploy: async (param: WsFlinkKubernetesJobInstanceDeployParam) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesJobService.url}/deploy`, {
       method: 'POST',
+      data: param,
     });
   },
 
-  shutdown: async (row: WsFlinkKubernetesJob) => {
-    return request<ResponseBody<any>>(`${WsFlinkKubernetesJobService.url}/shutdown/${row.id}`, {
+  shutdown: async (param: WsFlinkKubernetesJobInstanceShutdownParam) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesJobService.url}/shutdown`, {
       method: 'POST',
+      data: param,
     });
   },
 };

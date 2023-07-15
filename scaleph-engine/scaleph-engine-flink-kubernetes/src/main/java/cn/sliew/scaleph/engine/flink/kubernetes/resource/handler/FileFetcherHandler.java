@@ -22,6 +22,7 @@ import cn.sliew.scaleph.common.dict.image.ImagePullPolicy;
 import cn.sliew.scaleph.config.resource.ResourceNames;
 import cn.sliew.scaleph.config.storage.S3FileSystemProperties;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.FlinkDeploymentJob;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
@@ -32,7 +33,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 @Component
-public class FileFetcherFactory {
+public class FileFetcherHandler {
 
     private static final Map<String, Quantity> FILE_FETCHER_CONTAINER_CPU = Map.of("cpu", Quantity.parse("250m"));
     private static final Map<String, Quantity> FILE_FETCHER_CONTAINER_MEMORY = Map.of("memory", Quantity.parse("512Mi"));
@@ -42,17 +43,17 @@ public class FileFetcherFactory {
     @Autowired(required = false)
     private S3FileSystemProperties s3FileSystemProperties;
 
-    public void customize(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentJob job) {
-        PodBuilder podBuilder = Optional.ofNullable(job.getSpec().getPodTemplate()).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
-        cusomizePodTemplate(podBuilder);
-        job.getSpec().setPodTemplate(podBuilder.build());
+    public void handleJarArtifact(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentSpec spec) {
+        PodBuilder podBuilder = Optional.ofNullable(spec.getPodTemplate()).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
+        handlePodTemplate(podBuilder);
+        spec.setPodTemplate(podBuilder.build());
 
-        JobManagerSpec jobManager = Optional.ofNullable(job.getSpec().getJobManager()).orElse(new JobManagerSpec());
-        cusomizeJobManagerPodTemplate(jobDTO, jobManager);
-        job.getSpec().setJobManager(jobManager);
+        JobManagerSpec jobManager = Optional.ofNullable(spec.getJobManager()).orElse(new JobManagerSpec());
+        handleJobManagerPodTemplate(jobDTO, jobManager);
+        spec.setJobManager(jobManager);
     }
 
-    private void cusomizePodTemplate(PodBuilder builder) {
+    private void handlePodTemplate(PodBuilder builder) {
         builder.editOrNewMetadata()
                 .withName(ResourceNames.POD_TEMPLATE_NAME)
                 .endMetadata();
@@ -66,13 +67,13 @@ public class FileFetcherFactory {
         spec.endSpec();
     }
 
-    private void cusomizeJobManagerPodTemplate(WsFlinkKubernetesJobDTO jobDTO, JobManagerSpec jobManager) {
+    private void handleJobManagerPodTemplate(WsFlinkKubernetesJobDTO jobDTO, JobManagerSpec jobManager) {
         PodBuilder builder = Optional.of(jobManager).map(JobManagerSpec::getPodTemplate).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
-        doCustomize(jobDTO, builder);
+        doHandle(jobDTO, builder);
         jobManager.setPodTemplate(builder.build());
     }
 
-    private void doCustomize(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
+    private void doHandle(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
         builder.editOrNewMetadata()
                 .withName(ResourceNames.JOB_MANAGER_POD_TEMPLATE_NAME)
                 .endMetadata();

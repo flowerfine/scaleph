@@ -406,7 +406,7 @@ CREATE TABLE ws_flink_kubernetes_job_instance
 (
     id                         bigint      not null auto_increment,
     ws_flink_kubernetes_job_id bigint      not null,
-    instance_id                varchar(32) not null,
+    instance_id                varchar(64) not null,
     parallelism                int         not null default 1,
     job_manager                text,
     task_manager               text,

@@ -22,7 +22,6 @@ import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstance;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobInstanceMapper;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.FlinkDeploymentJobConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instance.FlinkJobInstanceConverterFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobInstanceService;
@@ -50,8 +49,6 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
     private WsFlinkKubernetesJobInstanceMapper wsFlinkKubernetesJobInstanceMapper;
     @Autowired
     private FlinkKubernetesOperatorService flinkKubernetesOperatorService;
-    @Autowired
-    private FlinkDeploymentJobConverter flinkDeploymentJobConverter;
     @Autowired
     private FlinkJobInstanceConverterFactory flinkJobInstanceConverterFactory;
 

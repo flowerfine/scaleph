@@ -18,12 +18,54 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instance;
 
+import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.deployment.FlinkDeployment;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.deployment.FlinkDeploymentConverter;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.FlinkDeploymentJob;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.SeaTunnelConfHandler;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
+import io.fabric8.kubernetes.api.model.ConfigMap;
+import io.fabric8.kubernetes.client.utils.Serialization;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public interface FlinkDeploymentJobInstanceConverter extends FlinkJobInstanceConverter {
+@Component
+public class FlinkDeploymentJobInstanceConverter implements FlinkJobInstanceConverter {
+
+    @Autowired
+    private MetadataHandler metadataHandler;
+    @Autowired
+    private FlinkDeploymentSpecHandler flinkDeploymentSpecHandler;
+    @Autowired
+    private SeaTunnelConfHandler seaTunnelConfHandler;
 
     @Override
-    default DeploymentKind getDeploymentKind() {
-        return DeploymentKind.FLINK_DEPLOYMENT;
+    public boolean support(DeploymentKind deploymentKind) {
+        return deploymentKind == DeploymentKind.FLINK_DEPLOYMENT;
+    }
+
+    @Override
+    public String convert(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO) {
+        try {
+            FlinkDeploymentJob deployment = new FlinkDeploymentJob();
+            FlinkDeployment flinkDeployment = FlinkDeploymentConverter.INSTANCE.convertTo(jobInstanceDTO.getWsFlinkKubernetesJob().getFlinkDeployment());
+            deployment.setMetadata(metadataHandler.handle(jobInstanceDTO, flinkDeployment.getMetadata()));
+            deployment.setSpec(flinkDeploymentSpecHandler.handle(jobInstanceDTO, flinkDeployment.getSpec()));
+            switch (jobInstanceDTO.getWsFlinkKubernetesJob().getType()) {
+                case JAR:
+                    return Serialization.asYaml(deployment);
+                case SQL:
+                    return Serialization.asYaml(deployment);
+                case SEATUNNEL:
+                    ConfigMap configMap = seaTunnelConfHandler.buildSeaTunnelConf(jobInstanceDTO.getInstanceId(), jobInstanceDTO.getWsFlinkKubernetesJob().getWsDiJob().getId(), deployment.getMetadata());
+                    return Serialization.asYaml(deployment) + Serialization.asYaml(configMap);
+                default:
+                    throw new IllegalStateException("unknown flink job type for " + jobInstanceDTO.getWsFlinkKubernetesJob().getType().getValue());
+            }
+        } catch (Exception e) {
+            Rethrower.throwAs(e);
+            return null;
+        }
     }
 }

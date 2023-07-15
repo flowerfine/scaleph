@@ -22,5 +22,7 @@ import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 
 public interface FlinkJobTypeCapable {
 
-    FlinkJobType getFlinkJobType();
+    default boolean support(FlinkJobType flinkJobType) {
+        return true;
+    }
 }

@@ -24,5 +24,5 @@ public interface FlinkJobManagerEndpointService {
 
     URI getSessionClusterJobManagerEndpoint(Long sessionClusterId);
 
-    URI getJobManagerEndpoint(Long jobId);
+    URI getJobManagerEndpoint(Long jobInstanceId);
 }

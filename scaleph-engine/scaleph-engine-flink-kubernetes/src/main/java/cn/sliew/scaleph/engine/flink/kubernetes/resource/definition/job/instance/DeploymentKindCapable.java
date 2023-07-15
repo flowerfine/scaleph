@@ -22,5 +22,7 @@ import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 
 public interface DeploymentKindCapable {
 
-    DeploymentKind getDeploymentKind();
+    default boolean support(DeploymentKind deploymentKind) {
+        return true;
+    }
 }

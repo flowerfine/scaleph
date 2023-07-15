@@ -22,5 +22,7 @@ import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 
 public interface FlinkVersionCapable {
 
-    FlinkVersion getFlinkVersion();
+    default boolean support(FlinkVersion flinkVersion) {
+        return true;
+    }
 }

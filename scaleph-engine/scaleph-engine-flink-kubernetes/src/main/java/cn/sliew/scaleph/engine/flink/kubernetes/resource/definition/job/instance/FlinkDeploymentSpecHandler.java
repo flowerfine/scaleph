@@ -19,10 +19,8 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instance;
 
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FileFetcherFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FileSystemPluginHandler;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FlinkStateStorageHandler;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.SeaTunnelConfHandler;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,33 +31,29 @@ import java.util.Optional;
 public class FlinkDeploymentSpecHandler {
 
     @Autowired
-    private FileFetcherFactory fileFetcherFactory;
-    @Autowired
-    private SeaTunnelConfHandler seaTunnelConfHandler;
+    private ArtifactConverterFactory artifactConverterFactory;
     @Autowired
     private FileSystemPluginHandler fileSystemPluginHandler;
     @Autowired
     private FlinkStateStorageHandler flinkStateStorageHandler;
 
-    public FlinkDeploymentSpec handle(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec flinkDeploymentSpec) throws Exception {
+    public FlinkDeploymentSpec handle(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec flinkDeploymentSpec) {
         FlinkDeploymentSpec spec = Optional.ofNullable(flinkDeploymentSpec).orElse(new FlinkDeploymentSpec());
+        addArtifact(jobInstanceDTO, spec);
         enableFileSystem(jobInstanceDTO, spec);
         enableFlinkStateStore(jobInstanceDTO, spec);
-        addArtifact();
         return spec;
     }
 
-    private void enableFileSystem(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) throws Exception {
+    private void addArtifact(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
+        artifactConverterFactory.convert(jobInstanceDTO, spec);
+    }
+
+    private void enableFileSystem(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
         fileSystemPluginHandler.handle(jobInstanceDTO.getWsFlinkKubernetesJob(), spec);
     }
 
-    private void enableFlinkStateStore(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) throws Exception {
-        flinkStateStorageHandler.handle(jobInstanceDTO.getInstanceId(), spec);
+    private void enableFlinkStateStore(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
+        flinkStateStorageHandler.handle(jobInstanceDTO.getInstanceId(), spec.getFlinkConfiguration());
     }
-
-    private void addArtifact() {
-
-    }
-
-
 }

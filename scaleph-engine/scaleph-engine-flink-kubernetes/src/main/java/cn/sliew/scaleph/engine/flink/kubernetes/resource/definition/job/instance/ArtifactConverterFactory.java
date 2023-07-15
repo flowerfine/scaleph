@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instance;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,36 +27,20 @@ import java.util.Map;
 import java.util.Optional;
 
 @Component
-public class FlinkJobInstanceConverterFactory {
+public class ArtifactConverterFactory {
 
     @Autowired
-    private Map<String, FlinkJobInstanceConverter> registry;
+    private Map<String, ArtifactHandler> registry;
 
-    public String convert(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO) {
-        return findConverter(jobInstanceDTO.getWsFlinkKubernetesJob())
-                .map(converter -> converter.convert(jobInstanceDTO))
-                .orElseThrow();
+    public void convert(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, Object spec) {
+        findConverter(jobInstanceDTO.getWsFlinkKubernetesJob())
+                .ifPresent(converter -> converter.handle(jobInstanceDTO, spec));
     }
 
-    private Optional<FlinkJobInstanceConverter> findConverter(WsFlinkKubernetesJobDTO jobDTO) {
+    private Optional<ArtifactHandler> findConverter(WsFlinkKubernetesJobDTO jobDTO) {
         return registry.values().stream()
                 .filter(converter -> converter.support(jobDTO.getDeploymentKind()))
                 .filter(converter -> converter.support(jobDTO.getType()))
-                .filter(converter -> converter.support(getFlinkVersion(jobDTO)))
                 .findAny();
     }
-
-    public static FlinkVersion getFlinkVersion(WsFlinkKubernetesJobDTO jobDTO) {
-        switch (jobDTO.getType()) {
-            case JAR:
-                return jobDTO.getFlinkArtifactJar().getFlinkVersion();
-            case SQL:
-                return jobDTO.getFlinkArtifactSql().getFlinkVersion();
-            case SEATUNNEL:
-                return FlinkVersion.V_1_15_4;
-            default:
-                return FlinkVersion.V_1_17_1;
-        }
-    }
-
 }

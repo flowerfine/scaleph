@@ -361,3 +361,17 @@ export type WsFlinkKubernetesJobUpdateParam = {
   executionMode: string;
   remark?: string;
 };
+
+export type WsFlinkKubernetesJobInstanceDeployParam = {
+  wsFlinkKubernetesJobId: number;
+  parallelism?: number;
+  jobManager?: Record<string, any>;
+  taskManager?: Record<string, any>;
+  userFlinkConfiguration?: Record<string, any>;
+};
+
+export type WsFlinkKubernetesJobInstanceShutdownParam = {
+  id: number;
+  savepoint?: boolean;
+  drain?: boolean;
+};

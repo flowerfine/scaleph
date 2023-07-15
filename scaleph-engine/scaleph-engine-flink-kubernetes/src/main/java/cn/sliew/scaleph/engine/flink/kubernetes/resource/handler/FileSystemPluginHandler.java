@@ -47,16 +47,16 @@ public class FileSystemPluginHandler {
     @Autowired(required = false)
     private S3FileSystemProperties s3FileSystemProperties;
 
-    public void handle(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentSpec spec) throws Exception {
+    public void handle(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentSpec spec) {
         PodBuilder podBuilder = Optional.ofNullable(spec.getPodTemplate()).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
-        cusomizePodTemplate(jobDTO, podBuilder);
+        handlePodTemplate(jobDTO, podBuilder);
         spec.setPodTemplate(podBuilder.build());
 
         Map<String, String> flinkConfiguration = Optional.ofNullable(spec.getFlinkConfiguration()).orElse(new HashMap<>());
         addFileSystemConfigOption(flinkConfiguration);
     }
 
-    private void cusomizePodTemplate(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
+    private void handlePodTemplate(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
         builder.editOrNewMetadata().withName(ResourceNames.POD_TEMPLATE_NAME)
                 .endMetadata();
         PodFluent.SpecNested<PodBuilder> spec = builder.editOrNewSpec();

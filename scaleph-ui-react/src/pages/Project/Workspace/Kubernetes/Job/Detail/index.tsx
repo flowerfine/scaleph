@@ -73,7 +73,7 @@ const FlinkKubernetesJobDetailWeb: React.FC = () => {
           <Popconfirm
             title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
             onConfirm={() => {
-              WsFlinkKubernetesJobService.deploy(urlParams.state).then(response => {
+              WsFlinkKubernetesJobService.deploy({wsFlinkKubernetesJobId: urlParams.state.id}).then(response => {
                 message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
               })
             }}
