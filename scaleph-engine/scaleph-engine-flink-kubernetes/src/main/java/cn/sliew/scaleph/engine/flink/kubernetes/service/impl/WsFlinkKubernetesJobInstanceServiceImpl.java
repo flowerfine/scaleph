@@ -22,9 +22,10 @@ import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstance;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobInstanceMapper;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.FlinkDeploymentJobConverter;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.FlinkSessionJobConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobInstanceService;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernetesJobInstanceConvert;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
@@ -48,9 +49,9 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
     @Autowired
     private WsFlinkKubernetesJobInstanceMapper wsFlinkKubernetesJobInstanceMapper;
     @Autowired
-    private WsFlinkKubernetesJobService wsFlinkKubernetesJobService;
-    @Autowired
     private FlinkKubernetesOperatorService flinkKubernetesOperatorService;
+    @Autowired
+    private FlinkDeploymentJobConverter flinkDeploymentJobConverter;
 
     @Override
     public Page<WsFlinkKubernetesJobInstanceDTO> list(WsFlinkKubernetesJobInstanceListParam param) {
@@ -74,12 +75,30 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
 
     @Override
     public WsFlinkKubernetesJobInstanceDTO selectCurrent(Long wsFlinkKubernetesJobId) {
+        LambdaQueryWrapper<WsFlinkKubernetesJobInstance> queryWrapper = Wrappers.lambdaQuery(WsFlinkKubernetesJobInstance.class)
+                .eq(WsFlinkKubernetesJobInstance::getWsFlinkKubernetesJobId, wsFlinkKubernetesJobId)
+                .orderByDesc(WsFlinkKubernetesJobInstance::getId)
+                .last("limit 1");
+
+        WsFlinkKubernetesJobInstance record = wsFlinkKubernetesJobInstanceMapper.selectOne(queryWrapper);
+        if (record != null) {
+            return WsFlinkKubernetesJobInstanceConvert.INSTANCE.toDto(record);
+        }
         return null;
     }
 
     @Override
     public Object asYaml(Long id) throws Exception {
-        return null;
+        WsFlinkKubernetesJobInstanceDTO jobInstanceDTO = selectOne(id);
+        WsFlinkKubernetesJobDTO jobDTO = jobInstanceDTO.getWsFlinkKubernetesJob();
+        switch (jobDTO.getDeploymentKind()) {
+            case FLINK_DEPLOYMENT:
+                return flinkDeploymentJobConverter.convertTo(jobDTO);
+            case FLINK_SESSION_JOB:
+                return FlinkSessionJobConverter.INSTANCE.convertTo(jobDTO);
+            default:
+                throw new RuntimeException("unsupport flink deployment mode for " + jobDTO.getDeploymentKind());
+        }
     }
 
     @Override
@@ -97,7 +116,8 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
             record.setUserFlinkConfiguration(JacksonUtil.toJsonString(param.getUserFlinkConfiguration()));
         }
         wsFlinkKubernetesJobInstanceMapper.insert(record);
-        WsFlinkKubernetesJobDTO jobDTO = wsFlinkKubernetesJobService.selectOne(param.getWsFlinkKubernetesJobId());
+        WsFlinkKubernetesJobInstanceDTO jobInstanceDTO = selectOne(record.getId());
+        WsFlinkKubernetesJobDTO jobDTO = jobInstanceDTO.getWsFlinkKubernetesJob();
         Object yaml = asYaml(record.getId());
         switch (jobDTO.getDeploymentKind()) {
             case FLINK_DEPLOYMENT:
@@ -113,7 +133,7 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
     @Override
     public void shutdown(WsFlinkKubernetesJobInstanceShutdownParam param) throws Exception {
         WsFlinkKubernetesJobInstanceDTO jobInstanceDTO = selectOne(param.getId());
-        WsFlinkKubernetesJobDTO jobDTO = wsFlinkKubernetesJobService.selectOne(jobInstanceDTO.getWsFlinkKubernetesJobId());
+        WsFlinkKubernetesJobDTO jobDTO = jobInstanceDTO.getWsFlinkKubernetesJob();
         Object yaml = asYaml(param.getId());
         switch (jobDTO.getDeploymentKind()) {
             case FLINK_DEPLOYMENT:
