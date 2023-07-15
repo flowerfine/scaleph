@@ -23,15 +23,12 @@ import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJob;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobMapper;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.FlinkDeploymentJobConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.FlinkSessionJobConverter;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernetesJobConvert;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobAddParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobListParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobUpdateParam;
-import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
-import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,9 +43,6 @@ public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobServ
 
     @Autowired
     private WsFlinkKubernetesJobMapper wsFlinkKubernetesJobMapper;
-    @Autowired
-    private FlinkKubernetesOperatorService flinkKubernetesOperatorService;
-
     @Autowired
     private FlinkDeploymentJobConverter flinkDeploymentJobConverter;
 
@@ -107,33 +101,4 @@ public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobServ
         return wsFlinkKubernetesJobMapper.deleteBatchIds(ids);
     }
 
-    @Override
-    public void deploy(Long id) throws Exception {
-        WsFlinkKubernetesJobDTO jobDTO = selectOne(id);
-        Object job = asYaml(id);
-        switch (jobDTO.getDeploymentKind()) {
-            case FLINK_DEPLOYMENT:
-                flinkKubernetesOperatorService.deployJob(jobDTO.getFlinkDeployment().getClusterCredentialId(), job);
-                return;
-            case FLINK_SESSION_JOB:
-                flinkKubernetesOperatorService.deployJob(jobDTO.getFlinkSessionCluster().getClusterCredentialId(), job);
-                return;
-            default:
-        }
-    }
-
-    @Override
-    public void shutdown(Long id) throws Exception {
-        WsFlinkKubernetesJobDTO jobDTO = selectOne(id);
-        Object job = asYaml(id);
-        switch (jobDTO.getDeploymentKind()) {
-            case FLINK_DEPLOYMENT:
-                flinkKubernetesOperatorService.shutdownJob(jobDTO.getFlinkDeployment().getClusterCredentialId(), job);
-                return;
-            case FLINK_SESSION_JOB:
-                flinkKubernetesOperatorService.shutdownJob(jobDTO.getFlinkSessionCluster().getClusterCredentialId(), job);
-                return;
-            default:
-        }
-    }
 }

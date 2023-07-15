@@ -20,11 +20,10 @@ package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkJobManagerEndpointService;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobInstanceService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobAddParam;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobListParam;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobUpdateParam;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.param.*;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,6 +44,8 @@ public class WsFlinkKubernetesJobController {
 
     @Autowired
     private WsFlinkKubernetesJobService wsFlinkKubernetesJobService;
+    @Autowired
+    private WsFlinkKubernetesJobInstanceService wsFlinkKubernetesJobInstanceService;
     @Autowired
     private FlinkJobManagerEndpointService flinkJobManagerEndpointService;
 
@@ -115,16 +116,16 @@ public class WsFlinkKubernetesJobController {
     @Logging
     @PostMapping("deploy/{id}")
     @Operation(summary = "启动 Job", description = "启动 Job")
-    public ResponseEntity<ResponseVO> deploy(@PathVariable("id") Long id) throws Exception {
-        wsFlinkKubernetesJobService.deploy(id);
+    public ResponseEntity<ResponseVO> deploy(@Valid @RequestBody WsFlinkKubernetesJobInstanceDeployParam param) throws Exception {
+        wsFlinkKubernetesJobInstanceService.deploy(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
     @PostMapping("shutdown/{id}")
     @Operation(summary = "关闭 Job", description = "关闭 Job")
-    public ResponseEntity<ResponseVO> shutdown(@PathVariable("id") Long id) throws Exception {
-        wsFlinkKubernetesJobService.shutdown(id);
+    public ResponseEntity<ResponseVO> shutdown(@Valid @RequestBody WsFlinkKubernetesJobInstanceShutdownParam param) throws Exception {
+        wsFlinkKubernetesJobInstanceService.shutdown(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 }
