@@ -18,9 +18,11 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.handler;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.config.resource.ResourceNames;
 import cn.sliew.scaleph.config.storage.S3FileSystemProperties;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.FlinkDeploymentJob;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instance.FlinkJobInstanceConverterFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import io.fabric8.kubernetes.api.model.EnvVar;
 import io.fabric8.kubernetes.api.model.EnvVarBuilder;
@@ -39,15 +41,18 @@ public class FileSystemPluginHandler {
     private static final String S3_SECRET_KEY = "s3.secret-key";
     private static final String S3_PATH_STYLE_ACCESS = "s3.path.style.access";
 
+    private static final String FILE_SYSTEM_ENV_NAME = "ENABLE_BUILT_IN_PLUGINS";
+    private static final String S3_FILE_SYSTEM_TEMPLATE = "flink-s3-fs-hadoop-%s.jar";
+
     @Autowired(required = false)
     private S3FileSystemProperties s3FileSystemProperties;
 
-    public void customize(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentJob job) throws Exception {
-        PodBuilder podBuilder = Optional.ofNullable(job.getSpec().getPodTemplate()).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
+    public void handle(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentSpec spec) throws Exception {
+        PodBuilder podBuilder = Optional.ofNullable(spec.getPodTemplate()).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
         cusomizePodTemplate(jobDTO, podBuilder);
-        job.getSpec().setPodTemplate(podBuilder.build());
+        spec.setPodTemplate(podBuilder.build());
 
-        Map<String, String> flinkConfiguration = Optional.ofNullable(job.getSpec().getFlinkConfiguration()).orElse(new HashMap<>());
+        Map<String, String> flinkConfiguration = Optional.ofNullable(spec.getFlinkConfiguration()).orElse(new HashMap<>());
         addFileSystemConfigOption(flinkConfiguration);
     }
 
@@ -74,13 +79,9 @@ public class FileSystemPluginHandler {
 
     private List<EnvVar> buildEnableFileSystemEnv(WsFlinkKubernetesJobDTO jobDTO) {
         EnvVarBuilder builder = new EnvVarBuilder();
-        builder.withName("ENABLE_BUILT_IN_PLUGINS");
-        if (jobDTO.getWsDiJob() != null) {
-            builder.withValue("flink-s3-fs-hadoop-1.15.4.jar");
-        } else {
-            builder.withValue("flink-s3-fs-hadoop-1.17.1.jar");
-        }
+        builder.withName(FILE_SYSTEM_ENV_NAME);
+        FlinkVersion flinkVersion = FlinkJobInstanceConverterFactory.getFlinkVersion(jobDTO);
+        builder.withValue(String.format(S3_FILE_SYSTEM_TEMPLATE, flinkVersion.getValue()));
         return Collections.singletonList(builder.build());
     }
-
 }

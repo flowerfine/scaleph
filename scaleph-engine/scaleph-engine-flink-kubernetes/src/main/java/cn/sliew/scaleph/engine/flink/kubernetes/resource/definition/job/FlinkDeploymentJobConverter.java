@@ -67,8 +67,9 @@ public class FlinkDeploymentJobConverter implements ResourceConverter<WsFlinkKub
         deployment.setMetadata(builder.build());
         FlinkDeploymentSpec spec = flinkDeployment.getSpec();
         deployment.setSpec(spec);
-        fileSystemPluginHandler.customize(source, deployment);
-        flinkStateStorageHandler.customize(deployment);
+
+        fileSystemPluginHandler.handle(source, spec);
+        flinkStateStorageHandler.handle(source.getJobId(), spec);
         if (source.getFlinkArtifactJar() != null) {
             WsFlinkArtifactJar flinkArtifactJar = source.getFlinkArtifactJar();
             JobSpec jobSpec = new JobSpec();

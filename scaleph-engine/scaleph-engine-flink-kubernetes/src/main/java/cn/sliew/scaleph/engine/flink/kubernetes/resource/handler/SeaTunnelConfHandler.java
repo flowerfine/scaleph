@@ -49,6 +49,19 @@ public class SeaTunnelConfHandler {
         return buildSeaTunnelConf(jobDTO, job);
     }
 
+    public ConfigMap buildSeaTunnelConf(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentJob job) throws Exception {
+        WsDiJobDTO wsDiJobDTO = wsDiJobService.queryJobGraph(jobDTO.getWsDiJob().getId());
+        String prettyJson = seatunnelConfigService.buildConfig(wsDiJobDTO);
+        String plainJson = JacksonUtil.toJsonNode(prettyJson).toString();
+
+        ConfigMapBuilder builder = new ConfigMapBuilder();
+        builder.withNewMetadataLike(job.getMetadata())
+                .withName(jobDTO.getJobId() + "-seatunnel-configmap")
+                .endMetadata()
+                .withData(Map.of(ResourceNames.SEATUNNEL_CONF_FILE, plainJson));
+        return builder.build();
+    }
+
     private void cusomizePodTemplate(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
         builder.editOrNewMetadata().withName(ResourceNames.POD_TEMPLATE_NAME)
                 .endMetadata();
@@ -65,19 +78,6 @@ public class SeaTunnelConfHandler {
                     .endContainer();
         }
         spec.endSpec();
-    }
-
-    private ConfigMap buildSeaTunnelConf(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentJob job) throws Exception {
-        WsDiJobDTO wsDiJobDTO = wsDiJobService.queryJobGraph(jobDTO.getWsDiJob().getId());
-        String prettyJson = seatunnelConfigService.buildConfig(wsDiJobDTO);
-        String plainJson = JacksonUtil.toJsonNode(prettyJson).toString();
-
-        ConfigMapBuilder builder = new ConfigMapBuilder();
-        builder.withNewMetadataLike(job.getMetadata())
-                .withName(jobDTO.getJobId() + "-seatunnel-configmap")
-                .endMetadata()
-                .withData(Map.of(ResourceNames.SEATUNNEL_CONF_FILE, plainJson));
-        return builder.build();
     }
 
     private List<VolumeMount> buildVolumeMount() {

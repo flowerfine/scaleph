@@ -18,9 +18,9 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instance;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 
-public interface FlinkJobInstanceConverter extends DeploymentKindCapable, FlinkVersionCapable, FlinkJobTypeCapable {
+public interface FlinkVersionCapable {
 
-    String convert(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO);
+    FlinkVersion getFlinkVersion();
 }

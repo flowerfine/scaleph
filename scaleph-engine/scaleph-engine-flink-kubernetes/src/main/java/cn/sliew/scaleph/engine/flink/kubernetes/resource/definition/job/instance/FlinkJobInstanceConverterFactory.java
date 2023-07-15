@@ -47,7 +47,7 @@ public class FlinkJobInstanceConverterFactory {
                 .findAny();
     }
 
-    private FlinkVersion getFlinkVersion(WsFlinkKubernetesJobDTO jobDTO) {
+    public static FlinkVersion getFlinkVersion(WsFlinkKubernetesJobDTO jobDTO) {
         switch (jobDTO.getType()) {
             case JAR:
                 return jobDTO.getFlinkArtifactJar().getFlinkVersion();
