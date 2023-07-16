@@ -124,6 +124,14 @@ public class WsFlinkKubernetesSessionClusterController {
     }
 
     @Logging
+    @GetMapping("sql-gateway-session-cluster-id")
+    @Operation(summary = "查询Sql Gateway Session Cluster ID", description = "查询Sql Gateway Session Cluster ID")
+    public ResponseEntity<String> getSqlGatewaySessionClusterId(@RequestParam("projectId") Long projectId) {
+        Optional<WsFlinkKubernetesSessionClusterDTO> cluster = wsFlinkKubernetesSessionClusterService.getSqlGatewaySessionCluster(projectId);
+        return cluster.map(dto -> ResponseEntity.ok(dto.getSessionClusterId())).orElseThrow();
+    }
+
+    @Logging
     @DeleteMapping("/{id}")
     @Operation(summary = "删除 SessionCluster", description = "删除 SessionCluster")
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) {
