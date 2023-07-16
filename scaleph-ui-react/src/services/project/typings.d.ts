@@ -395,3 +395,8 @@ export type WsFlinkKubernetesJobInstanceShutdownParam = {
   savepoint?: boolean;
   drain?: boolean;
 };
+
+export type CatalogFunctionInfo = {
+  functionName: string;
+  functionKind: string
+}

@@ -24,16 +24,17 @@ import cn.sliew.scaleph.engine.sql.gateway.services.WsFlinkSqlGatewayService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.flink.table.catalog.CatalogBaseTable;
-import org.apache.flink.table.gateway.api.results.FunctionInfo;
+import org.apache.flink.table.functions.FunctionKind;
 import org.apache.flink.table.gateway.api.results.GatewayInfo;
 import org.apache.flink.table.gateway.api.results.ResultSet;
-import org.apache.flink.table.gateway.api.results.TableInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Tag(name = "Flink Sql Gateway")
 @RestController
@@ -81,28 +82,60 @@ public class WsFlinkSqlGatewayController {
 
     @GetMapping("{clusterId}/{sessionHandleId}/listTables")
     @Operation(summary = "列出Catalog/Database下所有的表", description = "列出Catalog/Database下所有表和视图")
-    public ResponseEntity<Set<TableInfo>> listTables(@PathVariable("clusterId") String clusterId,
-                                                     @PathVariable("sessionHandleId") String sessionHandleId,
-                                                     @RequestParam("catalog") String catalog,
-                                                     @RequestParam("database") String database) {
-        return ResponseEntity.ok(wsFlinkSqlGatewayService.listTables(clusterId, sessionHandleId,
-                catalog, database, Set.of(CatalogBaseTable.TableKind.values())));
+    public ResponseEntity<Set<String>> listTables(@PathVariable("clusterId") String clusterId,
+                                                  @PathVariable("sessionHandleId") String sessionHandleId,
+                                                  @RequestParam("catalog") String catalog,
+                                                  @RequestParam("database") String database) {
+        return ResponseEntity.ok(wsFlinkSqlGatewayService
+                .listTables(clusterId, sessionHandleId, catalog, database, Set.of(CatalogBaseTable.TableKind.TABLE))
+                .stream()
+                .map(tableInfo -> tableInfo.getIdentifier().getObjectName())
+                .collect(Collectors.toSet())
+        );
+    }
+
+    @GetMapping("{clusterId}/{sessionHandleId}/listViews")
+    @Operation(summary = "列出Catalog/Database下所有的表", description = "列出Catalog/Database下所有表和视图")
+    public ResponseEntity<Set<String>> listViews(@PathVariable("clusterId") String clusterId,
+                                                 @PathVariable("sessionHandleId") String sessionHandleId,
+                                                 @RequestParam("catalog") String catalog,
+                                                 @RequestParam("database") String database) {
+        return ResponseEntity.ok(wsFlinkSqlGatewayService
+                .listTables(clusterId, sessionHandleId, catalog, database, Set.of(CatalogBaseTable.TableKind.VIEW))
+                .stream()
+                .map(tableInfo -> tableInfo.getIdentifier().getObjectName())
+                .collect(Collectors.toSet())
+        );
     }
 
     @GetMapping("{clusterId}/{sessionHandleId}/listSystemFunctions")
     @Operation(summary = "列出系统方法", description = "列出系统方法")
-    public ResponseEntity<Set<FunctionInfo>> listSystemFunctions(@PathVariable("clusterId") String clusterId,
-                                                                 @PathVariable("sessionHandleId") String sessionHandleId) {
-        return ResponseEntity.ok(wsFlinkSqlGatewayService.listSystemFunctions(clusterId, sessionHandleId));
+    public ResponseEntity<Set<Object>> listSystemFunctions(@PathVariable("clusterId") String clusterId,
+                                                           @PathVariable("sessionHandleId") String sessionHandleId) {
+        return ResponseEntity.ok(
+                wsFlinkSqlGatewayService.listSystemFunctions(clusterId, sessionHandleId)
+                        .stream()
+                        .map(functionInfo ->
+                                Map.of("functionName", functionInfo.getIdentifier().getFunctionName(),
+                                        "functionKind", functionInfo.getKind().orElse(FunctionKind.OTHER).name())
+                        ).collect(Collectors.toSet())
+        );
     }
 
     @GetMapping("{clusterId}/{sessionHandleId}/listUserDefinedFunctions")
     @Operation(summary = "列出用户自定义方法", description = "列出用户自定义方法")
-    public ResponseEntity<Set<FunctionInfo>> listUserDefinedFunctions(@PathVariable("clusterId") String clusterId,
-                                                                      @PathVariable("sessionHandleId") String sessionHandleId,
-                                                                      @RequestParam("catalog") String catalog,
-                                                                      @RequestParam("database") String database) {
-        return ResponseEntity.ok(wsFlinkSqlGatewayService.listUserDefinedFunctions(clusterId, sessionHandleId, catalog, database));
+    public ResponseEntity<Set<Object>> listUserDefinedFunctions(@PathVariable("clusterId") String clusterId,
+                                                                @PathVariable("sessionHandleId") String sessionHandleId,
+                                                                @RequestParam("catalog") String catalog,
+                                                                @RequestParam("database") String database) {
+        return ResponseEntity.ok(
+                wsFlinkSqlGatewayService.listUserDefinedFunctions(clusterId, sessionHandleId, catalog, database)
+                        .stream()
+                        .map(functionInfo ->
+                                Map.of("functionName", functionInfo.getIdentifier().getFunctionName(),
+                                        "functionKind", functionInfo.getKind().orElse(FunctionKind.OTHER).name())
+                        ).collect(Collectors.toSet())
+        );
     }
 
     @RequestMapping(value = "{clusterId}/{sessionHandleId}/executeSql", method = {RequestMethod.POST, RequestMethod.PUT})
