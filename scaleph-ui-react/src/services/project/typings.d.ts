@@ -328,6 +328,7 @@ export type WsFlinkKubernetesJob = {
   flinkArtifactJar?: WsFlinkArtifactJar;
   flinkArtifactSql?: WsFlinkArtifactSql;
   wsDiJob?: WsDiJob;
+  jobInstance?: WsFlinkKubernetesJobInstance;
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
@@ -360,6 +361,25 @@ export type WsFlinkKubernetesJobUpdateParam = {
   name: string;
   executionMode: string;
   remark?: string;
+};
+
+export type WsFlinkKubernetesJobInstance = {
+  id: number;
+  wsFlinkKubernetesJobId: number;
+  instanceId: string;
+  parallelism?: number;
+  jobManager?: Record<string, any>;
+  taskManager?: Record<string, any>;
+  userFlinkConfiguration?: Record<string, any>;
+  state: Dict;
+  error?: Dict;
+  clusterInfo?: Record<string, any>;
+  taskManagerInfo?: Record<string, any>;
+  startTime?: Date;
+  endTime?: Date;
+  duration?: number;
+  createTime?: Date;
+  updateTime?: Date;
 };
 
 export type WsFlinkKubernetesJobInstanceDeployParam = {

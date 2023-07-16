@@ -25,6 +25,7 @@ import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobInstanceMapper;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instance.FlinkJobInstanceConverterFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobInstanceService;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernetesJobInstanceConvert;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
@@ -48,6 +49,8 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
     @Autowired
     private WsFlinkKubernetesJobInstanceMapper wsFlinkKubernetesJobInstanceMapper;
     @Autowired
+    private WsFlinkKubernetesJobService wsFlinkKubernetesJobService;
+    @Autowired
     private FlinkKubernetesOperatorService flinkKubernetesOperatorService;
     @Autowired
     private FlinkJobInstanceConverterFactory flinkJobInstanceConverterFactory;
@@ -67,23 +70,28 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
 
     @Override
     public WsFlinkKubernetesJobInstanceDTO selectOne(Long id) {
-        WsFlinkKubernetesJobInstance record = wsFlinkKubernetesJobInstanceMapper.selectById(id);
+        WsFlinkKubernetesJobInstance record = wsFlinkKubernetesJobInstanceMapper.selectOne(id);
         checkState(record != null, () -> "flink kubernetes job instance not exist for id = " + id);
         return WsFlinkKubernetesJobInstanceConvert.INSTANCE.toDto(record);
     }
 
     @Override
     public WsFlinkKubernetesJobInstanceDTO selectCurrent(Long wsFlinkKubernetesJobId) {
-        LambdaQueryWrapper<WsFlinkKubernetesJobInstance> queryWrapper = Wrappers.lambdaQuery(WsFlinkKubernetesJobInstance.class)
-                .eq(WsFlinkKubernetesJobInstance::getWsFlinkKubernetesJobId, wsFlinkKubernetesJobId)
-                .orderByDesc(WsFlinkKubernetesJobInstance::getId)
-                .last("limit 1");
-
-        WsFlinkKubernetesJobInstance record = wsFlinkKubernetesJobInstanceMapper.selectOne(queryWrapper);
+        WsFlinkKubernetesJobInstance record = wsFlinkKubernetesJobInstanceMapper.selectCurrent(wsFlinkKubernetesJobId);
         if (record != null) {
             return WsFlinkKubernetesJobInstanceConvert.INSTANCE.toDto(record);
         }
         return null;
+    }
+
+    @Override
+    public String mockYaml(Long wsFlinkKubernetesJobId) {
+        WsFlinkKubernetesJobDTO jobDTO = wsFlinkKubernetesJobService.selectOne(wsFlinkKubernetesJobId);
+        WsFlinkKubernetesJobInstanceDTO jobInstanceDTO = new WsFlinkKubernetesJobInstanceDTO();
+        jobInstanceDTO.setInstanceId(jobDTO.getJobId());
+        jobInstanceDTO.setWsFlinkKubernetesJobId(wsFlinkKubernetesJobId);
+        jobInstanceDTO.setWsFlinkKubernetesJob(jobDTO);
+        return flinkJobInstanceConverterFactory.convert(jobInstanceDTO);
     }
 
     @Override

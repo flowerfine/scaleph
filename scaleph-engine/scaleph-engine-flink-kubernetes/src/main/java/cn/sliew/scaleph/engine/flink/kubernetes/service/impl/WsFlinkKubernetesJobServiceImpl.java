@@ -22,7 +22,6 @@ import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJob;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobMapper;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.FlinkDeploymentJobConverter;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.FlinkSessionJobConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernetesJobConvert;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
@@ -61,19 +60,6 @@ public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobServ
         WsFlinkKubernetesJob record = wsFlinkKubernetesJobMapper.selectOne(id);
         checkState(record != null, () -> "flink kubernetes job not exist for id = " + id);
         return WsFlinkKubernetesJobConvert.INSTANCE.toDto(record);
-    }
-
-    @Override
-    public Object asYaml(Long id) throws Exception {
-        WsFlinkKubernetesJobDTO wsFlinkKubernetesJobDTO = selectOne(id);
-        switch (wsFlinkKubernetesJobDTO.getDeploymentKind()) {
-            case FLINK_DEPLOYMENT:
-                return flinkDeploymentJobConverter.convertTo(wsFlinkKubernetesJobDTO);
-            case FLINK_SESSION_JOB:
-                return FlinkSessionJobConverter.INSTANCE.convertTo(wsFlinkKubernetesJobDTO);
-            default:
-                throw new RuntimeException("unsupport flink deployment mode for " + wsFlinkKubernetesJobDTO.getDeploymentKind());
-        }
     }
 
     @Override

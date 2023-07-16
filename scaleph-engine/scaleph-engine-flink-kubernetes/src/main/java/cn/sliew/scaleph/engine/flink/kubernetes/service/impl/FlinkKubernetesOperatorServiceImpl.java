@@ -68,12 +68,14 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
     @Override
     public void deployJob(Long clusterCredentialId, String job) throws Exception {
         KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
+        System.out.println(job);
         client.load(new ByteArrayInputStream((job).getBytes())).createOrReplace();
     }
 
     @Override
     public void shutdownJob(Long clusterCredentialId, String job) throws Exception {
         KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
+        System.out.println(job);
         client.load(new ByteArrayInputStream((job).getBytes())).delete();
     }
 }

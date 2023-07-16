@@ -96,7 +96,7 @@ const FlinkKubernetesJobDetailWeb: React.FC = () => {
           <Popconfirm
             title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
             onConfirm={() => {
-              WsFlinkKubernetesJobService.shutdown(urlParams.state).then(response => {
+              WsFlinkKubernetesJobService.shutdown({id: urlParams.state.jobInstance.id}).then(response => {
                 message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
               })
             }}
@@ -123,7 +123,7 @@ const FlinkKubernetesJobDetailWeb: React.FC = () => {
           <Button
             type="default"
             icon={<DashboardOutlined/>}
-            onClick={() => WsFlinkKubernetesJobService.flinkui(urlParams.state)}
+            onClick={() => WsFlinkKubernetesJobService.flinkui(urlParams.state.jobInstance.id)}
           >
             {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.flinkui'})}
           </Button>

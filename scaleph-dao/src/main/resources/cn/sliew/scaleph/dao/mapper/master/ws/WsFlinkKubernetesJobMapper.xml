@@ -47,6 +47,8 @@
                      select="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactSqlMapper.selectOne"/>
         <association column="ws_di_job_id" property="wsDiJob"
                      select="cn.sliew.scaleph.dao.mapper.master.ws.WsDiJobMapper.selectOne"/>
+        <association column="id" property="jobInstance" javaType="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstance"
+                     select="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobInstanceMapper.selectCurrent"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
