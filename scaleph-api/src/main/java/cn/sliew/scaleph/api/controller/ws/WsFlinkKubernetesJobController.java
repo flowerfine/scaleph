@@ -20,11 +20,11 @@ package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkJobManagerEndpointService;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobInstanceService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobAddParam;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobListParam;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobUpdateParam;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.param.*;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,6 +45,8 @@ public class WsFlinkKubernetesJobController {
 
     @Autowired
     private WsFlinkKubernetesJobService wsFlinkKubernetesJobService;
+    @Autowired
+    private WsFlinkKubernetesJobInstanceService wsFlinkKubernetesJobInstanceService;
     @Autowired
     private FlinkJobManagerEndpointService flinkJobManagerEndpointService;
 
@@ -67,9 +69,9 @@ public class WsFlinkKubernetesJobController {
     @Logging
     @GetMapping("/asYaml/{id}")
     @Operation(summary = "查询 YAML 格式 Job", description = "查询 YAML 格式 Job")
-    public ResponseEntity<ResponseVO<Object>> asYaml(@PathVariable("id") Long id) throws Exception {
-        Object dto = wsFlinkKubernetesJobService.asYaml(id);
-        return new ResponseEntity(ResponseVO.success(dto), HttpStatus.OK);
+    public ResponseEntity<ResponseVO<String>> asYaml(@PathVariable("id") Long id) throws Exception {
+        String yaml = wsFlinkKubernetesJobInstanceService.mockYaml(id);
+        return new ResponseEntity(ResponseVO.success(yaml), HttpStatus.OK);
     }
 
     @Logging
@@ -105,26 +107,43 @@ public class WsFlinkKubernetesJobController {
     }
 
     @Logging
-    @GetMapping("{id}/flinkui")
+    @GetMapping("{jobInstanceId}/flinkui")
     @Operation(summary = "获取 flink-ui 链接", description = "获取 flink-ui 链接")
-    public ResponseEntity<ResponseVO<URI>> getFlinkUI(@PathVariable("id") Long id) throws Exception {
-        URI endpoint = flinkJobManagerEndpointService.getJobManagerEndpoint(id);
+    public ResponseEntity<ResponseVO<URI>> getFlinkUI(@PathVariable("jobInstanceId") Long jobInstanceId) throws Exception {
+        URI endpoint = flinkJobManagerEndpointService.getJobManagerEndpoint(jobInstanceId);
         return new ResponseEntity<>(ResponseVO.success(endpoint), HttpStatus.OK);
     }
 
     @Logging
-    @PostMapping("deploy/{id}")
+    @PostMapping("deploy")
     @Operation(summary = "启动 Job", description = "启动 Job")
-    public ResponseEntity<ResponseVO> deploy(@PathVariable("id") Long id) throws Exception {
-        wsFlinkKubernetesJobService.deploy(id);
+    public ResponseEntity<ResponseVO> deploy(@Valid @RequestBody WsFlinkKubernetesJobInstanceDeployParam param) throws Exception {
+        wsFlinkKubernetesJobInstanceService.deploy(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
-    @PostMapping("shutdown/{id}")
+    @PostMapping("shutdown")
     @Operation(summary = "关闭 Job", description = "关闭 Job")
-    public ResponseEntity<ResponseVO> shutdown(@PathVariable("id") Long id) throws Exception {
-        wsFlinkKubernetesJobService.shutdown(id);
+    public ResponseEntity<ResponseVO> shutdown(@Valid @RequestBody WsFlinkKubernetesJobInstanceShutdownParam param) throws Exception {
+        wsFlinkKubernetesJobInstanceService.shutdown(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
+
+    @Logging
+    @GetMapping("instances")
+    @Operation(summary = "获取任务实例列表", description = "获取任务实例列表")
+    public ResponseEntity<ResponseVO<Page<WsFlinkKubernetesJobInstanceDTO>>> listInstances(@Valid @RequestBody WsFlinkKubernetesJobInstanceListParam param) throws Exception {
+        Page<WsFlinkKubernetesJobInstanceDTO> result = wsFlinkKubernetesJobInstanceService.list(param);
+        return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("/instances/asYaml/{id}")
+    @Operation(summary = "查询 YAML 格式 Job 实例", description = "查询 YAML 格式 Job 实例")
+    public ResponseEntity<ResponseVO<Object>> instanceAsYaml(@PathVariable("id") Long id) throws Exception {
+        Object dto = wsFlinkKubernetesJobInstanceService.asYaml(id);
+        return new ResponseEntity(ResponseVO.success(dto), HttpStatus.OK);
+    }
+
 }

@@ -82,6 +82,27 @@ const FlinkKubernetesJobWeb: React.FC = () => {
         return entity.flinkArtifactJar ? entity.flinkArtifactJar.wsFlinkArtifact?.name : (entity.flinkArtifactSql ? entity.flinkArtifactSql?.wsFlinkArtifact?.name : entity.wsDiJob?.wsFlinkArtifact?.name)
       },
     },
+
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.state'}),
+      dataIndex: 'state',
+      width: 100,
+      hideInSearch: true,
+      render: (dom, record) => {
+        return <Tooltip title={record.jobInstance?.state?.remark}>{record.jobInstance?.state?.label}</Tooltip>
+      },
+      request: (params, props) => {
+        return DictDataService.listDictDataByType2(DICT_TYPE.resourceLifecycleState)
+      },
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.error'}),
+      dataIndex: 'error',
+      hideInSearch: true,
+      render: (dom, record) => {
+        return record.jobInstance?.error
+      },
+    },
     {
       title: intl.formatMessage({id: 'app.common.data.remark'}),
       dataIndex: 'remark',

@@ -43,7 +43,11 @@ public enum ResourceNames {
     public static final String LIB_LOCAL_PATH = LOCAL_SCHEMA + LIB_DIRECTORY;
 
     public static final String SQL_DIRECTORY = "/scaleph/sql/";
+    public static final String SQL_RUNNER_JAR = "sql-runner.jar";
+    public static final String SQL_RUNNER_ENTRY_CLASS = "cn.sliew.scaleph.engine.sql.SqlRunner";
     public static final String SQL_LOCAL_PATH = LOCAL_SCHEMA + SQL_DIRECTORY;
+    public static final String SQL_RUNNER_LOCAL_PATH = LOCAL_SCHEMA + SQL_DIRECTORY + SQL_RUNNER_JAR;
+
 
     public static final String SQL_SCRIPTS_VOLUME_NAME = "sql-scripts-volume";
     public static final String SQL_SCRIPTS_DIRECTORY = "/scaleph/sql-scripts/";
@@ -53,7 +57,7 @@ public enum ResourceNames {
     public static final String SEATUNNEL_CONF_DIRECTORY = "/scaleph/seatunnel/";
     public static final String SEATUNNEL_CONF_FILE = "conf.json";
     public static final String SEATUNNEL_CONF_FILE_PATH = SEATUNNEL_CONF_DIRECTORY + SEATUNNEL_CONF_FILE;
-    public static final String SEATUNNEL_CONF_LOCAL_PATH = LOCAL_SCHEMA + SEATUNNEL_CONF_DIRECTORY + SEATUNNEL_CONF_FILE;
+    public static final String SEATUNNEL_STARTER_PATH = LOCAL_SCHEMA + "/opt/seatunnel/starter/";
 
 
 }

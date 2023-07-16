@@ -70,7 +70,9 @@ public class WsFlinkKubernetesJobDTO extends BaseDTO {
     @Schema(description = "ws di job")
     private WsDiJob wsDiJob;
 
+    @Schema(description = "current job instance")
+    private WsFlinkKubernetesJobInstanceDTO jobInstance;
+
     @Schema(description = "remark")
     private String remark;
-
 }

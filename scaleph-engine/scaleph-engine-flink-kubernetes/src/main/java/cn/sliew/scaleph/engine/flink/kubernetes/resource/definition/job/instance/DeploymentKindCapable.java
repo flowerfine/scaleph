@@ -16,13 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.service;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instance;
 
-import java.net.URI;
+import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 
-public interface FlinkJobManagerEndpointService {
+public interface DeploymentKindCapable {
 
-    URI getSessionClusterJobManagerEndpoint(Long sessionClusterId);
-
-    URI getJobManagerEndpoint(Long jobInstanceId);
+    default boolean support(DeploymentKind deploymentKind) {
+        return true;
+    }
 }

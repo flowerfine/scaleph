@@ -28,10 +28,10 @@ import java.util.Arrays;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum FlinkVersion implements DictInstance {
 
-    V_1_16_0("1.16.0", "1.16.0"),
-    V_1_16_1("1.16.1", "1.16.1"),
+    V_1_15_4("1.15.4", "1.15.4"),
 
-    V_1_17_0("1.17.0", "1.17.0"),
+    V_1_16_2("1.16.2", "1.16.2"),
+
     V_1_17_1("1.17.1", "1.17.1"),
     ;
 

@@ -51,6 +51,9 @@ public interface WsFlinkKubernetesJobConvert extends BaseConvert<WsFlinkKubernet
         if (dto.getWsDiJob() != null) {
             entity.setWsDiJobId(dto.getWsDiJob().getId());
         }
+        if (dto.getJobInstance() != null) {
+            entity.setJobInstance(WsFlinkKubernetesJobInstanceConvert.INSTANCE.toDo(dto.getJobInstance()));
+        }
         return entity;
     }
 
@@ -63,6 +66,9 @@ public interface WsFlinkKubernetesJobConvert extends BaseConvert<WsFlinkKubernet
         }
         if (entity.getFlinkSessionCluster() != null) {
             dto.setFlinkSessionCluster(WsFlinkKubernetesSessionClusterConvert.INSTANCE.toDto(entity.getFlinkSessionCluster()));
+        }
+        if (entity.getJobInstance() != null) {
+            dto.setJobInstance(WsFlinkKubernetesJobInstanceConvert.INSTANCE.toDto(entity.getJobInstance()));
         }
         return dto;
     }
