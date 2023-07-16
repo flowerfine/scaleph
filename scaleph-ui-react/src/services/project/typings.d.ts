@@ -361,3 +361,8 @@ export type WsFlinkKubernetesJobUpdateParam = {
   executionMode: string;
   remark?: string;
 };
+
+export type CatalogFunctionInfo = {
+  functionName: string;
+  functionKind: string
+}

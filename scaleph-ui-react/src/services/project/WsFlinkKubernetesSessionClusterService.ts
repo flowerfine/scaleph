@@ -120,4 +120,11 @@ export const WsFlinkKubernetesSessionClusterService = {
     });
   },
 
+  getSqlGatewaySessionClusterId: async (projectId?: string | null) => {
+    return request<string>(`${WsFlinkKubernetesSessionClusterService.url}/sql-gateway-session-cluster-id`, {
+      method: 'GET',
+      params: {projectId: projectId}
+    })
+  }
+
 };
