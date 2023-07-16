@@ -32,8 +32,6 @@ public interface WsFlinkKubernetesJobService {
 
     WsFlinkKubernetesJobDTO selectOne(Long id);
 
-    Object asYaml(Long id) throws Exception;
-
     int insert(WsFlinkKubernetesJobAddParam param);
 
     int update(WsFlinkKubernetesJobUpdateParam param);
@@ -41,9 +39,5 @@ public interface WsFlinkKubernetesJobService {
     int deleteById(Long id);
 
     int deleteBatch(List<Long> ids);
-
-    void deploy(Long id) throws Exception;
-
-    void shutdown(Long id) throws Exception;
 
 }

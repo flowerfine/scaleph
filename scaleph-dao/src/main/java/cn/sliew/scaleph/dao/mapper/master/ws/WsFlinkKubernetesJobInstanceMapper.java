@@ -20,6 +20,7 @@ package cn.sliew.scaleph.dao.mapper.master.ws;
 
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstance;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -30,4 +31,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface WsFlinkKubernetesJobInstanceMapper extends BaseMapper<WsFlinkKubernetesJobInstance> {
 
+    WsFlinkKubernetesJobInstance selectOne(@Param("id") Long id);
+
+    WsFlinkKubernetesJobInstance selectCurrent(@Param("wsFlinkKubernetesJobId") Long wsFlinkKubernetesJobId);
 }

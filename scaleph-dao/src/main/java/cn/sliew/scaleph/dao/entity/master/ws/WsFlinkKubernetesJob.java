@@ -85,7 +85,9 @@ public class WsFlinkKubernetesJob extends BaseDO {
     @TableField(exist = false)
     private WsDiJob wsDiJob;
 
+    @TableField(exist = false)
+    private WsFlinkKubernetesJobInstance jobInstance;
+
     @TableField("remark")
     private String remark;
-
 }

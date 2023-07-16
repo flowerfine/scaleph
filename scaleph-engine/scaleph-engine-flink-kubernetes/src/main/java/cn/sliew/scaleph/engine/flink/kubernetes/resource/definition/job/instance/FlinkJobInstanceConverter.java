@@ -16,13 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.service;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instance;
 
-import java.net.URI;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
 
-public interface FlinkJobManagerEndpointService {
+public interface FlinkJobInstanceConverter extends DeploymentKindCapable, FlinkVersionCapable, FlinkJobTypeCapable {
 
-    URI getSessionClusterJobManagerEndpoint(Long sessionClusterId);
-
-    URI getJobManagerEndpoint(Long jobInstanceId);
+    String convert(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO);
 }

@@ -20,10 +20,11 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 import cn.sliew.scaleph.common.dict.flink.ServiceExposedType;
 import cn.sliew.scaleph.engine.flink.kubernetes.factory.FlinkTemplateFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkJobManagerEndpointService;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobService;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobInstanceService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesSessionClusterService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.kubernetes.service.KubernetesService;
 import io.fabric8.kubernetes.api.model.*;
@@ -45,7 +46,7 @@ public class FlinkJobManagerEndpointServiceImpl implements FlinkJobManagerEndpoi
     @Autowired
     private WsFlinkKubernetesSessionClusterService wsFlinkKubernetesSessionClusterService;
     @Autowired
-    private WsFlinkKubernetesJobService wsFlinkKubernetesJobService;
+    private WsFlinkKubernetesJobInstanceService wsFlinkKubernetesJobInstanceService;
     @Autowired
     private KubernetesService kubernetesService;
 
@@ -56,9 +57,10 @@ public class FlinkJobManagerEndpointServiceImpl implements FlinkJobManagerEndpoi
     }
 
     @Override
-    public URI getJobManagerEndpoint(Long jobId) {
-        WsFlinkKubernetesJobDTO jobDTO = wsFlinkKubernetesJobService.selectOne(jobId);
-        String name = jobDTO.getJobId();
+    public URI getJobManagerEndpoint(Long jobInstanceId) {
+        WsFlinkKubernetesJobInstanceDTO jobInstanceDTO = wsFlinkKubernetesJobInstanceService.selectOne(jobInstanceId);
+        WsFlinkKubernetesJobDTO jobDTO = jobInstanceDTO.getWsFlinkKubernetesJob();
+        String name = jobInstanceDTO.getInstanceId();
         switch (jobDTO.getDeploymentKind()) {
             case FLINK_SESSION_JOB:
                 WsFlinkKubernetesSessionClusterDTO sessionClusterDTO = jobDTO.getFlinkSessionCluster();

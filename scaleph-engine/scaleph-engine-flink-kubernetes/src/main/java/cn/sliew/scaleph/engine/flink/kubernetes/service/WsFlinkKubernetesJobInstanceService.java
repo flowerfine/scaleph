@@ -32,7 +32,9 @@ public interface WsFlinkKubernetesJobInstanceService {
 
     WsFlinkKubernetesJobInstanceDTO selectCurrent(Long wsFlinkKubernetesJobId);
 
-    Object asYaml(Long id) throws Exception;
+    String mockYaml(Long wsFlinkKubernetesJobId);
+
+    String asYaml(Long id) throws Exception;
 
     void deploy(WsFlinkKubernetesJobInstanceDeployParam param) throws Exception;
 
