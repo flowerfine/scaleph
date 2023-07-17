@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instance;
 
 public enum SqlUtil {
     ;

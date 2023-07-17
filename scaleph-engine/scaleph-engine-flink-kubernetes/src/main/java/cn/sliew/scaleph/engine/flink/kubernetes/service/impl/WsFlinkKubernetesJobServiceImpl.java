@@ -21,7 +21,6 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJob;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobMapper;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.FlinkDeploymentJobConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernetesJobConvert;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
@@ -42,8 +41,6 @@ public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobServ
 
     @Autowired
     private WsFlinkKubernetesJobMapper wsFlinkKubernetesJobMapper;
-    @Autowired
-    private FlinkDeploymentJobConverter flinkDeploymentJobConverter;
 
     @Override
     public Page<WsFlinkKubernetesJobDTO> list(WsFlinkKubernetesJobListParam param) {

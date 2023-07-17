@@ -23,6 +23,9 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJ
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobInstanceListParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobInstanceShutdownParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
+
+import java.util.Optional;
 
 public interface WsFlinkKubernetesJobInstanceService {
 
@@ -40,4 +43,7 @@ public interface WsFlinkKubernetesJobInstanceService {
 
     void shutdown(WsFlinkKubernetesJobInstanceShutdownParam param) throws Exception;
 
+    Optional<GenericKubernetesResource> getStatus(Long id);
+
+    Optional<GenericKubernetesResource> getStatusWithoutManagedFields(Long id);
 }
