@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service;
 
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.FlinkDeploymentStatus;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobInstanceDeployParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobInstanceListParam;
@@ -33,7 +34,7 @@ public interface WsFlinkKubernetesJobInstanceService {
 
     WsFlinkKubernetesJobInstanceDTO selectOne(Long id);
 
-    WsFlinkKubernetesJobInstanceDTO selectCurrent(Long wsFlinkKubernetesJobId);
+    Optional<WsFlinkKubernetesJobInstanceDTO> selectCurrent(Long wsFlinkKubernetesJobId);
 
     String mockYaml(Long wsFlinkKubernetesJobId);
 
@@ -46,4 +47,8 @@ public interface WsFlinkKubernetesJobInstanceService {
     Optional<GenericKubernetesResource> getStatus(Long id);
 
     Optional<GenericKubernetesResource> getStatusWithoutManagedFields(Long id);
+
+    int updateStatus(Long id, FlinkDeploymentStatus status);
+
+    int clearStatus(Long id);
 }
