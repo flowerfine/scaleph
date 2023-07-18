@@ -18,10 +18,13 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
+import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.common.dict.flink.kubernetes.ResourceLifecycleState;
 import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstance;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobInstanceMapper;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.FlinkDeploymentStatus;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instance.FlinkJobInstanceConverterFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobInstanceService;
@@ -35,11 +38,18 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJ
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
+import io.fabric8.kubernetes.api.model.GenericKubernetesResourceBuilder;
+import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
+import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Predicates;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -76,12 +86,9 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
     }
 
     @Override
-    public WsFlinkKubernetesJobInstanceDTO selectCurrent(Long wsFlinkKubernetesJobId) {
-        WsFlinkKubernetesJobInstance record = wsFlinkKubernetesJobInstanceMapper.selectCurrent(wsFlinkKubernetesJobId);
-        if (record != null) {
-            return WsFlinkKubernetesJobInstanceConvert.INSTANCE.toDto(record);
-        }
-        return null;
+    public Optional<WsFlinkKubernetesJobInstanceDTO> selectCurrent(Long wsFlinkKubernetesJobId) {
+        Optional<WsFlinkKubernetesJobInstance> optional = wsFlinkKubernetesJobInstanceMapper.selectCurrent(wsFlinkKubernetesJobId);
+        return optional.map(record -> WsFlinkKubernetesJobInstanceConvert.INSTANCE.toDto(record));
     }
 
     @Override
@@ -143,5 +150,63 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
                 return;
             default:
         }
+    }
+
+    @Override
+    public Optional<GenericKubernetesResource> getStatus(Long id) {
+        try {
+            WsFlinkKubernetesJobInstanceDTO jobInstanceDTO = selectOne(id);
+            return flinkKubernetesOperatorService.getJob(jobInstanceDTO);
+        } catch (Exception e) {
+            Rethrower.throwAs(e);
+            return null;
+        }
+    }
+
+    @Override
+    public Optional<GenericKubernetesResource> getStatusWithoutManagedFields(Long id) {
+        Optional<GenericKubernetesResource> optional = getStatus(id);
+        if (optional.isEmpty()) {
+            return Optional.empty();
+        }
+        GenericKubernetesResource status = optional.get();
+        GenericKubernetesResourceBuilder builder = new GenericKubernetesResourceBuilder(status);
+        ObjectMetaBuilder objectMetaBuilder = new ObjectMetaBuilder(status.getMetadata());
+        objectMetaBuilder.removeMatchingFromManagedFields(Predicates.isTrue());
+        builder.withMetadata(objectMetaBuilder.build());
+        return Optional.of(builder.build());
+    }
+
+    @Override
+    public int updateStatus(Long id, FlinkDeploymentStatus status) {
+        if (status == null) {
+            return -1;
+        }
+        WsFlinkKubernetesJobInstance record = new WsFlinkKubernetesJobInstance();
+        record.setId(id);
+        record.setState(EnumUtils.getEnum(ResourceLifecycleState.class, status.getLifecycleState().name()));
+        record.setError(status.getError());
+        if (CollectionUtils.isEmpty(status.getClusterInfo())) {
+            record.setClusterInfo(null);
+        } else {
+            record.setClusterInfo(JacksonUtil.toJsonString(status.getClusterInfo()));
+        }
+        if (status.getTaskManager() == null) {
+            record.setTaskManagerInfo(null);
+        } else {
+            record.setTaskManagerInfo(JacksonUtil.toJsonString(status.getTaskManager()));
+        }
+        return wsFlinkKubernetesJobInstanceMapper.updateById(record);
+    }
+
+    @Override
+    public int clearStatus(Long id) {
+        WsFlinkKubernetesJobInstance record = new WsFlinkKubernetesJobInstance();
+        record.setId(id);
+        record.setState(null);
+        record.setError(null);
+        record.setClusterInfo(null);
+        record.setTaskManagerInfo(null);
+        return wsFlinkKubernetesJobInstanceMapper.updateById(record);
     }
 }

@@ -7,7 +7,6 @@ import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactSql;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.SqlUtil;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FileFetcherHandler;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.SeaTunnelConfHandler;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;

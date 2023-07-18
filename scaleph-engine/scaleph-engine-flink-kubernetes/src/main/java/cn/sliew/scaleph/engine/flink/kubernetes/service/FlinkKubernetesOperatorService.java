@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.service;
 
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.sessioncluster.FlinkSessionCluster;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 
@@ -31,6 +32,8 @@ public interface FlinkKubernetesOperatorService {
     void deploySessionCluster(Long clusterCredentialId, FlinkSessionCluster sessionCluster) throws Exception;
 
     void shutdownSessionCluster(Long clusterCredentialId, FlinkSessionCluster sessionCluster) throws Exception;
+
+    Optional<GenericKubernetesResource> getJob(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO) throws Exception;
 
     void deployJob(Long clusterCredentialId, String job) throws Exception;
 

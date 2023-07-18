@@ -23,6 +23,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  * <p>
  * flink kubernetes job instance Mapper 接口
@@ -33,5 +35,5 @@ public interface WsFlinkKubernetesJobInstanceMapper extends BaseMapper<WsFlinkKu
 
     WsFlinkKubernetesJobInstance selectOne(@Param("id") Long id);
 
-    WsFlinkKubernetesJobInstance selectCurrent(@Param("wsFlinkKubernetesJobId") Long wsFlinkKubernetesJobId);
+    Optional<WsFlinkKubernetesJobInstance> selectCurrent(@Param("wsFlinkKubernetesJobId") Long wsFlinkKubernetesJobId);
 }

@@ -21,19 +21,21 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJob;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobMapper;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.FlinkDeploymentJobConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernetesJobConvert;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobAddParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobListParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobUpdateParam;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -42,8 +44,6 @@ public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobServ
 
     @Autowired
     private WsFlinkKubernetesJobMapper wsFlinkKubernetesJobMapper;
-    @Autowired
-    private FlinkDeploymentJobConverter flinkDeploymentJobConverter;
 
     @Override
     public Page<WsFlinkKubernetesJobDTO> list(WsFlinkKubernetesJobListParam param) {
@@ -53,6 +53,14 @@ public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobServ
         List<WsFlinkKubernetesJobDTO> wsFlinkKubernetesJobDTOS = WsFlinkKubernetesJobConvert.INSTANCE.toDto(wsFlinkKubernetesJobPage.getRecords());
         result.setRecords(wsFlinkKubernetesJobDTOS);
         return result;
+    }
+
+    @Override
+    public List<Long> listAll() {
+        LambdaQueryWrapper<WsFlinkKubernetesJob> queryWrapper = Wrappers.lambdaQuery(WsFlinkKubernetesJob.class)
+                .select(WsFlinkKubernetesJob::getId);
+        List<WsFlinkKubernetesJob> wsFlinkKubernetesJobs = wsFlinkKubernetesJobMapper.selectList(queryWrapper);
+        return wsFlinkKubernetesJobs.stream().map(WsFlinkKubernetesJob::getId).collect(Collectors.toList());
     }
 
     @Override
