@@ -30,6 +30,8 @@ public interface WsFlinkKubernetesJobService {
 
     Page<WsFlinkKubernetesJobDTO> list(WsFlinkKubernetesJobListParam param);
 
+    List<Long> listAll();
+
     WsFlinkKubernetesJobDTO selectOne(Long id);
 
     int insert(WsFlinkKubernetesJobAddParam param);

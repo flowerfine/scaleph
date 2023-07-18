@@ -45,6 +45,8 @@ INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `
 VALUES (4, 1, '2', 'fake', NULL, 'sys', 'sys');
 INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (5, 1, '2', 'e_commerce', NULL, 'sys', 'sys');
+INSERT INTO `ws_flink_artifact`(`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+VALUES (6, 1, '0', 'catalog-example', NULL, 'sys', 'sys');
 
 drop table if exists ws_flink_artifact_jar;
 create table ws_flink_artifact_jar
@@ -62,7 +64,7 @@ create table ws_flink_artifact_jar
     editor            varchar(32) comment '修改人',
     update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key idx_flink_artifact (flink_artifact_id)
+    key               idx_flink_artifact (flink_artifact_id)
 ) engine = innodb comment = 'flink artifact jar';
 
 DROP TABLE IF EXISTS ws_flink_artifact_sql;
@@ -78,7 +80,7 @@ CREATE TABLE ws_flink_artifact_sql
     editor            varchar(32),
     update_time       datetime    not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
-    key idx_flink_artifact (flink_artifact_id)
+    key               idx_flink_artifact (flink_artifact_id)
 ) ENGINE = INNODB COMMENT = 'flink artifact sql';
 
 INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
@@ -96,6 +98,11 @@ INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`,
 VALUES (3, 3, '1.17.1',
         'CREATE TABLE orders (\n  order_number BIGINT,\n  price        DECIMAL(32,2),\n  buyer        ROW<first_name STRING, last_name STRING>,\n  order_time   TIMESTAMP(3)\n) WITH (\n  \'connector\' = \'datagen\'\n);\n\nCREATE TABLE print_table WITH (\'connector\' = \'print\')\n    LIKE orders;\nCREATE TABLE blackhole_table WITH (\'connector\' = \'blackhole\')\n    LIKE orders;\n\nEXECUTE STATEMENT SET\nBEGIN\nINSERT INTO print_table SELECT * FROM orders;\nINSERT INTO blackhole_table SELECT * FROM orders;\nEND;',
         '1', 'sys', 'sys');
+INSERT INTO `ws_flink_artifact_sql`(`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
+                                    `editor`)
+VALUES (4, 6, '1.17.1',
+        'CREATE CATALOG my_catalog WITH (\n    \'type\' = \'generic_in_memory\'\n);\n\nCREATE DATABASE my_catalog.my_database;\n\n\nCREATE TABLE my_catalog.my_database.source_table (\n  `id` bigint,\n  `name` string,\n  `age` int,\n  `address` string,\n  `create_time`TIMESTAMP(3),\n  `update_time`TIMESTAMP(3),\n  WATERMARK FOR `update_time` AS update_time - INTERVAL \'1\' MINUTE\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'datagen\',\n  \'number-of-rows\' = \'100\'\n);\n\nCREATE TABLE my_catalog.my_database.sink_table (\n  `id` BIGINT,\n  `name` VARCHAR(2147483647),\n  `age` INT,\n  `address` VARCHAR(2147483647),\n  `create_time` TIMESTAMP(3),\n  `update_time` TIMESTAMP(3)\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'print\'\n);\n\nINSERT INTO my_catalog.my_database.sink_table\nSELECT id, name, age, address, create_time, update_time FROM my_catalog.my_database.source_table;',
+        '1', 'sys', 'sys');
 
 drop table if exists ws_di_job;
 create table ws_di_job
@@ -110,7 +117,7 @@ create table ws_di_job
     editor            varchar(32) comment '修改人',
     update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key idx_flink_artifact (flink_artifact_id)
+    key               idx_flink_artifact (flink_artifact_id)
 ) engine = innodb comment '数据集成-作业信息';
 INSERT INTO ws_di_job (id, flink_artifact_id, job_engine, job_id, current, creator, editor)
 VALUES (1, 4, 'seatunnel', 'b8e16c94-258c-4487-a88c-8aad40a38b35', 1, 'sys', 'sys');

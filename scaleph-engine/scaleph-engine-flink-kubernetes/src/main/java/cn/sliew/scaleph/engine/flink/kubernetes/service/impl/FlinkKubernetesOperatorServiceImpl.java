@@ -22,6 +22,8 @@ import cn.sliew.scaleph.engine.flink.kubernetes.factory.FlinkDeploymentFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.deployment.FlinkDeployment;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.kubernetes.Constant;
 import cn.sliew.scaleph.kubernetes.service.KubernetesService;
@@ -66,16 +68,38 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
     }
 
     @Override
+    public Optional<GenericKubernetesResource> getJob(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO) throws Exception {
+        final WsFlinkKubernetesJobDTO jobDto = jobInstanceDTO.getWsFlinkKubernetesJob();
+        Long clusterCredentialId = null;
+        String namespace = null;
+        switch (jobDto.getDeploymentKind()) {
+            case FLINK_DEPLOYMENT:
+                clusterCredentialId = jobDto.getFlinkDeployment().getClusterCredentialId();
+                namespace = jobDto.getFlinkDeployment().getNamespace();
+                break;
+            case FLINK_SESSION_JOB:
+                clusterCredentialId = jobDto.getFlinkSessionCluster().getClusterCredentialId();
+                namespace = jobDto.getFlinkSessionCluster().getNamespace();
+                break;
+            default:
+        }
+        KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
+        GenericKubernetesResource resource = client.genericKubernetesResources(Constant.API_VERSION, Constant.FLINK_DEPLOYMENT)
+                .inNamespace(namespace)
+                .withName(jobInstanceDTO.getInstanceId())
+                .get();
+        return Optional.ofNullable(resource);
+    }
+
+    @Override
     public void deployJob(Long clusterCredentialId, String job) throws Exception {
         KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
-        System.out.println(job);
         client.load(new ByteArrayInputStream((job).getBytes())).createOrReplace();
     }
 
     @Override
     public void shutdownJob(Long clusterCredentialId, String job) throws Exception {
         KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
-        System.out.println(job);
         client.load(new ByteArrayInputStream((job).getBytes())).delete();
     }
 }
