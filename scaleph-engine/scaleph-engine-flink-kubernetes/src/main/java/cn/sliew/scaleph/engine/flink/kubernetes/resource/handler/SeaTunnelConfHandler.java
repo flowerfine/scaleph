@@ -21,7 +21,7 @@ package cn.sliew.scaleph.engine.flink.kubernetes.resource.handler;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.config.resource.ResourceNames;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
 import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
@@ -42,9 +42,9 @@ public class SeaTunnelConfHandler {
     @Autowired
     private WsDiJobService wsDiJobService;
 
-    public void handle(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentSpec spec) {
+    public void handle(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
         PodBuilder podBuilder = Optional.ofNullable(spec.getPodTemplate()).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
-        cusomizePodTemplate(jobDTO, podBuilder);
+        cusomizePodTemplate(jobInstanceDTO, podBuilder);
         spec.setPodTemplate(podBuilder.build());
     }
 
@@ -55,17 +55,17 @@ public class SeaTunnelConfHandler {
 
         ConfigMapBuilder builder = new ConfigMapBuilder();
         builder.withNewMetadataLike(objectMeta)
-                .withName(instanceId + "-seatunnel-configmap")
+                .withName(formatSeaTunnelConfigMapName(instanceId))
                 .endMetadata()
                 .withData(Map.of(ResourceNames.SEATUNNEL_CONF_FILE, plainJson));
         return builder.build();
     }
 
-    private void cusomizePodTemplate(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
+    private void cusomizePodTemplate(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, PodBuilder builder) {
         builder.editOrNewMetadata().withName(ResourceNames.POD_TEMPLATE_NAME)
                 .endMetadata();
         PodFluent.SpecNested<PodBuilder> spec = builder.editOrNewSpec();
-        spec.addAllToVolumes(buildVolume(jobDTO)); // add volumes
+        spec.addAllToVolumes(buildVolume(jobInstanceDTO)); // add volumes
         if (spec.hasMatchingContainer(containerBuilder -> containerBuilder.getName().equals(ResourceNames.FLINK_MAIN_CONTAINER_NAME))) {
             spec.editMatchingContainer((containerBuilder -> containerBuilder.getName().equals(ResourceNames.FLINK_MAIN_CONTAINER_NAME)))
                     .addAllToVolumeMounts(buildVolumeMount()) // add volume mount
@@ -87,7 +87,7 @@ public class SeaTunnelConfHandler {
         return Arrays.asList(seatunnelConf.build());
     }
 
-    private List<Volume> buildVolume(WsFlinkKubernetesJobDTO jobDTO) {
+    private List<Volume> buildVolume(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO) {
         VolumeBuilder seatunnelConf = new VolumeBuilder();
         seatunnelConf.withName(ResourceNames.SEATUNNEL_CONF_VOLUME_NAME);
         ConfigMapVolumeSourceBuilder configMap = new ConfigMapVolumeSourceBuilder();
@@ -95,9 +95,13 @@ public class SeaTunnelConfHandler {
                 .withKey(ResourceNames.SEATUNNEL_CONF_FILE)
                 .withPath(ResourceNames.SEATUNNEL_CONF_FILE)
                 .build();
-        configMap.withName(jobDTO.getJobId() + "-seatunnel-configmap")
+        configMap.withName(formatSeaTunnelConfigMapName(jobInstanceDTO.getInstanceId()))
                 .withItems(keyToPath);
         seatunnelConf.withConfigMap(configMap.build());
         return Arrays.asList(seatunnelConf.build());
+    }
+
+    private String formatSeaTunnelConfigMapName(String instanceId) {
+        return String.format("%s-seatunnel-configmap", instanceId);
     }
 }
