@@ -42,9 +42,9 @@ VALUES (2, 1, '0', 'sql-runner1', NULL, 'sys', 'sys');
 INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (3, 1, '0', 'sql-runner2', NULL, 'sys', 'sys');
 INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
-VALUES (4, 1, '2', 'fake', NULL, 'sys', 'sys');
+VALUES (4, 1, '2', 'e_commerce', NULL, 'sys', 'sys');
 INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
-VALUES (5, 1, '2', 'e_commerce', NULL, 'sys', 'sys');
+VALUES (5, 1, '2', 'fake', NULL, 'sys', 'sys');
 INSERT INTO `ws_flink_artifact`(`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (6, 1, '0', 'catalog-example', NULL, 'sys', 'sys');
 
