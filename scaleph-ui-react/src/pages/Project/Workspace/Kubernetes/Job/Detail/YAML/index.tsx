@@ -1,12 +1,11 @@
 import React, {useEffect, useRef, useState} from "react";
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
-import YAML from "yaml";
 import {Props} from '@/app.d';
 import {WsFlinkKubernetesJob} from "@/services/project/typings";
 import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJobService";
+import {connect} from "umi";
 
-
-const FlinkKubernetesJobDetailYAMLWeb: React.FC<Props<WsFlinkKubernetesJob>> = ({data}) => {
+const FlinkKubernetesJobDetailYAMLWeb: React.FC<Props<WsFlinkKubernetesJob>> = (props: any) => {
 
   const editorRef = useRef(null);
   const monaco = useMonaco();
@@ -19,10 +18,14 @@ const FlinkKubernetesJobDetailYAMLWeb: React.FC<Props<WsFlinkKubernetesJob>> = (
   }, [monaco]);
 
   useEffect(() => {
-    WsFlinkKubernetesJobService.asYaml(data.id).then((response) => {
-      setJob(response.data)
-    })
-  }, []);
+    if (props.jobDetail.job) {
+      WsFlinkKubernetesJobService.asYaml(props.jobDetail.job?.id).then((response) => {
+        if (response.success) {
+          setJob(response.data)
+        }
+      })
+    }
+  }, [props.jobDetail.job]);
 
   const handleEditorDidMount = (editor, monaco: Monaco) => {
     editorRef.current = editor;
@@ -47,4 +50,6 @@ const FlinkKubernetesJobDetailYAMLWeb: React.FC<Props<WsFlinkKubernetesJob>> = (
   );
 }
 
-export default FlinkKubernetesJobDetailYAMLWeb;
+
+const mapModelToProps = ({jobDetail}: any) => ({jobDetail})
+export default connect(mapModelToProps)(FlinkKubernetesJobDetailYAMLWeb);
