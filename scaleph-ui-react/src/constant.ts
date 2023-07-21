@@ -51,6 +51,7 @@ export const DICT_TYPE = {
 
   deploymentKind: 'deployment_kind',
   resourceLifecycleState: 'resource_lifecycle_state',
+  upgradeMode: 'upgrade_mode',
 
 
 };
