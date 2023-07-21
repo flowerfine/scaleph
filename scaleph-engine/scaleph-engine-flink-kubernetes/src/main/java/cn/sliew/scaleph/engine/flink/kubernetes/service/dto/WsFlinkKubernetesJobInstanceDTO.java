@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.service.dto;
 
 import cn.sliew.scaleph.common.dict.flink.kubernetes.ResourceLifecycleState;
+import cn.sliew.scaleph.common.dict.flink.kubernetes.UpgradeMode;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.TaskManagerSpec;
@@ -51,6 +52,9 @@ public class WsFlinkKubernetesJobInstanceDTO extends BaseDO {
 
     @Schema(description = "parallelism")
     private Integer parallelism;
+
+    @Schema(description = "upgrade mode")
+    private UpgradeMode upgradeMode;
 
     @Schema(description = "job manager")
     private JobManagerSpec jobManager;

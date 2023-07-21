@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.dao.entity.master.ws;
 
 import cn.sliew.scaleph.common.dict.flink.kubernetes.ResourceLifecycleState;
+import cn.sliew.scaleph.common.dict.flink.kubernetes.UpgradeMode;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -49,6 +50,9 @@ public class WsFlinkKubernetesJobInstance extends BaseDO {
 
     @TableField("parallelism")
     private Integer parallelism;
+
+    @TableField("upgrade_mode")
+    private UpgradeMode upgradeMode;
 
     @TableField("job_manager")
     private String jobManager;
