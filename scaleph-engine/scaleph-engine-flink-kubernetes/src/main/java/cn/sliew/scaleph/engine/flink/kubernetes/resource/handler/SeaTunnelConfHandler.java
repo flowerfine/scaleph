@@ -50,6 +50,7 @@ public class SeaTunnelConfHandler {
 
     public ConfigMap buildSeaTunnelConf(String instanceId, Long wsDiJobId, ObjectMeta objectMeta) throws Exception {
         WsDiJobDTO wsDiJobDTO = wsDiJobService.queryJobGraph(wsDiJobId);
+        wsDiJobDTO.getWsFlinkArtifact().setName(instanceId);
         String prettyJson = seatunnelConfigService.buildConfig(wsDiJobDTO);
         String plainJson = JacksonUtil.toJsonNode(prettyJson).toString();
 

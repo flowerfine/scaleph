@@ -794,12 +794,26 @@ export default {
 
   'pages.project.flink.kubernetes.job.detail': '详情',
   'pages.project.flink.kubernetes.job.detail.deploy': 'Deploy',
+  'pages.project.flink.kubernetes.job.detail.deploy.resource': 'Resource',
+  'pages.project.flink.kubernetes.job.detail.deploy.resource.jobManagerCpu': 'JobManager CPU',
+  'pages.project.flink.kubernetes.job.detail.deploy.resource.jobManagerMemory': 'JobManager Memory',
+  'pages.project.flink.kubernetes.job.detail.deploy.resource.jobManagerReplicas': 'JobManager Replicas',
+  'pages.project.flink.kubernetes.job.detail.deploy.resource.taskManagerCpu': 'TaskManager CPU',
+  'pages.project.flink.kubernetes.job.detail.deploy.resource.taskManagerMemory': 'TaskManager Memory',
+  'pages.project.flink.kubernetes.job.detail.deploy.resource.taskManagerReplicas': 'TaskManager Replicas',
+  'pages.project.flink.kubernetes.job.detail.deploy.resource.parallelism': 'Parallelism',
+  'pages.project.flink.kubernetes.job.detail.deploy.resource.userFlinkConfiguration': 'Flink配置',
+  'pages.project.flink.kubernetes.job.detail.deploy.state': 'State',
+  'pages.project.flink.kubernetes.job.detail.deploy.state.upgradeMode': 'Upgrade 方式',
+
   'pages.project.flink.kubernetes.job.detail.suspend': 'Suspend',
   'pages.project.flink.kubernetes.job.detail.shutdown': 'Shutdown',
   'pages.project.flink.kubernetes.job.detail.savepoint': 'Savepoint',
   'pages.project.flink.kubernetes.job.detail.flinkui': 'Flink UI',
   'pages.project.flink.kubernetes.job.detail.metrics': 'Metrics',
   'pages.project.flink.kubernetes.job.detail.logs': 'Logs',
+
+
 
   'pages.project.flink.kubernetes.job.detail.yaml': 'YAML',
 

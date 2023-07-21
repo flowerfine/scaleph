@@ -93,25 +93,13 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
       valueType: 'option',
       render: () => [
         <div>
-          <Popconfirm
-            title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
-            onConfirm={() => {
-              setJobDeployFormData({visiable: true, data: props.jobDetail.job})
-              // WsFlinkKubernetesJobService.deploy({wsFlinkKubernetesJobId: props.jobDetail.job.id}).then(response => {
-              //   if (response.success) {
-              //     message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
-              //   }
-              //   refreshJob(props.jobDetail.job.id)
-              // })
-            }}
+          <Button
+            type="default"
+            icon={<CaretRightOutlined/>}
+            onClick={() => {setJobDeployFormData({visiable: true, data: props.jobDetail.job})}}
           >
-            <Button
-              type="default"
-              icon={<CaretRightOutlined/>}
-            >
-              {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.deploy'})}
-            </Button>
-          </Popconfirm>
+            {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.deploy'})}
+          </Button>
           <Button
             type="default"
             icon={<PauseOutlined/>}
