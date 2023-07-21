@@ -58,6 +58,8 @@ export default {
   'app.common.operate.detail.label': '详情',
   'app.common.operate.start.label': '启动',
   'app.common.operate.stop.label': '停止',
+  'app.common.operate.deploy.label': 'Deploy',
+  'app.common.operate.shutdown.label': 'Shutdown',
 
   'app.common.validate.characterWord': '只能输入字母数字、下划线',
   'app.common.validate.characterWord2': '只能输入字母数字、下划线和点号',
