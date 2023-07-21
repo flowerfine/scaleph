@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.param;
 
+import cn.sliew.scaleph.common.dict.flink.kubernetes.UpgradeMode;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.TaskManagerSpec;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -35,6 +36,9 @@ public class WsFlinkKubernetesJobInstanceDeployParam {
 
     @Schema(description = "parallelism")
     private Integer parallelism;
+
+    @Schema(description = "upgrade mode")
+    private UpgradeMode upgradeMode;
 
     @Schema(description = "job manager")
     private JobManagerSpec jobManager;

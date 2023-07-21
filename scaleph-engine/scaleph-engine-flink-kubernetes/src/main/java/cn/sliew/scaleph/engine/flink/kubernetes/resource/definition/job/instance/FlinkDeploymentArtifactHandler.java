@@ -73,6 +73,6 @@ public class FlinkDeploymentArtifactHandler implements ArtifactHandler {
         List<String> args = Arrays.asList("--config", ResourceNames.SEATUNNEL_CONF_FILE_PATH);
         jobSpec.setArgs(args.toArray(new String[2]));
         spec.setJob(jobSpec);
-        seaTunnelConfHandler.handle(jobInstanceDTO.getWsFlinkKubernetesJob(), spec);
+        seaTunnelConfHandler.handle(jobInstanceDTO, spec);
     }
 }
