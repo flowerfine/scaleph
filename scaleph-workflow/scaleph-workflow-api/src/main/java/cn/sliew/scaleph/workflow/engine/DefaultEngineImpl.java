@@ -29,7 +29,7 @@ public class DefaultEngineImpl implements Engine {
 
     @Override
     public void run(WorkFlow workflow, ActionContext context, ActionListener<ActionResult> listener) {
-        log.info("Running workflow '{}'", workflow.getName());
+        log.debug("Running workflow '{}'", workflow.getName());
         workflow.execute(context, listener);
     }
 }

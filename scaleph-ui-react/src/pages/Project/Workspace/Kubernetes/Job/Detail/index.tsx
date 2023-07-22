@@ -1,6 +1,6 @@
 import {connect, useAccess, useIntl, useLocation} from "umi";
 import React, {useEffect, useState} from "react";
-import {Button, message, Modal, Popconfirm, Tabs} from "antd";
+import {Button, Tabs} from "antd";
 import FlinkKubernetesJobDetailYAMLWeb from "@/pages/Project/Workspace/Kubernetes/Job/Detail/YAML";
 import {ProDescriptionsItemProps} from "@ant-design/pro-descriptions";
 import {WsFlinkKubernetesJob} from "@/services/project/typings";
@@ -11,7 +11,7 @@ import {
   CameraOutlined,
   CaretRightOutlined,
   CloseOutlined,
-  DashboardOutlined, DeleteOutlined,
+  DashboardOutlined,
   OrderedListOutlined,
   PauseOutlined
 } from "@ant-design/icons";
@@ -100,9 +100,7 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
           <Button
             type="default"
             icon={<CaretRightOutlined/>}
-            onClick={() => {
-              setJobDeployFormData({visiable: true, data: props.jobDetail.job})
-            }}
+            onClick={() => {setJobDeployFormData({visiable: true, data: props.jobDetail.job})}}
           >
             {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.deploy'})}
           </Button>
@@ -116,45 +114,10 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
 
           <Button
             icon={<CloseOutlined/>}
-            onClick={() => {
-              setJobShutdownFormData({visiable: true, data: props.jobDetail.job})
-            }}
+            onClick={() => {setJobShutdownFormData({visiable: true, data: props.jobDetail.job})}}
           >
             {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.shutdown'})}
           </Button>
-
-          {/*<Popconfirm*/}
-          {/*  title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}*/}
-          {/*  onConfirm={() => {*/}
-          {/*    WsFlinkKubernetesJobService.shutdown({id: props.jobDetail.job.jobInstance.id}).then(response => {*/}
-          {/*      if (response.success) {*/}
-          {/*        message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));*/}
-          {/*      }*/}
-          {/*      refreshJob(props.jobDetail.job.id)*/}
-          {/*    })*/}
-          {/*  }}*/}
-          {/*>*/}
-
-          {/*</Popconfirm>*/}
-
-          <Button
-            shape="default"
-            type="link"
-            danger
-            icon={<DeleteOutlined/>}
-            onClick={() => {
-              Modal.confirm({
-                title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
-                content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
-                okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
-                okButtonProps: {danger: true},
-                cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
-                onOk() {
-
-                },
-              });
-            }}
-          />
         </div>,
 
         <div>

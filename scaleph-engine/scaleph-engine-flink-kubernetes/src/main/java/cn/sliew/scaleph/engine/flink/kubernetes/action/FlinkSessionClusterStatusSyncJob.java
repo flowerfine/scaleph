@@ -52,7 +52,7 @@ public class FlinkSessionClusterStatusSyncJob extends AbstractWorkFlow {
     private void process() {
         List<Long> sessionClusterIds = wsFlinkKubernetesSessionClusterService.listAll();
         sessionClusterIds.forEach(this::doProcess);
-        log.info("update flink kubernetes session-cluster status success! update size: {}", sessionClusterIds.size());
+        log.debug("update flink kubernetes session-cluster status success! update size: {}", sessionClusterIds.size());
     }
 
     private void doProcess(Long sessionClusterId) {

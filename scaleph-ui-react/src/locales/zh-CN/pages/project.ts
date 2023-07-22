@@ -806,6 +806,8 @@ export default {
   'pages.project.flink.kubernetes.job.detail.deploy.state': 'State',
   'pages.project.flink.kubernetes.job.detail.deploy.state.upgradeMode': 'Upgrade 方式',
   'pages.project.flink.kubernetes.job.detail.deploy.state.allowNonRestoredState': 'AllowNonRestoredState',
+  'pages.project.flink.kubernetes.job.detail.shutdown.savepoint': '停止前创建一次快照',
+  'pages.project.flink.kubernetes.job.detail.shutdown.drain': '输出窗口数据（Drain）',
 
   'pages.project.flink.kubernetes.job.detail.suspend': 'Suspend',
   'pages.project.flink.kubernetes.job.detail.shutdown': 'Shutdown',
