@@ -1,6 +1,6 @@
 import {connect, useAccess, useIntl, useLocation} from "umi";
 import React, {useEffect, useState} from "react";
-import {Button, message, Popconfirm, Tabs} from "antd";
+import {Button, message, Modal, Popconfirm, Tabs} from "antd";
 import FlinkKubernetesJobDetailYAMLWeb from "@/pages/Project/Workspace/Kubernetes/Job/Detail/YAML";
 import {ProDescriptionsItemProps} from "@ant-design/pro-descriptions";
 import {WsFlinkKubernetesJob} from "@/services/project/typings";
@@ -11,19 +11,23 @@ import {
   CameraOutlined,
   CaretRightOutlined,
   CloseOutlined,
-  DashboardOutlined,
+  DashboardOutlined, DeleteOutlined,
   OrderedListOutlined,
   PauseOutlined
 } from "@ant-design/icons";
 import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJobService";
-import FlinkKubernetesJobForm from "@/pages/Project/Workspace/Kubernetes/Job/JobForm";
 import FlinkKubernetesJobDeployForm from "@/pages/Project/Workspace/Kubernetes/Job/Detail/JobDeployForm";
+import FlinkKubernetesJobShutdownForm from "@/pages/Project/Workspace/Kubernetes/Job/Detail/JobShutdownForm";
 
 const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
   const intl = useIntl();
   const access = useAccess();
   const urlParams = useLocation()
   const [jobDeployFormData, setJobDeployFormData] = useState<{
+    visiable: boolean;
+    data: WsFlinkKubernetesJob;
+  }>({visiable: false, data: {}});
+  const [jobShutdownFormData, setJobShutdownFormData] = useState<{
     visiable: boolean;
     data: WsFlinkKubernetesJob;
   }>({visiable: false, data: {}});
@@ -96,7 +100,9 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
           <Button
             type="default"
             icon={<CaretRightOutlined/>}
-            onClick={() => {setJobDeployFormData({visiable: true, data: props.jobDetail.job})}}
+            onClick={() => {
+              setJobDeployFormData({visiable: true, data: props.jobDetail.job})
+            }}
           >
             {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.deploy'})}
           </Button>
@@ -108,23 +114,47 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
             {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.suspend'})}
           </Button>
 
-          <Popconfirm
-            title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
-            onConfirm={() => {
-              WsFlinkKubernetesJobService.shutdown({id: props.jobDetail.job.jobInstance.id}).then(response => {
-                if (response.success) {
-                  message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
-                }
-                refreshJob(props.jobDetail.job.id)
-              })
+          <Button
+            icon={<CloseOutlined/>}
+            onClick={() => {
+              setJobShutdownFormData({visiable: true, data: props.jobDetail.job})
             }}
           >
-            <Button
-              icon={<CloseOutlined/>}
-            >
-              {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.shutdown'})}
-            </Button>
-          </Popconfirm>
+            {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.shutdown'})}
+          </Button>
+
+          {/*<Popconfirm*/}
+          {/*  title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}*/}
+          {/*  onConfirm={() => {*/}
+          {/*    WsFlinkKubernetesJobService.shutdown({id: props.jobDetail.job.jobInstance.id}).then(response => {*/}
+          {/*      if (response.success) {*/}
+          {/*        message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));*/}
+          {/*      }*/}
+          {/*      refreshJob(props.jobDetail.job.id)*/}
+          {/*    })*/}
+          {/*  }}*/}
+          {/*>*/}
+
+          {/*</Popconfirm>*/}
+
+          <Button
+            shape="default"
+            type="link"
+            danger
+            icon={<DeleteOutlined/>}
+            onClick={() => {
+              Modal.confirm({
+                title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
+                okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                okButtonProps: {danger: true},
+                cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+                onOk() {
+
+                },
+              });
+            }}
+          />
         </div>,
 
         <div>
@@ -195,6 +225,19 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
             setJobDeployFormData({visiable: visiable, data: {}});
           }}
           data={jobDeployFormData.data}
+        />
+      )}
+
+      {jobShutdownFormData.visiable && (
+        <FlinkKubernetesJobShutdownForm
+          visible={jobShutdownFormData.visiable}
+          onCancel={() => {
+            setJobShutdownFormData({visiable: false, data: {}});
+          }}
+          onVisibleChange={(visiable) => {
+            setJobShutdownFormData({visiable: visiable, data: {}});
+          }}
+          data={jobShutdownFormData.data}
         />
       )}
     </div>

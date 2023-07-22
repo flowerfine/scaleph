@@ -56,6 +56,9 @@ public class WsFlinkKubernetesJobInstanceDTO extends BaseDO {
     @Schema(description = "upgrade mode")
     private UpgradeMode upgradeMode;
 
+    @Schema(description = "allow to skip savepoint state")
+    private Boolean allowNonRestoredState;
+
     @Schema(description = "job manager")
     private JobManagerSpec jobManager;
 

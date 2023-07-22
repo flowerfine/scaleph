@@ -805,6 +805,7 @@ export default {
   'pages.project.flink.kubernetes.job.detail.deploy.resource.userFlinkConfiguration': 'Flink配置',
   'pages.project.flink.kubernetes.job.detail.deploy.state': 'State',
   'pages.project.flink.kubernetes.job.detail.deploy.state.upgradeMode': 'Upgrade 方式',
+  'pages.project.flink.kubernetes.job.detail.deploy.state.allowNonRestoredState': 'AllowNonRestoredState',
 
   'pages.project.flink.kubernetes.job.detail.suspend': 'Suspend',
   'pages.project.flink.kubernetes.job.detail.shutdown': 'Shutdown',

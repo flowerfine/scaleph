@@ -54,6 +54,9 @@ public class WsFlinkKubernetesJobInstance extends BaseDO {
     @TableField("upgrade_mode")
     private UpgradeMode upgradeMode;
 
+    @TableField("allow_non_restored_state")
+    private Boolean allowNonRestoredState;
+
     @TableField("job_manager")
     private String jobManager;
 

@@ -28,6 +28,8 @@
         <result column="ws_flink_kubernetes_job_id" property="wsFlinkKubernetesJobId"/>
         <result column="instance_id" property="instanceId"/>
         <result column="parallelism" property="parallelism"/>
+        <result column="upgrade_mode" property="upgradeMode"/>
+        <result column="allow_non_restored_state" property="allowNonRestoredState"/>
         <result column="job_manager" property="jobManager"/>
         <result column="task_manager" property="taskManager"/>
         <result column="user_flink_configuration" property="userFlinkConfiguration"/>
@@ -50,6 +52,8 @@
         <result column="ws_flink_kubernetes_job_id" property="wsFlinkKubernetesJobId"/>
         <result column="instance_id" property="instanceId"/>
         <result column="parallelism" property="parallelism"/>
+        <result column="upgrade_mode" property="upgradeMode"/>
+        <result column="allow_non_restored_state" property="allowNonRestoredState"/>
         <result column="job_manager" property="jobManager"/>
         <result column="task_manager" property="taskManager"/>
         <result column="user_flink_configuration" property="userFlinkConfiguration"/>
@@ -68,7 +72,8 @@
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
         ws_flink_kubernetes_job_id, instance_id,
-        parallelism, job_manager, task_manager, user_flink_configuration,
+        parallelism, upgrade_mode, allow_non_restored_state,
+        job_manager, task_manager, user_flink_configuration,
         `state`, `error`, cluster_info, task_manager_info,
         start_time, end_time, duration
     </sql>

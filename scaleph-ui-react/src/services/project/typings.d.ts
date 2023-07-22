@@ -387,6 +387,8 @@ export type WsFlinkKubernetesJobInstanceDeployParam = {
   parallelism?: number;
   jobManager?: Record<string, any>;
   taskManager?: Record<string, any>;
+  upgradeMode?: string;
+  allowNonRestoredState?: boolean;
   userFlinkConfiguration?: Record<string, any>;
 };
 
