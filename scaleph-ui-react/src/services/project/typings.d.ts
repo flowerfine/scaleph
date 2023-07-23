@@ -368,10 +368,13 @@ export type WsFlinkKubernetesJobInstance = {
   wsFlinkKubernetesJobId: number;
   instanceId: string;
   parallelism?: number;
+  upgradeMode?: Dict;
+  allowNonRestoredState?: boolean;
   jobManager?: Record<string, any>;
   taskManager?: Record<string, any>;
   userFlinkConfiguration?: Record<string, any>;
   state: Dict;
+  jobState?: Dict;
   error?: Dict;
   clusterInfo?: Record<string, any>;
   taskManagerInfo?: Record<string, any>;

@@ -20,6 +20,7 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
 import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.ResourceLifecycleState;
 import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstance;
@@ -185,6 +186,9 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
         WsFlinkKubernetesJobInstance record = new WsFlinkKubernetesJobInstance();
         record.setId(id);
         record.setState(EnumUtils.getEnum(ResourceLifecycleState.class, status.getLifecycleState().name()));
+        if (status.getJobStatus() != null && status.getJobStatus().getState() != null) {
+            record.setJobState(FlinkJobState.of(status.getJobStatus().getState()));
+        }
         record.setError(status.getError());
         if (CollectionUtils.isEmpty(status.getClusterInfo())) {
             record.setClusterInfo(null);

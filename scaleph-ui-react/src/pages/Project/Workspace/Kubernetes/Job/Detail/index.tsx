@@ -97,6 +97,12 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
       valueType: 'option',
       render: () => [
         <div>
+          <Button type="default">
+            {props.jobDetail.job?.jobInstance?.jobState.label}
+          </Button>
+
+        </div>,
+        <div>
           <Button
             type="default"
             icon={<CaretRightOutlined/>}

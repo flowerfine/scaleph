@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.dao.entity.master.ws;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.ResourceLifecycleState;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.UpgradeMode;
 import cn.sliew.scaleph.dao.entity.BaseDO;
@@ -68,6 +69,9 @@ public class WsFlinkKubernetesJobInstance extends BaseDO {
 
     @TableField(value = "`state`", updateStrategy = FieldStrategy.IGNORED)
     private ResourceLifecycleState state;
+
+    @TableField(value = "job_state", updateStrategy = FieldStrategy.IGNORED)
+    private FlinkJobState jobState;
 
     @TableField(value = "`error`", updateStrategy = FieldStrategy.IGNORED)
     private String error;

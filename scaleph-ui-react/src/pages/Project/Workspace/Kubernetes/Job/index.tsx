@@ -82,7 +82,6 @@ const FlinkKubernetesJobWeb: React.FC = () => {
         return entity.flinkArtifactJar ? entity.flinkArtifactJar.wsFlinkArtifact?.name : (entity.flinkArtifactSql ? entity.flinkArtifactSql?.wsFlinkArtifact?.name : entity.wsDiJob?.wsFlinkArtifact?.name)
       },
     },
-
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.state'}),
       dataIndex: 'state',
@@ -93,6 +92,18 @@ const FlinkKubernetesJobWeb: React.FC = () => {
       },
       request: (params, props) => {
         return DictDataService.listDictDataByType2(DICT_TYPE.resourceLifecycleState)
+      },
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.jobState'}),
+      dataIndex: 'jobState',
+      width: 100,
+      hideInSearch: true,
+      render: (dom, record) => {
+        return <Tooltip title={record.jobInstance?.jobState?.value}>{record.jobInstance?.jobState?.label}</Tooltip>
+      },
+      request: (params, props) => {
+        return DictDataService.listDictDataByType2(DICT_TYPE.flinkJobStatus)
       },
     },
     {

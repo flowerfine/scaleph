@@ -789,7 +789,8 @@ export default {
   'pages.project.flink.kubernetes.job.flinkSessionCluster': 'SessionCluster',
   'pages.project.flink.kubernetes.job.type': '作业类型',
   'pages.project.flink.kubernetes.job.artifact': 'Artifact',
-  'pages.project.flink.kubernetes.job.state': 'State',
+  'pages.project.flink.kubernetes.job.jobState': 'Job Status',
+  'pages.project.flink.kubernetes.job.state': 'Deploy State',
   'pages.project.flink.kubernetes.job.error': 'Error',
 
   'pages.project.flink.kubernetes.job.detail': '详情',
