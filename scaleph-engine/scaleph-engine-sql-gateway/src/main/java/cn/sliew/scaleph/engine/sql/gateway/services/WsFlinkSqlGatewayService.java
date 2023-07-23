@@ -19,45 +19,43 @@
 package cn.sliew.scaleph.engine.sql.gateway.services;
 
 import cn.sliew.scaleph.engine.sql.gateway.dto.WsFlinkSqlGatewayQueryParamsDTO;
-import org.apache.flink.table.catalog.CatalogBaseTable;
-import org.apache.flink.table.gateway.api.SqlGatewayService;
-import org.apache.flink.table.gateway.api.results.FunctionInfo;
+import cn.sliew.scaleph.engine.sql.gateway.dto.catalog.CatalogInfo;
+import cn.sliew.scaleph.engine.sql.gateway.internal.ScalephSqlGatewaySessionManager;
 import org.apache.flink.table.gateway.api.results.GatewayInfo;
 import org.apache.flink.table.gateway.api.results.ResultSet;
-import org.apache.flink.table.gateway.api.results.TableInfo;
-import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 public interface WsFlinkSqlGatewayService {
 
     /**
-     * Get a {@link SqlGatewayService}
+     * Get a {@link ScalephSqlGatewaySessionManager}
      *
      * @param clusterId Flink K8S session cluster id
-     * @return Optional {@link SqlGatewayService}
+     * @return Optional {@link ScalephSqlGatewaySessionManager}
      */
-    Optional<SqlGatewayService> getSqlGatewayService(String clusterId);
+    Optional<ScalephSqlGatewaySessionManager> getSessionManager(String clusterId);
 
     /**
-     * Get a {@link SqlGatewayService} by given params.
+     * Get a {@link ScalephSqlGatewaySessionManager} by given params.
      * <p>
      * If not exists, create a new one and store in memory.
      * </p>
      *
      * @param kubeCredentialId Cluster credential id
-     * @param clusterId Flink K8S session cluster id
-     * @return an Optional instance of {@link SqlGatewayService}
+     * @param clusterId        Flink K8S session cluster id
+     * @return an Optional instance of {@link ScalephSqlGatewaySessionManager}
      */
-    Optional<SqlGatewayService> createSqlGatewayService(Long kubeCredentialId, String clusterId);
+    Optional<ScalephSqlGatewaySessionManager> createSessionManager(Long kubeCredentialId, String clusterId);
 
     /**
-     * Destroy a {@link SqlGatewayService} by cluster id
+     * Destroy a {@link ScalephSqlGatewaySessionManager} by cluster id
      *
      * @param clusterId Flink K8S session cluster id
      */
-    void destroySqlGatewayService(String clusterId);
+    void destroySessionManager(String clusterId);
 
     /**
      * Get sql gate way info
@@ -84,55 +82,9 @@ public interface WsFlinkSqlGatewayService {
      *
      * @param clusterId       Flink K8S session cluster id
      * @param sessionHandleId Session handler id
-     * @return Set of catalogs
+     * @return Set of catalog informations
      */
-    Set<String> listCatalogs(String clusterId, String sessionHandleId);
-
-    /**
-     * List databases.
-     *
-     * <p>If catalog name is empty, use default catalog.</p>
-     *
-     * @param clusterId       Flink K8S session cluster id
-     * @param sessionHandleId Session handler id
-     * @param catalog         Catalog name
-     * @return Set of databases
-     */
-    Set<String> listDatabases(String clusterId, String sessionHandleId, String catalog);
-
-    /**
-     * List tables
-     *
-     * @param clusterId       Flink K8S session cluster id
-     * @param sessionHandleId Session handler id
-     * @param catalog         Catalog name
-     * @param database        Database name
-     * @param tableKinds      {@link  org.apache.flink.table.catalog.CatalogBaseTable.TableKind}
-     * @return A set of {@link TableInfo}
-     */
-    Set<TableInfo> listTables(String clusterId, String sessionHandleId,
-                              String catalog, String database,
-                              Set<CatalogBaseTable.TableKind> tableKinds);
-
-    /**
-     * List system functions
-     *
-     * @param clusterId       Flink K8S session cluster id
-     * @param sessionHandleId Session handler id
-     * @return A set of {@link FunctionInfo}
-     */
-    Set<FunctionInfo> listSystemFunctions(String clusterId, String sessionHandleId);
-
-    /**
-     * List user defined functions
-     *
-     * @param clusterId       Flink K8S session cluster id
-     * @param sessionHandleId Session handler id
-     * @param catalog         Catalog name
-     * @param database        Database name
-     * @return A set of {@link FunctionInfo}
-     */
-    Set<FunctionInfo> listUserDefinedFunctions(String clusterId, String sessionHandleId, String catalog, String database);
+    Set<CatalogInfo> getCatalogInfo(String clusterId, String sessionHandleId);
 
     /**
      * Close a session
@@ -176,4 +128,16 @@ public interface WsFlinkSqlGatewayService {
      * @return Success or not
      */
     Boolean cancel(String clusterId, String sessionHandleId, String operationHandleId);
+
+    /**
+     * Complete sql statement
+     *
+     * @param clusterId Flink K8S session cluster id
+     * @param sessionId Session handler id
+     * @param statement Sql statement
+     * @param position  Position of the sql statement
+     * @return A list of strings
+     * @throws Exception
+     */
+    List<String> completeStatement(String clusterId, String sessionId, String statement, int position) throws Exception;
 }
