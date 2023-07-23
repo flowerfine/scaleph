@@ -108,6 +108,7 @@ public class WsFlinkKubernetesTemplateServiceImpl implements WsFlinkKubernetesTe
         result.setFlinkConfiguration(TemplateMerger.merge(globalDefault.getFlinkConfiguration(), dto.getFlinkConfiguration(), Map.class));
         result.setLogConfiguration(TemplateMerger.merge(globalDefault.getLogConfiguration(), dto.getLogConfiguration(), Map.class));
         result.setIngress(TemplateMerger.merge(globalDefault.getIngress(), dto.getIngress(), IngressSpec.class));
+        result.setAdditionalDependencies(TemplateMerger.merge(globalDefault.getAdditionalDependencies(), dto.getAdditionalDependencies(), List.class));
         result.setRemark(StringUtils.hasText(dto.getRemark()) ? dto.getRemark() : globalDefault.getRemark());
         return result;
     }
@@ -143,6 +144,7 @@ public class WsFlinkKubernetesTemplateServiceImpl implements WsFlinkKubernetesTe
     @Override
     public int updateTemplate(WsFlinkKubernetesTemplateDTO param) {
         WsFlinkKubernetesTemplateDTO mergeWithDefault = mergeDefault(param);
+        mergeWithDefault.setAdditionalDependencies(param.getAdditionalDependencies());
         WsFlinkKubernetesTemplate record = WsFlinkKubernetesTemplateConvert.INSTANCE.toDo(mergeWithDefault);
         record.setId(param.getId());
         record.setProjectId(param.getProjectId());

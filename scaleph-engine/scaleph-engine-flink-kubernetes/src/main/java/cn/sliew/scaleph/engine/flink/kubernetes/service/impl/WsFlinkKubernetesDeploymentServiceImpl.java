@@ -92,6 +92,7 @@ public class WsFlinkKubernetesDeploymentServiceImpl implements WsFlinkKubernetes
         wsFlinkKubernetesDeploymentDTO.setFlinkConfiguration(wsFlinkKubernetesTemplateDTO.getFlinkConfiguration());
         wsFlinkKubernetesDeploymentDTO.setLogConfiguration(wsFlinkKubernetesTemplateDTO.getLogConfiguration());
         wsFlinkKubernetesDeploymentDTO.setIngress(wsFlinkKubernetesTemplateDTO.getIngress());
+        wsFlinkKubernetesDeploymentDTO.setAdditionalDependencies(wsFlinkKubernetesTemplateDTO.getAdditionalDependencies());
         wsFlinkKubernetesDeploymentDTO.setRemark("generated from template-" + wsFlinkKubernetesTemplateDTO.getName());
         return wsFlinkKubernetesDeploymentDTO;
     }

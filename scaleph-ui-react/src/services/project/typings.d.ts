@@ -225,6 +225,7 @@ export type WsFlinkKubernetesTemplate = {
   flinkConfiguration?: Record<string, any>;
   logConfiguration?: Record<string, any>;
   ingress?: Record<string, any>;
+  additionalDependencies?: Array<number>;
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
@@ -265,6 +266,7 @@ export type WsFlinkKubernetesSessionCluster = {
   flinkConfiguration?: Record<string, any>;
   logConfiguration?: Record<string, any>;
   ingress?: Record<string, any>;
+  additionalDependencies?: Array<number>;
   supportSqlGateway?: Dict;
   state?: Dict;
   error?: Dict;
@@ -299,6 +301,7 @@ export type WsFlinkKubernetesDeployment = {
   flinkConfiguration?: Record<string, any>;
   logConfiguration?: Record<string, any>;
   ingress?: Record<string, any>;
+  additionalDependencies?: Array<number>;
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
