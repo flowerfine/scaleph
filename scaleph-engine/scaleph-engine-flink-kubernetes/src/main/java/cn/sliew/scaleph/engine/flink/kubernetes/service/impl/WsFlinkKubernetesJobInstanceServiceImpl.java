@@ -26,6 +26,7 @@ import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstance;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobInstanceMapper;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.FlinkDeploymentStatus;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.JobStatus;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instance.FlinkJobInstanceConverterFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobInstanceService;
@@ -49,6 +50,7 @@ import org.springframework.data.util.Predicates;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -186,8 +188,14 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
         WsFlinkKubernetesJobInstance record = new WsFlinkKubernetesJobInstance();
         record.setId(id);
         record.setState(EnumUtils.getEnum(ResourceLifecycleState.class, status.getLifecycleState().name()));
-        if (status.getJobStatus() != null && status.getJobStatus().getState() != null) {
-            record.setJobState(FlinkJobState.of(status.getJobStatus().getState()));
+        if (status.getJobStatus() != null) {
+            JobStatus jobStatus = status.getJobStatus();
+            if (jobStatus.getState() != null) {
+                record.setJobState(FlinkJobState.of(jobStatus.getState()));
+            }
+            if (jobStatus.getStartTime() != null) {
+                record.setStartTime(new Date(Long.parseLong(jobStatus.getStartTime())));
+            }
         }
         record.setError(status.getError());
         if (CollectionUtils.isEmpty(status.getClusterInfo())) {
