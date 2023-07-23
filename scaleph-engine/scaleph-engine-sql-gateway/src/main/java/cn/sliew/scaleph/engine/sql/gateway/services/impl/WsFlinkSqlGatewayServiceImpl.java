@@ -19,6 +19,8 @@
 package cn.sliew.scaleph.engine.sql.gateway.services.impl;
 
 import cn.sliew.scaleph.engine.sql.gateway.dto.WsFlinkSqlGatewayQueryParamsDTO;
+import cn.sliew.scaleph.engine.sql.gateway.dto.catalog.CatalogInfo;
+import cn.sliew.scaleph.engine.sql.gateway.internal.ScalephSqlGatewaySessionManager;
 import cn.sliew.scaleph.engine.sql.gateway.services.WsFlinkSqlGatewayService;
 import cn.sliew.scaleph.kubernetes.service.KubernetesService;
 import cn.sliew.scaleph.resource.service.ClusterCredentialService;
@@ -28,15 +30,15 @@ import org.apache.flink.configuration.Configuration;
 import org.apache.flink.configuration.DeploymentOptions;
 import org.apache.flink.configuration.GlobalConfiguration;
 import org.apache.flink.kubernetes.configuration.KubernetesConfigOptions;
-import org.apache.flink.table.catalog.CatalogBaseTable;
-import org.apache.flink.table.gateway.api.SqlGatewayService;
 import org.apache.flink.table.gateway.api.operation.OperationHandle;
-import org.apache.flink.table.gateway.api.results.*;
+import org.apache.flink.table.gateway.api.results.FetchOrientation;
+import org.apache.flink.table.gateway.api.results.GatewayInfo;
+import org.apache.flink.table.gateway.api.results.ResultSet;
 import org.apache.flink.table.gateway.api.session.SessionEnvironment;
 import org.apache.flink.table.gateway.api.session.SessionHandle;
 import org.apache.flink.table.gateway.rest.util.SqlGatewayRestAPIVersion;
-import org.apache.flink.table.gateway.service.SqlGatewayServiceImpl;
 import org.apache.flink.table.gateway.service.context.DefaultContext;
+import org.apache.flink.table.gateway.service.context.SessionContext;
 import org.apache.flink.table.gateway.service.session.SessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,6 +54,12 @@ import java.util.function.Supplier;
 @Service
 public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
 
+    /**
+     * Store {@link ScalephSqlGatewaySessionManager}s in this map. </br>
+     * In case multi {@link ScalephSqlGatewaySessionManager}s can be enabled in the future
+     */
+    private static final Map<String, ScalephSqlGatewaySessionManager> SERVICE_MAP =
+            new ConcurrentHashMap<>();
     private KubernetesService kubernetesService;
     private ClusterCredentialService clusterCredentialService;
 
@@ -61,12 +69,6 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
         this.kubernetesService = kubernetesService;
         this.clusterCredentialService = clusterCredentialService;
     }
-
-    /**
-     * Store {@link SqlGatewayService}s in this map. </br>
-     * In case multi {@link SqlGatewayService}s can be enabled in the future
-     */
-    private static final Map<String, SqlGatewayService> SERVICE_MAP = new ConcurrentHashMap<>();
 
     /**
      * Create a new {@link SessionEnvironment} with random UUID session name
@@ -88,7 +90,7 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
      * @return
      */
     @Override
-    public Optional<SqlGatewayService> getSqlGatewayService(String clusterId) {
+    public Optional<ScalephSqlGatewaySessionManager> getSessionManager(String clusterId) {
         return Optional.ofNullable(SERVICE_MAP.get(clusterId));
     }
 
@@ -96,12 +98,12 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
      * {@inheritDoc}
      *
      * @param kubeCredentialId Cluster credential id
-     * @param clusterId Flink K8S session cluster id
+     * @param clusterId        Flink K8S session cluster id
      * @return
      * @throws Exception
      */
     @Override
-    public Optional<SqlGatewayService> createSqlGatewayService(Long kubeCredentialId, String clusterId) {
+    public Optional<ScalephSqlGatewaySessionManager> createSessionManager(Long kubeCredentialId, String clusterId) {
         try {
             ClusterCredentialDTO clusterCredential = clusterCredentialService.selectOne(kubeCredentialId);
             Path path = kubernetesService.downloadConfig(clusterCredential);
@@ -113,12 +115,11 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
             }
             configuration.set(DeploymentOptions.TARGET, "kubernetes-session");
             DefaultContext defaultContext = new DefaultContext(configuration, Collections.emptyList());
-            SessionManager sessionManager = SessionManager.create(defaultContext);
+            ScalephSqlGatewaySessionManager sessionManager = new ScalephSqlGatewaySessionManager(defaultContext);
             sessionManager.start();
-            SqlGatewayServiceImpl sqlGatewayService = new SqlGatewayServiceImpl(sessionManager);
             log.info("Stated sql-gateway for session cluster {}", clusterId);
-            SERVICE_MAP.put(clusterId, sqlGatewayService);
-            return Optional.of(sqlGatewayService);
+            SERVICE_MAP.put(clusterId, sessionManager);
+            return Optional.of(sessionManager);
         } catch (Exception e) {
             log.error("Error create SqlGateway for session id: " + clusterId, e);
         }
@@ -132,22 +133,9 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
      * @throws Exception
      */
     @Override
-    public void destroySqlGatewayService(String clusterId) {
-        getSqlGatewayService(clusterId).ifPresent(sqlGatewayService -> {
-            Class<?> sqlGatewayServiceClass = sqlGatewayService.getClass();
-            Field sessionManagerField = null;
-            try {
-                sessionManagerField = sqlGatewayServiceClass.getDeclaredField("sessionManager");
-                sessionManagerField.setAccessible(true);
-            } catch (NoSuchFieldException e) {
-                throw new RuntimeException(e);
-            }
-            try {
-                SessionManager sessionManager = (SessionManager) sessionManagerField.get(sqlGatewayService);
-                sessionManager.stop();
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
+    public void destroySessionManager(String clusterId) {
+        getSessionManager(clusterId).ifPresent(sessionManager -> {
+            sessionManager.stop();
             SERVICE_MAP.remove(clusterId);
         });
     }
@@ -155,7 +143,7 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
     @Override
     public GatewayInfo getGatewayInfo(String clusterId) {
         try {
-            return getSqlGatewayService(clusterId)
+            return getSessionManager(clusterId)
                     .orElseThrow((Supplier<Throwable>) () -> new IllegalArgumentException("Sql gateway not start!"))
                     .getGatewayInfo();
         } catch (Throwable e) {
@@ -166,9 +154,9 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
 
     @Override
     public String openSession(String clusterId) {
-        return getSqlGatewayService(clusterId)
+        return getSessionManager(clusterId)
                 .orElseThrow()
-                .openSession(newSessionEnv())
+                .openSession()
                 .getIdentifier()
                 .toString();
     }
@@ -176,81 +164,15 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
     /**
      * {@inheritDoc}
      *
-     * @param clusterId Session cluster id
-     * @return Set of catalogs
-     */
-    @Override
-    public Set<String> listCatalogs(String clusterId, String sessionHandleId) {
-        SessionHandle sessionHandle = new SessionHandle(UUID.fromString(sessionHandleId));
-        return getSqlGatewayService(clusterId).orElseThrow()
-                .listCatalogs(sessionHandle);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @param clusterId       Flink K8S session cluster id
-     * @param sessionHandleId Session handler id
-     * @param catalog         Catalog name
-     * @return
-     */
-    @Override
-    public Set<String> listDatabases(String clusterId, String sessionHandleId, String catalog) {
-        SessionHandle sessionHandle = new SessionHandle(UUID.fromString(sessionHandleId));
-        SqlGatewayService sqlGatewayService = getSqlGatewayService(clusterId).orElseThrow();
-        if (!StringUtils.hasText(catalog)) {
-            catalog = sqlGatewayService.getCurrentCatalog(sessionHandle);
-        }
-        return sqlGatewayService.listDatabases(sessionHandle, catalog);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @param clusterId       Flink K8S session cluster id
-     * @param sessionHandleId Session handler id
-     * @param catalog         Catalog name
-     * @param database        Database name
-     * @param tableKinds      {@link  org.apache.flink.table.catalog.CatalogBaseTable.TableKind}
-     * @return
-     */
-    @Override
-    public Set<TableInfo> listTables(String clusterId, String sessionHandleId,
-                                     String catalog, String database,
-                                     Set<CatalogBaseTable.TableKind> tableKinds) {
-        SessionHandle sessionHandle = new SessionHandle(UUID.fromString(sessionHandleId));
-        return getSqlGatewayService(clusterId).orElseThrow()
-                .listTables(sessionHandle, catalog, database, tableKinds);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
      * @param clusterId       Flink K8S session cluster id
      * @param sessionHandleId Session handler id
      * @return
      */
     @Override
-    public Set<FunctionInfo> listSystemFunctions(String clusterId, String sessionHandleId) {
+    public Set<CatalogInfo> getCatalogInfo(String clusterId, String sessionHandleId) {
         SessionHandle sessionHandle = new SessionHandle(UUID.fromString(sessionHandleId));
-        return getSqlGatewayService(clusterId).orElseThrow()
-                .listSystemFunctions(sessionHandle);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @param clusterId       Flink K8S session cluster id
-     * @param sessionHandleId Session handler id
-     * @param catalog         Catalog name
-     * @param database        Database name
-     * @return
-     */
-    @Override
-    public Set<FunctionInfo> listUserDefinedFunctions(String clusterId, String sessionHandleId, String catalog, String database) {
-        SessionHandle sessionHandle = new SessionHandle(UUID.fromString(sessionHandleId));
-        return getSqlGatewayService(clusterId).orElseThrow()
-                .listUserDefinedFunctions(sessionHandle, catalog, database);
+        return getSessionManager(clusterId).orElseThrow()
+                .getCatalogInfo(sessionHandle);
     }
 
     /**
@@ -263,7 +185,7 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
     @Override
     public String closeSession(String clusterId, String sessionHandleId) {
         SessionHandle sessionHandle = new SessionHandle(UUID.fromString(sessionHandleId));
-        getSqlGatewayService(clusterId).orElseThrow()
+        getSessionManager(clusterId).orElseThrow()
                 .closeSession(sessionHandle);
         return sessionHandleId;
     }
@@ -281,10 +203,18 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
         SessionHandle sessionHandle = new SessionHandle(UUID.fromString(sessionHandleId));
         Configuration configuration = GlobalConfiguration.loadConfiguration();
         params.getConfiguration().forEach(configuration::setString);
-        return getSqlGatewayService(clusterId).orElseThrow()
-                .executeStatement(sessionHandle, params.getSql(), 0L /*Only <=0 is supported now*/,
-                        configuration)
-                .getIdentifier().toString();
+        SessionContext sessionContext = getSessionManager(clusterId).orElseThrow()
+                .getSession(sessionHandle)
+                .getSessionContext();
+        Configuration sessionConf = sessionContext.getSessionConf();
+        params.getConfiguration().forEach(sessionConf::setString);
+        return sessionContext.getOperationManager()
+                .submitOperation(handle ->
+                        sessionContext.createOperationExecutor(sessionConf)
+                                .executeStatement(handle, params.getSql())
+                )
+                .getIdentifier()
+                .toString();
     }
 
     /**
@@ -303,12 +233,12 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
                                   Long token, int maxRows) {
         SessionHandle sessionHandle = new SessionHandle(UUID.fromString(sessionHandleId));
         OperationHandle operationHandle = new OperationHandle(UUID.fromString(operationHandleId));
-        SqlGatewayService sqlGatewayService = getSqlGatewayService(clusterId).orElseThrow();
+        ScalephSqlGatewaySessionManager sessionManager = getSessionManager(clusterId).orElseThrow();
         ResultSet resultSet;
         if (token == null || token < 0) {
-            resultSet = sqlGatewayService.fetchResults(sessionHandle, operationHandle, FetchOrientation.FETCH_NEXT, maxRows);
+            resultSet = sessionManager.fetchResults(sessionHandle, operationHandle, FetchOrientation.FETCH_NEXT, maxRows);
         } else {
-            resultSet = sqlGatewayService.fetchResults(sessionHandle, operationHandle, token, maxRows);
+            resultSet = sessionManager.fetchResults(sessionHandle, operationHandle, token, maxRows);
         }
         return resultSet;
     }
@@ -316,11 +246,17 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
     @Override
     public Boolean cancel(String clusterId, String sessionHandleId, String operationHandleId) {
         try {
-            getSqlGatewayService(clusterId).orElseThrow()
+            getSessionManager(clusterId).orElseThrow()
                     .cancelOperation(new SessionHandle(UUID.fromString(sessionHandleId)), new OperationHandle(UUID.fromString(operationHandleId)));
             return true;
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public List<String> completeStatement(String clusterId, String sessionId, String statement, int position) throws Exception {
+        return getSessionManager(clusterId).orElseThrow()
+                .completeStatement(new SessionHandle(UUID.fromString(sessionId)), statement, position);
     }
 }
