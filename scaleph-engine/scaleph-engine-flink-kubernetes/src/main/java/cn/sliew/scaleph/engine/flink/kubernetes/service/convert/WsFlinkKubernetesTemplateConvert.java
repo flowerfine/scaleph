@@ -65,6 +65,9 @@ public interface WsFlinkKubernetesTemplateConvert extends BaseConvert<WsFlinkKub
         if (dto.getIngress() != null) {
             entity.setIngress(JacksonUtil.toJsonString(dto.getIngress()));
         }
+        if (dto.getAdditionalDependencies() != null) {
+            entity.setAdditionalDependencies(JacksonUtil.toJsonString(dto.getAdditionalDependencies()));
+        }
         return entity;
     }
 
@@ -92,6 +95,9 @@ public interface WsFlinkKubernetesTemplateConvert extends BaseConvert<WsFlinkKub
         }
         if (StringUtils.hasText(entity.getIngress())) {
             dto.setIngress(JacksonUtil.parseJsonString(entity.getIngress(), IngressSpec.class));
+        }
+        if (StringUtils.hasText(entity.getAdditionalDependencies())) {
+            dto.setAdditionalDependencies(JacksonUtil.parseJsonArray(entity.getAdditionalDependencies(), Long.TYPE));
         }
         return dto;
     }
