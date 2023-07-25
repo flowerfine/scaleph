@@ -1,30 +1,42 @@
-import { Editor } from '@monaco-editor/react';
+import { Editor, EditorConstructionOptions, CompletionItem, languages, Position, CompletionList } from '@monaco-editor/react';
+import { Button } from 'antd';
 import { language } from 'monaco-editor/esm/vs/basic-languages/sql/sql';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import React, { useEffect, useState } from 'react';
 const { keywords: SQLKeys } = language;
 
 import { WsFlinkArtifactSql } from '@/services/project/typings';
-import { FlinkArtifactSqlService } from '@/services/project/WsFlinkArtifactSqlService';
-import { Button, Col, Row, Space } from 'antd';
 import { useLocation } from 'react-router-dom';
-import './index.less';
+import styles from './index.less';
 
 const CodeEditor: React.FC = () => {
   const urlParams = useLocation();
-  const [sqlScript, setSqlScript] = useState<string>('');
+  const [sqlScript, setSqlScript] = useState<string>('');// 内容
   const flinkArtifactSql = urlParams.state || ('' as WsFlinkArtifactSql);
 
   useEffect(() => {
     setSqlScript(flinkArtifactSql.script);
   }, []);
 
-  const onSave = () => {
-    FlinkArtifactSqlService.updateScript({ id: flinkArtifactSql.id, script: sqlScript });
+  // 点击运行获取选中或者全部值
+  const onRun = (editor: monaco.editor.IStandaloneCodeEditor): void => {
+    const selection = editor.getSelection();
+    if (selection && !selection.isEmpty()) {
+      const selectedValue = editor.getModel()?.getValueInRange(selection);
+      console.log("选中的值:", selectedValue);
+    } else {
+      const fullValue = editor.getModel()?.getValue();
+      console.log("全部的值:", fullValue);
+    }
   };
 
+  // 保存数据
+  const onSave = (): void => {
+    FlinkArtifactSqlService.updateScript({ id: flinkArtifactSql.id, script: sqlScript });
+  }
+
   // 获取 SQL 语法提示
-  const getSQLSuggest = (): monaco.languages.CompletionItem[] => {
+  const getSQLSuggest = (): CompletionItem[] => {
     return SQLKeys.map((key: string) => ({
       label: key,
       kind: monaco.languages.CompletionItemKind.Keyword,
@@ -35,43 +47,56 @@ const CodeEditor: React.FC = () => {
 
   const provideCompletionItems = (
     model: monaco.editor.ITextModel,
-    position: monaco.Position,
-  ): monaco.languages.ProviderResult<monaco.languages.CompletionList> => {
+    position: Position,
+  ): ProviderResult<CompletionList> => {
     return {
       suggestions: getSQLSuggest(),
     };
   };
 
   return (
-    <div>
-      <Row gutter={[12, 12]}>
-        <Col span={24}>
-          <Space style={{ marginLeft: 12, marginBottom: 6 }}>
-            <Button onClick={onSave}>保存​</Button>
-          </Space>
-        </Col>
-      </Row>
-      <Row>
-        <Col span={24}>
-          <Editor
-            language="sql"
-            value={sqlScript}
-            height="calc(100vh - 175px)"
-            width="100%"
-            theme="vs"
-            options={{ minimap: { autohide: true, side: 'right' } }}
-            beforeMount={(monaco) => {
-              // 注册代码补全提供者
-              monaco.languages.registerCompletionItemProvider('sql', {
-                provideCompletionItems,
-              });
-            }}
-            onChange={(value, event) => {
-              setSqlScript(value);
-            }}
-          />
-        </Col>
-      </Row>
+    <div style={{ overflow: 'hidden', height: '100%', width: '100%', position: 'relative' }}>
+      <Editor
+        language="sql"
+        value={sqlScript}
+        width="100%"
+        theme="vs"
+        options={{ minimap: { autohide: true, side: 'right' } }}
+        beforeMount={(monaco) => {
+          // 注册代码补全提供者
+          monaco.languages.registerCompletionItemProvider('sql', {
+            provideCompletionItems,
+          });
+        }}
+        onChange={(value, event) => {
+          setSqlScript(value);
+        }}
+        onMount={(editor) => (window.editor = editor)}
+      />
+      <div className={styles.consoleOptionsWrapper}>
+        <div className={styles.consoleOptionsLeft}>
+          <Button type="primary" className={styles.runButton} onClick={() => onRun(window.editor!)}>
+            <img src="https://s.xinc818.com/files/webcilkhr2wedded3qp/播放.svg" alt="" />
+            运行
+          </Button>
+          <Button
+            type="default"
+            className={styles.saveButton}
+            onClick={onSave}
+          >
+            保存
+          </Button>
+        </div>
+        <Button
+          type="text"
+          // onClick={() => {
+          //   const contextTmp = editorRef?.current?.getAllContent();
+          //   editorRef?.current?.setValue(format(contextTmp || ''), 'cover');
+          // }}
+        >
+          格式化
+        </Button>
+      </div>
     </div>
   );
 };

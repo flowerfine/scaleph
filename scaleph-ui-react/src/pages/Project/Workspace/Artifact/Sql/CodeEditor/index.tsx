@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Split from 'react-split';
 import EditMenu from './EditMenu';
-import TabComponents from './TabComponents';
+import EditorLeft from './EditorLeft';
 import "./index.less";
 
 export default function index() {
@@ -29,7 +29,7 @@ export default function index() {
         }}
       >
         <EditMenu showLeft={showLeft}/>
-        <TabComponents />
+        <EditorLeft />
       </Split>
     </>
   );

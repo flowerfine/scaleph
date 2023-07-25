@@ -1,41 +1,43 @@
-.split-horizontal {
-    height: calc(100vh - 175px);
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
+.consoleOptionsWrapper{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  padding: 0 20px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  height: 40px;
+  background-color: #fff;
   
-  .split-horizontal > div {
-    float: left;
-    height: 100%;
-  }
-  
-  .split-vertical {
-    height: calc(100vh - 56px);
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-  
-  .gutter {
-    background-color: rgba(5, 5, 5, 0.06);
-    background-repeat: no-repeat;
-    background-position: 50%;
-  }
-  
-  .gutter.gutter-horizontal {
-    //   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==");
-    cursor: col-resize;
-  }
-  
-  .gutter.gutter-vertical {
-    //   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=");
-    cursor: row-resize;
+  .consoleOptionsLeft{
+    display: flex;
+    align-items: center;
   }
 
-  .container-left {
-    margin: 6px;
-  }
-  
-  .container-right {
-    margin-left: 6px;
-    margin-right: 6px;
-  }
+    .runButton {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 70px;
+      height: 28px;
+      font-size: 12px;
+      color: #fff;
+      font-family:Arial;
+      border-radius: 5px;
+      margin-right: 20px;
+      >img{
+        width: 14px;
+        height: 14px;
+      }
+    }
+    .saveButton {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      width: 70px;
+      height: 28px;
+    }
+}
