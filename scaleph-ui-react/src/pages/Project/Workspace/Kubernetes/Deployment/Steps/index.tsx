@@ -49,6 +49,7 @@ const FlinkKubernetesDeploymentSteps: React.FC = (props: any) => {
         jobManager: newTemplate.jobManager,
         taskManager: newTemplate.taskManager,
         flinkConfiguration: newTemplate.flinkConfiguration,
+        additionalDependencies: newTemplate.additionalDependencies
       }
       editDeployment(deployment)
     } catch (unused) {

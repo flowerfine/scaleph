@@ -136,6 +136,7 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
         wsFlinkKubernetesSessionClusterDTO.setFlinkConfiguration(wsFlinkKubernetesTemplateDTO.getFlinkConfiguration());
         wsFlinkKubernetesSessionClusterDTO.setLogConfiguration(wsFlinkKubernetesTemplateDTO.getLogConfiguration());
         wsFlinkKubernetesSessionClusterDTO.setIngress(wsFlinkKubernetesTemplateDTO.getIngress());
+        wsFlinkKubernetesSessionClusterDTO.setAdditionalDependencies(wsFlinkKubernetesTemplateDTO.getAdditionalDependencies());
         wsFlinkKubernetesSessionClusterDTO.setRemark("generated from template-" + wsFlinkKubernetesTemplateDTO.getName());
         return wsFlinkKubernetesSessionClusterDTO;
     }

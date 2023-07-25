@@ -7,7 +7,8 @@ import {Props} from '@/app.d';
 import AdvancedCheckpoint from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedCheckpoint";
 import AdvancedBasic from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedBasic";
 import AdvancedResource from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedResource";
-import AdvancedPeriodicSavepoint from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedPeriodicSavepoint";
+import AdvancedPeriodicSavepoint
+  from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedPeriodicSavepoint";
 import AdvancedRestart from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedRestart";
 import AdvancedFaultTolerance
   from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedFaultTolerance";
@@ -16,6 +17,8 @@ import AdvancedHighAvailability
 import AdvancedAdditional from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedAdditional";
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
 import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
+import AdvancedAdditionalDependencies
+  from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedAdditionalDependencies";
 
 const DeploymentTemplateAdvanced: React.FC<Props<WsFlinkKubernetesTemplate>> = (props: any) => {
   const [form] = Form.useForm()
@@ -53,6 +56,7 @@ const DeploymentTemplateAdvanced: React.FC<Props<WsFlinkKubernetesTemplate>> = (
       <AdvancedRestart/>
       <AdvancedFaultTolerance/>
       <AdvancedHighAvailability/>
+      <AdvancedAdditionalDependencies/>
       <AdvancedAdditional/>
     </ProForm>
   );

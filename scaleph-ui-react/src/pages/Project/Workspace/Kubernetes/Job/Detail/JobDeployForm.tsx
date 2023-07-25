@@ -56,6 +56,7 @@ const FlinkKubernetesJobDeployForm: React.FC<ModalFormProps<WsFlinkKubernetesJob
               taskManager: taskManagerSpec,
               parallelism: values.parallelism,
               upgradeMode: values.upgradeMode,
+              allowNonRestoredState: values.allowNonRestoredState,
               userFlinkConfiguration: values.userFlinkConfiguration
             }
             return WsFlinkKubernetesJobService.deploy(param).then((response) => {

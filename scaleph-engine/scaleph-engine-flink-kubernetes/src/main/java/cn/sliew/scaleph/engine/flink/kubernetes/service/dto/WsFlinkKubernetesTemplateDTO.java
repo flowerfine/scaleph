@@ -29,6 +29,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -76,6 +77,9 @@ public class WsFlinkKubernetesTemplateDTO extends BaseDTO {
 
     @Schema(description = "ingress")
     private IngressSpec ingress;
+
+    @Schema(description = "additional dependencies")
+    private List<Long> additionalDependencies;
 
     @Schema(description = "remark")
     private String remark;
