@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.dto;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.ResourceLifecycleState;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.UpgradeMode;
 import cn.sliew.scaleph.dao.entity.BaseDO;
@@ -56,6 +57,9 @@ public class WsFlinkKubernetesJobInstanceDTO extends BaseDO {
     @Schema(description = "upgrade mode")
     private UpgradeMode upgradeMode;
 
+    @Schema(description = "allow to skip savepoint state")
+    private Boolean allowNonRestoredState;
+
     @Schema(description = "job manager")
     private JobManagerSpec jobManager;
 
@@ -65,8 +69,11 @@ public class WsFlinkKubernetesJobInstanceDTO extends BaseDO {
     @Schema(description = "user flink configuration")
     private Map<String, String> userFlinkConfiguration;
 
-    @Schema(description = "state")
+    @Schema(description = "deploy state")
     private ResourceLifecycleState state;
+
+    @Schema(description = "job state")
+    private FlinkJobState jobState;
 
     @Schema(description = "error")
     private String error;

@@ -14,6 +14,8 @@ import AdvancedHighAvailability
 import AdvancedResource from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedResource";
 import AdvancedAdditional from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedAdditional";
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
+import AdvancedAdditionalDependencies
+  from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedAdditionalDependencies";
 
 const SessionClusterOptionsStepForm: React.FC = (props: any) => {
   const form = Form.useFormInstance()
@@ -33,6 +35,7 @@ const SessionClusterOptionsStepForm: React.FC = (props: any) => {
       <AdvancedRestart/>
       <AdvancedFaultTolerance/>
       <AdvancedHighAvailability/>
+      <AdvancedAdditionalDependencies/>
       <AdvancedAdditional/>
     </ProCard>
   )

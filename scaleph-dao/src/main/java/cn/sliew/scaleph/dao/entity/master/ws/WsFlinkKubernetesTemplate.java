@@ -73,6 +73,9 @@ public class WsFlinkKubernetesTemplate extends BaseDO {
     @TableField("ingress")
     private String ingress;
 
+    @TableField("additional_dependencies")
+    private String additionalDependencies;
+
     @TableField("remark")
     private String remark;
 

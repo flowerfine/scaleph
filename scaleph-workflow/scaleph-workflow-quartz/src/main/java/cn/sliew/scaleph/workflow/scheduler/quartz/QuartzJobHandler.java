@@ -90,7 +90,7 @@ public class QuartzJobHandler extends QuartzJobBean {
         engine.run(workFlow, actionContext, new ActionListener<ActionResult>() {
             @Override
             public void onResponse(ActionResult result) {
-                log.info("workflow {} run success!", workflowDefinitionDTO.getName());
+                log.debug("workflow {} run success!", workflowDefinitionDTO.getName());
             }
 
             @Override

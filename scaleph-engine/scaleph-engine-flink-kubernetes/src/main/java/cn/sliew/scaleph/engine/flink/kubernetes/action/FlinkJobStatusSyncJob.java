@@ -56,7 +56,7 @@ public class FlinkJobStatusSyncJob extends AbstractWorkFlow {
     private void process() {
         List<Long> jobIds = wsFlinkKubernetesJobService.listAll();
         jobIds.forEach(this::doProcess);
-        log.info("update flink kubernetes job status success! update size: {}", jobIds.size());
+        log.debug("update flink kubernetes job status success! update size: {}", jobIds.size());
     }
 
     private void doProcess(Long jobId) {

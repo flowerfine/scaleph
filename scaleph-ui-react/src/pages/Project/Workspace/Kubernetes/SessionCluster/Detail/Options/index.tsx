@@ -13,6 +13,8 @@ import AdvancedHighAvailability
   from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedHighAvailability";
 import AdvancedAdditional from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedAdditional";
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
+import AdvancedAdditionalDependencies
+  from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedAdditionalDependencies";
 
 const FlinkKubernetesSessinClusterDetailOptionsWeb: React.FC = (props: any) => {
   const formRef = useRef<ProFormInstance>();
@@ -37,6 +39,7 @@ const FlinkKubernetesSessinClusterDetailOptionsWeb: React.FC = (props: any) => {
       <AdvancedRestart/>
       <AdvancedFaultTolerance/>
       <AdvancedHighAvailability/>
+      <AdvancedAdditionalDependencies/>
       <AdvancedAdditional/>
     </ProForm>
   );

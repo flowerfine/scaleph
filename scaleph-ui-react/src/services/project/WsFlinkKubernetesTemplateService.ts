@@ -113,6 +113,8 @@ export const WsFlinkKubernetesTemplateService = {
     taskManagerResource["memory"] = value["taskManager.resource.memory"]
     data.taskManager = taskManager
 
+    data.additionalDependencies = value.additionalDependencies
+
     const flinkConfiguration: Record<string, any> = {}
     flinkConfiguration["execution.checkpointing.mode"] = value["execution.checkpointing.mode"]
     flinkConfiguration["execution.checkpointing.interval"] = value["execution.checkpointing.interval"]
@@ -186,6 +188,8 @@ export const WsFlinkKubernetesTemplateService = {
       'taskManager.replicas': data.taskManager?.replicas,
       'taskManager.resource.cpu': data.taskManager?.resource?.cpu,
       'taskManager.resource.memory': data.taskManager?.resource?.memory,
+
+      'additionalDependencies': data.additionalDependencies,
 
       'execution.checkpointing.mode': flinkConfiguration.get('execution.checkpointing.mode'),
       'execution.checkpointing.interval': flinkConfiguration.get('execution.checkpointing.interval'),

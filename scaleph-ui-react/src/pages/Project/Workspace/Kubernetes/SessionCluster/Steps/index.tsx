@@ -49,6 +49,7 @@ const FlinkKubernetesSessionClusterSteps: React.FC = (props: any) => {
         jobManager: newTemplate.jobManager,
         taskManager: newTemplate.taskManager,
         flinkConfiguration: newTemplate.flinkConfiguration,
+        additionalDependencies: newTemplate.additionalDependencies
       }
       editSessionCluster(sessionCluster)
     } catch (unused) {
