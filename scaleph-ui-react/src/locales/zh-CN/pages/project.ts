@@ -37,9 +37,6 @@ export default {
   'pages.project.job.configOptions': 'Config Options',
   'pages.project.job.config.cluster': '集群信息',
 
-
-
-
   'pages.project.di.job': 'SeaTunnel',
   'pages.project.di.jobCode': '作业编码',
   'pages.project.di.jobName': '作业名称',
@@ -737,6 +734,9 @@ export default {
   'pages.project.flink.kubernetes.deployment.template.deploymentKind': '部署模式',
   'pages.project.flink.kubernetes.deployment.template.namespace': 'Namespace',
   'pages.project.flink.kubernetes.deployment.template.define': '模板定义',
+  'pages.project.flink.kubernetes.template.step.advanced.configOptions': 'ConfigOption',
+  'pages.project.flink.kubernetes.template.step.advanced.configOptions.key': 'Config',
+  'pages.project.flink.kubernetes.template.step.advanced.configOptions.value': 'Value',
 
   'pages.project.flink.kubernetes.session-cluster': 'SessionCluster',
   'pages.project.flink.kubernetes.session-cluster.name': '名称',
@@ -789,7 +789,8 @@ export default {
   'pages.project.flink.kubernetes.job.flinkSessionCluster': 'SessionCluster',
   'pages.project.flink.kubernetes.job.type': '作业类型',
   'pages.project.flink.kubernetes.job.artifact': 'Artifact',
-  'pages.project.flink.kubernetes.job.state': 'State',
+  'pages.project.flink.kubernetes.job.jobState': 'Job Status',
+  'pages.project.flink.kubernetes.job.state': 'Deploy State',
   'pages.project.flink.kubernetes.job.error': 'Error',
 
   'pages.project.flink.kubernetes.job.detail': '详情',
@@ -805,6 +806,9 @@ export default {
   'pages.project.flink.kubernetes.job.detail.deploy.resource.userFlinkConfiguration': 'Flink配置',
   'pages.project.flink.kubernetes.job.detail.deploy.state': 'State',
   'pages.project.flink.kubernetes.job.detail.deploy.state.upgradeMode': 'Upgrade 方式',
+  'pages.project.flink.kubernetes.job.detail.deploy.state.allowNonRestoredState': 'AllowNonRestoredState',
+  'pages.project.flink.kubernetes.job.detail.shutdown.savepoint': '停止前创建一次快照',
+  'pages.project.flink.kubernetes.job.detail.shutdown.drain': '输出窗口数据（Drain）',
 
   'pages.project.flink.kubernetes.job.detail.suspend': 'Suspend',
   'pages.project.flink.kubernetes.job.detail.shutdown': 'Shutdown',

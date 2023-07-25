@@ -14,19 +14,19 @@ const AdvancedAdditional: React.FC = () => {
       copyIconProps={false}
       colProps={{span: 21, offset: 1}}
       creatorButtonProps={{
-        creatorButtonText: intl.formatMessage({id: 'page.project.cluster.config.configOptions'}),
+        creatorButtonText: intl.formatMessage({id: 'pages.project.flink.kubernetes.template.step.advanced.configOptions'}),
         type: "text",
       }}
     >
       <ProFormGroup>
         <ProFormText
           name="key"
-          label={intl.formatMessage({id: 'page.project.cluster.config.configOptions.key'})}
+          label={intl.formatMessage({id: 'pages.project.flink.kubernetes.template.step.advanced.configOptions.key'})}
           colProps={{span: 10, offset: 1}}
         />
         <ProFormText
           name="value"
-          label={intl.formatMessage({id: 'page.project.cluster.config.configOptions.value'})}
+          label={intl.formatMessage({id: 'pages.project.flink.kubernetes.template.step.advanced.configOptions.value'})}
           colProps={{span: 10, offset: 1}}
         />
       </ProFormGroup>

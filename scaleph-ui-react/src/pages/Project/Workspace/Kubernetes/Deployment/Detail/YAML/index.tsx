@@ -18,7 +18,7 @@ const FlinkKubernetesDeploymentDetailYAMLWeb: React.FC<Props<WsFlinkKubernetesDe
   }, [monaco]);
 
   useEffect(() => {
-    WsFlinkKubernetesDeploymentService.asYaml(data.id).then((response) => {
+    WsFlinkKubernetesDeploymentService.asYaml(data).then((response) => {
       setDeployment(YAML.stringify(response.data))
     })
   }, []);

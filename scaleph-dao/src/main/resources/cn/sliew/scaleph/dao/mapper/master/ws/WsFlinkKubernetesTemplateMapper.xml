@@ -38,6 +38,7 @@
         <result column="flink_configuration" property="flinkConfiguration" />
         <result column="log_configuration" property="logConfiguration" />
         <result column="ingress" property="ingress" />
+        <result column="additional_dependencies" property="additionalDependencies" />
         <result column="remark" property="remark" />
     </resultMap>
 
@@ -47,7 +48,7 @@
         project_id, `name`, template_id, deployment_kind, namespace,
         kubernetes_options, job_manager, task_manager,
         pod_template, flink_configuration, log_configuration,
-        ingress, remark
+        ingress, additional_dependencies, remark
     </sql>
 
 </mapper>

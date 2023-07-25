@@ -234,24 +234,25 @@ CREATE TABLE ws_flink_checkpoint
 DROP TABLE IF EXISTS ws_flink_kubernetes_template;
 CREATE TABLE ws_flink_kubernetes_template
 (
-    id                  bigint       not null auto_increment,
-    project_id          bigint       not null comment '项目id',
-    `name`              varchar(64)  not null,
-    template_id         varchar(64)  not null,
-    deployment_kind     varchar(16)  not null,
-    namespace           varchar(255) not null,
-    kubernetes_options  varchar(255),
-    job_manager         text,
-    task_manager        text,
-    pod_template        text,
-    flink_configuration text,
-    log_configuration   text,
-    ingress             text,
-    remark              varchar(255),
-    creator             varchar(32),
-    create_time         datetime     not null default current_timestamp,
-    editor              varchar(32),
-    update_time         datetime     not null default current_timestamp on update current_timestamp,
+    id                      bigint       not null auto_increment,
+    project_id              bigint       not null comment '项目id',
+    `name`                  varchar(64)  not null,
+    template_id             varchar(64)  not null,
+    deployment_kind         varchar(16)  not null,
+    namespace               varchar(255) not null,
+    kubernetes_options      varchar(255),
+    job_manager             text,
+    task_manager            text,
+    pod_template            text,
+    flink_configuration     text,
+    log_configuration       text,
+    ingress                 text,
+    additional_dependencies text,
+    remark                  varchar(255),
+    creator                 varchar(32),
+    create_time             datetime     not null default current_timestamp,
+    editor                  varchar(32),
+    update_time             datetime     not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
     UNIQUE KEY uniq_name (project_id, `name`)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes deployment template';
@@ -259,97 +260,104 @@ CREATE TABLE ws_flink_kubernetes_template
 INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
                                            `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
                                            `pod_template`, `flink_configuration`,
-                                           `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
+                                           `log_configuration`, `ingress`, additional_dependencies, `remark`, `creator`,
+                                           `editor`)
 VALUES (1, 1, 'simple-sessioin-cluster', '19b77b47-b9e4-418c-90a1-533ea6121c16', 'FlinkSessionJob', 'default',
         '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         NULL,
         '{"web.cancel.enable":"false","taskmanager.numberOfTaskSlots":"8","kubernetes.rest-service.exposed.type":"LoadBalancer"}',
-        NULL, NULL, NULL, 'sys', 'sys');
+        NULL, NULL, NULL, NULL, 'sys', 'sys');
 
 INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
                                            `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
                                            `pod_template`, `flink_configuration`,
-                                           `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
+                                           `log_configuration`, `ingress`, additional_dependencies, `remark`, `creator`,
+                                           `editor`)
 VALUES (2, 1, 'simple-jar-deployment', 'b4dc61d0-ad0e-4e39-b1a4-f0692122635f', 'FlinkDeployment', 'default',
         '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         NULL,
         '{"web.cancel.enable":"false","taskmanager.numberOfTaskSlots":"8","kubernetes.rest-service.exposed.type":"NodePort","kubernetes.rest-service.exposed.node-port-address-type":"ExternalIP"}',
-        NULL, NULL, NULL, 'sys', 'sys');
+        NULL, NULL, NULL, NULL, 'sys', 'sys');
 
 INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
                                            `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
                                            `pod_template`, `flink_configuration`,
-                                           `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
+                                           `log_configuration`, `ingress`, additional_dependencies, `remark`, `creator`,
+                                           `editor`)
 VALUES (3, 1, 'simple-sql-deployment', 'bceec5d5-6271-4079-b4d1-9936ab9fe9ca', 'FlinkDeployment', 'default',
         '{"image":"ghcr.io/flowerfine/scaleph-sql-template:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         NULL,
         '{"web.cancel.enable":"false","taskmanager.numberOfTaskSlots":"8","kubernetes.rest-service.exposed.type":"NodePort","kubernetes.rest-service.exposed.node-port-address-type":"ExternalIP"}',
-        NULL, NULL, NULL, 'sys', 'sys');
+        NULL, NULL, NULL, NULL, 'sys', 'sys');
 
 
 INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
                                            `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
                                            `pod_template`, `flink_configuration`,
-                                           `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
+                                           `log_configuration`, `ingress`, additional_dependencies, `remark`, `creator`,
+                                           `editor`)
 VALUES (4, 1, 'simple-seatunnel-deployment', '35e4a532-3c7b-4273-8cdb-edbef2cb9e49', 'FlinkDeployment', 'default',
         '{"image":"ghcr.io/flowerfine/scaleph-seatunnel:2.3.1-flink-1.15","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_16","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         NULL,
         '{"web.cancel.enable":"false","taskmanager.numberOfTaskSlots":"8","kubernetes.rest-service.exposed.type":"NodePort","kubernetes.rest-service.exposed.node-port-address-type":"ExternalIP"}',
-        NULL, NULL, NULL, 'sys', 'sys');
+        NULL, NULL, NULL, NULL, 'sys', 'sys');
 
 INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
                                            `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
                                            `pod_template`, `flink_configuration`,
-                                           `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
+                                           `log_configuration`, `ingress`, additional_dependencies, `remark`, `creator`,
+                                           `editor`)
 VALUES (5, 1, 'deployment', '3f0c6600-b6d7-4e2c-b2e5-4a0b3cdb3cbb', 'FlinkDeployment', 'default',
         '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"apiVersion":"v1","kind":"Pod","spec":{"containers":[{"name":"flink-main-container","volumeMounts":[{"mountPath":"/flink-data","name":"flink-volume"}]}],"volumes":[{"emptyDir":{"sizeLimit":"500Mi"},"name":"flink-volume"}]}}',
         '{"kubernetes.operator.savepoint.history.max.count":"10","execution.checkpointing.mode":"exactly_once","state.checkpoints.num-retained":"10","restart-strategy.failure-rate.delay":"10s","restart-strategy.failure-rate.max-failures-per-interval":"30","kubernetes.operator.savepoint.format.type":"NATIVE","web.cancel.enable":"false","kubernetes.operator.cluster.health-check.enabled":"true","execution.checkpointing.interval":"180s","execution.checkpointing.timeout":"10min","kubernetes.operator.savepoint.history.max.age":"72h","execution.checkpointing.externalized-checkpoint-retention":"RETAIN_ON_CANCELLATION","kubernetes.operator.cluster.health-check.restarts.threshold":"30","restart-strategy":"failurerate","restart-strategy.failure-rate.failure-rate-interval":"10min","execution.checkpointing.min-pause":"180s","kubernetes.operator.cluster.health-check.restarts.window":"10min","execution.checkpointing.max-concurrent-checkpoints":"1","kubernetes.operator.periodic.savepoint.interval":"1h","kubernetes.operator.savepoint.trigger.grace-period":"20min","execution.checkpointing.alignment-timeout":"120s","kubernetes.rest-service.exposed.type":"LoadBalancer","state.savepoints.dir":"file:///flink-data/savepoints","state.checkpoints.dir":"file:///flink-data/checkpoints"}',
-        NULL, NULL, NULL, 'sys', 'sys');
+        NULL, NULL, NULL, NULL, 'sys', 'sys');
 
 INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
                                            `namespace`, `kubernetes_options`, `job_manager`, `task_manager`,
                                            `pod_template`, `flink_configuration`,
-                                           `log_configuration`, `ingress`, `remark`, `creator`, `editor`)
+                                           `log_configuration`, `ingress`, additional_dependencies, `remark`, `creator`,
+                                           `editor`)
 VALUES (6, 1, 'session-cluster', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkSessionJob', 'default',
         '{"image":"flink:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"apiVersion":"v1","kind":"Pod","spec":{"containers":[{"name":"flink-main-container","volumeMounts":[{"mountPath":"/flink-data","name":"flink-volume"}]}],"volumes":[{"emptyDir":{"sizeLimit":"500Mi"},"name":"flink-volume"}]}}',
         '{"kubernetes.operator.savepoint.history.max.count":"10","execution.checkpointing.mode":"exactly_once","state.checkpoints.num-retained":"10","restart-strategy.failure-rate.delay":"10s","restart-strategy.failure-rate.max-failures-per-interval":"30","kubernetes.operator.savepoint.format.type":"NATIVE","web.cancel.enable":"false","kubernetes.operator.cluster.health-check.enabled":"true","execution.checkpointing.interval":"180s","execution.checkpointing.timeout":"10min","kubernetes.operator.savepoint.history.max.age":"72h","execution.checkpointing.externalized-checkpoint-retention":"RETAIN_ON_CANCELLATION","kubernetes.operator.cluster.health-check.restarts.threshold":"30","restart-strategy":"failurerate","restart-strategy.failure-rate.failure-rate-interval":"10min","execution.checkpointing.min-pause":"180s","kubernetes.operator.cluster.health-check.restarts.window":"10min","execution.checkpointing.max-concurrent-checkpoints":"1","kubernetes.operator.periodic.savepoint.interval":"1h","kubernetes.operator.savepoint.trigger.grace-period":"20min","execution.checkpointing.alignment-timeout":"120s","kubernetes.rest-service.exposed.type":"LoadBalancer","state.savepoints.dir":"file:///flink-data/savepoints","state.checkpoints.dir":"file:///flink-data/checkpoints"}',
-        NULL, NULL, NULL, 'sys', 'sys');
+        NULL, NULL, NULL, NULL, 'sys', 'sys');
 
 DROP TABLE IF EXISTS ws_flink_kubernetes_deployment;
 CREATE TABLE ws_flink_kubernetes_deployment
 (
-    id                    bigint       not null auto_increment,
-    project_id            bigint       not null comment '项目id',
-    cluster_credential_id bigint       not null,
-    `name`                varchar(255) not null,
-    deployment_id         varchar(64)  not null,
-    namespace             varchar(255) not null,
-    kubernetes_options    varchar(255),
-    job_manager           text,
-    task_manager          text,
-    pod_template          text,
-    flink_configuration   text,
-    log_configuration     text,
-    ingress               text,
-    remark                varchar(255),
-    creator               varchar(32),
-    create_time           datetime     not null default current_timestamp,
-    editor                varchar(32),
-    update_time           datetime     not null default current_timestamp on update current_timestamp,
+    id                      bigint       not null auto_increment,
+    project_id              bigint       not null comment '项目id',
+    cluster_credential_id   bigint       not null,
+    `name`                  varchar(255) not null,
+    deployment_id           varchar(64)  not null,
+    namespace               varchar(255) not null,
+    kubernetes_options      varchar(255),
+    job_manager             text,
+    task_manager            text,
+    pod_template            text,
+    flink_configuration     text,
+    log_configuration       text,
+    ingress                 text,
+    additional_dependencies text,
+    remark                  varchar(255),
+    creator                 varchar(32),
+    create_time             datetime     not null default current_timestamp,
+    editor                  varchar(32),
+    update_time             datetime     not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
     UNIQUE KEY uniq_name (project_id, `name`, cluster_credential_id)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes deployment';
@@ -357,29 +365,30 @@ CREATE TABLE ws_flink_kubernetes_deployment
 DROP TABLE IF EXISTS ws_flink_kubernetes_session_cluster;
 CREATE TABLE ws_flink_kubernetes_session_cluster
 (
-    id                    bigint       not null auto_increment,
-    project_id            bigint       not null comment '项目id',
-    cluster_credential_id bigint       not null,
-    `name`                varchar(255) not null,
-    session_cluster_id    varchar(64)  not null,
-    namespace             varchar(255) not null,
-    kubernetes_options    varchar(255),
-    job_manager           text,
-    task_manager          text,
-    pod_template          text,
-    flink_configuration   text,
-    log_configuration     text,
-    ingress               text,
-    support_sql_gateway   varchar(16),
-    state                 varchar(64),
-    error                 text,
-    cluster_info          text,
-    task_manager_info     text,
-    remark                varchar(255),
-    creator               varchar(32),
-    create_time           datetime     not null default current_timestamp,
-    editor                varchar(32),
-    update_time           datetime     not null default current_timestamp on update current_timestamp,
+    id                      bigint       not null auto_increment,
+    project_id              bigint       not null comment '项目id',
+    cluster_credential_id   bigint       not null,
+    `name`                  varchar(255) not null,
+    session_cluster_id      varchar(64)  not null,
+    namespace               varchar(255) not null,
+    kubernetes_options      varchar(255),
+    job_manager             text,
+    task_manager            text,
+    pod_template            text,
+    flink_configuration     text,
+    log_configuration       text,
+    ingress                 text,
+    additional_dependencies text,
+    support_sql_gateway     varchar(16),
+    state                   varchar(64),
+    error                   text,
+    cluster_info            text,
+    task_manager_info       text,
+    remark                  varchar(255),
+    creator                 varchar(32),
+    create_time             datetime     not null default current_timestamp,
+    editor                  varchar(32),
+    update_time             datetime     not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
     UNIQUE KEY uniq_name (project_id, `name`, cluster_credential_id)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes session cluster';
@@ -399,6 +408,7 @@ CREATE TABLE ws_flink_kubernetes_job
     flink_artifact_jar_id    bigint,
     flink_artifact_sql_id    bigint,
     ws_di_job_id             bigint,
+    additional_dependencies  text,
     remark                   varchar(255),
     creator                  varchar(32),
     create_time              datetime     not null default current_timestamp,
@@ -416,10 +426,12 @@ CREATE TABLE ws_flink_kubernetes_job_instance
     instance_id                varchar(64) not null,
     parallelism                int         not null default 1,
     upgrade_mode               varchar(32),
+    allow_non_restored_state   boolean,
     job_manager                text,
     task_manager               text,
     user_flink_configuration   text,
     state                      varchar(64),
+    job_state                  varchar(64),
     error                      text,
     cluster_info               text,
     task_manager_info          text,

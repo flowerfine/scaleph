@@ -66,6 +66,9 @@ public interface WsFlinkKubernetesSessionClusterConvert extends BaseConvert<WsFl
         if (dto.getIngress() != null) {
             entity.setIngress(JacksonUtil.toJsonString(dto.getIngress()));
         }
+        if (dto.getAdditionalDependencies() != null) {
+            entity.setAdditionalDependencies(JacksonUtil.toJsonString(dto.getAdditionalDependencies()));
+        }
         if (CollectionUtils.isEmpty(dto.getClusterInfo()) == false) {
             entity.setClusterInfo(JacksonUtil.toJsonString(dto.getClusterInfo()));
         }
@@ -99,6 +102,9 @@ public interface WsFlinkKubernetesSessionClusterConvert extends BaseConvert<WsFl
         }
         if (StringUtils.hasText(entity.getIngress())) {
             dto.setIngress(JacksonUtil.parseJsonString(entity.getIngress(), IngressSpec.class));
+        }
+        if (StringUtils.hasText(entity.getAdditionalDependencies())) {
+            dto.setAdditionalDependencies(JacksonUtil.parseJsonArray(entity.getAdditionalDependencies(), Long.TYPE));
         }
         if (StringUtils.hasText(entity.getClusterInfo())) {
             dto.setClusterInfo(JacksonUtil.parseJsonString(entity.getClusterInfo(), Map.class));

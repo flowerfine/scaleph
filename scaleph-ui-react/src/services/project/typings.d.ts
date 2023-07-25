@@ -225,6 +225,7 @@ export type WsFlinkKubernetesTemplate = {
   flinkConfiguration?: Record<string, any>;
   logConfiguration?: Record<string, any>;
   ingress?: Record<string, any>;
+  additionalDependencies?: Array<number>;
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
@@ -265,6 +266,7 @@ export type WsFlinkKubernetesSessionCluster = {
   flinkConfiguration?: Record<string, any>;
   logConfiguration?: Record<string, any>;
   ingress?: Record<string, any>;
+  additionalDependencies?: Array<number>;
   supportSqlGateway?: Dict;
   state?: Dict;
   error?: Dict;
@@ -299,6 +301,7 @@ export type WsFlinkKubernetesDeployment = {
   flinkConfiguration?: Record<string, any>;
   logConfiguration?: Record<string, any>;
   ingress?: Record<string, any>;
+  additionalDependencies?: Array<number>;
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
@@ -368,10 +371,13 @@ export type WsFlinkKubernetesJobInstance = {
   wsFlinkKubernetesJobId: number;
   instanceId: string;
   parallelism?: number;
+  upgradeMode?: Dict;
+  allowNonRestoredState?: boolean;
   jobManager?: Record<string, any>;
   taskManager?: Record<string, any>;
   userFlinkConfiguration?: Record<string, any>;
   state: Dict;
+  jobState?: Dict;
   error?: Dict;
   clusterInfo?: Record<string, any>;
   taskManagerInfo?: Record<string, any>;
@@ -387,6 +393,8 @@ export type WsFlinkKubernetesJobInstanceDeployParam = {
   parallelism?: number;
   jobManager?: Record<string, any>;
   taskManager?: Record<string, any>;
+  upgradeMode?: string;
+  allowNonRestoredState?: boolean;
   userFlinkConfiguration?: Record<string, any>;
 };
 
