@@ -25,6 +25,7 @@ import org.apache.flink.table.gateway.api.results.GatewayInfo;
 import org.apache.flink.table.gateway.api.results.ResultSet;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -80,11 +81,12 @@ public interface WsFlinkSqlGatewayService {
     /**
      * List catalogs
      *
-     * @param clusterId       Flink K8S session cluster id
-     * @param sessionHandleId Session handler id
+     * @param clusterId              Flink K8S session cluster id
+     * @param sessionHandleId        Session handler id
+     * @param includeSystemFunctions Whether show system function of catalog
      * @return Set of catalog informations
      */
-    Set<CatalogInfo> getCatalogInfo(String clusterId, String sessionHandleId);
+    Set<CatalogInfo> getCatalogInfo(String clusterId, String sessionHandleId, boolean includeSystemFunctions);
 
     /**
      * Close a session
@@ -140,4 +142,25 @@ public interface WsFlinkSqlGatewayService {
      * @throws Exception
      */
     List<String> completeStatement(String clusterId, String sessionId, String statement, int position) throws Exception;
+
+    /**
+     * Add dependency jars to the sql-gateway
+     *
+     * @param clusterId Flink K8S session cluster id
+     * @param sessionId Session hande id
+     * @param jarIdList List of jar ids
+     * @return true if success
+     */
+    Boolean addDependencies(String clusterId, String sessionId, List<Long> jarIdList);
+
+    /**
+     * Add a catalog
+     *
+     * @param clusterId   Flink K8S session cluster id
+     * @param sessionId   Session hande id
+     * @param catalogName Catalog name
+     * @param options     Catalog options
+     * @return true if success
+     */
+    Boolean addCatalog(String clusterId, String sessionId, String catalogName, Map<String, String> options);
 }
