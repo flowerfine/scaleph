@@ -1,8 +1,9 @@
+import React, { useEffect, useState } from 'react';
 import { Editor, EditorConstructionOptions, CompletionItem, languages, Position, CompletionList } from '@monaco-editor/react';
 import { Button } from 'antd';
+import {useIntl} from 'umi';
 import { language } from 'monaco-editor/esm/vs/basic-languages/sql/sql';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
-import React, { useEffect, useState } from 'react';
 const { keywords: SQLKeys } = language;
 
 import { WsFlinkArtifactSql } from '@/services/project/typings';
@@ -13,6 +14,7 @@ const CodeEditor: React.FC = () => {
   const urlParams = useLocation();
   const [sqlScript, setSqlScript] = useState<string>('');// 内容
   const flinkArtifactSql = urlParams.state || ('' as WsFlinkArtifactSql);
+  const intl = useIntl();//语言切换
 
   useEffect(() => {
     setSqlScript(flinkArtifactSql.script);
@@ -77,14 +79,14 @@ const CodeEditor: React.FC = () => {
         <div className={styles.consoleOptionsLeft}>
           <Button type="primary" className={styles.runButton} onClick={() => onRun(window.editor!)}>
             <img src="https://s.xinc818.com/files/webcilkhr2wedded3qp/播放.svg" alt="" />
-            运行
+            {intl.formatMessage({id: 'Run'})}
           </Button>
           <Button
             type="default"
             className={styles.saveButton}
             onClick={onSave}
           >
-            保存
+            {intl.formatMessage({id: 'Save'})}
           </Button>
         </div>
         <Button
@@ -94,7 +96,7 @@ const CodeEditor: React.FC = () => {
           //   editorRef?.current?.setValue(format(contextTmp || ''), 'cover');
           // }}
         >
-          格式化
+          {intl.formatMessage({id: 'Format'})}
         </Button>
       </div>
     </div>
