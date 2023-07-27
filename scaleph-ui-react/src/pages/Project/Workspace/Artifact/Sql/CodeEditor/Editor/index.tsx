@@ -86,7 +86,7 @@ const CodeEditor: React.FC = () => {
             className={styles.saveButton}
             onClick={onSave}
           >
-            {intl.formatMessage({id: 'Save'})}
+            {intl.formatMessage({id: 'Save'})} 
           </Button>
         </div>
         <Button
