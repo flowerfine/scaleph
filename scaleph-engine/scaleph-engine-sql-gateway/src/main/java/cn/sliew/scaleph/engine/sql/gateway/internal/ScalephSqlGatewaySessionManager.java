@@ -25,6 +25,7 @@ import org.apache.flink.table.api.Schema;
 import org.apache.flink.table.catalog.*;
 import org.apache.flink.table.catalog.exceptions.DatabaseNotExistException;
 import org.apache.flink.table.data.StringData;
+import org.apache.flink.table.factories.FactoryUtil;
 import org.apache.flink.table.gateway.api.operation.OperationHandle;
 import org.apache.flink.table.gateway.api.results.FetchOrientation;
 import org.apache.flink.table.gateway.api.results.GatewayInfo;
@@ -37,7 +38,12 @@ import org.apache.flink.table.gateway.service.context.DefaultContext;
 import org.apache.flink.table.gateway.service.context.SessionContext;
 import org.apache.flink.table.gateway.service.operation.OperationManager;
 import org.apache.flink.table.module.ModuleManager;
+import org.apache.flink.table.resource.ResourceType;
+import org.apache.flink.table.resource.ResourceUri;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URLClassLoader;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
@@ -158,7 +164,7 @@ public class ScalephSqlGatewaySessionManager {
         return tableInfoBuilder.build();
     }
 
-    public Set<CatalogInfo> getCatalogInfo(SessionHandle sessionHandle) {
+    public Set<CatalogInfo> getCatalogInfo(SessionHandle sessionHandle, boolean includeSystemFunctions) {
         ScalephSqlGatewaySession session = getSession(sessionHandle);
         SessionContext sessionContext = session.getSessionContext();
         SessionContext.SessionState sessionState = sessionContext.getSessionState();
@@ -177,6 +183,9 @@ public class ScalephSqlGatewaySessionManager {
                 .stream()
                 .map(catalogName -> {
                     CatalogInfo.CatalogInfoBuilder catalogInfoBuilder = CatalogInfo.builder();
+                    if (includeSystemFunctions) {
+                        catalogInfoBuilder.systemFunctions(systemFunctions);
+                    }
                     catalogInfoBuilder.catalogName(catalogName);
                     catalogManager.getCatalog(catalogName).ifPresent(catalog -> {
                         catalog.getFactory().ifPresent(factory -> {
@@ -253,5 +262,45 @@ public class ScalephSqlGatewaySessionManager {
                 .map(data -> data.getString(0))
                 .map(StringData::toString)
                 .collect(Collectors.toList());
+    }
+
+    public String executeStatement(SessionHandle sessionHandle, Map<String, String> configuration, String sql) {
+        SessionContext sessionContext = getSession(sessionHandle).getSessionContext();
+        Configuration sessionConf = new Configuration(sessionContext.getSessionConf());
+        configuration.forEach(sessionConf::setString);
+        return sessionContext.getOperationManager()
+                .submitOperation(handle ->
+                        sessionContext.createOperationExecutor(sessionConf)
+                                .executeStatement(handle, sql)
+                )
+                .getIdentifier()
+                .toString();
+    }
+
+    public void addDependencies(SessionHandle sessionHandle, List<URI> jars) {
+        List<ResourceUri> uris = jars.stream().map(uri -> new ResourceUri(ResourceType.JAR, uri.toString()))
+                .collect(Collectors.toList());
+        try {
+            getSession(sessionHandle)
+                    .getSessionContext()
+                    .getSessionState()
+                    .resourceManager
+                    .registerJarResources(uris);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void addCatalog(SessionHandle sessionHandle, String catalogName, Map<String, String> options) {
+        SessionContext sessionContext = getSession(sessionHandle)
+                .getSessionContext();
+        Configuration sessionConf = sessionContext.getSessionConf();
+        SessionContext.SessionState sessionState = sessionContext
+                .getSessionState();
+        URLClassLoader userClassLoader = sessionState.resourceManager.getUserClassLoader();
+        Catalog catalog = FactoryUtil.createCatalog(catalogName, options, sessionConf, userClassLoader);
+        sessionState
+                .catalogManager
+                .registerCatalog(catalogName, catalog);
     }
 }

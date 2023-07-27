@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.api.controller.ws;
 
+import cn.sliew.scaleph.engine.sql.gateway.dto.WsFlinkSqlGatewayCreateCatalogParamsDTO;
 import cn.sliew.scaleph.engine.sql.gateway.dto.WsFlinkSqlGatewayQueryParamsDTO;
 import cn.sliew.scaleph.engine.sql.gateway.dto.WsFlinkSqlGatewayQueryResultDTO;
 import cn.sliew.scaleph.engine.sql.gateway.dto.catalog.CatalogInfo;
@@ -31,6 +32,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -70,8 +72,9 @@ public class WsFlinkSqlGatewayController {
     @Operation(summary = "获取所有Catalog信息", description = "获取所有Catalog信息")
     public ResponseEntity<Set<CatalogInfo>> getCatalogInfo(
             @PathVariable("clusterId") String clusterId,
-            @PathVariable("sessionHandleId") String sessionHandleId) {
-        return ResponseEntity.ok(wsFlinkSqlGatewayService.getCatalogInfo(clusterId, sessionHandleId));
+            @PathVariable("sessionHandleId") String sessionHandleId,
+            @RequestParam(value = "includeSystemFunctions", defaultValue = "false") boolean includeSystemFunctions) {
+        return ResponseEntity.ok(wsFlinkSqlGatewayService.getCatalogInfo(clusterId, sessionHandleId, includeSystemFunctions));
     }
 
 
@@ -119,6 +122,26 @@ public class WsFlinkSqlGatewayController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @PostMapping("{clusterId}/{sessionHandleId}/addDependencies")
+    @Operation(summary = "添加依赖jar包", description = "添加依赖jar包")
+    public ResponseEntity<Boolean> addDependencies(
+            @PathVariable("clusterId") String clusterId,
+            @PathVariable("sessionHandleId") String sessionHandleId,
+            @RequestParam("jarIdList") List<Long> jarIdList
+    ) {
+        return ResponseEntity.ok(wsFlinkSqlGatewayService.addDependencies(clusterId, sessionHandleId, jarIdList));
+    }
+
+    @PostMapping("{clusterId}/{sessionHandleId}/addCatalog")
+    @Operation(summary = "添加catalog", description = "添加catalog")
+    public ResponseEntity<Boolean> addCatalog(
+            @PathVariable("clusterId") String clusterId,
+            @PathVariable("sessionHandleId") String sessionHandleId,
+            @RequestBody WsFlinkSqlGatewayCreateCatalogParamsDTO params
+    ) {
+        return ResponseEntity.ok(wsFlinkSqlGatewayService.addCatalog(clusterId, sessionHandleId, params.getCatalogName(), params.getOptions()));
     }
 
 }
