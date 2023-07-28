@@ -18,15 +18,18 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instance;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.*;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.util.TemplateMerger;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FileSystemPluginHandler;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FlinkImageHandler;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FlinkJobServiceHandler;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FlinkStateStorageHandler;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
+import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Component
@@ -50,6 +53,8 @@ public class FlinkDeploymentSpecHandler {
         enableFlinkStateStore(jobInstanceDTO, spec);
         addService(spec);
         addImage(jobInstanceDTO, spec);
+
+        mergeJobInstance(jobInstanceDTO, spec);
         return spec;
     }
 
@@ -71,5 +76,15 @@ public class FlinkDeploymentSpecHandler {
 
     private void addImage(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
         flinkImageHandler.handle(jobInstanceDTO, spec);
+    }
+
+    private void mergeJobInstance(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
+        spec.setJobManager(TemplateMerger.merge(spec.getJobManager(), jobInstanceDTO.getJobManager(), JobManagerSpec.class));
+        spec.setTaskManager(TemplateMerger.merge(spec.getTaskManager(), jobInstanceDTO.getTaskManager(), TaskManagerSpec.class));
+        spec.setFlinkConfiguration(TemplateMerger.merge(spec.getFlinkConfiguration(), jobInstanceDTO.getUserFlinkConfiguration(), Map.class));
+        JobSpec job = spec.getJob();
+        job.setParallelism(jobInstanceDTO.getParallelism());
+        job.setUpgradeMode(EnumUtils.getEnum(UpgradeMode.class, jobInstanceDTO.getUpgradeMode().name()));
+        job.setAllowNonRestoredState(jobInstanceDTO.getAllowNonRestoredState());
     }
 }
