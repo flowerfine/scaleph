@@ -18,13 +18,16 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services.impl;
 
+import cn.sliew.scaleph.common.util.SystemUtil;
 import cn.sliew.scaleph.engine.sql.gateway.dto.WsFlinkSqlGatewayQueryParamsDTO;
 import cn.sliew.scaleph.engine.sql.gateway.dto.catalog.CatalogInfo;
 import cn.sliew.scaleph.engine.sql.gateway.internal.ScalephSqlGatewaySessionManager;
 import cn.sliew.scaleph.engine.sql.gateway.services.WsFlinkSqlGatewayService;
 import cn.sliew.scaleph.kubernetes.service.KubernetesService;
 import cn.sliew.scaleph.resource.service.ClusterCredentialService;
+import cn.sliew.scaleph.resource.service.JarService;
 import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
+import cn.sliew.scaleph.resource.service.dto.JarDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.configuration.DeploymentOptions;
@@ -38,17 +41,19 @@ import org.apache.flink.table.gateway.api.session.SessionEnvironment;
 import org.apache.flink.table.gateway.api.session.SessionHandle;
 import org.apache.flink.table.gateway.rest.util.SqlGatewayRestAPIVersion;
 import org.apache.flink.table.gateway.service.context.DefaultContext;
-import org.apache.flink.table.gateway.service.context.SessionContext;
-import org.apache.flink.table.gateway.service.session.SessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.lang.reflect.Field;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URI;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -62,12 +67,15 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
             new ConcurrentHashMap<>();
     private KubernetesService kubernetesService;
     private ClusterCredentialService clusterCredentialService;
+    private JarService jarService;
 
     @Autowired
     public WsFlinkSqlGatewayServiceImpl(KubernetesService kubernetesService,
-                                        ClusterCredentialService clusterCredentialService) {
+                                        ClusterCredentialService clusterCredentialService,
+                                        JarService jarService) {
         this.kubernetesService = kubernetesService;
         this.clusterCredentialService = clusterCredentialService;
+        this.jarService = jarService;
     }
 
     /**
@@ -169,10 +177,10 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
      * @return
      */
     @Override
-    public Set<CatalogInfo> getCatalogInfo(String clusterId, String sessionHandleId) {
+    public Set<CatalogInfo> getCatalogInfo(String clusterId, String sessionHandleId, boolean includeSystemFunctions) {
         SessionHandle sessionHandle = new SessionHandle(UUID.fromString(sessionHandleId));
         return getSessionManager(clusterId).orElseThrow()
-                .getCatalogInfo(sessionHandle);
+                .getCatalogInfo(sessionHandle, includeSystemFunctions);
     }
 
     /**
@@ -201,20 +209,9 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
     @Override
     public String executeSql(String clusterId, String sessionHandleId, WsFlinkSqlGatewayQueryParamsDTO params) {
         SessionHandle sessionHandle = new SessionHandle(UUID.fromString(sessionHandleId));
-        Configuration configuration = GlobalConfiguration.loadConfiguration();
-        params.getConfiguration().forEach(configuration::setString);
-        SessionContext sessionContext = getSessionManager(clusterId).orElseThrow()
-                .getSession(sessionHandle)
-                .getSessionContext();
-        Configuration sessionConf = sessionContext.getSessionConf();
-        params.getConfiguration().forEach(sessionConf::setString);
-        return sessionContext.getOperationManager()
-                .submitOperation(handle ->
-                        sessionContext.createOperationExecutor(sessionConf)
-                                .executeStatement(handle, params.getSql())
-                )
-                .getIdentifier()
-                .toString();
+        return getSessionManager(clusterId)
+                .orElseThrow()
+                .executeStatement(sessionHandle, params.getConfiguration(), params.getSql());
     }
 
     /**
@@ -258,5 +255,52 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
     public List<String> completeStatement(String clusterId, String sessionId, String statement, int position) throws Exception {
         return getSessionManager(clusterId).orElseThrow()
                 .completeStatement(new SessionHandle(UUID.fromString(sessionId)), statement, position);
+    }
+
+    @Override
+    public Boolean addDependencies(String clusterId, String sessionId, List<Long> jarIdList) {
+        try {
+            List<URI> jars = jarIdList.stream().map(jarId -> {
+                        JarDTO jarDTO = jarService.getRaw(jarId);
+                        try {
+                            Path localPath = SystemUtil.getLocalStorageDir().resolve("jars");
+                            if (Files.notExists(localPath)) {
+                                Files.createDirectories(localPath);
+                            }
+                            Path fileName = localPath.resolve(jarDTO.getFileName());
+                            if (Files.notExists(fileName)) {
+                                try (OutputStream os = Files.newOutputStream(fileName)) {
+                                    jarService.download(jarId, os);
+                                }
+                            } else {
+                                log.info("Jar file " + fileName + " already exists!");
+                            }
+                            return fileName;
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }).map(Path::toUri)
+                    .collect(Collectors.toList());
+            getSessionManager(clusterId)
+                    .orElseThrow()
+                    .addDependencies(new SessionHandle(UUID.fromString(sessionId)), jars);
+            return true;
+        } catch (Exception e) {
+            log.error(e.getLocalizedMessage(), e);
+            return false;
+        }
+    }
+
+    @Override
+    public Boolean addCatalog(String clusterId, String sessionId, String catalogName, Map<String, String> options) {
+        try {
+            getSessionManager(clusterId).orElseThrow()
+                    .addCatalog(new SessionHandle(UUID.fromString(sessionId)),
+                            catalogName, options);
+            return true;
+        } catch (Exception e) {
+            log.error(e.getLocalizedMessage(), e);
+            return false;
+        }
     }
 }

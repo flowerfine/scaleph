@@ -181,6 +181,18 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
     }
 
     @Override
+    public Optional<GenericKubernetesResource> getJobWithoutStatus(Long id) {
+        Optional<GenericKubernetesResource> optional = getStatusWithoutManagedFields(id);
+        if (optional.isEmpty()) {
+            return Optional.empty();
+        }
+        GenericKubernetesResource status = optional.get();
+        GenericKubernetesResourceBuilder builder = new GenericKubernetesResourceBuilder(status);
+        builder.removeFromAdditionalProperties("status");
+        return Optional.of(builder.build());
+    }
+
+    @Override
     public int updateStatus(Long id, FlinkDeploymentStatus status) {
         if (status == null) {
             return -1;
