@@ -34,6 +34,15 @@ public class OptionsParser {
                     .desc("Show the help message for the CLI Frontend or the action.")
                     .build();
 
+    public static final Option FILE_FETCHER_JSON =
+            Option.builder()
+                    .longOpt("file-fetcher-json")
+                    .required(true)
+                    .hasArg(true)
+                    .argName("[{\"uri\": \"...\", \"path\": \"...\"}]")
+                    .desc("file fetcher json.")
+                    .build();
+
     public static final Option URI_OPTION =
             Option.builder()
                     .option("uri")
@@ -60,8 +69,7 @@ public class OptionsParser {
 
     private static Options buildGeneralOptions(Options options) {
         options.addOption(HELP_OPTION);
-        options.addOption(URI_OPTION);
-        options.addOption(PATH_OPTION);
+        options.addOption(FILE_FETCHER_JSON);
         options.addOption(DYNAMIC_PROPERTIES);
         return options;
     }
@@ -93,8 +101,7 @@ public class OptionsParser {
 
     public static CommandLine parse(String[] args, boolean stopAtNonOptions) throws CliArgsException {
         Options options = new Options()
-                .addOption(URI_OPTION)
-                .addOption(PATH_OPTION)
+                .addOption(FILE_FETCHER_JSON)
                 .addOption(DYNAMIC_PROPERTIES);
         DefaultParser parser = new DefaultParser();
 

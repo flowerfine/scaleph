@@ -18,27 +18,34 @@
 
 package cn.sliew.scaleph.file.fetcher.cli;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.cli.CommandLine;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Properties;
 
-import static cn.sliew.scaleph.file.fetcher.cli.OptionsParser.*;
+import static cn.sliew.scaleph.file.fetcher.cli.OptionsParser.DYNAMIC_PROPERTIES;
+import static cn.sliew.scaleph.file.fetcher.cli.OptionsParser.FILE_FETCHER_JSON;
 
 @Getter
 public class FetchOptions extends CommandLineOptions {
 
-    private final URI uri;
-    private final String path;
+    private final List<FileFetcherParam> params;
     private final Properties properties;
 
-    public FetchOptions(CommandLine line) throws URISyntaxException {
+    public FetchOptions(CommandLine line) {
         super(line);
-        this.uri = new URI(line.getOptionValue(URI_OPTION));
-        this.path = line.getOptionValue(PATH_OPTION);
+        this.params = JacksonUtil.parseJsonArray(line.getOptionValue(FILE_FETCHER_JSON), FileFetcherParam.class);
         this.properties = line.getOptionProperties(DYNAMIC_PROPERTIES);
+    }
+
+    @Getter
+    @Setter
+    public static class FileFetcherParam {
+        private String uri;
+        private String path;
     }
 
 }
