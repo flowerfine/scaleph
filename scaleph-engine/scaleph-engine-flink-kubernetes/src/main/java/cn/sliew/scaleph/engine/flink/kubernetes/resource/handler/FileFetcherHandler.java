@@ -18,17 +18,22 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.handler;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.image.ImagePullPolicy;
 import cn.sliew.scaleph.config.resource.ResourceNames;
 import cn.sliew.scaleph.config.storage.S3FileSystemProperties;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.FlinkDeploymentJob;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
+import cn.sliew.scaleph.resource.service.JarService;
+import cn.sliew.scaleph.resource.service.dto.JarDTO;
 import io.fabric8.kubernetes.api.model.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 
@@ -42,14 +47,21 @@ public class FileFetcherHandler {
 
     @Autowired(required = false)
     private S3FileSystemProperties s3FileSystemProperties;
+    @Autowired
+    private JarService jarService;
 
     public void handleJarArtifact(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentSpec spec) {
+        List<FileFetcherParam> files = collectFiles(jobDTO);
+        if (CollectionUtils.isEmpty(files)) {
+            return;
+        }
+
         PodBuilder podBuilder = Optional.ofNullable(spec.getPodTemplate()).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
         handlePodTemplate(podBuilder);
         spec.setPodTemplate(podBuilder.build());
 
         JobManagerSpec jobManager = Optional.ofNullable(spec.getJobManager()).orElse(new JobManagerSpec());
-        handleJobManagerPodTemplate(jobDTO, jobManager);
+        handleJobManagerPodTemplate(jobDTO, jobManager, files);
         spec.setJobManager(jobManager);
     }
 
@@ -67,54 +79,69 @@ public class FileFetcherHandler {
         spec.endSpec();
     }
 
-    private void handleJobManagerPodTemplate(WsFlinkKubernetesJobDTO jobDTO, JobManagerSpec jobManager) {
+    private void handleJobManagerPodTemplate(WsFlinkKubernetesJobDTO jobDTO, JobManagerSpec jobManager, List<FileFetcherParam> files) {
         PodBuilder builder = Optional.of(jobManager).map(JobManagerSpec::getPodTemplate).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
-        doHandle(jobDTO, builder);
+        doHandle(builder, files);
         jobManager.setPodTemplate(builder.build());
     }
 
-    private void doHandle(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
+    private void doHandle(PodBuilder builder, List<FileFetcherParam> files) {
         builder.editOrNewMetadata()
                 .withName(ResourceNames.JOB_MANAGER_POD_TEMPLATE_NAME)
                 .endMetadata();
-        addArtifactJar(jobDTO, builder);
-        addAdditionalJars(jobDTO, builder);
+        addFileFetcherInitContainers(builder, files);
     }
 
-    private void addArtifactJar(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
+    private List<FileFetcherParam> collectFiles(WsFlinkKubernetesJobDTO jobDTO) {
+        List<FileFetcherParam> result = new ArrayList<>();
+        addArtifactJar(jobDTO, result);
+        addAdditionalJars(jobDTO, result);
+        return result;
+    }
+
+    private void addArtifactJar(WsFlinkKubernetesJobDTO jobDTO, List<FileFetcherParam> result) {
         if (jobDTO.getFlinkArtifactJar() == null) {
             return;
         }
 
         switch (jobDTO.getDeploymentKind()) {
             case FLINK_DEPLOYMENT:
-                doAddJars(jobDTO.getFlinkArtifactJar(), builder);
-                return;
+                result.add(new FileFetcherParam(jobDTO.getFlinkArtifactJar().getPath(), ResourceNames.SCALEPH_JAR_DIRECTORY + jobDTO.getFlinkArtifactJar().getFileName()));
+                break;
             case FLINK_SESSION_JOB:
+                break;
             default:
         }
     }
 
-    private void addAdditionalJars(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
+    private void addAdditionalJars(WsFlinkKubernetesJobDTO jobDTO, List<FileFetcherParam> result) {
         switch (jobDTO.getDeploymentKind()) {
             case FLINK_DEPLOYMENT:
-                addAdditionalJars();
-                return;
+                doAddAdditionalJars(jobDTO.getFlinkDeployment().getAdditionalDependencies(), result);
+                break;
             case FLINK_SESSION_JOB:
+                break;
             default:
         }
     }
 
-    private void doAddJars(WsFlinkArtifactJar jarArtifact, PodBuilder builder) {
-        builder.editOrNewSpec().addToInitContainers(addJarArtifact(jarArtifact)).endSpec();
+    private void doAddAdditionalJars(List<Long> additionalDependencies, List<FileFetcherParam> result) {
+        for (Long jarId : additionalDependencies) {
+            JarDTO jarDTO = jarService.getRaw(jarId);
+            result.add(new FileFetcherParam(jarDTO.getPath(), ResourceNames.LIB_DIRECTORY + jarDTO.getFileName()));
+        }
     }
 
-    private Container addJarArtifact(WsFlinkArtifactJar jarArtifact) {
+    private void addFileFetcherInitContainers(PodBuilder builder, List<FileFetcherParam> files) {
+        builder.editOrNewSpec().addToInitContainers(buildInitContainer(files)).endSpec();
+    }
+
+    private Container buildInitContainer(List<FileFetcherParam> files) {
         ContainerBuilder builder = new ContainerBuilder();
         builder.withName(ResourceNames.FILE_FETCHER_CONTAINER_NAME);
         builder.withImage(ResourceNames.FILE_FETCHER_CONTAINER_IMAGE);
         builder.withImagePullPolicy(ImagePullPolicy.IF_NOT_PRESENT.getValue());
-        builder.withArgs(buildFileFetcherArgs(jarArtifact));
+        builder.withArgs(buildFileFetcherArgs(files));
         builder.withEnv(buildEnvs());
         builder.withResources(buildResource());
         builder.withVolumeMounts(buildVolumeMount());
@@ -123,13 +150,8 @@ public class FileFetcherHandler {
         return builder.build();
     }
 
-    private void addAdditionalJars() {
-
-    }
-
-    private List<String> buildFileFetcherArgs(WsFlinkArtifactJar jarArtifact) {
-        return Arrays.asList("-uri", jarArtifact.getPath(),
-                "-path", ResourceNames.SCALEPH_JAR_DIRECTORY + jarArtifact.getFileName());
+    private List<String> buildFileFetcherArgs(List<FileFetcherParam> files) {
+        return Arrays.asList("-file-fetcher-json", JacksonUtil.toJsonString(files));
     }
 
     private List<EnvVar> buildEnvs() {
@@ -173,6 +195,14 @@ public class FileFetcherHandler {
         flinkLib.withName(ResourceNames.FILE_FETCHER_FLINK_VOLUME_NAME);
         flinkLib.withEmptyDir(new EmptyDirVolumeSource());
         return Arrays.asList(scalephLib.build(), flinkLib.build());
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    private static class FileFetcherParam {
+        private String uri;
+        private String path;
     }
 
 }

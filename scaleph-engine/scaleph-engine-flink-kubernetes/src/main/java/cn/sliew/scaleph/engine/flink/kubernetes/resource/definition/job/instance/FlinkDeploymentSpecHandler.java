@@ -83,8 +83,12 @@ public class FlinkDeploymentSpecHandler {
         spec.setTaskManager(TemplateMerger.merge(spec.getTaskManager(), jobInstanceDTO.getTaskManager(), TaskManagerSpec.class));
         spec.setFlinkConfiguration(TemplateMerger.merge(spec.getFlinkConfiguration(), jobInstanceDTO.getUserFlinkConfiguration(), Map.class));
         JobSpec job = spec.getJob();
-        job.setParallelism(jobInstanceDTO.getParallelism());
-        job.setUpgradeMode(EnumUtils.getEnum(UpgradeMode.class, jobInstanceDTO.getUpgradeMode().name()));
+        if (jobInstanceDTO.getParallelism() != null) {
+            job.setParallelism(jobInstanceDTO.getParallelism());
+        }
+        if (jobInstanceDTO.getUpgradeMode() != null) {
+            job.setUpgradeMode(EnumUtils.getEnum(UpgradeMode.class, jobInstanceDTO.getUpgradeMode().name()));
+        }
         job.setAllowNonRestoredState(jobInstanceDTO.getAllowNonRestoredState());
     }
 }
