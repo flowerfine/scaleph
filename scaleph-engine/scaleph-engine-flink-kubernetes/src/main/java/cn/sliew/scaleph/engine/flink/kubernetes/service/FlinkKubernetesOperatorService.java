@@ -39,4 +39,12 @@ public interface FlinkKubernetesOperatorService {
 
     void shutdownJob(Long clusterCredentialId, String job) throws Exception;
 
+    void restartJob(Long clusterCredentialId, String job) throws Exception;
+
+    void triggerSavepoint(Long clusterCredentialId, String job) throws Exception;
+
+    void suspendJob(Long clusterCredentialId, String job) throws Exception;
+
+    void resumeJob(Long clusterCredentialId, String job) throws Exception;
+
 }

@@ -48,6 +48,8 @@ public interface WsFlinkKubernetesJobInstanceService {
 
     Optional<GenericKubernetesResource> getStatusWithoutManagedFields(Long id);
 
+    Optional<GenericKubernetesResource> getJobWithoutStatus(Long id);
+
     int updateStatus(Long id, FlinkDeploymentStatus status);
 
     int clearStatus(Long id);

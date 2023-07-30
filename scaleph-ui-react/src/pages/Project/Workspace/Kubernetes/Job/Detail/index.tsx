@@ -98,7 +98,7 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
       render: () => [
         <div>
           <Button type="default">
-            {props.jobDetail.job?.jobInstance?.jobState.label}
+            {props.jobDetail.job?.jobInstance?.jobState?.label}
           </Button>
 
         </div>,

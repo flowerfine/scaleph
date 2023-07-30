@@ -30,8 +30,11 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.net.URI;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.Properties;
 
 @Slf4j
 @Component
@@ -42,14 +45,16 @@ public class FetcherExecutor implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        try {
-            log.info("命令行参数: {}", JacksonUtil.toJsonString(Arrays.asList(args.getSourceArgs())));
-            CommandLine line = OptionsParser.parse(args.getSourceArgs(), true);
-            FetchOptions options = new FetchOptions(line);
-            Optional<FileFetcher> fileFetcher = fileFetcherFactory.find(options.getUri(), options.getProperties());
-            fileFetcher.orElseThrow().fetch(options.getUri(), options.getPath());
-        } catch (Exception e) {
-            log.error("下载文件异常! 参数: {}", JacksonUtil.toJsonString(Arrays.asList(args.getSourceArgs())), e);
+        log.info("命令行参数: {}", JacksonUtil.toJsonString(Arrays.asList(args.getSourceArgs())));
+        CommandLine line = OptionsParser.parse(args.getSourceArgs(), true);
+        FetchOptions options = new FetchOptions(line);
+        for (FetchOptions.FileFetcherParam param : options.getParams()) {
+            doFetch(new URI(param.getUri()), param.getPath(), options.getProperties());
         }
+    }
+
+    private void doFetch(URI uri, String path, Properties properties) throws IOException {
+        Optional<FileFetcher> fileFetcher = fileFetcherFactory.find(uri, properties);
+        fileFetcher.orElseThrow().fetch(uri, path);
     }
 }
