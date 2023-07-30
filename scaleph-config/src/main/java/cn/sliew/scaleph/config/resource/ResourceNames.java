@@ -39,7 +39,7 @@ public enum ResourceNames {
     public static final String JAR_LOCAL_PATH = LOCAL_SCHEMA + SCALEPH_JAR_DIRECTORY;
 
     public static final String FILE_FETCHER_FLINK_VOLUME_NAME = "file-fetcher-flink-volume";
-    public static final String LIB_DIRECTORY = "/flink/usrlib/";
+    public static final String LIB_DIRECTORY = "/scaleph/usrlib/";
     public static final String LIB_LOCAL_PATH = LOCAL_SCHEMA + LIB_DIRECTORY;
 
     public static final String SQL_DIRECTORY = "/scaleph/sql/";

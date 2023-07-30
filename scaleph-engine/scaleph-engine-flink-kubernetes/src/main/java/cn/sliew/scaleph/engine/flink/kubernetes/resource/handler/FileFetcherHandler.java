@@ -45,6 +45,8 @@ public class FileFetcherHandler {
 
     private static final String ENDPOINT = "MINIO_ENDPOINT";
 
+    private static final String ENV_JAVA_OPTS_ALL_NAME = "CLASSPATH";
+
     @Autowired(required = false)
     private S3FileSystemProperties s3FileSystemProperties;
     @Autowired
@@ -73,6 +75,7 @@ public class FileFetcherHandler {
 
         spec.addAllToVolumes(buildVolume()); // add volumes
         ContainerUtil.findFlinkMainContainer(spec)
+                .addAllToEnv(buildJavaOptsEnv())
                 .addAllToVolumeMounts(buildVolumeMount()) // add volume mount
                 .endContainer();
 
@@ -174,6 +177,12 @@ public class FileFetcherHandler {
         return resourceRequirementsBuilder.build();
     }
 
+    private List<EnvVar> buildJavaOptsEnv() {
+        EnvVarBuilder builder = new EnvVarBuilder();
+        builder.withName(ENV_JAVA_OPTS_ALL_NAME);
+        builder.withValue(ResourceNames.LIB_DIRECTORY);
+        return Collections.singletonList(builder.build());
+    }
 
     private List<VolumeMount> buildVolumeMount() {
         VolumeMountBuilder scalephLib = new VolumeMountBuilder();
