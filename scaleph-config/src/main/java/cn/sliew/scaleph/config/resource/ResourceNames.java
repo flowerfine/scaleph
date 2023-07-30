@@ -30,7 +30,7 @@ public enum ResourceNames {
     public static final String JOB_MANAGER_POD_TEMPLATE_NAME = "task-manager-pod-template";
     public static final String TASK_MANAGER_POD_TEMPLATE_NAME = "task-manager-pod-template";
 
-    public static final String FILE_FETCHER_CONTAINER_IMAGE = "scaleph-file-fetcher:dev";
+    public static final String FILE_FETCHER_CONTAINER_IMAGE = "ghcr.io/flowerfine/scaleph/scaleph-file-fetcher:latest";
     public static final String SQL_TEMPLATE_IMAGE = "ghcr.io/flowerfine/scaleph-sql-template:1.17";
     public static final String SCALEPH_SEATUNNEL_IMAGE = "ghcr.io/flowerfine/scaleph-seatunnel:2.3.1-flink-1.15";
 
