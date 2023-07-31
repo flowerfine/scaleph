@@ -42,6 +42,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJ
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResourceBuilder;
@@ -54,6 +55,7 @@ import org.springframework.data.util.Predicates;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -190,8 +192,8 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
         GenericKubernetesResource genericKubernetesResource = optional.get();
         switch (jobDTO.getDeploymentKind()) {
             case FLINK_DEPLOYMENT:
-                JsonNode jsonNode = JacksonUtil.toJsonNode(genericKubernetesResource);
-                FlinkDeployment flinkDeployment = JacksonUtil.toObject(jsonNode, FlinkDeployment.class);
+                String json = JacksonUtil.toJsonString(genericKubernetesResource);
+                FlinkDeployment flinkDeployment = JacksonUtil.parseJsonString(json, new TypeReference<FlinkDeployment>() {});
                 flinkDeployment.getSpec().getJob().setSavepointTriggerNonce(System.currentTimeMillis());
                 flinkKubernetesOperatorService.applyJob(jobDTO.getFlinkDeployment().getClusterCredentialId(), Serialization.asYaml(flinkDeployment));
                 return;

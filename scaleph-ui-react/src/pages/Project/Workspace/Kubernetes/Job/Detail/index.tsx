@@ -113,7 +113,7 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
           <Button
             type="default"
             icon={<PauseOutlined/>}
-            disabled
+            onClick={() => {WsFlinkKubernetesJobService.suspend(props.jobDetail.job.jobInstance.id)}}
           >
             {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.suspend'})}
           </Button>
@@ -130,7 +130,7 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
           <Button
             type="default"
             icon={<CameraOutlined/>}
-            disabled
+            onClick={() => {WsFlinkKubernetesJobService.triggerSavepoint(props.jobDetail.job.jobInstance.id)}}
           >
             {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.savepoint'})}
           </Button>
