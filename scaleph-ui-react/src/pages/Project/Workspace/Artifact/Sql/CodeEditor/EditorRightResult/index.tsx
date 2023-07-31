@@ -22,7 +22,7 @@ const defaultPanes = new Array(20).fill(null).map((_, index) => {
 });
 
 
-const App: React.FC = () => {
+const EditorRightResult: React.FC = () => {
   const [activeKey, setActiveKey] = useState(defaultPanes[0].key);
   const [items, setItems] = useState(defaultPanes);
   const onChange = (key: string) => {
@@ -46,7 +46,7 @@ const App: React.FC = () => {
   return (
     <div
       className={styles.editorRightResult}
-      style={{ overflow: 'auto', height: '100%', width: '100%' }}
+      style={{  height: '100%', width: '100%' }}
     >
       <Tabs
         hideAdd
@@ -60,4 +60,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default EditorRightResult;

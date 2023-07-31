@@ -47,6 +47,7 @@ const EditorRightResultTable: React.FC = () => {
       title: 'Name',
       dataIndex: 'name',
       width: 130,
+      fixed: 'left',
       render: (value: any, row: any, rowIndex: number) => {
         return (
           <div className={styles.tableItem}>
@@ -108,7 +109,7 @@ const EditorRightResultTable: React.FC = () => {
   ];
   return (
     <div className={styles.tableBox}>
-      <Table columns={columns} bordered={true} dataSource={data} pagination={false} />
+      <Table columns={columns} bordered={true} dataSource={data} pagination={false} scroll={{x:1200}}/>
       <div className={styles.statusBar}>Result：执行成功. Time Consuming：25ms</div>
       <Modal
         title={viewTableCellData?.name}
