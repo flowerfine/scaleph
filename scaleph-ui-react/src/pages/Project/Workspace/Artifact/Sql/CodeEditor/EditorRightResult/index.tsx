@@ -1,4 +1,4 @@
-import { Button, Modal, Tabs,message } from 'antd';
+import {  Tabs } from 'antd';
 import React, { useState } from 'react';
 import EditorRightResultTable from './EditorRightResultTable';
 import styles from './index.less';
@@ -21,15 +21,10 @@ const defaultPanes = new Array(20).fill(null).map((_, index) => {
   };
 });
 
-interface IViewTableCellData {
-  name: string;
-  value: any;
-}
 
 const App: React.FC = () => {
   const [activeKey, setActiveKey] = useState(defaultPanes[0].key);
   const [items, setItems] = useState(defaultPanes);
-  const [viewTableCellData, setViewTableCellData] = useState<IViewTableCellData | null>(null);
   const onChange = (key: string) => {
     setActiveKey(key);
   };
@@ -47,15 +42,6 @@ const App: React.FC = () => {
   const onEdit = (targetKey: string, action: 'add' | 'remove') => {
     remove(targetKey);
   };
-  // 关闭弹窗
-  const handleCancel = () => {
-    setViewTableCellData(null);
-  };
-
-  const  copyTableCell=(data: IViewTableCellData)=> {
-    navigator.clipboard.writeText(data?.value || viewTableCellData?.value);
-    message.success('复制成功');
-  }
 
   return (
     <div
@@ -70,38 +56,6 @@ const App: React.FC = () => {
         onEdit={onEdit}
         items={items}
       />
-      <Modal
-        title={viewTableCellData?.name}
-        open={!!viewTableCellData?.name}
-        onCancel={handleCancel}
-        width="60vw"
-        maskClosable={false}
-        footer={
-          <>
-            {
-              <Button
-                onClick={copyTableCell.bind(null, viewTableCellData!)}
-                className={styles.cancel}
-              >
-                Copy
-              </Button>
-            }
-          </>
-        }
-      >
-        <div className={styles.monacoEditor}>
-          <MonacoEditor
-            id="view_table-Cell_data"
-            appendValue={{
-              text: viewTableCellData?.value,
-              range: 'reset',
-            }}
-            options={{
-              readOnly: true,
-            }}
-          />
-        </div>
-      </Modal>
     </div>
   );
 };
