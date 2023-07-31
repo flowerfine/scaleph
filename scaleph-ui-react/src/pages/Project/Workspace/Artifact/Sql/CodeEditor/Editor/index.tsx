@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Editor, EditorConstructionOptions, CompletionItem, languages, Position, CompletionList } from '@monaco-editor/react';
+import { Editor, CompletionItem, Position, CompletionList } from '@monaco-editor/react';
 import { Button } from 'antd';
 import {useIntl} from 'umi';
 import { language } from 'monaco-editor/esm/vs/basic-languages/sql/sql';

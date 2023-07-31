@@ -1,14 +1,12 @@
-import { Button } from 'antd';
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 import Split from 'react-split';
 import Editor from '../Editor';
+import EditorRightResult from '../EditorRightResult';
 import './index.less';
 
 export default function EditorLeft() {
   const [verticalSplitSizes, setVerticalSplitSizes] = useState<number[]>([70, 30]);
   const editorRef = useRef<monaco.editor.IEditor>();
-
- 
 
   const handleDrag = (sizes: number[]) => {
     setVerticalSplitSizes(sizes);
@@ -32,7 +30,9 @@ export default function EditorLeft() {
       <div>
         <Editor editorRef={editorRef} />
       </div>
-      <div>456</div>
+      <div>
+        <EditorRightResult editorRef={editorRef} />
+      </div>
     </Split>
   );
 }
