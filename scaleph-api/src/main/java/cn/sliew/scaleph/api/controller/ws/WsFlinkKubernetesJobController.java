@@ -131,6 +131,38 @@ public class WsFlinkKubernetesJobController {
     }
 
     @Logging
+    @PostMapping("restart/{id}")
+    @Operation(summary = "重启 Job", description = "重启 Job")
+    public ResponseEntity<ResponseVO> restart(@PathVariable("id") Long id) throws Exception {
+        wsFlinkKubernetesJobInstanceService.restart(id);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping("triggerSavepoint/{id}")
+    @Operation(summary = "为 Job 创建 savepoint", description = "为 Job 创建 savepoint")
+    public ResponseEntity<ResponseVO> triggerSavepoint(@PathVariable("id") Long id) throws Exception {
+        wsFlinkKubernetesJobInstanceService.triggerSavepoint(id);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping("suspend/{id}")
+    @Operation(summary = "暂停 Job", description = "暂停 Job")
+    public ResponseEntity<ResponseVO> suspend(@PathVariable("id") Long id) throws Exception {
+        wsFlinkKubernetesJobInstanceService.suspend(id);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping("resume/{id}")
+    @Operation(summary = "恢复 Job", description = "恢复 Job")
+    public ResponseEntity<ResponseVO> resume(@PathVariable("id") Long id) throws Exception {
+        wsFlinkKubernetesJobInstanceService.resume(id);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
     @GetMapping("instances")
     @Operation(summary = "获取任务实例列表", description = "获取任务实例列表")
     public ResponseEntity<ResponseVO<Page<WsFlinkKubernetesJobInstanceDTO>>> listInstances(@Valid @RequestBody WsFlinkKubernetesJobInstanceListParam param) throws Exception {
