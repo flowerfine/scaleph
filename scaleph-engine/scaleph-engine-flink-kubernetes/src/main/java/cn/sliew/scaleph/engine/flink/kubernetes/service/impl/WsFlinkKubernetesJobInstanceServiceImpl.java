@@ -25,6 +25,7 @@ import cn.sliew.scaleph.common.dict.flink.kubernetes.ResourceLifecycleState;
 import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstance;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobInstanceMapper;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobState;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.FlinkDeploymentStatus;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.JobStatus;
@@ -190,12 +191,14 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
             return;
         }
         GenericKubernetesResource genericKubernetesResource = optional.get();
+        Object spec = genericKubernetesResource.get("spec");
         switch (jobDTO.getDeploymentKind()) {
             case FLINK_DEPLOYMENT:
-                String json = JacksonUtil.toJsonString(genericKubernetesResource);
-                FlinkDeployment flinkDeployment = JacksonUtil.parseJsonString(json, new TypeReference<FlinkDeployment>() {});
-                flinkDeployment.getSpec().getJob().setSavepointTriggerNonce(System.currentTimeMillis());
-                flinkKubernetesOperatorService.applyJob(jobDTO.getFlinkDeployment().getClusterCredentialId(), Serialization.asYaml(flinkDeployment));
+                String json = JacksonUtil.toJsonString(spec);
+                FlinkDeploymentSpec flinkDeploymentSpec = JacksonUtil.parseJsonString(json, FlinkDeploymentSpec.class);
+                flinkDeploymentSpec.getJob().setSavepointTriggerNonce(System.currentTimeMillis());
+                genericKubernetesResource.setAdditionalProperty("spec", flinkDeploymentSpec);
+                flinkKubernetesOperatorService.applyJob(jobDTO.getFlinkDeployment().getClusterCredentialId(), Serialization.asYaml(genericKubernetesResource));
                 return;
             case FLINK_SESSION_JOB:
                 return;
