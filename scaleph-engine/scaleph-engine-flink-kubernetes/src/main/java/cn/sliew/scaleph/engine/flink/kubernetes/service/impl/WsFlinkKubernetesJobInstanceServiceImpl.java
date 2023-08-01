@@ -29,7 +29,6 @@ import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpe
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobState;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.FlinkDeploymentStatus;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.JobStatus;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.deployment.FlinkDeployment;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instance.FlinkJobInstanceConverterFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobInstanceService;
@@ -43,8 +42,6 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJ
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResourceBuilder;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
@@ -56,7 +53,6 @@ import org.springframework.data.util.Predicates;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -170,12 +166,14 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
             return;
         }
         GenericKubernetesResource genericKubernetesResource = optional.get();
+        Object spec = genericKubernetesResource.get("spec");
         switch (jobDTO.getDeploymentKind()) {
             case FLINK_DEPLOYMENT:
-                JsonNode jsonNode = JacksonUtil.toJsonNode(genericKubernetesResource);
-                FlinkDeployment flinkDeployment = JacksonUtil.toObject(jsonNode, FlinkDeployment.class);
-                flinkDeployment.getSpec().setRestartNonce(System.currentTimeMillis());
-                flinkKubernetesOperatorService.applyJob(jobDTO.getFlinkDeployment().getClusterCredentialId(), Serialization.asYaml(flinkDeployment));
+                String json = JacksonUtil.toJsonString(spec);
+                FlinkDeploymentSpec flinkDeploymentSpec = JacksonUtil.parseJsonString(json, FlinkDeploymentSpec.class);
+                flinkDeploymentSpec.setRestartNonce(System.currentTimeMillis());
+                genericKubernetesResource.setAdditionalProperty("spec", flinkDeploymentSpec);
+                flinkKubernetesOperatorService.applyJob(jobDTO.getFlinkDeployment().getClusterCredentialId(), Serialization.asYaml(genericKubernetesResource));
                 return;
             case FLINK_SESSION_JOB:
                 return;
@@ -214,12 +212,14 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
             return;
         }
         GenericKubernetesResource genericKubernetesResource = optional.get();
+        Object spec = genericKubernetesResource.get("spec");
         switch (jobDTO.getDeploymentKind()) {
             case FLINK_DEPLOYMENT:
-                JsonNode jsonNode = JacksonUtil.toJsonNode(genericKubernetesResource);
-                FlinkDeployment flinkDeployment = JacksonUtil.toObject(jsonNode, FlinkDeployment.class);
-                flinkDeployment.getSpec().getJob().setState(JobState.SUSPENDED);
-                flinkKubernetesOperatorService.applyJob(jobDTO.getFlinkDeployment().getClusterCredentialId(), Serialization.asYaml(flinkDeployment));
+                String json = JacksonUtil.toJsonString(spec);
+                FlinkDeploymentSpec flinkDeploymentSpec = JacksonUtil.parseJsonString(json, FlinkDeploymentSpec.class);
+                flinkDeploymentSpec.getJob().setState(JobState.SUSPENDED);
+                genericKubernetesResource.setAdditionalProperty("spec", flinkDeploymentSpec);
+                flinkKubernetesOperatorService.applyJob(jobDTO.getFlinkDeployment().getClusterCredentialId(), Serialization.asYaml(genericKubernetesResource));
                 return;
             case FLINK_SESSION_JOB:
                 return;
@@ -235,12 +235,14 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
             return;
         }
         GenericKubernetesResource genericKubernetesResource = optional.get();
+        Object spec = genericKubernetesResource.get("spec");
         switch (jobDTO.getDeploymentKind()) {
             case FLINK_DEPLOYMENT:
-                JsonNode jsonNode = JacksonUtil.toJsonNode(genericKubernetesResource);
-                FlinkDeployment flinkDeployment = JacksonUtil.toObject(jsonNode, FlinkDeployment.class);
-                flinkDeployment.getSpec().getJob().setState(JobState.RUNNING);
-                flinkKubernetesOperatorService.applyJob(jobDTO.getFlinkDeployment().getClusterCredentialId(), Serialization.asYaml(flinkDeployment));
+                String json = JacksonUtil.toJsonString(spec);
+                FlinkDeploymentSpec flinkDeploymentSpec = JacksonUtil.parseJsonString(json, FlinkDeploymentSpec.class);
+                flinkDeploymentSpec.getJob().setState(JobState.RUNNING);
+                genericKubernetesResource.setAdditionalProperty("spec", flinkDeploymentSpec);
+                flinkKubernetesOperatorService.applyJob(jobDTO.getFlinkDeployment().getClusterCredentialId(), Serialization.asYaml(genericKubernetesResource));
                 return;
             case FLINK_SESSION_JOB:
                 return;
