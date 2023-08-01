@@ -13,7 +13,7 @@ import {
   CloseOutlined,
   DashboardOutlined,
   OrderedListOutlined,
-  PauseOutlined
+  RedoOutlined
 } from "@ant-design/icons";
 import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJobService";
 import FlinkKubernetesJobDeployForm from "@/pages/Project/Workspace/Kubernetes/Job/Detail/JobDeployForm";
@@ -106,21 +106,27 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
           <Button
             type="default"
             icon={<CaretRightOutlined/>}
-            onClick={() => {setJobDeployFormData({visiable: true, data: props.jobDetail.job})}}
+            onClick={() => {
+              setJobDeployFormData({visiable: true, data: props.jobDetail.job})
+            }}
           >
             {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.deploy'})}
           </Button>
           <Button
             type="default"
-            icon={<PauseOutlined/>}
-            disabled
+            icon={<RedoOutlined/>}
+            onClick={() => {
+              WsFlinkKubernetesJobService.restart(props.jobDetail.job.jobInstance.id)
+            }}
           >
-            {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.suspend'})}
+            {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.restart'})}
           </Button>
 
           <Button
             icon={<CloseOutlined/>}
-            onClick={() => {setJobShutdownFormData({visiable: true, data: props.jobDetail.job})}}
+            onClick={() => {
+              setJobShutdownFormData({visiable: true, data: props.jobDetail.job})
+            }}
           >
             {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.shutdown'})}
           </Button>
@@ -130,7 +136,9 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
           <Button
             type="default"
             icon={<CameraOutlined/>}
-            disabled
+            onClick={() => {
+              WsFlinkKubernetesJobService.triggerSavepoint(props.jobDetail.job.jobInstance.id)
+            }}
           >
             {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.savepoint'})}
           </Button>
