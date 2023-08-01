@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.service;
 
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.FlinkDeploymentStatus;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.deployment.FlinkDeployment;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobInstanceDeployParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobInstanceListParam;
@@ -43,6 +44,14 @@ public interface WsFlinkKubernetesJobInstanceService {
     void deploy(WsFlinkKubernetesJobInstanceDeployParam param) throws Exception;
 
     void shutdown(WsFlinkKubernetesJobInstanceShutdownParam param) throws Exception;
+
+    void restart(Long id) throws Exception;
+
+    void triggerSavepoint(Long id) throws Exception;
+
+    void suspend(Long id) throws Exception;
+
+    void resume(Long id) throws Exception;
 
     Optional<GenericKubernetesResource> getStatus(Long id);
 
