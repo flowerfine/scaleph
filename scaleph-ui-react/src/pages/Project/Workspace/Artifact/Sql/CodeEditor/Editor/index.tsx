@@ -4,9 +4,11 @@ import { Button } from 'antd';
 import {useIntl} from 'umi';
 import { language } from 'monaco-editor/esm/vs/basic-languages/sql/sql';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
+import * as sqlFormatter from 'sql-formatter'; // 添加此行
 const { keywords: SQLKeys } = language;
 
 import { WsFlinkArtifactSql } from '@/services/project/typings';
+import {FlinkArtifactSqlService} from "@/services/project/WsFlinkArtifactSqlService";
 import { useLocation } from 'react-router-dom';
 import styles from './index.less';
 
@@ -22,6 +24,8 @@ const CodeEditor: React.FC = () => {
 
   // 点击运行获取选中或者全部值
   const onRun = (editor: monaco.editor.IStandaloneCodeEditor): void => {
+    console.log(editor,'editor');
+    
     const selection = editor.getSelection();
     if (selection && !selection.isEmpty()) {
       const selectedValue = editor.getModel()?.getValueInRange(selection);
@@ -36,6 +40,12 @@ const CodeEditor: React.FC = () => {
   const onSave = (): void => {
     FlinkArtifactSqlService.updateScript({ id: flinkArtifactSql.id, script: sqlScript });
   }
+
+  // 点击格式化按钮
+  const onFormat = (): void => {
+    const formattedScript = sqlFormatter.format(sqlScript, { language: 'sql' });
+    setSqlScript(formattedScript);
+  };
 
   // 获取 SQL 语法提示
   const getSQLSuggest = (): CompletionItem[] => {
@@ -91,10 +101,7 @@ const CodeEditor: React.FC = () => {
         </div>
         <Button
           type="text"
-          // onClick={() => {
-          //   const contextTmp = editorRef?.current?.getAllContent();
-          //   editorRef?.current?.setValue(format(contextTmp || ''), 'cover');
-          // }}
+           onClick={onFormat}
         >
           {intl.formatMessage({id: 'Format'})}
         </Button>
