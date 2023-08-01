@@ -6,6 +6,7 @@ import {
   WsFlinkKubernetesJobParam,
   WsFlinkKubernetesJobUpdateParam
 } from './typings';
+import job from "@/pages/Project/Workspace/Kubernetes/Job";
 
 export const WsFlinkKubernetesJobService = {
   url: '/api/flink/kubernetes/job',
@@ -87,6 +88,30 @@ export const WsFlinkKubernetesJobService = {
     return request<ResponseBody<any>>(`${WsFlinkKubernetesJobService.url}/shutdown`, {
       method: 'POST',
       data: param,
+    });
+  },
+
+  restart: async (jobInstanceId: number) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesJobService.url}/restart/${jobInstanceId}`, {
+      method: 'POST'
+    });
+  },
+
+  triggerSavepoint: async (jobInstanceId: number) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesJobService.url}/triggerSavepoint/${jobInstanceId}`, {
+      method: 'POST'
+    });
+  },
+
+  suspend: async (jobInstanceId: number) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesJobService.url}/suspend/${jobInstanceId}`, {
+      method: 'POST'
+    });
+  },
+
+  resume: async (jobInstanceId: number) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesJobService.url}/resume/${jobInstanceId}`, {
+      method: 'POST'
     });
   },
 };

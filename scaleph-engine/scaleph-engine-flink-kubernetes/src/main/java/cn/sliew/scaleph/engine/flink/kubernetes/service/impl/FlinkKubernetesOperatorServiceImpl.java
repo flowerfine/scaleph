@@ -104,26 +104,8 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
     }
 
     @Override
-    public void restartJob(Long clusterCredentialId, String job) throws Exception {
+    public void applyJob(Long clusterCredentialId, String job) throws Exception {
         KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
-        client.load(new ByteArrayInputStream((job).getBytes())).delete();
-    }
-
-    @Override
-    public void triggerSavepoint(Long clusterCredentialId, String job) throws Exception {
-        KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
-        client.load(new ByteArrayInputStream((job).getBytes())).delete();
-    }
-
-    @Override
-    public void suspendJob(Long clusterCredentialId, String job) throws Exception {
-        KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
-        client.load(new ByteArrayInputStream((job).getBytes())).delete();
-    }
-
-    @Override
-    public void resumeJob(Long clusterCredentialId, String job) throws Exception {
-        KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
-        client.load(new ByteArrayInputStream((job).getBytes())).delete();
+        client.load(new ByteArrayInputStream((job).getBytes())).createOrReplace();
     }
 }

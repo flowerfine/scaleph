@@ -18,6 +18,8 @@
 
 package cn.sliew.scaleph.config.flink;
 
+import cn.sliew.scaleph.config.resource.ResourceNames;
+
 import java.util.Arrays;
 
 public enum FlinkVersionConfig {
@@ -49,14 +51,14 @@ public enum FlinkVersionConfig {
                     FlinkImageType.SQL,
                     "1.17",
                     Arrays.asList("1.17.0", "1.17.1"),
-                    "ghcr.io/flowerfine/scaleph/scaleph-sql-template:1.17");
+                    ResourceNames.SQL_TEMPLATE_IMAGE);
 
     public static final FlinkVersionProperties FLINK_SEATUNNEL_1_15 =
             new FlinkVersionProperties(
                     FlinkImageType.SEATUNNEL,
                     "1.15",
                     Arrays.asList("1.15.0", "1.15.1", "1.15.2", "1.15.3", "1.15.4"),
-                    "ghcr.io/flowerfine/scaleph-seatunnel:2.3.1-flink-1.15");
+                    ResourceNames.SCALEPH_SEATUNNEL_IMAGE);
 
     public static String findImage(FlinkImageType type, String flinkVersion) {
         switch (type) {
