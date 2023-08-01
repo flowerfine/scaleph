@@ -113,9 +113,9 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
           <Button
             type="default"
             icon={<PauseOutlined/>}
-            onClick={() => {WsFlinkKubernetesJobService.suspend(props.jobDetail.job.jobInstance.id)}}
+            onClick={() => {WsFlinkKubernetesJobService.restart(props.jobDetail.job.jobInstance.id)}}
           >
-            {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.suspend'})}
+            {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.restart'})}
           </Button>
 
           <Button
