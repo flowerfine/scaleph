@@ -348,21 +348,23 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
         if (savepointInfo == null) {
             return;
         }
-        Savepoint lastSavepoint = savepointInfo.getLastSavepoint();
+        if (CollectionUtils.isEmpty(savepointInfo.getSavepointHistory()) == false) {
+            for (Savepoint savepoint : savepointInfo.getSavepointHistory()) {
+                WsFlinkKubernetesJobInstanceSavepoint record = new WsFlinkKubernetesJobInstanceSavepoint();
+                record.setWsFlinkKubernetesJobInstanceId(id);
+                record.setTimeStamp(savepoint.getTimeStamp());
+                record.setLocation(savepoint.getLocation());
+                record.setTriggerType(EnumUtils.getEnum(SavepointTriggerType.class, savepoint.getTriggerType().name()));
+                record.setFormatType(EnumUtils.getEnum(SavepointFormatType.class, savepoint.getFormatType().name()));
 
-        WsFlinkKubernetesJobInstanceSavepoint savepoint = new WsFlinkKubernetesJobInstanceSavepoint();
-        savepoint.setId(id);
-        savepoint.setTimeStamp(lastSavepoint.getTimeStamp());
-        savepoint.setLocation(lastSavepoint.getLocation());
-        savepoint.setTriggerType(EnumUtils.getEnum(SavepointTriggerType.class, lastSavepoint.getTriggerType().name()));
-        savepoint.setFormatType(EnumUtils.getEnum(SavepointFormatType.class, lastSavepoint.getFormatType().name()));
-
-        LambdaQueryWrapper<WsFlinkKubernetesJobInstanceSavepoint> queryWrapper = Wrappers.lambdaQuery(WsFlinkKubernetesJobInstanceSavepoint.class)
-                .eq(WsFlinkKubernetesJobInstanceSavepoint::getWsFlinkKubernetesJobInstanceId, id)
-                .eq(WsFlinkKubernetesJobInstanceSavepoint::getTimeStamp, lastSavepoint.getTimeStamp());
-        WsFlinkKubernetesJobInstanceSavepoint oldRecord = wsFlinkKubernetesJobInstanceSavepointMapper.selectOne(queryWrapper);
-        if (oldRecord == null) {
-            wsFlinkKubernetesJobInstanceSavepointMapper.insert(savepoint);
+                LambdaQueryWrapper<WsFlinkKubernetesJobInstanceSavepoint> queryWrapper = Wrappers.lambdaQuery(WsFlinkKubernetesJobInstanceSavepoint.class)
+                        .eq(WsFlinkKubernetesJobInstanceSavepoint::getWsFlinkKubernetesJobInstanceId, id)
+                        .eq(WsFlinkKubernetesJobInstanceSavepoint::getTimeStamp, savepoint.getTimeStamp());
+                WsFlinkKubernetesJobInstanceSavepoint oldRecord = wsFlinkKubernetesJobInstanceSavepointMapper.selectOne(queryWrapper);
+                if (oldRecord == null) {
+                    wsFlinkKubernetesJobInstanceSavepointMapper.insert(record);
+                }
+            }
         }
     }
 
