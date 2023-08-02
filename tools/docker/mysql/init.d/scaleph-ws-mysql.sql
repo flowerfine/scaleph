@@ -421,16 +421,16 @@ CREATE TABLE ws_flink_kubernetes_job_instance
 DROP TABLE IF EXISTS ws_flink_kubernetes_job_instance_savepoint;
 CREATE TABLE ws_flink_kubernetes_job_instance_savepoint
 (
-    id                                  bigint      not null auto_increment,
-    ws_flink_kubernetes_job_instance_id bigint      not null,
-    time_stamp                          varchar(64) not null,
+    id                                  bigint   not null auto_increment,
+    ws_flink_kubernetes_job_instance_id bigint   not null,
+    time_stamp                          bigint   not null,
     location                            text,
     trigger_type                        varchar(32),
     format_type                         varchar(32),
     creator                             varchar(32),
-    create_time                         datetime    not null default current_timestamp,
+    create_time                         datetime not null default current_timestamp,
     editor                              varchar(32),
-    update_time                         datetime    not null default current_timestamp on update current_timestamp,
+    update_time                         datetime not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
     UNIQUE KEY uniq_key (ws_flink_kubernetes_job_instance_id, time_stamp)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes job instance savepoint';
