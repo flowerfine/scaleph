@@ -22,22 +22,31 @@ import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.ResourceLifecycleState;
+import cn.sliew.scaleph.common.dict.flink.kubernetes.SavepointFormatType;
+import cn.sliew.scaleph.common.dict.flink.kubernetes.SavepointTriggerType;
 import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstance;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstanceSavepoint;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobInstanceMapper;
+import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobInstanceSavepointMapper;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobState;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.FlinkDeploymentStatus;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.JobStatus;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.Savepoint;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.SavepointInfo;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instance.FlinkJobInstanceConverterFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobInstanceService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernetesJobInstanceConvert;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernetesJobInstanceSavepointConvert;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceSavepointDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobInstanceDeployParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobInstanceListParam;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobInstanceSavepointListParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobInstanceShutdownParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -64,6 +73,8 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
 
     @Autowired
     private WsFlinkKubernetesJobInstanceMapper wsFlinkKubernetesJobInstanceMapper;
+    @Autowired
+    private WsFlinkKubernetesJobInstanceSavepointMapper wsFlinkKubernetesJobInstanceSavepointMapper;
     @Autowired
     private WsFlinkKubernetesJobService wsFlinkKubernetesJobService;
     @Autowired
@@ -95,6 +106,19 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
     public Optional<WsFlinkKubernetesJobInstanceDTO> selectCurrent(Long wsFlinkKubernetesJobId) {
         Optional<WsFlinkKubernetesJobInstance> optional = wsFlinkKubernetesJobInstanceMapper.selectCurrent(wsFlinkKubernetesJobId);
         return optional.map(record -> WsFlinkKubernetesJobInstanceConvert.INSTANCE.toDto(record));
+    }
+
+    @Override
+    public Page<WsFlinkKubernetesJobInstanceSavepointDTO> selectSavepoint(WsFlinkKubernetesJobInstanceSavepointListParam param) {
+        Page<WsFlinkKubernetesJobInstanceSavepoint> page = new Page<>(param.getCurrent(), param.getPageSize());
+        LambdaQueryWrapper<WsFlinkKubernetesJobInstanceSavepoint> queryWrapper = Wrappers.lambdaQuery(WsFlinkKubernetesJobInstanceSavepoint.class)
+                .eq(WsFlinkKubernetesJobInstanceSavepoint::getWsFlinkKubernetesJobInstanceId, param.getWsFlinkKubernetesJobInstanceId())
+                .orderByDesc(WsFlinkKubernetesJobInstanceSavepoint::getTimeStamp);
+        Page<WsFlinkKubernetesJobInstanceSavepoint> wsFlinkKubernetesJobInstanceSavepointPage = wsFlinkKubernetesJobInstanceSavepointMapper.selectPage(page, queryWrapper);
+        Page<WsFlinkKubernetesJobInstanceSavepointDTO> result = new Page<>(wsFlinkKubernetesJobInstanceSavepointPage.getCurrent(), wsFlinkKubernetesJobInstanceSavepointPage.getSize(), wsFlinkKubernetesJobInstanceSavepointPage.getTotal());
+        List<WsFlinkKubernetesJobInstanceSavepointDTO> wsFlinkKubernetesJobInstanceSavepointDTOS = WsFlinkKubernetesJobInstanceSavepointConvert.INSTANCE.toDto(wsFlinkKubernetesJobInstanceSavepointPage.getRecords());
+        result.setRecords(wsFlinkKubernetesJobInstanceSavepointDTOS);
+        return result;
     }
 
     @Override
@@ -315,7 +339,31 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
         } else {
             record.setTaskManagerInfo(JacksonUtil.toJsonString(status.getTaskManager()));
         }
+        updateSavepoint(id, status);
         return wsFlinkKubernetesJobInstanceMapper.updateById(record);
+    }
+
+    private void updateSavepoint(Long id, FlinkDeploymentStatus status) {
+        SavepointInfo savepointInfo = status.getJobStatus().getSavepointInfo();
+        if (savepointInfo == null) {
+            return;
+        }
+        Savepoint lastSavepoint = savepointInfo.getLastSavepoint();
+
+        WsFlinkKubernetesJobInstanceSavepoint savepoint = new WsFlinkKubernetesJobInstanceSavepoint();
+        savepoint.setId(id);
+        savepoint.setTimeStamp(lastSavepoint.getTimeStamp());
+        savepoint.setLocation(lastSavepoint.getLocation());
+        savepoint.setTriggerType(EnumUtils.getEnum(SavepointTriggerType.class, lastSavepoint.getTriggerType().name()));
+        savepoint.setFormatType(EnumUtils.getEnum(SavepointFormatType.class, lastSavepoint.getFormatType().name()));
+
+        LambdaQueryWrapper<WsFlinkKubernetesJobInstanceSavepoint> queryWrapper = Wrappers.lambdaQuery(WsFlinkKubernetesJobInstanceSavepoint.class)
+                .eq(WsFlinkKubernetesJobInstanceSavepoint::getWsFlinkKubernetesJobInstanceId, id)
+                .eq(WsFlinkKubernetesJobInstanceSavepoint::getTimeStamp, lastSavepoint.getTimeStamp());
+        WsFlinkKubernetesJobInstanceSavepoint oldRecord = wsFlinkKubernetesJobInstanceSavepointMapper.selectOne(queryWrapper);
+        if (oldRecord == null) {
+            wsFlinkKubernetesJobInstanceSavepointMapper.insert(savepoint);
+        }
     }
 
     @Override
