@@ -1,9 +1,16 @@
-import {  Tabs } from 'antd';
+import { Spin, Tabs } from 'antd';
 import React, { useState } from 'react';
 import EditorRightResultTable from './EditorRightResultTable';
 import styles from './index.less';
 
-const defaultPanes = new Array(20).fill(null).map((_, index) => {
+// 定义每个标签页的类型
+interface PaneItem {
+  label: React.ReactNode;
+  children: React.ReactNode;
+  key: string;
+}
+
+const defaultPanes: PaneItem[] = new Array(4).fill(null).map((_, index) => {
   const id = String(index + 1);
   return {
     label: (
@@ -21,41 +28,35 @@ const defaultPanes = new Array(20).fill(null).map((_, index) => {
   };
 });
 
-
 const EditorRightResult: React.FC = () => {
-  const [activeKey, setActiveKey] = useState(defaultPanes[0].key);
+  // 当前活动的标签页key
+  const [activeKey, setActiveKey] = useState(defaultPanes?.[0]?.key);
+  // 标签页列表
   const [items, setItems] = useState(defaultPanes);
+  // 加载状态
+  const [isLoading, setIsLoading] = useState(false);
+
+  // 切换标签页时的回调函数
   const onChange = (key: string) => {
     setActiveKey(key);
   };
 
-  const remove = (targetKey: string) => {
-    const targetIndex = items.findIndex((pane) => pane.key === targetKey);
-    const newPanes = items.filter((pane) => pane.key !== targetKey);
-    if (newPanes.length && targetKey === activeKey) {
-      const { key } = newPanes[targetIndex === newPanes.length ? targetIndex - 1 : targetIndex];
-      setActiveKey(key);
-    }
-    setItems(newPanes);
-  };
-
-  const onEdit = (targetKey: string, action: 'add' | 'remove') => {
-    remove(targetKey);
-  };
-
   return (
-    <div
-      className={styles.editorRightResult}
-      style={{  height: '100%', width: '100%' }}
-    >
-      <Tabs
-        hideAdd
-        onChange={onChange}
-        activeKey={activeKey}
-        type="editable-card"
-        onEdit={onEdit}
-        items={items}
-      />
+    <div className={styles.editorRightResult} style={{ height: '100%', width: '100%' }}>
+      {/* 标签页组件 */}
+      {items.length ? (
+        <Tabs
+          hideAdd
+          onChange={onChange}
+          activeKey={activeKey}
+          type="editable-card"
+          items={items}
+        />
+      ) : (
+        <div className={styles.resultContentBox}> No Data ​</div>
+      )}
+      {/* 加载中的旋转动画 */}
+      {isLoading && <Spin spinning={isLoading} className={styles.resultContentWrapper} />}
     </div>
   );
 };

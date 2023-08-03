@@ -184,8 +184,6 @@ const EditMenu: React.FC = ({showLeft}) => {
           style={{display: showLeft ? "block" : "none"}}
           >
           <Col span={24} style={{paddingLeft: 12, paddingRight: 12}}>
-            {/* TODO: Add search in the future  */}
-            {/*<Input.Search style={{marginBottom: 8}} onSearch={onSearchWordChange}/>*/}
             <Tree treeData={treeNodes}
                   loadData={onCatalogLoad}
                   showIcon={true}
