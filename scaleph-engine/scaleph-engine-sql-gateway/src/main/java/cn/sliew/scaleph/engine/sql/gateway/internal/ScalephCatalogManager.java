@@ -241,6 +241,11 @@ public class ScalephCatalogManager implements AutoCloseable {
                 .registerCatalog(catalogName, catalog);
     }
 
+    public void removeCatalog(String catalogName) {
+        sessionContext.getSessionState()
+                .catalogManager.unregisterCatalog(catalogName, true);
+    }
+
     @Override
     public void close() throws Exception {
         sessionContext.close();

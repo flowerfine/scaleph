@@ -257,4 +257,17 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
             return false;
         }
     }
+
+    @Override
+    public Boolean removeCatalog(String clusterId, String catalogName) {
+        try {
+            getCatalogManager(clusterId)
+                    .orElseThrow(ScalephSqlGatewayNotFoundException::new)
+                    .removeCatalog(catalogName);
+            return true;
+        } catch (Exception e) {
+            log.error(e.getLocalizedMessage(), e);
+            return false;
+        }
+    }
 }

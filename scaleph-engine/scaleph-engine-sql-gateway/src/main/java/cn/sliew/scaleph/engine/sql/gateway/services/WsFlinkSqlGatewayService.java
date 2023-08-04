@@ -137,4 +137,12 @@ public interface WsFlinkSqlGatewayService {
      */
     Boolean addCatalog(String clusterId, String catalogName, Map<String, String> options);
 
+    /**
+     * Remove a catalog
+     *
+     * @param clusterId   Flink K8S session cluster id
+     * @param catalogName Catalog name
+     * @return
+     */
+    Boolean removeCatalog(String clusterId, String catalogName);
 }

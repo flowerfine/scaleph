@@ -153,4 +153,15 @@ public class WsFlinkSqlGatewayController {
         return ResponseEntity.ok(wsFlinkSqlGatewayService.addCatalog(clusterId, params.getCatalogName(), params.getOptions()));
     }
 
+    @DeleteMapping("{clusterId}/removeCatalog")
+    @Operation(summary = "删除catalog", description = "删除catalog")
+    @Parameters({
+            @Parameter(name = "clusterId", description = "flink kubernetes session-cluster 的 sessionClusterId"),
+            @Parameter(name = "catalogName", description = "Catalog名称")
+    })
+    public ResponseEntity<Boolean> removeCatalog(@PathVariable("clusterId") String clusterId,
+                                              @RequestParam("catalogName") String catalogName) {
+        return ResponseEntity.ok(wsFlinkSqlGatewayService.removeCatalog(clusterId, catalogName));
+    }
+
 }
