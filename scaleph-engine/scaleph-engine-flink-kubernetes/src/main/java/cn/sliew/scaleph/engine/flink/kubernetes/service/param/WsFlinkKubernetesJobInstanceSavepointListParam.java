@@ -16,24 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql.gateway.dto;
+package cn.sliew.scaleph.engine.flink.kubernetes.service.param;
 
+import cn.sliew.scaleph.system.model.PaginationParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NonNull;
 
-import java.util.Map;
+import javax.validation.constraints.NotNull;
 
 @Data
-@EqualsAndHashCode
-@Schema(name = "SqlGateway执行Sql的参数", description = "SqlGateway执行Sql的参数")
-public class WsFlinkSqlGatewayQueryParamsDTO {
+public class WsFlinkKubernetesJobInstanceSavepointListParam extends PaginationParam {
 
-    @NonNull
-    @Schema(description = "sql")
-    private String sql;
-
-    @Schema(description = "配置参数")
-    private Map<String, String> configuration;
+    @NotNull
+    @Schema(description = "flink kubernetes job instance id")
+    private Long wsFlinkKubernetesJobInstanceId;
 }

@@ -25,10 +25,7 @@ import cn.sliew.scaleph.common.dict.catalog.CatalogTableKind;
 import cn.sliew.scaleph.common.dict.common.*;
 import cn.sliew.scaleph.common.dict.ds.RedisMode;
 import cn.sliew.scaleph.common.dict.flink.*;
-import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
-import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentMode;
-import cn.sliew.scaleph.common.dict.flink.kubernetes.ResourceLifecycleState;
-import cn.sliew.scaleph.common.dict.flink.kubernetes.UpgradeMode;
+import cn.sliew.scaleph.common.dict.flink.kubernetes.*;
 import cn.sliew.scaleph.common.dict.image.ImagePullPolicy;
 import cn.sliew.scaleph.common.dict.job.*;
 import cn.sliew.scaleph.common.dict.seatunnel.*;
@@ -89,6 +86,8 @@ public enum DictType implements DictDefinition {
     FLINK_KUBERNETES_DEPLOYMENT_KIND("deployment_kind", "Deployment 类型", DeploymentKind.class),
     FLINK_KUBERNETES_RESOURCE_LIFECYCLE_STATE("resource_lifecycle_state", "Deployment 状态", ResourceLifecycleState.class),
     FLINK_KUBERNETES_UPGRADE_MODE("upgrade_mode", "Upgrade 方式", UpgradeMode.class),
+    FLINK_KUBERNETES_SAVEPOINT_FORMAT_TYPE("savepoint_format_type", "Savepoint Format 类型", SavepointFormatType.class),
+    FLINK_KUBERNETES_SAVEPOINT_TRIGGER_TYPE("savepoint_trigger_type", "Savepoint Trigger 类型", SavepointTriggerType.class),
 
     FLINK_CATALOG_COLUMN_TYPE("flink_catalog_column_type", "Flink Catalog Table Schema 列类型", CatalogColumnType.class),
     FLINK_CATALOG_TABLE_KIND("flink_catalog_table_kind", "Flink Catalog Table 类型", CatalogTableKind.class),

@@ -23,7 +23,10 @@ import cn.sliew.scaleph.engine.sql.gateway.dto.WsFlinkSqlGatewayQueryParamsDTO;
 import cn.sliew.scaleph.engine.sql.gateway.dto.WsFlinkSqlGatewayQueryResultDTO;
 import cn.sliew.scaleph.engine.sql.gateway.dto.catalog.CatalogInfo;
 import cn.sliew.scaleph.engine.sql.gateway.services.WsFlinkSqlGatewayService;
+import cn.sliew.scaleph.system.model.PaginationParam;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.flink.table.gateway.api.results.GatewayInfo;
 import org.apache.flink.table.gateway.api.results.ResultSet;
@@ -32,7 +35,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -50,50 +52,67 @@ public class WsFlinkSqlGatewayController {
 
     @GetMapping("{clusterId}/info")
     @Operation(summary = "获取SqlGateway信息", description = "获取SqlGateway信息")
+    @Parameters(@Parameter(name = "clusterId", description = "flink kubernetes session-cluster 的 sessionClusterId"))
     public ResponseEntity<GatewayInfo> getClusterInfo(@PathVariable("clusterId") String clusterId) {
         return ResponseEntity.ok(wsFlinkSqlGatewayService.getGatewayInfo(clusterId));
     }
 
-    @RequestMapping(value = "{clusterId}/openSession", method = {RequestMethod.PUT, RequestMethod.POST})
+    @PutMapping("{clusterId}/openSession")
     @Operation(summary = "新建Session", description = "新建Session")
+    @Parameters(@Parameter(name = "clusterId", description = "flink kubernetes session-cluster 的 sessionClusterId"))
     public ResponseEntity<String> openSession(@PathVariable("clusterId") String clusterId) {
         return ResponseEntity.ok(wsFlinkSqlGatewayService.openSession(clusterId));
     }
 
     @DeleteMapping("{clusterId}/{sessionHandleId}")
     @Operation(summary = "关闭Session", description = "关闭Session")
-    public ResponseEntity<String> closeSession(
-            @PathVariable("clusterId") String clusterId,
-            @PathVariable("sessionHandleId") String sessionHandleId) {
+    @Parameters({
+            @Parameter(name = "clusterId", description = "flink kubernetes session-cluster 的 sessionClusterId"),
+            @Parameter(name = "sessionHandleId", description = "openSession() 返回结果")
+    })
+    public ResponseEntity<String> closeSession(@PathVariable("clusterId") String clusterId,
+                                               @PathVariable("sessionHandleId") String sessionHandleId) {
         return ResponseEntity.ok(wsFlinkSqlGatewayService.closeSession(clusterId, sessionHandleId));
     }
 
     @GetMapping("{clusterId}/{sessionHandleId}/getCatalogInfo")
     @Operation(summary = "获取所有Catalog信息", description = "获取所有Catalog信息")
-    public ResponseEntity<Set<CatalogInfo>> getCatalogInfo(
-            @PathVariable("clusterId") String clusterId,
-            @PathVariable("sessionHandleId") String sessionHandleId,
-            @RequestParam(value = "includeSystemFunctions", defaultValue = "false") boolean includeSystemFunctions) {
+    @Parameters({
+            @Parameter(name = "clusterId", description = "flink kubernetes session-cluster 的 sessionClusterId"),
+            @Parameter(name = "sessionHandleId", description = "openSession() 返回结果"),
+            @Parameter(name = "includeSystemFunctions", description = "是否返回系统函数")
+    })
+    public ResponseEntity<Set<CatalogInfo>> getCatalogInfo(@PathVariable("clusterId") String clusterId,
+                                                           @PathVariable("sessionHandleId") String sessionHandleId,
+                                                           @RequestParam(value = "includeSystemFunctions", defaultValue = "false") boolean includeSystemFunctions) {
         return ResponseEntity.ok(wsFlinkSqlGatewayService.getCatalogInfo(clusterId, sessionHandleId, includeSystemFunctions));
     }
 
 
-    @RequestMapping(value = "{clusterId}/{sessionHandleId}/executeSql", method = {RequestMethod.POST, RequestMethod.PUT})
+    @PostMapping("{clusterId}/{sessionHandleId}/executeSql")
     @Operation(summary = "执行FlinkSql", description = "执行FlinkSql")
+    @Parameters({
+            @Parameter(name = "clusterId", description = "flink kubernetes session-cluster 的 sessionClusterId"),
+            @Parameter(name = "sessionHandleId", description = "openSession() 返回结果")
+    })
     public ResponseEntity<String> executeSql(@PathVariable("clusterId") String clusterId,
                                              @PathVariable("sessionHandleId") String sessionHandleId,
                                              @RequestBody WsFlinkSqlGatewayQueryParamsDTO params) {
         return ResponseEntity.ok(wsFlinkSqlGatewayService.executeSql(clusterId, sessionHandleId, params));
     }
 
-    @GetMapping("{clusterId}/{sessionHandleId}/{operationHandleId}/results/{token}")
+    @GetMapping("{clusterId}/{sessionHandleId}/{operationHandleId}/results")
     @Operation(summary = "获取Sql执行结果", description = "获取Sql执行结果")
+    @Parameters({
+            @Parameter(name = "clusterId", description = "flink kubernetes session-cluster 的 sessionClusterId"),
+            @Parameter(name = "sessionHandleId", description = "openSession() 返回结果"),
+            @Parameter(name = "operationHandleId", description = "executeSql() 返回结果")
+    })
     public ResponseEntity<WsFlinkSqlGatewayQueryResultDTO> fetchResults(@PathVariable("clusterId") String clusterId,
                                                                         @PathVariable("sessionHandleId") String sessionHandleId,
                                                                         @PathVariable("operationHandleId") String operationHandleId,
-                                                                        @PathVariable(value = "token", required = false) Long token,
-                                                                        @RequestParam(value = "maxRows", required = false, defaultValue = "100") int maxRows) {
-        ResultSet resultSet = wsFlinkSqlGatewayService.fetchResults(clusterId, sessionHandleId, operationHandleId, token, maxRows);
+                                                                        PaginationParam param) {
+        ResultSet resultSet = wsFlinkSqlGatewayService.fetchResults(clusterId, sessionHandleId, operationHandleId, param.getCurrent(), param.getPageSize().intValue());
         try {
             WsFlinkSqlGatewayQueryResultDTO wsFlinkSqlGatewayQueryResultDTO = WsFlinkSqlGatewayQueryResultDTO.fromResultSet(resultSet);
             return ResponseEntity.ok(wsFlinkSqlGatewayQueryResultDTO);
@@ -104,6 +123,11 @@ public class WsFlinkSqlGatewayController {
 
     @DeleteMapping("{clusterId}/{sessionHandleId}/{operationHandleId}")
     @Operation(summary = "取消执行的任务", description = "取消执行的任务")
+    @Parameters({
+            @Parameter(name = "clusterId", description = "flink kubernetes session-cluster 的 sessionClusterId"),
+            @Parameter(name = "sessionHandleId", description = "openSession() 返回结果"),
+            @Parameter(name = "operationHandleId", description = "executeSql() 返回结果")
+    })
     public ResponseEntity<Boolean> cancel(@PathVariable("clusterId") String clusterId,
                                           @PathVariable("sessionHandleId") String sessionHandleId,
                                           @PathVariable("operationHandleId") String operationHandleId) {
@@ -112,11 +136,16 @@ public class WsFlinkSqlGatewayController {
 
     @GetMapping("{clusterId}/{sessionHandleId}/completeStatement")
     @Operation(summary = "获取Sql提示", description = "获取Sql提示")
-    public ResponseEntity<List<String>> completeStatement(
-            @PathVariable("clusterId") String clusterId,
-            @PathVariable("sessionHandleId") String sessionHandleId,
-            @RequestParam("statement") String statement,
-            @RequestParam("position") int position) {
+    @Parameters({
+            @Parameter(name = "clusterId", description = "flink kubernetes session-cluster 的 sessionClusterId"),
+            @Parameter(name = "sessionHandleId", description = "openSession() 返回结果"),
+            @Parameter(name = "statement", description = "sql 片段"),
+            @Parameter(name = "position", description = "position")
+    })
+    public ResponseEntity<List<String>> completeStatement(@PathVariable("clusterId") String clusterId,
+                                                          @PathVariable("sessionHandleId") String sessionHandleId,
+                                                          @RequestParam("statement") String statement,
+                                                          @RequestParam("position") int position) {
         try {
             return ResponseEntity.ok(wsFlinkSqlGatewayService.completeStatement(clusterId, sessionHandleId, statement, position));
         } catch (Exception e) {
@@ -126,21 +155,26 @@ public class WsFlinkSqlGatewayController {
 
     @PostMapping("{clusterId}/{sessionHandleId}/addDependencies")
     @Operation(summary = "添加依赖jar包", description = "添加依赖jar包")
-    public ResponseEntity<Boolean> addDependencies(
-            @PathVariable("clusterId") String clusterId,
-            @PathVariable("sessionHandleId") String sessionHandleId,
-            @RequestParam("jarIdList") List<Long> jarIdList
-    ) {
+    @Parameters({
+            @Parameter(name = "clusterId", description = "flink kubernetes session-cluster 的 sessionClusterId"),
+            @Parameter(name = "sessionHandleId", description = "openSession() 返回结果"),
+            @Parameter(name = "jarIdList", description = "jar ids")
+    })
+    public ResponseEntity<Boolean> addDependencies(@PathVariable("clusterId") String clusterId,
+                                                   @PathVariable("sessionHandleId") String sessionHandleId,
+                                                   @RequestParam("jarIdList") List<Long> jarIdList) {
         return ResponseEntity.ok(wsFlinkSqlGatewayService.addDependencies(clusterId, sessionHandleId, jarIdList));
     }
 
     @PostMapping("{clusterId}/{sessionHandleId}/addCatalog")
     @Operation(summary = "添加catalog", description = "添加catalog")
-    public ResponseEntity<Boolean> addCatalog(
-            @PathVariable("clusterId") String clusterId,
-            @PathVariable("sessionHandleId") String sessionHandleId,
-            @RequestBody WsFlinkSqlGatewayCreateCatalogParamsDTO params
-    ) {
+    @Parameters({
+            @Parameter(name = "clusterId", description = "flink kubernetes session-cluster 的 sessionClusterId"),
+            @Parameter(name = "sessionHandleId", description = "openSession() 返回结果")
+    })
+    public ResponseEntity<Boolean> addCatalog(@PathVariable("clusterId") String clusterId,
+                                              @PathVariable("sessionHandleId") String sessionHandleId,
+                                              @RequestBody WsFlinkSqlGatewayCreateCatalogParamsDTO params) {
         return ResponseEntity.ok(wsFlinkSqlGatewayService.addCatalog(clusterId, sessionHandleId, params.getCatalogName(), params.getOptions()));
     }
 

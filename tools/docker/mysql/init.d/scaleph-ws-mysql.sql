@@ -47,6 +47,8 @@ INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `
 VALUES (5, 1, '2', 'fake', NULL, 'sys', 'sys');
 INSERT INTO `ws_flink_artifact`(`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (6, 1, '0', 'catalog-example', NULL, 'sys', 'sys');
+INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+VALUES (7, 1, '0', 'select-example', NULL, 'sys', 'sys');
 
 drop table if exists ws_flink_artifact_jar;
 create table ws_flink_artifact_jar
@@ -102,6 +104,11 @@ INSERT INTO `ws_flink_artifact_sql`(`id`, `flink_artifact_id`, `flink_version`, 
                                     `editor`)
 VALUES (4, 6, '1.17.1',
         'CREATE CATALOG my_catalog WITH (\n    \'type\' = \'generic_in_memory\'\n);\n\nCREATE DATABASE my_catalog.my_database;\n\n\nCREATE TABLE my_catalog.my_database.source_table (\n  `id` bigint,\n  `name` string,\n  `age` int,\n  `address` string,\n  `create_time`TIMESTAMP(3),\n  `update_time`TIMESTAMP(3),\n  WATERMARK FOR `update_time` AS update_time - INTERVAL \'1\' MINUTE\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'datagen\',\n  \'number-of-rows\' = \'100\'\n);\n\nCREATE TABLE my_catalog.my_database.sink_table (\n  `id` BIGINT,\n  `name` VARCHAR(2147483647),\n  `age` INT,\n  `address` VARCHAR(2147483647),\n  `create_time` TIMESTAMP(3),\n  `update_time` TIMESTAMP(3)\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'print\'\n);\n\nINSERT INTO my_catalog.my_database.sink_table\nSELECT id, name, age, address, create_time, update_time FROM my_catalog.my_database.source_table;',
+        '1', 'sys', 'sys');
+INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
+                                     `editor`)
+VALUES (5, 7, '1.17.1',
+        'CREATE CATALOG my_catalog WITH (\n    \'type\' = \'generic_in_memory\'\n);\n\nCREATE DATABASE my_catalog.my_database;\n\n\nCREATE TABLE my_catalog.my_database.source_table (\n  `id` bigint,\n  `name` string,\n  `age` int,\n  `address` string,\n  `create_time`TIMESTAMP(3),\n  `update_time`TIMESTAMP(3),\n  WATERMARK FOR `update_time` AS update_time - INTERVAL \'1\' MINUTE\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'datagen\'\n);\n\nSELECT * FROM my_catalog.my_database.source_table;',
         '1', 'sys', 'sys');
 
 drop table if exists ws_di_job;
@@ -202,34 +209,6 @@ VALUES (1, 'fabfda41-aacb-4a19-b5ef-9e84a75ed4e9', 'f3e02087-91fa-494d-86f4-6949
 INSERT INTO ws_di_job_link(job_id, link_code, from_step_code, to_step_code, creator, editor)
 VALUES (2, 'd57021a1-65c7-4dfe-ae89-3b73d00fcf72', '6223c6c3-b552-4c69-adab-5300b7514fad',
         'f08143b4-34dc-4190-8723-e8d8ce49738f', 'sys', 'sys');
-
-DROP TABLE IF EXISTS ws_flink_checkpoint;
-CREATE TABLE ws_flink_checkpoint
-(
-    id                        bigint      not null auto_increment comment 'id',
-    flink_job_instance_id     bigint      not null comment 'flink job instance id',
-    flink_checkpoint_id       bigint      not null comment 'flink checkpoint id',
-    checkpoint_type           varchar(16) not null comment 'checkpoint type',
-    `status`                  varchar(16) not null comment 'checkpoint status',
-    `savepoint`               tinyint     not null comment 'is savepoint',
-    trigger_timestamp         bigint      not null comment 'checkpoint trigger timestamp',
-    duration                  bigint comment 'checkpoint duration',
-    discarded                 tinyint     not null comment 'is discarded',
-    external_path             text comment 'checkpoint path',
-    state_size                bigint comment 'state size',
-    processed_data            bigint comment 'processed data size',
-    persisted_data            bigint comment 'persisted data size',
-    alignment_buffered        bigint comment 'checkpoint alignment buffered size',
-    num_subtasks              int comment 'subtask nums',
-    num_acknowledged_subtasks int comment 'acknowledged subtask nums',
-    latest_ack_timestamp      bigint comment 'latest acknowledged subtask timestamp',
-    creator                   varchar(32) comment '创建人',
-    create_time               timestamp default current_timestamp comment '创建时间',
-    editor                    varchar(32) comment '修改人',
-    update_time               timestamp default current_timestamp on update current_timestamp comment '修改时间',
-    PRIMARY KEY (id),
-    UNIQUE KEY uniq_job (flink_job_instance_id, flink_checkpoint_id)
-) ENGINE = INNODB COMMENT = 'flink checkpoint';
 
 DROP TABLE IF EXISTS ws_flink_kubernetes_template;
 CREATE TABLE ws_flink_kubernetes_template
@@ -445,3 +424,20 @@ CREATE TABLE ws_flink_kubernetes_job_instance
     PRIMARY KEY (id),
     UNIQUE KEY uniq_key (ws_flink_kubernetes_job_id, instance_id)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes job instance';
+
+DROP TABLE IF EXISTS ws_flink_kubernetes_job_instance_savepoint;
+CREATE TABLE ws_flink_kubernetes_job_instance_savepoint
+(
+    id                                  bigint   not null auto_increment,
+    ws_flink_kubernetes_job_instance_id bigint   not null,
+    time_stamp                          bigint   not null,
+    location                            text,
+    trigger_type                        varchar(32),
+    format_type                         varchar(32),
+    creator                             varchar(32),
+    create_time                         datetime not null default current_timestamp,
+    editor                              varchar(32),
+    update_time                         datetime not null default current_timestamp on update current_timestamp,
+    PRIMARY KEY (id),
+    UNIQUE KEY uniq_key (ws_flink_kubernetes_job_instance_id, time_stamp)
+) ENGINE = INNODB COMMENT = 'flink kubernetes job instance savepoint';
