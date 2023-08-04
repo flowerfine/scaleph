@@ -21,7 +21,8 @@ package cn.sliew.scaleph.engine.sql.gateway.services.impl;
 import cn.sliew.scaleph.common.util.SystemUtil;
 import cn.sliew.scaleph.engine.sql.gateway.dto.WsFlinkSqlGatewayQueryParamsDTO;
 import cn.sliew.scaleph.engine.sql.gateway.dto.catalog.CatalogInfo;
-import cn.sliew.scaleph.engine.sql.gateway.internal.ScalephSqlGatewaySessionManager;
+import cn.sliew.scaleph.engine.sql.gateway.exception.ScalephSqlGatewayNotFoundException;
+import cn.sliew.scaleph.engine.sql.gateway.internal.ScalephCatalogManager;
 import cn.sliew.scaleph.engine.sql.gateway.services.WsFlinkSqlGatewayService;
 import cn.sliew.scaleph.kubernetes.service.KubernetesService;
 import cn.sliew.scaleph.resource.service.ClusterCredentialService;
@@ -37,10 +38,6 @@ import org.apache.flink.table.gateway.api.operation.OperationHandle;
 import org.apache.flink.table.gateway.api.results.FetchOrientation;
 import org.apache.flink.table.gateway.api.results.GatewayInfo;
 import org.apache.flink.table.gateway.api.results.ResultSet;
-import org.apache.flink.table.gateway.api.session.SessionEnvironment;
-import org.apache.flink.table.gateway.api.session.SessionHandle;
-import org.apache.flink.table.gateway.rest.util.SqlGatewayRestAPIVersion;
-import org.apache.flink.table.gateway.service.context.DefaultContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -50,9 +47,12 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -60,14 +60,14 @@ import java.util.stream.Collectors;
 public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
 
     /**
-     * Store {@link ScalephSqlGatewaySessionManager}s in this map. </br>
-     * In case multi {@link ScalephSqlGatewaySessionManager}s can be enabled in the future
+     * Store {@link ScalephCatalogManager}s in this map. </br>
+     * In case multi {@link ScalephCatalogManager}s can be enabled in the future
      */
-    private static final Map<String, ScalephSqlGatewaySessionManager> SERVICE_MAP =
+    private static final Map<String, ScalephCatalogManager> CATALOG_MANAGER_MAP =
             new ConcurrentHashMap<>();
-    private KubernetesService kubernetesService;
-    private ClusterCredentialService clusterCredentialService;
-    private JarService jarService;
+    private final KubernetesService kubernetesService;
+    private final ClusterCredentialService clusterCredentialService;
+    private final JarService jarService;
 
     @Autowired
     public WsFlinkSqlGatewayServiceImpl(KubernetesService kubernetesService,
@@ -79,27 +79,14 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
     }
 
     /**
-     * Create a new {@link SessionEnvironment} with random UUID session name
-     *
-     * @return
-     */
-    private static SessionEnvironment newSessionEnv() {
-        return SessionEnvironment
-                .newBuilder()
-                .setSessionEndpointVersion(SqlGatewayRestAPIVersion.V2)
-                .setSessionName(UUID.randomUUID().toString())
-                .build();
-    }
-
-    /**
      * {@inheritDoc}
      *
      * @param clusterId Flink K8S session cluster id
      * @return
      */
     @Override
-    public Optional<ScalephSqlGatewaySessionManager> getSessionManager(String clusterId) {
-        return Optional.ofNullable(SERVICE_MAP.get(clusterId));
+    public Optional<ScalephCatalogManager> getCatalogManager(String clusterId) {
+        return Optional.ofNullable(CATALOG_MANAGER_MAP.get(clusterId));
     }
 
     /**
@@ -111,7 +98,7 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
      * @throws Exception
      */
     @Override
-    public Optional<ScalephSqlGatewaySessionManager> createSessionManager(Long kubeCredentialId, String clusterId) {
+    public Optional<ScalephCatalogManager> createCatalogManager(Long kubeCredentialId, String clusterId) {
         try {
             ClusterCredentialDTO clusterCredential = clusterCredentialService.selectOne(kubeCredentialId);
             Path path = kubernetesService.downloadConfig(clusterCredential);
@@ -122,12 +109,9 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
                 configuration.set(KubernetesConfigOptions.CONTEXT, clusterCredential.getContext());
             }
             configuration.set(DeploymentOptions.TARGET, "kubernetes-session");
-            DefaultContext defaultContext = new DefaultContext(configuration, Collections.emptyList());
-            ScalephSqlGatewaySessionManager sessionManager = new ScalephSqlGatewaySessionManager(defaultContext);
-            sessionManager.start();
-            log.info("Stated sql-gateway for session cluster {}", clusterId);
-            SERVICE_MAP.put(clusterId, sessionManager);
-            return Optional.of(sessionManager);
+            ScalephCatalogManager catalogManager = ScalephCatalogManager.create(configuration);
+            CATALOG_MANAGER_MAP.put(clusterId, catalogManager);
+            return Optional.of(catalogManager);
         } catch (Exception e) {
             log.error("Error create SqlGateway for session id: " + clusterId, e);
         }
@@ -141,110 +125,79 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
      * @throws Exception
      */
     @Override
-    public void destroySessionManager(String clusterId) {
-        getSessionManager(clusterId).ifPresent(sessionManager -> {
-            sessionManager.stop();
-            SERVICE_MAP.remove(clusterId);
+    public void destroyCatalogManager(String clusterId) {
+        getCatalogManager(clusterId).ifPresent(catalogManager -> {
+            try {
+                catalogManager.close();
+            } catch (Exception e) {
+                log.error(e.getLocalizedMessage(), e);
+            }
+            CATALOG_MANAGER_MAP.remove(clusterId);
         });
     }
 
     @Override
     public GatewayInfo getGatewayInfo(String clusterId) {
-        try {
-            return getSessionManager(clusterId)
-                    .orElseThrow((Supplier<Throwable>) () -> new IllegalArgumentException("Sql gateway not start!"))
-                    .getGatewayInfo();
-        } catch (Throwable e) {
-            log.error(e.getMessage(), e);
-        }
-        return null;
-    }
-
-    @Override
-    public String openSession(String clusterId) {
-        return getSessionManager(clusterId)
-                .orElseThrow()
-                .openSession()
-                .getIdentifier()
-                .toString();
+        return GatewayInfo.INSTANCE;
     }
 
     /**
      * {@inheritDoc}
      *
-     * @param clusterId       Flink K8S session cluster id
-     * @param sessionHandleId Session handler id
+     * @param clusterId Flink K8S session cluster id
      * @return
      */
     @Override
-    public Set<CatalogInfo> getCatalogInfo(String clusterId, String sessionHandleId, boolean includeSystemFunctions) {
-        SessionHandle sessionHandle = new SessionHandle(UUID.fromString(sessionHandleId));
-        return getSessionManager(clusterId).orElseThrow()
-                .getCatalogInfo(sessionHandle, includeSystemFunctions);
+    public Set<CatalogInfo> getCatalogInfo(String clusterId, boolean includeSystemFunctions) {
+        return getCatalogManager(clusterId)
+                .orElseThrow(ScalephSqlGatewayNotFoundException::new)
+                .getCatalogInfo(includeSystemFunctions);
     }
 
     /**
      * {@inheritDoc}
      *
-     * @param clusterId       Flink K8S session cluster id
-     * @param sessionHandleId Session handler id
+     * @param clusterId Flink K8S session cluster id
+     * @param params    Sql query params
      * @return
      */
     @Override
-    public String closeSession(String clusterId, String sessionHandleId) {
-        SessionHandle sessionHandle = new SessionHandle(UUID.fromString(sessionHandleId));
-        getSessionManager(clusterId).orElseThrow()
-                .closeSession(sessionHandle);
-        return sessionHandleId;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @param clusterId       Flink K8S session cluster id
-     * @param sessionHandleId Session handler id
-     * @param params          Sql query params
-     * @return
-     */
-    @Override
-    public String executeSql(String clusterId, String sessionHandleId, WsFlinkSqlGatewayQueryParamsDTO params) {
-        SessionHandle sessionHandle = new SessionHandle(UUID.fromString(sessionHandleId));
-        return getSessionManager(clusterId)
-                .orElseThrow()
-                .executeStatement(sessionHandle, params.getConfiguration(), params.getSql());
+    public String executeSql(String clusterId, WsFlinkSqlGatewayQueryParamsDTO params) {
+        return getCatalogManager(clusterId)
+                .orElseThrow(ScalephSqlGatewayNotFoundException::new)
+                .executeStatement(params.getSql(), params.getConfiguration());
     }
 
     /**
      * {@inheritDoc}
      *
      * @param clusterId         Flink K8S session cluster id
-     * @param sessionHandleId   Session handler id
      * @param operationHandleId Operation handle id
      * @param token             token
      * @param maxRows           Max rows to fetch
      * @return
      */
     @Override
-    public ResultSet fetchResults(String clusterId, String sessionHandleId,
+    public ResultSet fetchResults(String clusterId,
                                   String operationHandleId,
                                   Long token, int maxRows) {
-        SessionHandle sessionHandle = new SessionHandle(UUID.fromString(sessionHandleId));
         OperationHandle operationHandle = new OperationHandle(UUID.fromString(operationHandleId));
-        ScalephSqlGatewaySessionManager sessionManager = getSessionManager(clusterId).orElseThrow();
+        ScalephCatalogManager catalogManager = getCatalogManager(clusterId).orElseThrow(ScalephSqlGatewayNotFoundException::new);
         ResultSet resultSet;
         if (token == null || token < 0) {
-            resultSet = sessionManager.fetchResults(sessionHandle, operationHandle, FetchOrientation.FETCH_NEXT, maxRows);
+            resultSet = catalogManager.fetchResults(operationHandle, FetchOrientation.FETCH_NEXT, maxRows);
         } else {
-            resultSet = sessionManager.fetchResults(sessionHandle, operationHandle, token, maxRows);
+            resultSet = catalogManager.fetchResults(operationHandle, token, maxRows);
         }
         return resultSet;
     }
 
     @Override
-    public Boolean cancel(String clusterId, String sessionHandleId, String operationHandleId) {
+    public Boolean cancel(String clusterId, String operationHandleId) {
         try {
-            getSessionManager(clusterId).orElseThrow()
-                    .cancelOperation(new SessionHandle(UUID.fromString(sessionHandleId)), new OperationHandle(UUID.fromString(operationHandleId)));
+            getCatalogManager(clusterId)
+                    .orElseThrow(ScalephSqlGatewayNotFoundException::new)
+                    .cancelOperation(new OperationHandle(UUID.fromString(operationHandleId)));
             return true;
         } catch (Exception e) {
             return false;
@@ -252,13 +205,14 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
     }
 
     @Override
-    public List<String> completeStatement(String clusterId, String sessionId, String statement, int position) throws Exception {
-        return getSessionManager(clusterId).orElseThrow()
-                .completeStatement(new SessionHandle(UUID.fromString(sessionId)), statement, position);
+    public List<String> completeStatement(String clusterId, String statement, int position) throws Exception {
+        return getCatalogManager(clusterId)
+                .orElseThrow(ScalephSqlGatewayNotFoundException::new)
+                .completeStatement(statement, position);
     }
 
     @Override
-    public Boolean addDependencies(String clusterId, String sessionId, List<Long> jarIdList) {
+    public Boolean addDependencies(String clusterId, List<Long> jarIdList) {
         try {
             List<URI> jars = jarIdList.stream().map(jarId -> {
                         JarDTO jarDTO = jarService.getRaw(jarId);
@@ -281,9 +235,9 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
                         }
                     }).map(Path::toUri)
                     .collect(Collectors.toList());
-            getSessionManager(clusterId)
-                    .orElseThrow()
-                    .addDependencies(new SessionHandle(UUID.fromString(sessionId)), jars);
+            getCatalogManager(clusterId)
+                    .orElseThrow(ScalephSqlGatewayNotFoundException::new)
+                    .addDependencies(jars);
             return true;
         } catch (Exception e) {
             log.error(e.getLocalizedMessage(), e);
@@ -292,11 +246,11 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
     }
 
     @Override
-    public Boolean addCatalog(String clusterId, String sessionId, String catalogName, Map<String, String> options) {
+    public Boolean addCatalog(String clusterId, String catalogName, Map<String, String> options) {
         try {
-            getSessionManager(clusterId).orElseThrow()
-                    .addCatalog(new SessionHandle(UUID.fromString(sessionId)),
-                            catalogName, options);
+            getCatalogManager(clusterId)
+                    .orElseThrow(ScalephSqlGatewayNotFoundException::new)
+                    .addCatalog(catalogName, options);
             return true;
         } catch (Exception e) {
             log.error(e.getLocalizedMessage(), e);
