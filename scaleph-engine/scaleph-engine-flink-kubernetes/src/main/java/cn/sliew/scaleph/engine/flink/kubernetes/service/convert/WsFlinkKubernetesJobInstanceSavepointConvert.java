@@ -16,24 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql.gateway.dto;
+package cn.sliew.scaleph.engine.flink.kubernetes.service.convert;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NonNull;
+import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstanceSavepoint;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceSavepointDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
-import java.util.Map;
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface WsFlinkKubernetesJobInstanceSavepointConvert extends BaseConvert<WsFlinkKubernetesJobInstanceSavepoint, WsFlinkKubernetesJobInstanceSavepointDTO> {
+    WsFlinkKubernetesJobInstanceSavepointConvert INSTANCE = Mappers.getMapper(WsFlinkKubernetesJobInstanceSavepointConvert.class);
 
-@Data
-@EqualsAndHashCode
-@Schema(name = "SqlGateway执行Sql的参数", description = "SqlGateway执行Sql的参数")
-public class WsFlinkSqlGatewayQueryParamsDTO {
-
-    @NonNull
-    @Schema(description = "sql")
-    private String sql;
-
-    @Schema(description = "配置参数")
-    private Map<String, String> configuration;
 }
