@@ -40,6 +40,7 @@ import org.apache.flink.table.gateway.service.operation.OperationManager;
 import org.apache.flink.table.module.ModuleManager;
 import org.apache.flink.table.resource.ResourceType;
 import org.apache.flink.table.resource.ResourceUri;
+import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
 import java.net.URI;
@@ -267,7 +268,9 @@ public class ScalephSqlGatewaySessionManager {
     public String executeStatement(SessionHandle sessionHandle, Map<String, String> configuration, String sql) {
         SessionContext sessionContext = getSession(sessionHandle).getSessionContext();
         Configuration sessionConf = new Configuration(sessionContext.getSessionConf());
-        configuration.forEach(sessionConf::setString);
+        if (CollectionUtils.isEmpty(configuration) == false) {
+            configuration.forEach(sessionConf::setString);
+        }
         return sessionContext.getOperationManager()
                 .submitOperation(handle ->
                         sessionContext.createOperationExecutor(sessionConf)

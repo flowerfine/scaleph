@@ -47,6 +47,8 @@ INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `
 VALUES (5, 1, '2', 'fake', NULL, 'sys', 'sys');
 INSERT INTO `ws_flink_artifact`(`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (6, 1, '0', 'catalog-example', NULL, 'sys', 'sys');
+INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+VALUES (7, 1, '0', 'select-example', NULL, 'sys', 'sys');
 
 drop table if exists ws_flink_artifact_jar;
 create table ws_flink_artifact_jar
@@ -102,6 +104,11 @@ INSERT INTO `ws_flink_artifact_sql`(`id`, `flink_artifact_id`, `flink_version`, 
                                     `editor`)
 VALUES (4, 6, '1.17.1',
         'CREATE CATALOG my_catalog WITH (\n    \'type\' = \'generic_in_memory\'\n);\n\nCREATE DATABASE my_catalog.my_database;\n\n\nCREATE TABLE my_catalog.my_database.source_table (\n  `id` bigint,\n  `name` string,\n  `age` int,\n  `address` string,\n  `create_time`TIMESTAMP(3),\n  `update_time`TIMESTAMP(3),\n  WATERMARK FOR `update_time` AS update_time - INTERVAL \'1\' MINUTE\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'datagen\',\n  \'number-of-rows\' = \'100\'\n);\n\nCREATE TABLE my_catalog.my_database.sink_table (\n  `id` BIGINT,\n  `name` VARCHAR(2147483647),\n  `age` INT,\n  `address` VARCHAR(2147483647),\n  `create_time` TIMESTAMP(3),\n  `update_time` TIMESTAMP(3)\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'print\'\n);\n\nINSERT INTO my_catalog.my_database.sink_table\nSELECT id, name, age, address, create_time, update_time FROM my_catalog.my_database.source_table;',
+        '1', 'sys', 'sys');
+INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
+                                     `editor`)
+VALUES (5, 7, '1.17.1',
+        'CREATE CATALOG my_catalog WITH (\n    \'type\' = \'generic_in_memory\'\n);\n\nCREATE DATABASE my_catalog.my_database;\n\n\nCREATE TABLE my_catalog.my_database.source_table (\n  `id` bigint,\n  `name` string,\n  `age` int,\n  `address` string,\n  `create_time`TIMESTAMP(3),\n  `update_time`TIMESTAMP(3),\n  WATERMARK FOR `update_time` AS update_time - INTERVAL \'1\' MINUTE\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'datagen\'\n);\n\nSELECT * FROM my_catalog.my_database.source_table;',
         '1', 'sys', 'sys');
 
 drop table if exists ws_di_job;
