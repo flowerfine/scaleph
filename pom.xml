@@ -101,7 +101,6 @@
         <module>scaleph-workflow</module>
         <module>scaleph-datasource</module>
         <module>scaleph-kubernetes</module>
-        <module>scaleph-catalog</module>
 
         <module>scaleph-dist</module>
         <module>scaleph-file-fetcher</module>
@@ -247,11 +246,6 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-meta</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-catalog</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
