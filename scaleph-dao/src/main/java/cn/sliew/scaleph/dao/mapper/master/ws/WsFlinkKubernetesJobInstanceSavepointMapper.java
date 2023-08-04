@@ -16,24 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql.gateway.dto;
+package cn.sliew.scaleph.dao.mapper.master.ws;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NonNull;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstanceSavepoint;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-import java.util.Map;
+/**
+ * flink kubernetes job instance savepoint Mapper 接口
+ */
+@Repository
+public interface WsFlinkKubernetesJobInstanceSavepointMapper extends BaseMapper<WsFlinkKubernetesJobInstanceSavepoint> {
 
-@Data
-@EqualsAndHashCode
-@Schema(name = "SqlGateway执行Sql的参数", description = "SqlGateway执行Sql的参数")
-public class WsFlinkSqlGatewayQueryParamsDTO {
-
-    @NonNull
-    @Schema(description = "sql")
-    private String sql;
-
-    @Schema(description = "配置参数")
-    private Map<String, String> configuration;
 }

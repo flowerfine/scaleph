@@ -1,6 +1,6 @@
 import {connect, useAccess, useIntl, useLocation} from "umi";
 import React, {useEffect, useState} from "react";
-import {Button, Tabs} from "antd";
+import {Button, message, Popconfirm, Tabs} from "antd";
 import FlinkKubernetesJobDetailYAMLWeb from "@/pages/Project/Workspace/Kubernetes/Job/Detail/YAML";
 import {ProDescriptionsItemProps} from "@ant-design/pro-descriptions";
 import {WsFlinkKubernetesJob} from "@/services/project/typings";
@@ -112,15 +112,24 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
           >
             {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.deploy'})}
           </Button>
-          <Button
-            type="default"
-            icon={<RedoOutlined/>}
-            onClick={() => {
-              WsFlinkKubernetesJobService.restart(props.jobDetail.job.jobInstance.id)
+
+          <Popconfirm
+            title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
+            onConfirm={() => {
+              WsFlinkKubernetesJobService.restart(props.jobDetail.job.jobInstance.id).then(response => {
+                if (response.success) {
+                  message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
+                }
+              })
             }}
           >
-            {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.restart'})}
-          </Button>
+            <Button
+              type="default"
+              icon={<RedoOutlined/>}
+            >
+              {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.restart'})}
+            </Button>
+          </Popconfirm>
 
           <Button
             icon={<CloseOutlined/>}
@@ -133,15 +142,23 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
         </div>,
 
         <div>
-          <Button
-            type="default"
-            icon={<CameraOutlined/>}
-            onClick={() => {
-              WsFlinkKubernetesJobService.triggerSavepoint(props.jobDetail.job.jobInstance.id)
+          <Popconfirm
+            title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
+            onConfirm={() => {
+              WsFlinkKubernetesJobService.triggerSavepoint(props.jobDetail.job.jobInstance.id).then(response => {
+                if (response.success) {
+                  message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
+                }
+              })
             }}
           >
-            {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.savepoint'})}
-          </Button>
+            <Button
+              type="default"
+              icon={<CameraOutlined/>}
+            >
+              {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.savepoint'})}
+            </Button>
+          </Popconfirm>
         </div>,
 
         <div>
