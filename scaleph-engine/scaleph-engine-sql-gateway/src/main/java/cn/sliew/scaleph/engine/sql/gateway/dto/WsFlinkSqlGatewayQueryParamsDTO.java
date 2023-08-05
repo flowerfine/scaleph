@@ -21,8 +21,8 @@ package cn.sliew.scaleph.engine.sql.gateway.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NonNull;
 
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Data
@@ -30,7 +30,7 @@ import java.util.Map;
 @Schema(name = "SqlGateway执行Sql的参数", description = "SqlGateway执行Sql的参数")
 public class WsFlinkSqlGatewayQueryParamsDTO {
 
-    @NonNull
+    @NotNull
     @Schema(description = "sql")
     private String sql;
 

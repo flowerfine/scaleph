@@ -112,7 +112,7 @@ public class WsFlinkSqlGatewayController {
                                                                         @PathVariable("sessionHandleId") String sessionHandleId,
                                                                         @PathVariable("operationHandleId") String operationHandleId,
                                                                         PaginationParam param) {
-        ResultSet resultSet = wsFlinkSqlGatewayService.fetchResults(clusterId, sessionHandleId, operationHandleId, param.getCurrent(), param.getPageSize().intValue());
+        ResultSet resultSet = wsFlinkSqlGatewayService.fetchResults(clusterId, sessionHandleId, operationHandleId, param.getCurrent() - 1L, param.getPageSize().intValue());
         try {
             WsFlinkSqlGatewayQueryResultDTO wsFlinkSqlGatewayQueryResultDTO = WsFlinkSqlGatewayQueryResultDTO.fromResultSet(resultSet);
             return ResponseEntity.ok(wsFlinkSqlGatewayQueryResultDTO);

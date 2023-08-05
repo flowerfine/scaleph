@@ -33,10 +33,6 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-project</artifactId>
         </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-catalog</artifactId>
-        </dependency>
     </dependencies>
 
 </project>
