@@ -49,6 +49,8 @@ INSERT INTO `ws_flink_artifact`(`id`, `project_id`, `type`, `name`, `remark`, `c
 VALUES (6, 1, '0', 'catalog-example', NULL, 'sys', 'sys');
 INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (7, 1, '0', 'select-example', NULL, 'sys', 'sys');
+INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+VALUES (8, 1, '0', 'jdbc&paimon-example', 'jdbc 和 paimon catalog example', 'sys', 'sys');
 
 drop table if exists ws_flink_artifact_jar;
 create table ws_flink_artifact_jar
@@ -109,6 +111,12 @@ INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`,
                                      `editor`)
 VALUES (5, 7, '1.17.1',
         'CREATE CATALOG my_catalog WITH (\n    \'type\' = \'generic_in_memory\'\n);\n\nCREATE DATABASE my_catalog.my_database;\n\n\nCREATE TABLE my_catalog.my_database.source_table (\n  `id` bigint,\n  `name` string,\n  `age` int,\n  `address` string,\n  `create_time`TIMESTAMP(3),\n  `update_time`TIMESTAMP(3),\n  WATERMARK FOR `update_time` AS update_time - INTERVAL \'1\' MINUTE\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'datagen\'\n);\n\nSELECT * FROM my_catalog.my_database.source_table;',
+        '1', 'sys', 'sys');
+
+INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
+                                     `editor`)
+VALUES (6, 8, '1.17.1',
+        'CREATE CATALOG jdbc_scaleph WITH(\n  \'type\' = \'jdbc\',\n  \'base-url\' = \'jdbc:mysql://localhost:3306/data_service\',\n  \'username\' = \'root\',\n  \'password\' = \'123456\',\n  \'default-database\' = \'data_service\'\n);\n\nCREATE CATALOG paimon_minio WITH (\n    \'type\'=\'paimon\',\n    \'warehouse\'=\'s3a://scaleph/paimon\',\n    \'s3.endpoint\' = \'http://localhost:9000\',\n    \'s3.access-key\' = \'admin\',\n    \'s3.secret-key\' = \'password\',\n    \'s3.path.style.access\' = \'true\'\n);\n\nCREATE DATABASE paimon_minio.jdbc_data_service;\n\nCREATE TABLE paimon_minio.jdbc_data_service.sample_data_e_commerce (\n  `id` BIGINT COMMENT \'自增主键\',\n  `invoice_no` STRING COMMENT \'发票号码，每笔交易分配唯一的6位整数，而退货订单的代码以字母\'\'c\'\'开头\',\n  `stock_code` STRING COMMENT \'产品代码，每个不同的产品分配唯一的5位整数\',\n  `description` STRING COMMENT \'产品描述，对每件产品的简略描述\',\n  `quantity` INT COMMENT \'产品数量，每笔交易的每件产品的数量\',\n  `invoice_date` STRING COMMENT \'发票日期和时间，每笔交易发生的日期和时间\',\n  `unit_price` DECIMAL(20, 2) COMMENT \'单价（英镑），单位产品价格\',\n  `customer_id`STRING COMMENT \'顾客号码，每个客户分配唯一的5位整数\',\n  `country`STRING COMMENT \'国家的名字，每个客户所在国家/地区的名称\',\n  PRIMARY KEY(`invoice_no`) NOT ENFORCED\n)\nCOMMENT \'E-Commerce 数据集\'\n;\n\nINSERT INTO paimon_minio.jdbc_data_service.sample_data_e_commerce\nSELECT * FROM jdbc_scaleph.data_service.sample_data_e_commerce;',
         '1', 'sys', 'sys');
 
 drop table if exists ws_di_job;

@@ -39,7 +39,7 @@
             <artifactId>scaleph-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>cn.sliew</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-kubernetes</artifactId>
         </dependency>
 
