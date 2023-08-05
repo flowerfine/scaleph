@@ -20,7 +20,7 @@ package cn.sliew.scaleph.engine.sql.gateway.services;
 
 import cn.sliew.scaleph.engine.sql.gateway.dto.WsFlinkSqlGatewayQueryParamsDTO;
 import cn.sliew.scaleph.engine.sql.gateway.dto.catalog.CatalogInfo;
-import cn.sliew.scaleph.engine.sql.gateway.internal.ScalephSqlGatewaySessionManager;
+import cn.sliew.scaleph.engine.sql.gateway.internal.ScalephCatalogManager;
 import org.apache.flink.table.gateway.api.results.GatewayInfo;
 import org.apache.flink.table.gateway.api.results.ResultSet;
 
@@ -32,31 +32,28 @@ import java.util.Set;
 public interface WsFlinkSqlGatewayService {
 
     /**
-     * Get a {@link ScalephSqlGatewaySessionManager}
+     * Get a {@link ScalephCatalogManager}.
      *
      * @param clusterId Flink K8S session cluster id
-     * @return Optional {@link ScalephSqlGatewaySessionManager}
+     * @return Optional {@link ScalephCatalogManager}
      */
-    Optional<ScalephSqlGatewaySessionManager> getSessionManager(String clusterId);
+    Optional<ScalephCatalogManager> getCatalogManager(String clusterId);
 
     /**
-     * Get a {@link ScalephSqlGatewaySessionManager} by given params.
-     * <p>
-     * If not exists, create a new one and store in memory.
-     * </p>
+     * Create a {@link ScalephCatalogManager}.
      *
-     * @param kubeCredentialId Cluster credential id
-     * @param clusterId        Flink K8S session cluster id
-     * @return an Optional instance of {@link ScalephSqlGatewaySessionManager}
+     * @param clusterCredentialId K8S cluster credential id
+     * @param sessionClusterId    Flink K8S session cluster id
+     * @return Optional {@link ScalephCatalogManager}
      */
-    Optional<ScalephSqlGatewaySessionManager> createSessionManager(Long kubeCredentialId, String clusterId);
+    Optional<ScalephCatalogManager> createCatalogManager(Long clusterCredentialId, String sessionClusterId);
 
     /**
-     * Destroy a {@link ScalephSqlGatewaySessionManager} by cluster id
+     * Destroy a {@link ScalephCatalogManager} by cluster id
      *
      * @param clusterId Flink K8S session cluster id
      */
-    void destroySessionManager(String clusterId);
+    void destroyCatalogManager(String clusterId);
 
     /**
      * Get sql gate way info
@@ -71,53 +68,33 @@ public interface WsFlinkSqlGatewayService {
     GatewayInfo getGatewayInfo(String clusterId);
 
     /**
-     * Create a new session
-     *
-     * @param clusterId Flink K8S session cluster id
-     * @return session handler id {@link org.apache.flink.table.gateway.api.session.SessionHandle}
-     */
-    String openSession(String clusterId);
-
-    /**
      * List catalogs
      *
      * @param clusterId              Flink K8S session cluster id
-     * @param sessionHandleId        Session handler id
      * @param includeSystemFunctions Whether show system function of catalog
      * @return Set of catalog informations
      */
-    Set<CatalogInfo> getCatalogInfo(String clusterId, String sessionHandleId, boolean includeSystemFunctions);
-
-    /**
-     * Close a session
-     *
-     * @param clusterId       Flink K8S session cluster id
-     * @param sessionHandleId Session handler id
-     * @return Session handle id
-     */
-    String closeSession(String clusterId, String sessionHandleId);
+    Set<CatalogInfo> getCatalogInfo(String clusterId, boolean includeSystemFunctions);
 
     /**
      * Execute a sql
      *
-     * @param clusterId       Flink K8S session cluster id
-     * @param sessionHandleId Session handler id
-     * @param params          Sql query params
+     * @param clusterId Flink K8S session cluster id
+     * @param params    Sql query params
      * @return Operation handle id {@link org.apache.flink.table.gateway.api.operation.OperationHandle}
      */
-    String executeSql(String clusterId, String sessionHandleId, WsFlinkSqlGatewayQueryParamsDTO params);
+    String executeSql(String clusterId, WsFlinkSqlGatewayQueryParamsDTO params);
 
     /**
      * Execute a sql
      *
      * @param clusterId         Flink K8S session cluster id
-     * @param sessionHandleId   Session handler id
      * @param operationHandleId Operation handle id
      * @param token             token
      * @param maxRows           Max rows to fetch
      * @return Operation handle id {@link org.apache.flink.table.gateway.api.results.ResultSet}
      */
-    ResultSet fetchResults(String clusterId, String sessionHandleId,
+    ResultSet fetchResults(String clusterId,
                            String operationHandleId,
                            Long token, int maxRows);
 
@@ -125,42 +102,47 @@ public interface WsFlinkSqlGatewayService {
      * Cancel running jobs
      *
      * @param clusterId         Flink K8S session cluster id
-     * @param sessionHandleId   Session handler id
      * @param operationHandleId Operation handle id
      * @return Success or not
      */
-    Boolean cancel(String clusterId, String sessionHandleId, String operationHandleId);
+    Boolean cancel(String clusterId, String operationHandleId);
 
     /**
      * Complete sql statement
      *
      * @param clusterId Flink K8S session cluster id
-     * @param sessionId Session handler id
      * @param statement Sql statement
      * @param position  Position of the sql statement
      * @return A list of strings
      * @throws Exception
      */
-    List<String> completeStatement(String clusterId, String sessionId, String statement, int position) throws Exception;
+    List<String> completeStatement(String clusterId, String statement, int position) throws Exception;
 
     /**
      * Add dependency jars to the sql-gateway
      *
      * @param clusterId Flink K8S session cluster id
-     * @param sessionId Session hande id
      * @param jarIdList List of jar ids
      * @return true if success
      */
-    Boolean addDependencies(String clusterId, String sessionId, List<Long> jarIdList);
+    Boolean addDependencies(String clusterId, List<Long> jarIdList);
 
     /**
      * Add a catalog
      *
      * @param clusterId   Flink K8S session cluster id
-     * @param sessionId   Session hande id
      * @param catalogName Catalog name
      * @param options     Catalog options
      * @return true if success
      */
-    Boolean addCatalog(String clusterId, String sessionId, String catalogName, Map<String, String> options);
+    Boolean addCatalog(String clusterId, String catalogName, Map<String, String> options);
+
+    /**
+     * Remove a catalog
+     *
+     * @param clusterId   Flink K8S session cluster id
+     * @param catalogName Catalog name
+     * @return
+     */
+    Boolean removeCatalog(String clusterId, String catalogName);
 }
