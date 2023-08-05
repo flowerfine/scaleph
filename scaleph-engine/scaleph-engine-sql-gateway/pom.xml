@@ -71,5 +71,10 @@
             <groupId>org.apache.paimon</groupId>
             <artifactId>paimon-flink-${flink.base.version}</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>sakura-catalog</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>
