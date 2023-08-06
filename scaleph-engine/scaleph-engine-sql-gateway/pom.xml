@@ -39,7 +39,7 @@
             <artifactId>scaleph-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>cn.sliew</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-kubernetes</artifactId>
         </dependency>
 
@@ -70,6 +70,16 @@
         <dependency>
             <groupId>org.apache.paimon</groupId>
             <artifactId>paimon-flink-${flink.base.version}</artifactId>
+            <artifactId>flink-connector-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.paimon</groupId>
+            <artifactId>paimon-flink-${flink.base.version}</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>sakura-catalog</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>
