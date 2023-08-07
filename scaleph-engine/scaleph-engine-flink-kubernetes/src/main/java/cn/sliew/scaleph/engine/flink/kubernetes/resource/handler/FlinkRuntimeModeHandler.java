@@ -21,6 +21,7 @@ package cn.sliew.scaleph.engine.flink.kubernetes.resource.handler;
 import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.AbstractFlinkSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
+import org.apache.flink.configuration.ExecutionOptions;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -37,6 +38,6 @@ public class FlinkRuntimeModeHandler {
     }
 
     private void addExecutionRuntimeMode(FlinkRuntimeExecutionMode executionMode, Map<String, String> configuration) {
-        configuration.put("execution.runtime-mode", executionMode.getValue());
+        configuration.put(ExecutionOptions.RUNTIME_MODE.key(), executionMode.getValue());
     }
 }
