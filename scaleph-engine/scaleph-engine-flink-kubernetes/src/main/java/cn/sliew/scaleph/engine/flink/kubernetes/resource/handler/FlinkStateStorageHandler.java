@@ -20,6 +20,7 @@ package cn.sliew.scaleph.engine.flink.kubernetes.resource.handler;
 
 import cn.sliew.scaleph.config.storage.FileSystemType;
 import cn.sliew.scaleph.config.storage.S3FileSystemProperties;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.AbstractFlinkSpec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,9 +34,10 @@ public class FlinkStateStorageHandler {
     @Autowired(required = false)
     private S3FileSystemProperties s3FileSystemProperties;
 
-    public void handle(String jobInstanceId, Map<String, String> flinkConfiguration) {
-        Map<String, String> configuration = Optional.ofNullable(flinkConfiguration).orElse(new HashMap<>());
+    public void handle(String jobInstanceId, AbstractFlinkSpec spec) {
+        Map<String, String> configuration = Optional.ofNullable(spec.getFlinkConfiguration()).orElse(new HashMap<>());
         addStateStorageConfigOption(jobInstanceId, configuration);
+        spec.setFlinkConfiguration(configuration);
     }
 
     private void addStateStorageConfigOption(String jobInstanceId, Map<String, String> configuration) {
