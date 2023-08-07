@@ -9,9 +9,7 @@ CREATE TABLE `catalog_database`
     `name`      VARCHAR(256) NOT NULL,
     properties  TEXT,
     remark      VARCHAR(256),
-    creator     VARCHAR(32),
     create_time DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    editor      VARCHAR(32),
     update_time DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     UNIQUE KEY uniq_name (catalog, `name`)
@@ -29,9 +27,7 @@ CREATE TABLE `catalog_table`
     original_query TEXT,
     expanded_query TEXT,
     remark         VARCHAR(256),
-    creator        VARCHAR(32),
     create_time    DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    editor         VARCHAR(32),
     update_time    DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     UNIQUE KEY uniq_name (database_id, kind, `name`)
@@ -46,9 +42,7 @@ CREATE TABLE `catalog_function`
     class_name        VARCHAR(256) NOT NULL,
     function_language VARCHAR(8)   NOT NULL,
     remark            VARCHAR(256),
-    creator           VARCHAR(32),
     create_time       DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    editor            VARCHAR(32),
     update_time       DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     UNIQUE KEY uniq_name (database_id, `name`)
