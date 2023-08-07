@@ -18,8 +18,11 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instance;
 
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.AbstractFlinkSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionJobSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.sessioncluster.FlinkSessionCluster;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FlinkRuntimeModeHandler;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FlinkStateStorageHandler;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,8 @@ import java.util.Optional;
 public class FlinkSessionJobSpecHandler {
 
     @Autowired
+    private FlinkRuntimeModeHandler flinkRuntimeModeHandler;
+    @Autowired
     private ArtifactConverterFactory artifactConverterFactory;
     @Autowired
     private FlinkStateStorageHandler flinkStateStorageHandler;
@@ -38,6 +43,7 @@ public class FlinkSessionJobSpecHandler {
     public FlinkSessionJobSpec handle(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkSessionCluster flinkSessionCluster, FlinkSessionJobSpec flinkSessionJobSpec) throws Exception {
         FlinkSessionJobSpec spec = Optional.ofNullable(flinkSessionJobSpec).orElse(new FlinkSessionJobSpec());
         addDeploymentName(spec, flinkSessionCluster);
+        setRuntimeMode(jobInstanceDTO, spec);
         addArtifact(jobInstanceDTO, spec);
         enableFlinkStateStore(jobInstanceDTO, spec);
         return spec;
@@ -47,12 +53,16 @@ public class FlinkSessionJobSpecHandler {
         spec.setDeploymentName(flinkSessionCluster.getMetadata().getName());
     }
 
+    private void setRuntimeMode(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, AbstractFlinkSpec spec) {
+        flinkRuntimeModeHandler.handle(jobInstanceDTO.getWsFlinkKubernetesJob(), spec);
+    }
+
     private void addArtifact(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkSessionJobSpec spec) throws Exception {
         artifactConverterFactory.convert(jobInstanceDTO, spec);
     }
 
     private void enableFlinkStateStore(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkSessionJobSpec spec) {
-        flinkStateStorageHandler.handle(jobInstanceDTO.getInstanceId(), spec.getFlinkConfiguration());
+        flinkStateStorageHandler.handle(jobInstanceDTO.getInstanceId(), spec);
     }
 
 }

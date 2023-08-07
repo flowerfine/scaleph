@@ -20,10 +20,7 @@ package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instanc
 
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.*;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.util.TemplateMerger;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FileSystemPluginHandler;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FlinkImageHandler;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FlinkJobServiceHandler;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FlinkStateStorageHandler;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.*;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +32,8 @@ import java.util.Optional;
 @Component
 public class FlinkDeploymentSpecHandler {
 
+    @Autowired
+    private FlinkRuntimeModeHandler flinkRuntimeModeHandler;
     @Autowired
     private ArtifactConverterFactory artifactConverterFactory;
     @Autowired
@@ -48,6 +47,7 @@ public class FlinkDeploymentSpecHandler {
 
     public FlinkDeploymentSpec handle(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec flinkDeploymentSpec) {
         FlinkDeploymentSpec spec = Optional.ofNullable(flinkDeploymentSpec).orElse(new FlinkDeploymentSpec());
+        setRuntimeMode(jobInstanceDTO, spec);
         addArtifact(jobInstanceDTO, spec);
         enableFileSystem(jobInstanceDTO, spec);
         enableFlinkStateStore(jobInstanceDTO, spec);
@@ -56,6 +56,10 @@ public class FlinkDeploymentSpecHandler {
 
         mergeJobInstance(jobInstanceDTO, spec);
         return spec;
+    }
+
+    private void setRuntimeMode(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
+        flinkRuntimeModeHandler.handle(jobInstanceDTO.getWsFlinkKubernetesJob(), spec);
     }
 
     private void addArtifact(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
@@ -67,7 +71,7 @@ public class FlinkDeploymentSpecHandler {
     }
 
     private void enableFlinkStateStore(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
-        flinkStateStorageHandler.handle(jobInstanceDTO.getInstanceId(), spec.getFlinkConfiguration());
+        flinkStateStorageHandler.handle(jobInstanceDTO.getInstanceId(), spec);
     }
 
     private void addService(FlinkDeploymentSpec spec) {
