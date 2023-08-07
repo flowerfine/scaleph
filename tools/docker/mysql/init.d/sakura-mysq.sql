@@ -20,7 +20,7 @@ CREATE TABLE `catalog_table`
 (
     id             BIGINT       NOT NULL AUTO_INCREMENT,
     database_id    BIGINT       NOT NULL,
-    kind           VARCHAR(4)   NOT NULL,
+    kind           VARCHAR(32)   NOT NULL,
     `name`         VARCHAR(256) NOT NULL,
     properties     TEXT,
     `schema`       TEXT,
