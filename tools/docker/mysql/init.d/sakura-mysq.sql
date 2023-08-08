@@ -1,6 +1,18 @@
 create database if not exists sakura default character set utf8mb4 collate utf8mb4_unicode_ci;
 use sakura;
 
+DROP TABLE IF EXISTS `catalog_store`;
+CREATE TABLE `catalog_store`
+(
+    id            BIGINT       NOT NULL AUTO_INCREMENT,
+    catalog_name  VARCHAR(256) NOT NULL,
+    configuration TEXT,
+    create_time   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    update_time   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY uniq_catalog (catalog_name)
+) ENGINE = InnoDB COMMENT ='catalog';
+
 DROP TABLE IF EXISTS `catalog_database`;
 CREATE TABLE `catalog_database`
 (
@@ -20,7 +32,7 @@ CREATE TABLE `catalog_table`
 (
     id             BIGINT       NOT NULL AUTO_INCREMENT,
     database_id    BIGINT       NOT NULL,
-    kind           VARCHAR(32)   NOT NULL,
+    kind           VARCHAR(32)  NOT NULL,
     `name`         VARCHAR(256) NOT NULL,
     properties     TEXT,
     `schema`       TEXT,
