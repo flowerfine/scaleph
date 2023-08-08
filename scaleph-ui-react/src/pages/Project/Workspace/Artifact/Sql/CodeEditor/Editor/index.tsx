@@ -4,10 +4,13 @@ import { Button } from 'antd';
 import {useIntl} from 'umi';
 import { language } from 'monaco-editor/esm/vs/basic-languages/sql/sql';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
-import * as sqlFormatter from 'sql-formatter'; // 添加此行
+import * as sqlFormatter from 'sql-formatter'; 
 const { keywords: SQLKeys } = language;
 
+import {WORKSPACE_CONF} from "@/constant";
 import { WsFlinkArtifactSql } from '@/services/project/typings';
+import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
+import {WsFlinkSqlGatewayService} from "@/services/project/WsFlinkSqlGatewayService";
 import {FlinkArtifactSqlService} from "@/services/project/WsFlinkArtifactSqlService";
 import { useLocation } from 'react-router-dom';
 import styles from './index.less';
@@ -17,19 +20,33 @@ const CodeEditor: React.FC = () => {
   const [sqlScript, setSqlScript] = useState<string>('');// 内容
   const flinkArtifactSql = urlParams.state || ('' as WsFlinkArtifactSql);
   const intl = useIntl();//语言切换
+  const [sessionClusterId, setSessionClusterId] = useState<string>();
 
-  useEffect(() => {
+  useEffect(async () => {
     setSqlScript(flinkArtifactSql.script);
+        const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
+    const resSessionClusterId = await WsFlinkKubernetesSessionClusterService.getSqlGatewaySessionClusterId(projectId);
+    
+    console.log(resSessionClusterId,'resSessionClusterId');
+    
+        setSessionClusterId(resSessionClusterId);
   }, []);
 
   // 点击运行获取选中或者全部值
-  const onRun = (editor: monaco.editor.IStandaloneCodeEditor): void => {
-    console.log(editor,'editor');
+  const onRun = async (editor: monaco.editor.IStandaloneCodeEditor): void => {
+    console.log(editor, 'editor');
     
     const selection = editor.getSelection();
     if (selection && !selection.isEmpty()) {
       const selectedValue = editor.getModel()?.getValueInRange(selection);
       console.log("选中的值:", selectedValue);
+      const catalogArray = await WsFlinkSqlGatewayService.executeSqlList(sessionClusterId, { sql: selectedValue, configuration: {} });
+      
+      console.log(catalogArray, 'catalogArray');
+      // const catalogArray123 = await WsFlinkSqlGatewayService.listCatalogsOne(sessionClusterId, sqlGatewaySessionHandleId);
+      // console.log(catalogArray123,'catalogArray123123');
+      
+      
     } else {
       const fullValue = editor.getModel()?.getValue();
       console.log("全部的值:", fullValue);

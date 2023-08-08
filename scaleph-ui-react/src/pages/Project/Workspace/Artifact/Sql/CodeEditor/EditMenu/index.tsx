@@ -1,196 +1,136 @@
-import React, {useEffect, useState} from "react";
-import {Col, Row, Space, Tag, Tree, TreeDataNode} from "antd";
-import "./index.less";
-import {useLocation} from "umi";
-import {WORKSPACE_CONF} from "@/constant";
-import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
-import {WsFlinkSqlGatewayService} from "@/services/project/WsFlinkSqlGatewayService";
-import {
-  BorderlessTableOutlined,
-  DatabaseOutlined,
-  FolderOutlined,
-  FunctionOutlined,
-  TableOutlined
-} from "@ant-design/icons";
+import { approximateTreeNode, TreeNodeType } from '@/pages/Project/components/utils';
+import LoadingContent from '@/pages/Project/components/Loading/LoadingContent';
+import Tree from '@/pages/Project/components/Tree';
+import { SearchOutlined } from '@ant-design/icons';
+import { Input } from 'antd';
+import classnames from 'classnames';
+import { useEffect, useRef, useState } from 'react';
+import styles from './index.less';
 
-interface CatalogNode extends TreeDataNode {
-  name: string,
-  type?: string;
-  children: CatalogNode[],
-  parent?: CatalogNode | null
-}
+// 渲染 Table 模块的组件
+const RenderTableBox: React.FC = () => {
+  const [searching, setSearching] = useState<boolean>(false); // 是否正在搜索
+  const inputRef = useRef<Input>(null);
+  const [searchedTableList, setSearchedTableList] = useState<any[] | undefined>(); // 搜索到的表格列表
+  const [tableLoading, setTableLoading] = useState<boolean>(false); // 表格加载状态
 
-const EditMenu: React.FC = ({showLeft}) => {
-  const urlParams = useLocation();
-  const [sqlScript, setSqlScript] = useState<string>('');
-
-  const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
-  const [sessionClusterId, setSessionClusterId] = useState<string>();
-  const [sqlGatewaySessionHandleId, setSqlGatewaySessionHandleId] = useState<string>();
-  const [treeNodes, setTreeNodes] = useState<CatalogNode[]>([])
+  const treeData = [
+    {
+      name: '表格加载状态表格加载状表格加载状态表格加载状态表格加载状态表格加载状态表格加载状态态表格加载状态表格加载状态表格加载状态',
+      key: '0-0',
+      treeNodeType: 'table',
+      children: [
+        {
+          name: '0-0-0',
+          key: '0-0-0',
+          children: [
+            { name: '0-0-0-0', key: '0-0-0-0' },
+            { name: '0-0-0-1', key: '0-0-0-1' },
+            { name: '0-0-0-2', key: '0-0-0-2' },
+          ],
+        },
+        {
+          name: '0-0-1',
+          key: '0-0-1',
+          children: [
+            { name: '0-0-1-0', key: '0-0-1-0' },
+            { name: '0-0-1-1', key: '0-0-1-1' },
+            { name: '0-0-1-2', key: '0-0-1-2' },
+          ],
+        },
+        {
+          name: '0-0-2',
+          key: '0-0-2',
+        },
+      ],
+    },
+    {
+      name: '0-1',
+      key: '0-1',
+      treeNodeType: 'table',
+      children: [
+        { name: '0-1-0-0', key: '0-1-0-0' },
+        { name: '0-1-0-1', key: '0-1-0-1' },
+        { name: '0-1-0-2', key: '0-1-0-2' },
+      ],
+    },
+    {
+      name: '0-2',
+      key: '0-2',
+      treeNodeType: 'table',
+    },
+  ];
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const resSessionClusterId = await WsFlinkKubernetesSessionClusterService.getSqlGatewaySessionClusterId(projectId);
-        setSessionClusterId(resSessionClusterId);
-  
-        const resSqlGatewaySessionHandleId = await WsFlinkSqlGatewayService.openSession(resSessionClusterId);
-        setSqlGatewaySessionHandleId(resSqlGatewaySessionHandleId);
-  
-        const catalogArray = await WsFlinkSqlGatewayService.listCatalogs(resSessionClusterId, resSqlGatewaySessionHandleId);
-        setTreeNodes(catalogArray.map(catalog => ({
-          title: catalog,
-          key: catalog,
-          name: catalog,
-          type: 'catalog',
-          isLeaf: false,
-          children: [],
-          parent: null
-        })));
-      } catch (error) {
-        // 处理错误
-      }
+    if (searching) {
+      inputRef.current?.focus({ cursor: 'start' }); // 将焦点设置到输入框
     }
-  
-    fetchData();
-  }, []);
+  }, [searching]);
 
+  // 打开搜索框
+  function openSearch() {
+    setSearching(true);
+  }
 
+  // 失去焦点时处理
+  function onBlur() {
+    if (!inputRef.current?.input.value) {
+      setSearching(false); // 关闭搜索状态
+      setSearchedTableList(undefined); // 清空搜索结果
+    }
+  }
 
-  const updateTreeData = (list: CatalogNode[], key: string | number, children: CatalogNode[]): CatalogNode[] =>
-    list.map((node) => {
-      if (node.key === key) {
-        return {
-          ...node,
-          children,
-        };
-      }
-      if (node.children) {
-        return {
-          ...node,
-          children: updateTreeData(node.children, key, children),
-        };
-      }
-      return node;
-    });
+  // 输入框内容变化时处理
+  function onChange(value: string) {
+    setSearchedTableList(approximateTreeNode(treeData, value)); // 根据输入内容搜索表格列表并更新状态
+  }
 
-    const onCatalogLoad = async (catalogNode: CatalogNode) => {
-      let children: CatalogNode[] = [];
-      switch (catalogNode.type) {
-        case 'catalog':
-          const databases = await WsFlinkSqlGatewayService.listDatabases(sessionClusterId, sqlGatewaySessionHandleId, catalogNode.name);
-          databases.forEach(database => children.push({
-            name: database,
-            title: database,
-            key: `${catalogNode.key}-${database}`,
-            type: 'database',
-            children: [],
-            parent: catalogNode,
-            icon: <DatabaseOutlined/>
-          }));
-          break;
-        case 'database':
-          children.push(
-            {
-              title: 'TABLE',
-              key: `${catalogNode.key}-TABLE`,
-              type: 'table',
-              name: catalogNode.name,
-              children: [],
-              parent: catalogNode,
-              icon: <FolderOutlined/>
-            },
-            {
-              title: 'VIEW',
-              key: `${catalogNode.key}-VIEW`,
-              type: 'view',
-              name: catalogNode.name,
-              children: [],
-              parent: catalogNode,
-              icon: <FolderOutlined/>
-            },
-            {
-              title: 'FUNCTION',
-              key: `${catalogNode.key}-FUNCTION`,
-              type: 'function',
-              name: catalogNode.name,
-              children: [],
-              parent: catalogNode,
-              icon: <FolderOutlined/>
-            }
-          );
-          break;
-        case 'table':
-          const tables = await WsFlinkSqlGatewayService.listTables(sessionClusterId, sqlGatewaySessionHandleId, catalogNode.parent?.parent?.name, catalogNode.name);
-          tables.forEach(table => children.push(
-            {
-              title: table,
-              key: `${catalogNode.key}-${table}`,
-              type: 'table-object',
-              name: table,
-              children: [],
-              parent: catalogNode,
-              isLeaf: true,
-              icon: <TableOutlined/>
-            }
-          ));
-          break;
-        case 'view':
-          const views = await WsFlinkSqlGatewayService.listViews(sessionClusterId, sqlGatewaySessionHandleId, catalogNode.parent?.parent?.name, catalogNode.name);
-          views.forEach(view => children.push(
-            {
-              title: view,
-              key: `${catalogNode.key}-${view}`,
-              type: 'view-object',
-              name: view,
-              children: [],
-              parent: catalogNode,
-              isLeaf: true,
-              icon: <BorderlessTableOutlined/>
-            }
-          ));
-          break;
-        case 'function':
-          const userDefinedFunctions = await WsFlinkSqlGatewayService.listUserDefinedFunctions(sessionClusterId, sqlGatewaySessionHandleId, catalogNode.parent?.parent?.name, catalogNode.name);
-          userDefinedFunctions.forEach(udf => children.push(
-            {
-              title: (
-                <Space size="large" wrap>
-                  <span>{udf.functionName}</span>
-                  <Tag color={"red"} style={{fontSize: 'xx-small'}}>{udf.functionKind}</Tag>
-                </Space>
-              ),
-              key: `${catalogNode.key}-${udf.functionName}`,
-              type: 'function-object',
-              name: udf.functionName,
-              children: [],
-              parent: catalogNode,
-              isLeaf: true,
-              icon: <FunctionOutlined/>
-            }
-          ));
-          break;
-        default:
-          break;
-      }
-      setTreeNodes(updateTreeData(treeNodes, catalogNode.key, children));
-    };
+  // 刷新表格列表
+  function refreshTableList() {
+    console.log('刷新');
+  }
 
-  return <>
-        <Row
-          gutter={[12, 12]}
-          className="container-left"
-          style={{display: showLeft ? "block" : "none"}}
-          >
-          <Col span={24} style={{paddingLeft: 12, paddingRight: 12}}>
-            <Tree treeData={treeNodes}
-                  loadData={onCatalogLoad}
-                  showIcon={true}
-                  showLine={true}/>
-          </Col>
-        </Row>
-  </>;
+  return (
+    <div className={styles.tableModule}>
+      <div className={styles.leftModuleTitle}>
+        {searching ? (
+          <div className={styles.leftModuleTitleSearch}>
+            <Input
+              ref={inputRef}
+              size="small"
+              placeholder="请输入"
+              prefix={<SearchOutlined />}
+              onBlur={onBlur}
+              onChange={(e) => onChange(e.target.value)}
+              allowClear
+            />
+          </div>
+        ) : (
+          <div className={styles.leftModuleTitleText}>
+            <div className={styles.modelName}>Table</div>
+            <div className={styles.iconBox}>
+              <div className={styles.refreshIcon} onClick={() => refreshTableList()}>
+                <img src="https://s.xinc818.com/files/webcill0mnbh0t7hz95/刷新.svg" />
+              </div>
+              <div className={styles.searchIcon} onClick={() => openSearch()}>
+                 <img src="https://s.xinc818.com/files/webcill23gnulb18o7z/搜索.svg" />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+        {/* 渲染树形结构 */}
+        <Tree className={styles.tree} initialData={searchedTableList || treeData}></Tree>
+    </div>
+  );
 };
 
-export default EditMenu;
+const WorkspaceLeft: React.FC<{ showLeft: boolean }> = ({ showLeft }) => {
+  return (
+    <div className={classnames(styles.boxContent)} style={{display: showLeft ? "block" : "none"}}>
+      <RenderTableBox />
+    </div>
+  );
+};
+
+export default WorkspaceLeft;
