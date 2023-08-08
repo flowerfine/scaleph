@@ -20,6 +20,7 @@ package cn.sliew.scaleph.engine.sql.gateway.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
+import org.apache.commons.codec.binary.Hex;
 import org.apache.flink.table.catalog.Column;
 import org.apache.flink.table.data.ArrayData;
 import org.apache.flink.table.data.MapData;
@@ -80,38 +81,39 @@ public class WsFlinkSqlGatewayQueryResultDTO {
      * @throws Exception Reflect exceptions
      */
     private static Object getDataFromRow(Object rowData, LogicalType logicalType, int index) throws Exception {
-        if (!(rowData instanceof RowData) || ! (rowData instanceof ArrayData)) {
-            throw new IllegalArgumentException(rowData.getClass() + " is not supported row data type!");
-        }
         Class<?> dataClass = rowData.getClass();
+        if (!RowData.class.isAssignableFrom(dataClass) && !ArrayData.class.isAssignableFrom(dataClass)) {
+            throw new IllegalArgumentException(dataClass + " is not supported row data type!");
+        }
         switch (logicalType.getTypeRoot()) {
             case VARCHAR:
             case CHAR:
-                return dataClass.getDeclaredMethod("getString", Integer.class).invoke(rowData, index);
+                return dataClass.getDeclaredMethod("getString", int.class).invoke(rowData, index).toString();
             case TINYINT:
             case SMALLINT:
-                return dataClass.getDeclaredMethod("getShort", Integer.class).invoke(rowData, index);
+                return dataClass.getDeclaredMethod("getShort", int.class).invoke(rowData, index);
             case INTEGER:
-                return dataClass.getDeclaredMethod("getInt", Integer.class).invoke(rowData, index);
+                return dataClass.getDeclaredMethod("getInt", int.class).invoke(rowData, index);
             case FLOAT:
-                return dataClass.getDeclaredMethod("getFloat", Integer.class).invoke(rowData, index);
+                return dataClass.getDeclaredMethod("getFloat", int.class).invoke(rowData, index);
             case DOUBLE:
-                return dataClass.getDeclaredMethod("getDouble", Integer.class).invoke(rowData, index);
+                return dataClass.getDeclaredMethod("getDouble", int.class).invoke(rowData, index);
             case DECIMAL:
                 DecimalType decimalType = (DecimalType) logicalType;
-                return dataClass.getDeclaredMethod("getDecimal", Integer.class, Integer.class, Integer.class)
+                return dataClass.getDeclaredMethod("getDecimal", int.class, int.class, int.class)
                         .invoke(rowData, index, decimalType.getPrecision(), decimalType.getScale());
             case BIGINT:
-                return dataClass.getDeclaredMethod("getLong", Integer.class).invoke(rowData, index);
+                return dataClass.getDeclaredMethod("getLong", int.class).invoke(rowData, index);
             case BOOLEAN:
-                return dataClass.getDeclaredMethod("getBoolean", Integer.class).invoke(rowData, index);
+                return dataClass.getDeclaredMethod("getBoolean", int.class).invoke(rowData, index);
             case NULL:
                 return null;
             case BINARY:
-                return dataClass.getDeclaredMethod("getBinary", Integer.class).invoke(rowData, index);
+                byte[] binary = (byte[]) dataClass.getDeclaredMethod("getBinary", int.class).invoke(rowData, index);
+                return Hex.encodeHexString(binary);
             case ROW:
                 RowType rowType = (RowType) logicalType;
-                RowData row = (RowData) dataClass.getDeclaredMethod("getRow", Integer.class, Integer.class).invoke(rowData, index, rowType.getFieldCount());
+                RowData row = (RowData) dataClass.getDeclaredMethod("getRow", int.class, int.class).invoke(rowData, index, rowType.getFieldCount());
                 Map<String, Object> mapInRow = new HashMap<>();
                 for (RowType.RowField rowField : rowType.getFields()) {
                     String fieldName = rowField.getName();
@@ -123,7 +125,7 @@ public class WsFlinkSqlGatewayQueryResultDTO {
                 MapType mapType = (MapType) logicalType;
                 LogicalType keyValueType = mapType.getKeyType();
                 LogicalType valueValueType = mapType.getValueType();
-                MapData mapData = (MapData) dataClass.getDeclaredMethod("getMap", Integer.class).invoke(rowData, index);
+                MapData mapData = (MapData) dataClass.getDeclaredMethod("getMap", int.class).invoke(rowData, index);
                 ArrayData keyArray = mapData.keyArray();
                 ArrayData valueArray = mapData.valueArray();
                 Map<Object, Object> mapInMap = new HashMap<>();
@@ -135,7 +137,7 @@ public class WsFlinkSqlGatewayQueryResultDTO {
                 return mapInMap;
             case ARRAY:
                 ArrayType arrayType = (ArrayType) logicalType;
-                ArrayData arrayData = (ArrayData) dataClass.getDeclaredMethod("getArray", Integer.class).invoke(rowData, index);
+                ArrayData arrayData = (ArrayData) dataClass.getDeclaredMethod("getArray", int.class).invoke(rowData, index);
                 LogicalType elementType = arrayType.getElementType();
                 List<Object> list = new ArrayList<>();
                 for (int i = 0; i < arrayData.size(); i++) {
@@ -147,7 +149,7 @@ public class WsFlinkSqlGatewayQueryResultDTO {
             case TIMESTAMP_WITH_LOCAL_TIME_ZONE:
             case TIMESTAMP_WITH_TIME_ZONE:
             case TIMESTAMP_WITHOUT_TIME_ZONE:
-                return dataClass.getDeclaredMethod("getTimestamp", Integer.class, Integer.class).invoke(rowData, index, ((TimeType) logicalType).getPrecision());
+                return dataClass.getDeclaredMethod("getTimestamp", int.class, int.class).invoke(rowData, index, ((TimeType) logicalType).getPrecision());
             default:
                 throw new IllegalArgumentException("DataType: " + logicalType + " not supported now!");
         }
