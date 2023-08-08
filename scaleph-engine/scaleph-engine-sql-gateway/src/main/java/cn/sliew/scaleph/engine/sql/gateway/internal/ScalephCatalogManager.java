@@ -99,7 +99,7 @@ public class ScalephCatalogManager implements AutoCloseable {
             List<ColumnInfo> columns = schema.getColumns().stream().map(column -> {
                 ColumnInfo.ColumnInfoBuilder columnInfoBuilder = ColumnInfo.builder()
                         .columnName(column.getName())
-                        .dataType(column.getDataType().toString())
+                        .dataType(column.getDataType().getLogicalType().toString())
                         .isPersist(column.isPersisted())
                         .isPhysical(column.isPhysical());
                 column.getComment().ifPresent(columnInfoBuilder::comment);

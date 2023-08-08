@@ -19,14 +19,25 @@
 package cn.sliew.scaleph.engine.sql.gateway.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.flink.table.catalog.Column;
 import org.apache.flink.table.data.ArrayData;
 import org.apache.flink.table.data.MapData;
+import org.apache.flink.table.data.RawValueData;
 import org.apache.flink.table.data.RowData;
 import org.apache.flink.table.gateway.api.results.ResultSet;
-import org.apache.flink.table.types.logical.*;
+import org.apache.flink.table.types.logical.ArrayType;
+import org.apache.flink.table.types.logical.DecimalType;
+import org.apache.flink.table.types.logical.DistinctType;
+import org.apache.flink.table.types.logical.LogicalType;
+import org.apache.flink.table.types.logical.MapType;
+import org.apache.flink.table.types.logical.RowType;
+import org.apache.flink.table.types.logical.TimestampType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -93,6 +104,9 @@ public class WsFlinkSqlGatewayQueryResultDTO {
             case SMALLINT:
                 return dataClass.getDeclaredMethod("getShort", int.class).invoke(rowData, index);
             case INTEGER:
+            case DATE:
+            case TIME_WITHOUT_TIME_ZONE:
+            case INTERVAL_YEAR_MONTH:
                 return dataClass.getDeclaredMethod("getInt", int.class).invoke(rowData, index);
             case FLOAT:
                 return dataClass.getDeclaredMethod("getFloat", int.class).invoke(rowData, index);
@@ -103,15 +117,18 @@ public class WsFlinkSqlGatewayQueryResultDTO {
                 return dataClass.getDeclaredMethod("getDecimal", int.class, int.class, int.class)
                         .invoke(rowData, index, decimalType.getPrecision(), decimalType.getScale());
             case BIGINT:
+            case INTERVAL_DAY_TIME:
                 return dataClass.getDeclaredMethod("getLong", int.class).invoke(rowData, index);
             case BOOLEAN:
                 return dataClass.getDeclaredMethod("getBoolean", int.class).invoke(rowData, index);
             case NULL:
                 return null;
             case BINARY:
+            case VARBINARY:
                 byte[] binary = (byte[]) dataClass.getDeclaredMethod("getBinary", int.class).invoke(rowData, index);
                 return Hex.encodeHexString(binary);
             case ROW:
+            case STRUCTURED_TYPE:
                 RowType rowType = (RowType) logicalType;
                 RowData row = (RowData) dataClass.getDeclaredMethod("getRow", int.class, int.class).invoke(rowData, index, rowType.getFieldCount());
                 Map<String, Object> mapInRow = new HashMap<>();
@@ -122,6 +139,7 @@ public class WsFlinkSqlGatewayQueryResultDTO {
                 }
                 return mapInRow;
             case MAP:
+            case MULTISET:
                 MapType mapType = (MapType) logicalType;
                 LogicalType keyValueType = mapType.getKeyType();
                 LogicalType valueValueType = mapType.getValueType();
@@ -144,12 +162,17 @@ public class WsFlinkSqlGatewayQueryResultDTO {
                     list.add(getDataFromRow(arrayData, elementType, i));
                 }
                 return list;
-            case DATE:
-            case TIME_WITHOUT_TIME_ZONE:
             case TIMESTAMP_WITH_LOCAL_TIME_ZONE:
-            case TIMESTAMP_WITH_TIME_ZONE:
             case TIMESTAMP_WITHOUT_TIME_ZONE:
-                return dataClass.getDeclaredMethod("getTimestamp", int.class, int.class).invoke(rowData, index, ((TimeType) logicalType).getPrecision());
+                return dataClass.getDeclaredMethod("getTimestamp", int.class, int.class).invoke(rowData, index, ((TimestampType) logicalType).getPrecision());
+            case DISTINCT_TYPE:
+                DistinctType distinctType = (DistinctType) logicalType;
+                LogicalType sourceType = distinctType.getSourceType();
+                return getDataFromRow(rowData, sourceType, index);
+            case RAW:
+            case TIMESTAMP_WITH_TIME_ZONE:
+            case SYMBOL:
+            case UNRESOLVED:
             default:
                 throw new IllegalArgumentException("DataType: " + logicalType + " not supported now!");
         }
