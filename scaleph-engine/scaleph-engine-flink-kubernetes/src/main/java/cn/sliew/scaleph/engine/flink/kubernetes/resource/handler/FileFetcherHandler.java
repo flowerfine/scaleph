@@ -129,9 +129,11 @@ public class FileFetcherHandler {
     }
 
     private void doAddAdditionalJars(List<Long> additionalDependencies, List<FileFetcherParam> result) {
-        for (Long jarId : additionalDependencies) {
-            JarDTO jarDTO = jarService.getRaw(jarId);
-            result.add(new FileFetcherParam(jarDTO.getPath(), ResourceNames.LIB_DIRECTORY + jarDTO.getFileName()));
+        if (!CollectionUtils.isEmpty(additionalDependencies) && result != null) {
+            for (Long jarId : additionalDependencies) {
+                JarDTO jarDTO = jarService.getRaw(jarId);
+                result.add(new FileFetcherParam(jarDTO.getPath(), ResourceNames.LIB_DIRECTORY + jarDTO.getFileName()));
+            }
         }
     }
 
