@@ -100,7 +100,7 @@ public class WsFlinkSqlGatewayController {
             WsFlinkSqlGatewayQueryResultDTO wsFlinkSqlGatewayQueryResultDTO = WsFlinkSqlGatewayQueryResultDTO.fromResultSet(resultSet);
             return ResponseEntity.ok(wsFlinkSqlGatewayQueryResultDTO);
         } catch (Exception e) {
-            return ResponseEntity.of(Optional.empty());
+            throw new IllegalArgumentException(e);
         }
     }
 
