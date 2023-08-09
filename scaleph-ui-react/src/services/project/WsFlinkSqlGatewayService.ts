@@ -15,9 +15,9 @@ export const WsFlinkSqlGatewayService = {
     );
   },
 
-  leftMenuList: async (sessionClusterId: string | null, sqlGatewaySessionHandleId: string) => {
+  leftMenuList: async (sessionClusterId: string | null) => {
     return request<Array<string>>(
-      `${url}/${sessionClusterId}/${sqlGatewaySessionHandleId}/getCatalogInfo`,
+      `${url}/${sessionClusterId}/getCatalogInfo`,
     );
   },
 

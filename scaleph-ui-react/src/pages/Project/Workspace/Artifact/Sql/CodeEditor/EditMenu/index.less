@@ -4,6 +4,14 @@
     height: 100%;
     box-sizing: border-box;
     padding: 10px 5px 0px;
+    overflow-y: auto;
+    :global {
+        .ant-spin-spinning {
+            height: 100vh !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+    }
 }
 
 .tableModule {

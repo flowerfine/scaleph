@@ -1,8 +1,10 @@
 import { TreeNodeType } from '@/pages/Project/components/utils';
+import { Col, Popover, Row } from 'antd';
 import classnames from 'classnames';
 import { useEffect, useState } from 'react';
 import styles from './index.less';
 
+// 定义 Tree 组件的属性类型
 interface TreeProps {
   className: string;
   initialData: any[]; // 初始数据
@@ -24,7 +26,7 @@ function Tree(props: TreeProps) {
         return (
           <TreeNode
             setTreeData={setTreeData}
-            key={item.name + index}
+            key={item?.name + index}
             show={true}
             level={0}
             data={item}
@@ -35,6 +37,7 @@ function Tree(props: TreeProps) {
   );
 }
 
+// 定义 TreeNode 组件的属性类型
 interface TreeNodeProps {
   setTreeData: React.Dispatch<React.SetStateAction<any[]>>;
   data: any; // 节点数据
@@ -55,7 +58,6 @@ const TreeNode: React.FC<TreeNodeProps> = ({
   workspaceModel,
 }) => {
   const [showChildren, setShowChildren] = useState<boolean>(false); // 是否展示子节点
-  const [isLoading, setIsLoading] = useState<boolean>(false); // 是否正在加载子节点
   const indentArr = new Array(level).fill('indent'); // 缩进数组
 
   function loadData(data: any) {
@@ -63,13 +65,10 @@ const TreeNode: React.FC<TreeNodeProps> = ({
   }
 
   useEffect(() => {
-    setShowChildren(showAllChildrenPenetrate); // 根据showAllChildrenPenetrate设置showChildren
+    setShowChildren(showAllChildrenPenetrate); // 根据 showAllChildrenPenetrate 设置 showChildren
   }, [showAllChildrenPenetrate]);
 
   const handleClick = (data: any) => {
-    if (!showChildren && !data.children) {
-      setIsLoading(true); // 设置isLoading为true，表示正在加载子节点
-    }
     if (!data.children) {
       loadData(data); // 加载数据
     } else {
@@ -78,8 +77,9 @@ const TreeNode: React.FC<TreeNodeProps> = ({
   };
 
   const iconObject = {
-    table: 'https://s.xinc818.com/files/webcill22q7z1dee1wa/数据报告.svg',
-    column: 'https://s.xinc818.com/files/webcill227c735hbwl0/目录.svg',
+    table: 'https://s.xinc818.com/files/webcill227c735hbwl0/目录.svg',
+    column: 'https://s.xinc818.com/files/webcill3pz8k535lucd/分类.svg',
+    threeLevel: 'https://s.xinc818.com/files/webcill3pomg35sj7e3/柜子.svg',
     icon: 'https://s.xinc818.com/files/webcill22cm8i9evk54/24gl-folderMinus (2).svg',
     unfoldIcon: 'https://s.xinc818.com/files/webcill22dacyr0kmrk/24gl-folderOpen.svg',
   };
@@ -94,16 +94,26 @@ const TreeNode: React.FC<TreeNodeProps> = ({
     }
   };
 
-  function nodeDoubleClick() {
-    if (data.treeNodeType === TreeNodeType.TABLE) {
-      dispatch({
-        type: 'workspace/setDoubleClickTreeNodeData',
-        payload: data,
-      });
-    } else {
-      handleClick(data);
-    }
-  }
+  const content = (data: any) => {
+    return (
+      <div style={{ width: 350 }}>
+        {data?.tooltip?.map((res: any, index: number) => (
+          <Row key={index}>
+            <Popover content={res?.title}>
+              <Col span={9} className={styles.livegoodsTitle}>
+                {res?.title}
+              </Col>
+            </Popover>
+            <Popover content={res?.value}>
+              <Col span={15} className={styles.livegoodsContent}>
+                {res?.value}
+              </Col>
+            </Popover>
+          </Row>
+        ))}
+      </div>
+    );
+  };
 
   return show ? (
     <>
@@ -118,28 +128,26 @@ const TreeNode: React.FC<TreeNodeProps> = ({
         <div className={styles.right}>
           {!data.isLeaf && (
             <div onClick={() => handleClick(data)} className={styles.arrows}>
-              {isLoading ? (
-                <div className={styles.loadingIcon}>
-                  <img src="https://s.xinc818.com/files/webcill20cuya3gbtdx/刷新.svg" />
-                </div>
-              ) : (
-                <img
-                  className={classnames(styles.arrowsIcon, {
-                    [styles.rotateArrowsIcon]: showChildren,
-                  })}
-                  src="https://s.xinc818.com/files/webcill20nstumfa3vs/向下.svg"
-                />
-              )}
+              <img className={classnames(styles.arrowsIcon, {
+                  [styles.rotateArrowsIcon]: showChildren,
+                })} src="https://s.xinc818.com/files/webcill20nstumfa3vs/向下.svg" />
             </div>
           )}
-          <div className={styles.dblclickArea} onDoubleClick={nodeDoubleClick}>
+          <div className={styles.dblclickArea}>
             <div className={styles.typeIcon}>
               <img src={recognizeIcon(data.treeNodeType)!} />
             </div>
             <div className={styles.contentText}>
-              <div className={styles.name} dangerouslySetInnerHTML={{ __html: data.name }}></div>
-              {data.treeNodeType === TreeNodeType.COLUMN && (
-                <div className={styles.type}>{data.columnType}</div>
+              {!data?.isLeaf ? (
+                <div className={styles.name} dangerouslySetInnerHTML={{ __html: data?.name }}>
+                </div>
+              ) : (
+                <Popover content={content(data)} placement="right">
+                  <div
+                    className={styles.name}
+                    dangerouslySetInnerHTML={{ __html: data?.name }}
+                  ></div>
+                </Popover>
               )}
             </div>
           </div>
@@ -165,3 +173,4 @@ const TreeNode: React.FC<TreeNodeProps> = ({
 };
 
 export default Tree;
+

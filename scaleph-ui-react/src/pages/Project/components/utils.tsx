@@ -1,9 +1,9 @@
 import lodash from 'lodash';
 // 模糊匹配树并且高亮
-export function approximateTreeNode(treeData, target: string, isDelete = true) {
+export function approximateTreeNode(treeData:any, target: string, isDelete = true) {
   if (target) {
     const newTree = lodash.cloneDeep(treeData || []);
-    newTree.map((item, index) => {
+    newTree.map((item:any, index:any) => {
       // 暂时不递归，只搜索datasource
       // if(item.children?.length){
       //   item.children = approximateTreeNode(item.children, target,false);
