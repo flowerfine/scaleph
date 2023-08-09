@@ -75,13 +75,13 @@
         </repository>
     </distributionManagement>
 
-<!--    <repositories>-->
-<!--        <repository>-->
-<!--            <id>sonatype-nexus</id>-->
-<!--            <name>Sonatype Nexus Snapshots</name>-->
-<!--            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>-->
-<!--        </repository>-->
-<!--    </repositories>-->
+    <repositories>
+        <repository>
+            <id>sonatype-nexus</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+    </repositories>
 
     <modules>
         <module>scaleph-ui-react</module>
