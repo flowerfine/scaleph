@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Editor, CompletionItem, Position, CompletionList } from '@monaco-editor/react';
-import { Button } from 'antd';
+import { Button,message } from 'antd';
 import {useIntl} from 'umi';
 import { language } from 'monaco-editor/esm/vs/basic-languages/sql/sql';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
@@ -41,6 +41,9 @@ const CodeEditor: React.FC = () => {
       const selectedValue = editor.getModel()?.getValueInRange(selection);
       console.log("选中的值:", selectedValue);
       const catalogArray = await WsFlinkSqlGatewayService.executeSqlList(sessionClusterId, { sql: selectedValue, configuration: {} });
+      if (catalogArray) { 
+        message.success('请求成功',1)
+      }
       
       console.log(catalogArray, 'catalogArray');
       // const catalogArray123 = await WsFlinkSqlGatewayService.listCatalogsOne(sessionClusterId, sqlGatewaySessionHandleId);
