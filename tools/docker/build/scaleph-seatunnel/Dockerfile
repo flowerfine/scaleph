@@ -23,19 +23,16 @@ ENV SEATUNNEL_HOME=/opt/seatunnel
 
 ARG TAR_FILE=apache-seatunnel-incubating-${SEATUNNEL_VERSION}-bin.tar.gz
 
-# forked from seatunnel k8s quick start
-COPY $TAR_FILE $SEATUNNEL_HOME/$TAR_FILE
 
-RUN cd $SEATUNNEL_HOME ; \
-    tar -xzvf $TAR_FILE ; \
-    cp -r apache-seatunnel-incubating-${SEATUNNEL_VERSION}/* $SEATUNNEL_HOME
-
-#RUN wget https://archive.apache.org/dist/incubator/seatunnel/${SEATUNNEL_VERSION}/$TAR_FILE ; \
+#COPY $TAR_FILE $SEATUNNEL_HOME/$TAR_FILE
+#RUN cd $SEATUNNEL_HOME ; \
 #    tar -xzvf $TAR_FILE ; \
 #    cp -r apache-seatunnel-incubating-${SEATUNNEL_VERSION}/* $SEATUNNEL_HOME
 
-RUN rm $SEATUNNEL_HOME/config/plugin_config
-COPY plugin_config $SEATUNNEL_HOME/config
+# forked from seatunnel k8s quick start
+RUN wget https://archive.apache.org/dist/incubator/seatunnel/${SEATUNNEL_VERSION}/$TAR_FILE ; \
+    tar -xzvf $TAR_FILE ; \
+    cp -r apache-seatunnel-incubating-${SEATUNNEL_VERSION}/* $SEATUNNEL_HOME
 
 RUN rm $SEATUNNEL_HOME/bin/install-plugin.sh
 COPY install-plugin.sh $SEATUNNEL_HOME/bin
