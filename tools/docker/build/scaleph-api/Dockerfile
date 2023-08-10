@@ -1,16 +1,7 @@
 ARG BASE_RELEASE_IMAGE=eclipse-temurin:11-focal
-FROM maven:3.8-eclipse-temurin-11 as build
-
-COPY ./ /scaleph
-RUN cd /scaleph && \
-    tar -zxf /scaleph/scaleph-dist/target/scaleph-*-bin.tar.gz -C /scaleph/scaleph-dist/target  && \
-    mkdir /dist && \
-    cp -r /scaleph/scaleph-dist/target/scaleph-*/* /dist
-
-
-# BASE_RELEASE_IMAGE argument must be defined twice
-ARG BASE_RELEASE_IMAGE=eclipse-temurin:11-focal
 FROM $BASE_RELEASE_IMAGE as release
+
+ADD scaleph-dist/target/scaleph-*-bin.tar.gz /opt
 
 ENV MYSQL_URL="jdbc:mysql://mysql:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai"
 ENV MYSQL_USERNAME=root
@@ -49,8 +40,6 @@ RUN mkdir -p $SCALEPH_HOME
 
 WORKDIR $SCALEPH_HOME
 
-COPY --from=build /dist $SCALEPH_HOME/
-
 EXPOSE 8080 8080
 
-ENTRYPOINT ["sh","-c","java -cp /opt/scaleph/libs/* cn.sliew.scaleph.Application $ENV_PARAMS"]
+ENTRYPOINT [ "sh", "-c", "/opt/scaleph/bin/scaleph.sh start-foreground" ]
