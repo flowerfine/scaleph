@@ -38,7 +38,7 @@ RUN rm $SEATUNNEL_HOME/bin/install-plugin.sh
 COPY install-plugin.sh $SEATUNNEL_HOME/bin
 
 RUN cd $SEATUNNEL_HOME ; \
-    sh bin/install-plugin.sh ${SEATUNNEL_VERSION}
+    sh -x bin/install-plugin.sh ${SEATUNNEL_VERSION}
 
 # BASE_RELEASE_IMAGE argument must be defined twice
 ARG FLINK_VERSION=1.17
