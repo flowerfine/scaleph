@@ -23,7 +23,7 @@
         <format>tar.gz</format>
     </formats>
     <includeBaseDirectory>true</includeBaseDirectory>
-    <baseDirectory>${project.parent.build.finalName}-${project.parent.version}</baseDirectory>
+    <baseDirectory>scaleph</baseDirectory>
 
     <fileSets>
         <fileSet>

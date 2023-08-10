@@ -54,13 +54,17 @@ function start() {
     local JAVA_CMD="${JAVA_HOME}/bin/java"
   fi
   if [[ $1 == 0 ]]; then
+    shift
     echo "Staring in backend"
-    nohup $JAVA_CMD $JAVA_OPT >/dev/null 2>&1 &
+    nohup $JAVA_CMD $JAVA_OPT $ENV_PARAMS $@ >/dev/null 2>&1 &
     local pid=$!
     echo "Running with pid ${pid}"
     echo "${pid}" >${PID_FILE}
   else
-    $JAVA_CMD $JAVA_OPT
+    shift
+    echo "JAVA_OPTS=${JAVA_OPT}"
+    echo "ARGUMENTS=$ENV_PARAMS $@"
+    $JAVA_CMD $JAVA_OPT $ENV_PARAMS $@
   fi
 }
 
@@ -95,15 +99,23 @@ function print_help() {
 
 case $1 in
 start)
-  start 0
+  shift
+  start 0 $@
   ;;
 start-frontend)
-  start 1
+  shift
+  start 1 $@
+  ;;
+start-foreground)
+  shift
+  start 1 $@
   ;;
 stop)
+  shift
   stop
   ;;
 status)
+  shift
   status
   ;;
 *)
