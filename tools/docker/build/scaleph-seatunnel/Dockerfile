@@ -15,34 +15,36 @@
 # limitations under the License.
 
 ARG FLINK_VERSION=1.17
+ARG BASE_RELEASE_IMAGE=flink:${FLINK_VERSION}
+FROM maven:3.8-eclipse-temurin-11 as build
 
-FROM flink:${FLINK_VERSION}
+ENV SEATUNNEL_VERSION=2.3.1
+ENV SEATUNNEL_HOME=/opt/seatunnel
+
+ARG TAR_FILE=apache-seatunnel-incubating-${SEATUNNEL_VERSION}-bin.tar.gz
+
+#COPY $TAR_FILE $SEATUNNEL_HOME/$TAR_FILE
+#RUN cd $SEATUNNEL_HOME ; \
+#    tar -zxf $TAR_FILE --strip 1 -C $SEATUNNEL_HOME \
+
+# forked from seatunnel k8s quick start
+RUN wget https://archive.apache.org/dist/incubator/seatunnel/${SEATUNNEL_VERSION}/$TAR_FILE ; \
+    tar -zxf $TAR_FILE --strip 1 -C $SEATUNNEL_HOME
+
+#RUN rm $SEATUNNEL_HOME/config/plugin_config
+#COPY plugin_config $SEATUNNEL_HOME/config
+
+RUN cd $SEATUNNEL_HOME ; \
+    sh -x bin/install-plugin.sh ${SEATUNNEL_VERSION}
+
+# BASE_RELEASE_IMAGE argument must be defined twice
+ARG FLINK_VERSION=1.17
+ARG BASE_RELEASE_IMAGE=flink:${FLINK_VERSION}
+FROM $BASE_RELEASE_IMAGE as release
 
 ENV SEATUNNEL_VERSION=2.3.1
 ENV SEATUNNEL_HOME=/opt/seatunnel
 
 RUN mkdir -p $SEATUNNEL_HOME
 
-ARG TAR_FILE=apache-seatunnel-incubating-${SEATUNNEL_VERSION}-bin.tar.gz
-
-# forked from seatunnel k8s quick start
-RUN wget https://archive.apache.org/dist/incubator/seatunnel/${SEATUNNEL_VERSION}/$TAR_FILE
-RUN tar -xzvf $TAR_FILE
-RUN cp -r apache-seatunnel-incubating-${SEATUNNEL_VERSION}/* $SEATUNNEL_HOME/
-RUN rm -rf apache-seatunnel-incubating-${SEATUNNEL_VERSION}*
-
-# fixme this way has an empty $SEATUNNEL_HOME directory
-# download from seatunnel release page
-#RUN cd $SEATUNNEL_HOME ; \
-#    curl -LSO https://archive.apache.org/dist/incubator/seatunnel/${SEATUNNEL_VERSION}/$TAR_FILE ; \
-#    tar -zxf $TAR_FILE --strip 1 -C . ; \
-#    rm $TAR_FILE
-
-# copy pre-downloaded seatunnel release
-#COPY /path/to/$TAR_FILE $SEATUNNEL_HOME/$TAR_FILE
-#RUN cd $SEATUNNEL_HOME ;\
-#    tar -zxf $TAR_FILE --strip 1 -C . ; \
-#    rm $TAR_FILE
-
-#RUN cd $SEATUNNEL_HOME ; \
-#    sh bin/install-plugin.sh ${SEATUNNEL_VERSION}
+COPY --from=build $SCALEPH_HOME $SCALEPH_HOME/
