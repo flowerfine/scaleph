@@ -21,6 +21,8 @@ FROM maven:3.8-eclipse-temurin-11 as build
 ENV SEATUNNEL_VERSION=2.3.1
 ENV SEATUNNEL_HOME=/opt/seatunnel
 
+RUN mkdir -p $SEATUNNEL_HOME
+
 ARG TAR_FILE=apache-seatunnel-incubating-${SEATUNNEL_VERSION}-bin.tar.gz
 
 #COPY $TAR_FILE $SEATUNNEL_HOME/$TAR_FILE
