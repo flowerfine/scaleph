@@ -142,7 +142,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({
                 <div className={styles.name} dangerouslySetInnerHTML={{ __html: data?.name }}>
                 </div>
               ) : (
-                <Popover content={content(data)} placement="right">
+                <Popover content={content(data)} placement="left">
                   <div
                     className={styles.name}
                     dangerouslySetInnerHTML={{ __html: data?.name }}

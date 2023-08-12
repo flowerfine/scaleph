@@ -52,5 +52,8 @@ export default {
 
   'Run': '运行',
   'Save': '保存',
-  'Format':'格式化'
+  'Format': '格式化',
+  'RequestSuccessful': '请求成功',
+  'SaveSuccessful': '保存成功',
+  'FormatSuccessful': '格式化成功',
 };

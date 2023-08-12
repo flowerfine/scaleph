@@ -17,22 +17,26 @@ export default function EditorLeft() {
   };
 
   return (
-    <Split
-      className="split-vertical"
-      direction="vertical"
-      gutterSize={4}
-      sizes={verticalSplitSizes}
-      minSize={[0, 0]}
-      maxSize={[Infinity, Infinity]}
-      snapOffset={100}
-      onDrag={handleDrag}
-    >
+    // <Split
+    //   className="split-vertical"
+    //   direction="vertical"
+    //   gutterSize={4}
+    //   sizes={verticalSplitSizes}
+    //   minSize={[0, 0]}
+    //   maxSize={[Infinity, Infinity]}
+    //   snapOffset={100}
+    //   onDrag={handleDrag}
+    // >
+    //   <div>
+    //     <Editor editorRef={editorRef} />
+    //   </div>
+    //   <div>
+    //     <EditorRightResult editorRef={editorRef} />
+    //   </div>
+    // </Split>
+
       <div>
-        <Editor editorRef={editorRef} />
+         <Editor editorRef={editorRef} />
       </div>
-      <div>
-        <EditorRightResult editorRef={editorRef} />
-      </div>
-    </Split>
   );
 }

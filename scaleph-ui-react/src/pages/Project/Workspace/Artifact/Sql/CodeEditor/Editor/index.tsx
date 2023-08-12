@@ -26,45 +26,42 @@ const CodeEditor: React.FC = () => {
     setSqlScript(flinkArtifactSql.script);
         const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
     const resSessionClusterId = await WsFlinkKubernetesSessionClusterService.getSqlGatewaySessionClusterId(projectId);
-    
-    console.log(resSessionClusterId,'resSessionClusterId');
-    
-        setSessionClusterId(resSessionClusterId);
+    setSessionClusterId(resSessionClusterId);
   }, []);
 
   // 点击运行获取选中或者全部值
   const onRun = async (editor: monaco.editor.IStandaloneCodeEditor): void => {
-    console.log(editor, 'editor');
-    
     const selection = editor.getSelection();
     if (selection && !selection.isEmpty()) {
       const selectedValue = editor.getModel()?.getValueInRange(selection);
-      console.log("选中的值:", selectedValue);
+      // console.log("选中的值:", selectedValue);
       const catalogArray = await WsFlinkSqlGatewayService.executeSqlList(sessionClusterId, { sql: selectedValue, configuration: {} });
       if (catalogArray) { 
-        message.success('请求成功',1)
+       message.success(`${intl.formatMessage({id: 'RequestSuccessful'})}`,1)
       }
-      
-      console.log(catalogArray, 'catalogArray');
       // const catalogArray123 = await WsFlinkSqlGatewayService.listCatalogsOne(sessionClusterId, sqlGatewaySessionHandleId);
       // console.log(catalogArray123,'catalogArray123123');
       
       
     } else {
       const fullValue = editor.getModel()?.getValue();
-      console.log("全部的值:", fullValue);
+      // console.log("全部的值:", fullValue);
     }
   };
 
   // 保存数据
-  const onSave = (): void => {
-    FlinkArtifactSqlService.updateScript({ id: flinkArtifactSql.id, script: sqlScript });
+  const onSave = async(): void => {
+    let resultData = await FlinkArtifactSqlService.updateScript({ id: flinkArtifactSql.id, script: sqlScript });
+    if (resultData.success) { 
+       message.success(`${intl.formatMessage({id: 'SaveSuccessful'})}`,1)
+    }
   }
 
   // 点击格式化按钮
   const onFormat = (): void => {
     const formattedScript = sqlFormatter.format(sqlScript, { language: 'sql' });
     setSqlScript(formattedScript);
+    message.success(`${intl.formatMessage({id: 'FormatSuccessful'})}`,1)
   };
 
   // 获取 SQL 语法提示
@@ -73,7 +70,7 @@ const CodeEditor: React.FC = () => {
       label: key,
       kind: monaco.languages.CompletionItemKind.Keyword,
       insertText: key,
-      detail: '​<Keywords>',
+      detail: '<Keywords>',
     }));
   };
 
