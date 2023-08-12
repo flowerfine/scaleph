@@ -49,4 +49,11 @@ export default {
   'pages.resource.credentialFile.blockSize': '所在块大小',
   'pages.resource.credentialFile.accessTime': '访问时间',
   'pages.resource.credentialFile.modificationTime': '修改时间',
+
+  'Run': '运行',
+  'Save': '保存',
+  'Format': '格式化',
+  'RequestSuccessful': '请求成功',
+  'SaveSuccessful': '保存成功',
+  'FormatSuccessful': '格式化成功',
 };

@@ -1,0 +1,66 @@
+.boxContent {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 10px 5px 0px;
+    overflow-y: auto;
+    :global {
+        .ant-spin-spinning {
+            height: 100vh !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+    }
+}
+
+.tableModule {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 0;
+}
+
+.leftModuleTitle {
+    flex-shrink: 0;
+    margin-bottom: 10px;
+
+    .leftModuleTitleText {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 26px;
+
+        .modelName {
+            font-weight: bold;
+        }
+
+        .iconBox {
+            display: flex;
+            align-items: center;
+        }
+
+        .refreshIcon {
+            margin-right: 10px;
+        }
+
+        .refreshIcon,
+        .searchIcon {
+            cursor: pointer;
+
+            &:hover {
+                color:#3c8618;
+            }
+        }
+    }
+
+    .leftModuleTitleSearch {
+        height: 26px;
+    }
+}
+
+
+img{
+    width: 15px;
+    height: 15px;
+}
