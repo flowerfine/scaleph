@@ -18,6 +18,8 @@ import {
 import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJobService";
 import FlinkKubernetesJobDeployForm from "@/pages/Project/Workspace/Kubernetes/Job/Detail/JobDeployForm";
 import FlinkKubernetesJobShutdownForm from "@/pages/Project/Workspace/Kubernetes/Job/Detail/JobShutdownForm";
+import FlinkKubernetesJobDetailInstanceListWeb from "@/pages/Project/Workspace/Kubernetes/Job/Detail/InstanceList";
+import FlinkKubernetesJobDemoWeb from "@/pages/Project/Workspace/Kubernetes/Job/Detail/Demo";
 
 const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
   const intl = useIntl();
@@ -193,6 +195,11 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
       label: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.yaml'}),
       key: 'yaml',
       children: <FlinkKubernetesJobDetailYAMLWeb data={props.jobDetail.job}/>
+    },
+    {
+      label: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.instanceList'}),
+      key: 'instanceList',
+      children: <FlinkKubernetesJobDetailInstanceListWeb data={props.jobDetail.job}/>
     },
   ]
   return (

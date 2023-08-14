@@ -388,6 +388,10 @@ export type WsFlinkKubernetesJobInstance = {
   updateTime?: Date;
 };
 
+export type WsFlinkKubernetesJobInstanceParam = QueryParam & {
+  wsFlinkKubernetesJobId: number
+};
+
 export type WsFlinkKubernetesJobInstanceDeployParam = {
   wsFlinkKubernetesJobId: number;
   parallelism?: number;

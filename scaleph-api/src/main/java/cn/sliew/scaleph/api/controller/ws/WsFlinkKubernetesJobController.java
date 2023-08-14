@@ -165,9 +165,9 @@ public class WsFlinkKubernetesJobController {
     @Logging
     @GetMapping("instances")
     @Operation(summary = "获取任务实例列表", description = "获取任务实例列表")
-    public ResponseEntity<ResponseVO<Page<WsFlinkKubernetesJobInstanceDTO>>> listInstances(@Valid @RequestBody WsFlinkKubernetesJobInstanceListParam param) throws Exception {
+    public ResponseEntity<Page<WsFlinkKubernetesJobInstanceDTO>> listInstances(@Valid WsFlinkKubernetesJobInstanceListParam param) throws Exception {
         Page<WsFlinkKubernetesJobInstanceDTO> result = wsFlinkKubernetesJobInstanceService.list(param);
-        return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Logging

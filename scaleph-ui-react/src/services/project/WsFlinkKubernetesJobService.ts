@@ -2,11 +2,12 @@ import {PageResponse, ResponseBody} from '@/app.d';
 import {request} from 'umi';
 import {
   WsFlinkKubernetesJob,
-  WsFlinkKubernetesJobAddParam, WsFlinkKubernetesJobInstanceDeployParam, WsFlinkKubernetesJobInstanceShutdownParam,
+  WsFlinkKubernetesJobAddParam, WsFlinkKubernetesJobInstance,
+  WsFlinkKubernetesJobInstanceDeployParam, WsFlinkKubernetesJobInstanceParam,
+  WsFlinkKubernetesJobInstanceShutdownParam,
   WsFlinkKubernetesJobParam,
   WsFlinkKubernetesJobUpdateParam
 } from './typings';
-import job from "@/pages/Project/Workspace/Kubernetes/Job";
 
 export const WsFlinkKubernetesJobService = {
   url: '/api/flink/kubernetes/job',
@@ -114,4 +115,20 @@ export const WsFlinkKubernetesJobService = {
       method: 'POST'
     });
   },
+
+  listInstances: async (queryParam: WsFlinkKubernetesJobInstanceParam) => {
+    return request<PageResponse<WsFlinkKubernetesJobInstance>>(`${WsFlinkKubernetesJobService.url}/instances`, {
+      method: 'GET',
+      params: queryParam,
+    }).then((res) => {
+      const result = {
+        data: res.records,
+        total: res.total,
+        pageSize: res.size,
+        current: res.current,
+      };
+      return result;
+    });
+  },
+
 };
