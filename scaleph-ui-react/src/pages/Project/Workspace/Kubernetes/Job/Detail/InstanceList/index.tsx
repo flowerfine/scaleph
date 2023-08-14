@@ -2,10 +2,8 @@ import React, {useRef} from "react";
 import {Props} from '@/app.d';
 import {WsFlinkKubernetesJob, WsFlinkKubernetesJobInstance} from "@/services/project/typings";
 import {connect, useAccess, useIntl} from "umi";
-import {ActionType, ProColumns, ProFormInstance, ProFormSelect, ProTable} from "@ant-design/pro-components";
-import {Tag, Tooltip} from "antd";
-import {DictDataService} from "@/services/admin/dictData.service";
-import {DICT_TYPE} from "@/constant";
+import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
+import {Tooltip} from "antd";
 import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJobService";
 
 const FlinkKubernetesJobDetailInstanceListWeb: React.FC<Props<WsFlinkKubernetesJob>> = (props: any) => {
@@ -30,17 +28,8 @@ const FlinkKubernetesJobDetailInstanceListWeb: React.FC<Props<WsFlinkKubernetesJ
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.instanceList.upgradeMode'}),
       dataIndex: 'upgradeMode',
-      render: (dom, entity) => {
-        return (<Tag>{entity.upgradeMode?.label}</Tag>)
-      },
-      renderFormItem: (item, {defaultRender, ...rest}, form) => {
-        return (
-          <ProFormSelect
-            showSearch={false}
-            allowClear={true}
-            request={() => DictDataService.listDictDataByType2(DICT_TYPE.upgradeMode)}
-          />
-        );
+      render: (dom, record) => {
+        return <Tooltip title={record.upgradeMode?.remark}>{record.upgradeMode?.label}</Tooltip>
       }
     },
     {
@@ -48,20 +37,14 @@ const FlinkKubernetesJobDetailInstanceListWeb: React.FC<Props<WsFlinkKubernetesJ
       dataIndex: 'state',
       render: (dom, record) => {
         return <Tooltip title={record.state?.remark}>{record.state?.label}</Tooltip>
-      },
-      request: (params, props) => {
-        return DictDataService.listDictDataByType2(DICT_TYPE.resourceLifecycleState)
-      },
+      }
     },
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.jobState'}),
       dataIndex: 'jobState',
       render: (dom, record) => {
         return <Tooltip title={record.jobState?.value}>{record.jobState?.label}</Tooltip>
-      },
-      request: (params, props) => {
-        return DictDataService.listDictDataByType2(DICT_TYPE.flinkJobStatus)
-      },
+      }
     },
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.error'}),

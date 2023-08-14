@@ -2,8 +2,11 @@ import {PageResponse, ResponseBody} from '@/app.d';
 import {request} from 'umi';
 import {
   WsFlinkKubernetesJob,
-  WsFlinkKubernetesJobAddParam, WsFlinkKubernetesJobInstance,
-  WsFlinkKubernetesJobInstanceDeployParam, WsFlinkKubernetesJobInstanceParam,
+  WsFlinkKubernetesJobAddParam,
+  WsFlinkKubernetesJobInstance,
+  WsFlinkKubernetesJobInstanceDeployParam,
+  WsFlinkKubernetesJobInstanceParam, WsFlinkKubernetesJobInstanceSavepoint,
+  WsFlinkKubernetesJobInstanceSavepointParam,
   WsFlinkKubernetesJobInstanceShutdownParam,
   WsFlinkKubernetesJobParam,
   WsFlinkKubernetesJobUpdateParam
@@ -118,6 +121,21 @@ export const WsFlinkKubernetesJobService = {
 
   listInstances: async (queryParam: WsFlinkKubernetesJobInstanceParam) => {
     return request<PageResponse<WsFlinkKubernetesJobInstance>>(`${WsFlinkKubernetesJobService.url}/instances`, {
+      method: 'GET',
+      params: queryParam,
+    }).then((res) => {
+      const result = {
+        data: res.records,
+        total: res.total,
+        pageSize: res.size,
+        current: res.current,
+      };
+      return result;
+    });
+  },
+
+  listSavepoints: async (queryParam: WsFlinkKubernetesJobInstanceSavepointParam) => {
+    return request<PageResponse<WsFlinkKubernetesJobInstanceSavepoint>>(`${WsFlinkKubernetesJobService.url}/instances/savepoint`, {
       method: 'GET',
       params: queryParam,
     }).then((res) => {

@@ -412,3 +412,18 @@ export type CatalogFunctionInfo = {
   functionName: string;
   functionKind: string
 }
+
+export type WsFlinkKubernetesJobInstanceSavepoint = {
+  id: number;
+  wsFlinkKubernetesJobInstanceId: number;
+  timeStamp: number;
+  location: string;
+  triggerType: Dict;
+  formatType: Dict;
+  createTime?: Date;
+  updateTime?: Date;
+};
+
+export type WsFlinkKubernetesJobInstanceSavepointParam = QueryParam & {
+  wsFlinkKubernetesJobInstanceId: number
+};
