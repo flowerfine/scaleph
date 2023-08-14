@@ -820,8 +820,15 @@ export default {
   'pages.project.flink.kubernetes.job.detail.metrics': 'Metrics',
   'pages.project.flink.kubernetes.job.detail.logs': 'Logs',
 
-
-
   'pages.project.flink.kubernetes.job.detail.yaml': 'YAML',
-
+  'pages.project.flink.kubernetes.job.detail.instanceList': 'Intances',
+  'pages.project.flink.kubernetes.job.detail.instanceList.startTime': 'Start Time',
+  'pages.project.flink.kubernetes.job.detail.instanceList.endTime': 'End Time',
+  'pages.project.flink.kubernetes.job.detail.instanceList.duration': 'Duration',
+  'pages.project.flink.kubernetes.job.detail.instanceList.upgradeMode': 'Upgrade Mode',
+  'pages.project.flink.kubernetes.job.detail.savepoint': 'Savepoint',
+  'pages.project.flink.kubernetes.job.detail.savepoint.timeStamp': 'TimeStamp',
+  'pages.project.flink.kubernetes.job.detail.savepoint.formatType': 'Format',
+  'pages.project.flink.kubernetes.job.detail.savepoint.triggerType': 'Trigger Type',
+  'pages.project.flink.kubernetes.job.detail.savepoint.location': 'Location',
 };

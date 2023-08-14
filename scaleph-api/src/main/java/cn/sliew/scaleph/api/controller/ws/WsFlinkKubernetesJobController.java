@@ -24,6 +24,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobInst
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceSavepointDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.*;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -165,9 +166,9 @@ public class WsFlinkKubernetesJobController {
     @Logging
     @GetMapping("instances")
     @Operation(summary = "获取任务实例列表", description = "获取任务实例列表")
-    public ResponseEntity<ResponseVO<Page<WsFlinkKubernetesJobInstanceDTO>>> listInstances(@Valid @RequestBody WsFlinkKubernetesJobInstanceListParam param) throws Exception {
+    public ResponseEntity<Page<WsFlinkKubernetesJobInstanceDTO>> listInstances(@Valid WsFlinkKubernetesJobInstanceListParam param) throws Exception {
         Page<WsFlinkKubernetesJobInstanceDTO> result = wsFlinkKubernetesJobInstanceService.list(param);
-        return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Logging
@@ -176,6 +177,14 @@ public class WsFlinkKubernetesJobController {
     public ResponseEntity<ResponseVO<Object>> instanceAsYaml(@PathVariable("id") Long id) throws Exception {
         Object dto = wsFlinkKubernetesJobInstanceService.asYaml(id);
         return new ResponseEntity(ResponseVO.success(dto), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("/instances/savepoint")
+    @Operation(summary = "查询 Job 实例 savepoint", description = "查询 Job 实例 savepoint")
+    public ResponseEntity<Page<WsFlinkKubernetesJobInstanceSavepointDTO>> getSavepoint(@Valid WsFlinkKubernetesJobInstanceSavepointListParam param) throws Exception {
+        Page<WsFlinkKubernetesJobInstanceSavepointDTO> result = wsFlinkKubernetesJobInstanceService.selectSavepoint(param);
+        return new ResponseEntity(result, HttpStatus.OK);
     }
 
 }

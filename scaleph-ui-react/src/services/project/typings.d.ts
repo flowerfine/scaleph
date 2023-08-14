@@ -388,6 +388,10 @@ export type WsFlinkKubernetesJobInstance = {
   updateTime?: Date;
 };
 
+export type WsFlinkKubernetesJobInstanceParam = QueryParam & {
+  wsFlinkKubernetesJobId: number
+};
+
 export type WsFlinkKubernetesJobInstanceDeployParam = {
   wsFlinkKubernetesJobId: number;
   parallelism?: number;
@@ -408,3 +412,18 @@ export type CatalogFunctionInfo = {
   functionName: string;
   functionKind: string
 }
+
+export type WsFlinkKubernetesJobInstanceSavepoint = {
+  id: number;
+  wsFlinkKubernetesJobInstanceId: number;
+  timeStamp: number;
+  location: string;
+  triggerType: Dict;
+  formatType: Dict;
+  createTime?: Date;
+  updateTime?: Date;
+};
+
+export type WsFlinkKubernetesJobInstanceSavepointParam = QueryParam & {
+  wsFlinkKubernetesJobInstanceId: number
+};

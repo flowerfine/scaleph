@@ -69,6 +69,7 @@ export type QueryParam = {
 export type Dict = {
   label?: string;
   value?: string | number;
+  remark?: string;
 };
 
 export type Props<T> = {
