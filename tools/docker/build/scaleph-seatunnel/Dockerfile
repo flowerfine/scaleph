@@ -35,10 +35,10 @@ RUN wget https://archive.apache.org/dist/incubator/seatunnel/${SEATUNNEL_VERSION
 
 # strange behavior: replace mvnw by mvn on install-plugin.sh, remove useless comment on plugin_config
 RUN rm $SEATUNNEL_HOME/config/plugin_config
-COPY plugin_config $SEATUNNEL_HOME/config
+COPY tools/docker/build/scaleph-seatunnel/plugin_config $SEATUNNEL_HOME/config
 
 RUN rm $SEATUNNEL_HOME/bin/install-plugin.sh
-COPY install-plugin.sh $SEATUNNEL_HOME/bin
+COPY tools/docker/build/scaleph-seatunnel/install-plugin.sh $SEATUNNEL_HOME/bin
 
 RUN cd $SEATUNNEL_HOME ; \
     sh -x bin/install-plugin.sh ${SEATUNNEL_VERSION}
