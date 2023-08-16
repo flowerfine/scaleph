@@ -65,6 +65,7 @@
     "react-dom": "^17.0.0",
     "react-helmet-async": "^1.2.0",
     "react-split": "^2.0.14",
+    "sql-formatter": "^12.2.4",
     "yaml": "^2.2.1"
   },
   "devDependencies": {

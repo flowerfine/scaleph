@@ -28,22 +28,22 @@ const RenderTableBox: React.FC = () => {
 
   // 将原始数据转换为树形结构数据
   function convertToTreeData(data: any[]): TreeNodeData[] {
-    return data.map((item) => ({
-      name: item.catalogName,
-      key: item.catalogName,
+    return data?.map((item) => ({
+      name: item?.catalogName,
+      key: item?.catalogName,
       treeNodeType: '',
-      children: item.databases.map((database: any) => ({
-        name: database.databaseName,
-        key: database.databaseName,
+      children: item?.databases.map((database: any) => ({
+        name: database?.databaseName,
+        key: database?.databaseName,
         treeNodeType: 'column',
         children: [
           {
             name: 'tables',
             key: 'tables',
             treeNodeType: 'threeLevel',
-            children: database.tables.map((table: any) => ({
-              name: table.tableName,
-              key: table.tableName,
+            children: database?.tables.map((table: any) => ({
+              name: table?.tableName,
+              key: table?.tableName,
               treeNodeType: 'table',
               isLeaf: true,
               tooltip: Object.entries(table.properties).map(([title, value]) => ({ title, value })),
@@ -73,9 +73,11 @@ const RenderTableBox: React.FC = () => {
     const resSessionClusterId =
       await WsFlinkKubernetesSessionClusterService.getSqlGatewaySessionClusterId(projectId); // 获取会话集群ID
     const catalogArray = await WsFlinkSqlGatewayService.leftMenuList(resSessionClusterId); // 获取菜单列表返回的原始数据
-    const treeData = convertToTreeData(catalogArray); // 将原始数据转换为树形结构
     setLoading(false);
-    setTreeData(treeData); // 设置树形结构数据
+    if (Array.isArray(catalogArray)) {
+      const treeData = convertToTreeData(catalogArray); // 将原始数据转换为树形结构
+      setTreeData(treeData); // 设置树形结构数据
+    }
   };
 
   useEffect(() => {
