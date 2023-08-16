@@ -22,11 +22,10 @@ on:
       seatunnelVersion:
         description: 'seatunnel version'
         required: true
-        default: '2.3.1'
+        default: '2.3.2'
         type: choice
         options:
           - 2.3.2
-          - 2.3.1
       flinkVersion:
         description: 'flink version'
         required: true
@@ -63,13 +62,18 @@ jobs:
           platforms: amd64,arm64
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+      - name: Install SeaTunnel
+        run: wget https://archive.apache.org/dist/seatunnel/${{ env.SEATUNNEL_VERSION }}/apache-seatunnel-${{ env.SEATUNNEL_VERSION }}-bin.tar.gz ; \
+              tar -zxf apache-seatunnel-${{ env.SEATUNNEL_VERSION }}-bin.tar.gz ; \
+              cd apache-seatunnel-${{ env.SEATUNNEL_VERSION }}-bin ; \
+              sh -x bin/install-plugin.sh ${{ env.SEATUNNEL_VERSION }}
       - name: Build image
         uses: docker/build-push-action@v4
         with:
           no-cache: false
           push: true
           context: .
-          build-args: FLINK_VERSION=${{ env.FLINK_VERSION }}
+          build-args: FLINK_VERSION=${{ env.FLINK_VERSION }}, SEATUNNEL_VERSION=${{ env.SEATUNNEL_VERSION }}
           platforms: linux/amd64,linux/arm64
           file: tools/docker/build/scaleph-seatunnel/Dockerfile
           tags: ${{ env.HUB }}:${{ env.SEATUNNEL_VERSION }}-flink-${{ env.FLINK_VERSION }}
