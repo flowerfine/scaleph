@@ -16,7 +16,7 @@
 
 ARG FLINK_VERSION=1.15
 ARG BASE_RELEASE_IMAGE=flink:${FLINK_VERSION}
-FROM alpine as build
+FROM maven:3.8-eclipse-temurin-11 as build
 
 ARG SEATUNNEL_VERSION=2.3.2
 
