@@ -68,7 +68,9 @@ jobs:
           no-cache: true
           push: true
           context: .
-          build-args: FLINK_VERSION=${{ env.FLINK_VERSION }} SEATUNNEL_VERSION=${{ env.SEATUNNEL_VERSION }}
+          build-args: |
+            FLINK_VERSION=${{ env.FLINK_VERSION }},
+            SEATUNNEL_VERSION=${{ env.SEATUNNEL_VERSION }}
           platforms: linux/amd64,linux/arm64
           file: tools/docker/build/scaleph-seatunnel/Dockerfile
           tags: ${{ env.HUB }}:${{ env.SEATUNNEL_VERSION }}-flink-${{ env.FLINK_VERSION }}
