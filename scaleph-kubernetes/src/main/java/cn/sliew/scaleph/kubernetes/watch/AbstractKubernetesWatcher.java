@@ -19,7 +19,6 @@
 package cn.sliew.scaleph.kubernetes.watch;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
-import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.client.Watcher;
 import io.fabric8.kubernetes.client.WatcherException;
 import lombok.extern.slf4j.Slf4j;
@@ -28,11 +27,11 @@ import lombok.extern.slf4j.Slf4j;
  * Watcher for resources in Kubernetes.
  */
 @Slf4j
-public abstract class AbstractKubernetesWatcher<T extends HasMetadata, R extends KubernetesResource> implements Watcher<T> {
+public abstract class AbstractKubernetesWatcher<T extends HasMetadata> implements Watcher<T> {
 
-    protected final WatchCallbackHandler<R> callbackHandler;
+    protected final WatchCallbackHandler<T> callbackHandler;
 
-    AbstractKubernetesWatcher(WatchCallbackHandler<R> callbackHandler) {
+    public AbstractKubernetesWatcher(WatchCallbackHandler<T> callbackHandler) {
         this.callbackHandler = callbackHandler;
     }
 
