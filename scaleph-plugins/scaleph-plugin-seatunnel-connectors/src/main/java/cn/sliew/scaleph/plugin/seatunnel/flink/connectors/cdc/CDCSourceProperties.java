@@ -21,6 +21,8 @@ package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cdc;
 import cn.sliew.scaleph.plugin.framework.property.*;
 import com.fasterxml.jackson.databind.JsonNode;
 
+import java.util.List;
+
 public enum CDCSourceProperties {
     ;
 
@@ -31,23 +33,6 @@ public enum CDCSourceProperties {
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> HOSTNAME = new PropertyDescriptor.Builder()
-            .name("hostname")
-            .description("IP address or hostname of the database server.")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<Integer> PORT = new PropertyDescriptor.Builder()
-            .name("port")
-            .description("Integer port number of the database server.")
-            .type(PropertyType.INT)
-            .parser(Parsers.INTEGER_PARSER)
-            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<String> USERNAME = new PropertyDescriptor.Builder()
@@ -68,21 +53,19 @@ public enum CDCSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> DATABASE = new PropertyDescriptor.Builder()
-            .name("database-name")
+    public static final PropertyDescriptor<List<String>> DATABASE = new PropertyDescriptor.Builder()
+            .name("database-names")
             .description("Database name of the database to monitor.")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.STRING_ARRAY_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> TABLE = new PropertyDescriptor.Builder()
-            .name("table-name")
+    public static final PropertyDescriptor<List<String>> TABLE = new PropertyDescriptor.Builder()
+            .name("table-names")
             .description("Table name of the database to monitor.")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.STRING_ARRAY_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
@@ -192,12 +175,12 @@ public enum CDCSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> CONNECT_TIMEOUT = new PropertyDescriptor.Builder()
-            .name("connect.timeout")
+    public static final PropertyDescriptor<Long> CONNECT_TIMEOUT = new PropertyDescriptor.Builder()
+            .name("connect.timeout.ms")
             .description("The maximum time that the connector should wait after trying to connect to the database server before timing out.")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .type(PropertyType.INT)
+            .parser(Parsers.LONG_PARSER)
+            .addValidator(Validators.POSITIVE_LONG_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<Integer> CONNECT_MAX_RETRIES = new PropertyDescriptor.Builder()
@@ -228,6 +211,22 @@ public enum CDCSourceProperties {
             .description("chunk-key.even-distribution.factor.lower-bound")
             .type(PropertyType.DOUBLE)
             .parser(Parsers.DOUBLE_PARSER)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> SAMPLE_SHARDING_THRESHOLD = new PropertyDescriptor.Builder()
+            .name("sample-sharding.threshold")
+            .description("This configuration specifies the threshold of estimated shard count to trigger the sample sharding strategy")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> INVERSE_SHARDING_RATE = new PropertyDescriptor.Builder()
+            .name("inverse-sampling.rate")
+            .description("The inverse of the sampling rate used in the sample sharding strategy")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<JsonNode> DEBEZIUM = new PropertyDescriptor.Builder()
