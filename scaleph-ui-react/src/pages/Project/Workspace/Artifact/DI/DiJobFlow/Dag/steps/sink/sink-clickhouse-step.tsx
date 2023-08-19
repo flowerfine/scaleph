@@ -145,7 +145,7 @@ const SinkClickHouseStepForm: React.FC<
           }}
         >
           <ProFormList
-            name={ClickHouseParams.clickhouseConf}
+            name={ClickHouseParams.clickhouseConfArray}
             copyIconProps={false}
             creatorButtonProps={{
               creatorButtonText: intl.formatMessage({
@@ -164,7 +164,6 @@ const SinkClickHouseStepForm: React.FC<
                   id: 'pages.project.di.step.clickhosue.clickhouseConf.key.placeholder',
                 })}
                 colProps={{span: 10, offset: 1}}
-                addonBefore={'clickhouse.'}
               />
               <ProFormText
                 name={ClickHouseParams.value}

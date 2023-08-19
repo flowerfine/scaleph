@@ -33,8 +33,8 @@ public enum ClickHouseSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<JsonNode> CLICKHOUSE_CONF = new PropertyDescriptor.Builder<JsonNode>()
-            .name("clickhouse.")
+    public static final PropertyDescriptor<JsonNode> CLICKHOUSE_CONFIG = new PropertyDescriptor.Builder<JsonNode>()
+            .name("clickhouse.config")
             .description(
                     "clickhouse.* The way to specify the parameter is to add the prefix clickhouse. to the original parameter name. For example, the way to specify socket_timeout is: clickhouse.socket_timeout = 50000 . "
                             + "If these non-essential parameters are not specified, they will use the default values given by clickhouse-jdbc.\n")

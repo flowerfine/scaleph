@@ -1,6 +1,6 @@
 import {
   CassandraParams,
-  CDCParams,
+  CDCParams, ClickHouseParams,
   ColumnParams,
   DorisParams,
   ElasticsearchParams,
@@ -110,9 +110,11 @@ export const StepSchemaService = {
   },
 
   formatClickHouseConf: (values: Record<string, any>) => {
-    values.clickhouse_conf?.forEach(function (item: Record<string, any>) {
-      values['clickhouse.' + item.key] = item.value;
+    const config: Record<string, any> = {}
+    values[ClickHouseParams.clickhouseConfArray]?.forEach(function (item: Record<string, any>) {
+      config[item[ClickHouseParams.key]] = item[ClickHouseParams.value];
     });
+    values[ClickHouseParams.clickhouseConf] = JSON.stringify(config)
     return values
   },
 
