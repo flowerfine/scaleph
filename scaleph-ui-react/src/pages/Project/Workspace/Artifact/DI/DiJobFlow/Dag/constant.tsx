@@ -579,12 +579,10 @@ export const OpenMLDBParams = {
 
 export const CDCParams = {
   baseUrl: 'base-url',
-  hostname: 'hostname',
-  port: 'port',
   username: 'username',
   password: 'password',
-  database: 'database-name',
-  table: 'table-name',
+  databases: 'database-names',
+  tables: 'table-names',
   startupMode: 'startup.mode',
   startupTimestamp: 'startup.timestamp',
   startupSpecificOffsetFile: 'startup.specific-offset.file',
@@ -603,6 +601,8 @@ export const CDCParams = {
   connectionPoolSize: 'connection.pool.size',
   chunkKeyEvenDistributionFactorUpperBound: 'chunk-key.even-distribution.factor.upper-bound',
   chunkKeyEvenDistributionFactorLowerBound: 'chunk-key.even-distribution.factor.lower-bound',
+  sampleShardingThreshold: 'sample-sharding.threshold',
+  inverseSamplingRate: 'inverse-sampling.rate',
   debeziums: 'debezium',
   debeziumProperties: 'debeziumProperties',
   debeziumProperty: 'debeziumProperty',

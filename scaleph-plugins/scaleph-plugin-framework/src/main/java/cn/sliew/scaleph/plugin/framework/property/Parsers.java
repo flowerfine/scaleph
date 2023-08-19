@@ -25,6 +25,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public enum Parsers {
     ;
@@ -41,7 +42,8 @@ public enum Parsers {
 
     public static final Parser<String> STRING_PARSER = value -> value;
 
-    public static final Parser<List<String>> STRING_ARRAY_PARSER = value -> Arrays.asList(StringUtils.commaDelimitedListToStringArray(value));
+    public static final Parser<List<String>> STRING_ARRAY_PARSER = value -> Arrays.stream(StringUtils.commaDelimitedListToStringArray(value))
+            .map(String::trim).collect(Collectors.toList());
 
     public static final Parser<JsonNode> JSON_PARSER = value -> JacksonUtil.toJsonNode(value);
 }
