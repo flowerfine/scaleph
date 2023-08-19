@@ -20,6 +20,10 @@ package cn.sliew.scaleph.kubernetes;
 
 public enum Constant {
     ;
+    // "resourceVersion="0" is any resource version.It saves time to access etcd and improves
+    // performance.
+    // https://kubernetes.io/docs/reference/using-api/api-concepts/#the-resourceversion-parameter
+    public static final String KUBERNETES_ZERO_RESOURCE_VERSION = "0";
 
     public static final String GROUP = "flink.apache.org";
     public static final String VERSION = "v1beta1";

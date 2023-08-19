@@ -23,6 +23,7 @@ server:
 spring:
   application.name: scaleph
   profiles.active: dev
+  main.allow-circular-references: true
   messages:
     encoding: utf-8
     basename: static/i18n/messages

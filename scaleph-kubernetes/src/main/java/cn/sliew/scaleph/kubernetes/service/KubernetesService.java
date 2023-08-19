@@ -21,6 +21,7 @@ package cn.sliew.scaleph.kubernetes.service;
 import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
 import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.client.NamespacedKubernetesClient;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -28,6 +29,8 @@ import java.nio.file.Path;
 public interface KubernetesService {
 
     KubernetesClient getClient(Long clusterCredentialId);
+
+    NamespacedKubernetesClient getClient(Long clusterCredentialId, String namespace);
 
     Path downloadConfig(ClusterCredentialDTO clusterCredential) throws IOException;
 

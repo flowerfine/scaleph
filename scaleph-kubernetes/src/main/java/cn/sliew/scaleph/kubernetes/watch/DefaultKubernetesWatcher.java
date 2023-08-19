@@ -16,11 +16,9 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.watch;
+package cn.sliew.scaleph.kubernetes.watch;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.deployment.FlinkDeployment;
-import cn.sliew.scaleph.kubernetes.watch.AbstractKubernetesWatcher;
-import cn.sliew.scaleph.kubernetes.watch.WatchCallbackHandler;
+import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.client.utils.Serialization;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,21 +26,21 @@ import java.util.Collections;
 import java.util.List;
 
 @Slf4j
-public class FlinkDeploymentWatcher extends AbstractKubernetesWatcher<FlinkDeployment> {
+public class DefaultKubernetesWatcher<T extends HasMetadata> extends AbstractKubernetesWatcher<T> {
 
-    public FlinkDeploymentWatcher(WatchCallbackHandler<FlinkDeployment> callbackHandler) {
+    public DefaultKubernetesWatcher(WatchCallbackHandler<T> callbackHandler) {
         super(callbackHandler);
     }
 
     @Override
-    public void eventReceived(Action action, FlinkDeployment flinkDeployment) {
+    public void eventReceived(Action action, T resource) {
         log.debug(
                 "Received {} event for pod {}, details: {}{}",
                 action,
-                flinkDeployment.getMetadata().getName(),
+                resource.getMetadata().getName(),
                 System.lineSeparator(),
-                Serialization.asYaml(flinkDeployment.getStatus()));
-        final List<FlinkDeployment> pods = Collections.singletonList(flinkDeployment);
+                Serialization.asYaml(resource));
+        final List<T> pods = Collections.singletonList(resource);
         switch (action) {
             case ADDED:
                 callbackHandler.onAdded(pods);
@@ -58,7 +56,7 @@ public class FlinkDeploymentWatcher extends AbstractKubernetesWatcher<FlinkDeplo
                 break;
             default:
                 log.debug(
-                        "Ignore handling {} event for pod {}", action, flinkDeployment.getMetadata().getName());
+                        "Ignore handling {} event for pod {}", action, resource.getMetadata().getName());
         }
     }
 }

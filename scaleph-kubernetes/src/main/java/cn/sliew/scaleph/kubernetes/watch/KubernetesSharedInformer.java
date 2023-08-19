@@ -61,7 +61,7 @@ public abstract class KubernetesSharedInformer<T extends HasMetadata> {
 
     public void close() {
         this.sharedIndexInformer.stop();
-//        ExecutorUtils.gracefulShutdown(5, TimeUnit.SECONDS, this.informerExecutor);
+        this.informerExecutor.shutdown();
     }
 
     private String getResourceKey(String name) {

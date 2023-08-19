@@ -21,8 +21,13 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.watch.FlinkDeploymentShardWatcher;
+import cn.sliew.scaleph.kubernetes.watch.WatchCallbackHandler;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
+import io.fabric8.kubernetes.api.model.HasMetadata;
+import io.fabric8.kubernetes.client.Watch;
 
+import java.util.Map;
 import java.util.Optional;
 
 public interface FlinkKubernetesOperatorService {
@@ -40,5 +45,12 @@ public interface FlinkKubernetesOperatorService {
     void shutdownJob(Long clusterCredentialId, String job) throws Exception;
 
     void applyJob(Long clusterCredentialId, String job) throws Exception;
+
+    /**
+     * todo when and how to close watch
+     */
+    <T extends HasMetadata> Watch addWatch(Long clusterCredentialId, String resource, Map<String, String> labels, WatchCallbackHandler<T> callbackHandler) throws Exception;
+
+    FlinkDeploymentShardWatcher addFlinkDeploymentSharedWatcher(Long clusterCredentialId, String namespace, Map<String, String> labels) throws Exception;
 
 }

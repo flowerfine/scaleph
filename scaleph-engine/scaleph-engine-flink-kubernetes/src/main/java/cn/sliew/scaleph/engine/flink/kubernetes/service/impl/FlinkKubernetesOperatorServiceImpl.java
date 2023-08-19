@@ -25,15 +25,22 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorS
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.watch.FlinkDeploymentShardWatcher;
 import cn.sliew.scaleph.kubernetes.Constant;
 import cn.sliew.scaleph.kubernetes.service.KubernetesService;
+import cn.sliew.scaleph.kubernetes.watch.DefaultKubernetesWatcher;
+import cn.sliew.scaleph.kubernetes.watch.WatchCallbackHandler;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
+import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.client.NamespacedKubernetesClient;
+import io.fabric8.kubernetes.client.Watch;
 import io.fabric8.kubernetes.client.utils.Serialization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -84,6 +91,7 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
             default:
         }
         KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
+        // fixme only support flinkdeployment
         GenericKubernetesResource resource = client.genericKubernetesResources(Constant.API_VERSION, Constant.FLINK_DEPLOYMENT)
                 .inNamespace(namespace)
                 .withName(jobInstanceDTO.getInstanceId())
@@ -107,5 +115,19 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
     public void applyJob(Long clusterCredentialId, String job) throws Exception {
         KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
         client.load(new ByteArrayInputStream((job).getBytes())).createOrReplace();
+    }
+
+    public <T extends HasMetadata> Watch addWatch(Long clusterCredentialId, String resource, Map<String, String> labels, WatchCallbackHandler<T> callbackHandler) throws Exception {
+        KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
+        return client.genericKubernetesResources(Constant.API_VERSION, resource)
+                .withLabels(labels)
+                .withResourceVersion(Constant.KUBERNETES_ZERO_RESOURCE_VERSION)
+                .watch(new DefaultKubernetesWatcher(callbackHandler));
+    }
+
+    @Override
+    public FlinkDeploymentShardWatcher addFlinkDeploymentSharedWatcher(Long clusterCredentialId, String namespace, Map<String, String> labels) throws Exception {
+        NamespacedKubernetesClient client = kubernetesService.getClient(clusterCredentialId, namespace);
+        return new FlinkDeploymentShardWatcher(client, labels);
     }
 }
