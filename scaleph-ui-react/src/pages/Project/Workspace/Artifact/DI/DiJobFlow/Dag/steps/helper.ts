@@ -1,6 +1,7 @@
 import {
   CassandraParams,
-  CDCParams, ClickHouseParams,
+  CDCParams,
+  ClickHouseParams,
   ColumnParams,
   DorisParams,
   ElasticsearchParams,
@@ -184,7 +185,7 @@ export const StepSchemaService = {
   formatDorisConfig: (values: Record<string, any>) => {
     const config: Record<string, any> = {}
     values[DorisParams.dorisConfigArray]?.forEach(function (item: Record<string, any>) {
-      values[DorisParams.dorisConfigProperty] = item[DorisParams.dorisConfigValue];
+      config[item[DorisParams.dorisConfigProperty]] = item[DorisParams.dorisConfigValue];
     });
     values[DorisParams.dorisConfig] = JSON.stringify(config)
     return values

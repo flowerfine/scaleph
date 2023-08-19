@@ -35,7 +35,6 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.doris.DorisProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.doris.sink.DorisSinkProperties.*;
@@ -48,11 +47,11 @@ public class DorisSinkPlugin extends SeaTunnelConnectorPlugin {
                 "Used to send data to Doris. Both support streaming and batch mode. The internal implementation of Doris sink connector is cached and imported by stream load in batches.",
                 DorisSinkPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(DATABASE);
         props.add(TABLE_IDENTIFIER);
         props.add(SINK_LABEL_PREFIX);
         props.add(SINK_ENABLE_2PC);
         props.add(SINK_ENABLE_DELETE);
+        props.add(DORIS_CONFIG);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = props;
@@ -74,11 +73,6 @@ public class DorisSinkPlugin extends SeaTunnelConnectorPlugin {
         }
         if (StringUtils.hasText(dataSource.getPassword())) {
             conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
-        }
-        for (Map.Entry<String, Object> entry : properties.toMap().entrySet()) {
-            if (entry.getKey().startsWith(DORIS_CONFIG.getName())) {
-                conf.putPOJO(entry.getKey(), entry.getValue());
-            }
         }
         return conf;
     }

@@ -560,7 +560,6 @@ export default {
   'pages.project.di.step.cassandra.asyncWrite': '启用异步写入',
 
   // doris
-  'pages.project.di.step.doris.database': '数据库',
   'pages.project.di.step.doris.tableIdentifier': '表格',
   'pages.project.di.step.doris.sinkLabelPrefix': '标签前缀',
   'pages.project.di.step.doris.sinkEnable2PC': '启用2PC',

@@ -51,16 +51,7 @@ public enum DorisProperties {
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
-
-    public static final PropertyDescriptor<String> DATABASE = new PropertyDescriptor.Builder()
-            .name("database")
-            .description("The name of Doris database")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
+    
     public static final PropertyDescriptor<String> TABLE_IDENTIFIER = new PropertyDescriptor.Builder()
             .name("table.identifier")
             .description("The name of Doris table")
