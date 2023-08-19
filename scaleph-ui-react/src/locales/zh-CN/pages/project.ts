@@ -495,7 +495,7 @@ export default {
   'pages.project.di.step.elasticsearch.index': '索引',
   'pages.project.di.step.elasticsearch.primaryKeys': '主键',
   'pages.project.di.step.elasticsearch.primaryKeys.list': '主键',
-  'pages.project.di.step.elasticsearch.maxRetrySize': '最大重试次数',
+  'pages.project.di.step.elasticsearch.maxRetryCount': '最大重试次数',
   'pages.project.di.step.elasticsearch.maxBatchSize': '最大批处理数',
   'pages.project.di.step.elasticsearch.query': '查询语句',
   'pages.project.di.step.elasticsearch.scrollTime': '滚动时间',

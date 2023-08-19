@@ -428,7 +428,7 @@ export const ElasticsearchParams = {
   primaryKeyArray: 'primaryKeyArray',
   primaryKey: 'primaryKey',
   keyDelimiter: 'key_delimiter',
-  maxRetrySize: 'max_retry_size',
+  maxRetryCount: 'max_retry_count',
   maxBatchSize: 'max_batch_size',
   query: "query",
   scrollTime: "scroll_time",

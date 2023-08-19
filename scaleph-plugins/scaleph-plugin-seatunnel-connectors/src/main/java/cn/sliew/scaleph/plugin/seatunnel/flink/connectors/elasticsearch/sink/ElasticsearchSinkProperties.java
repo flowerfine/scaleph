@@ -41,8 +41,8 @@ public enum ElasticsearchSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Integer> MAX_RETRY_SIZE = new PropertyDescriptor.Builder()
-            .name("max_retry_size")
+    public static final PropertyDescriptor<Integer> MAX_RETRY_COUNT = new PropertyDescriptor.Builder()
+            .name("max_retry_count")
             .description("one bulk request max try size")
             .type(PropertyType.INT)
             .parser(Parsers.INTEGER_PARSER)
