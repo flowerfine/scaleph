@@ -83,13 +83,7 @@ const SinkOSSJindoFileStepForm: React.FC<
           name={'file_format'}
           label={intl.formatMessage({id: 'pages.project.di.step.baseFile.fileFormat'})}
           colProps={{span: 24}}
-          valueEnum={{
-            json: 'json',
-            parquet: 'parquet',
-            orc: 'orc',
-            text: 'text',
-            csv: 'csv',
-          }}
+          options={['json', 'parquet', 'orc', 'text', 'csv', 'excel']}
         />
         <ProFormDependency name={['file_format']}>
           {({file_format}) => {
@@ -115,9 +109,31 @@ const SinkOSSJindoFileStepForm: React.FC<
                 </ProFormGroup>
               );
             }
+            if (file_format == 'excel') {
+              return (
+                <ProFormGroup>
+                  <ProFormText
+                    name={BaseFileParams.sheetName}
+                    label={intl.formatMessage({id: 'pages.project.di.step.baseFile.sheetName'})}
+                    colProps={{span: 12}}
+                  />
+                  <ProFormText
+                    name={BaseFileParams.maxRowsInMemory}
+                    label={intl.formatMessage({id: 'pages.project.di.step.baseFile.maxRowsInMemory'})}
+                    rules={[{required: true}]}
+                    colProps={{span: 12}}
+                  />
+                </ProFormGroup>
+              );
+            }
             return <ProFormGroup/>;
           }}
         </ProFormDependency>
+        <ProFormSwitch
+          name={BaseFileParams.customFilename}
+          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.customFilename'})}
+          initialValue={false}
+        />
         <ProFormText
           name={BaseFileParams.fileNameExpression}
           label={intl.formatMessage({id: 'pages.project.di.step.baseFile.fileNameExpression'})}
@@ -127,6 +143,11 @@ const SinkOSSJindoFileStepForm: React.FC<
           name={BaseFileParams.filenameTimeFormat}
           label={intl.formatMessage({id: 'pages.project.di.step.baseFile.filenameTimeFormat'})}
           colProps={{span: 12}}
+        />
+        <ProFormSwitch
+          name={BaseFileParams.havePartition}
+          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.havePartition'})}
+          initialValue={false}
         />
         <ProFormText
           name={BaseFileParams.partitionBy}

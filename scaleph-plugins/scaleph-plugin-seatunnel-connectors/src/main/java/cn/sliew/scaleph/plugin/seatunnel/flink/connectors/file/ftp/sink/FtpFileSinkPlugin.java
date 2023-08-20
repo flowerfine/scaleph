@@ -36,6 +36,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.PATH;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.SHEET_NAME;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSinkProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ftp.FtpFileProperties.*;
 
@@ -63,6 +64,8 @@ public class FtpFileSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(IS_ENABLE_TRANSACTION);
         props.add(BATCH_SIZE);
         props.add(COMPRESS_CODEC);
+        props.add(MAX_ROWS_IN_MEMORY);
+        props.add(SHEET_NAME);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);

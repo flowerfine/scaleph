@@ -78,6 +78,7 @@ export const SchemaParams = {
   type: 'type',
   delimiter: 'delimiter',
   skipHeaderRowNumber: 'skip_header_row_number',
+  sheetName: 'sheet_name',
 }
 
 export const ColumnParams = {
@@ -171,7 +172,9 @@ export const BaseFileParams = {
   sinkColumns: 'sink_columns',
   isEnableTransaction: 'is_enable_transaction',
   batchSize: 'batch_size',
-  compressCodec: 'compress_codec'
+  compressCodec: 'compress_codec',
+  maxRowsInMemory: 'max_rows_in_memory',
+  sheetName: 'sheet_name'
 };
 
 export const HDFSFileParams = {

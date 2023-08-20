@@ -32,4 +32,11 @@ public enum FileProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<String> SHEET_NAME = new PropertyDescriptor.Builder()
+            .name("sheet_name")
+            .description("Reader the sheet of the workbook,Only used when file_format is excel.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
 }
