@@ -25,6 +25,8 @@ import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Component
@@ -41,13 +43,24 @@ public class MetadataHandler {
     }
 
     private void addJobLables(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, ObjectMetaBuilder builder) {
+        Map<String, String> lables = generateLables(jobInstanceDTO);
+        builder.addToLabels(lables);
+    }
+
+    public Map<String, String> generateLables(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO) {
+        Map<String, String> labels = new HashMap<>();
         WsFlinkKubernetesJobDTO jobDTO = jobInstanceDTO.getWsFlinkKubernetesJob();
-        builder.addToLabels(ResourceLabels.SCALEPH_LABEL_NAME, jobDTO.getName());
-        Optional.ofNullable(jobDTO.getFlinkDeployment()).ifPresent(flinkDeployment -> builder.addToLabels(ResourceLabels.SCALEPH_LABEL_DEPLOYMENT_ID, flinkDeployment.getDeploymentId()));
-        Optional.ofNullable(jobDTO.getFlinkSessionCluster()).ifPresent(flinkSessionCluster -> builder.addToLabels(ResourceLabels.SCALEPH_LABEL_SESSION_CLUSTER_ID, flinkSessionCluster.getSessionClusterId()));
-        builder.addToLabels(ResourceLabels.SCALEPH_LABEL_JOB_ID, jobDTO.getJobId());
-        builder.addToLabels(ResourceLabels.SCALEPH_LABEL_CREATOR, jobInstanceDTO.getCreator());
-        builder.addToLabels(ResourceLabels.SCALEPH_LABEL_EDITOR, jobInstanceDTO.getEditor());
+
+        labels.put(ResourceLabels.SCALEPH_LABEL_PLATFROM, ResourceLabels.SCALEPH);
+        labels.put(ResourceLabels.SCALEPH_LABEL_NAME, jobDTO.getName());
+        Optional.ofNullable(jobDTO.getFlinkDeployment()).ifPresent(flinkDeployment -> labels.put(ResourceLabels.SCALEPH_LABEL_DEPLOYMENT_ID, flinkDeployment.getDeploymentId()));
+        Optional.ofNullable(jobDTO.getFlinkSessionCluster()).ifPresent(flinkSessionCluster -> labels.put(ResourceLabels.SCALEPH_LABEL_SESSION_CLUSTER_ID, flinkSessionCluster.getSessionClusterId()));
+        labels.put(ResourceLabels.SCALEPH_LABEL_JOB_ID, jobDTO.getJobId());
+        labels.put(ResourceLabels.SCALEPH_LABEL_JOB_INSTANCE_ID_NUMBER, String.valueOf(jobInstanceDTO.getId()));
+        labels.put(ResourceLabels.SCALEPH_LABEL_JOB_INSTANCE_ID, jobInstanceDTO.getInstanceId());
+        labels.put(ResourceLabels.SCALEPH_LABEL_CREATOR, jobInstanceDTO.getCreator());
+        labels.put(ResourceLabels.SCALEPH_LABEL_EDITOR, jobInstanceDTO.getEditor());
+        return labels;
     }
 
 }

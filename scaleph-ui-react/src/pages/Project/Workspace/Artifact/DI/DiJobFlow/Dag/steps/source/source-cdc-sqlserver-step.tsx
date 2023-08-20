@@ -74,17 +74,10 @@ const SourceCDCSqlServerStepForm: React.FC<ModalFormProps<{
           rules={[{required: true}, {max: 120}]}
         />
         <ProFormText
-          name={CDCParams.hostname}
-          label={intl.formatMessage({id: 'pages.project.di.step.cdc.hostname'})}
+          name={CDCParams.baseUrl}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdc.baseUrl'})}
+          placeholder={intl.formatMessage({id: 'pages.project.di.step.cdc.baseUrl.placeholder'})}
           rules={[{required: true}]}
-          colProps={{span: 16}}
-        />
-        <ProFormDigit
-          name={CDCParams.port}
-          label={intl.formatMessage({id: 'pages.project.di.step.cdc.port'})}
-          rules={[{required: true}]}
-          colProps={{span: 8}}
-          initialValue={3306}
         />
         <ProFormText
           name={CDCParams.username}
@@ -99,14 +92,15 @@ const SourceCDCSqlServerStepForm: React.FC<ModalFormProps<{
           colProps={{span: 12}}
         />
         <ProFormText
-          name={CDCParams.database}
-          label={intl.formatMessage({id: 'pages.project.di.step.cdc.database'})}
-          rules={[{required: true}]}
+          name={CDCParams.databases}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdc.databases'})}
+          placeholder={intl.formatMessage({id: 'pages.project.di.step.cdc.databases.placeholder'})}
           colProps={{span: 12}}
         />
         <ProFormText
-          name={CDCParams.table}
-          label={intl.formatMessage({id: 'pages.project.di.step.cdc.table'})}
+          name={CDCParams.tables}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdc.tables'})}
+          placeholder={intl.formatMessage({id: 'pages.project.di.step.cdc.tables.placeholder'})}
           rules={[{required: true}]}
           colProps={{span: 12}}
         />
@@ -280,6 +274,24 @@ const SourceCDCSqlServerStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({
             id: 'pages.project.di.step.cdc.chunkKeyEvenDistributionFactorUpperBound',
           })}
+          colProps={{span: 12}}
+          initialValue={1000}
+          fieldProps={{
+            min: 0,
+          }}
+        />
+        <ProFormDigit
+          name={CDCParams.sampleShardingThreshold}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdc.sampleShardingThreshold'})}
+          colProps={{span: 12}}
+          initialValue={1000}
+          fieldProps={{
+            min: 0,
+          }}
+        />
+        <ProFormDigit
+          name={CDCParams.inverseSamplingRate}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdc.inverseSamplingRate'})}
           colProps={{span: 12}}
           initialValue={1000}
           fieldProps={{

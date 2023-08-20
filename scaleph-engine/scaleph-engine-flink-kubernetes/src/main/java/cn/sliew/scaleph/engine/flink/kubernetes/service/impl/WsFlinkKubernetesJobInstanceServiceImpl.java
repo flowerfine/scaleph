@@ -35,7 +35,10 @@ import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.FlinkDeploymentS
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.JobStatus;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.Savepoint;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.SavepointInfo;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.deployment.FlinkDeployment;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.FlinkSessionJob;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instance.FlinkJobInstanceConverterFactory;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instance.MetadataHandler;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobInstanceService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobService;
@@ -48,6 +51,9 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJ
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobInstanceListParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobInstanceSavepointListParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobInstanceShutdownParam;
+import cn.sliew.scaleph.engine.flink.kubernetes.watch.FlinkDeploymentWatchCallbackHandler;
+import cn.sliew.scaleph.kubernetes.Constant;
+import cn.sliew.scaleph.kubernetes.watch.WatchCallbackHandler;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -64,6 +70,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
@@ -81,6 +88,11 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
     private FlinkKubernetesOperatorService flinkKubernetesOperatorService;
     @Autowired
     private FlinkJobInstanceConverterFactory flinkJobInstanceConverterFactory;
+
+    @Autowired
+    private MetadataHandler metadataHandler;
+    @Autowired
+    private FlinkDeploymentWatchCallbackHandler flinkDeploymentWatchCallbackHandler;
 
     @Override
     public Page<WsFlinkKubernetesJobInstanceDTO> list(WsFlinkKubernetesJobInstanceListParam param) {
@@ -155,15 +167,26 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
         WsFlinkKubernetesJobInstanceDTO jobInstanceDTO = selectOne(record.getId());
         WsFlinkKubernetesJobDTO jobDTO = jobInstanceDTO.getWsFlinkKubernetesJob();
         String yaml = asYaml(record.getId());
+        Long clusterCredentialId = null;
+        String resource = null;
+        WatchCallbackHandler callbackHandler = null;
         switch (jobDTO.getDeploymentKind()) {
             case FLINK_DEPLOYMENT:
-                flinkKubernetesOperatorService.deployJob(jobDTO.getFlinkDeployment().getClusterCredentialId(), yaml);
-                return;
+                clusterCredentialId = jobDTO.getFlinkDeployment().getClusterCredentialId();
+                resource = Constant.FLINK_DEPLOYMENT;
+                callbackHandler = flinkDeploymentWatchCallbackHandler;
+                break;
             case FLINK_SESSION_JOB:
-                flinkKubernetesOperatorService.deployJob(jobDTO.getFlinkSessionCluster().getClusterCredentialId(), yaml);
-                return;
+                clusterCredentialId = jobDTO.getFlinkSessionCluster().getClusterCredentialId();
+                resource = Constant.FLINK_SESSION_JOB;
+                callbackHandler = null;
+                break;
             default:
         }
+        flinkKubernetesOperatorService.deployJob(clusterCredentialId, yaml);
+        // add watch
+        Map<String, String> lables = metadataHandler.generateLables(jobInstanceDTO);
+        flinkKubernetesOperatorService.addWatch(clusterCredentialId, resource, lables, callbackHandler);
     }
 
     @Override

@@ -68,11 +68,6 @@ const SinkDorisStepForm: React.FC<
         />
         <DataSourceItem dataSource={'Doris'}/>
         <ProFormText
-          name={DorisParams.database}
-          label={intl.formatMessage({id: 'pages.project.di.step.doris.database'})}
-          rules={[{required: true}]}
-        />
-        <ProFormText
           name={DorisParams.tableIdentifier}
           label={intl.formatMessage({id: 'pages.project.di.step.doris.tableIdentifier'})}
           rules={[{required: true}]}

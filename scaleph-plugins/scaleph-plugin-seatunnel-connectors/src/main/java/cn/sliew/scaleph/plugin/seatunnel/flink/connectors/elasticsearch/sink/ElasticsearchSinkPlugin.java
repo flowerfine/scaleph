@@ -33,8 +33,10 @@ import com.google.auto.service.AutoService;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.elasticsearch.ElasticsearchProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.elasticsearch.sink.ElasticsearchSinkProperties.*;
@@ -50,7 +52,7 @@ public class ElasticsearchSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(INDEX);
         props.add(PRIMARY_KEYS);
         props.add(KEY_DELIMITER);
-        props.add(MAX_RETRY_SIZE);
+        props.add(MAX_RETRY_COUNT);
         props.add(MAX_BATCH_SIZE);
 //        props.add(TLS_VERIFY_CERTIFICATE);
 //        props.add(TLS_VERIFY_HOSTNAMES);
@@ -73,7 +75,8 @@ public class ElasticsearchSinkPlugin extends SeaTunnelConnectorPlugin {
         ObjectNode conf = super.createConf();
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
         ElasticsearchDataSource dataSource = (ElasticsearchDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
-        conf.putPOJO(HOSTS.getName(), StringUtils.commaDelimitedListToStringArray(dataSource.getHosts()));
+        List<String> hosts = Arrays.stream(StringUtils.commaDelimitedListToStringArray(dataSource.getHosts())).map(String::trim).collect(Collectors.toList());
+        conf.putPOJO(HOSTS.getName(), hosts);
         if (StringUtils.hasText(dataSource.getUsername())) {
             conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
             conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());

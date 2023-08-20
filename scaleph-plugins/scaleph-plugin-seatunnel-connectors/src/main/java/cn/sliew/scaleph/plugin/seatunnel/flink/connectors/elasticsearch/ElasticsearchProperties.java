@@ -19,15 +19,16 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.elasticsearch;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public enum ElasticsearchProperties {
     ;
 
-    public static final PropertyDescriptor<String> HOSTS = new PropertyDescriptor.Builder()
+    public static final PropertyDescriptor<JsonNode> HOSTS = new PropertyDescriptor.Builder()
             .name("hosts")
             .description("cluster http address, the format is host:port")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();

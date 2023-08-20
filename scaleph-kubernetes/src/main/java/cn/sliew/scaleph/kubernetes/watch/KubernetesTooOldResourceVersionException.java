@@ -16,24 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.service;
+package cn.sliew.scaleph.kubernetes.watch;
 
-import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
-import io.fabric8.kubernetes.client.Config;
-import io.fabric8.kubernetes.client.KubernetesClient;
-import io.fabric8.kubernetes.client.NamespacedKubernetesClient;
+import cn.sliew.scaleph.common.exception.ScalephException;
 
-import java.io.IOException;
-import java.nio.file.Path;
+/**
+ * Kubernetes too old resource version exception.
+ */
+public class KubernetesTooOldResourceVersionException extends ScalephException {
 
-public interface KubernetesService {
+    private static final long serialVersionUID = 1L;
 
-    KubernetesClient getClient(Long clusterCredentialId);
+    public KubernetesTooOldResourceVersionException(Throwable cause) {
+        super(cause);
+    }
 
-    NamespacedKubernetesClient getClient(Long clusterCredentialId, String namespace);
-
-    Path downloadConfig(ClusterCredentialDTO clusterCredential) throws IOException;
-
-    Config getConfig(Long clusterCredentialId) throws IOException;
-
+    public KubernetesTooOldResourceVersionException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

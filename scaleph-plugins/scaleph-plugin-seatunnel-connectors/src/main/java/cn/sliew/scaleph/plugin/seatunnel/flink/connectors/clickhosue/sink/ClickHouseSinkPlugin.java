@@ -34,7 +34,6 @@ import com.google.auto.service.AutoService;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.clickhosue.ClickHouseProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.clickhosue.sink.ClickHouseSinkProperties.*;
@@ -55,6 +54,7 @@ public class ClickHouseSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(PRIMARY_KEY);
         props.add(SUPPORT_UPSERT);
         props.add(ALLOW_EXPERIMENTAL_LIGHTWEIGHT_DELETE);
+        props.add(CLICKHOUSE_CONFIG);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
@@ -74,11 +74,6 @@ public class ClickHouseSinkPlugin extends SeaTunnelConnectorPlugin {
         conf.putPOJO(DATABASE.getName(), dataSource.getDatabase());
         conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
         conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
-        for (Map.Entry<String, Object> entry : properties.toMap().entrySet()) {
-            if (entry.getKey().startsWith(CLICKHOUSE_CONF.getName())) {
-                conf.putPOJO(entry.getKey(), entry.getValue());
-            }
-        }
         return conf;
     }
 

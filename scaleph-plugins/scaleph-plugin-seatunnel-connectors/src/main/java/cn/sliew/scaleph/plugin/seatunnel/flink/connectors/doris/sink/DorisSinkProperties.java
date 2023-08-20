@@ -18,7 +18,11 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.doris.sink;
 
-import cn.sliew.scaleph.plugin.framework.property.*;
+import cn.sliew.scaleph.plugin.framework.property.Parsers;
+import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.plugin.framework.property.PropertyType;
+import cn.sliew.scaleph.plugin.framework.property.Validators;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public enum DorisSinkProperties {
     ;
@@ -47,12 +51,12 @@ public enum DorisSinkProperties {
             .addValidator(Validators.BOOLEAN_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Integer> DORIS_CONFIG = new PropertyDescriptor.Builder()
-            .name("doris.config.")
+    public static final PropertyDescriptor<JsonNode> DORIS_CONFIG = new PropertyDescriptor.Builder()
+            .name("doris.config")
             .description("The way to specify the parameter is to add the prefix sink.properties. to the original stream load parameter")
-            .type(PropertyType.INT)
-            .parser(Parsers.INTEGER_PARSER)
-            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
 }

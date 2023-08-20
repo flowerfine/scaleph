@@ -27,6 +27,7 @@ import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
 import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClientBuilder;
+import io.fabric8.kubernetes.client.NamespacedKubernetesClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
@@ -44,6 +45,7 @@ import java.util.concurrent.ConcurrentMap;
 public class KubernetesServiceImpl implements KubernetesService {
 
     private ConcurrentMap<Long, KubernetesClient> cache = new ConcurrentHashMap<>(4);
+    private ConcurrentMap<Long, ConcurrentMap<String, NamespacedKubernetesClient>> namespacedCache = new ConcurrentHashMap<>(4);
 
     @Autowired
     private ClusterCredentialService clusterCredentialService;
@@ -53,10 +55,30 @@ public class KubernetesServiceImpl implements KubernetesService {
         return cache.computeIfAbsent(clusterCredentialId, this::buildClient);
     }
 
+    @Override
+    public NamespacedKubernetesClient getClient(Long clusterCredentialId, String namespace) {
+        ConcurrentMap<String, NamespacedKubernetesClient> clientMap = namespacedCache.computeIfAbsent(clusterCredentialId, (key) -> new ConcurrentHashMap());
+        return clientMap.computeIfAbsent(namespace, (key) -> buildNamespacedClient(clusterCredentialId, namespace));
+    }
+
     private KubernetesClient buildClient(Long clusterCredentialId) {
         try {
             Config config = getConfig(clusterCredentialId);
             return new KubernetesClientBuilder().withConfig(config).build();
+        } catch (IOException e) {
+            Rethrower.throwAs(e);
+            return null;
+        }
+    }
+
+    private NamespacedKubernetesClient buildNamespacedClient(Long clusterCredentialId, String namespace) {
+        try {
+            Config config = getConfig(clusterCredentialId);
+            config.setNamespace(namespace);
+            return new KubernetesClientBuilder()
+                    .withConfig(config)
+                    .build()
+                    .adapt(NamespacedKubernetesClient.class);
         } catch (IOException e) {
             Rethrower.throwAs(e);
             return null;

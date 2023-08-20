@@ -16,24 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.service;
+package cn.sliew.scaleph.kubernetes.watch;
 
-import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
-import io.fabric8.kubernetes.client.Config;
-import io.fabric8.kubernetes.client.KubernetesClient;
-import io.fabric8.kubernetes.client.NamespacedKubernetesClient;
+import java.util.List;
 
-import java.io.IOException;
-import java.nio.file.Path;
+/**
+ * Callback handler for kubernetes resources.
+ */
+public interface WatchCallbackHandler<T> {
 
-public interface KubernetesService {
+    void onAdded(List<T> resources);
 
-    KubernetesClient getClient(Long clusterCredentialId);
+    void onModified(List<T> resources);
 
-    NamespacedKubernetesClient getClient(Long clusterCredentialId, String namespace);
+    void onDeleted(List<T> resources);
 
-    Path downloadConfig(ClusterCredentialDTO clusterCredential) throws IOException;
+    void onError(List<T> resources);
 
-    Config getConfig(Long clusterCredentialId) throws IOException;
-
+    void handleError(Throwable throwable);
 }

@@ -16,24 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.service;
-
-import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
-import io.fabric8.kubernetes.client.Config;
-import io.fabric8.kubernetes.client.KubernetesClient;
-import io.fabric8.kubernetes.client.NamespacedKubernetesClient;
-
-import java.io.IOException;
-import java.nio.file.Path;
-
-public interface KubernetesService {
-
-    KubernetesClient getClient(Long clusterCredentialId);
-
-    NamespacedKubernetesClient getClient(Long clusterCredentialId, String namespace);
-
-    Path downloadConfig(ClusterCredentialDTO clusterCredential) throws IOException;
-
-    Config getConfig(Long clusterCredentialId) throws IOException;
-
-}
+/**
+ * forked from flink, https://github.com/apache/flink/blob/release-1.17/flink-kubernetes/src/main/java/org/apache/flink/kubernetes/kubeclient/resources/AbstractKubernetesWatcher.java
+ */
+package cn.sliew.scaleph.kubernetes.watch;

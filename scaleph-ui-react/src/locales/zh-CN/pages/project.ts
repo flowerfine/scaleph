@@ -495,7 +495,7 @@ export default {
   'pages.project.di.step.elasticsearch.index': '索引',
   'pages.project.di.step.elasticsearch.primaryKeys': '主键',
   'pages.project.di.step.elasticsearch.primaryKeys.list': '主键',
-  'pages.project.di.step.elasticsearch.maxRetrySize': '最大重试次数',
+  'pages.project.di.step.elasticsearch.maxRetryCount': '最大重试次数',
   'pages.project.di.step.elasticsearch.maxBatchSize': '最大批处理数',
   'pages.project.di.step.elasticsearch.query': '查询语句',
   'pages.project.di.step.elasticsearch.scrollTime': '滚动时间',
@@ -560,7 +560,6 @@ export default {
   'pages.project.di.step.cassandra.asyncWrite': '启用异步写入',
 
   // doris
-  'pages.project.di.step.doris.database': '数据库',
   'pages.project.di.step.doris.tableIdentifier': '表格',
   'pages.project.di.step.doris.sinkLabelPrefix': '标签前缀',
   'pages.project.di.step.doris.sinkEnable2PC': '启用2PC',
@@ -640,12 +639,13 @@ export default {
 
   // cdc-mysql
   'pages.project.di.step.cdc.baseUrl': 'Jdbc URL',
-  'pages.project.di.step.cdc.hostname': '主机名',
-  'pages.project.di.step.cdc.port': '端口号',
+  'pages.project.di.step.cdc.baseUrl.placeholder': 'jdbc:mysql://localhost:3306/test',
   'pages.project.di.step.cdc.username': '用户名',
   'pages.project.di.step.cdc.password': '密码',
-  'pages.project.di.step.cdc.database': '数据库',
-  'pages.project.di.step.cdc.table': '表',
+  'pages.project.di.step.cdc.databases': '数据库',
+  'pages.project.di.step.cdc.databases.placeholder': 'db1, db2',
+  'pages.project.di.step.cdc.tables': '表',
+  'pages.project.di.step.cdc.tables.placeholder': 'table1, table2',
   'pages.project.di.step.cdc.startupMode': '启动模式',
   'pages.project.di.step.cdc.startupTimestamp': '启动时间戳',
   'pages.project.di.step.cdc.startupSpecificOffsetFile': '启动时的偏移文件',
@@ -664,6 +664,8 @@ export default {
   'pages.project.di.step.cdc.connectionPoolSize': '连接池大小',
   'pages.project.di.step.cdc.chunkKeyEvenDistributionFactorUpperBound': 'Chunk Key Even Distribution Factor Upper Bound',
   'pages.project.di.step.cdc.chunkKeyEvenDistributionFactorLowerBound': 'Chunk Key Even Distribution Factor Lower Bound',
+  'pages.project.di.step.cdc.sampleShardingThreshold': 'Sample-Sharding Threshold',
+  'pages.project.di.step.cdc.inverseSamplingRate': 'Inverse-Sampling Rate',
   'pages.project.di.step.cdc.debeziums': 'Debezium 属性',
   'pages.project.di.step.cdc.debeziums.tooltip': '将Debezium的属性传递给用于从MySQL服务器捕获数据更改的Debezium引擎',
   'pages.project.di.step.cdc.debeziums.list': '属性列表',

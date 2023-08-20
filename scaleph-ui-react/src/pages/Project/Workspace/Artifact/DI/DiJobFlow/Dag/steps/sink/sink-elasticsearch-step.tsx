@@ -86,8 +86,8 @@ const SinkElasticsearchStepForm: React.FC<ModalFormProps<{
         </ProFormGroup>
 
         <ProFormDigit
-          name={ElasticsearchParams.maxRetrySize}
-          label={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.maxRetrySize'})}
+          name={ElasticsearchParams.maxRetryCount}
+          label={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.maxRetryCount'})}
           initialValue={0}
           fieldProps={{
             min: 0,
