@@ -18,14 +18,20 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.starrocks.sink;
 
-import cn.sliew.scaleph.plugin.framework.property.Parsers;
-import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.framework.property.PropertyType;
-import cn.sliew.scaleph.plugin.framework.property.Validators;
+import cn.sliew.scaleph.plugin.framework.property.*;
 import com.fasterxml.jackson.databind.JsonNode;
 
 public enum StarRocksSinkProperties {
     ;
+
+    public static final PropertyDescriptor<String> BASE_URL = new PropertyDescriptor.Builder<>()
+            .name("base-url")
+            .description("The JDBC URL like jdbc:mysql://localhost:9030/ or jdbc:mysql://localhost:9030 or jdbc:mysql://localhost:9030/db")
+            .properties(Property.Required)
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
 
     public static final PropertyDescriptor<String> LABEL_PREFIX = new PropertyDescriptor.Builder()
             .name("labelPrefix")
