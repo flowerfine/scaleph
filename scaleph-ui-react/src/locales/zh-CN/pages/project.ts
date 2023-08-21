@@ -397,6 +397,7 @@ export default {
   'pages.project.di.step.kafka.commit_on_checkpoint.tooltip':
     "如果设置为true，消费者将在后台周期性的自动提交偏移量",
   'pages.project.di.step.kafka.format': '格式',
+  'pages.project.di.step.kafka.formatErrorHandleWay': '异常数据处理策略',
   'pages.project.di.step.kafka.fieldDelimiter': '字段分隔符',
   'pages.project.di.step.kafka.semantic': '语义',
   'pages.project.di.step.kafka.partitionKeyFields': 'Partition Key Fields',

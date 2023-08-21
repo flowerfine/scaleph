@@ -34,7 +34,6 @@ import com.google.auto.service.AutoService;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kafka.KafkaProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kafka.source.KafkaSourceProperties.*;
@@ -57,11 +56,13 @@ public class KafkaSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(COMMIT_ON_CHECKPOINT);
         props.add(SCHEMA);
         props.add(FORMAT);
+        props.add(FORMAT_ERROR_HANDLE_WAY);
         props.add(FIELD_DELIMITER);
         props.add(START_MODE);
         props.add(START_MODE_TIMESTAMP);
         props.add(START_MODE_OFFSETS);
         props.add(PARTITION_DISCOVERY_INTERVAL_MILLIS);
+        props.add(KAFKA_CONF);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
@@ -79,11 +80,6 @@ public class KafkaSourcePlugin extends SeaTunnelConnectorPlugin {
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
         KafkaDataSource dataSource = (KafkaDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
         conf.putPOJO(BOOTSTRAP_SERVERS.getName(), dataSource.getBootstrapServers());
-        for (Map.Entry<String, Object> entry : properties.toMap().entrySet()) {
-            if (entry.getKey().startsWith(KAFKA_CONF.getName())) {
-                conf.putPOJO(entry.getKey(), entry.getValue());
-            }
-        }
         return conf;
     }
 

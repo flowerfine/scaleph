@@ -115,6 +115,12 @@ const SourceKafkaStepForm: React.FC<ModalFormProps<{
         />
 
         <ProFormSelect
+          name={KafkaParams.formatErrorHandleWay}
+          label={intl.formatMessage({id: 'pages.project.di.step.kafka.formatErrorHandleWay'})}
+          initialValue={"fail"}
+          options={["fail", "skip"]}
+        />
+        <ProFormSelect
           name={'format'}
           label={intl.formatMessage({id: 'pages.project.di.step.kafka.format'})}
           rules={[{required: true}]}
@@ -187,7 +193,6 @@ const SourceKafkaStepForm: React.FC<ModalFormProps<{
                 label={intl.formatMessage({id: 'pages.project.di.step.kafka.conf.key'})}
                 placeholder={intl.formatMessage({id: 'pages.project.di.step.kafka.conf.key.placeholder'})}
                 colProps={{span: 10, offset: 1}}
-                addonBefore={"kafka."}
               />
               <ProFormText
                 name={KafkaParams.value}
