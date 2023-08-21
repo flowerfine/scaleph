@@ -307,10 +307,6 @@ export const HiveParams = {
   readPartitions: 'read_partitions',
   readPartitionArray: 'read_partitions',
   readPartition: 'read_partition',
-  partitionBy: 'partition_by',
-  sinkColumns: 'sink_columns',
-  isEnableTransaction: 'is_enable_transaction',
-  saveMode: 'save_mode',
 };
 
 export const KuduParams = {

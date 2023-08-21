@@ -366,16 +366,6 @@ export default {
   'pages.project.di.step.hive.metastoreUri.tooltip': '例如 : thrift://ctyun7:9083',
   'pages.project.di.step.hive.readParitions': '分区列表',
   'pages.project.di.step.hive.readParition': '分区',
-  'pages.project.di.step.hive.partitionBy': '分区',
-  'pages.project.di.step.hive.partitionBy.tooltip': '例如 : "test_par1", "test_par2"',
-  'pages.project.di.step.hive.sinkColumns': 'Sink列',
-  'pages.project.di.step.hive.sinkColumns.tooltip':
-    '例如 : "test_tinyint", "test_smallint", "test_int", "test_bigint", "test_boolean", "test_float"',
-  'pages.project.di.step.hive.isEnableTransaction': '启用事务',
-  'pages.project.di.step.hive.isEnableTransaction.tooltip': '当前只支持值为"true"',
-  'pages.project.di.step.hive.saveMode': '保存模式',
-  'pages.project.di.step.hive.saveMode.tooltip':
-    'Streaming Job 不支持overwrite，我们需要支持覆盖和追加。现在支持追加。',
 
   // kudu
   'pages.project.di.step.kudu.master': 'Master',

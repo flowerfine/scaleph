@@ -65,13 +65,4 @@ public enum HiveProperties {
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
-
-    public static final PropertyDescriptor<JsonNode> SCHEMA = new PropertyDescriptor.Builder()
-            .name("schema")
-            .description("The schema information of upstream data.")
-            .type(PropertyType.OBJECT)
-            .parser(Parsers.JSON_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
 }
