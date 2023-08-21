@@ -269,6 +269,7 @@ export default {
   'pages.project.di.step.http.body': '请求Body',
   'pages.project.di.step.http.value': 'value',
   'pages.project.di.step.http.format': '格式',
+  'pages.project.di.step.http.enableMultiLines': '多行 Http 响应结果',
   'pages.project.di.step.http.schema': '结构',
   'pages.project.di.step.http.contentField': '内容JsonPath',
   'pages.project.di.step.http.contentField.placeholder': '$.store.book.*',

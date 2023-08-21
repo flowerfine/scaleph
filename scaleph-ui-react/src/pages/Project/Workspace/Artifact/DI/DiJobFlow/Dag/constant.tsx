@@ -215,6 +215,7 @@ export const HttpParams = {
   paramValue: 'paramValue',
   body: 'body',
   format: 'format',
+  enableMultiLines: 'enable_multi_lines',
   schema: 'schema',
   contentField: 'content_field',
   jsonField: 'jsonField',
