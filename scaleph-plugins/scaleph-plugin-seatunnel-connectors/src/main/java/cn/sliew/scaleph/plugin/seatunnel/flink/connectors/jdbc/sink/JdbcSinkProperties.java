@@ -48,6 +48,14 @@ public enum JdbcSinkProperties {
             .addValidator(Validators.BOOLEAN_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<Boolean> GENERATE_SINK_SQL = new PropertyDescriptor.Builder<Boolean>()
+            .name("generate_sink_sql")
+            .description("Generate sql statements based on the database table you want to write to")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .addValidator(Validators.BOOLEAN_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<JsonNode> PRIMARY_KEYS = new PropertyDescriptor.Builder<JsonNode>()
             .name("primary_keys")
             .description("This option is used to support operations such as insert, delete, and update when automatically generate sql.")

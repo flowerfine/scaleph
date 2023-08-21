@@ -130,6 +130,7 @@ export const JdbcParams = {
   database: 'database',
   table: 'table',
   supportUpsert: 'support_upsert_by_query_primary_key_exist',
+  generateSinkSql: 'generate_sink_sql',
   primaryKeys: 'primary_keys',
   primaryKeyArray: 'primaryKeyArray',
   primaryKey: 'key',
