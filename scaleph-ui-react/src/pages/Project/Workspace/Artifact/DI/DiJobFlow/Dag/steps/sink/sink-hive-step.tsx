@@ -5,7 +5,7 @@ import {NsGraph} from '@antv/xflow';
 import {Button, Drawer, Form, message} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
-import {HiveParams, STEP_ATTR_TYPE} from '../../constant';
+import {BaseFileParams, HiveParams, STEP_ATTR_TYPE} from '../../constant';
 import {ProForm, ProFormText} from '@ant-design/pro-components';
 import DataSourceItem from '@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/dataSource';
 
@@ -69,6 +69,10 @@ const SinkHiveStepForm: React.FC<
           name={HiveParams.tableName}
           label={intl.formatMessage({id: 'pages.project.di.step.hive.tableName'})}
           rules={[{required: true}]}
+        />
+        <ProFormText
+          name={BaseFileParams.compressCodec}
+          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.compressCodec'})}
         />
       </ProForm>
     </Drawer>

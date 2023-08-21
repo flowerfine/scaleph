@@ -86,9 +86,11 @@ export const StepSchemaService = {
   },
 
   formatKafkaConf: (values: Record<string, any>) => {
-    values.kafkaConf?.forEach(function (item: Record<string, any>) {
-      values['kafka.' + item.key] = item.value;
+    const config: Record<string, any> = {}
+    values[KafkaParams.kafkaConf]?.forEach(function (item: Record<string, any>) {
+      config[item[KafkaParams.key]] = item[KafkaParams.value];
     });
+    values[KafkaParams.kafkaConfig] = JSON.stringify(config)
     return values
   },
 

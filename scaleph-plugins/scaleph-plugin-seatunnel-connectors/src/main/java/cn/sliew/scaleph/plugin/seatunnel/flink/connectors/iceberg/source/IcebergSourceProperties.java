@@ -87,8 +87,8 @@ public enum IcebergSourceProperties {
             .addValidator(Validators.BOOLEAN_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<JsonNode> FIELDS = new PropertyDescriptor.Builder<JsonNode>()
-            .name("fields")
+    public static final PropertyDescriptor<JsonNode> SCHEMA = new PropertyDescriptor.Builder<JsonNode>()
+            .name("schema")
             .description("Use projection to select data columns and columns order.")
             .type(PropertyType.OBJECT)
             .parser(Parsers.JSON_PARSER)

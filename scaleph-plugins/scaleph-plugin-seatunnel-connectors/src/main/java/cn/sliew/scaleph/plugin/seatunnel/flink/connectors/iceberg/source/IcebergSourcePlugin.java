@@ -47,7 +47,7 @@ public class IcebergSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(URI);
         props.add(WAREHOUSE);
         props.add(CASE_SENSITIVE);
-        props.add(FIELDS);
+        props.add(SCHEMA);
         props.add(USE_SNAPSHOT_ID);
         props.add(START_SNAPSHOT_ID);
         props.add(END_SNAPSHOT_ID);

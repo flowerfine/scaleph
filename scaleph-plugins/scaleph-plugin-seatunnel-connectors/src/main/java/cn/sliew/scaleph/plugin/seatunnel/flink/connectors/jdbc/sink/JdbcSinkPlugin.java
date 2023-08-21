@@ -51,6 +51,7 @@ public class JdbcSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(DATABASE);
         props.add(TABLE);
         props.add(SUPPORT_UPSERT_BY_QUERY_PRIMARY_KEY_EXIST);
+        props.add(GENERATE_SINK_SQL);
         props.add(PRIMARY_KEYS);
         props.add(QUERY);
         props.add(MAX_RETRIES);

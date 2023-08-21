@@ -11,7 +11,7 @@ import {
   ProFormDigit,
   ProFormGroup,
   ProFormList,
-  ProFormSelect,
+  ProFormSelect, ProFormSwitch,
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components';
@@ -146,6 +146,11 @@ const SourceHttpFileStepForm: React.FC<
             return <ProFormGroup/>;
           }}
         </ProFormDependency>
+        <ProFormSwitch
+          name={HttpParams.enableMultiLines}
+          label={intl.formatMessage({id: 'pages.project.di.step.http.enableMultiLines'})}
+          initialValue={false}
+        />
         <ProFormText
           name={HttpParams.contentField}
           label={intl.formatMessage({id: 'pages.project.di.step.http.contentField'})}

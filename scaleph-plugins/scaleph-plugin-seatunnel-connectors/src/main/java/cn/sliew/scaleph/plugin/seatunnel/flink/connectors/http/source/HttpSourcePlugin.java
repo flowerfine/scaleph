@@ -51,6 +51,7 @@ public class HttpSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(PARAMS);
         props.add(BODY);
         props.add(FORMAT);
+        props.add(ENABLE_MULTI_LINES);
         props.add(CONTENT_FIELD);
         props.add(JSON_FIELD);
         props.add(SCHEMA);

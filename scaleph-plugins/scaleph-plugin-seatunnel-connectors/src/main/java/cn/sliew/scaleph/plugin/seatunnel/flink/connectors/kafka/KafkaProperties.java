@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kafka;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public enum KafkaProperties {
     ;
@@ -42,12 +43,12 @@ public enum KafkaProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> KAFKA_CONF = new PropertyDescriptor.Builder<String>()
-            .name("kafka.")
+    public static final PropertyDescriptor<JsonNode> KAFKA_CONF = new PropertyDescriptor.Builder()
+            .name("kafka.config")
             .description(
                     "The way to specify parameters is to add the prefix kafka. to the original parameter name. For example, the way to specify auto.offset.reset is: kafka.auto.offset.reset = latest")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

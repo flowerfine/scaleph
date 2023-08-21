@@ -25,7 +25,7 @@ public enum KafkaSinkProperties {
     ;
 
     public static final PropertyDescriptor<String> SEMANTIC = new PropertyDescriptor.Builder<String>()
-            .name("semantic")
+            .name("semantics")
             .description("Semantics that can be chosen EXACTLY_ONCE/AT_LEAST_ONCE/NON, default NON.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)

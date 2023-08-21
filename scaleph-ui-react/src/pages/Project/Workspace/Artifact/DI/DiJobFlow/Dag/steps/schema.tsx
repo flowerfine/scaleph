@@ -32,7 +32,7 @@ const SchemaItem: React.FC = () => {
                 }}
               >
                 <ProFormList
-                  name={SchemaParams.fields}
+                  name={SchemaParams.fieldArray}
                   copyIconProps={false}
                   creatorButtonProps={{
                     creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
