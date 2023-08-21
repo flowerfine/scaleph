@@ -47,10 +47,10 @@ public enum FileSinkProperties {
 
     public static final PropertyDescriptor<String> FILE_FORMAT = new PropertyDescriptor.Builder<String>()
             .name("file_format")
-            .description("We supported as the following file types:text, csv, parquet, orc, json")
+            .description("We supported as the following file types:text, csv, excel, parquet, orc, json")
             .type(PropertyType.STRING)
             .defaultValue("text")
-            .allowableValues("text", "csv", "parquet", "orc", "json")
+            .allowableValues("text", "csv", "excel", "parquet", "orc", "json")
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
@@ -144,6 +144,14 @@ public enum FileSinkProperties {
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> MAX_ROWS_IN_MEMORY = new PropertyDescriptor.Builder()
+            .name("max_rows_in_memory")
+            .description("The compress codec of files")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
 }

@@ -120,6 +120,7 @@ export default {
   'pages.project.di.step.schema.fields.type': 'type',
   'pages.project.di.step.schema.delimiter': '字段分隔符',
   'pages.project.di.step.schema.skipHeaderRowNumber': '跳过头部行号',
+  'pages.project.di.step.schema.sheetName': 'Sheet',
 
   // column
   'pages.project.di.step.column': '列',
@@ -227,6 +228,8 @@ export default {
   'pages.project.di.step.baseFile.isEnableTransaction': '启用事务',
   'pages.project.di.step.baseFile.batchSize': '单个文件最大行数',
   'pages.project.di.step.baseFile.compressCodec': '压缩方式',
+  'pages.project.di.step.baseFile.maxRowsInMemory': '内存中缓存数据量',
+  'pages.project.di.step.baseFile.sheetName': 'Sheet',
 
   // hdfs file
   'pages.project.di.step.hdfsFile.defaultFS': 'fs.defaultFS',

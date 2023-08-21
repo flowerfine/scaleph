@@ -30,6 +30,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.PATH;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.SHEET_NAME;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSourceProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
@@ -43,6 +44,7 @@ public class LocalFileSourcePlugin extends SeaTunnelConnectorPlugin {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(PATH);
         props.add(SKIP_HEADER_ROW_NUMBER);
+        props.add(SHEET_NAME);
         props.add(FILE_FORMAT_TYPE);
         props.add(READ_COLUMNS);
         props.add(SCHEMA);

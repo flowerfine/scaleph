@@ -83,7 +83,7 @@ const SinkFtpFileStepForm: React.FC<
           name={'file_format'}
           label={intl.formatMessage({id: 'pages.project.di.step.baseFile.fileFormat'})}
           colProps={{span: 24}}
-          options={['json', 'parquet', 'orc', 'text', 'csv']}
+          options={['json', 'parquet', 'orc', 'text', 'csv', 'excel']}
         />
         <ProFormDependency name={['file_format']}>
           {({file_format}) => {
@@ -103,6 +103,23 @@ const SinkFtpFileStepForm: React.FC<
                     label={intl.formatMessage({
                       id: 'pages.project.di.step.baseFile.rowDelimiter',
                     })}
+                    rules={[{required: true}]}
+                    colProps={{span: 12}}
+                  />
+                </ProFormGroup>
+              );
+            }
+            if (file_format == 'excel') {
+              return (
+                <ProFormGroup>
+                  <ProFormText
+                    name={BaseFileParams.sheetName}
+                    label={intl.formatMessage({id: 'pages.project.di.step.baseFile.sheetName'})}
+                    colProps={{span: 12}}
+                  />
+                  <ProFormText
+                    name={BaseFileParams.maxRowsInMemory}
+                    label={intl.formatMessage({id: 'pages.project.di.step.baseFile.maxRowsInMemory'})}
                     rules={[{required: true}]}
                     colProps={{span: 12}}
                   />

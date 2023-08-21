@@ -26,15 +26,15 @@ public enum FileSourceProperties {
 
     public static final PropertyDescriptor<String> FILE_FORMAT_TYPE = new PropertyDescriptor.Builder<String>()
             .name("file_format_type")
-            .description("We support the following file types: text, csv, parquet, orc, json")
+            .description("We support the following file types: text, csv, excel, parquet, orc, json")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
-            .allowableValues("text", "csv", "parquet", "orc", "json")
+            .allowableValues("text", "csv", "excel", "parquet", "orc", "json")
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Long> SKIP_HEADER_ROW_NUMBER = new PropertyDescriptor.Builder<Long>()
+    public static final PropertyDescriptor<Long> SKIP_HEADER_ROW_NUMBER = new PropertyDescriptor.Builder()
             .name("skip_header_row_number")
             .description("Skip the first few lines, but only for the txt and csv.")
             .type(PropertyType.INT)

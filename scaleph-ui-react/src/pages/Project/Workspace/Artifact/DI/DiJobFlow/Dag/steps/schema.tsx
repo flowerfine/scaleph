@@ -18,7 +18,7 @@ const SchemaItem: React.FC = () => {
         name={'file_format_type'}
         label={intl.formatMessage({id: 'pages.project.di.step.baseFile.fileFormatType'})}
         rules={[{required: true}]}
-        options={['json', 'parquet', 'orc', 'text', 'csv']}
+        options={['json', 'parquet', 'orc', 'text', 'csv', 'excel']}
       />
       <ProFormDependency name={['file_format_type']}>
         {({file_format_type}) => {
@@ -81,6 +81,22 @@ const SchemaItem: React.FC = () => {
                 fieldProps={{
                   min: 0
                 }}
+              />
+            </ProFormGroup>;
+          }
+          if (file_format_type == 'excel') {
+            return <ProFormGroup>
+              <ProFormDigit
+                name={SchemaParams.skipHeaderRowNumber}
+                label={intl.formatMessage({id: 'pages.project.di.step.schema.skipHeaderRowNumber'})}
+                initialValue={0}
+                fieldProps={{
+                  min: 0
+                }}
+              />
+              <ProFormText
+                name={SchemaParams.sheetName}
+                label={intl.formatMessage({id: 'pages.project.di.step.schema.sheetName'})}
               />
             </ProFormGroup>;
           }
