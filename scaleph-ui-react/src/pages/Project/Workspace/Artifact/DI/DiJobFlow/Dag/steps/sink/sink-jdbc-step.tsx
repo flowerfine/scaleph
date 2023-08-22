@@ -4,7 +4,7 @@ import {DictDataService} from '@/services/admin/dictData.service';
 import {WsDiJobService} from '@/services/project/WsDiJobService';
 import {WsDiJob} from '@/services/project/typings';
 import {NsGraph} from '@antv/xflow';
-import {Form, message, Modal} from 'antd';
+import {Button, Drawer, Form, message} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
 import {JdbcParams, STEP_ATTR_TYPE} from '../../constant';
@@ -40,29 +40,36 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<{
   }, []);
 
   return (
-    <Modal
+    <Drawer
       open={visible}
       title={nodeInfo.data.displayName}
       width={780}
-      bodyStyle={{overflowY: 'scroll', maxHeight: '640px'}}
+      bodyStyle={{overflowY: 'scroll'}}
       destroyOnClose={true}
-      onCancel={onCancel}
-      onOk={() => {
-        form.validateFields().then((values) => {
-          let map: Map<string, any> = new Map();
-          map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
-          map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
-          map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-          StepSchemaService.formatPrimaryKeys(values)
-          map.set(STEP_ATTR_TYPE.stepAttrs, values);
-          WsDiJobService.saveStepAttr(map).then((resp) => {
-            if (resp.success) {
-              message.success(intl.formatMessage({id: 'app.common.operate.success'}));
-              onOK ? onOK(values) : null;
-            }
-          });
-        });
-      }}
+      onClose={onCancel}
+      extra={
+        <Button
+          type="primary"
+          onClick={() => {
+            form.validateFields().then((values) => {
+              let map: Map<string, any> = new Map();
+              map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
+              map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
+              map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
+              StepSchemaService.formatPrimaryKeys(values);
+              map.set(STEP_ATTR_TYPE.stepAttrs, values);
+              WsDiJobService.saveStepAttr(map).then((resp) => {
+                if (resp.success) {
+                  message.success(intl.formatMessage({id: 'app.common.operate.success'}));
+                  onOK ? onOK(values) : null;
+                }
+              });
+            });
+          }}
+        >
+          {intl.formatMessage({id: 'app.common.operate.confirm.label'})}
+        </Button>
+      }
     >
       <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
         <ProFormText
@@ -162,10 +169,28 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<{
           }}
         </ProFormDependency>
 
-        <ProFormTextArea
-          name={JdbcParams.query}
-          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.query'})}
+        <ProFormSwitch
+          name={"generate_sink_sql"}
+          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.generateSinkSql'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.generateSinkSql.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          initialValue={true}
         />
+        <ProFormDependency name={["generate_sink_sql"]}>
+          {({generate_sink_sql}) => {
+            if (!generate_sink_sql) {
+              return (
+                <ProFormTextArea
+                  name={JdbcParams.query}
+                  label={intl.formatMessage({id: 'pages.project.di.step.jdbc.query'})}
+                />
+              );
+            }
+            return <ProFormGroup/>;
+          }}
+        </ProFormDependency>
 
         <ProFormDigit
           name={JdbcParams.batchSize}
@@ -257,7 +282,7 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<{
           }}
         </ProFormDependency>
       </ProForm>
-    </Modal>
+    </Drawer>
   );
 };
 

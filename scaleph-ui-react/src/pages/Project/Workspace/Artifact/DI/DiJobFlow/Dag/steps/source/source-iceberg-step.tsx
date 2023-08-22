@@ -15,6 +15,8 @@ import {
   ProFormText,
 } from '@ant-design/pro-components';
 import {useEffect} from 'react';
+import SchemaItem from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/schema";
+import {StepSchemaService} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/helper";
 
 const SourceIcebergStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -48,6 +50,7 @@ const SourceIcebergStepForm: React.FC<ModalFormProps<{
               map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
               map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
               map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
+              StepSchemaService.formatSchema(values);
               map.set(STEP_ATTR_TYPE.stepAttrs, values);
               WsDiJobService.saveStepAttr(map).then((resp) => {
                 if (resp.success) {
@@ -121,6 +124,7 @@ const SourceIcebergStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.iceberg.caseSensitive'})}
           colProps={{span: 6}}
         />
+        <SchemaItem/>
         <ProFormSelect
           name={IcebergParams.streamScanStrategy}
           label={intl.formatMessage({id: 'pages.project.di.step.iceberg.streamScanStrategy'})}

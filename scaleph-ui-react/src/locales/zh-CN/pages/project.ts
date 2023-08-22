@@ -136,7 +136,8 @@ export default {
   'pages.project.di.step.jdbc.table': '表',
   'pages.project.di.step.jdbc.table.tooltip': '优先级高于SQL',
   'pages.project.di.step.jdbc.supportUpsert': '支持Upsert',
-  'pages.project.di.step.jdbc.supportUpsert.tooltip': '支持存在主键查询时更新',
+  'pages.project.di.step.jdbc.generateSinkSql': '自动生成 SQL',
+  'pages.project.di.step.jdbc.generateSinkSql.tooltip': '根据 database 和 table 自动生成插入 SQL 语句',
   'pages.project.di.step.jdbc.primaryKeys': '主键',
   'pages.project.di.step.jdbc.primaryKeys.tooltip': '请提供表的主键字段',
   'pages.project.di.step.jdbc.primaryKeys.list': '主键',
@@ -269,6 +270,7 @@ export default {
   'pages.project.di.step.http.body': '请求Body',
   'pages.project.di.step.http.value': 'value',
   'pages.project.di.step.http.format': '格式',
+  'pages.project.di.step.http.enableMultiLines': '多行 Http 响应结果',
   'pages.project.di.step.http.schema': '结构',
   'pages.project.di.step.http.contentField': '内容JsonPath',
   'pages.project.di.step.http.contentField.placeholder': '$.store.book.*',
@@ -366,16 +368,6 @@ export default {
   'pages.project.di.step.hive.metastoreUri.tooltip': '例如 : thrift://ctyun7:9083',
   'pages.project.di.step.hive.readParitions': '分区列表',
   'pages.project.di.step.hive.readParition': '分区',
-  'pages.project.di.step.hive.partitionBy': '分区',
-  'pages.project.di.step.hive.partitionBy.tooltip': '例如 : "test_par1", "test_par2"',
-  'pages.project.di.step.hive.sinkColumns': 'Sink列',
-  'pages.project.di.step.hive.sinkColumns.tooltip':
-    '例如 : "test_tinyint", "test_smallint", "test_int", "test_bigint", "test_boolean", "test_float"',
-  'pages.project.di.step.hive.isEnableTransaction': '启用事务',
-  'pages.project.di.step.hive.isEnableTransaction.tooltip': '当前只支持值为"true"',
-  'pages.project.di.step.hive.saveMode': '保存模式',
-  'pages.project.di.step.hive.saveMode.tooltip':
-    'Streaming Job 不支持overwrite，我们需要支持覆盖和追加。现在支持追加。',
 
   // kudu
   'pages.project.di.step.kudu.master': 'Master',
@@ -405,6 +397,7 @@ export default {
   'pages.project.di.step.kafka.commit_on_checkpoint.tooltip':
     "如果设置为true，消费者将在后台周期性的自动提交偏移量",
   'pages.project.di.step.kafka.format': '格式',
+  'pages.project.di.step.kafka.formatErrorHandleWay': '异常数据处理策略',
   'pages.project.di.step.kafka.fieldDelimiter': '字段分隔符',
   'pages.project.di.step.kafka.semantic': '语义',
   'pages.project.di.step.kafka.partitionKeyFields': 'Partition Key Fields',

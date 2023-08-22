@@ -84,4 +84,12 @@ public enum HttpSourceProperties {
             .addValidator(Validators.POSITIVE_LONG_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<Boolean> ENABLE_MULTI_LINES = new PropertyDescriptor.Builder<Boolean>()
+            .name("enable_multi_lines")
+            .description("SeaTunnel enableMultiLines.This parameter can support http splitting response text by line.")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .addValidator(Validators.BOOLEAN_VALIDATOR)
+            .validateAndBuild();
+
 }

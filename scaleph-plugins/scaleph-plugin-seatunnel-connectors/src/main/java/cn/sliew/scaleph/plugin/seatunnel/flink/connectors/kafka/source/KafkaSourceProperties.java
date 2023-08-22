@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 public enum KafkaSourceProperties {
     ;
 
-    public static final PropertyDescriptor<String> PATTERN = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<Boolean> PATTERN = new PropertyDescriptor.Builder()
             .name("pattern")
             .description(
                     "If pattern is set to true,the regular expression for a pattern of topic names to read from. All topics in clients with names that match the specified regular expression will be subscribed by the consumer.")
@@ -69,8 +69,18 @@ public enum KafkaSourceProperties {
             .description("We support the following file types: text, json")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
+            .defaultValue("json")
             .allowableValues("text", "json")
-            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> FORMAT_ERROR_HANDLE_WAY = new PropertyDescriptor.Builder<String>()
+            .name("format_error_handle_way")
+            .description("The processing method of data format error.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .defaultValue("fail")
+            .allowableValues("fail", "skip")
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
