@@ -134,7 +134,7 @@ const SinkS3RedshiftStepForm: React.FC<ModalFormProps<{
           colProps={{span: 24}}
         />
         <ProFormSelect
-          name={'file_format'}
+          name={BaseFileParams.fileFormatType}
           label={intl.formatMessage({id: 'pages.project.di.step.baseFile.fileFormat'})}
           colProps={{span: 24}}
           valueEnum={{
@@ -145,9 +145,9 @@ const SinkS3RedshiftStepForm: React.FC<ModalFormProps<{
             csv: 'csv',
           }}
         />
-        <ProFormDependency name={['file_format']}>
-          {({file_format}) => {
-            if (file_format == 'text' || file_format == 'csv') {
+        <ProFormDependency name={[BaseFileParams.fileFormatType]}>
+          {({file_format_type}) => {
+            if (file_format_type == 'text' || file_format_type == 'csv') {
               return (
                 <ProFormGroup>
                   <ProFormText

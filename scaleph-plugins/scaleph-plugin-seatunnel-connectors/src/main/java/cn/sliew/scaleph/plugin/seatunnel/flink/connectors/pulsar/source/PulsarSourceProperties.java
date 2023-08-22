@@ -149,8 +149,8 @@ public enum PulsarSourceProperties {
     public static final PropertyDescriptor<String> CURSOR_STOP_TIMESTAMP = new PropertyDescriptor.Builder()
             .name("cursor.stop.timestamp")
             .description("Stop from the specified epoch timestamp (in milliseconds).")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
+            .type(PropertyType.LONG)
+            .parser(Parsers.LONG_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

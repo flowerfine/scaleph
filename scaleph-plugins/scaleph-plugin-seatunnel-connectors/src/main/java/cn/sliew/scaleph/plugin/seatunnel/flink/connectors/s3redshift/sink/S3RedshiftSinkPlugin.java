@@ -56,7 +56,7 @@ public class S3RedshiftSinkPlugin extends SeaTunnelConnectorPlugin {
 
         props.add(HADOOP_S3_PROPERTIES);
         props.add(PATH);
-        props.add(FILE_FORMAT);
+        props.add(FILE_FORMAT_TYPE);
         props.add(FILE_NAME_EXPRESSION);
         props.add(FILENAME_TIME_FORMAT);
         props.add(FIELD_DELIMITER);
