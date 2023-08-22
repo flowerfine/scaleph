@@ -23,7 +23,7 @@ import cn.sliew.scaleph.plugin.framework.property.*;
 public enum DingTalkSinkProperties {
     ;
 
-    public static final PropertyDescriptor<String> URL = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<String> URL = new PropertyDescriptor.Builder()
             .name("url")
             .description("DingTalk robot url. The url format must be https://oapi.dingtalk.com/robot/send?access_token=XXXXXX（string）")
             .type(PropertyType.STRING)
@@ -32,7 +32,7 @@ public enum DingTalkSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> SECRET = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<String> SECRET = new PropertyDescriptor.Builder()
             .name("secret")
             .description("DingTalk robot secret (string)")
             .type(PropertyType.STRING)

@@ -6,7 +6,14 @@ import {Button, Drawer, Form, message} from 'antd';
 import {useEffect} from 'react';
 import {DorisParams, STEP_ATTR_TYPE} from '../../constant';
 import {WsDiJobService} from '@/services/project/WsDiJobService';
-import {ProForm, ProFormGroup, ProFormList, ProFormSwitch, ProFormText,} from '@ant-design/pro-components';
+import {
+  ProForm,
+  ProFormDigit,
+  ProFormGroup,
+  ProFormList,
+  ProFormSwitch,
+  ProFormText,
+} from '@ant-design/pro-components';
 import DataSourceItem from '@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/dataSource';
 import {InfoCircleOutlined} from '@ant-design/icons';
 import {StepSchemaService} from '@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/helper';
@@ -87,12 +94,48 @@ const SinkDorisStepForm: React.FC<
           label={intl.formatMessage({id: 'pages.project.di.step.doris.sinkEnableDelete'})}
           initialValue={false}
         />
+        <ProFormDigit
+          name={DorisParams.sinkCheckInterval}
+          label={intl.formatMessage({id: 'pages.project.di.step.doris.sinkCheckInterval'})}
+          colProps={{span: 12}}
+          initialValue={10000}
+          fieldProps={{
+            step: 1000,
+            min: 1
+          }}
+        />
+        <ProFormDigit
+          name={DorisParams.sinkMaxRetries}
+          label={intl.formatMessage({id: 'pages.project.di.step.doris.sinkMaxRetries'})}
+          colProps={{span: 12}}
+          initialValue={3}
+          fieldProps={{
+            step: 1,
+            min: 1
+          }}
+        />
+        <ProFormDigit
+          name={DorisParams.sinkBufferSize}
+          label={intl.formatMessage({id: 'pages.project.di.step.doris.sinkBufferSize'})}
+          colProps={{span: 12}}
+          initialValue={256 * 1024}
+          fieldProps={{
+            step: 1024 * 1024,
+            min: 1
+          }}
+        />
+        <ProFormDigit
+          name={DorisParams.sinkBufferCount}
+          label={intl.formatMessage({id: 'pages.project.di.step.doris.sinkBufferCount'})}
+          colProps={{span: 12}}
+          initialValue={3}
+          fieldProps={{
+            step: 1,
+            min: 1
+          }}
+        />
         <ProFormGroup
           label={intl.formatMessage({id: 'pages.project.di.step.doris.dorisConfig'})}
-          tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.doris.dorisConfig.tooltip'}),
-            icon: <InfoCircleOutlined/>,
-          }}
         >
           <ProFormList
             name={DorisParams.dorisConfigArray}

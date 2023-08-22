@@ -51,6 +51,10 @@ public class DorisSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(SINK_LABEL_PREFIX);
         props.add(SINK_ENABLE_2PC);
         props.add(SINK_ENABLE_DELETE);
+        props.add(SINK_CHECK_INTERVAL);
+        props.add(SINK_MAX_RETRIES);
+        props.add(SINK_BUFFER_SIZE);
+        props.add(SINK_BUFFER_COUNT);
         props.add(DORIS_CONFIG);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
