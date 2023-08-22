@@ -28,7 +28,7 @@ import java.util.Arrays;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum SeaTunnelVersion implements DictInstance {
 
-    V_2_3_2("2.3.2", "2.3.2"),
+    V_2_3_3("2.3.3", "2.3.3"),
     ;
 
     @JsonCreator

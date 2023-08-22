@@ -64,6 +64,7 @@ public class SqlServerCDCSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(CHUNK_KEY_EVEN_DISTRIBUTION_FACTOR_LOWER_BOUND);
         props.add(SAMPLE_SHARDING_THRESHOLD);
         props.add(INVERSE_SHARDING_RATE);
+        props.add(EXACTLY_ONCE);
         props.add(DEBEZIUM);
         props.add(FORMAT);
         props.add(CommonProperties.PARALLELISM);

@@ -229,6 +229,13 @@ public enum CDCSourceProperties {
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<Boolean> EXACTLY_ONCE = new PropertyDescriptor.Builder()
+            .name("exactly_once")
+            .description("Enable exactly once semantic.")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<JsonNode> DEBEZIUM = new PropertyDescriptor.Builder()
             .name("debezium")
             .description("Pass-through Debezium's properties to Debezium Embedded Engine which is used to capture data changes from MySQL server.")

@@ -11,7 +11,7 @@ import {
   ProFormDigit,
   ProFormGroup,
   ProFormList,
-  ProFormSelect,
+  ProFormSelect, ProFormSwitch,
   ProFormText,
 } from '@ant-design/pro-components';
 import {useEffect} from 'react';
@@ -303,6 +303,11 @@ const SourceCDCMySQLStepForm: React.FC<ModalFormProps<{
           fieldProps={{
             min: 0,
           }}
+        />
+        <ProFormSwitch
+          name={CDCParams.exactlyOnce}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdc.exactlyOnce'})}
+          initialValue={true}
         />
         <ProFormGroup
           label={intl.formatMessage({id: 'pages.project.di.step.cdc.debeziums'})}

@@ -40,6 +40,7 @@ public enum DorisSinkProperties {
             .description("Whether to enable two-phase commit (2pc), the default is true, to ensure Exactly-Once semantics")
             .type(PropertyType.BOOLEAN)
             .parser(Parsers.BOOLEAN_PARSER)
+            .defaultValue(true)
             .addValidator(Validators.BOOLEAN_VALIDATOR)
             .validateAndBuild();
 
@@ -48,7 +49,44 @@ public enum DorisSinkProperties {
             .description("Whether to enable deletion.")
             .type(PropertyType.BOOLEAN)
             .parser(Parsers.BOOLEAN_PARSER)
+            .defaultValue(false)
             .addValidator(Validators.BOOLEAN_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> SINK_CHECK_INTERVAL = new PropertyDescriptor.Builder()
+            .name("sink.check-interval")
+            .description("check exception with the interval while loading")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .defaultValue(10000)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> SINK_MAX_RETRIES = new PropertyDescriptor.Builder()
+            .name("sink.max-retries")
+            .description("the max retry times if writing records to database failed")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .defaultValue(3)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> SINK_BUFFER_SIZE = new PropertyDescriptor.Builder()
+            .name("sink.buffer-size")
+            .description("the buffer size to cache data for stream load.")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .defaultValue(256 * 1024)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> SINK_BUFFER_COUNT = new PropertyDescriptor.Builder()
+            .name("sink.buffer-count")
+            .description("the buffer count to cache data for stream load.")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .defaultValue(3)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<JsonNode> DORIS_CONFIG = new PropertyDescriptor.Builder()
