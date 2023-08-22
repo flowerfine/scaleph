@@ -41,8 +41,8 @@ COPY tools/docker/build/scaleph-seatunnel/plugin_config $SEATUNNEL_HOME/config
 RUN rm $SEATUNNEL_HOME/bin/install-plugin.sh
 COPY tools/docker/build/scaleph-seatunnel/install-plugin.sh $SEATUNNEL_HOME/bin
 
-# RUN cd $SEATUNNEL_HOME ; \
-#    sh -x bin/install-plugin.sh ${SEATUNNEL_VERSION}
+RUN cd $SEATUNNEL_HOME ; \
+    sh -x bin/install-plugin.sh ${SEATUNNEL_VERSION}
 
 # BASE_RELEASE_IMAGE argument must be defined twice
 ARG FLINK_VERSION=1.15
