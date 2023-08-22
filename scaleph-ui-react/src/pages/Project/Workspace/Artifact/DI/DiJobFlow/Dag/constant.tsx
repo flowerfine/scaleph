@@ -160,7 +160,6 @@ export const BaseFileParams = {
   dateFormat: 'date_format',
   timeFormat: 'time_format',
   datetimeFormat: 'datetime_format',
-  fileFormat: 'file_format',
   customFilename: 'custom_filename',
   fileNameExpression: 'file_name_expression',
   filenameTimeFormat: 'filename_time_format',
@@ -519,6 +518,7 @@ export const DorisParams = {
 };
 
 export const StarRocksParams = {
+  baseUrl: 'base-url',
   database: 'database',
   table: 'table',
   labelPrefix: 'labelPrefix',

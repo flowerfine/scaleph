@@ -47,6 +47,7 @@ public class StarRocksSinkPlugin extends SeaTunnelConnectorPlugin {
                 "Used to send data to StarRocks. Both support streaming and batch mode. The internal implementation of StarRocks sink connector is cached and imported by stream load in batches.",
                 StarRocksSinkPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
+        props.add(BASE_URL);
         props.add(DATABASE);
         props.add(TABLE);
         props.add(LABEL_PREFIX);
@@ -80,6 +81,9 @@ public class StarRocksSinkPlugin extends SeaTunnelConnectorPlugin {
         }
         if (StringUtils.hasText(dataSource.getPassword())) {
             conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
+        }
+        if (StringUtils.hasText(dataSource.getBaseUrl())) {
+            conf.putPOJO(BASE_URL.getName(), dataSource.getBaseUrl());
         }
         return conf;
     }

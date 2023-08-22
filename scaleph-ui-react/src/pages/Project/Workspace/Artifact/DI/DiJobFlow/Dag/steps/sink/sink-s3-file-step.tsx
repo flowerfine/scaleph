@@ -127,14 +127,14 @@ const SinkS3FileStepForm: React.FC<
           colProps={{span: 24}}
         />
         <ProFormSelect
-          name={'file_format'}
+          name={BaseFileParams.fileFormatType}
           label={intl.formatMessage({id: 'pages.project.di.step.baseFile.fileFormat'})}
           colProps={{span: 24}}
           options={['json', 'parquet', 'orc', 'text', 'csv', 'excel']}
         />
-        <ProFormDependency name={['file_format']}>
-          {({file_format}) => {
-            if (file_format == 'text' || file_format == 'csv') {
+        <ProFormDependency name={[BaseFileParams.fileFormatType]}>
+          {({file_format_type}) => {
+            if (file_format_type == 'text' || file_format_type == 'csv') {
               return (
                 <ProFormGroup>
                   <ProFormText
@@ -156,7 +156,7 @@ const SinkS3FileStepForm: React.FC<
                 </ProFormGroup>
               );
             }
-            if (file_format == 'excel') {
+            if (file_format_type == 'excel') {
               return (
                 <ProFormGroup>
                   <ProFormText

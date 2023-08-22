@@ -42,6 +42,10 @@ public class StarRocksDataSource extends AbstractDataSource {
     private String nodeUrls;
 
     @NotBlank
+    @Schema(description = "Base url")
+    private String baseUrl;
+
+    @NotBlank
     @Schema(description = "username")
     private String username;
 
