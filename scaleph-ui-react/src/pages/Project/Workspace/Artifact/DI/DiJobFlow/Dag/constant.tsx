@@ -519,6 +519,7 @@ export const DorisParams = {
 };
 
 export const StarRocksParams = {
+  baseUrl: 'base-url',
   database: 'database',
   table: 'table',
   labelPrefix: 'labelPrefix',

@@ -76,6 +76,11 @@ const SinkStarRocksStepForm: React.FC<
         />
         <DataSourceItem dataSource={'StarRocks'}/>
         <ProFormText
+          name={StarRocksParams.baseUrl}
+          label={intl.formatMessage({id: 'pages.project.di.step.starrocks.base-url'})}
+          rules={[{required: true}]}
+        />
+        <ProFormText
           name={StarRocksParams.database}
           label={intl.formatMessage({id: 'pages.project.di.step.starrocks.database'})}
           rules={[{required: true}]}

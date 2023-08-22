@@ -570,6 +570,7 @@ export default {
 
 
   // starrocks
+  'pages.project.di.step.starrocks.base-url': '基础连接地址',
   'pages.project.di.step.starrocks.database': '数据库',
   'pages.project.di.step.starrocks.table': '数据表',
   'pages.project.di.step.starrocks.labelPrefix': '标签前缀',
@@ -616,7 +617,7 @@ export default {
 
   // s3redshift
   'pages.project.di.step.s3redshift.jdbcUrl': 'Jdbc URL',
-  'pages.project.di.step.s3redshift.jdbcUser': 'Jdbc哟你见过户',
+  'pages.project.di.step.s3redshift.jdbcUser': 'Jdbc用户名',
   'pages.project.di.step.s3redshift.jdbcPassword': 'Jdbc密码',
   'pages.project.di.step.s3redshift.executeSql': 'SQL查询语句',
   'pages.project.di.step.s3redshift.executeSql.placeholoder':
