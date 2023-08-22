@@ -100,6 +100,8 @@ import SourceCDCSqlServerStepForm
   from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/source/source-cdc-sqlserver-step";
 import SourceStarRocksStepForm from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/source/source-starrocks-step";
 import SinkHbaseStepForm from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/sink/sink-hbase-step";
+import SourceCDCMongoDBStepForm
+  from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/source/source-cdc-mongodb-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -388,6 +390,8 @@ export class EditNodeCommand implements ICommand {
       return (<SourceCDCMySQLStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'source' && name === 'SqlServer-CDC'){
       return (<SourceCDCSqlServerStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'source' && name === 'MongoDB-CDC'){
+      return (<SourceCDCMongoDBStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'Hbase'){
       return (<SinkHbaseStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'transform' && name === 'Copy'){

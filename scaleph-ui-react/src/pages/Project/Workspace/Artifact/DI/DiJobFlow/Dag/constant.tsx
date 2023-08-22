@@ -607,11 +607,26 @@ export const CDCParams = {
   chunkKeyEvenDistributionFactorLowerBound: 'chunk-key.even-distribution.factor.lower-bound',
   sampleShardingThreshold: 'sample-sharding.threshold',
   inverseSamplingRate: 'inverse-sampling.rate',
+  exactlyOnce: 'exactly_once',
   debeziums: 'debezium',
   debeziumProperties: 'debeziumProperties',
   debeziumProperty: 'debeziumProperty',
   debeziumValue: 'debeziumValue',
   format: 'format',
+};
+
+export const MongoDBCDCParams = {
+  hosts: 'hosts',
+  username: 'username',
+  password: 'password',
+  database: 'database',
+  collection: 'collection',
+  connectionOptions: 'connection.options',
+  batchSize: 'batch.size',
+  pollMaxBatchSize: 'poll.max.batch.size',
+  pollAwaitTimeMs: 'poll.await.time.ms',
+  heartbeatIntervalMs: 'heartbeat.interval.ms',
+  incrementalSnapshotChunkSizeMb: 'incremental.snapshot.chunk.size.mb'
 };
 
 export const HbaseParams = {

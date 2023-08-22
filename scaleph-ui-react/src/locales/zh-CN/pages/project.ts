@@ -663,6 +663,7 @@ export default {
   'pages.project.di.step.cdc.chunkKeyEvenDistributionFactorLowerBound': 'Chunk Key Even Distribution Factor Lower Bound',
   'pages.project.di.step.cdc.sampleShardingThreshold': 'Sample-Sharding Threshold',
   'pages.project.di.step.cdc.inverseSamplingRate': 'Inverse-Sampling Rate',
+  'pages.project.di.step.cdc.exactlyOnce': '启用 Exactly Once 语义',
   'pages.project.di.step.cdc.debeziums': 'Debezium 属性',
   'pages.project.di.step.cdc.debeziums.tooltip': '将Debezium的属性传递给用于从MySQL服务器捕获数据更改的Debezium引擎',
   'pages.project.di.step.cdc.debeziums.list': '属性列表',
@@ -671,6 +672,24 @@ export default {
   'pages.project.di.step.cdc.debeziums.value': '值',
   'pages.project.di.step.cdc.debeziums.value.placeholder': 'never',
   'pages.project.di.step.cdc.format': 'CDC 格式',
+
+  // mongodb-cdc
+  'pages.project.di.step.mongodb-cdc.hosts': '服务器地址',
+  'pages.project.di.step.mongodb-cdc.hosts.placeholder': 'localhost:27017,localhost:27018',
+  'pages.project.di.step.mongodb-cdc.username': '用户名',
+  'pages.project.di.step.mongodb-cdc.password': '密码',
+  'pages.project.di.step.mongodb-cdc.database': '数据库',
+  'pages.project.di.step.mongodb-cdc.database.placeholder': 'db1,db2',
+  'pages.project.di.step.mongodb-cdc.collection': 'Collection',
+  'pages.project.di.step.mongodb-cdc.collection.placeholder': 'db1.coll1,db2.coll2',
+  'pages.project.di.step.mongodb-cdc.connectionOptions': '连接参数',
+  'pages.project.di.step.mongodb-cdc.connectionOptions.placeholder': 'replicaSet=test&connectTimeoutMS=300000',
+  'pages.project.di.step.mongodb-cdc.batchSize': 'Batch Size',
+  'pages.project.di.step.mongodb-cdc.pollMaxBatchSize': 'Max Poll Batch Size',
+  'pages.project.di.step.mongodb-cdc.pollAwaitTimeMs': 'Poll Wait Time（毫秒）',
+  'pages.project.di.step.mongodb-cdc.heartbeatIntervalMs': '心跳（毫秒）',
+  'pages.project.di.step.mongodb-cdc.heartbeatIntervalMs.tooltip': '禁用: 0',
+  'pages.project.di.step.mongodb-cdc.incrementalSnapshotChunkSizeMb': '增量快照体积（MB）',
 
   // hbase
   'pages.project.di.step.hbase.zookeeperQuorum': 'Zookeeper地址',

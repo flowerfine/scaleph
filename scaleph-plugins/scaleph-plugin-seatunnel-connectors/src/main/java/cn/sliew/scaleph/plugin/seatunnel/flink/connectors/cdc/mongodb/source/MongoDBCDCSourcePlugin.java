@@ -16,12 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cdc.mysql.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cdc.mongodb.source;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
+import cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cdc.CDCSourceProperties;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
 import com.google.auto.service.AutoService;
 
@@ -29,45 +30,31 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cdc.CDCSourceProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cdc.mongodb.source.MongoDBCDCSourceProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class MySQLCDCSourcePlugin extends SeaTunnelConnectorPlugin {
+public class MongoDBCDCSourcePlugin extends SeaTunnelConnectorPlugin {
 
-    public MySQLCDCSourcePlugin() {
+    public MongoDBCDCSourcePlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "The MySQL CDC connector allows for reading snapshot data and incremental data from MySQL database",
-                MySQLCDCSourcePlugin.class.getName());
+                "MongoDB CDC source connector",
+                MongoDBCDCSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(BASE_URL);
+        props.add(HOSTS);
         props.add(USERNAME);
         props.add(PASSWORD);
         props.add(DATABASE);
-        props.add(TABLE);
-        props.add(STARTUP_MODE);
-        props.add(STARTUP_TIMESTAMP);
-        props.add(STARTUP_SPECIFIC_OFFSET_FILE);
-        props.add(STARTUP_SPECIFIC_OFFSET_POS);
-        props.add(STOP_MODE);
-        props.add(STOP_TIMESTAMP);
-        props.add(STOP_SPECIFIC_OFFSET_FILE);
-        props.add(STOP_SPECIFIC_OFFSET_POS);
-        props.add(INCREMENTAL_PARALLELISM);
-        props.add(SNAPSHOT_SPLIT_SIZE);
-        props.add(SNAPSHOT_FETCH_SIZE);
-        props.add(SERVER_ID);
-        props.add(SERVER_TIME_ZONE);
-        props.add(CONNECT_TIMEOUT);
-        props.add(CONNECT_MAX_RETRIES);
-        props.add(CONNECT_POOL_SIZE);
-        props.add(CHUNK_KEY_EVEN_DISTRIBUTION_FACTOR_UPPER_BOUND);
-        props.add(CHUNK_KEY_EVEN_DISTRIBUTION_FACTOR_LOWER_BOUND);
-        props.add(SAMPLE_SHARDING_THRESHOLD);
-        props.add(INVERSE_SHARDING_RATE);
-        props.add(EXACTLY_ONCE);
-        props.add(DEBEZIUM);
-        props.add(FORMAT);
+        props.add(COLLECTION);
+        props.add(CONNECTION_OPTIONS);
+        props.add(BATCH_SIZE);
+        props.add(POLL_MAX_BATCH_SIZE);
+        props.add(POLL_AWAIT_TIME_MS);
+        props.add(HEARTBEAT_INTERVAL_MS);
+        props.add(INCREMENTAL_SNAPSHOT_CHUNK_SIZE_MB);
+        props.add(CDCSourceProperties.STARTUP_MODE);
+        props.add(CDCSourceProperties.STOP_MODE);
+        props.add(CDCSourceProperties.DEBEZIUM);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
@@ -75,6 +62,6 @@ public class MySQLCDCSourcePlugin extends SeaTunnelConnectorPlugin {
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SOURCE_MYSQL_CDC;
+        return SeaTunnelPluginMapping.SOURCE_MONGODB_CDC;
     }
 }
