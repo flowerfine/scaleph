@@ -43,7 +43,7 @@ public class LocalFileSinkPlugin extends SeaTunnelConnectorPlugin {
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(PATH);
-        props.add(FILE_FORMAT);
+        props.add(FILE_FORMAT_TYPE);
         props.add(CUSTOM_FILENAME);
         props.add(FILE_NAME_EXPRESSION);
         props.add(FILENAME_TIME_FORMAT);

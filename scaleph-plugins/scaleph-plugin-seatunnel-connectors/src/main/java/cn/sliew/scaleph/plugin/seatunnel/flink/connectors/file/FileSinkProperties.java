@@ -45,8 +45,8 @@ public enum FileSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> FILE_FORMAT = new PropertyDescriptor.Builder<String>()
-            .name("file_format")
+    public static final PropertyDescriptor<String> FILE_FORMAT_TYPE = new PropertyDescriptor.Builder<String>()
+            .name("file_format_type")
             .description("We supported as the following file types:text, csv, excel, parquet, orc, json")
             .type(PropertyType.STRING)
             .defaultValue("text")

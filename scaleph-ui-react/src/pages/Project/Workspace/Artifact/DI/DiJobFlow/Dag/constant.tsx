@@ -160,7 +160,6 @@ export const BaseFileParams = {
   dateFormat: 'date_format',
   timeFormat: 'time_format',
   datetimeFormat: 'datetime_format',
-  fileFormat: 'file_format',
   customFilename: 'custom_filename',
   fileNameExpression: 'file_name_expression',
   filenameTimeFormat: 'filename_time_format',
