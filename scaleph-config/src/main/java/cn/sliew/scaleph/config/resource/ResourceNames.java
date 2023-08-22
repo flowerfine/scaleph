@@ -32,7 +32,7 @@ public enum ResourceNames {
 
     public static final String FILE_FETCHER_CONTAINER_IMAGE = "ghcr.io/flowerfine/scaleph/scaleph-file-fetcher:latest";
     public static final String SQL_TEMPLATE_IMAGE = "ghcr.io/flowerfine/scaleph-sql-template:1.17";
-    public static final String SCALEPH_SEATUNNEL_IMAGE = "ghcr.io/flowerfine/scaleph-seatunnel:2.3.1-flink-1.15";
+    public static final String SCALEPH_SEATUNNEL_IMAGE = "ghcr.io/flowerfine/scaleph-seatunnel:2.3.3-flink-1.15";
 
     public static final String FILE_FETCHER_SCALEPH_VOLUME_NAME = "file-fetcher-scaleph-volume";
     public static final String SCALEPH_JAR_DIRECTORY = "/scaleph/jar/";
