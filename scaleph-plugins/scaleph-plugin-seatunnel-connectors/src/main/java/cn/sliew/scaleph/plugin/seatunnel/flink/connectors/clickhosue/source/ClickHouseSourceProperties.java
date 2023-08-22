@@ -23,12 +23,20 @@ import cn.sliew.scaleph.plugin.framework.property.*;
 public enum ClickHouseSourceProperties {
     ;
 
-    public static final PropertyDescriptor<String> SQL = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<String> SQL = new PropertyDescriptor.Builder()
             .name("sql")
             .description("The query sql used to search data though Clickhouse server")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> SERVER_TIME_ZONE = new PropertyDescriptor.Builder()
+            .name("server_time_zone")
+            .description("The session time zone in database server")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

@@ -8,6 +8,7 @@ import {getIntl, getLocale} from 'umi';
 import {ProForm, ProFormText, ProFormTextArea} from '@ant-design/pro-components';
 import {ClickHouseParams, STEP_ATTR_TYPE} from '../../constant';
 import DataSourceItem from '@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/dataSource';
+import {InfoCircleOutlined} from "@ant-design/icons";
 
 const SourceClickHouseStepForm: React.FC<
   ModalFormProps<{
@@ -68,6 +69,14 @@ const SourceClickHouseStepForm: React.FC<
           name={ClickHouseParams.sql}
           label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.sql'})}
           rules={[{required: true}]}
+        />
+        <ProFormText
+          name={ClickHouseParams.serverTimeZone}
+          label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.serverTimeZone'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.clickhosue.serverTimeZone.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
         />
       </ProForm>
     </Drawer>

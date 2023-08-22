@@ -299,7 +299,7 @@ export const ClickHouseParams = {
   key: 'key',
   value: 'value',
   sql: 'sql',
-  database: 'database',
+  serverTimeZone: 'server_time_zone',
 };
 
 export const HiveParams = {

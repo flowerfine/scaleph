@@ -86,7 +86,7 @@ const SinkClickHouseStepForm: React.FC<
           initialValue={20000}
           fieldProps={{
             min: 1,
-            step: 100,
+            step: 1000,
           }}
         />
         <ProFormSwitch

@@ -342,12 +342,10 @@ export default {
   // clickhouse
   'pages.project.di.step.clickhosue.table': '导出表名',
   'pages.project.di.step.clickhosue.bulkSize': '每批次数据规模',
-  'pages.project.di.step.clickhosue.fields': '导出字段信息',
-  'pages.project.di.step.clickhosue.fields.tooltip': '例如 : id,name',
   'pages.project.di.step.clickhosue.splitMode': '是否分片',
-  'pages.project.di.step.clickhosue.shardingKey': 'shardingKey 分片字段',
   'pages.project.di.step.clickhosue.splitMode.tooltip':
     "表为分布式引擎时的拆分模式，该模式仅支持引擎为“Distributed”的clickhouse表",
+  'pages.project.di.step.clickhosue.shardingKey': 'shardingKey 分片字段',
   'pages.project.di.step.clickhosue.primaryKey': '主键',
   'pages.project.di.step.clickhosue.supportUpsert': '支持Upsert',
   'pages.project.di.step.clickhosue.allowExperimentalLightweightDelete': '允许轻量级删除(实验性质)',
@@ -360,7 +358,8 @@ export default {
   'pages.project.di.step.clickhosue.clickhouseConf.value': '属性值',
   'pages.project.di.step.clickhosue.clickhouseConf.value.placeholder': '50000',
   'pages.project.di.step.clickhosue.sql': 'SQL',
-  'pages.project.di.step.clickhosue.database': '数据库',
+  'pages.project.di.step.clickhosue.serverTimeZone': '服务器时区',
+  'pages.project.di.step.clickhosue.serverTimeZone.tooltip': '默认值: ZoneId.systemDefault()',
 
   // hive
   'pages.project.di.step.hive.tableName': 'Hive表名',
