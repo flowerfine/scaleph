@@ -1,12 +1,12 @@
 import {NsGraph} from '@antv/xflow';
 import {ModalFormProps} from '@/app.d';
-import {MondoDBParams, STEP_ATTR_TYPE} from '../../constant';
+import {MongoDBParams, STEP_ATTR_TYPE} from '../../constant';
 import {WsDiJobService} from '@/services/project/WsDiJobService';
 import {Button, Drawer, Form, message} from 'antd';
 import {WsDiJob} from '@/services/project/typings';
 import {getIntl, getLocale} from 'umi';
 import {useEffect} from 'react';
-import {ProForm, ProFormText} from '@ant-design/pro-components';
+import {ProForm, ProFormDigit, ProFormSwitch, ProFormText} from '@ant-design/pro-components';
 import {StepSchemaService} from '../helper';
 import DataSourceItem from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/dataSource";
 import FieldItem from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/fields";
@@ -66,14 +66,52 @@ const SourceMongoDBStepForm: React.FC<ModalFormProps<{
         />
         <DataSourceItem dataSource={"MongoDB"}/>
         <ProFormText
-          name={MondoDBParams.database}
+          name={MongoDBParams.database}
           label={intl.formatMessage({id: 'pages.project.di.step.mongodb.database'})}
           rules={[{required: true}]}
         />
         <ProFormText
-          name={MondoDBParams.collection}
+          name={MongoDBParams.collection}
           label={intl.formatMessage({id: 'pages.project.di.step.mongodb.collection'})}
           rules={[{required: true}]}
+        />
+        <ProFormText
+          name={MongoDBParams.matchQuery}
+          label={intl.formatMessage({id: 'pages.project.di.step.mongodb.matchQuery'})}
+        />
+        <ProFormText
+          name={MongoDBParams.matchProjection}
+          label={intl.formatMessage({id: 'pages.project.di.step.mongodb.matchProjection'})}
+        />
+        <ProFormText
+          name={MongoDBParams.partitionSplitKey}
+          label={intl.formatMessage({id: 'pages.project.di.step.mongodb.partitionSplitKey'})}
+          initialValue={'_id'}
+        />
+        <ProFormDigit
+          name={MongoDBParams.partitionSplitSize}
+          label={intl.formatMessage({id: 'pages.project.di.step.mongodb.partitionSplitSize'})}
+          initialValue={67108864}
+        />
+        <ProFormSwitch
+          name={MongoDBParams.cursorNoTimeout}
+          label={intl.formatMessage({id: 'pages.project.di.step.mongodb.cursorNoTimeout'})}
+          initialValue={true}
+        />
+        <ProFormDigit
+          name={MongoDBParams.fetchSize}
+          label={intl.formatMessage({id: 'pages.project.di.step.mongodb.fetchSize'})}
+          initialValue={2048}
+        />
+        <ProFormDigit
+          name={MongoDBParams.maxTimeMin}
+          label={intl.formatMessage({id: 'pages.project.di.step.mongodb.maxTimeMin'})}
+          initialValue={600}
+        />
+        <ProFormSwitch
+          name={MongoDBParams.flatSyncString}
+          label={intl.formatMessage({id: 'pages.project.di.step.mongodb.flatSyncString'})}
+          initialValue={true}
         />
         <FieldItem/>
       </ProForm>

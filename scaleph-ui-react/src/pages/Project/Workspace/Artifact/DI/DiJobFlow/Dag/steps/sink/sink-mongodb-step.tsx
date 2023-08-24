@@ -1,13 +1,21 @@
 import {NsGraph} from '@antv/xflow';
 import {ModalFormProps} from '@/app.d';
-import {MondoDBParams, STEP_ATTR_TYPE} from '../../constant';
+import {BaseFileParams, MongoDBParams, STEP_ATTR_TYPE} from '../../constant';
 import {WsDiJobService} from '@/services/project/WsDiJobService';
 import {Button, Drawer, Form, message} from 'antd';
 import {WsDiJob} from '@/services/project/typings';
 import {getIntl, getLocale} from 'umi';
 import {useEffect} from 'react';
-import {ProForm, ProFormText} from '@ant-design/pro-components';
+import {
+  ProForm,
+  ProFormDependency,
+  ProFormDigit,
+  ProFormDigitRange, ProFormGroup,
+  ProFormSwitch,
+  ProFormText
+} from '@ant-design/pro-components';
 import DataSourceItem from '@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/dataSource';
+import FieldItem from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/fields";
 
 const SinkMongoDBStepForm: React.FC<
   ModalFormProps<{
@@ -65,15 +73,62 @@ const SinkMongoDBStepForm: React.FC<
         />
         <DataSourceItem dataSource={'MongoDB'}/>
         <ProFormText
-          name={MondoDBParams.database}
+          name={MongoDBParams.database}
           label={intl.formatMessage({id: 'pages.project.di.step.mongodb.database'})}
           rules={[{required: true}]}
         />
         <ProFormText
-          name={MondoDBParams.collection}
+          name={MongoDBParams.collection}
           label={intl.formatMessage({id: 'pages.project.di.step.mongodb.collection'})}
           rules={[{required: true}]}
         />
+        <ProFormDigit
+          name={MongoDBParams.bufferFlushMaxRows}
+          label={intl.formatMessage({id: 'pages.project.di.step.mongodb.bufferFlushMaxRows'})}
+          initialValue={1000}
+        />
+        <ProFormDigit
+          name={MongoDBParams.bufferFlushInterval}
+          label={intl.formatMessage({id: 'pages.project.di.step.mongodb.bufferFlushInterval'})}
+          initialValue={30000}
+        />
+        <ProFormDigit
+          name={MongoDBParams.retryMax}
+          label={intl.formatMessage({id: 'pages.project.di.step.mongodb.retryMax'})}
+          initialValue={3}
+        />
+        <ProFormDigit
+          name={MongoDBParams.retryInterval}
+          label={intl.formatMessage({id: 'pages.project.di.step.mongodb.retryInterval'})}
+          initialValue={1000}
+        />
+        <ProFormSwitch
+          name={MongoDBParams.upsertEnable}
+          label={intl.formatMessage({id: 'pages.project.di.step.mongodb.upsertEnable'})}
+          initialValue={false}
+        />
+        <ProFormDependency
+          name={[MongoDBParams.upsertEnable]}
+        >
+          {({upsertEnable}) => {
+            if (upsertEnable) {
+              console.log(upsertEnable)
+              return (
+                  <ProFormText
+                    name={MongoDBParams.primaryKey}
+                    label={intl.formatMessage({id: 'pages.project.di.step.mongodb.primaryKey'})}
+                  />
+              );
+            }
+            return <></>;
+          }}
+        </ProFormDependency>
+        <ProFormSwitch
+          name={MongoDBParams.transaction}
+          label={intl.formatMessage({id: 'pages.project.di.step.mongodb.transaction'})}
+          initialValue={false}
+        />
+        <FieldItem/>
       </ProForm>
     </Drawer>
   );
