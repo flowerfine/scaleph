@@ -82,7 +82,7 @@ const SourceKafkaStepForm: React.FC<ModalFormProps<{
           rules={[{required: true}]}
         />
         <ProFormSwitch
-          name={KafkaParams.pattern}
+          name={'pattern'}
           label={intl.formatMessage({id: 'pages.project.di.step.kafka.pattern'})}
           tooltip={{
             title: intl.formatMessage({id: 'pages.project.di.step.kafka.pattern.tooltip'}),
@@ -90,11 +90,25 @@ const SourceKafkaStepForm: React.FC<ModalFormProps<{
           }}
           initialValue={false}
         />
-        <ProFormDigit
-          name={KafkaParams.partitionDiscoveryIntervalMillis}
-          label={intl.formatMessage({id: 'pages.project.di.step.kafka.partitionDiscoveryIntervalMillis'})}
-          initialValue={-1}
-        />
+        <ProFormDependency name={['pattern']}>
+          {({pattern}) => {
+            if (pattern) {
+              return (
+                <ProFormDigit
+                  name={KafkaParams.partitionDiscoveryIntervalMillis}
+                  label={intl.formatMessage({id: 'pages.project.di.step.kafka.partitionDiscoveryIntervalMillis'})}
+                  tooltip={{
+                    title: intl.formatMessage({id: 'pages.project.di.step.kafka.partitionDiscoveryIntervalMillis.tooltip'}),
+                    icon: <InfoCircleOutlined/>,
+                  }}
+                  initialValue={-1}
+                />
+              );
+            }
+            return <ProFormGroup/>;
+          }}
+        </ProFormDependency>
+
         <ProFormText
           name={KafkaParams.consumerGroup}
           label={intl.formatMessage({id: 'pages.project.di.step.kafka.consumerGroup'})}
@@ -125,7 +139,7 @@ const SourceKafkaStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.kafka.format'})}
           rules={[{required: true}]}
           initialValue={"json"}
-          options={["json", "text"]}
+          options={["json", "text", "canal_json", "debezium_json", "compatible_debezium_json", "compatible_kafka_connect_json"]}
         />
         <ProFormDependency name={['format']}>
           {({format}) => {

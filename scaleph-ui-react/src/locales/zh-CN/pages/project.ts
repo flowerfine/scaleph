@@ -383,10 +383,13 @@ export default {
   'pages.project.di.step.kudu.savemode': '保存模式',
 
   // kafka
-  'pages.project.di.step.kafka.topic': '主题',
+  'pages.project.di.step.kafka.topic': 'Topic',
   'pages.project.di.step.kafka.topic.placeholder': 'topic1,topic2',
-  'pages.project.di.step.kafka.pattern': 'pattern',
+  'pages.project.di.step.kafka.pattern': '启用Topic 正则表达式',
+  'pages.project.di.step.kafka.pattern.tooltip':
+    '使用正则表达式作为 Topic，与正则表达式匹配的所有 Topic 都将被消费者订阅',
   'pages.project.di.step.kafka.partitionDiscoveryIntervalMillis': '动态发现主题和分区间隔(毫秒)',
+  'pages.project.di.step.kafka.partitionDiscoveryIntervalMillis.tooltip': '-1: 禁用',
   'pages.project.di.step.kafka.conf': 'Kafka配置',
   'pages.project.di.step.kafka.conf.tooltip':
     '指定参数的方式是加上前缀"kafka."到原始参数名称。 比如指定auto.offset.reset的方式是：kafka.auto.offset.reset = latest',
@@ -395,9 +398,7 @@ export default {
   'pages.project.di.step.kafka.conf.key.placeholder': 'auto.offset.reset',
   'pages.project.di.step.kafka.conf.value': '配置值',
   'pages.project.di.step.kafka.conf.value.placeholder': 'latest',
-  'pages.project.di.step.kafka.pattern.tooltip':
-    '如果 pattern 设置为 true，则为要读取的主题名称模式的正则表达式。 客户端中名称与指定正则表达式匹配的所有主题都将被消费者订阅。',
-  'pages.project.di.step.kafka.consumerGroup': '消费者组ID',
+  'pages.project.di.step.kafka.consumerGroup': 'Kafka Group Id',
   'pages.project.di.step.kafka.consumerGroup.tooltip':
     'Kafka consumer group id，用于区分不同的消费组',
   'pages.project.di.step.kafka.commit_on_checkpoint': '在Flink Checkpoint时自动提交偏移量',
