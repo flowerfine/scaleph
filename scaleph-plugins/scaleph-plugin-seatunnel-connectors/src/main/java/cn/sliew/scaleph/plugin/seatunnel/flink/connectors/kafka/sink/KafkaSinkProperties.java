@@ -24,7 +24,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 public enum KafkaSinkProperties {
     ;
 
-    public static final PropertyDescriptor<String> SEMANTIC = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<String> SEMANTIC = new PropertyDescriptor.Builder()
             .name("semantics")
             .description("Semantics that can be chosen EXACTLY_ONCE/AT_LEAST_ONCE/NON, default NON.")
             .type(PropertyType.STRING)
@@ -34,7 +34,7 @@ public enum KafkaSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<JsonNode> PARTITION_KEY_FIELDS = new PropertyDescriptor.Builder<JsonNode>()
+    public static final PropertyDescriptor<JsonNode> PARTITION_KEY_FIELDS = new PropertyDescriptor.Builder()
             .name("partition_key_fields")
             .description("Configure which fields are used as the key of the kafka message.")
             .type(PropertyType.OBJECT)
@@ -42,7 +42,7 @@ public enum KafkaSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Integer> PARTITION = new PropertyDescriptor.Builder<Integer>()
+    public static final PropertyDescriptor<Integer> PARTITION = new PropertyDescriptor.Builder()
             .name("partition")
             .description(
                     "We can specify the partition, all messages will be sent to this partition.")
@@ -59,29 +59,11 @@ public enum KafkaSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> TRANSACTION_PREFIX = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<String> TRANSACTION_PREFIX = new PropertyDescriptor.Builder()
             .name("transaction_prefix")
             .description("If semantic is specified as EXACTLY_ONCE, the producer will write all messages in a Kafka transaction")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> FORMAT = new PropertyDescriptor.Builder<String>()
-            .name("format")
-            .description("Data format.")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .allowableValues("text", "json")
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> FIELD_DELIMITER = new PropertyDescriptor.Builder<String>()
-            .name("field_delimiter")
-            .description("Customize the field delimiter for data format.")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .defaultValue(",")
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

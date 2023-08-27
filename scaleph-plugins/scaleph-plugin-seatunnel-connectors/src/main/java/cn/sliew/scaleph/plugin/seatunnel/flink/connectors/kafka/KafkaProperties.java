@@ -43,6 +43,24 @@ public enum KafkaProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<String> FORMAT = new PropertyDescriptor.Builder<String>()
+            .name("format")
+            .description("We support the following file types: text, json")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .defaultValue("json")
+            .allowableValues("text", "json", "canal_json", "debezium_json", "compatible_debezium_json", "compatible_kafka_connect_json")
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> FIELD_DELIMITER = new PropertyDescriptor.Builder<String>()
+            .name("field_delimiter")
+            .description("The separator between columns in a row of data. Only needed by text and csv file format")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<JsonNode> KAFKA_CONF = new PropertyDescriptor.Builder()
             .name("kafka.config")
             .description(

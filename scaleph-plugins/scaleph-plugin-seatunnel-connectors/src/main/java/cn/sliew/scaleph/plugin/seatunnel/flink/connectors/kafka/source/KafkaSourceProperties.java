@@ -64,16 +64,6 @@ public enum KafkaSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> FORMAT = new PropertyDescriptor.Builder<String>()
-            .name("format")
-            .description("We support the following file types: text, json")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .defaultValue("json")
-            .allowableValues("text", "json")
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
     public static final PropertyDescriptor<String> FORMAT_ERROR_HANDLE_WAY = new PropertyDescriptor.Builder<String>()
             .name("format_error_handle_way")
             .description("The processing method of data format error.")
@@ -81,14 +71,6 @@ public enum KafkaSourceProperties {
             .parser(Parsers.STRING_PARSER)
             .defaultValue("fail")
             .allowableValues("fail", "skip")
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> FIELD_DELIMITER = new PropertyDescriptor.Builder<String>()
-            .name("field_delimiter")
-            .description("The separator between columns in a row of data. Only needed by text and csv file format")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

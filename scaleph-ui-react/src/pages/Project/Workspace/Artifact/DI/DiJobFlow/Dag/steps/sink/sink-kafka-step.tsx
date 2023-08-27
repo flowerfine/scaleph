@@ -148,7 +148,7 @@ const SinkKafkaStepForm: React.FC<
           label={intl.formatMessage({id: 'pages.project.di.step.kafka.format'})}
           rules={[{required: true}]}
           initialValue={'json'}
-          options={['json', 'text']}
+          options={['json', 'text', "canal_json", "debezium_json", "compatible_debezium_json", "compatible_kafka_connect_json"]}
         />
         <ProFormDependency name={['format']}>
           {({format}) => {
