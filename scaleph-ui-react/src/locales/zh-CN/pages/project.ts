@@ -213,6 +213,7 @@ export default {
 
   // base file
   'pages.project.di.step.baseFile.path': '路径',
+  'pages.project.di.step.baseFile.fileFilterPattern': '文件过滤表达式',
   'pages.project.di.step.baseFile.fileFormatType': '文件格式',
   'pages.project.di.step.baseFile.readColumns': '列',
   'pages.project.di.step.baseFile.schema': '结构',

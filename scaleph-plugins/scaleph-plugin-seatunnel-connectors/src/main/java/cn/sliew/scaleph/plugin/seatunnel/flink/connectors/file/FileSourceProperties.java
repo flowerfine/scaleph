@@ -23,6 +23,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public enum FileSourceProperties {
     ;
+    public static final PropertyDescriptor<String> FILE_FILTER_PATTERN = new PropertyDescriptor.Builder<String>()
+            .name("file_filter_pattern")
+            .description("File pattern. The connector will filter some files base on the pattern.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
 
     public static final PropertyDescriptor<String> FILE_FORMAT_TYPE = new PropertyDescriptor.Builder<String>()
             .name("file_format_type")
@@ -45,6 +52,14 @@ public enum FileSourceProperties {
     public static final PropertyDescriptor<JsonNode> READ_COLUMNS = new PropertyDescriptor.Builder()
             .name("read_columns")
             .description("The read column list of the data source, user can use it to implement field projection.")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> READ_PARTITIONS = new PropertyDescriptor.Builder()
+            .name("read_partitions")
+            .description("The partitions that the user want to read")
             .type(PropertyType.OBJECT)
             .parser(Parsers.JSON_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)

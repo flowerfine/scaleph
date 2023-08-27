@@ -165,6 +165,7 @@ export const JdbcParams = {
 
 export const BaseFileParams = {
   path: 'path',
+  fileFilterPattern: 'file_filter_pattern',
   fileFormatType: 'file_format_type',
   readColumns: 'read_columns',
   schema: 'schema',

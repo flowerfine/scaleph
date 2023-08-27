@@ -154,4 +154,12 @@ public enum FileSinkProperties {
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<Integer> TMP_PATH = new PropertyDescriptor.Builder()
+            .name("tmp_path")
+            .description("Data write temporary path")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
 }
