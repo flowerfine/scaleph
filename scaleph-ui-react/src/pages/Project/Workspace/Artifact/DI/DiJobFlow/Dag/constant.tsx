@@ -95,25 +95,31 @@ export const FakeParams = {
   mapSize: 'map.size',
   arraySize: 'array.size',
   bytesLength: 'bytes.length',
-  stringFakeMode: 'string.fake.mode',
   stringLength: 'string.length',
+
+  stringFakeMode: 'string.fake.mode',
   stringTemplate: 'string.template',
+
   tinyintFakeMode: 'tinyint.fake.mode',
   tinyintMin: 'tinyint.min',
   tinyintMax: 'tinyint.max',
   tinyintTemplate: 'tinyint.template',
+
   smallintFakeMode: 'smallint.fake.mode',
   smallintMin: 'smallint.min',
   smallintMax: 'smallint.max',
   smallintTemplate: 'smallint.template',
+
   intFakeMode: 'int.fake.mode',
   intMin: 'int.min',
   intMax: 'int.max',
   intTemplate: 'int.template',
+
   bigintFakeMode: 'bigint.fake.mode',
   bigintMin: 'bigint.min',
   bigintMax: 'bigint.max',
   bigintTemplate: 'bigint.template',
+
   floatFakeMode: 'float.fake.mode',
   floatMin: 'float.min',
   floatMax: 'float.max',
@@ -122,7 +128,14 @@ export const FakeParams = {
   doubleFakeMode: 'double.fake.mode',
   doubleMin: 'double.min',
   doubleMax: 'double.max',
-  doubleTemplate: 'double.template'
+  doubleTemplate: 'double.template',
+
+  dateYearTemplate: 'date.year.template',
+  dateMonthTemplate: 'date.month.template',
+  dateDayTemplate: 'date.day.template',
+  timeHourTemplate: 'time.hour.template',
+  timeMinuteTemplate: 'time.minute.template',
+  timeSecondTemplate: 'time.second.template'
 }
 
 export const JdbcParams = {

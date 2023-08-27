@@ -204,6 +204,12 @@ export default {
   'pages.project.di.step.fake.doubleMin': 'double 最小值',
   'pages.project.di.step.fake.doubleMax': 'double 最大值',
   'pages.project.di.step.fake.doubleTemplate': 'double 数据',
+  'pages.project.di.step.fake.dateYearTemplate': '日期-年（yyyy）',
+  'pages.project.di.step.fake.dateMonthTemplate': '日期-月（MM）',
+  'pages.project.di.step.fake.dateDayTemplate': '日期-日（dd）',
+  'pages.project.di.step.fake.timeHourTemplate': '时间-小时（HH）',
+  'pages.project.di.step.fake.timeMinuteTemplate': '时间-分钟（mm）',
+  'pages.project.di.step.fake.timeSecondTemplate': '时间-秒（ss）',
 
   // base file
   'pages.project.di.step.baseFile.path': '路径',
