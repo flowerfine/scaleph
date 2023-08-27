@@ -116,16 +116,31 @@ const SinkHttpFileStepForm: React.FC<
           name={HttpParams.retry}
           label={intl.formatMessage({id: 'pages.project.di.step.http.retry'})}
           colProps={{span: 6}}
+          initialValue={3}
+          fieldProps={{
+            step: 1,
+            min: 1
+          }}
         />
         <ProFormDigit
           name={HttpParams.retryBackoffMultiplierMs}
           label={intl.formatMessage({id: 'pages.project.di.step.http.retryBackoffMultiplierMs'})}
           colProps={{span: 9}}
+          initialValue={100}
+          fieldProps={{
+            step: 1000,
+            min: 0
+          }}
         />
         <ProFormDigit
           name={HttpParams.retryBackoffMaxMs}
           label={intl.formatMessage({id: 'pages.project.di.step.http.retryBackoffMaxMs'})}
           colProps={{span: 9}}
+          initialValue={10000}
+          fieldProps={{
+            step: 1000,
+            min: 0
+          }}
         />
       </ProForm>
     </Drawer>
