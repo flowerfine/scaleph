@@ -449,6 +449,23 @@ export default {
   'pages.project.di.step.mongodb.uri': 'URI',
   'pages.project.di.step.mongodb.database': '数据库',
   'pages.project.di.step.mongodb.collection': '集合',
+  'pages.project.di.step.mongodb.matchQuery': '查询 Query',
+  'pages.project.di.step.mongodb.matchProjection': '查询 Project',
+  'pages.project.di.step.mongodb.partitionSplitKey': 'Fragmentation Key',
+  'pages.project.di.step.mongodb.partitionSplitSize': 'fragment Size',
+  'pages.project.di.step.mongodb.cursorNoTimeout': '禁用服务端 Cursor 超时',
+  'pages.project.di.step.mongodb.fetchSize': '批量大小',
+  'pages.project.di.step.mongodb.maxTimeMin': '查询超时时间（分钟）',
+  'pages.project.di.step.mongodb.flatSyncString': 'Flat as String',
+
+  'pages.project.di.step.mongodb.bufferFlushMaxRows': 'Buffer Size',
+  'pages.project.di.step.mongodb.bufferFlushInterval': 'Buffer Flush 频率（毫秒）',
+  'pages.project.di.step.mongodb.retryMax': '重试次数',
+  'pages.project.di.step.mongodb.retryInterval': '重试间隔（毫秒）',
+  'pages.project.di.step.mongodb.upsertEnable': '启用 Upsert',
+  'pages.project.di.step.mongodb.primaryKey': 'Primary Key',
+  'pages.project.di.step.mongodb.primaryKey.placeholder': 'id, name',
+  'pages.project.di.step.mongodb.transaction': '启用事务',
 
   // redis
   'pages.project.di.step.redis.host': '主机',

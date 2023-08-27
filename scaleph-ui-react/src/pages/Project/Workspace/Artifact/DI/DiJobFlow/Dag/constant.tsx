@@ -391,7 +391,22 @@ export const IoTDBParams = {
 export const MondoDBParams = {
   uri: 'uri',
   database: 'database',
-  collection: 'collection'
+  collection: 'collection',
+  matchQuery: 'match.query',
+  matchProjection: 'match.projection',
+  partitionSplitKey: 'partition.split-key',
+  partitionSplitSize: 'partition.split-size',
+  cursorNoTimeout: 'cursor.no-timeout',
+  fetchSize: 'fetch.size',
+  maxTimeMin: 'max.time-min',
+  flatSyncString: 'flat.sync-string',
+  bufferFlushMaxRows: 'buffer-flush.max-rows',
+  bufferFlushInterval: 'buffer-flush.interval',
+  retryMax: 'retry.max',
+  retryInterval: 'retry.interval',
+  upsertEnable: 'upsert-enable',
+  primaryKey: 'primary-key',
+  transaction: 'transaction'
 };
 
 export const RedisParams = {

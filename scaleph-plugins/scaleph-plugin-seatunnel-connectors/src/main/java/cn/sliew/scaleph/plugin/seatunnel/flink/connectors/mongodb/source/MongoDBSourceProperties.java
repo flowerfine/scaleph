@@ -24,12 +24,67 @@ import com.fasterxml.jackson.databind.JsonNode;
 public enum MongoDBSourceProperties {
     ;
 
-    public static final PropertyDescriptor<JsonNode> SCHEMA = new PropertyDescriptor.Builder()
-            .name("schema")
-            .description("The schema information of upstream data.")
-            .type(PropertyType.OBJECT)
-            .parser(Parsers.JSON_PARSER)
+    public static final PropertyDescriptor<String> MATCH_QUERY = new PropertyDescriptor.Builder()
+            .name("match.query")
+            .description("MatchQuery is a JSON string that specifies the selection criteria using query operators for the documents to be returned from the collection.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<String> MATCH_PROJECTION = new PropertyDescriptor.Builder()
+            .name("match.projection")
+            .description("MatchQuery is a JSON string that specifies the selection criteria using query operators for the documents to be returned from the collection.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> PARTITION_SPLIT_KEY = new PropertyDescriptor.Builder()
+            .name("partition.split-key")
+            .description("The key of Mongodb fragmentation.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Long> PARTITION_SPLIT_SIZE = new PropertyDescriptor.Builder()
+            .name("partition.split-size")
+            .description("The size of Mongodb fragment.")
+            .type(PropertyType.INT)
+            .parser(Parsers.LONG_PARSER)
+            .addValidator(Validators.POSITIVE_LONG_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Boolean> CURSOR_NO_TIMEOUT = new PropertyDescriptor.Builder()
+            .name("cursor.no-timeout")
+            .description("MongoDB server normally times out idle cursors after an inactivity period (10 minutes) to prevent excess memory use")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .addValidator(Validators.BOOLEAN_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> FETCH_SIZE = new PropertyDescriptor.Builder()
+            .name("fetch.size")
+            .description("Set the number of documents obtained from the server for each batch.")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Long> MAX_TIME_MIN = new PropertyDescriptor.Builder()
+            .name("max.time-min")
+            .description("This parameter is a MongoDB query option that limits the maximum execution time for query operations.")
+            .type(PropertyType.INT)
+            .parser(Parsers.LONG_PARSER)
+            .addValidator(Validators.POSITIVE_LONG_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Boolean> FLAT_SYNC_STRING = new PropertyDescriptor.Builder()
+            .name("flat.sync-string")
+            .description("By utilizing flatSyncString, only one field attribute value can be set, and the field type must be a String.")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .addValidator(Validators.BOOLEAN_VALIDATOR)
+            .validateAndBuild();
 }

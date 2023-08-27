@@ -8,6 +8,8 @@ import {getIntl, getLocale} from 'umi';
 import {useEffect} from 'react';
 import {ProForm, ProFormText} from '@ant-design/pro-components';
 import DataSourceItem from '@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/dataSource';
+import SchemaItem from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/schema";
+import {StepSchemaService} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/helper";
 
 const SinkMongoDBStepForm: React.FC<
   ModalFormProps<{
@@ -43,6 +45,7 @@ const SinkMongoDBStepForm: React.FC<
               map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
               map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
               map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
+              StepSchemaService.formatSchema(values)
               map.set(STEP_ATTR_TYPE.stepAttrs, values);
               WsDiJobService.saveStepAttr(map).then((resp) => {
                 if (resp.success) {
@@ -74,6 +77,9 @@ const SinkMongoDBStepForm: React.FC<
           label={intl.formatMessage({id: 'pages.project.di.step.mongodb.collection'})}
           rules={[{required: true}]}
         />
+        <SchemaItem/>
+
+
       </ProForm>
     </Drawer>
   );

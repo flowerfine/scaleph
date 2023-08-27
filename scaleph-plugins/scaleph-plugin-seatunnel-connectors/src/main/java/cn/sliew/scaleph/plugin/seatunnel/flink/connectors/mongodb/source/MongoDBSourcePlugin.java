@@ -36,7 +36,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.mongodb.MongoDBProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.mongodb.source.MongoDBSourceProperties.SCHEMA;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.mongodb.source.MongoDBSourceProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class MongoDBSourcePlugin extends SeaTunnelConnectorPlugin {
@@ -49,8 +49,15 @@ public class MongoDBSourcePlugin extends SeaTunnelConnectorPlugin {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(DATABASE);
         props.add(COLLECTION);
-        props.add(MATCH_QUERY);
         props.add(SCHEMA);
+        props.add(MATCH_QUERY);
+        props.add(MATCH_PROJECTION);
+        props.add(PARTITION_SPLIT_KEY);
+        props.add(PARTITION_SPLIT_SIZE);
+        props.add(CURSOR_NO_TIMEOUT);
+        props.add(FETCH_SIZE);
+        props.add(MAX_TIME_MIN);
+        props.add(FLAT_SYNC_STRING);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
