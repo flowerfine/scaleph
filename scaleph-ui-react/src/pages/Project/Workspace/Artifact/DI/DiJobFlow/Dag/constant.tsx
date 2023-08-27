@@ -140,6 +140,7 @@ export const FakeParams = {
 
 export const JdbcParams = {
   connectionCheckTimeoutSec: 'connection_check_timeout_sec',
+  compatibleMode: 'compatible_mode',
   database: 'database',
   table: 'table',
   supportUpsert: 'support_upsert_by_query_primary_key_exist',
@@ -154,7 +155,6 @@ export const JdbcParams = {
   partitionNum: 'partition_num',
   fetchSize: 'fetch_size',
   batchSize: 'batch_size',
-  batchIntervalMs: 'batch_interval_ms',
   maxRetries: 'max_retries',
   isExactlyOnce: 'is_exactly_once',
   xaDataSourceClassName: 'xa_data_source_class_name',

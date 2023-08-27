@@ -99,6 +99,14 @@ const SourceJdbcStepForm: React.FC<ModalFormProps<{
           }}
         />
         <ProFormText
+          name={JdbcParams.compatibleMode}
+          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.compatibleMode'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.compatibleMode.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+        />
+        <ProFormText
           name={JdbcParams.partitionColumn}
           label={intl.formatMessage({id: 'pages.project.di.step.jdbc.partitionColumn'})}
           tooltip={{

@@ -113,6 +113,14 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<{
           }}
         />
         <ProFormText
+          name={JdbcParams.compatibleMode}
+          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.compatibleMode'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.compatibleMode.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+        />
+        <ProFormText
           name={JdbcParams.database}
           label={intl.formatMessage({id: 'pages.project.di.step.jdbc.database'})}
           tooltip={{
@@ -201,20 +209,6 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<{
           }}
           colProps={{span: 8}}
           initialValue={300}
-          fieldProps={{
-            min: 0,
-            step: 100
-          }}
-        />
-        <ProFormDigit
-          name={JdbcParams.batchIntervalMs}
-          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.batchIntervalMs'})}
-          tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.batch.tooltip'}),
-            icon: <InfoCircleOutlined/>,
-          }}
-          colProps={{span: 8}}
-          initialValue={1000}
           fieldProps={{
             min: 0,
             step: 100

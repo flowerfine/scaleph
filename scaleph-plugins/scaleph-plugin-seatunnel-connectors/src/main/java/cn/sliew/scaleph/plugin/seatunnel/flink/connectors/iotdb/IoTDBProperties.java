@@ -51,4 +51,11 @@ public enum IoTDBProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<Integer> CONNECTION_TIMEOUT_IN_MS = new PropertyDescriptor.Builder()
+            .name("connection_timeout_in_ms")
+            .description("The maximum time (in ms) to wait when connect IoTDB")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
 }

@@ -132,6 +132,8 @@ export default {
 
   // jdbc
   'pages.project.di.step.jdbc.connectionCheckTimeoutSec': '数据源连接超时(秒)',
+  'pages.project.di.step.jdbc.compatibleMode': '数据库兼容模式',
+  'pages.project.di.step.jdbc.compatibleMode.tooltip': '如 OceanBase 支持 Oracle、MySQL 模式, 用户需要选择使用 Oracle 或 MySQL',
   'pages.project.di.step.jdbc.database': '数据库',
   'pages.project.di.step.jdbc.table': '表',
   'pages.project.di.step.jdbc.table.tooltip': '优先级高于SQL',
@@ -155,7 +157,6 @@ export default {
   'pages.project.di.step.jdbc.getsql': '获取SQL',
   'pages.project.di.step.jdbc.preview': '预览结果',
   'pages.project.di.step.jdbc.batchSize': '批次数量',
-  'pages.project.di.step.jdbc.batchIntervalMs': '批次间隔(毫秒)',
   'pages.project.di.step.jdbc.batch.tooltip':
     'record buffer 到达批次数量或时间到批次间隔(毫秒)时，会提交 record buffer',
   'pages.project.di.step.jdbc.maxRetries': '批次重试次数',

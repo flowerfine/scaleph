@@ -90,15 +90,6 @@ public enum JdbcSinkProperties {
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Integer> BATCH_INTERVAL_MS = new PropertyDescriptor.Builder<Integer>()
-            .name("batch_interval_ms")
-            .description("For batch writing, when the number of buffers reaches the number of batch_size or the time reaches batch_interval_ms, the data will be flushed into the database")
-            .type(PropertyType.INT)
-            .defaultValue(1000)
-            .parser(Parsers.INTEGER_PARSER)
-            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
-            .validateAndBuild();
-
     public static final PropertyDescriptor<Boolean> IS_EXACTLY_ONCE = new PropertyDescriptor.Builder<Boolean>()
             .name("is_exactly_once")
             .description("Whether to enable exactly-once semantics, which will use Xa transactions. If on, you need to set xa_data_source_class_name.")
