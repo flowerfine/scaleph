@@ -18,9 +18,12 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.mongodb.source;
 
-import cn.sliew.scaleph.plugin.framework.property.*;
-import com.fasterxml.jackson.databind.JsonNode;
+import cn.sliew.scaleph.plugin.framework.property.Parsers;
+import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.plugin.framework.property.PropertyType;
+import cn.sliew.scaleph.plugin.framework.property.Validators;
 
+@SuppressWarnings("unchecked")
 public enum MongoDBSourceProperties {
     ;
 
@@ -45,6 +48,7 @@ public enum MongoDBSourceProperties {
             .description("The key of Mongodb fragmentation.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
+            .defaultValue("_id")
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
@@ -53,6 +57,7 @@ public enum MongoDBSourceProperties {
             .description("The size of Mongodb fragment.")
             .type(PropertyType.INT)
             .parser(Parsers.LONG_PARSER)
+            .defaultValue(1024 * 1024 * 64L) // default 64M
             .addValidator(Validators.POSITIVE_LONG_VALIDATOR)
             .validateAndBuild();
 
@@ -61,6 +66,7 @@ public enum MongoDBSourceProperties {
             .description("MongoDB server normally times out idle cursors after an inactivity period (10 minutes) to prevent excess memory use")
             .type(PropertyType.BOOLEAN)
             .parser(Parsers.BOOLEAN_PARSER)
+            .defaultValue(true)
             .addValidator(Validators.BOOLEAN_VALIDATOR)
             .validateAndBuild();
 
@@ -69,7 +75,8 @@ public enum MongoDBSourceProperties {
             .description("Set the number of documents obtained from the server for each batch.")
             .type(PropertyType.INT)
             .parser(Parsers.INTEGER_PARSER)
-            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .defaultValue(2048)
+            .addValidator(Validators.INTEGER_VALIDATOR, Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<Long> MAX_TIME_MIN = new PropertyDescriptor.Builder()
@@ -77,7 +84,8 @@ public enum MongoDBSourceProperties {
             .description("This parameter is a MongoDB query option that limits the maximum execution time for query operations.")
             .type(PropertyType.INT)
             .parser(Parsers.LONG_PARSER)
-            .addValidator(Validators.POSITIVE_LONG_VALIDATOR)
+            .defaultValue(600L)
+            .addValidator(Validators.LONG_VALIDATOR, Validators.POSITIVE_LONG_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<Boolean> FLAT_SYNC_STRING = new PropertyDescriptor.Builder()
@@ -85,6 +93,8 @@ public enum MongoDBSourceProperties {
             .description("By utilizing flatSyncString, only one field attribute value can be set, and the field type must be a String.")
             .type(PropertyType.BOOLEAN)
             .parser(Parsers.BOOLEAN_PARSER)
+            .defaultValue(true)
             .addValidator(Validators.BOOLEAN_VALIDATOR)
             .validateAndBuild();
+
 }

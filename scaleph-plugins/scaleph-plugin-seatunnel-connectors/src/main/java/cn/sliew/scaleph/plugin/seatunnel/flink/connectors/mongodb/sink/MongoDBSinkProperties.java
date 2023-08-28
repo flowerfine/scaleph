@@ -23,6 +23,7 @@ import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.framework.property.PropertyType;
 import cn.sliew.scaleph.plugin.framework.property.Validators;
 
+import java.util.Collections;
 import java.util.List;
 
 public enum MongoDBSinkProperties {
@@ -34,7 +35,7 @@ public enum MongoDBSinkProperties {
             .type(PropertyType.INT)
             .parser(Parsers.INTEGER_PARSER)
             .defaultValue(1000)
-            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .addValidator(Validators.INTEGER_VALIDATOR, Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<Integer> BUFFER_FLUSH_INTERVAL = new PropertyDescriptor.Builder()
@@ -43,7 +44,7 @@ public enum MongoDBSinkProperties {
             .type(PropertyType.INT)
             .parser(Parsers.INTEGER_PARSER)
             .defaultValue(30000)
-            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .addValidator(Validators.LONG_VALIDATOR, Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<Integer> RETRY_MAX = new PropertyDescriptor.Builder()
@@ -64,7 +65,7 @@ public enum MongoDBSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Boolean> UPSERT_ENABLE = new PropertyDescriptor.Builder()
+    public static final PropertyDescriptor<Integer> UPSERT_ENABLE = new PropertyDescriptor.Builder<>()
             .name("upsert-enable")
             .description("Whether to write documents via upsert mode.")
             .type(PropertyType.BOOLEAN)
@@ -72,15 +73,16 @@ public enum MongoDBSinkProperties {
             .addValidator(Validators.BOOLEAN_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<List<String>> PRIMARY_KEY = new PropertyDescriptor.Builder()
+    public static final PropertyDescriptor<List<String>> PRIMARY_KEY = new PropertyDescriptor.Builder<>()
             .name("primary-key")
-            .description("The size of Mongodb fragment.")
+            .description("The primary keys for upsert/update. Keys are in [\"id\",\"name\",...] format for properties.")
             .type(PropertyType.OBJECT)
             .parser(Parsers.STRING_ARRAY_PARSER)
+            .defaultValue(Collections.EMPTY_LIST)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Boolean> TRANSACTION = new PropertyDescriptor.Builder()
+    public static final PropertyDescriptor<Integer> TRANSACTION = new PropertyDescriptor.Builder<>()
             .name("transaction")
             .description("Whether to use transactions in MongoSink (requires MongoDB 4.2+).")
             .type(PropertyType.BOOLEAN)
@@ -88,4 +90,5 @@ public enum MongoDBSinkProperties {
             .defaultValue(false)
             .addValidator(Validators.BOOLEAN_VALIDATOR)
             .validateAndBuild();
+
 }

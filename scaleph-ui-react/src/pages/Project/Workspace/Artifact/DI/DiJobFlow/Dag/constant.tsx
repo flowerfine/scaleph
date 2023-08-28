@@ -388,7 +388,7 @@ export const IoTDBParams = {
   storageGroup: 'storage_group',
 };
 
-export const MondoDBParams = {
+export const MongoDBParams = {
   uri: 'uri',
   database: 'database',
   collection: 'collection',
@@ -405,8 +405,8 @@ export const MondoDBParams = {
   retryMax: 'retry.max',
   retryInterval: 'retry.interval',
   upsertEnable: 'upsert-enable',
-  primaryKey: 'primary-key',
-  transaction: 'transaction'
+  transaction: 'transaction',
+  primaryKey: 'primary-key'
 };
 
 export const RedisParams = {

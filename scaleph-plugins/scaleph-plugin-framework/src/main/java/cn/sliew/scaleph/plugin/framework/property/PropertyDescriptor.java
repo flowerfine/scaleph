@@ -250,9 +250,9 @@ public class PropertyDescriptor<T> implements Comparable<PropertyDescriptor> {
             return this;
         }
 
-        public Builder addValidator(final Validator validator) {
-            if (validator != null) {
-                validators.add(validator);
+        public Builder addValidator(final Validator... validators) {
+            if (validators != null) {
+                this.validators.addAll(Arrays.asList(validators));
             }
             return this;
         }

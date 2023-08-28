@@ -1,6 +1,6 @@
 import {NsGraph} from '@antv/xflow';
 import {ModalFormProps} from '@/app.d';
-import {MondoDBParams, STEP_ATTR_TYPE} from '../../constant';
+import {MongoDBParams, STEP_ATTR_TYPE} from '../../constant';
 import {WsDiJobService} from '@/services/project/WsDiJobService';
 import {Button, Drawer, Form, message} from 'antd';
 import {WsDiJob} from '@/services/project/typings';
@@ -9,7 +9,6 @@ import {useEffect} from 'react';
 import {ProForm, ProFormDigit, ProFormSwitch, ProFormText, ProFormTextArea} from '@ant-design/pro-components';
 import {StepSchemaService} from '../helper';
 import DataSourceItem from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/dataSource";
-import SchemaItem from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/schema";
 
 const SourceMongoDBStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -66,12 +65,12 @@ const SourceMongoDBStepForm: React.FC<ModalFormProps<{
         />
         <DataSourceItem dataSource={"MongoDB"}/>
         <ProFormText
-          name={MondoDBParams.database}
+          name={MongoDBParams.database}
           label={intl.formatMessage({id: 'pages.project.di.step.mongodb.database'})}
           rules={[{required: true}]}
         />
         <ProFormText
-          name={MondoDBParams.collection}
+          name={MongoDBParams.collection}
           label={intl.formatMessage({id: 'pages.project.di.step.mongodb.collection'})}
           rules={[{required: true}]}
         />
@@ -84,7 +83,7 @@ const SourceMongoDBStepForm: React.FC<ModalFormProps<{
           name={MondoDBParams.matchQuery}
           label={intl.formatMessage({id: 'pages.project.di.step.mongodb.matchQuery'})}
         />
-        <SchemaItem/>
+        <FieldItem/>
         <ProFormText
           name={MondoDBParams.partitionSplitKey}
           label={intl.formatMessage({id: 'pages.project.di.step.mongodb.partitionSplitKey'})}
