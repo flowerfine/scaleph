@@ -23,7 +23,7 @@ import cn.sliew.scaleph.plugin.framework.property.*;
 public enum EmailSinkProperties {
     ;
 
-    public static final PropertyDescriptor<String> EMAIL_HOST = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<String> EMAIL_HOST = new PropertyDescriptor.Builder()
             .name("email_host")
             .description("SMTP server host")
             .type(PropertyType.STRING)
@@ -32,7 +32,7 @@ public enum EmailSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> EMAIL_TRANSPORT_PROTOCOL = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<String> EMAIL_TRANSPORT_PROTOCOL = new PropertyDescriptor.Builder()
             .name("email_transport_protocol")
             .description("The protocol to load the session.")
             .type(PropertyType.STRING)
@@ -41,7 +41,7 @@ public enum EmailSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> EMAIL_FROM_ADDRESS = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<String> EMAIL_FROM_ADDRESS = new PropertyDescriptor.Builder()
             .name("email_from_address")
             .description("Sender Email Address")
             .type(PropertyType.STRING)
@@ -50,7 +50,7 @@ public enum EmailSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> EMAIL_SMTP_AUTH = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<String> EMAIL_SMTP_AUTH = new PropertyDescriptor.Builder()
             .name("email_smtp_auth")
             .description("Whether to authenticate the customer")
             .type(PropertyType.STRING)
@@ -59,7 +59,7 @@ public enum EmailSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> EMAIL_AUTHORIZATION_CODE = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<String> EMAIL_AUTHORIZATION_CODE = new PropertyDescriptor.Builder()
             .name("email_authorization_code")
             .description("authorization code,You can obtain the authorization code from the mailbox Settings.")
             .type(PropertyType.STRING)
@@ -68,7 +68,7 @@ public enum EmailSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> EMAIL_TO_ADDRESS = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<String> EMAIL_TO_ADDRESS = new PropertyDescriptor.Builder()
             .name("email_to_address")
             .description("Receiver Email Address")
             .type(PropertyType.STRING)
@@ -77,7 +77,7 @@ public enum EmailSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> EMAIL_MESSAGE_HEADLINE = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<String> EMAIL_MESSAGE_HEADLINE = new PropertyDescriptor.Builder()
             .name("email_message_headline")
             .description("The subject line of the entire message.")
             .type(PropertyType.STRING)
@@ -86,7 +86,7 @@ public enum EmailSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> EMAIL_MESSAGE_CONTENT = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<String> EMAIL_MESSAGE_CONTENT = new PropertyDescriptor.Builder()
             .name("email_message_content")
             .description("The body of the entire message.")
             .type(PropertyType.STRING)

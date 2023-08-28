@@ -95,25 +95,31 @@ export const FakeParams = {
   mapSize: 'map.size',
   arraySize: 'array.size',
   bytesLength: 'bytes.length',
-  stringFakeMode: 'string.fake.mode',
   stringLength: 'string.length',
+
+  stringFakeMode: 'string.fake.mode',
   stringTemplate: 'string.template',
+
   tinyintFakeMode: 'tinyint.fake.mode',
   tinyintMin: 'tinyint.min',
   tinyintMax: 'tinyint.max',
   tinyintTemplate: 'tinyint.template',
+
   smallintFakeMode: 'smallint.fake.mode',
   smallintMin: 'smallint.min',
   smallintMax: 'smallint.max',
   smallintTemplate: 'smallint.template',
+
   intFakeMode: 'int.fake.mode',
   intMin: 'int.min',
   intMax: 'int.max',
   intTemplate: 'int.template',
+
   bigintFakeMode: 'bigint.fake.mode',
   bigintMin: 'bigint.min',
   bigintMax: 'bigint.max',
   bigintTemplate: 'bigint.template',
+
   floatFakeMode: 'float.fake.mode',
   floatMin: 'float.min',
   floatMax: 'float.max',
@@ -122,11 +128,19 @@ export const FakeParams = {
   doubleFakeMode: 'double.fake.mode',
   doubleMin: 'double.min',
   doubleMax: 'double.max',
-  doubleTemplate: 'double.template'
+  doubleTemplate: 'double.template',
+
+  dateYearTemplate: 'date.year.template',
+  dateMonthTemplate: 'date.month.template',
+  dateDayTemplate: 'date.day.template',
+  timeHourTemplate: 'time.hour.template',
+  timeMinuteTemplate: 'time.minute.template',
+  timeSecondTemplate: 'time.second.template'
 }
 
 export const JdbcParams = {
   connectionCheckTimeoutSec: 'connection_check_timeout_sec',
+  compatibleMode: 'compatible_mode',
   database: 'database',
   table: 'table',
   supportUpsert: 'support_upsert_by_query_primary_key_exist',
@@ -141,7 +155,6 @@ export const JdbcParams = {
   partitionNum: 'partition_num',
   fetchSize: 'fetch_size',
   batchSize: 'batch_size',
-  batchIntervalMs: 'batch_interval_ms',
   maxRetries: 'max_retries',
   isExactlyOnce: 'is_exactly_once',
   xaDataSourceClassName: 'xa_data_source_class_name',
@@ -152,6 +165,7 @@ export const JdbcParams = {
 
 export const BaseFileParams = {
   path: 'path',
+  fileFilterPattern: 'file_filter_pattern',
   fileFormatType: 'file_format_type',
   readColumns: 'read_columns',
   schema: 'schema',

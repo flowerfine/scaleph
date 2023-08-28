@@ -74,6 +74,10 @@ const SourceHdfsFileStepForm: React.FC<ModalFormProps<{
           name={BaseFileParams.readColumns}
           label={intl.formatMessage({id: 'pages.project.di.step.baseFile.readColumns'})}
         />
+        <ProFormText
+          name={BaseFileParams.fileFilterPattern}
+          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.fileFilterPattern'})}
+        />
         <SchemaItem/>
         <ProFormSwitch
           name={BaseFileParams.parsePartitionFromPath}

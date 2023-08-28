@@ -61,6 +61,7 @@ public enum HbaseSinkProperties {
             .description("The mode of writing null value")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
+            .allowableValues("skip", "empty")
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
@@ -86,6 +87,7 @@ public enum HbaseSinkProperties {
             .description("The encoding of string field")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
+            .allowableValues("utf8", "gbk")
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

@@ -18,38 +18,32 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.mongodb.source;
 
-import cn.sliew.scaleph.plugin.framework.property.*;
-import com.fasterxml.jackson.databind.JsonNode;
+import cn.sliew.scaleph.plugin.framework.property.Parsers;
+import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.plugin.framework.property.PropertyType;
+import cn.sliew.scaleph.plugin.framework.property.Validators;
 
 @SuppressWarnings("unchecked")
 public enum MongoDBSourceProperties {
     ;
 
-    public static final PropertyDescriptor<JsonNode> SCHEMA = new PropertyDescriptor.Builder<>()
-            .name("schema")
-            .description("The schema information of upstream data.")
-            .type(PropertyType.OBJECT)
-            .parser(Parsers.JSON_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> MATCH_QUERY = new PropertyDescriptor.Builder<>()
+    public static final PropertyDescriptor<String> MATCH_QUERY = new PropertyDescriptor.Builder()
             .name("match.query")
-            .description("match.query is a JSON string that specifies the selection criteria using query operators for the documents to be returned from the collection.")
+            .description("MatchQuery is a JSON string that specifies the selection criteria using query operators for the documents to be returned from the collection.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> MATCH_PROJECTION = new PropertyDescriptor.Builder<>()
+    public static final PropertyDescriptor<String> MATCH_PROJECTION = new PropertyDescriptor.Builder()
             .name("match.projection")
-            .description("In MongoDB, Projection is used to control the fields contained in the query results")
+            .description("MatchQuery is a JSON string that specifies the selection criteria using query operators for the documents to be returned from the collection.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> PARTITION_SPLIT_KEY = new PropertyDescriptor.Builder<>()
+    public static final PropertyDescriptor<String> PARTITION_SPLIT_KEY = new PropertyDescriptor.Builder()
             .name("partition.split-key")
             .description("The key of Mongodb fragmentation.")
             .type(PropertyType.STRING)
@@ -58,61 +52,49 @@ public enum MongoDBSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Long> PARTITION_SPLIT_SIZE = new PropertyDescriptor.Builder<>()
+    public static final PropertyDescriptor<Long> PARTITION_SPLIT_SIZE = new PropertyDescriptor.Builder()
             .name("partition.split-size")
             .description("The size of Mongodb fragment.")
-            .type(PropertyType.LONG)
+            .type(PropertyType.INT)
             .parser(Parsers.LONG_PARSER)
-            .defaultValue(67108864L) // default 64M
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .defaultValue(1024 * 1024 * 64L) // default 64M
+            .addValidator(Validators.POSITIVE_LONG_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Boolean> CURSOR_NO_TIMEOUT = new PropertyDescriptor.Builder<>()
+    public static final PropertyDescriptor<Boolean> CURSOR_NO_TIMEOUT = new PropertyDescriptor.Builder()
             .name("cursor.no-timeout")
-            .description("MongoDB server normally times out idle cursors after an inactivity period (10 minutes) to prevent excess memory use. " +
-                    "Set this option to true to prevent that. However, " +
-                    "if the application takes longer than 30 minutes to process the current batch of documents, " +
-                    "the session is marked as expired and closed.")
+            .description("MongoDB server normally times out idle cursors after an inactivity period (10 minutes) to prevent excess memory use")
             .type(PropertyType.BOOLEAN)
             .parser(Parsers.BOOLEAN_PARSER)
             .defaultValue(true)
             .addValidator(Validators.BOOLEAN_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Integer> FETCH_SIZE = new PropertyDescriptor.Builder<>()
+    public static final PropertyDescriptor<Integer> FETCH_SIZE = new PropertyDescriptor.Builder()
             .name("fetch.size")
-            .description("Set the number of documents obtained from the server for each batch." +
-                    " Setting the appropriate batch size can improve query performance and avoid the memory pressure" +
-                    " caused by obtaining a large amount of data at one time.")
+            .description("Set the number of documents obtained from the server for each batch.")
             .type(PropertyType.INT)
             .parser(Parsers.INTEGER_PARSER)
             .defaultValue(2048)
             .addValidator(Validators.INTEGER_VALIDATOR, Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Long> MAX_TIME_MIN = new PropertyDescriptor.Builder<>()
+    public static final PropertyDescriptor<Long> MAX_TIME_MIN = new PropertyDescriptor.Builder()
             .name("max.time-min")
-            .description("This parameter is a MongoDB query option that limits the maximum execution time for query operations. " +
-                    "The value of maxTimeMin is in Minute." +
-                    " If the execution time of the query exceeds the specified time limit, " +
-                    "MongoDB will terminate the operation and return an error.")
-            .type(PropertyType.LONG)
+            .description("This parameter is a MongoDB query option that limits the maximum execution time for query operations.")
+            .type(PropertyType.INT)
             .parser(Parsers.LONG_PARSER)
             .defaultValue(600L)
             .addValidator(Validators.LONG_VALIDATOR, Validators.POSITIVE_LONG_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Boolean> FLAT_SYNC_STRING = new PropertyDescriptor.Builder<>()
+    public static final PropertyDescriptor<Boolean> FLAT_SYNC_STRING = new PropertyDescriptor.Builder()
             .name("flat.sync-string")
-            .description("By utilizing flatSyncString, only one field attribute value can be set," +
-                    " and the field type must be a String." +
-                    " This operation will perform a string mapping on a single MongoDB data entry.")
+            .description("By utilizing flatSyncString, only one field attribute value can be set, and the field type must be a String.")
             .type(PropertyType.BOOLEAN)
             .parser(Parsers.BOOLEAN_PARSER)
             .defaultValue(true)
             .addValidator(Validators.BOOLEAN_VALIDATOR)
             .validateAndBuild();
-
-
 
 }

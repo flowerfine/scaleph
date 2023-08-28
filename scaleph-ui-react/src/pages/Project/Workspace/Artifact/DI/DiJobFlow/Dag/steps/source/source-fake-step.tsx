@@ -145,15 +145,6 @@ const SourceFakeStepForm: React.FC<ModalFormProps<{
             min: 1,
           }}
         />
-        <ProFormSelect
-          name={FakeParams.stringFakeMode}
-          label={intl.formatMessage({id: 'pages.project.di.step.fake.stringFakeMode'})}
-          colProps={{span: 12}}
-          allowClear={false}
-          request={() => {
-            return DictDataService.listDictDataByType2(DICT_TYPE.seatunnelFakeMode)
-          }}
-        />
         <ProFormDigit
           name={FakeParams.stringLength}
           label={intl.formatMessage({id: 'pages.project.di.step.fake.stringLength'})}
@@ -162,6 +153,15 @@ const SourceFakeStepForm: React.FC<ModalFormProps<{
           fieldProps={{
             step: 1,
             min: 1,
+          }}
+        />
+        <ProFormSelect
+          name={FakeParams.stringFakeMode}
+          label={intl.formatMessage({id: 'pages.project.di.step.fake.stringFakeMode'})}
+          colProps={{span: 12}}
+          allowClear={false}
+          request={() => {
+            return DictDataService.listDictDataByType2(DICT_TYPE.seatunnelFakeMode)
           }}
         />
         <ProFormTextArea
@@ -354,6 +354,38 @@ const SourceFakeStepForm: React.FC<ModalFormProps<{
           name={FakeParams.doubleTemplate}
           label={intl.formatMessage({id: 'pages.project.di.step.fake.doubleTemplate'})}
         />
+
+        <ProFormText
+          name={FakeParams.dateYearTemplate}
+          label={intl.formatMessage({id: 'pages.project.di.step.fake.dateYearTemplate'})}
+          colProps={{span: 8}}
+        />
+        <ProFormText
+          name={FakeParams.dateMonthTemplate}
+          label={intl.formatMessage({id: 'pages.project.di.step.fake.dateMonthTemplate'})}
+          colProps={{span: 8}}
+        />
+        <ProFormText
+          name={FakeParams.dateDayTemplate}
+          label={intl.formatMessage({id: 'pages.project.di.step.fake.dateDayTemplate'})}
+          colProps={{span: 8}}
+        />
+        <ProFormText
+          name={FakeParams.timeHourTemplate}
+          label={intl.formatMessage({id: 'pages.project.di.step.fake.timeHourTemplate'})}
+          colProps={{span: 8}}
+        />
+        <ProFormText
+          name={FakeParams.timeMinuteTemplate}
+          label={intl.formatMessage({id: 'pages.project.di.step.fake.timeMinuteTemplate'})}
+          colProps={{span: 8}}
+        />
+        <ProFormText
+          name={FakeParams.timeSecondTemplate}
+          label={intl.formatMessage({id: 'pages.project.di.step.fake.timeSecondTemplate'})}
+          colProps={{span: 8}}
+        />
+
         <ProFormGroup
           label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
           tooltip={{

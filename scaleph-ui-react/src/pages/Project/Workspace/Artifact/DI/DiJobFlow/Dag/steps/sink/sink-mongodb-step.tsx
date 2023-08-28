@@ -6,14 +6,10 @@ import {Button, Drawer, Form, message} from 'antd';
 import {WsDiJob} from '@/services/project/typings';
 import {getIntl, getLocale} from 'umi';
 import {useEffect} from 'react';
-import {
-  ProForm,
-  ProFormDigit,
-  ProFormSwitch,
-  ProFormText
-} from '@ant-design/pro-components';
+import {ProForm, ProFormDigit, ProFormSwitch, ProFormText} from '@ant-design/pro-components';
 import DataSourceItem from '@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/dataSource';
 import FieldItem from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/fields";
+import {StepSchemaService} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/helper";
 
 const SinkMongoDBStepForm: React.FC<
   ModalFormProps<{
@@ -49,6 +45,7 @@ const SinkMongoDBStepForm: React.FC<
               map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
               map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
               map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
+              StepSchemaService.formatSchema(values)
               map.set(STEP_ATTR_TYPE.stepAttrs, values);
               WsDiJobService.saveStepAttr(map).then((resp) => {
                 if (resp.success) {
@@ -108,6 +105,7 @@ const SinkMongoDBStepForm: React.FC<
         <ProFormText
           name={MongoDBParams.primaryKey}
           label={intl.formatMessage({id: 'pages.project.di.step.mongodb.primaryKey'})}
+          placeholder={intl.formatMessage({id: 'pages.project.di.step.mongodb.primaryKey.placeholder'})}
         />
         <ProFormSwitch
           name={MongoDBParams.transaction}

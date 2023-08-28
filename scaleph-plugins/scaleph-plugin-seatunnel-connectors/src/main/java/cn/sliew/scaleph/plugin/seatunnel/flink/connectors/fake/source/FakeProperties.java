@@ -341,4 +341,53 @@ public enum FakeProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+
+    public static final PropertyDescriptor<JsonNode> DATE_YEAR_TEMPLATE = new PropertyDescriptor.Builder()
+            .name("date.year.template")
+            .description("The template list of year of date like 'yyyy', if user configured it, connector will randomly select an item from the template list")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> DATE_MONTH_TEMPLATE = new PropertyDescriptor.Builder()
+            .name("date.month.template")
+            .description("The template list of month of date like 'MM', if user configured it, connector will randomly select an item from the template list")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> DATE_DAY_TEMPLATE = new PropertyDescriptor.Builder()
+            .name("date.day.template")
+            .description("The template list of day of date like 'dd', if user configured it, connector will randomly select an item from the template list")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> TIME_HOUR_TEMPLATE = new PropertyDescriptor.Builder()
+            .name("time.hour.template")
+            .description("The template list of hour of time like 'HH', if user configured it, connector will randomly select an item from the template list")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> TIME_MINUTE_TEMPLATE = new PropertyDescriptor.Builder()
+            .name("time.minute.template")
+            .description("The template list of minute of time like 'mm', if user configured it, connector will randomly select an item from the template list")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> TIME_SECOND_TEMPLATE = new PropertyDescriptor.Builder()
+            .name("time.second.template")
+            .description("The template list of second of time like 'ss', if user configured it, connector will randomly select an item from the template list")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
 }

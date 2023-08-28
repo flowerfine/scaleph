@@ -48,6 +48,7 @@ public class JdbcSourcePlugin extends SeaTunnelConnectorPlugin {
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(CONNECTION_CHECK_TIMEOUT_SEC);
+        props.add(COMPATIBLE_MODE);
         props.add(QUERY);
         props.add(PARTITION_COLUMN);
         props.add(PARTITION_UPPER_BOUND);

@@ -24,6 +24,7 @@ import cn.sliew.scaleph.ds.modal.olap.HiveDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
+import cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSourceProperties;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
 import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperties;
 import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
@@ -37,8 +38,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.HiveProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.source.HiveSourceProperties.READ_COLUMNS;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.source.HiveSourceProperties.READ_PARTITIONS;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class HiveSourcePlugin extends SeaTunnelConnectorPlugin {
@@ -50,8 +49,8 @@ public class HiveSourcePlugin extends SeaTunnelConnectorPlugin {
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(TABLE_NAME);
-        props.add(READ_PARTITIONS);
-        props.add(READ_COLUMNS);
+        props.add(FileSourceProperties.READ_COLUMNS);
+        props.add(FileSourceProperties.READ_PARTITIONS);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);

@@ -76,6 +76,13 @@ public class FakeSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(DOUBLE_MIN);
         props.add(DOUBLE_MAX);
         props.add(DOUBLE_TEMPLATE);
+
+        props.add(DATE_YEAR_TEMPLATE);
+        props.add(DATE_MONTH_TEMPLATE);
+        props.add(DATE_DAY_TEMPLATE);
+        props.add(TIME_HOUR_TEMPLATE);
+        props.add(TIME_MINUTE_TEMPLATE);
+        props.add(TIME_SECOND_TEMPLATE);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);

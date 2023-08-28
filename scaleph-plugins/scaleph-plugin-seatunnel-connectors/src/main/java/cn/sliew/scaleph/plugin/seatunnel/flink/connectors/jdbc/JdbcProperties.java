@@ -73,4 +73,12 @@ public enum JdbcProperties {
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
+
+    public static final PropertyDescriptor<String> COMPATIBLE_MODE = new PropertyDescriptor.Builder<String>()
+            .name("compatible_mode")
+            .description("The compatible mode of database")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
 }

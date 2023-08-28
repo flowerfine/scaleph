@@ -132,6 +132,8 @@ export default {
 
   // jdbc
   'pages.project.di.step.jdbc.connectionCheckTimeoutSec': '数据源连接超时(秒)',
+  'pages.project.di.step.jdbc.compatibleMode': '数据库兼容模式',
+  'pages.project.di.step.jdbc.compatibleMode.tooltip': '如 OceanBase 支持 Oracle、MySQL 模式, 用户需要选择使用 Oracle 或 MySQL',
   'pages.project.di.step.jdbc.database': '数据库',
   'pages.project.di.step.jdbc.table': '表',
   'pages.project.di.step.jdbc.table.tooltip': '优先级高于SQL',
@@ -155,7 +157,6 @@ export default {
   'pages.project.di.step.jdbc.getsql': '获取SQL',
   'pages.project.di.step.jdbc.preview': '预览结果',
   'pages.project.di.step.jdbc.batchSize': '批次数量',
-  'pages.project.di.step.jdbc.batchIntervalMs': '批次间隔(毫秒)',
   'pages.project.di.step.jdbc.batch.tooltip':
     'record buffer 到达批次数量或时间到批次间隔(毫秒)时，会提交 record buffer',
   'pages.project.di.step.jdbc.maxRetries': '批次重试次数',
@@ -204,9 +205,16 @@ export default {
   'pages.project.di.step.fake.doubleMin': 'double 最小值',
   'pages.project.di.step.fake.doubleMax': 'double 最大值',
   'pages.project.di.step.fake.doubleTemplate': 'double 数据',
+  'pages.project.di.step.fake.dateYearTemplate': '日期-年（yyyy）',
+  'pages.project.di.step.fake.dateMonthTemplate': '日期-月（MM）',
+  'pages.project.di.step.fake.dateDayTemplate': '日期-日（dd）',
+  'pages.project.di.step.fake.timeHourTemplate': '时间-小时（HH）',
+  'pages.project.di.step.fake.timeMinuteTemplate': '时间-分钟（mm）',
+  'pages.project.di.step.fake.timeSecondTemplate': '时间-秒（ss）',
 
   // base file
   'pages.project.di.step.baseFile.path': '路径',
+  'pages.project.di.step.baseFile.fileFilterPattern': '文件过滤表达式',
   'pages.project.di.step.baseFile.fileFormatType': '文件格式',
   'pages.project.di.step.baseFile.readColumns': '列',
   'pages.project.di.step.baseFile.schema': '结构',
@@ -375,10 +383,13 @@ export default {
   'pages.project.di.step.kudu.savemode': '保存模式',
 
   // kafka
-  'pages.project.di.step.kafka.topic': '主题',
+  'pages.project.di.step.kafka.topic': 'Topic',
   'pages.project.di.step.kafka.topic.placeholder': 'topic1,topic2',
-  'pages.project.di.step.kafka.pattern': 'pattern',
+  'pages.project.di.step.kafka.pattern': '启用Topic 正则表达式',
+  'pages.project.di.step.kafka.pattern.tooltip':
+    '使用正则表达式作为 Topic，与正则表达式匹配的所有 Topic 都将被消费者订阅',
   'pages.project.di.step.kafka.partitionDiscoveryIntervalMillis': '动态发现主题和分区间隔(毫秒)',
+  'pages.project.di.step.kafka.partitionDiscoveryIntervalMillis.tooltip': '-1: 禁用',
   'pages.project.di.step.kafka.conf': 'Kafka配置',
   'pages.project.di.step.kafka.conf.tooltip':
     '指定参数的方式是加上前缀"kafka."到原始参数名称。 比如指定auto.offset.reset的方式是：kafka.auto.offset.reset = latest',
@@ -387,9 +398,7 @@ export default {
   'pages.project.di.step.kafka.conf.key.placeholder': 'auto.offset.reset',
   'pages.project.di.step.kafka.conf.value': '配置值',
   'pages.project.di.step.kafka.conf.value.placeholder': 'latest',
-  'pages.project.di.step.kafka.pattern.tooltip':
-    '如果 pattern 设置为 true，则为要读取的主题名称模式的正则表达式。 客户端中名称与指定正则表达式匹配的所有主题都将被消费者订阅。',
-  'pages.project.di.step.kafka.consumerGroup': '消费者组ID',
+  'pages.project.di.step.kafka.consumerGroup': 'Kafka Group Id',
   'pages.project.di.step.kafka.consumerGroup.tooltip':
     'Kafka consumer group id，用于区分不同的消费组',
   'pages.project.di.step.kafka.commit_on_checkpoint': '在Flink Checkpoint时自动提交偏移量',
@@ -440,21 +449,23 @@ export default {
   'pages.project.di.step.mongodb.uri': 'URI',
   'pages.project.di.step.mongodb.database': '数据库',
   'pages.project.di.step.mongodb.collection': '集合',
-  'pages.project.di.step.mongodb.matchQuery': '查询条件(match.query)',
-  'pages.project.di.step.mongodb.matchProjection': '投影(match.projection)',
+  'pages.project.di.step.mongodb.matchQuery': '查询 Query',
+  'pages.project.di.step.mongodb.matchProjection': '查询 Project',
   'pages.project.di.step.mongodb.partitionSplitKey': '分区主键',
-  'pages.project.di.step.mongodb.partitionSplitSize': '分区大小(Byte)',
-  'pages.project.di.step.mongodb.cursorNoTimeout': '游标不超时',
+  'pages.project.di.step.mongodb.partitionSplitSize': '分区大小（Byte）',
+  'pages.project.di.step.mongodb.cursorNoTimeout': '禁用服务端 Cursor 超时',
   'pages.project.di.step.mongodb.fetchSize': '批量大小',
-  'pages.project.di.step.mongodb.maxTimeMin': '最大查询时间(分钟)',
+  'pages.project.di.step.mongodb.maxTimeMin': '最大查询时间（分钟）',
   'pages.project.di.step.mongodb.flatSyncString': '宽字符串映射（此操作将对单个MongoDB数据条目执行字符串映射。）',
-  'pages.project.di.step.mongodb.bufferFlushMaxRows': '批量写入条数',
-  'pages.project.di.step.mongodb.bufferFlushInterval': '批量刷写间隔(毫秒)',
-  'pages.project.di.step.mongodb.retryMax': '最大重试次数',
+
+  'pages.project.di.step.mongodb.bufferFlushMaxRows': 'Buffer Size',
+  'pages.project.di.step.mongodb.bufferFlushInterval': 'Buffer Flush 频率（毫秒）',
+  'pages.project.di.step.mongodb.retryMax': '重试次数',
   'pages.project.di.step.mongodb.retryInterval': '重试间隔（毫秒）',
-  'pages.project.di.step.mongodb.upsertEnable': '启用Upsert模式',
+  'pages.project.di.step.mongodb.upsertEnable': '启用 Upsert',
   'pages.project.di.step.mongodb.primaryKey': '主键',
-  'pages.project.di.step.mongodb.transaction': '启用事务(MongoDB 4.2+)',
+  'pages.project.di.step.mongodb.primaryKey.placeholder': 'id, name',
+  'pages.project.di.step.mongodb.transaction': '启用事（MongoDB 4.2+）',
 
   // redis
   'pages.project.di.step.redis.host': '主机',
@@ -850,7 +861,6 @@ export default {
   'pages.project.flink.kubernetes.job.detail.suspend': 'Suspend',
   'pages.project.flink.kubernetes.job.detail.resume': 'Resume',
 
-  'pages.project.flink.kubernetes.job.detail.savepoint': 'Savepoint',
   'pages.project.flink.kubernetes.job.detail.flinkui': 'Flink UI',
   'pages.project.flink.kubernetes.job.detail.metrics': 'Metrics',
   'pages.project.flink.kubernetes.job.detail.logs': 'Logs',

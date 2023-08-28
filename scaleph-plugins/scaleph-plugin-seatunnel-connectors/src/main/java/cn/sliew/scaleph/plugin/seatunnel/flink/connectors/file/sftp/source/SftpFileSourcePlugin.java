@@ -52,6 +52,7 @@ public class SftpFileSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(PATH);
         props.add(SKIP_HEADER_ROW_NUMBER);
         props.add(SHEET_NAME);
+        props.add(FILE_FILTER_PATTERN);
         props.add(FILE_FORMAT_TYPE);
         props.add(READ_COLUMNS);
         props.add(SCHEMA);
