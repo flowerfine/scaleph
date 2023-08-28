@@ -437,7 +437,9 @@ export const PulsarParams = {
   cursorStartupTimestamp: 'cursor.startup.timestamp',
   cursorResetMode: 'cursor.reset.mode',
   cursorStopMode: 'cursor.stop.mode',
-  cursorStopTimestamp: 'cursor.stop.timestamp'
+  cursorStopTimestamp: 'cursor.stop.timestamp',
+  format: 'format',
+  fieldDelimiter: 'field_delimiter'
 };
 
 export const DatahubParams = {

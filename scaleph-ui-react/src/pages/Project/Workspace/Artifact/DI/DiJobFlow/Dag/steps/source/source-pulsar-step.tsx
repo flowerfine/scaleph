@@ -103,7 +103,29 @@ const SourcePulsarStepForm: React.FC<
             icon: <InfoCircleOutlined/>,
           }}
         />
-        <FieldItem/>
+        <ProFormSelect
+          name={'format'}
+          label={intl.formatMessage({id: 'pages.project.di.step.pulsar.format'})}
+          rules={[{required: true}]}
+          initialValue={"json"}
+          options={["json", "text"]}
+        />
+        <ProFormDependency name={['format']}>
+          {({format}) => {
+            if (format == 'json') {
+              return <FieldItem/>
+            } else if (format == 'text') {
+              return (
+                <ProFormText
+                  name={PulsarParams.fieldDelimiter}
+                  label={intl.formatMessage({id: 'pages.project.di.step.pulsar.fieldDelimiter'})}
+                />
+              );
+            }
+            return <ProFormGroup/>;
+          }}
+        </ProFormDependency>
+
         <ProFormDigit
           name={PulsarParams.pollTimeout}
           label={intl.formatMessage({id: 'pages.project.di.step.pulsar.pollTimeout'})}

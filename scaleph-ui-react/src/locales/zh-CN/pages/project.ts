@@ -498,6 +498,8 @@ export default {
   'pages.project.di.step.pulsar.cursorStopMode': '游标停止模式',
   'pages.project.di.step.pulsar.cursorStopMode.tooltip': '"Never"表示流，其他表示批',
   'pages.project.di.step.pulsar.cursorStopTimestamp': '游标停止时间戳',
+  'pages.project.di.step.pulsar.format': '数据格式',
+  'pages.project.di.step.pulsar.fieldDelimiter': '分隔符',
 
   // datahub
   'pages.project.di.step.datahub.endpoint': '终端节点',
