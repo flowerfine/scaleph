@@ -374,10 +374,25 @@ export const IoTDBParams = {
   storageGroup: 'storage_group',
 };
 
-export const MondoDBParams = {
+export const MongoDBParams = {
   uri: 'uri',
   database: 'database',
-  collection: 'collection'
+  collection: 'collection',
+  matchQuery: 'match.query',
+  matchProjection: 'match.projection',
+  partitionSplitKey: 'partition.split-key',
+  partitionSplitSize: 'partition.split-size',
+  cursorNoTimeout: 'cursor.no-timeout',
+  fetchSize: 'fetch.size',
+  maxTimeMin: 'max.time-min',
+  flatSyncString: 'flat.sync-string',
+  bufferFlushMaxRows: 'buffer-flush.max-rows',
+  bufferFlushInterval: 'buffer-flush.interval',
+  retryMax: 'retry.max',
+  retryInterval: 'retry.interval',
+  upsertEnable: 'upsert-enable',
+  transaction: 'transaction',
+  primaryKey: 'primary-key'
 };
 
 export const RedisParams = {

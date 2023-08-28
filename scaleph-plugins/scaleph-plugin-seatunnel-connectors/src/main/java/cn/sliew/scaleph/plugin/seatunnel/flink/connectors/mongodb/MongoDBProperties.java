@@ -47,15 +47,7 @@ public enum MongoDBProperties {
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> MATCH_QUERY = new PropertyDescriptor.Builder()
-            .name("matchQuery")
-            .description("MatchQuery is a JSON string that specifies the selection criteria using query operators for the documents to be returned from the collection.")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .addValidator(Validators.POSITIVE_LONG_VALIDATOR)
             .validateAndBuild();
 
 }
