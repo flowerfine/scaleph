@@ -32,6 +32,6 @@ public enum SocketSinkProperties {
             .type(PropertyType.INT)
             .defaultValue(3)
             .parser(Parsers.INTEGER_PARSER)
-            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 }

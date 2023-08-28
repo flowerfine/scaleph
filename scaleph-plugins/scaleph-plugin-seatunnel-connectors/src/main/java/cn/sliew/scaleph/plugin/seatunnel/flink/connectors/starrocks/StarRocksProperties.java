@@ -26,7 +26,7 @@ public enum StarRocksProperties {
     ;
 
     public static final PropertyDescriptor<List<String>> NODE_URLS = new PropertyDescriptor.Builder()
-            .name("node_urls")
+            .name("nodeUrls")
             .description("StarRocks cluster address")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)

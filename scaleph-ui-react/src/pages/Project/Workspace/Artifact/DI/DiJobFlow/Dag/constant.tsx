@@ -418,7 +418,8 @@ export const RedisParams = {
   hashKeyParseMode: 'hash_key_parse_mode',
   format: 'format',
   schema: 'schema',
-  key: 'key'
+  key: 'key',
+  expire: 'expire'
 };
 
 export const PulsarParams = {
@@ -437,7 +438,9 @@ export const PulsarParams = {
   cursorStartupTimestamp: 'cursor.startup.timestamp',
   cursorResetMode: 'cursor.reset.mode',
   cursorStopMode: 'cursor.stop.mode',
-  cursorStopTimestamp: 'cursor.stop.timestamp'
+  cursorStopTimestamp: 'cursor.stop.timestamp',
+  format: 'format',
+  fieldDelimiter: 'field_delimiter'
 };
 
 export const DatahubParams = {

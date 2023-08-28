@@ -55,9 +55,11 @@ public enum SeaTunnelPluginName implements DictInstance {
     S3_FILE("S3File", "S3File"),
     OSS_FILE("OssFile", "OssFile"),
     OSS_JINDO_FILE("OssJindoFile", "OssJindoFile"),
+    COS_FILE("CosFile", "CosFile"),
 
     KAFKA("Kafka", "Kafka"),
     PULSAR("Pulsar", "Pulsar"),
+    ROCKETMQ("Rocketmq", "RocketMQ"),
     DATAHUB("DataHub", "DataHub"),
     RABBITMQ("RabbitMQ", "RabbitMQ"),
 
@@ -68,6 +70,7 @@ public enum SeaTunnelPluginName implements DictInstance {
     AMAZON_DYNAMODB("AmazonDynamodb", "AmazonDynamodb"),
     CASSANDRA("Cassandra", "Cassandra"),
     TABLESTORE("Tablestore", "Tablestore"),
+    GOOGLE_FIRE_STORE("GoogleFirestore", "GoogleFirestore"),
 
     MYSQL_CDC("MySQL-CDC", "MySQL-CDC"),
     SQLSERVER_CDC("SqlServer-CDC", "SqlServer-CDC"),
@@ -81,6 +84,7 @@ public enum SeaTunnelPluginName implements DictInstance {
     STARROCKS("StarRocks", "StarRocks"),
     HUDI("Hudi", "Hudi"),
     ICEBERG("Iceberg", "Iceberg"),
+    PAIMON("Paimon", "Paimon"),
     S3REDSHIFT("S3Redshift", "S3Redshift"),
     MAXCOMPUTE("Maxcompute", "MaxCompute"),
     HBASE("Hbase", "Hbase"),

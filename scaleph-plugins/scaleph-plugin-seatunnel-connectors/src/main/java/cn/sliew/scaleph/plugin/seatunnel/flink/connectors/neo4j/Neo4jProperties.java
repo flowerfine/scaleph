@@ -88,6 +88,7 @@ public enum Neo4jProperties {
             .description("maximum transaction retry time(seconds). transaction fail if exceeded")
             .type(PropertyType.INT)
             .parser(Parsers.LONG_PARSER)
+            .defaultValue(30L)
             .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
@@ -96,6 +97,7 @@ public enum Neo4jProperties {
             .description("The maximum amount of time to wait for a TCP connection to be established (seconds)")
             .type(PropertyType.INT)
             .parser(Parsers.LONG_PARSER)
+            .defaultValue(30L)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 

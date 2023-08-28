@@ -154,6 +154,24 @@ public enum PulsarSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<String> FORMAT = new PropertyDescriptor.Builder()
+            .name("format")
+            .description("Data format.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .defaultValue("json")
+            .allowableValues("json", "text")
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> FIELD_DELIMITER = new PropertyDescriptor.Builder<String>()
+            .name("field_delimiter")
+            .description("The separator between columns in a row of data. Only needed by text and csv file format")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<JsonNode> SCHEMA = new PropertyDescriptor.Builder()
             .name("schema")
             .description("The schema information of upstream data.")

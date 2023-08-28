@@ -6,7 +6,7 @@ import {Button, Drawer, Form, message} from 'antd';
 import {WsDiJob} from '@/services/project/typings';
 import {getIntl, getLocale} from 'umi';
 import {useEffect} from 'react';
-import {ProForm, ProFormSelect, ProFormText} from '@ant-design/pro-components';
+import {ProForm, ProFormDigit, ProFormSelect, ProFormText} from '@ant-design/pro-components';
 import DataSourceItem from '@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/dataSource';
 
 const SinkRedisStepForm: React.FC<
@@ -68,6 +68,14 @@ const SinkRedisStepForm: React.FC<
           name={RedisParams.key}
           label={intl.formatMessage({id: 'pages.project.di.step.redis.key'})}
           rules={[{required: true}]}
+        />
+        <ProFormDigit
+          name={RedisParams.expire}
+          label={intl.formatMessage({id: 'pages.project.di.step.redis.expire'})}
+          initialValue={-1}
+          fieldProps={{
+            min: -1
+          }}
         />
         <ProFormSelect
           name={RedisParams.dataType}
