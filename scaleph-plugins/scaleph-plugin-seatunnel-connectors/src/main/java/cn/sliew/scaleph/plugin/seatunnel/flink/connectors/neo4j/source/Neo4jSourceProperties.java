@@ -27,7 +27,7 @@ public enum Neo4jSourceProperties {
     public static final PropertyDescriptor<JsonNode> SCHEMA = new PropertyDescriptor.Builder()
             .name("schema")
             .description("returned fields of query")
-            .type(PropertyType.STRING)
+            .type(PropertyType.OBJECT)
             .parser(Parsers.JSON_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
