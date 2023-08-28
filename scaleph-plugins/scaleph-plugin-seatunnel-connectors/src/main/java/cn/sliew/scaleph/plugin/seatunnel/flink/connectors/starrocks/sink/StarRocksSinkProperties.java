@@ -24,12 +24,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 public enum StarRocksSinkProperties {
     ;
 
-    public static final PropertyDescriptor<String> BASE_URL = new PropertyDescriptor.Builder<>()
+    public static final PropertyDescriptor<String> BASE_URL = new PropertyDescriptor.Builder()
             .name("base-url")
-            .description("The JDBC URL like jdbc:mysql://localhost:9030/ or jdbc:mysql://localhost:9030 or jdbc:mysql://localhost:9030/db")
-            .properties(Property.Required)
+            .description("The JDBC URL")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
