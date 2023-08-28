@@ -32,6 +32,15 @@ public enum RedisSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<Long> EXPIRE = new PropertyDescriptor.Builder()
+            .name("expire")
+            .description("Set redis expiration time.")
+            .type(PropertyType.INT)
+            .parser(Parsers.LONG_PARSER)
+            .defaultValue(-1L)
+            .addValidator(Validators.LONG_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<String> DATA_TYPE = new PropertyDescriptor.Builder()
             .name("data_type")
             .description("Redis data types")

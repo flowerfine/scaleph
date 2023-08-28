@@ -51,6 +51,7 @@ public class RedisSinkPlugin extends SeaTunnelConnectorPlugin {
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(KEY);
+        props.add(EXPIRE);
         props.add(DATA_TYPE);
         props.add(FORMAT);
         props.add(CommonProperties.PARALLELISM);

@@ -418,7 +418,8 @@ export const RedisParams = {
   hashKeyParseMode: 'hash_key_parse_mode',
   format: 'format',
   schema: 'schema',
-  key: 'key'
+  key: 'key',
+  expire: 'expire'
 };
 
 export const PulsarParams = {

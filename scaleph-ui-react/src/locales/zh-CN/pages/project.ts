@@ -476,6 +476,7 @@ export default {
   'pages.project.di.step.redis.hashKeyParseMode': 'Hash Key解析模式',
   'pages.project.di.step.redis.format': '格式',
   'pages.project.di.step.redis.key': '键',
+  'pages.project.di.step.redis.expire': '过期时间（秒）',
 
   // pulsar
   'pages.project.di.step.pulsar.clientServiceUrl': 'Client Service URL',
