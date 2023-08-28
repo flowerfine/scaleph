@@ -1,6 +1,6 @@
 import {NsGraph} from '@antv/xflow';
 import {ModalFormProps} from '@/app.d';
-import {BaseFileParams, MongoDBParams, STEP_ATTR_TYPE} from '../../constant';
+import {MongoDBParams, STEP_ATTR_TYPE} from '../../constant';
 import {WsDiJobService} from '@/services/project/WsDiJobService';
 import {Button, Drawer, Form, message} from 'antd';
 import {WsDiJob} from '@/services/project/typings';
@@ -8,9 +8,7 @@ import {getIntl, getLocale} from 'umi';
 import {useEffect} from 'react';
 import {
   ProForm,
-  ProFormDependency,
   ProFormDigit,
-  ProFormDigitRange, ProFormGroup,
   ProFormSwitch,
   ProFormText
 } from '@ant-design/pro-components';
@@ -107,22 +105,10 @@ const SinkMongoDBStepForm: React.FC<
           label={intl.formatMessage({id: 'pages.project.di.step.mongodb.upsertEnable'})}
           initialValue={false}
         />
-        <ProFormDependency
-          name={[MongoDBParams.upsertEnable]}
-        >
-          {({upsertEnable}) => {
-            if (upsertEnable) {
-              console.log(upsertEnable)
-              return (
-                  <ProFormText
-                    name={MongoDBParams.primaryKey}
-                    label={intl.formatMessage({id: 'pages.project.di.step.mongodb.primaryKey'})}
-                  />
-              );
-            }
-            return <></>;
-          }}
-        </ProFormDependency>
+        <ProFormText
+          name={MongoDBParams.primaryKey}
+          label={intl.formatMessage({id: 'pages.project.di.step.mongodb.primaryKey'})}
+        />
         <ProFormSwitch
           name={MongoDBParams.transaction}
           label={intl.formatMessage({id: 'pages.project.di.step.mongodb.transaction'})}
