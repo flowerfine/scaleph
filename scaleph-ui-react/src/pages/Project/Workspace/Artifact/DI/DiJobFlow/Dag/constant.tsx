@@ -684,6 +684,13 @@ export const HbaseParams = {
   hbaseExtraConfigValue: 'hbaseExtraConfigValue'
 }
 
+export const PaimonParams = {
+  warehouse: 'warehouse',
+  database: 'database',
+  table: 'table',
+  hdfsSitePath: 'hdfs_site_path'
+}
+
 export const CopyParams = {
   srcField: 'src_field',
   destField: 'dest_field'

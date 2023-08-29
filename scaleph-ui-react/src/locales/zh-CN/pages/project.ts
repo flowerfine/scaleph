@@ -740,6 +740,13 @@ export default {
   'pages.project.di.step.hbase.hbaseExtraConfigKey': '配置项名称',
   'pages.project.di.step.hbase.hbaseExtraConfigValue': '配置项值',
 
+  // paimon
+  'pages.project.di.step.paimon.warehouse': 'Warehouse',
+  'pages.project.di.step.paimon.database': 'Database',
+  'pages.project.di.step.paimon.table': 'Table',
+  'pages.project.di.step.paimon.hdfsSitePath': 'hdfs-site.xml 路径',
+  'pages.project.di.step.paimon.hdfsSitePath.placeholder': '/path/to/hdfs-site.xml',
+
   // copy
   'pages.project.di.step.copy.srcField': '源字段',
   'pages.project.di.step.copy.destField': '目标字段',
