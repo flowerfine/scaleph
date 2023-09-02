@@ -16,23 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql.gateway.dto.catalog;
+package cn.sliew.scaleph.common.classloader;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+public class ClassLoaderContext implements AutoCloseable {
 
-import java.util.Map;
-import java.util.Set;
+    private final ClassLoader stored = Thread.currentThread().getContextClassLoader();
 
-@Data
-@EqualsAndHashCode
-@Schema(name = "SqlGateway Catalog信息", description = "SqlGateway Catalog信息")
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class CatalogInfo {
-    String catalogName;
-    Set<DatabaseInfo> databases;
-    Set<FunctionInfo> systemFunctions;
-    Map<String, String> properties;
+    ClassLoaderContext(ClassLoader classLoader) {
+        Thread.currentThread().setContextClassLoader(stored);
+    }
+
+    @Override
+    public void close() {
+        Thread.currentThread().setContextClassLoader(stored);
+    }
+
 }

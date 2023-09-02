@@ -18,10 +18,10 @@
 
 package cn.sliew.scaleph.api.controller.ws;
 
-import cn.sliew.scaleph.engine.sql.gateway.dto.WsFlinkSqlGatewayCreateCatalogParamsDTO;
-import cn.sliew.scaleph.engine.sql.gateway.dto.WsFlinkSqlGatewayQueryParamsDTO;
-import cn.sliew.scaleph.engine.sql.gateway.dto.WsFlinkSqlGatewayQueryResultDTO;
-import cn.sliew.scaleph.engine.sql.gateway.dto.catalog.CatalogInfo;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.WsFlinkSqlGatewayCreateCatalogParamsDTO;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.WsFlinkSqlGatewayQueryParamsDTO;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.WsFlinkSqlGatewayQueryResultDTO;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.CatalogInfo;
 import cn.sliew.scaleph.engine.sql.gateway.services.WsFlinkSqlGatewayService;
 import cn.sliew.scaleph.system.model.PaginationParam;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,7 +42,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Tag(name = "Flink Sql Gateway")

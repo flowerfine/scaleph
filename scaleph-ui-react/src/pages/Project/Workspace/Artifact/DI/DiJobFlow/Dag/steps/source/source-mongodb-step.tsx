@@ -13,7 +13,7 @@ import FieldItem from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps
 
 const SourceMongoDBStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
-  graphData: NsGraph.IGraphData;s
+  graphData: NsGraph.IGraphData;
   graphMeta: NsGraph.IGraphMeta;
 }>> = ({data, visible, onCancel, onOK}) => {
   const nodeInfo = data.node.data;

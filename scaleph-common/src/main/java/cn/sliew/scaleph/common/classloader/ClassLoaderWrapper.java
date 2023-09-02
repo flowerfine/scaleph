@@ -16,20 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql.gateway.dto;
+package cn.sliew.scaleph.common.classloader;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import java.util.function.Supplier;
 
-import java.util.Map;
+public class ClassLoaderWrapper {
 
-@Data
-@EqualsAndHashCode
-@Schema(name = "SqlGateway创建Catalog的参数", description = "SqlGateway创建Catalog的参数")
-@NoArgsConstructor
-public class WsFlinkSqlGatewayCreateCatalogParamsDTO {
-    private String catalogName;
-    private Map<String, String> options;
+    public static <R> R execute(Supplier<R> supplier, ClassLoader classLoader) {
+        try (ClassLoaderContext context = new ClassLoaderContext(classLoader)) {
+            return supplier.get();
+        }
+    }
+
+    public static void execute(Runnable runnable, ClassLoader classLoader) {
+        try (ClassLoaderContext context = new ClassLoaderContext(classLoader)) {
+            runnable.run();
+        }
+    }
 }

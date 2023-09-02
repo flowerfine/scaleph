@@ -102,6 +102,8 @@ import SourceStarRocksStepForm from "@/pages/Project/Workspace/Artifact/DI/DiJob
 import SinkHbaseStepForm from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/sink/sink-hbase-step";
 import SourceCDCMongoDBStepForm
   from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/source/source-cdc-mongodb-step";
+import SourcePaimonStepForm from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/source/source-paimon-step";
+import SinkPaimonStepForm from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/sink/sink-paimon-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -298,6 +300,10 @@ export class EditNodeCommand implements ICommand {
       return (<SourceHudiStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'source' && name === 'Iceberg') {
       return (<SourceIcebergStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if (type === 'source' && name === 'Paimon') {
+      return (<SourcePaimonStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if (type === 'sink' && name === 'Paimon') {
+      return (<SinkPaimonStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'source' && name === 'FakeSource') {
       return (<SourceFakeStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type==='sink' && name ==='Console'){

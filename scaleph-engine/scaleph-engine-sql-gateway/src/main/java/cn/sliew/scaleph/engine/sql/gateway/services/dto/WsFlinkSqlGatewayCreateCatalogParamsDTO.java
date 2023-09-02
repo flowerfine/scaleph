@@ -16,26 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql.gateway.dto.catalog;
+package cn.sliew.scaleph.engine.sql.gateway.services.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import org.apache.flink.table.catalog.CatalogBaseTable;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.Map;
 
 @Data
 @EqualsAndHashCode
-@Schema(name = "SqlGateway 表信息", description = "SqlGateway 表信息")
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class TableInfo {
-    String tableName;
-    CatalogBaseTable.TableKind tableKind;
-    List<ColumnInfo> schema;
-    String description;
-    String comment;
-    Map<String, String> properties;
+@Schema(name = "SqlGateway创建Catalog的参数", description = "SqlGateway创建Catalog的参数")
+public class WsFlinkSqlGatewayCreateCatalogParamsDTO {
+
+    @NotBlank
+    @Schema(description = "catalog name")
+    private String catalogName;
+
+    @NotEmpty
+    @Schema(description = "properties")
+    private Map<String, String> options;
 }

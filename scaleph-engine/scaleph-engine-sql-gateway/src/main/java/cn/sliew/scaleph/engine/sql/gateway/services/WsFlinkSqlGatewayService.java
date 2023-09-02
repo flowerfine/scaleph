@@ -18,8 +18,8 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services;
 
-import cn.sliew.scaleph.engine.sql.gateway.dto.WsFlinkSqlGatewayQueryParamsDTO;
-import cn.sliew.scaleph.engine.sql.gateway.dto.catalog.CatalogInfo;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.WsFlinkSqlGatewayQueryParamsDTO;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.CatalogInfo;
 import cn.sliew.scaleph.engine.sql.gateway.internal.ScalephCatalogManager;
 import org.apache.flink.table.gateway.api.results.GatewayInfo;
 import org.apache.flink.table.gateway.api.results.ResultSet;
@@ -117,6 +117,15 @@ public interface WsFlinkSqlGatewayService {
      * @throws Exception
      */
     List<String> completeStatement(String clusterId, String statement, int position) throws Exception;
+
+    /**
+     * Validate sql statement
+     *
+     * @param clusterId
+     * @param statement
+     * @throws Exception
+     */
+//    void validStatement(String clusterId, String statement) throws Exception;
 
     /**
      * Add dependency jars to the sql-gateway

@@ -16,11 +16,11 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.internal;
 
-import cn.sliew.scaleph.engine.sql.gateway.dto.catalog.CatalogInfo;
-import cn.sliew.scaleph.engine.sql.gateway.dto.catalog.ColumnInfo;
-import cn.sliew.scaleph.engine.sql.gateway.dto.catalog.DatabaseInfo;
-import cn.sliew.scaleph.engine.sql.gateway.dto.catalog.FunctionInfo;
-import cn.sliew.scaleph.engine.sql.gateway.dto.catalog.TableInfo;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.CatalogInfo;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.ColumnInfo;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.DatabaseInfo;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.FunctionInfo;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.TableInfo;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.table.api.Schema;
 import org.apache.flink.table.catalog.Catalog;
