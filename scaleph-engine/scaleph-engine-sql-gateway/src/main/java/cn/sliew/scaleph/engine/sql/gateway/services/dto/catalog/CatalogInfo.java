@@ -16,22 +16,31 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql.gateway.dto.catalog;
+package cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-import org.apache.flink.table.functions.FunctionKind;
 
 import java.util.Map;
+import java.util.Set;
 
 @Data
 @EqualsAndHashCode
-@Schema(name = "SqlGateway 方法信息", description = "SqlGateway 方法信息")
+@Schema(name = "SqlGateway Catalog信息", description = "SqlGateway Catalog信息")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class FunctionInfo {
-    String functionName;
-    FunctionKind functionKind;
-    Map<String, String> properties;
+public class CatalogInfo {
+
+    @Schema(description = "catalog 名称")
+    private String catalogName;
+
+    @Schema(description = "数据库信息")
+    private Set<DatabaseInfo> databases;
+
+    @Schema(description = "系统函数信息")
+    private Set<FunctionInfo> systemFunctions;
+
+    @Schema(description = "catalog 属性")
+    private Map<String, String> properties;
 }

@@ -16,24 +16,34 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql.gateway.dto;
+package cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-import javax.validation.constraints.NotNull;
-import java.util.Map;
+import lombok.*;
 
 @Data
 @EqualsAndHashCode
-@Schema(name = "SqlGateway执行Sql的参数", description = "SqlGateway执行Sql的参数")
-public class WsFlinkSqlGatewayQueryParamsDTO {
+@Schema(name = "SqlGateway 表的列信息", description = "SqlGateway 表的列信息")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ColumnInfo {
 
-    @NotNull
-    @Schema(description = "sql")
-    private String sql;
+    @Schema(description = "列名")
+    private String columnName;
 
-    @Schema(description = "配置参数")
-    private Map<String, String> configuration;
+    @Schema(description = "列数据类型")
+    private String dataType;
+
+    /**
+     * todo 这里少了列的类型。physical, computed, metadata, watermark
+     */
+    @Schema(description = "")
+    private boolean isPersist;
+
+    @Schema(description = "是否是物理列")
+    private boolean isPhysical;
+
+    @Schema(description = "备注")
+    private String comment;
 }

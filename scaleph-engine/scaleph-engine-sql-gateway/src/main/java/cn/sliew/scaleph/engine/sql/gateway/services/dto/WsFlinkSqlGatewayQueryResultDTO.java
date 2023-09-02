@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql.gateway.dto;
+package cn.sliew.scaleph.engine.sql.gateway.services.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -25,10 +25,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.apache.commons.codec.binary.Hex;
+import org.apache.flink.table.api.ResultKind;
 import org.apache.flink.table.catalog.Column;
 import org.apache.flink.table.data.ArrayData;
 import org.apache.flink.table.data.MapData;
-import org.apache.flink.table.data.RawValueData;
 import org.apache.flink.table.data.RowData;
 import org.apache.flink.table.gateway.api.results.ResultSet;
 import org.apache.flink.table.types.logical.ArrayType;
@@ -52,18 +52,25 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Builder
 public class WsFlinkSqlGatewayQueryResultDTO {
-    private String resultType;
-    private String resultKind;
+
+    @Schema(description = "结果类型。SUCCESS: 执行成功, SUCCESS_WITH_CONTENT: 执行成功并可获取执行结果")
+    private ResultKind resultKind;
+    @Schema(description = "任务 id")
     private String jobID;
+    @Schema(description = "分页参数。查询下一页数据参数")
     private Long nextToken;
+    @Schema(description = "是否支持查询数据")
     private Boolean isQueryResult;
+    @Schema(description = "数据就绪状态。NOT_READY: 未就绪, PAYLOAD: 可查询, EOS: 数据查询已至末尾，后续无数据")
+    private ResultSet.ResultType resultType;
+    @Schema(description = "数据")
     private List<Map<String, Object>> data;
 
     public static WsFlinkSqlGatewayQueryResultDTO fromResultSet(ResultSet resultSet) {
         List<Column> columns = resultSet.getResultSchema().getColumns();
         return WsFlinkSqlGatewayQueryResultDTO.builder()
-                .resultType(resultSet.getResultType().name())
-                .resultKind(resultSet.getResultKind().name())
+                .resultType(resultSet.getResultType())
+                .resultKind(resultSet.getResultKind())
                 .jobID(resultSet.getJobID().toHexString())
                 .nextToken(resultSet.getNextToken())
                 .isQueryResult(resultSet.isQueryResult())

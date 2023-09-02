@@ -19,8 +19,8 @@
 package cn.sliew.scaleph.engine.sql.gateway.services.impl;
 
 import cn.sliew.scaleph.common.util.SystemUtil;
-import cn.sliew.scaleph.engine.sql.gateway.dto.WsFlinkSqlGatewayQueryParamsDTO;
-import cn.sliew.scaleph.engine.sql.gateway.dto.catalog.CatalogInfo;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.WsFlinkSqlGatewayQueryParamsDTO;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.CatalogInfo;
 import cn.sliew.scaleph.engine.sql.gateway.exception.ScalephSqlGatewayNotFoundException;
 import cn.sliew.scaleph.engine.sql.gateway.internal.ScalephCatalogManager;
 import cn.sliew.scaleph.engine.sql.gateway.services.WsFlinkSqlGatewayService;

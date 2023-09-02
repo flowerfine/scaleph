@@ -16,21 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql.gateway.dto.catalog;
+package cn.sliew.scaleph.engine.sql.gateway.services.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import javax.validation.constraints.NotNull;
+import java.util.Map;
 
 @Data
 @EqualsAndHashCode
-@Schema(name = "SqlGateway 表的列信息", description = "SqlGateway 表的列信息")
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class ColumnInfo {
-    String columnName;
-    String dataType;
-    boolean isPersist;
-    boolean isPhysical;
-    String comment;
+@Schema(name = "SqlGateway执行Sql的参数", description = "SqlGateway执行Sql的参数")
+public class WsFlinkSqlGatewayQueryParamsDTO {
+
+    @NotNull
+    @Schema(description = "sql")
+    private String sql;
+
+    @Schema(description = "配置参数")
+    private Map<String, String> configuration;
 }

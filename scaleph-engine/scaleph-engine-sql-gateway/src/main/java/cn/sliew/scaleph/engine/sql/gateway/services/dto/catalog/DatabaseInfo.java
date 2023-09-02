@@ -16,20 +16,40 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql.gateway.dto;
+package cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Map;
+import java.util.Set;
 
 @Data
 @EqualsAndHashCode
-@Schema(name = "SqlGateway创建Catalog的参数", description = "SqlGateway创建Catalog的参数")
+@Schema(name = "SqlGateway 数据库信息", description = "SqlGateway 数据库信息")
 @NoArgsConstructor
-public class WsFlinkSqlGatewayCreateCatalogParamsDTO {
-    private String catalogName;
-    private Map<String, String> options;
+@AllArgsConstructor
+@Builder
+public class DatabaseInfo {
+
+    @Schema(description = "数据库 名称")
+    private String databaseName;
+
+    @Schema(description = "数据库 表列表")
+    private Set<TableInfo> tables;
+
+    @Schema(description = "数据库 试图列表")
+    private Set<TableInfo> views;
+
+    @Schema(description = "数据库 函数列表")
+    private Set<FunctionInfo> userDefinedFunctions;
+
+    @Schema(description = "数据库 描述")
+    private String description;
+
+    @Schema(description = "数据库 备注")
+    private String comment;
+
+    @Schema(description = "数据库 属性")
+    private Map<String, String> properties;
 }
