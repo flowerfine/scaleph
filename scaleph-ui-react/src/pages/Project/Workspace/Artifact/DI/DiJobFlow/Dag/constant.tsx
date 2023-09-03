@@ -453,6 +453,40 @@ export const DatahubParams = {
   retryTimes: 'retryTimes'
 };
 
+export const RocketMQParams = {
+  nameSrvAddr: 'name.srv.addr',
+  aclEnabled: 'acl.enabled',
+  aclEnabledField: 'acl_enabled',
+  accessKey: 'access.key',
+  secretKey: 'secret.key',
+  format: 'format',
+  fieldDelimiter: 'field.delimiter',
+
+  topics: 'topics',
+  partitionDiscoveryIntervalMillis: 'partition.discovery.interval.millis',
+  consumerGroup: 'consumer.group',
+  commitOnCheckpoint: 'commit.on.checkpoint',
+  schema: 'schema',
+  startMode: 'start.mode',
+  startModeField: 'startModeField',
+  startModeTimestamp: 'start.mode.timestamp',
+  startModeOffsets: 'start.mode.offsets',
+  startModeOffsetsList: 'startModeOffsetsList',
+  specificPartition: 'specificPartition',
+  specificPartitionOffset: 'specificPartitionOffset',
+  batchSize: 'batch.size',
+  consumerPollTimeoutMillis: 'consumer.poll.timeout.millis',
+
+  topic: 'topic',
+  semantic: 'semantic',
+  producerGroup: 'producer.group',
+  partitionKeyFields: 'partition.key.fields',
+  exactlyOnce: 'exactly.once',
+  producerSendSync: 'producer.send.sync',
+  maxMessageSize: 'max.message.size',
+  sendMessageTimeout: 'send.message.timeout'
+};
+
 export const ElasticsearchParams = {
   hosts: 'hosts',
   username: 'username',

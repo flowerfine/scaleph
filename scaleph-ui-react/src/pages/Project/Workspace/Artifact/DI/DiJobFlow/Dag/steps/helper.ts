@@ -12,7 +12,7 @@ import {
   InfluxDBParams,
   IoTDBParams,
   JdbcParams,
-  KafkaParams,
+  KafkaParams, RocketMQParams,
   SchemaParams,
   SplitParams,
   StarRocksParams
@@ -269,6 +269,15 @@ export const StepSchemaService = {
       configs[item[HbaseParams.hbaseExtraConfigKey]] = item[HbaseParams.hbaseExtraConfigValue];
     });
     values[HbaseParams.hbaseExtraConfig] = JSON.stringify(configs)
+    return values
+  },
+
+  formatRocketMQPartitionOffsets: (values: Record<string, any>) => {
+    const paritionOffsets: Record<string, any> = {}
+    values[RocketMQParams.startModeOffsetsList]?.forEach(function (item: Record<string, any>) {
+      paritionOffsets[item[RocketMQParams.specificPartition]] = item[RocketMQParams.specificPartitionOffset];
+    });
+    values[RocketMQParams.startModeOffsets] = JSON.stringify(paritionOffsets)
     return values
   },
 
