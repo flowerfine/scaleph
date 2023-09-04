@@ -86,7 +86,7 @@ public interface WsFlinkSqlGatewayService {
     String executeSql(String clusterId, WsFlinkSqlGatewayQueryParamsDTO params);
 
     /**
-     * Execute a sql
+     * Fetch sql result
      *
      * @param clusterId         Flink K8S session cluster id
      * @param operationHandleId Operation handle id

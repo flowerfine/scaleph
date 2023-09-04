@@ -53,7 +53,8 @@ import java.util.stream.Collectors;
 @Builder
 public class WsFlinkSqlGatewayQueryResultDTO {
 
-    @Schema(description = "结果类型。SUCCESS: 执行成功, SUCCESS_WITH_CONTENT: 执行成功并可获取执行结果")
+    @Schema(description = "结果类型。SUCCESS: 执行成功, SUCCESS_WITH_CONTENT: 执行成功并可获取执行结果",
+            allowableValues = {"SUCCESS", "SUCCESS_WITH_CONTENT"})
     private ResultKind resultKind;
     @Schema(description = "任务 id")
     private String jobID;
@@ -61,7 +62,8 @@ public class WsFlinkSqlGatewayQueryResultDTO {
     private Long nextToken;
     @Schema(description = "是否支持查询数据")
     private Boolean isQueryResult;
-    @Schema(description = "数据就绪状态。NOT_READY: 未就绪, PAYLOAD: 可查询, EOS: 数据查询已至末尾，后续无数据")
+    @Schema(description = "数据就绪状态。NOT_READY: 未就绪, PAYLOAD: 可查询, EOS: 数据查询已至末尾，后续无数据",
+            allowableValues = {"PAYLOAD", "NOT_READY", "EOS"})
     private ResultSet.ResultType resultType;
     @Schema(description = "数据")
     private List<Map<String, Object>> data;

@@ -38,7 +38,7 @@ public class DatabaseInfo {
     @Schema(description = "数据库 表列表")
     private Set<TableInfo> tables;
 
-    @Schema(description = "数据库 试图列表")
+    @Schema(description = "数据库 视图列表")
     private Set<TableInfo> views;
 
     @Schema(description = "数据库 函数列表")
