@@ -32,10 +32,10 @@ import java.util.Map;
 public class WsFlinkSqlGatewayCreateCatalogParamsDTO {
 
     @NotBlank
-    @Schema(description = "catalog name")
+    @Schema(description = "catalog 名称，不可为空")
     private String catalogName;
 
     @NotEmpty
-    @Schema(description = "properties")
+    @Schema(description = "catalog 参数选项")
     private Map<String, String> options;
 }

@@ -38,7 +38,7 @@ public class ColumnInfo {
     /**
      * todo 这里少了列的类型。physical, computed, metadata, watermark
      */
-    @Schema(description = "")
+    @Schema(description = "是否在Sink中持久化")
     private boolean isPersist;
 
     @Schema(description = "是否是物理列")

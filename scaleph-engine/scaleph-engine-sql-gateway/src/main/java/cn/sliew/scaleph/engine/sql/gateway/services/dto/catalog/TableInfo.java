@@ -33,21 +33,21 @@ import java.util.Map;
 @Builder
 public class TableInfo {
 
-    @Schema(description = "table 名称")
+    @Schema(description = "表 名称")
     private String tableName;
 
-    @Schema(description = "table 类型。TABLE: 表, VIEW: 试图")
+    @Schema(description = "表 类型，TABLE: 表, VIEW: 视图", allowableValues = {"TABLE", "VIEW"})
     private CatalogBaseTable.TableKind tableKind;
 
-    @Schema(description = "table 结构")
+    @Schema(description = "表 结构")
     private List<ColumnInfo> schema;
 
-    @Schema(description = "table 描述")
+    @Schema(description = "表 描述")
     private String description;
 
-    @Schema(description = "table 备注")
+    @Schema(description = "表 备注")
     private String comment;
 
-    @Schema(description = "table 属性")
+    @Schema(description = "表 属性")
     private Map<String, String> properties;
 }

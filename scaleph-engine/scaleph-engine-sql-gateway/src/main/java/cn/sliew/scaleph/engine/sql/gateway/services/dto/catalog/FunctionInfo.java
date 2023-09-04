@@ -35,7 +35,8 @@ public class FunctionInfo {
     @Schema(description = "函数 名称")
     private String functionName;
 
-    @Schema(description = "函数 类型")
+    @Schema(description = "函数 类型",
+            allowableValues = {"SCALAR", "TABLE", "ASYNC_TABLE", "AGGREGATE", "TABLE_AGGREGATE", "OTHER"})
     private FunctionKind functionKind;
 
     @Schema(description = "函数 属性")
