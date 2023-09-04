@@ -32,21 +32,48 @@ public enum RocketMQProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> TOPICS = new PropertyDescriptor.Builder()
-            .name("topics")
-            .description("RocketMQ topic name")
+    public static final PropertyDescriptor<Boolean> ACL_ENABLED = new PropertyDescriptor.Builder()
+            .name("acl.enabled")
+            .description("If true, access control is enabled, and access key and secret key need to be configured.")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .defaultValue(false)
+            .addValidator(Validators.BOOLEAN_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> ACCESS_KEY = new PropertyDescriptor.Builder()
+            .name("access.key")
+            .description("When ACL_ENABLED is true, access key cannot be empty.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> CONSUMER_GROUP = new PropertyDescriptor.Builder()
-            .name("consumer.group")
-            .description("RocketMQ consumer group id")
+    public static final PropertyDescriptor<String> SECRET_KEY = new PropertyDescriptor.Builder()
+            .name("secret.key")
+            .description("When ACL_ENABLED is true, secret key cannot be empty.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
-            .defaultValue("SeaTunnel-Consumer-Group")
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> FORMAT = new PropertyDescriptor.Builder()
+            .name("format")
+            .description(
+                    "Data format. The default format is json. Optional text format. The default field separator is \", \". "
+                            + "If you customize the delimiter, add the \"field.delimiter\" option.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .allowableValues("json", "text")
+            .defaultValue("json")
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> FIELD_DELIMITER = new PropertyDescriptor.Builder()
+            .name("field.delimiter")
+            .description("Customize the field delimiter for data format.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

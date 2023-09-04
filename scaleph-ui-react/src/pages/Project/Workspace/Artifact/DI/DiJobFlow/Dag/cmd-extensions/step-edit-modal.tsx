@@ -104,6 +104,9 @@ import SourceCDCMongoDBStepForm
   from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/source/source-cdc-mongodb-step";
 import SourcePaimonStepForm from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/source/source-paimon-step";
 import SinkPaimonStepForm from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/sink/sink-paimon-step";
+import SourceRocketMQStepForm
+  from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/source/source-rocketmq-step";
+import SinkRocketMQStepForm from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/sink/sink-rocketmq-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -350,6 +353,10 @@ export class EditNodeCommand implements ICommand {
       return (<SourceKafkaStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'Kafka'){
       return (<SinkKafkaStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'source' && name === 'Rocketmq'){
+      return (<SourceRocketMQStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'sink' && name === 'Rocketmq'){
+      return (<SinkRocketMQStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'source' && name === 'IoTDB'){
       return (<SourceIoTDBStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'IoTDB'){
