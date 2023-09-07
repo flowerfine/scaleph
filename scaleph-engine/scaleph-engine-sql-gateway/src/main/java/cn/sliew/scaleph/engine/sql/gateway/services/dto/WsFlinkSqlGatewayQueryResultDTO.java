@@ -19,11 +19,7 @@
 package cn.sliew.scaleph.engine.sql.gateway.services.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.flink.table.api.ResultKind;
 import org.apache.flink.table.catalog.Column;
@@ -31,13 +27,7 @@ import org.apache.flink.table.data.ArrayData;
 import org.apache.flink.table.data.MapData;
 import org.apache.flink.table.data.RowData;
 import org.apache.flink.table.gateway.api.results.ResultSet;
-import org.apache.flink.table.types.logical.ArrayType;
-import org.apache.flink.table.types.logical.DecimalType;
-import org.apache.flink.table.types.logical.DistinctType;
-import org.apache.flink.table.types.logical.LogicalType;
-import org.apache.flink.table.types.logical.MapType;
-import org.apache.flink.table.types.logical.RowType;
-import org.apache.flink.table.types.logical.TimestampType;
+import org.apache.flink.table.types.logical.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,14 +59,15 @@ public class WsFlinkSqlGatewayQueryResultDTO {
     private List<Map<String, Object>> data;
 
     public static WsFlinkSqlGatewayQueryResultDTO fromResultSet(ResultSet resultSet) {
-        List<Column> columns = resultSet.getResultSchema().getColumns();
-        return WsFlinkSqlGatewayQueryResultDTO.builder()
+        WsFlinkSqlGatewayQueryResultDTOBuilder builder = WsFlinkSqlGatewayQueryResultDTO.builder()
                 .resultType(resultSet.getResultType())
                 .resultKind(resultSet.getResultKind())
-                .jobID(resultSet.getJobID().toHexString())
-                .nextToken(resultSet.getNextToken())
-                .isQueryResult(resultSet.isQueryResult())
-                .data(resultSet.getData().stream().map(rowData -> {
+                .jobID(resultSet.getJobID().toHexString());
+
+        if (resultSet.isQueryResult()) {
+            if (resultSet.getResultType() == ResultSet.ResultType.PAYLOAD || resultSet.getResultType() == ResultSet.ResultType.EOS) {
+                List<Column> columns = resultSet.getResultSchema().getColumns();
+                builder.data(resultSet.getData().stream().map(rowData -> {
                     Map<String, Object> map = new HashMap<>();
                     for (int i = 0; i < columns.size(); i++) {
                         Column column = columns.get(i);
@@ -87,8 +78,14 @@ public class WsFlinkSqlGatewayQueryResultDTO {
                         }
                     }
                     return map;
-                }).collect(Collectors.toList()))
-                .build();
+                }).collect(Collectors.toList()));
+
+                if (resultSet.getResultType() == ResultSet.ResultType.PAYLOAD) {
+                    builder.nextToken(resultSet.getNextToken());
+                }
+            }
+        }
+        return builder.build();
     }
 
     /**
