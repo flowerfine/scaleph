@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services.dto;
 
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.ColumnInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.apache.commons.codec.binary.Hex;
@@ -43,6 +44,9 @@ import java.util.stream.Collectors;
 @Builder
 public class WsFlinkSqlGatewayQueryResultDTO {
 
+    @Schema(description = "SQL 执行状态。NOT_READY: 未就绪，需轮询重试, PAYLOAD: 可查询, EOS: 数据查询已至末尾，后续无数据，不在调用",
+            allowableValues = {"PAYLOAD", "NOT_READY", "EOS"})
+    private ResultSet.ResultType resultType;
     @Schema(description = "结果类型。SUCCESS: 执行成功, SUCCESS_WITH_CONTENT: 执行成功并可获取执行结果",
             allowableValues = {"SUCCESS", "SUCCESS_WITH_CONTENT"})
     private ResultKind resultKind;
@@ -52,9 +56,8 @@ public class WsFlinkSqlGatewayQueryResultDTO {
     private Long nextToken;
     @Schema(description = "是否支持查询数据")
     private Boolean isQueryResult;
-    @Schema(description = "数据就绪状态。NOT_READY: 未就绪, PAYLOAD: 可查询, EOS: 数据查询已至末尾，后续无数据",
-            allowableValues = {"PAYLOAD", "NOT_READY", "EOS"})
-    private ResultSet.ResultType resultType;
+    @Schema(description = "数据类型信息")
+    private List<ColumnInfo> columns;
     @Schema(description = "数据")
     private List<Map<String, Object>> data;
 
@@ -65,18 +68,28 @@ public class WsFlinkSqlGatewayQueryResultDTO {
             builder.resultKind(resultSet.getResultKind()).jobID(resultSet.getJobID().toHexString());
             if (resultSet.isQueryResult()) {
                 List<Column> columns = resultSet.getResultSchema().getColumns();
-                builder.data(resultSet.getData().stream().map(rowData -> {
-                    Map<String, Object> map = new HashMap<>();
-                    for (int i = 0; i < columns.size(); i++) {
-                        Column column = columns.get(i);
-                        try {
-                            map.put(column.getName(), getDataFromRow(rowData, column.getDataType().getLogicalType(), i));
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                    return map;
-                }).collect(Collectors.toList()));
+                builder
+                        .columns(columns.stream().map(column -> {
+                            ColumnInfo.ColumnInfoBuilder columnInfoBuilder = ColumnInfo.builder()
+                                    .columnName(column.getName())
+                                    .dataType(column.getDataType().getLogicalType().toString())
+                                    .isPersist(column.isPersisted())
+                                    .isPhysical(column.isPhysical());
+                            column.getComment().ifPresent(columnInfoBuilder::comment);
+                            return columnInfoBuilder.build();
+                        }).collect(Collectors.toList()))
+                        .data(resultSet.getData().stream().map(rowData -> {
+                            Map<String, Object> map = new HashMap<>();
+                            for (int i = 0; i < columns.size(); i++) {
+                                Column column = columns.get(i);
+                                try {
+                                    map.put(column.getName(), getDataFromRow(rowData, column.getDataType().getLogicalType(), i));
+                                } catch (Exception e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                            return map;
+                        }).collect(Collectors.toList()));
                 builder.nextToken(resultSet.getNextToken());
             }
         }
