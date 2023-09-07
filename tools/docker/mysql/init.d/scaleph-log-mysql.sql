@@ -27,11 +27,11 @@ create table log_login
 drop table if exists log_action;
 create table log_action
 (
-    id           bigint       not null auto_increment comment '自增主键',
+    id           bigint    not null auto_increment comment '自增主键',
     user_name    varchar(60) comment '用户名',
-    action_time  timestamp    not null comment '操作时间',
+    action_time  timestamp not null comment '操作时间',
     ip_address   varchar(16) comment 'ip地址',
-    action_url   varchar(128) not null comment '操作接口地址',
+    action_url   text comment '操作接口地址',
     token        varchar(64) comment '会话token字符串',
     client_info  varchar(512) comment '客户端信息',
     os_info      varchar(128) comment '操作系统信息',
