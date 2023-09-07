@@ -60,12 +60,10 @@ public class WsFlinkSqlGatewayQueryResultDTO {
 
     public static WsFlinkSqlGatewayQueryResultDTO fromResultSet(ResultSet resultSet) {
         WsFlinkSqlGatewayQueryResultDTOBuilder builder = WsFlinkSqlGatewayQueryResultDTO.builder()
-                .resultType(resultSet.getResultType())
-                .resultKind(resultSet.getResultKind())
-                .jobID(resultSet.getJobID().toHexString());
-
-        if (resultSet.isQueryResult()) {
-            if (resultSet.getResultType() == ResultSet.ResultType.PAYLOAD || resultSet.getResultType() == ResultSet.ResultType.EOS) {
+                .resultType(resultSet.getResultType());
+        if (resultSet.getResultType() == ResultSet.ResultType.PAYLOAD || resultSet.getResultType() == ResultSet.ResultType.EOS) {
+            builder.resultKind(resultSet.getResultKind()).jobID(resultSet.getJobID().toHexString());
+            if (resultSet.isQueryResult()) {
                 List<Column> columns = resultSet.getResultSchema().getColumns();
                 builder.data(resultSet.getData().stream().map(rowData -> {
                     Map<String, Object> map = new HashMap<>();
@@ -79,10 +77,7 @@ public class WsFlinkSqlGatewayQueryResultDTO {
                     }
                     return map;
                 }).collect(Collectors.toList()));
-
-                if (resultSet.getResultType() == ResultSet.ResultType.PAYLOAD) {
-                    builder.nextToken(resultSet.getNextToken());
-                }
+                builder.nextToken(resultSet.getNextToken());
             }
         }
         return builder.build();
