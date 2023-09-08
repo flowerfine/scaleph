@@ -24,9 +24,7 @@ import lombok.*;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.flink.table.api.ResultKind;
 import org.apache.flink.table.catalog.Column;
-import org.apache.flink.table.data.ArrayData;
-import org.apache.flink.table.data.MapData;
-import org.apache.flink.table.data.RowData;
+import org.apache.flink.table.data.*;
 import org.apache.flink.table.gateway.api.results.ResultSet;
 import org.apache.flink.table.types.logical.*;
 
@@ -128,8 +126,9 @@ public class WsFlinkSqlGatewayQueryResultDTO {
                 return dataClass.getDeclaredMethod("getDouble", int.class).invoke(rowData, index);
             case DECIMAL:
                 DecimalType decimalType = (DecimalType) logicalType;
-                return dataClass.getDeclaredMethod("getDecimal", int.class, int.class, int.class)
+                DecimalData decimalData = (DecimalData) dataClass.getDeclaredMethod("getDecimal", int.class, int.class, int.class)
                         .invoke(rowData, index, decimalType.getPrecision(), decimalType.getScale());
+                return decimalData.toBigDecimal().doubleValue();
             case BIGINT:
             case INTERVAL_DAY_TIME:
                 return dataClass.getDeclaredMethod("getLong", int.class).invoke(rowData, index);
@@ -178,7 +177,8 @@ public class WsFlinkSqlGatewayQueryResultDTO {
                 return list;
             case TIMESTAMP_WITH_LOCAL_TIME_ZONE:
             case TIMESTAMP_WITHOUT_TIME_ZONE:
-                return dataClass.getDeclaredMethod("getTimestamp", int.class, int.class).invoke(rowData, index, ((TimestampType) logicalType).getPrecision());
+                TimestampData timestampData = (TimestampData) dataClass.getDeclaredMethod("getTimestamp", int.class, int.class).invoke(rowData, index, ((TimestampType) logicalType).getPrecision());
+                return timestampData.toTimestamp();
             case DISTINCT_TYPE:
                 DistinctType distinctType = (DistinctType) logicalType;
                 LogicalType sourceType = distinctType.getSourceType();
