@@ -148,7 +148,7 @@ const EditorRightResultTable: React.FC = () => {
         scroll={{ x: 1200 }}
         sticky
       />
-      <div className={styles.statusBar}>Result：执行成功. Time Consuming：25ms</div>
+      {/* <div className={styles.statusBar}>Result：执行成功. Time Consuming：25ms</div> */}
       <Modal
         title={viewTableCellData?.name}
         open={!!viewTableCellData?.name}

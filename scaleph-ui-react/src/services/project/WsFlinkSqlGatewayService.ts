@@ -16,15 +16,19 @@ export const WsFlinkSqlGatewayService = {
   },
 
   leftMenuList: async (sessionClusterId: string | null) => {
-    return request<Array<string>>(
-      `${url}/${sessionClusterId}/getCatalogInfo`,
-    );
+    return request<Array<string>>(`${url}/${sessionClusterId}/getCatalogInfo`);
   },
 
   executeSqlList: async (sessionClusterId: string | null, data: Object) => {
     return request<string>(`${url}/${sessionClusterId}/executeSql`, {
       method: 'POST',
       data,
+    });
+  },
+
+  getSqlResults: async (sessionClusterId?: string | null, operationHandleId?: string) => {
+    return request<Array<string>>(`${url}/${sessionClusterId}/${operationHandleId}/results`, {
+      method: 'GET',
     });
   },
 
