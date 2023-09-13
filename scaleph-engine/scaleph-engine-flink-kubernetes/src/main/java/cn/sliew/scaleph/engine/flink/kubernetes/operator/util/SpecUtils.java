@@ -18,10 +18,11 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.operator.util;
 
-import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.AbstractFlinkResource;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.reconciler.ReconciliationMetadata;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.AbstractFlinkSpec;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import javax.annotation.Nullable;
@@ -30,8 +31,8 @@ import javax.annotation.Nullable;
  * Spec utilities.
  */
 public class SpecUtils {
-
     public static final String INTERNAL_METADATA_JSON_KEY = "resource_metadata";
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * Deserializes the spec and custom metadata object from JSON.
@@ -41,19 +42,27 @@ public class SpecUtils {
      * @param <T>                Spec type.
      * @return SpecWithMeta of spec and meta.
      */
-    public static <T extends AbstractFlinkSpec> SpecWithMeta<T> deserializeSpecWithMeta(@Nullable String specWithMetaString, Class<T> specClass) {
+    public static <T extends AbstractFlinkSpec> SpecWithMeta<T> deserializeSpecWithMeta(
+            @Nullable String specWithMetaString, Class<T> specClass) {
         if (specWithMetaString == null) {
             return null;
         }
 
-        ObjectNode wrapper = (ObjectNode) JacksonUtil.toJsonNode(specWithMetaString);
-        ObjectNode internalMeta = (ObjectNode) wrapper.remove(INTERNAL_METADATA_JSON_KEY);
-        if (internalMeta == null) {
-            // migrating from old format
-            wrapper.remove("apiVersion");
-            return new SpecWithMeta<>(JacksonUtil.toObject(wrapper, specClass), null);
-        } else {
-            return new SpecWithMeta<>(JacksonUtil.toObject(wrapper.get("spec"), specClass), JacksonUtil.toObject(internalMeta, ReconciliationMetadata.class));
+        try {
+            ObjectNode wrapper = (ObjectNode) objectMapper.readTree(specWithMetaString);
+            ObjectNode internalMeta = (ObjectNode) wrapper.remove(INTERNAL_METADATA_JSON_KEY);
+
+            if (internalMeta == null) {
+                // migrating from old format
+                wrapper.remove("apiVersion");
+                return new SpecWithMeta<>(objectMapper.treeToValue(wrapper, specClass), null);
+            } else {
+                return new SpecWithMeta<>(
+                        objectMapper.treeToValue(wrapper.get("spec"), specClass),
+                        objectMapper.convertValue(internalMeta, ReconciliationMetadata.class));
+            }
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Could not deserialize spec, this indicates a bug...", e);
         }
     }
 
@@ -64,7 +73,8 @@ public class SpecUtils {
      * @param relatedResource Related Flink resource for creating the meta object.
      * @return Serialized json.
      */
-    public static String writeSpecWithMeta(AbstractFlinkSpec spec, AbstractFlinkResource<?, ?> relatedResource) {
+    public static String writeSpecWithMeta(
+            AbstractFlinkSpec spec, AbstractFlinkResource<?, ?> relatedResource) {
         return writeSpecWithMeta(spec, ReconciliationMetadata.from(relatedResource));
     }
 
@@ -75,11 +85,19 @@ public class SpecUtils {
      * @param metadata Reconciliation meta object.
      * @return Serialized json.
      */
-    public static String writeSpecWithMeta(AbstractFlinkSpec spec, ReconciliationMetadata metadata) {
-        ObjectNode wrapper = JacksonUtil.createObjectNode();
-        wrapper.set("spec", JacksonUtil.toJsonNode(checkNotNull(spec)));
-        wrapper.set(INTERNAL_METADATA_JSON_KEY, JacksonUtil.toJsonNode(checkNotNull(metadata)));
-        return wrapper.toString();
+    public static String writeSpecWithMeta(
+            AbstractFlinkSpec spec, ReconciliationMetadata metadata) {
+
+        ObjectNode wrapper = objectMapper.createObjectNode();
+
+        wrapper.set("spec", objectMapper.valueToTree(checkNotNull(spec)));
+        wrapper.set(INTERNAL_METADATA_JSON_KEY, objectMapper.valueToTree(checkNotNull(metadata)));
+
+        try {
+            return objectMapper.writeValueAsString(wrapper);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Could not serialize spec, this indicates a bug...", e);
+        }
     }
 
     // We do not have access to  Flink's Preconditions from here
@@ -95,6 +113,12 @@ public class SpecUtils {
         if (object == null) {
             return null;
         }
-        return (T) JacksonUtil.parseJsonString(JacksonUtil.toJsonString(object), object.getClass());
+        try {
+            return (T)
+                    objectMapper.readValue(
+                            objectMapper.writeValueAsString(object), object.getClass());
+        } catch (JsonProcessingException e) {
+            throw new IllegalStateException(e);
+        }
     }
 }
