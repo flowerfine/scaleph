@@ -34,6 +34,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class SavepointInfo {
+
     /**
      * Last completed savepoint by the operator.
      */
