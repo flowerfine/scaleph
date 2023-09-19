@@ -45,7 +45,7 @@ public class WsFlinkSqlGatewayQueryResultDTO {
     @Schema(description = "SQL 执行状态。NOT_READY: 未就绪，需轮询重试, PAYLOAD: 可查询, EOS: 数据查询已至末尾，后续无数据，不在调用",
             allowableValues = {"PAYLOAD", "NOT_READY", "EOS"})
     private ResultSet.ResultType resultType;
-    @Schema(description = "结果类型。SUCCESS: 执行成功, SUCCESS_WITH_CONTENT: 执行成功并可获取执行结果",
+    @Schema(description = "结果类型。SUCCESS: 执行成功, SUCCESS_WITH_CONTENT: 执行成功并可获取数据列表",
             allowableValues = {"SUCCESS", "SUCCESS_WITH_CONTENT"})
     private ResultKind resultKind;
     @Schema(description = "任务 id")
