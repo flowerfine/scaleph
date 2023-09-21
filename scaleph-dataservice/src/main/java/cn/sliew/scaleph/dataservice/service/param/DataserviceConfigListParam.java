@@ -16,10 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dataservice;
+package cn.sliew.scaleph.dataservice.service.param;
 
-public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello Data-Service!");
-    }
+import cn.sliew.scaleph.system.model.PaginationParam;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+@Data
+public class DataserviceConfigListParam extends PaginationParam {
+
+    @Schema(description = "name")
+    private String name;
 }

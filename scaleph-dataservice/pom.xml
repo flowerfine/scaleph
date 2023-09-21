@@ -28,4 +28,11 @@
     </parent>
     <artifactId>scaleph-dataservice</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-system</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

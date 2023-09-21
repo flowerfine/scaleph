@@ -16,40 +16,28 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.dataservice;
+package cn.sliew.scaleph.dataservice.service;
 
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
+import cn.sliew.scaleph.dataservice.service.dto.DataserviceConfigDTO;
+import cn.sliew.scaleph.dataservice.service.param.DataserviceConfigAddParam;
+import cn.sliew.scaleph.dataservice.service.param.DataserviceConfigListParam;
+import cn.sliew.scaleph.dataservice.service.param.DataserviceConfigUpdateParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-/**
- * <p>
- * 数据服务 配置
- * </p>
- */
-@Data
-@TableName("dataservice_config")
-public class DataserviceConfig extends BaseDO {
+import java.util.List;
 
-    private static final long serialVersionUID = 1L;
+public interface DataserviceConfigService {
 
-    @TableField("`name`")
-    private String name;
+    Page<DataserviceConfigDTO> list(DataserviceConfigListParam param);
 
-    @TableField("path")
-    private String path;
+    DataserviceConfigDTO selectOne(Long id);
 
-    @TableField("method")
-    private String method;
+    int insert(DataserviceConfigAddParam param);
 
-    @TableField("content_type")
-    private String contentType;
+    int update(DataserviceConfigUpdateParam param);
 
-    @TableField("`status`")
-    private String status;
+    int deleteById(Long id);
 
-    @TableField("remark")
-    private String remark;
+    int deleteBatch(List<Long> ids);
 
 }

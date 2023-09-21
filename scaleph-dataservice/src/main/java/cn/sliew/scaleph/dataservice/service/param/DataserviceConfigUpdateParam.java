@@ -16,40 +16,32 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.dataservice;
+package cn.sliew.scaleph.dataservice.service.param;
 
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-/**
- * <p>
- * 数据服务 配置
- * </p>
- */
 @Data
-@TableName("dataservice_config")
-public class DataserviceConfig extends BaseDO {
+public class DataserviceConfigUpdateParam {
 
-    private static final long serialVersionUID = 1L;
+    @Schema(description = "id")
+    private Long id;
 
-    @TableField("`name`")
+    @Schema(description = "name")
     private String name;
 
-    @TableField("path")
+    @Schema(description = "uri path")
     private String path;
 
-    @TableField("method")
+    @Schema(description = "http method")
     private String method;
 
-    @TableField("content_type")
+    @Schema(description = "http content type")
     private String contentType;
 
-    @TableField("`status`")
+    @Schema(description = "status, disabled or enabled")
     private String status;
 
-    @TableField("remark")
+    @Schema(description = "备注")
     private String remark;
-
 }

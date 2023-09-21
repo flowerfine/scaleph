@@ -16,40 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.dataservice;
+package cn.sliew.scaleph.dataservice.service.convert;
 
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
+import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.dao.entity.master.dataservice.DataserviceConfig;
+import cn.sliew.scaleph.dataservice.service.dto.DataserviceConfigDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
-/**
- * <p>
- * 数据服务 配置
- * </p>
- */
-@Data
-@TableName("dataservice_config")
-public class DataserviceConfig extends BaseDO {
-
-    private static final long serialVersionUID = 1L;
-
-    @TableField("`name`")
-    private String name;
-
-    @TableField("path")
-    private String path;
-
-    @TableField("method")
-    private String method;
-
-    @TableField("content_type")
-    private String contentType;
-
-    @TableField("`status`")
-    private String status;
-
-    @TableField("remark")
-    private String remark;
+@Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface DataserviceConfigConvert extends BaseConvert<DataserviceConfig, DataserviceConfigDTO> {
+    DataserviceConfigConvert INSTANCE = Mappers.getMapper(DataserviceConfigConvert.class);
 
 }
