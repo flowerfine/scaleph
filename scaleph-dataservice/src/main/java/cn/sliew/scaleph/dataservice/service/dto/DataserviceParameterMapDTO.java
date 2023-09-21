@@ -16,28 +16,27 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.dataservice;
+package cn.sliew.scaleph.dataservice.service.dto;
 
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.sliew.scaleph.system.model.BaseDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
  * <p>
- * 数据服务 返回结果集
+ * 数据服务 请求参数集
  * </p>
  */
 @Data
-@TableName("dataservice_result_map")
-public class DataserviceResultMap extends BaseDO {
+@Schema(name = "DataserviceParameterMap对象", description = "数据服务 请求参数集")
+public class DataserviceParameterMapDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("`name`")
+    @Schema(description = "name")
     private String name;
 
-    @TableField("remark")
+    @Schema(description = "备注")
     private String remark;
 
 }

@@ -21,7 +21,6 @@ package cn.sliew.scaleph.dao.entity.master.dataservice;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -31,16 +30,13 @@ import lombok.Data;
  */
 @Data
 @TableName("dataservice_parameter_map")
-@Schema(name = "DataserviceParameterMap对象", description = "数据服务 请求参数集")
 public class DataserviceParameterMap extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "name")
     @TableField("`name`")
     private String name;
 
-    @Schema(description = "备注")
     @TableField("remark")
     private String remark;
 
