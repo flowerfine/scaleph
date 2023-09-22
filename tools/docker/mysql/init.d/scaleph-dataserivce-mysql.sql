@@ -34,6 +34,23 @@ create table dataservice_parameter_map
     unique key uniq_param (name)
 ) engine = innodb comment = '数据服务 请求参数集';
 
+drop table if exists dataservice_parameter_mapping;
+create table dataservice_parameter_mapping
+(
+    id               bigint       not null auto_increment comment '自增主键',
+    parameter_map_id bigint       not null comment '请求参数集id',
+    property         varchar(64)  not null comment '属性',
+    java_type        varchar(256) not null comment 'java 类型',
+    jdbc_type        varchar(256) not null comment 'jdbc 类型',
+    type_handler     varchar(256) not null comment '类型转换器',
+    creator          varchar(32) comment '创建人',
+    create_time      timestamp default current_timestamp comment '创建时间',
+    editor           varchar(32) comment '修改人',
+    update_time      timestamp default current_timestamp on update current_timestamp comment '修改时间',
+    primary key (id),
+    unique key uniq_property (parameter_map_id, property)
+) engine = innodb comment = '数据服务 请求参数映射';
+
 drop table if exists dataservice_result_map;
 create table dataservice_result_map
 (
@@ -47,3 +64,21 @@ create table dataservice_result_map
     primary key (id),
     unique key uniq_param (name)
 ) engine = innodb comment = '数据服务 返回结果集';
+
+drop table if exists dataservice_result_mapping;
+create table dataservice_result_mapping
+(
+    id            bigint       not null auto_increment comment '自增主键',
+    result_map_id bigint       not null comment '请求参数集id',
+    property      varchar(64)  not null comment '属性',
+    java_type     varchar(256) not null comment 'java 类型',
+    `column`      varchar(128) not null comment '列',
+    jdbc_type     varchar(256) not null comment 'jdbc 类型',
+    type_handler  varchar(256) not null comment '类型转换器',
+    creator       varchar(32) comment '创建人',
+    create_time   timestamp default current_timestamp comment '创建时间',
+    editor        varchar(32) comment '修改人',
+    update_time   timestamp default current_timestamp on update current_timestamp comment '修改时间',
+    primary key (id),
+    unique key uniq_property (result_map_id, property, `column`)
+) engine = innodb comment = '数据服务 返回结果映射';
