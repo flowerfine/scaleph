@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const useGlobalModel = () => {
-  const [executionData, setExecutionData] = useState<string>('123');
+  const [executionData, setExecutionData] = useState<string>('');
 
   return {
     executionData,

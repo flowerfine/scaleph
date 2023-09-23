@@ -27,7 +27,7 @@ const CodeEditor: React.FC = () => {
   const { setExecutionData } = useModel('executionResult'); //存储执行结果
 
   useEffect(() => {
-    setSqlScript(flinkArtifactSql.script);
+    setSqlScript(flinkArtifactSql?.script);
     const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
     (async () => {
       const resSessionClusterId =

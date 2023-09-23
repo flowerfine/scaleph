@@ -1,5 +1,4 @@
 import { WORKSPACE_CONF } from '@/constant';
-import { WsFlinkArtifactSql } from '@/services/project/typings';
 import { WsFlinkKubernetesSessionClusterService } from '@/services/project/WsFlinkKubernetesSessionClusterService';
 import { WsFlinkSqlGatewayService } from '@/services/project/WsFlinkSqlGatewayService';
 import { Spin, Tabs } from 'antd';
@@ -9,91 +8,140 @@ import { useModel } from 'umi';
 import EditorRightResultTable from './EditorRightResultTable';
 import styles from './index.less';
 
-// 定义每个标签页的类型
-interface PaneItem {
+interface TabItem {
   label: React.ReactNode;
   children: React.ReactNode;
-  key: string;
+  key: string | number | null | undefined;
 }
 
-const defaultPanes: PaneItem[] = new Array(4).fill(null).map((_, index) => {
-  const id = String(index + 1);
-  return {
-    label: (
-      <div className={styles.bottomIcon}>
-        <img
-          style={{ width: 12, height: 13 }}
-          src="https://s.xinc818.com/files/webcilkl00h48b0mc6z/成功.svg"
-          alt="Success"
-        />
-        <span>Tab {id}</span>
-      </div>
-    ),
-    children: <EditorRightResultTable />,
-    key: id,
-  };
-});
-
 const EditorRightResult: React.FC = () => {
+  const [dataList, setDataList] = useState<any[]>([]);
   const urlParams = useLocation();
-  const [sqlScript, setSqlScript] = useState<any>(''); // 内容
-  const [activeKey, setActiveKey] = useState(defaultPanes?.[0]?.key); // 当前活动的标签页key
-  const [items, setItems] = useState(defaultPanes); // 标签页列表
-  const [isLoading, setIsLoading] = useState(false); // 加载状态
-  const { executionData } = useModel('executionResult'); //获取执行结果
+  const [sqlScript, setSqlScript] = useState<string>(''); // SQL 脚本内容
+  const [items, setItems] = useState<TabItem[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { executionData, setExecutionData } = useModel('executionResult');
+  const [sessionClusterId, setSessionClusterId] = useState<string | undefined>();
+  const flinkArtifactSql = urlParams.state;
 
-  const [sessionClusterId, setSessionClusterId] = useState<string>();
-  const flinkArtifactSql = urlParams.state as WsFlinkArtifactSql;
+  let sqlData: string;
 
-  const getResults = async (data: string) => {
-    const catalogArray = await WsFlinkSqlGatewayService.getSqlResults(sessionClusterId, data);
-    let clear;
-    if (catalogArray?.resultType === 'NOT_READY') {
-      setIsLoading(true);
-      clear = setTimeout(() => {
-        getResults(data);
-      }, 1000);
-    } else {
-      setIsLoading(false);
-      clearTimeout(clear);
-      console.log(catalogArray, 'catalogArray');
+  useEffect(() => {
+    let clear: NodeJS.Timeout;
+
+    const getResults = async (data: string) => {
+      if (sqlData !== data) {
+        setIsLoading(false);
+        clearTimeout(clear);
+        sqlData = data;
+      }
+      const catalogArray = await WsFlinkSqlGatewayService.getSqlResults(sessionClusterId!, data);
+
+      if (catalogArray?.resultType === 'NOT_READY' || catalogArray?.resultType === 'PAYLOAD') {
+        setIsLoading(true);
+        clear = setTimeout(() => {
+          getResults(data);
+        }, 5000);
+
+        if (catalogArray?.resultType === 'PAYLOAD') {
+          setDataList((prevDataList) => [catalogArray]); // 使用函数方式更新数组数据
+          setIsLoading(false);
+        }
+      } else {
+        setIsLoading(false);
+        clearTimeout(clear);
+      }
+    };
+
+    if (executionData) {
+      getResults(executionData);
     }
+
+    return () => {
+      clearTimeout(clear);
+    };
+  }, [executionData, sessionClusterId]);
+
+  useEffect(() => {
+    let clear: NodeJS.Timeout;
+
+    const stopSqlCarryOut = async () => {
+      clearTimeout(clear);
+
+      if (sessionClusterId && executionData) {
+        await WsFlinkSqlGatewayService.deleteSqlResults(sessionClusterId!, executionData);
+        setExecutionData('');
+      }
+    };
+
+    return stopSqlCarryOut;
+  }, [sessionClusterId, executionData]);
+
+  useEffect(() => {
+    const handleTabs = (result: any[]) => {
+      if (!result || !dataList) return [];
+
+      return dataList.map((item) => ({
+        label: (
+          <div className={styles.bottomIcon}>
+            <img
+              style={{ width: 12, height: 13 }}
+              src="https://s.xinc818.com/files/webcilkl00h48b0mc6z/成功.svg"
+              alt="Success"
+            />
+            <span>{item?.jobID}</span>
+          </div>
+        ),
+        children: <EditorRightResultTable result={item} />,
+        key: item?.jobID,
+      }));
+    };
+
+    const tabs = handleTabs(dataList);
+    console.log(tabs, 'tabs');
+
+    setItems(tabs);
+  }, [dataList]);
+
+  const onChange = (key: string | number | null | undefined) => {
+    console.log(key);
   };
 
   useEffect(() => {
-    getResults(executionData);
-  }, [executionData]);
+    setSessionClusterId(undefined);
+    setItems([]);
 
-  // 切换标签页时的回调函数
-  const onChange = (key: string) => {
-    setActiveKey(key);
-  };
-
-  useEffect(() => {
-    setSqlScript(flinkArtifactSql.script);
     const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
-    (async () => {
+
+    const fetchSessionClusterId = async () => {
       const resSessionClusterId =
-        await WsFlinkKubernetesSessionClusterService.getSqlGatewaySessionClusterId(projectId);
+        await WsFlinkKubernetesSessionClusterService.getSqlGatewaySessionClusterId(projectId!);
       setSessionClusterId(resSessionClusterId);
-    })();
-  }, []);
+    };
+    if (flinkArtifactSql && flinkArtifactSql.script) {
+      setSqlScript(flinkArtifactSql.script);
+      fetchSessionClusterId();
+    }
+  }, [flinkArtifactSql]);
 
   return (
     <div className={styles.editorRightResult} style={{ height: '100%', width: '100%' }}>
-      {/* 标签页组件 */}
       {items.length ? (
         <Tabs
           hideAdd
           onChange={onChange}
-          activeKey={activeKey}
           type="editable-card"
-          items={items}
-        />
+          tabBarExtraContent={<div>Extra Content</div>}
+        >
+          {items.map((item) => (
+            <Tabs.TabPane tab={item.label} key={item.key}>
+              {item.children}
+            </Tabs.TabPane>
+          ))}
+        </Tabs>
       ) : (
-        <div className={styles.resultContentBox}> No Data ​</div>
+        <div className={styles.resultContentBox}> No Data </div>
       )}
-      {/* 加载中的旋转动画 */}
       {isLoading && <Spin spinning={isLoading} className={styles.resultContentWrapper} />}
     </div>
   );

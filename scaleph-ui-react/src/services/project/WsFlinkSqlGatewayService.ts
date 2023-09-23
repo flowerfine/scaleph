@@ -26,6 +26,12 @@ export const WsFlinkSqlGatewayService = {
     });
   },
 
+  deleteSqlResults: async (sessionClusterId?: string | null, operationHandleId?: string) => {
+    return request<Array<string>>(`${url}/${sessionClusterId}/${operationHandleId}`, {
+      method: 'DELETE',
+    });
+  },
+
   getSqlResults: async (sessionClusterId?: string | null, operationHandleId?: string) => {
     return request<Array<string>>(`${url}/${sessionClusterId}/${operationHandleId}/results`, {
       method: 'GET',
