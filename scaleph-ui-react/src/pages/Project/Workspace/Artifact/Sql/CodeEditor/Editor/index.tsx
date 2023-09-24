@@ -34,6 +34,9 @@ const CodeEditor: React.FC = () => {
         await WsFlinkKubernetesSessionClusterService.getSqlGatewaySessionClusterId(projectId);
       setSessionClusterId(resSessionClusterId);
     })();
+    return () => {
+      setExecutionData('');
+    };
   }, []);
 
   // 点击运行获取选中或者全部值

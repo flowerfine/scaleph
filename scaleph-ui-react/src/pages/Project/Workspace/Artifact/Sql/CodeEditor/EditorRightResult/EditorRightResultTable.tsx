@@ -10,7 +10,7 @@ interface IViewTableCellData {
   value: any;
 }
 
-const EditorRightResultTable: React.FC = ({ result }: any) => {
+const EditorRightResultTable: React.FC = ({ result, lastOneData }: any) => {
   const [viewTableCellData, setViewTableCellData] = useState<IViewTableCellData | null>(null);
   const [headerList, setHeaderList] = useState([]);
   const [dataList, setDataList] = useState([]);
@@ -24,7 +24,7 @@ const EditorRightResultTable: React.FC = ({ result }: any) => {
   }, []);
 
   useEffect(() => {
-    if (result?.data) {
+    if (result?.data && lastOneData) {
       setDataList((prev) => prev.concat(result?.data));
     }
   }, [result]);
@@ -42,8 +42,6 @@ const EditorRightResultTable: React.FC = ({ result }: any) => {
 
   // 点击查看表格单元格内容
   const viewTableCell = (data: IViewTableCellData) => {
-    console.log(data, 'data90909090');
-
     setViewTableCellData(data);
   };
 

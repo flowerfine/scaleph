@@ -2,12 +2,13 @@ import { WORKSPACE_CONF } from '@/constant';
 import { WsFlinkKubernetesSessionClusterService } from '@/services/project/WsFlinkKubernetesSessionClusterService';
 import { WsFlinkSqlGatewayService } from '@/services/project/WsFlinkSqlGatewayService';
 import { Spin, Tabs } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useModel } from 'umi';
 import EditorRightResultTable from './EditorRightResultTable';
 import styles from './index.less';
 
+// 定义标签项的接口
 interface TabItem {
   label: React.ReactNode;
   children: React.ReactNode;
@@ -15,73 +16,80 @@ interface TabItem {
 }
 
 const EditorRightResult: React.FC = () => {
-  const [dataList, setDataList] = useState<any[]>([]);
-  const urlParams = useLocation();
-  const [sqlScript, setSqlScript] = useState<string>(''); // SQL 脚本内容
-  const [items, setItems] = useState<TabItem[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { executionData, setExecutionData } = useModel('executionResult');
-  const [sessionClusterId, setSessionClusterId] = useState<string | undefined>();
-  const flinkArtifactSql = urlParams.state;
-
+  const [dataList, setDataList] = useState<any[]>([]); // 数据列表
+  const urlParams = useLocation(); // 当前url参数
+  const [sqlScript, setSqlScript] = useState<string>(''); // SQL脚本内容
+  const [items, setItems] = useState<TabItem[]>([]); // 标签项列表
+  const [isLoading, setIsLoading] = useState<boolean>(false); // 加载状态标志
+  const { executionData, setExecutionData } = useModel('executionResult'); // 执行结果和设置执行结果的model
+  const [sessionClusterId, setSessionClusterId] = useState<string | undefined>(); // 会话集群id
+  const flinkArtifactSql = urlParams.state; // Flink SQL参数对象
   let sqlData: string;
+  const executionDataString = useRef<string>();
+  const sessionClusterIdString = useRef<string>();
+  const clearTimeOut = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
-    let clear: NodeJS.Timeout;
-
     const getResults = async (data: string) => {
       if (sqlData !== data) {
         setIsLoading(false);
-        clearTimeout(clear);
+        clearTimeout(clearTimeOut.current);
         sqlData = data;
       }
+      // 调用后端接口获取SQL结果
       const catalogArray = await WsFlinkSqlGatewayService.getSqlResults(sessionClusterId!, data);
 
       if (catalogArray?.resultType === 'NOT_READY' || catalogArray?.resultType === 'PAYLOAD') {
         setIsLoading(true);
-        clear = setTimeout(() => {
+        clearTimeOut.current = setTimeout(() => {
           getResults(data);
         }, 5000);
 
         if (catalogArray?.resultType === 'PAYLOAD') {
-          setDataList((prevDataList) => [catalogArray]); // 使用函数方式更新数组数据
+          setDataList((prevDataList) => {
+            const lastItem = prevDataList[prevDataList.length - 1];
+            if (lastItem && lastItem.key === catalogArray.key) {
+              return [...prevDataList.slice(0, -1), catalogArray];
+            } else {
+              return [...prevDataList, catalogArray];
+            }
+          });
           setIsLoading(false);
         }
       } else {
         setIsLoading(false);
-        clearTimeout(clear);
+        clearTimeout(clearTimeOut.current);
       }
     };
 
     if (executionData) {
       getResults(executionData);
+      executionDataString.current = executionData;
     }
-
     return () => {
-      clearTimeout(clear);
+      clearTimeout(clearTimeOut.current);
     };
-  }, [executionData, sessionClusterId]);
+  }, [executionData]);
+
+  const stopSqlCarryOut = async () => {
+    if (sessionClusterIdString.current && executionDataString.current) {
+      // 调用后端接口停止SQL执行
+      await WsFlinkSqlGatewayService.deleteSqlResults(
+        sessionClusterIdString.current,
+        executionDataString.current,
+      );
+    }
+  };
 
   useEffect(() => {
-    let clear: NodeJS.Timeout;
-
-    const stopSqlCarryOut = async () => {
-      clearTimeout(clear);
-
-      if (sessionClusterId && executionData) {
-        await WsFlinkSqlGatewayService.deleteSqlResults(sessionClusterId!, executionData);
-        setExecutionData('');
-      }
-    };
-
     return stopSqlCarryOut;
-  }, [sessionClusterId, executionData]);
+  }, []);
 
   useEffect(() => {
     const handleTabs = (result: any[]) => {
       if (!result || !dataList) return [];
 
-      return dataList.map((item) => ({
+      return dataList.map((item, index) => ({
         label: (
           <div className={styles.bottomIcon}>
             <img
@@ -92,31 +100,44 @@ const EditorRightResult: React.FC = () => {
             <span>{item?.jobID}</span>
           </div>
         ),
-        children: <EditorRightResultTable result={item} />,
+        children: (
+          <EditorRightResultTable
+            result={item}
+            key={item?.key}
+            lastOneData={dataList?.length - 1 == index}
+          />
+        ),
         key: item?.jobID,
       }));
     };
 
     const tabs = handleTabs(dataList);
-    console.log(tabs, 'tabs');
-
     setItems(tabs);
   }, [dataList]);
 
-  const onChange = (key: string | number | null | undefined) => {
-    console.log(key);
+  const onEdit = (key: string | number | null | undefined) => {
+    let index = items.findIndex((item) => item?.key === key);
+    if (index === items?.length - 1) {
+      setIsLoading(false);
+      stopSqlCarryOut();
+      clearTimeout(clearTimeOut.current);
+      setItems(items.filter((item) => item?.key !== key));
+    } else {
+      setItems(items.filter((item) => item?.key !== key));
+    }
   };
 
   useEffect(() => {
     setSessionClusterId(undefined);
     setItems([]);
-
     const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
     const fetchSessionClusterId = async () => {
+      // 获取会话集群id
       const resSessionClusterId =
         await WsFlinkKubernetesSessionClusterService.getSqlGatewaySessionClusterId(projectId!);
       setSessionClusterId(resSessionClusterId);
+      sessionClusterIdString.current = resSessionClusterId;
     };
     if (flinkArtifactSql && flinkArtifactSql.script) {
       setSqlScript(flinkArtifactSql.script);
@@ -127,12 +148,7 @@ const EditorRightResult: React.FC = () => {
   return (
     <div className={styles.editorRightResult} style={{ height: '100%', width: '100%' }}>
       {items.length ? (
-        <Tabs
-          hideAdd
-          onChange={onChange}
-          type="editable-card"
-          tabBarExtraContent={<div>Extra Content</div>}
-        >
+        <Tabs hideAdd onEdit={onEdit} type="editable-card">
           {items.map((item) => (
             <Tabs.TabPane tab={item.label} key={item.key}>
               {item.children}
