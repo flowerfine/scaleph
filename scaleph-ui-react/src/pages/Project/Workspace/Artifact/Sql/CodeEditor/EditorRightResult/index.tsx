@@ -23,34 +23,45 @@ const EditorRightResult: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false); // 加载状态标志
   const { executionData, setExecutionData } = useModel('executionResult'); // 执行结果和设置执行结果的model
   const [sessionClusterId, setSessionClusterId] = useState<string | undefined>(); // 会话集群id
+  const [activeKey, setActiveKey] = useState<string | undefined>(); // 控制当前激活的tab
   const flinkArtifactSql = urlParams.state; // Flink SQL参数对象
   let sqlData: string;
   const executionDataString = useRef<string>();
   const sessionClusterIdString = useRef<string>();
   const clearTimeOut = useRef<NodeJS.Timeout>();
 
+  const stopSqlCarryOut = async () => {
+    if (sessionClusterIdString.current && executionDataString.current) {
+      // 调用后端接口停止SQL执行
+      await WsFlinkSqlGatewayService.deleteSqlResults(
+        sessionClusterIdString.current,
+        executionDataString.current,
+      );
+    }
+  };
+
   useEffect(() => {
     const getResults = async (data: string) => {
       if (sqlData !== data) {
         setIsLoading(false);
         clearTimeout(clearTimeOut.current);
+        stopSqlCarryOut();
         sqlData = data;
       }
       // 调用后端接口获取SQL结果
       const catalogArray = await WsFlinkSqlGatewayService.getSqlResults(sessionClusterId!, data);
-
       if (catalogArray?.resultType === 'NOT_READY' || catalogArray?.resultType === 'PAYLOAD') {
         setIsLoading(true);
         clearTimeOut.current = setTimeout(() => {
           getResults(data);
         }, 5000);
-
         if (catalogArray?.resultType === 'PAYLOAD') {
           setDataList((prevDataList) => {
-            const lastItem = prevDataList[prevDataList.length - 1];
-            if (lastItem && lastItem.key === catalogArray.key) {
+            const lastItem = prevDataList[prevDataList?.length - 1];
+            if (lastItem && lastItem?.jobID === catalogArray?.jobID) {
               return [...prevDataList.slice(0, -1), catalogArray];
             } else {
+              setActiveKey(catalogArray?.jobID);
               return [...prevDataList, catalogArray];
             }
           });
@@ -70,16 +81,6 @@ const EditorRightResult: React.FC = () => {
       clearTimeout(clearTimeOut.current);
     };
   }, [executionData]);
-
-  const stopSqlCarryOut = async () => {
-    if (sessionClusterIdString.current && executionDataString.current) {
-      // 调用后端接口停止SQL执行
-      await WsFlinkSqlGatewayService.deleteSqlResults(
-        sessionClusterIdString.current,
-        executionDataString.current,
-      );
-    }
-  };
 
   useEffect(() => {
     return stopSqlCarryOut;
@@ -148,7 +149,15 @@ const EditorRightResult: React.FC = () => {
   return (
     <div className={styles.editorRightResult} style={{ height: '100%', width: '100%' }}>
       {items.length ? (
-        <Tabs hideAdd onEdit={onEdit} type="editable-card">
+        <Tabs
+          hideAdd
+          onChange={(itemId) => {
+            setActiveKey(itemId);
+          }}
+          onEdit={onEdit}
+          activeKey={activeKey}
+          type="editable-card"
+        >
           {items.map((item) => (
             <Tabs.TabPane tab={item.label} key={item.key}>
               {item.children}

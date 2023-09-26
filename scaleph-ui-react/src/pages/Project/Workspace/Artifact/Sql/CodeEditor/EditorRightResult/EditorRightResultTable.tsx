@@ -66,14 +66,14 @@ const EditorRightResultTable: React.FC = ({ result, lastOneData }: any) => {
                     src="https://s.xinc818.com/files/webcilklz16y4pxm3zv/位图 (1).svg"
                     alt="查看"
                     onClick={() => {
-                      viewTableCell({ name: value, value });
+                      viewTableCell({ name, value });
                     }}
                   />
                   <img
                     src="https://s.xinc818.com/files/webcilklz19gz7rldus/复制_o.svg"
                     alt="复制"
                     onClick={() => {
-                      copyTableCell({ name: value, value });
+                      copyTableCell({ name, value });
                     }}
                   />
                 </div>
@@ -135,7 +135,7 @@ const EditorRightResultTable: React.FC = ({ result, lastOneData }: any) => {
           <Editor
             height="300px" // 设置编辑器高度
             defaultLanguage="sql" // 设置默认语言
-            value={JSON.stringify(viewTableCellData?.name)} // 设置默认的SQL代码
+            value={JSON.stringify(viewTableCellData?.value)} // 设置默认的SQL代码
             theme="vs" // 设置主题样式
             options={{
               readOnly: true,
