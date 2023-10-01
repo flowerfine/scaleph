@@ -60,7 +60,7 @@ public class DataserviceConfigServiceImpl implements DataserviceConfigService {
 
     @Override
     public DataserviceConfigDTO selectOne(Long id) {
-        DataserviceConfig record = dataserviceConfigMapper.selectById(id);
+        DataserviceConfig record = dataserviceConfigMapper.getById(id);
         checkState(record != null, () -> "data service config not exists for id: " + id);
         return DataserviceConfigConvert.INSTANCE.toDto(record);
     }

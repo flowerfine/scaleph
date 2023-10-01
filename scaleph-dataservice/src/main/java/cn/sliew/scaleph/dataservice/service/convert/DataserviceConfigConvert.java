@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.dataservice.service.convert;
 
 import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.dataservice.DataserviceConfig;
 import cn.sliew.scaleph.dataservice.service.dto.DataserviceConfigDTO;
 import org.mapstruct.Mapper;
@@ -29,4 +30,29 @@ import org.mapstruct.factory.Mappers;
 public interface DataserviceConfigConvert extends BaseConvert<DataserviceConfig, DataserviceConfigDTO> {
     DataserviceConfigConvert INSTANCE = Mappers.getMapper(DataserviceConfigConvert.class);
 
+    @Override
+    default DataserviceConfig toDo(DataserviceConfigDTO dto) {
+        DataserviceConfig entity = BeanUtil.copy(dto, new DataserviceConfig());
+        if (dto.getParameterMap() != null) {
+            entity.setParameterMapId(dto.getParameterMap().getId());
+            entity.setParameterMap(DataserviceParameterMapConvert.INSTANCE.toDo(dto.getParameterMap()));
+        }
+        if (dto.getResultMap() != null) {
+            entity.setResultMapId(dto.getResultMap().getId());
+            entity.setResultMap(DataserviceResultMapConvert.INSTANCE.toDo(dto.getResultMap()));
+        }
+        return entity;
+    }
+
+    @Override
+    default DataserviceConfigDTO toDto(DataserviceConfig entity) {
+        DataserviceConfigDTO dto = BeanUtil.copy(entity, new DataserviceConfigDTO());
+        if (entity.getParameterMap() != null) {
+            dto.setParameterMap(DataserviceParameterMapConvert.INSTANCE.toDto(entity.getParameterMap()));
+        }
+        if (entity.getResultMap() != null) {
+            dto.setResultMap(DataserviceResultMapConvert.INSTANCE.toDto(entity.getResultMap()));
+        }
+        return dto;
+    }
 }

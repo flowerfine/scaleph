@@ -55,8 +55,14 @@ public class DataserviceConfig extends BaseDO {
     @TableField("parameter_map_id")
     private Long parameterMapId;
 
+    @TableField(exist = false)
+    private DataserviceParameterMap parameterMap;
+
     @TableField("result_map_id")
     private Long resultMapId;
+
+    @TableField(exist = false)
+    private DataserviceResultMap resultMap;
 
     @TableField("remark")
     private String remark;

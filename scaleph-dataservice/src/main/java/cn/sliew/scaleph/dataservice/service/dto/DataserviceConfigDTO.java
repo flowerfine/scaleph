@@ -51,11 +51,11 @@ public class DataserviceConfigDTO extends BaseDTO {
     @Schema(description = "status, disabled or enabled")
     private String status;
 
-    @Schema(description = "parameter_map_id")
-    private Long parameterMapId;
+    @Schema(description = "parameter map")
+    private DataserviceParameterMapDTO parameterMap;
 
-    @Schema(description = "result_map_id")
-    private Long resultMapId;
+    @Schema(description = "result map")
+    private DataserviceResultMapDTO resultMap;
 
     @Schema(description = "备注")
     private String remark;

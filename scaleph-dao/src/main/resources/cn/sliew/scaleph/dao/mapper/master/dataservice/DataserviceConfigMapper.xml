@@ -36,6 +36,27 @@
         <result column="remark" property="remark"/>
     </resultMap>
 
+    <resultMap id="DataserviceConfigMap" type="cn.sliew.scaleph.dao.entity.master.dataservice.DataserviceConfig">
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="project_id" property="projectId"/>
+        <result column="name" property="name"/>
+        <result column="path" property="path"/>
+        <result column="method" property="method"/>
+        <result column="content_type" property="contentType"/>
+        <result column="status" property="status"/>
+        <result column="parameter_map_id" property="parameterMapId"/>
+        <result column="result_map_id" property="resultMapId"/>
+        <result column="remark" property="remark"/>
+        <association column="parameter_map_id" property="parameterMap"
+                     select="cn.sliew.scaleph.dao.mapper.master.dataservice.DataserviceParameterMapMapper.selectById"/>
+        <association column="result_map_id" property="resultMap"
+                     select="cn.sliew.scaleph.dao.mapper.master.dataservice.DataserviceResultMapMapper.selectById"/>
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
@@ -46,4 +67,11 @@
         project_id, `name`, path, method, content_type, `status`,
         parameter_map_id, result_map_id, remark
     </sql>
+
+    <select id="getById" resultMap="DataserviceConfigMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dataservice_config
+        where id = #{id}
+    </select>
 </mapper>
