@@ -22,9 +22,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 public class DataserviceConfigAddParam {
+
+    @NotNull
+    @Schema(description = "project id")
+    private Long projectId;
 
     @NotBlank
     @Schema(description = "name")

@@ -48,6 +48,7 @@ public class DataserviceResultMapServiceImpl implements DataserviceResultMapServ
     public Page<DataserviceResultMapDTO> list(DataserviceConfigListParam param) {
         Page<DataserviceResultMap> page = new Page<>(param.getCurrent(), param.getPageSize());
         LambdaQueryWrapper<DataserviceResultMap> queryWrapper = Wrappers.lambdaQuery(DataserviceResultMap.class)
+                .eq(DataserviceResultMap::getProjectId, param.getProjectId())
                 .like(StringUtils.hasText(param.getName()), DataserviceResultMap::getName, param.getName());
 
         Page<DataserviceResultMap> dataserviceResultMapPage = dataserviceResultMapMapper.selectPage(page, queryWrapper);

@@ -48,6 +48,7 @@ public class DataserviceParameterMapServiceImpl implements DataserviceParameterM
     public Page<DataserviceParameterMapDTO> list(DataserviceParameterMapListParam param) {
         Page<DataserviceParameterMap> page = new Page<>(param.getCurrent(), param.getPageSize());
         LambdaQueryWrapper<DataserviceParameterMap> queryWrapper = Wrappers.lambdaQuery(DataserviceParameterMap.class)
+                .eq(DataserviceParameterMap::getProjectId, param.getProjectId())
                 .like(StringUtils.hasText(param.getName()), DataserviceParameterMap::getName, param.getName());
 
         Page<DataserviceParameterMap> dataserviceParameterMapPage = dataserviceParameterMapMapper.selectPage(page, queryWrapper);

@@ -33,6 +33,9 @@ public class DataserviceParameterMapDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
+    @Schema(description = "project id")
+    private Long projectId;
+
     @Schema(description = "name")
     private String name;
 

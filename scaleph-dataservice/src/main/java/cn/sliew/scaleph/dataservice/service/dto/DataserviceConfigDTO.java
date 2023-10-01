@@ -33,6 +33,9 @@ public class DataserviceConfigDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
+    @Schema(description = "project id")
+    private Long projectId;
+
     @Schema(description = "name")
     private String name;
 
@@ -47,6 +50,12 @@ public class DataserviceConfigDTO extends BaseDTO {
 
     @Schema(description = "status, disabled or enabled")
     private String status;
+
+    @Schema(description = "parameter_map_id")
+    private Long parameterMapId;
+
+    @Schema(description = "result_map_id")
+    private Long resultMapId;
 
     @Schema(description = "备注")
     private String remark;

@@ -22,8 +22,14 @@ import cn.sliew.scaleph.system.model.PaginationParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 public class DataserviceParameterMapListParam extends PaginationParam {
+
+    @NotNull
+    @Schema(description = "project id")
+    private Long projectId;
 
     @Schema(description = "name")
     private String name;

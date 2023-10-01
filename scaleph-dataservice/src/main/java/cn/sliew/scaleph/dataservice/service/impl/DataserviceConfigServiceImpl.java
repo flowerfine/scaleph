@@ -48,6 +48,7 @@ public class DataserviceConfigServiceImpl implements DataserviceConfigService {
     public Page<DataserviceConfigDTO> list(DataserviceConfigListParam param) {
         Page<DataserviceConfig> page = new Page<>(param.getCurrent(), param.getPageSize());
         LambdaQueryWrapper<DataserviceConfig> queryWrapper = Wrappers.lambdaQuery(DataserviceConfig.class)
+                .eq(DataserviceConfig::getProjectId, param.getProjectId())
                 .like(StringUtils.hasText(param.getName()), DataserviceConfig::getName, param.getName());
 
         Page<DataserviceConfig> dataserviceConfigPage = dataserviceConfigMapper.selectPage(page, queryWrapper);
