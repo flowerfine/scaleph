@@ -34,6 +34,9 @@ public class DataserviceResultMap extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
+    @TableField("project_id")
+    private Long projectId;
+
     @TableField("`name`")
     private String name;
 

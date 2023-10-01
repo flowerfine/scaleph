@@ -34,6 +34,9 @@ public class DataserviceConfig extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
+    @TableField("project_id")
+    private Long projectId;
+
     @TableField("`name`")
     private String name;
 
@@ -48,6 +51,12 @@ public class DataserviceConfig extends BaseDO {
 
     @TableField("`status`")
     private String status;
+
+    @TableField("parameter_map_id")
+    private Long parameterMapId;
+
+    @TableField("result_map_id")
+    private Long resultMapId;
 
     @TableField("remark")
     private String remark;

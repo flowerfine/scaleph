@@ -25,6 +25,7 @@
         <result column="create_time" property="createTime"/>
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
+        <result column="project_id" property="projectId"/>
         <result column="name" property="name"/>
         <result column="remark" property="remark"/>
     </resultMap>
@@ -36,6 +37,6 @@
         create_time,
         editor,
         update_time,
-        `name`, remark
+        project_id, `name`, remark
     </sql>
 </mapper>
