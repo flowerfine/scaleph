@@ -16,28 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dataservice.service;
+package cn.sliew.scaleph.dataservice.service.param;
 
-import cn.sliew.scaleph.dataservice.service.dto.DataserviceResultMapDTO;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceResultMapAddParam;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceResultMapListParam;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceResultMapUpdateParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.sliew.scaleph.system.model.PaginationParam;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
-public interface DataserviceResultMapService {
+@Data
+public class DataserviceResultMapListParam extends PaginationParam {
 
-    Page<DataserviceResultMapDTO> list(DataserviceResultMapListParam param);
+    @NotNull
+    @Schema(description = "project id")
+    private Long projectId;
 
-    DataserviceResultMapDTO selectOne(Long id);
-
-    int insert(DataserviceResultMapAddParam param);
-
-    int update(DataserviceResultMapUpdateParam param);
-
-    int deleteById(Long id);
-
-    int deleteBatch(List<Long> ids);
-
+    @Schema(description = "name")
+    private String name;
 }

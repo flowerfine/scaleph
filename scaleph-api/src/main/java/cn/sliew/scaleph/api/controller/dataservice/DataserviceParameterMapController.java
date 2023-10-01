@@ -19,11 +19,11 @@
 package cn.sliew.scaleph.api.controller.dataservice;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.dataservice.service.DataserviceResultMapService;
-import cn.sliew.scaleph.dataservice.service.dto.DataserviceResultMapDTO;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceResultMapAddParam;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceResultMapListParam;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceResultMapUpdateParam;
+import cn.sliew.scaleph.dataservice.service.DataserviceParameterMapService;
+import cn.sliew.scaleph.dataservice.service.dto.DataserviceParameterMapDTO;
+import cn.sliew.scaleph.dataservice.service.param.DataserviceParameterMapAddParam;
+import cn.sliew.scaleph.dataservice.service.param.DataserviceParameterMapListParam;
+import cn.sliew.scaleph.dataservice.service.param.DataserviceParameterMapUpdateParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,51 +37,51 @@ import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.List;
 
-@Tag(name = "数据服务-ResultMap管理")
+@Tag(name = "数据服务-ParameterMap管理")
 @RestController
-@RequestMapping(path = "/api/dataservice/result-map")
-public class DataserviceResultMapController {
+@RequestMapping(path = "/api/dataservice/parameter-map")
+public class DataserviceParameterMapController {
 
     @Autowired
-    private DataserviceResultMapService dataserviceResultMapService;
+    private DataserviceParameterMapService dataserviceParameterMapService;
 
     @Logging
     @GetMapping
-    @Operation(summary = "查询 resultMap 列表", description = "查询 resultMap 列表")
-    public ResponseEntity<ResponseVO<Page<DataserviceResultMapDTO>>> get(@Valid DataserviceResultMapListParam param) throws ParseException {
-        Page<DataserviceResultMapDTO> result = dataserviceResultMapService.list(param);
+    @Operation(summary = "查询 parameterMap 列表", description = "查询 parameterMap 列表")
+    public ResponseEntity<ResponseVO<Page<DataserviceParameterMapDTO>>> get(@Valid DataserviceParameterMapListParam param) throws ParseException {
+        Page<DataserviceParameterMapDTO> result = dataserviceParameterMapService.list(param);
         return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
     }
 
     @Logging
     @PutMapping
-    @Operation(summary = "新增 resultMap", description = "新增 resultMap")
-    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody DataserviceResultMapAddParam param) throws ParseException {
-        dataserviceResultMapService.insert(param);
+    @Operation(summary = "新增 parameterMap", description = "新增 parameterMap")
+    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody DataserviceParameterMapAddParam param) throws ParseException {
+        dataserviceParameterMapService.insert(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
     @PostMapping
-    @Operation(summary = "修改 resultMap", description = "修改 resultMap")
-    public ResponseEntity<ResponseVO> update(@Valid @RequestBody DataserviceResultMapUpdateParam param) throws ParseException {
-        dataserviceResultMapService.update(param);
+    @Operation(summary = "修改 parameterMap", description = "修改 parameterMap")
+    public ResponseEntity<ResponseVO> update(@Valid @RequestBody DataserviceParameterMapUpdateParam param) throws ParseException {
+        dataserviceParameterMapService.update(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
     @DeleteMapping("{id}")
-    @Operation(summary = "删除 resultMap", description = "删除 resultMap")
+    @Operation(summary = "删除 parameterMap", description = "删除 parameterMap")
     public ResponseEntity<ResponseVO> deleteById(@PathVariable("id") Long id) {
-        dataserviceResultMapService.deleteById(id);
+        dataserviceParameterMapService.deleteById(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
     @DeleteMapping(path = "/batch")
-    @Operation(summary = "批量删除 resultMap", description = "批量删除 resultMap")
+    @Operation(summary = "批量删除 parameterMap", description = "批量删除 parameterMap")
     public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) {
-        dataserviceResultMapService.deleteBatch(ids);
+        dataserviceParameterMapService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 

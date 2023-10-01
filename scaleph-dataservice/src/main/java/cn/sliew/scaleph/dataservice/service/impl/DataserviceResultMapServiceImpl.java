@@ -24,8 +24,8 @@ import cn.sliew.scaleph.dao.mapper.master.dataservice.DataserviceResultMapMapper
 import cn.sliew.scaleph.dataservice.service.DataserviceResultMapService;
 import cn.sliew.scaleph.dataservice.service.convert.DataserviceResultMapConvert;
 import cn.sliew.scaleph.dataservice.service.dto.DataserviceResultMapDTO;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceConfigListParam;
 import cn.sliew.scaleph.dataservice.service.param.DataserviceResultMapAddParam;
+import cn.sliew.scaleph.dataservice.service.param.DataserviceResultMapListParam;
 import cn.sliew.scaleph.dataservice.service.param.DataserviceResultMapUpdateParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -45,7 +45,7 @@ public class DataserviceResultMapServiceImpl implements DataserviceResultMapServ
     private DataserviceResultMapMapper dataserviceResultMapMapper;
 
     @Override
-    public Page<DataserviceResultMapDTO> list(DataserviceConfigListParam param) {
+    public Page<DataserviceResultMapDTO> list(DataserviceResultMapListParam param) {
         Page<DataserviceResultMap> page = new Page<>(param.getCurrent(), param.getPageSize());
         LambdaQueryWrapper<DataserviceResultMap> queryWrapper = Wrappers.lambdaQuery(DataserviceResultMap.class)
                 .eq(DataserviceResultMap::getProjectId, param.getProjectId())
