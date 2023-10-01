@@ -1,16 +1,16 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Editor, languages } from '@monaco-editor/react';
+import { Editor } from '@monaco-editor/react';
 import { Button, message } from 'antd';
-import { useIntl } from 'umi';
 import { language } from 'monaco-editor/esm/vs/basic-languages/sql/sql';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
+import React, { useEffect, useRef, useState } from 'react';
 import * as sqlFormatter from 'sql-formatter';
+import { useIntl, useModel } from 'umi';
 
-import { WORKSPACE_CONF } from "@/constant";
+import { WORKSPACE_CONF } from '@/constant';
 import { WsFlinkArtifactSql } from '@/services/project/typings';
-import { WsFlinkKubernetesSessionClusterService } from "@/services/project/WsFlinkKubernetesSessionClusterService";
-import { WsFlinkSqlGatewayService } from "@/services/project/WsFlinkSqlGatewayService";
-import { FlinkArtifactSqlService } from "@/services/project/WsFlinkArtifactSqlService";
+import { FlinkArtifactSqlService } from '@/services/project/WsFlinkArtifactSqlService';
+import { WsFlinkKubernetesSessionClusterService } from '@/services/project/WsFlinkKubernetesSessionClusterService';
+import { WsFlinkSqlGatewayService } from '@/services/project/WsFlinkSqlGatewayService';
 import { useLocation } from 'react-router-dom';
 import styles from './index.less';
 
@@ -24,14 +24,19 @@ const CodeEditor: React.FC = () => {
   const intl = useIntl(); //语言切换
   const [sessionClusterId, setSessionClusterId] = useState<string>();
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
+  const { setExecutionData } = useModel('executionResult'); //存储执行结果
 
   useEffect(() => {
-    setSqlScript(flinkArtifactSql.script);
+    setSqlScript(flinkArtifactSql?.script);
     const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
     (async () => {
-      const resSessionClusterId = await WsFlinkKubernetesSessionClusterService.getSqlGatewaySessionClusterId(projectId);
+      const resSessionClusterId =
+        await WsFlinkKubernetesSessionClusterService.getSqlGatewaySessionClusterId(projectId);
       setSessionClusterId(resSessionClusterId);
     })();
+    return () => {
+      setExecutionData('');
+    };
   }, []);
 
   // 点击运行获取选中或者全部值
@@ -42,9 +47,13 @@ const CodeEditor: React.FC = () => {
     if (selection && !selection.isEmpty()) {
       const selectedValue = editorRef.current.getModel()?.getValueInRange(selection);
       // console.log("选中的值:", selectedValue);
-      const catalogArray = await WsFlinkSqlGatewayService.executeSqlList(sessionClusterId, { sql: selectedValue || '', configuration: {} });
+      const catalogArray = await WsFlinkSqlGatewayService.executeSqlList(sessionClusterId, {
+        sql: selectedValue || '',
+        configuration: {},
+      });
       if (catalogArray) {
         message.success(`${intl.formatMessage({ id: 'RequestSuccessful' })}`, 1);
+        setExecutionData(catalogArray);
       }
     } else {
       const fullValue = editorRef.current.getModel()?.getValue();
@@ -54,7 +63,10 @@ const CodeEditor: React.FC = () => {
 
   // 保存数据
   const onSave = async (): Promise<void> => {
-    const resultData = await FlinkArtifactSqlService.updateScript({ id: flinkArtifactSql.id, script: sqlScript });
+    const resultData = await FlinkArtifactSqlService.updateScript({
+      id: flinkArtifactSql.id,
+      script: sqlScript,
+    });
     if (resultData.success) {
       message.success(`${intl.formatMessage({ id: 'SaveSuccessful' })}`, 1);
     }

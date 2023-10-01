@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Split from 'react-split';
 import EditMenu from './EditMenu';
 import EditorRight from './EditorRight';
-import "./index.less";
+import './index.less';
 
 const Index: React.FC = () => {
   const [horizontalSplitSizes, setHorizontalSplitSizes] = useState<number[]>([15, 85]); // 水平分割条大小比例的状态
@@ -28,11 +28,11 @@ const Index: React.FC = () => {
           setHorizontalSplitSizes(sizes);
         }}
       >
-        <EditMenu showLeft={showLeft} /> 
-        <EditorRight /> 
+        <EditMenu showLeft={showLeft} />
+        <EditorRight />
       </Split>
     </>
   );
-}
+};
 
 export default Index;

@@ -97,6 +97,10 @@
     .ant-table-column-sorters {
       display: initial;
     }
+
+    .art-table-row>.art-table-cell{
+      position: relative;
+    }
   }
   .resultContentBox,.resultContentWrapper {
     display: flex;
@@ -123,6 +127,7 @@
       align-items: center;
       justify-content: space-between;
       max-height: 120px;
+      overflow: hidden;
       
       .tableHoverBox {
         position: absolute;
@@ -158,4 +163,9 @@
       background-color: #f7f8f9;
     }
   }
+}
+
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
 }
