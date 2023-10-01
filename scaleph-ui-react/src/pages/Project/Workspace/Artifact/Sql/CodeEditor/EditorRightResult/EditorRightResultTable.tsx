@@ -1,34 +1,33 @@
+import { compareStrings } from '@/pages/Project/Workspace/Artifact/Sql/CodeEditor/components/sort';
 import { Editor } from '@monaco-editor/react';
-import { Button, message, Modal, Table } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
-import React, { useState } from 'react';
+import { ArtColumn, BaseTable, features, useTablePipeline } from 'ali-react-table';
+import { Button, message, Modal } from 'antd';
+import React, { useEffect, useMemo, useState } from 'react';
 import styles from './index.less';
-
-interface DataType {
-  key: React.Key;
-  name: string;
-  age: number;
-  address: string;
-}
 
 interface IViewTableCellData {
   name: string;
   value: any;
 }
 
-const data: DataType[] = [];
-for (let i = 0; i < 100; i++) {
-  data.push({
-    key: i,
-    name: `Edward King ${i}`,
-    name1: `1${i}`,
-    age: 32,
-    address: `London, Park Lane no. ${i}`,
-  });
-}
-
-const EditorRightResultTable: React.FC = () => {
+const EditorRightResultTable: React.FC = ({ result, lastOneData }: any) => {
   const [viewTableCellData, setViewTableCellData] = useState<IViewTableCellData | null>(null);
+  const [headerList, setHeaderList] = useState([]);
+  const [dataList, setDataList] = useState([]);
+
+  useEffect(() => {
+    const data = result?.columns?.map((item: any) => ({
+      dataType: item?.dataType,
+      name: item?.columnName,
+    }));
+    setHeaderList(data);
+  }, []);
+
+  useEffect(() => {
+    if (result?.data && lastOneData) {
+      setDataList((prev) => prev.concat(result?.data));
+    }
+  }, [result]);
 
   // 关闭弹窗
   const handleCancel = () => {
@@ -46,109 +45,72 @@ const EditorRightResultTable: React.FC = () => {
     setViewTableCellData(data);
   };
 
-  const columns: ColumnsType<DataType> = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      width: 130,
-      fixed: 'left',
-      render: (value: any, row: any, rowIndex: number) => {
-        return (
-          <div className={styles.tableItem}>
-            <div>{value}</div>
-            <div className={styles.tableHoverBox}>
-              <img
-                src="https://s.xinc818.com/files/webcilklz16y4pxm3zv/位图 (1).svg"
-                alt="查看"
-                onClick={() => {
-                  viewTableCell({ name: value, value });
-                }}
-              />
-              <img
-                src="https://s.xinc818.com/files/webcilklz19gz7rldus/复制_o.svg"
-                alt="复制"
-                onClick={() => {
-                  copyTableCell({ name: value, value });
-                }}
-              />
-            </div>
-          </div>
-        );
-      },
-    },
-    {
-      title: 'Name1',
-      dataIndex: 'name1',
-      width: 130,
-      render: (value: any, row: any, rowIndex: number) => {
-        return (
-          <div className={styles.tableItem}>
-            <div>{value}</div>
-            <div className={styles.tableHoverBox}>
-              <img
-                src="https://s.xinc818.com/files/webcilklz16y4pxm3zv/位图 (1).svg"
-                alt="查看"
-                onClick={() => {
-                  viewTableCell({ name: value, value });
-                }}
-              />
-              <img
-                src="https://s.xinc818.com/files/webcilklz19gz7rldus/复制_o.svg"
-                alt="复制"
-                onClick={() => {
-                  copyTableCell({ name: value, value });
-                }}
-              />
-            </div>
-          </div>
-        );
-      },
-    },
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      width: 130,
-      render: (value: any, row: any, rowIndex: number) => {
-        return (
-          <div className={styles.tableItem}>
-            <div>{value}</div>
-            <div className={styles.tableHoverBox}>
-              <img
-                src="https://s.xinc818.com/files/webcilklz16y4pxm3zv/位图 (1).svg"
-                alt="查看"
-                onClick={() => {
-                  viewTableCell({ name: value, value });
-                }}
-              />
-              <img
-                src="https://s.xinc818.com/files/webcilklz19gz7rldus/复制_o.svg"
-                alt="复制"
-                onClick={() => {
-                  copyTableCell({ name: value, value });
-                }}
-              />
-            </div>
-          </div>
-        );
-      },
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-  ];
+  const columns: ArtColumn[] = useMemo(
+    () =>
+      (headerList || []).map((item, index) => {
+        const { dataType, name } = item;
+        const isFirstLine = index === 0;
+        const isNumber = dataType === 'STRING';
+        return {
+          code: name,
+          name: name,
+          key: name,
+          lock: isFirstLine,
+          width: 120,
+          render: (value: any, row: any, rowIndex: number) => {
+            return (
+              <div className={styles.tableItem}>
+                <div>{value}</div>
+                <div className={styles.tableHoverBox}>
+                  <img
+                    src="https://s.xinc818.com/files/webcilklz16y4pxm3zv/位图 (1).svg"
+                    alt="查看"
+                    onClick={() => {
+                      viewTableCell({ name, value });
+                    }}
+                  />
+                  <img
+                    src="https://s.xinc818.com/files/webcilklz19gz7rldus/复制_o.svg"
+                    alt="复制"
+                    onClick={() => {
+                      copyTableCell({ name, value });
+                    }}
+                  />
+                </div>
+              </div>
+            );
+          },
+          features: { sortable: isNumber ? compareStrings : true },
+        };
+      }),
+    [headerList],
+  );
+
+  const pipeline = useTablePipeline()
+    .input({ dataSource: dataList, columns })
+    .use(
+      features.sort({
+        mode: 'single',
+        // defaultSorts,
+        highlightColumnWhenActive: true,
+        // sorts,
+        // onChangeSorts,
+      }),
+    )
+    .use(
+      features.columnResize({
+        fallbackSize: 120,
+        minSize: 80,
+        maxSize: 1080,
+        // handleBackground: '#ddd',
+        // handleHoverBackground: '#aaa',
+        // handleActiveBackground: '#89bff7',
+      }),
+    );
 
   return (
     <div className={styles.tableBox}>
-      <Table
-        columns={columns}
-        bordered={true}
-        dataSource={data}
-        pagination={false}
-        scroll={{ x: 1200 }}
-        sticky
-      />
-      <div className={styles.statusBar}>Result：执行成功. Time Consuming：25ms</div>
+      <BaseTable {...pipeline.getProps()} />
       <Modal
         title={viewTableCellData?.name}
         open={!!viewTableCellData?.name}
@@ -169,10 +131,11 @@ const EditorRightResultTable: React.FC = () => {
         }
       >
         <div className={styles.monacoEditor}>
+          {/* {viewTableCellData?.name} */}
           <Editor
             height="300px" // 设置编辑器高度
             defaultLanguage="sql" // 设置默认语言
-            value={viewTableCellData?.name} // 设置默认的SQL代码
+            value={JSON.stringify(viewTableCellData?.value)} // 设置默认的SQL代码
             theme="vs" // 设置主题样式
             options={{
               readOnly: true,
