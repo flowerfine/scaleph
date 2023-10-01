@@ -19,19 +19,24 @@
 package cn.sliew.scaleph.dataservice.service.impl;
 
 import cn.sliew.scaleph.common.util.BeanUtil;
+import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.dataservice.DataserviceParameterMap;
+import cn.sliew.scaleph.dao.entity.master.dataservice.DataserviceParameterMapping;
 import cn.sliew.scaleph.dao.mapper.master.dataservice.DataserviceParameterMapMapper;
+import cn.sliew.scaleph.dao.mapper.master.dataservice.DataserviceParameterMappingMapper;
 import cn.sliew.scaleph.dataservice.service.DataserviceParameterMapService;
 import cn.sliew.scaleph.dataservice.service.convert.DataserviceParameterMapConvert;
+import cn.sliew.scaleph.dataservice.service.convert.DataserviceParameterMappingConvert;
 import cn.sliew.scaleph.dataservice.service.dto.DataserviceParameterMapDTO;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceParameterMapAddParam;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceParameterMapListParam;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceParameterMapUpdateParam;
+import cn.sliew.scaleph.dataservice.service.dto.DataserviceParameterMappingDTO;
+import cn.sliew.scaleph.dataservice.service.param.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -43,6 +48,8 @@ public class DataserviceParameterMapServiceImpl implements DataserviceParameterM
 
     @Autowired
     private DataserviceParameterMapMapper dataserviceParameterMapMapper;
+    @Autowired
+    private DataserviceParameterMappingMapper dataserviceParameterMappingMapper;
 
     @Override
     public Page<DataserviceParameterMapDTO> list(DataserviceParameterMapListParam param) {
@@ -56,6 +63,15 @@ public class DataserviceParameterMapServiceImpl implements DataserviceParameterM
         List<DataserviceParameterMapDTO> dataserviceParameterMapDTOS = DataserviceParameterMapConvert.INSTANCE.toDto(dataserviceParameterMapPage.getRecords());
         result.setRecords(dataserviceParameterMapDTOS);
         return result;
+    }
+
+    @Override
+    public List<DataserviceParameterMappingDTO> listMappings(Long parameterMapId) {
+        LambdaQueryWrapper<DataserviceParameterMapping> queryWrapper = Wrappers.lambdaQuery(DataserviceParameterMapping.class)
+                .eq(DataserviceParameterMapping::getParameterMapId, parameterMapId)
+                .orderByAsc(DataserviceParameterMapping::getProperty);
+        List<DataserviceParameterMapping> dataserviceParameterMappings = dataserviceParameterMappingMapper.selectList(queryWrapper);
+        return DataserviceParameterMappingConvert.INSTANCE.toDto(dataserviceParameterMappings);
     }
 
     @Override
@@ -77,6 +93,21 @@ public class DataserviceParameterMapServiceImpl implements DataserviceParameterM
         return dataserviceParameterMapMapper.updateById(record);
     }
 
+    @Transactional(transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
+    @Override
+    public int replaceMappings(DataserviceParameterMappingReplaceParam param) {
+        int deleted = deleteMappings(param.getParameterMapId());
+        if (CollectionUtils.isEmpty(param.getMappings())) {
+            return deleted;
+        }
+        for (DataserviceParameterMappingParam mappingParam : param.getMappings()) {
+            DataserviceParameterMapping entity = BeanUtil.copy(mappingParam, new DataserviceParameterMapping());
+            entity.setParameterMapId(param.getParameterMapId());
+            dataserviceParameterMappingMapper.insert(entity);
+        }
+        return param.getMappings().size();
+    }
+
     @Override
     public int deleteById(Long id) {
         return dataserviceParameterMapMapper.deleteById(id);
@@ -85,5 +116,12 @@ public class DataserviceParameterMapServiceImpl implements DataserviceParameterM
     @Override
     public int deleteBatch(List<Long> ids) {
         return dataserviceParameterMapMapper.deleteBatchIds(ids);
+    }
+
+    @Override
+    public int deleteMappings(Long parameterMapId) {
+        LambdaQueryWrapper<DataserviceParameterMapping> queryWrapper = Wrappers.lambdaQuery(DataserviceParameterMapping.class)
+                .eq(DataserviceParameterMapping::getParameterMapId, parameterMapId);
+        return dataserviceParameterMappingMapper.delete(queryWrapper);
     }
 }

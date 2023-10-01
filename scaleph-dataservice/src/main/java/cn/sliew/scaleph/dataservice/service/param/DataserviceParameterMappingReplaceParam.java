@@ -22,28 +22,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
-public class DataserviceResultMappingAddParam {
+public class DataserviceParameterMappingReplaceParam {
 
     @NotNull
     @Schema(description = "请求参数集id")
-    private Long resultMapId;
+    private Long parameterMapId;
 
-    @NotNull
-    @Schema(description = "属性")
-    private String property;
-
-    @Schema(description = "java 类型")
-    private String javaType;
-
-    @NotNull
-    @Schema(description = "列")
-    private String column;
-
-    @Schema(description = "jdbc 类型")
-    private String jdbcType;
-
-    @Schema(description = "类型转换器")
-    private String typeHandler;
+    @Schema(description = "parameter mappings")
+    private List<DataserviceParameterMappingParam> mappings;
 }

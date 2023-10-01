@@ -20,18 +20,21 @@ package cn.sliew.scaleph.dataservice.service.impl;
 
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.dataservice.DataserviceResultMap;
+import cn.sliew.scaleph.dao.entity.master.dataservice.DataserviceResultMapping;
 import cn.sliew.scaleph.dao.mapper.master.dataservice.DataserviceResultMapMapper;
+import cn.sliew.scaleph.dao.mapper.master.dataservice.DataserviceResultMappingMapper;
 import cn.sliew.scaleph.dataservice.service.DataserviceResultMapService;
 import cn.sliew.scaleph.dataservice.service.convert.DataserviceResultMapConvert;
+import cn.sliew.scaleph.dataservice.service.convert.DataserviceResultMappingConvert;
 import cn.sliew.scaleph.dataservice.service.dto.DataserviceResultMapDTO;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceResultMapAddParam;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceResultMapListParam;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceResultMapUpdateParam;
+import cn.sliew.scaleph.dataservice.service.dto.DataserviceResultMappingDTO;
+import cn.sliew.scaleph.dataservice.service.param.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -43,6 +46,8 @@ public class DataserviceResultMapServiceImpl implements DataserviceResultMapServ
 
     @Autowired
     private DataserviceResultMapMapper dataserviceResultMapMapper;
+    @Autowired
+    private DataserviceResultMappingMapper dataserviceResultMappingMapper;
 
     @Override
     public Page<DataserviceResultMapDTO> list(DataserviceResultMapListParam param) {
@@ -56,6 +61,15 @@ public class DataserviceResultMapServiceImpl implements DataserviceResultMapServ
         List<DataserviceResultMapDTO> dataserviceResultMapDTOS = DataserviceResultMapConvert.INSTANCE.toDto(dataserviceResultMapPage.getRecords());
         result.setRecords(dataserviceResultMapDTOS);
         return result;
+    }
+
+    @Override
+    public List<DataserviceResultMappingDTO> listMappings(Long resultMapId) {
+        LambdaQueryWrapper<DataserviceResultMapping> queryWrapper = Wrappers.lambdaQuery(DataserviceResultMapping.class)
+                .eq(DataserviceResultMapping::getResultMapId, resultMapId)
+                .orderByAsc(DataserviceResultMapping::getColumn);
+        List<DataserviceResultMapping> dataserviceResultMappings = dataserviceResultMappingMapper.selectList(queryWrapper);
+        return DataserviceResultMappingConvert.INSTANCE.toDto(dataserviceResultMappings);
     }
 
     @Override
@@ -78,6 +92,20 @@ public class DataserviceResultMapServiceImpl implements DataserviceResultMapServ
     }
 
     @Override
+    public int replaceMappings(DataserviceResultMappingReplaceParam param) {
+        int deleted = deleteMappings(param.getResultMapId());
+        if (CollectionUtils.isEmpty(param.getMappings())) {
+            return deleted;
+        }
+        for (DataserviceResultMappingParam mappingParam : param.getMappings()) {
+            DataserviceResultMapping entity = BeanUtil.copy(mappingParam, new DataserviceResultMapping());
+            entity.setResultMapId(param.getResultMapId());
+            dataserviceResultMappingMapper.insert(entity);
+        }
+        return param.getMappings().size();
+    }
+
+    @Override
     public int deleteById(Long id) {
         return dataserviceResultMapMapper.deleteById(id);
     }
@@ -85,5 +113,12 @@ public class DataserviceResultMapServiceImpl implements DataserviceResultMapServ
     @Override
     public int deleteBatch(List<Long> ids) {
         return dataserviceResultMapMapper.deleteBatchIds(ids);
+    }
+
+    @Override
+    public int deleteMappings(Long resultMapId) {
+        LambdaQueryWrapper<DataserviceResultMapping> queryWrapper = Wrappers.lambdaQuery(DataserviceResultMapping.class)
+                .eq(DataserviceResultMapping::getResultMapId, resultMapId);
+        return dataserviceResultMappingMapper.delete(queryWrapper);
     }
 }

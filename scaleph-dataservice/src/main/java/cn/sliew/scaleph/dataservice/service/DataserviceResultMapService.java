@@ -19,9 +19,8 @@
 package cn.sliew.scaleph.dataservice.service;
 
 import cn.sliew.scaleph.dataservice.service.dto.DataserviceResultMapDTO;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceResultMapAddParam;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceResultMapListParam;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceResultMapUpdateParam;
+import cn.sliew.scaleph.dataservice.service.dto.DataserviceResultMappingDTO;
+import cn.sliew.scaleph.dataservice.service.param.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
@@ -30,14 +29,20 @@ public interface DataserviceResultMapService {
 
     Page<DataserviceResultMapDTO> list(DataserviceResultMapListParam param);
 
+    List<DataserviceResultMappingDTO> listMappings(Long resultMapId);
+
     DataserviceResultMapDTO selectOne(Long id);
 
     int insert(DataserviceResultMapAddParam param);
 
     int update(DataserviceResultMapUpdateParam param);
 
+    int replaceMappings(DataserviceResultMappingReplaceParam param);
+
     int deleteById(Long id);
 
     int deleteBatch(List<Long> ids);
+
+    int deleteMappings(Long resultMapId);
 
 }

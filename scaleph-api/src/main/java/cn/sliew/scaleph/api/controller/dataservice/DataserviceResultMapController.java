@@ -21,9 +21,11 @@ package cn.sliew.scaleph.api.controller.dataservice;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.dataservice.service.DataserviceResultMapService;
 import cn.sliew.scaleph.dataservice.service.dto.DataserviceResultMapDTO;
+import cn.sliew.scaleph.dataservice.service.dto.DataserviceResultMappingDTO;
 import cn.sliew.scaleph.dataservice.service.param.DataserviceResultMapAddParam;
 import cn.sliew.scaleph.dataservice.service.param.DataserviceResultMapListParam;
 import cn.sliew.scaleph.dataservice.service.param.DataserviceResultMapUpdateParam;
+import cn.sliew.scaleph.dataservice.service.param.DataserviceResultMappingReplaceParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -54,6 +56,14 @@ public class DataserviceResultMapController {
     }
 
     @Logging
+    @GetMapping("{resultMapId}/mappings")
+    @Operation(summary = "查询 resultMapping 列表", description = "查询 resultMapping 列表")
+    public ResponseEntity<ResponseVO<List<DataserviceResultMappingDTO>>> listMappings(@PathVariable("resultMapId") Long resultMapId) {
+        List<DataserviceResultMappingDTO> result = dataserviceResultMapService.listMappings(resultMapId);
+        return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
+    }
+
+    @Logging
     @PutMapping
     @Operation(summary = "新增 resultMap", description = "新增 resultMap")
     public ResponseEntity<ResponseVO> insert(@Valid @RequestBody DataserviceResultMapAddParam param) throws ParseException {
@@ -66,6 +76,14 @@ public class DataserviceResultMapController {
     @Operation(summary = "修改 resultMap", description = "修改 resultMap")
     public ResponseEntity<ResponseVO> update(@Valid @RequestBody DataserviceResultMapUpdateParam param) throws ParseException {
         dataserviceResultMapService.update(param);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping("mappings/replace")
+    @Operation(summary = "替换 resultMapping", description = "替换 resultMapping")
+    public ResponseEntity<ResponseVO> replaceMappings(@Valid @RequestBody DataserviceResultMappingReplaceParam param) {
+        dataserviceResultMapService.replaceMappings(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 

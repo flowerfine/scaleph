@@ -21,9 +21,11 @@ package cn.sliew.scaleph.api.controller.dataservice;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.dataservice.service.DataserviceParameterMapService;
 import cn.sliew.scaleph.dataservice.service.dto.DataserviceParameterMapDTO;
+import cn.sliew.scaleph.dataservice.service.dto.DataserviceParameterMappingDTO;
 import cn.sliew.scaleph.dataservice.service.param.DataserviceParameterMapAddParam;
 import cn.sliew.scaleph.dataservice.service.param.DataserviceParameterMapListParam;
 import cn.sliew.scaleph.dataservice.service.param.DataserviceParameterMapUpdateParam;
+import cn.sliew.scaleph.dataservice.service.param.DataserviceParameterMappingReplaceParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -54,6 +56,14 @@ public class DataserviceParameterMapController {
     }
 
     @Logging
+    @GetMapping("{parameterMapId}/mappings")
+    @Operation(summary = "查询 parameterMapping 列表", description = "查询 parameterMapping 列表")
+    public ResponseEntity<ResponseVO<List<DataserviceParameterMappingDTO>>> listMappings(@PathVariable("parameterMapId") Long parameterMapId) throws ParseException {
+        List<DataserviceParameterMappingDTO> result = dataserviceParameterMapService.listMappings(parameterMapId);
+        return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
+    }
+
+    @Logging
     @PutMapping
     @Operation(summary = "新增 parameterMap", description = "新增 parameterMap")
     public ResponseEntity<ResponseVO> insert(@Valid @RequestBody DataserviceParameterMapAddParam param) throws ParseException {
@@ -66,6 +76,14 @@ public class DataserviceParameterMapController {
     @Operation(summary = "修改 parameterMap", description = "修改 parameterMap")
     public ResponseEntity<ResponseVO> update(@Valid @RequestBody DataserviceParameterMapUpdateParam param) throws ParseException {
         dataserviceParameterMapService.update(param);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping("mappings/replace")
+    @Operation(summary = "替换 parameterMapping", description = "替换 parameterMapping")
+    public ResponseEntity<ResponseVO> replaceMappings(@Valid @RequestBody DataserviceParameterMappingReplaceParam param) throws ParseException {
+        dataserviceParameterMapService.replaceMappings(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 

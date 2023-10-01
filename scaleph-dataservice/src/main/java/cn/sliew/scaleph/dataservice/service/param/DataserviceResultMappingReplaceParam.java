@@ -16,26 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dataservice.service;
+package cn.sliew.scaleph.dataservice.service.param;
 
-import cn.sliew.scaleph.dataservice.service.dto.DataserviceParameterMappingDTO;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceParameterMappingAddParam;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceParameterMappingUpdateParam;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
-public interface DataserviceParameterMappingService {
+@Data
+public class DataserviceResultMappingReplaceParam {
 
-    List<DataserviceParameterMappingDTO> list(Long parameterMapId);
+    @NotNull
+    @Schema(description = "响应结果集id")
+    private Long resultMapId;
 
-    DataserviceParameterMappingDTO selectOne(Long id);
-
-    int insert(DataserviceParameterMappingAddParam param);
-
-    int update(DataserviceParameterMappingUpdateParam param);
-
-    int deleteById(Long id);
-
-    int deleteBatch(List<Long> ids);
-
+    @Schema(description = "result mappings")
+    private List<DataserviceResultMappingParam> mappings;
 }

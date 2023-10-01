@@ -24,19 +24,18 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class DataserviceParameterMappingAddParam {
-
-    @NotNull
-    @Schema(description = "请求参数集id")
-    private Long parameterMapId;
+public class DataserviceResultMappingParam {
 
     @NotNull
     @Schema(description = "属性")
     private String property;
 
-    @NotNull
     @Schema(description = "java 类型")
     private String javaType;
+
+    @NotNull
+    @Schema(description = "列")
+    private String column;
 
     @Schema(description = "jdbc 类型")
     private String jdbcType;
