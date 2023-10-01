@@ -16,36 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.dataservice;
+package cn.sliew.scaleph.dataservice.service;
 
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
+import cn.sliew.scaleph.dataservice.service.dto.DataserviceResultMappingDTO;
+import cn.sliew.scaleph.dataservice.service.param.DataserviceResultMappingAddParam;
+import cn.sliew.scaleph.dataservice.service.param.DataserviceResultMappingUpdateParam;
 
 import java.util.List;
 
-/**
- * <p>
- * 数据服务 返回结果集
- * </p>
- */
-@Data
-@TableName("dataservice_result_map")
-public class DataserviceResultMap extends BaseDO {
+public interface DataserviceResultMappingService {
 
-    private static final long serialVersionUID = 1L;
+    List<DataserviceResultMappingDTO> list(Long resultMapId);
 
-    @TableField("project_id")
-    private Long projectId;
+    DataserviceResultMappingDTO selectOne(Long id);
 
-    @TableField("`name`")
-    private String name;
+    int insert(DataserviceResultMappingAddParam param);
 
-    @TableField(exist = false)
-    private List<DataserviceResultMapping> resultMappings;
+    int update(DataserviceResultMappingUpdateParam param);
 
-    @TableField("remark")
-    private String remark;
+    int deleteById(Long id);
+
+    int deleteBatch(List<Long> ids);
 
 }

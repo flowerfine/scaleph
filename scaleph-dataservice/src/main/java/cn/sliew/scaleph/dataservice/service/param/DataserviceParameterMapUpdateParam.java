@@ -21,9 +21,12 @@ package cn.sliew.scaleph.dataservice.service.param;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 public class DataserviceParameterMapUpdateParam {
 
+    @NotNull
     @Schema(description = "id")
     private Long id;
 

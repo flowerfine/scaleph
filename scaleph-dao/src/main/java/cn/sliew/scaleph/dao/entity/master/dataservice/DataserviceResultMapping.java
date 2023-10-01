@@ -36,7 +36,7 @@ public class DataserviceResultMapping extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "请求参数集id")
+    @Schema(description = "返回结果集id")
     @TableField("result_map_id")
     private Long resultMapId;
 

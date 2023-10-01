@@ -23,6 +23,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * <p>
  * 数据服务 请求参数集
@@ -39,6 +41,9 @@ public class DataserviceParameterMap extends BaseDO {
 
     @TableField("`name`")
     private String name;
+
+    @TableField(exist = false)
+    private List<DataserviceParameterMapping> parameterMappings;
 
     @TableField("remark")
     private String remark;

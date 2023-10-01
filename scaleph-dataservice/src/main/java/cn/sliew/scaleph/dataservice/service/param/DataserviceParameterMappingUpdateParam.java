@@ -16,36 +16,31 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.dataservice;
+package cn.sliew.scaleph.dataservice.service.param;
 
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
-/**
- * <p>
- * 数据服务 返回结果集
- * </p>
- */
 @Data
-@TableName("dataservice_result_map")
-public class DataserviceResultMap extends BaseDO {
+public class DataserviceParameterMappingUpdateParam {
 
-    private static final long serialVersionUID = 1L;
+    @NotNull
+    @Schema(description = "请求参数集id")
+    private Long parameterMapId;
 
-    @TableField("project_id")
-    private Long projectId;
+    @NotNull
+    @Schema(description = "属性")
+    private String property;
 
-    @TableField("`name`")
-    private String name;
+    @NotNull
+    @Schema(description = "java 类型")
+    private String javaType;
 
-    @TableField(exist = false)
-    private List<DataserviceResultMapping> resultMappings;
+    @Schema(description = "jdbc 类型")
+    private String jdbcType;
 
-    @TableField("remark")
-    private String remark;
-
+    @Schema(description = "类型转换器")
+    private String typeHandler;
 }
