@@ -1,4 +1,4 @@
-creat database if not exists scaleph default character set utf8mb4 collate utf8mb4_unicode_ci;
+create database if not exists scaleph default character set utf8mb4 collate utf8mb4_unicode_ci;
 use scaleph;
 
 drop table if exists ws_project;

@@ -39,7 +39,7 @@ jobs:
       - name: Build scaleph-ui-react
         run: cd scaleph-ui-react && npm install && npm run build --prod
       - name: Build scaleph-file-fetcher
-        run: mvn -B -U -T 4 clean package -Pdist -DskipTests -Dfast -am --projects scaleph-file-fetcher
+        run: mvn -B -U -T 4C clean package -Pdist -DskipTests -Dfast -am --projects scaleph-file-fetcher
       - name: Release image
         uses: docker/build-push-action@v4
         with:
