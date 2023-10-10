@@ -62,10 +62,10 @@ public class WsFlinkSqlGatewayQueryResultDTO {
     public static WsFlinkSqlGatewayQueryResultDTO fromResultSet(ResultSet resultSet) {
         WsFlinkSqlGatewayQueryResultDTOBuilder builder = WsFlinkSqlGatewayQueryResultDTO.builder()
                 .resultType(resultSet.getResultType());
-        if (resultSet.getJobID() != null) {
-            builder.jobID(resultSet.getJobID().toHexString());
-        }
-        if (resultSet.getResultType() == ResultSet.ResultType.PAYLOAD || resultSet.getResultType() == ResultSet.ResultType.EOS) {
+        if (resultSet.getResultType() != ResultSet.ResultType.NOT_READY) {
+            if (resultSet.getJobID() != null) {
+                builder.jobID(resultSet.getJobID().toHexString());
+            }
             builder.resultKind(resultSet.getResultKind());
             if (resultSet.isQueryResult()) {
                 List<Column> columns = resultSet.getResultSchema().getColumns();

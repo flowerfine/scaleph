@@ -471,7 +471,7 @@ create table ws_flink_custom_artifact
     editor        varchar(32) comment '修改人',
     update_time   timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key           idx_custom (flink_artifact_id)
+    key           idx_custom (flink_version, type, file_name)
 ) engine = innodb comment = 'flink custom artifact';
 
 drop table if exists ws_flink_custom_factory;

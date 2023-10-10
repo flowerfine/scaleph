@@ -18,12 +18,11 @@
 
 package cn.sliew.scaleph.api.controller.ws;
 
+import cn.sliew.scaleph.engine.sql.gateway.services.WsFlinkSqlGatewayService;
 import cn.sliew.scaleph.engine.sql.gateway.services.dto.WsFlinkSqlGatewayCreateCatalogParamsDTO;
 import cn.sliew.scaleph.engine.sql.gateway.services.dto.WsFlinkSqlGatewayQueryParamsDTO;
 import cn.sliew.scaleph.engine.sql.gateway.services.dto.WsFlinkSqlGatewayQueryResultDTO;
 import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.CatalogInfo;
-import cn.sliew.scaleph.engine.sql.gateway.services.WsFlinkSqlGatewayService;
-import cn.sliew.scaleph.system.model.PaginationParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -32,14 +31,7 @@ import org.apache.flink.table.gateway.api.results.GatewayInfo;
 import org.apache.flink.table.gateway.api.results.ResultSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
@@ -89,12 +81,16 @@ public class WsFlinkSqlGatewayController {
     @Operation(summary = "获取Sql执行结果", description = "获取Sql执行结果")
     @Parameters({
             @Parameter(name = "clusterId", description = "flink kubernetes session-cluster 的 sessionClusterId"),
-            @Parameter(name = "operationHandleId", description = "查询操作唯一标识，由executeSql()返回")
+            @Parameter(name = "operationHandleId", description = "查询操作唯一标识，由executeSql()返回"),
+            @Parameter(name = "token", description = "分页参数。第一页从 0 开始，后续翻页使用返回结果中的 nextToken 字段值。默认值: 0"),
+            @Parameter(name = "maxRows", description = "分页参数。每页返回数据量。默认值: 20"),
     })
     public ResponseEntity<WsFlinkSqlGatewayQueryResultDTO> fetchResults(@PathVariable("clusterId") String clusterId,
                                                                         @PathVariable("operationHandleId") String operationHandleId,
-                                                                        PaginationParam param) {
-        ResultSet resultSet = wsFlinkSqlGatewayService.fetchResults(clusterId, operationHandleId, param.getCurrent() - 1L, param.getPageSize().intValue());
+                                                                        @RequestParam(value = "token", required = false, defaultValue = "0") Long token,
+                                                                        @RequestParam(value = "maxRows", required = false, defaultValue = "20") int maxRows
+    ) {
+        ResultSet resultSet = wsFlinkSqlGatewayService.fetchResults(clusterId, operationHandleId, token, maxRows);
         try {
             WsFlinkSqlGatewayQueryResultDTO wsFlinkSqlGatewayQueryResultDTO = WsFlinkSqlGatewayQueryResultDTO.fromResultSet(resultSet);
             return ResponseEntity.ok(wsFlinkSqlGatewayQueryResultDTO);
@@ -159,7 +155,7 @@ public class WsFlinkSqlGatewayController {
             @Parameter(name = "catalogName", description = "Catalog名称")
     })
     public ResponseEntity<Boolean> removeCatalog(@PathVariable("clusterId") String clusterId,
-                                              @RequestParam("catalogName") String catalogName) {
+                                                 @RequestParam("catalogName") String catalogName) {
         return ResponseEntity.ok(wsFlinkSqlGatewayService.removeCatalog(clusterId, catalogName));
     }
 
