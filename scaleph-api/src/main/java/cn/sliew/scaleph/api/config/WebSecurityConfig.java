@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.api.config;
 
 import cn.sliew.scaleph.api.annotation.AnonymousAccess;
+import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.util.SpringApplicationContextUtil;
 import cn.sliew.scaleph.security.authentication.CustomAccessDeniedHandler;
 import cn.sliew.scaleph.security.authentication.CustomAuthenticationEntryPoint;
@@ -37,13 +38,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
@@ -126,4 +128,21 @@ public class WebSecurityConfig {
         ;
         return http.build();
     }
+
+    /**
+     * fix When allowCredentials is true, allowedOrigins cannot contain the special value "*" since that cannot be set on the "Access-Control-Allow-Origin" response header.
+     * To allow credentials to a set of origins, list them explicitly or consider using "allowedOriginPatterns" instead
+     */
+    @Bean
+    public CorsFilter corsFilter() {
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOriginPattern("*");
+        config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "responseType", Constants.TOKEN_KEY));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"));
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
+    }
+
 }
