@@ -29,6 +29,7 @@ import java.util.Set;
  * Enum encapsulating the lifecycle state of a Flink resource.
  */
 public enum ResourceLifecycleState {
+
     CREATED(false, "The resource was created in Kubernetes but not yet handled by the operator"),
     SUSPENDED(true, "The resource (job) has been suspended"),
     UPGRADING(false, "The resource is being upgraded"),

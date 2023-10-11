@@ -20,6 +20,7 @@ package cn.sliew.scaleph.engine.flink.kubernetes.operator.status;
 
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.AbstractFlinkResource;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.AbstractFlinkSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobState;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.util.SpecUtils;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.util.SpecWithMeta;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -101,5 +102,15 @@ public abstract class ReconciliationStatus<SPEC extends AbstractFlinkSpec> {
     @JsonIgnore
     public boolean isBeforeFirstDeployment() {
         return lastReconciledSpec == null;
+    }
+
+    @JsonIgnore
+    public boolean scalingInProgress() {
+        if (isBeforeFirstDeployment() || state != ReconciliationState.UPGRADING) {
+            return false;
+        }
+        var job = deserializeLastReconciledSpec().getJob();
+        // For regular full upgrades the jobstate is suspended in UPGRADING state
+        return job != null && job.getState() == JobState.RUNNING;
     }
 }

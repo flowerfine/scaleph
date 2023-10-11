@@ -20,7 +20,7 @@ http {
         server  ${SCALEPH_API_URL};
     }
     server {
-        listen       80;
+        listen       8096;
         server_name  localhost;
 
         underscores_in_headers on;
