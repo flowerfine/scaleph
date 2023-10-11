@@ -23,8 +23,8 @@ const EditorRightResult: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false); // 加载状态标志
   const { executionData, setExecutionData } = useModel('executionResult'); // 执行结果和设置执行结果的model
   const [sessionClusterId, setSessionClusterId] = useState<string | undefined>(); // 会话集群id
-  const [activeKey, setActiveKey] = useState<string | undefined>(); // 控制当前激活的tab
-  const flinkArtifactSql = urlParams.state; // Flink SQL参数对象
+  const [activeKey, setActiveKey] = useState<string | undefined | number>(); // 控制当前激活的tab
+  const flinkArtifactSql: string | unknown = urlParams.state; // Flink SQL参数对象
   let sqlData: string;
   const executionDataString = useRef<string>();
   const sessionClusterIdString = useRef<string>();
@@ -41,7 +41,7 @@ const EditorRightResult: React.FC = () => {
   };
 
   useEffect(() => {
-    const getResults = async (data: string) => {
+    const getResults = async (data: string, nextToken = 0) => {
       if (sqlData !== data) {
         setIsLoading(false);
         clearTimeout(clearTimeOut.current);
@@ -49,11 +49,15 @@ const EditorRightResult: React.FC = () => {
         sqlData = data;
       }
       // 调用后端接口获取SQL结果
-      const catalogArray = await WsFlinkSqlGatewayService.getSqlResults(sessionClusterId!, data);
+      const catalogArray: any = await WsFlinkSqlGatewayService.getSqlResults(
+        sessionClusterId!,
+        data,
+        nextToken,
+      );
       if (catalogArray?.resultType === 'NOT_READY' || catalogArray?.resultType === 'PAYLOAD') {
         setIsLoading(true);
         clearTimeOut.current = setTimeout(() => {
-          getResults(data);
+          getResults(data, catalogArray?.nextToken);
         }, 5000);
         if (catalogArray?.resultType === 'PAYLOAD') {
           setDataList((prevDataList) => {
@@ -82,14 +86,13 @@ const EditorRightResult: React.FC = () => {
     };
   }, [executionData]);
 
-  useEffect(() => {
+  useEffect((): any => {
     return stopSqlCarryOut;
   }, []);
 
   useEffect(() => {
     const handleTabs = (result: any[]) => {
       if (!result || !dataList) return [];
-
       return dataList.map((item, index) => ({
         label: (
           <div className={styles.bottomIcon}>
@@ -117,14 +120,23 @@ const EditorRightResult: React.FC = () => {
   }, [dataList]);
 
   const onEdit = (key: string | number | null | undefined) => {
-    let index = items.findIndex((item) => item?.key === key);
-    if (index === items?.length - 1) {
+    setDataList((prevList) => prevList.filter((item) => item?.jobID !== key));
+
+    const lastIndex = items?.length - 1;
+    const lastKey = items?.[lastIndex]?.key;
+
+    if (key === lastKey) {
+      setActiveKey(items?.[lastIndex - 1]?.key || '');
+    } else {
+      setActiveKey(lastKey || '');
+    }
+
+    setItems((prevItems) => prevItems.filter((item) => item?.key !== key));
+
+    if (lastIndex !== undefined && key === items[lastIndex]?.key) {
       setIsLoading(false);
       stopSqlCarryOut();
       clearTimeout(clearTimeOut.current);
-      setItems(items.filter((item) => item?.key !== key));
-    } else {
-      setItems(items.filter((item) => item?.key !== key));
     }
   };
 

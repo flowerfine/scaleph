@@ -32,9 +32,14 @@ export const WsFlinkSqlGatewayService = {
     });
   },
 
-  getSqlResults: async (sessionClusterId?: string | null, operationHandleId?: string) => {
+  getSqlResults: async (
+    sessionClusterId?: string | null,
+    operationHandleId?: string,
+    nextToken?: string | number,
+  ) => {
     return request<Array<string>>(`${url}/${sessionClusterId}/${operationHandleId}/results`, {
       method: 'GET',
+      params: { token: nextToken },
     });
   },
 
