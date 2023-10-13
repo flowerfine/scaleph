@@ -70,7 +70,7 @@ create table ws_flink_artifact_jar
     editor            varchar(32) comment '修改人',
     update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key               idx_flink_artifact (flink_artifact_id)
+    key idx_flink_artifact (flink_artifact_id)
 ) engine = innodb comment = 'flink artifact jar';
 
 DROP TABLE IF EXISTS ws_flink_artifact_sql;
@@ -86,7 +86,7 @@ CREATE TABLE ws_flink_artifact_sql
     editor            varchar(32),
     update_time       datetime    not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
-    key               idx_flink_artifact (flink_artifact_id)
+    key idx_flink_artifact (flink_artifact_id)
 ) ENGINE = INNODB COMMENT = 'flink artifact sql';
 
 INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
@@ -139,7 +139,7 @@ create table ws_di_job
     editor            varchar(32) comment '修改人',
     update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key               idx_flink_artifact (flink_artifact_id)
+    key idx_flink_artifact (flink_artifact_id)
 ) engine = innodb comment '数据集成-作业信息';
 INSERT INTO ws_di_job (id, flink_artifact_id, job_engine, job_id, current, creator, editor)
 VALUES (1, 4, 'seatunnel', 'b8e16c94-258c-4487-a88c-8aad40a38b35', 1, 'sys', 'sys');
@@ -471,7 +471,7 @@ create table ws_flink_custom_artifact
     editor        varchar(32) comment '修改人',
     update_time   timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key           idx_custom (flink_version, type, file_name)
+    key idx_custom (flink_version, type, file_name)
 ) engine = innodb comment = 'flink custom artifact';
 
 drop table if exists ws_flink_custom_factory;
@@ -487,5 +487,21 @@ create table ws_flink_custom_factory
     editor                   varchar(32) comment '修改人',
     update_time              timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key                      idx_custom (flink_custom_artifact_id, factory_class, `name`)
+    key idx_custom (flink_custom_artifact_id, factory_class, `name`)
 ) engine = innodb comment = 'flink custom factory';
+
+drop table if exists ws_flink_sql_gateway_session;
+create table ws_flink_sql_gateway_session
+(
+    id               bigint      not null auto_increment comment '自增主键',
+    session_handler  varchar(64) not null comment 'session handler',
+    session_config   text comment 'session config',
+    last_access_time timestamp   not null default current_timestamp on update current_timestamp comment '最新访问时间',
+    creator          varchar(32) comment '创建人',
+    create_time      timestamp            default current_timestamp comment '创建时间',
+    editor           varchar(32) comment '修改人',
+    update_time      timestamp            default current_timestamp on update current_timestamp comment '修改时间',
+    primary key (id),
+    unique key uniq_session (session_handler),
+    key idx_access_time (last_access_time)
+) engine = innodb comment = 'flink sql gateway session';
