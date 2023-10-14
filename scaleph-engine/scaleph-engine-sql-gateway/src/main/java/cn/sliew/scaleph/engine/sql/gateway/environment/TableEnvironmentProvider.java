@@ -6,9 +6,7 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,34 +14,12 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.ws;
+package cn.sliew.scaleph.engine.sql.gateway.environment;
 
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.FlinkSqlGatewaySession;
+import org.apache.flink.table.api.internal.TableEnvironmentInternal;
 
-/**
- * <p>
- * flink sql gateway session
- * </p>
- */
-@Data
-@TableName("ws_flink_sql_gateway_session")
-public class WsFlinkSqlGatewaySession extends BaseDO {
+public interface TableEnvironmentProvider {
 
-    private static final long serialVersionUID = 1L;
-
-    @TableField("session_handler")
-    private String sessionHandler;
-
-    @TableField("session_name")
-    private String sessionName;
-
-    @TableField("session_config")
-    private String sessionConfig;
-
-    @TableField("default_catalog")
-    private String defaultCatalog;
-
+    TableEnvironmentInternal getTableEnvironment(FlinkSqlGatewaySession session);
 }

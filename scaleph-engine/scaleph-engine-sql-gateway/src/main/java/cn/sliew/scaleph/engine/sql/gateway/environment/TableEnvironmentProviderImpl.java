@@ -14,30 +14,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql.gateway.services.dto;
+package cn.sliew.scaleph.engine.sql.gateway.environment;
 
-import cn.sliew.scaleph.system.model.BaseDTO;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import org.apache.flink.table.gateway.api.session.SessionHandle;
-import org.apache.flink.table.gateway.service.context.SessionContext;
-
-import java.util.Map;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.FlinkSqlGatewaySession;
+import org.apache.flink.table.api.EnvironmentSettings;
+import org.apache.flink.table.api.internal.TableEnvironmentInternal;
+import org.apache.flink.table.gateway.service.operation.OperationExecutor;
 
 /**
- * org.apache.flink.table.gateway.service.session.Session
+ * @see OperationExecutor#getTableEnvironment()
+ * @see org.apache.flink.table.api.internal.TableEnvironmentInternal#create(EnvironmentSettings)
+ * @see org.apache.flink.table.api.bridge.java.internal.StreamTableEnvironmentImpl#create(EnvironmentSettings)
  */
-@Data
-public class FlinkSqlGatewaySession extends BaseDTO implements AutoCloseable {
-
-    private SessionHandle sessionHandle;
-    private Map<String, String> sessionConfig;
-
-    @JsonIgnore
-    private SessionContext sessionContext;
+public class TableEnvironmentProviderImpl implements TableEnvironmentProvider {
 
     @Override
-    public void close() {
-        sessionContext.close();
+    public TableEnvironmentInternal getTableEnvironment(FlinkSqlGatewaySession session) {
+        // todo to do
+        return null;
     }
 }

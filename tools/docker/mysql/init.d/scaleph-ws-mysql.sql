@@ -493,15 +493,15 @@ create table ws_flink_custom_factory
 drop table if exists ws_flink_sql_gateway_session;
 create table ws_flink_sql_gateway_session
 (
-    id               bigint      not null auto_increment comment '自增主键',
-    session_handler  varchar(64) not null comment 'session handler',
-    session_config   text comment 'session config',
-    last_access_time timestamp   not null default current_timestamp on update current_timestamp comment '最新访问时间',
-    creator          varchar(32) comment '创建人',
-    create_time      timestamp            default current_timestamp comment '创建时间',
-    editor           varchar(32) comment '修改人',
-    update_time      timestamp            default current_timestamp on update current_timestamp comment '修改时间',
+    id              bigint       not null auto_increment comment '自增主键',
+    session_handler varchar(64)  not null comment 'session handler',
+    session_name    varchar(255) not null comment 'session name',
+    session_config  text comment 'session config',
+    default_catalog varchar(255) comment 'default catalog',
+    creator         varchar(32) comment '创建人',
+    create_time     timestamp default current_timestamp comment '创建时间',
+    editor          varchar(32) comment '修改人',
+    update_time     timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    unique key uniq_session (session_handler),
-    key idx_access_time (last_access_time)
+    unique key uniq_session (session_handler)
 ) engine = innodb comment = 'flink sql gateway session';

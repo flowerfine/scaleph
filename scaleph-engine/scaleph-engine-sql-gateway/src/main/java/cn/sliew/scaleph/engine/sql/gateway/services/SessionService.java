@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services;
 
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.FlinkSqlGatewaySession;
 import org.apache.flink.table.gateway.api.endpoint.EndpointVersion;
 import org.apache.flink.table.gateway.api.session.SessionEnvironment;
 import org.apache.flink.table.gateway.api.session.SessionHandle;
