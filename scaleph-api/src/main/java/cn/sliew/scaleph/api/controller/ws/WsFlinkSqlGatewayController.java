@@ -19,8 +19,8 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.engine.sql.gateway.services.WsFlinkSqlGatewayService;
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.WsFlinkSqlGatewayCreateCatalogParamsDTO;
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.WsFlinkSqlGatewayQueryParamsDTO;
+import cn.sliew.scaleph.engine.sql.gateway.services.param.WsFlinkSqlGatewayCreateCatalogParam;
+import cn.sliew.scaleph.engine.sql.gateway.services.param.WsFlinkSqlGatewayQueryParam;
 import cn.sliew.scaleph.engine.sql.gateway.services.dto.WsFlinkSqlGatewayQueryResultDTO;
 import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.CatalogInfo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -73,7 +73,7 @@ public class WsFlinkSqlGatewayController {
             @Parameter(name = "clusterId", description = "flink kubernetes session-cluster 的 sessionClusterId"),
     })
     public ResponseEntity<String> executeSql(@PathVariable("clusterId") String clusterId,
-                                             @RequestBody WsFlinkSqlGatewayQueryParamsDTO params) {
+                                             @RequestBody WsFlinkSqlGatewayQueryParam params) {
         return ResponseEntity.ok(wsFlinkSqlGatewayService.executeSql(clusterId, params));
     }
 
@@ -144,7 +144,7 @@ public class WsFlinkSqlGatewayController {
             @Parameter(name = "clusterId", description = "flink kubernetes session-cluster 的 sessionClusterId"),
     })
     public ResponseEntity<Boolean> addCatalog(@PathVariable("clusterId") String clusterId,
-                                              @RequestBody WsFlinkSqlGatewayCreateCatalogParamsDTO params) {
+                                              @RequestBody WsFlinkSqlGatewayCreateCatalogParam params) {
         return ResponseEntity.ok(wsFlinkSqlGatewayService.addCatalog(clusterId, params.getCatalogName(), params.getOptions()));
     }
 

@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services;
 
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.WsFlinkSqlGatewayQueryParamsDTO;
+import cn.sliew.scaleph.engine.sql.gateway.services.param.WsFlinkSqlGatewayQueryParam;
 import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.CatalogInfo;
 import cn.sliew.scaleph.engine.sql.gateway.internal.ScalephCatalogManager;
 import org.apache.flink.table.gateway.api.results.GatewayInfo;
@@ -83,7 +83,7 @@ public interface WsFlinkSqlGatewayService {
      * @param params    Sql query params
      * @return Operation handle id {@link org.apache.flink.table.gateway.api.operation.OperationHandle}
      */
-    String executeSql(String clusterId, WsFlinkSqlGatewayQueryParamsDTO params);
+    String executeSql(String clusterId, WsFlinkSqlGatewayQueryParam params);
 
     /**
      * Fetch sql result

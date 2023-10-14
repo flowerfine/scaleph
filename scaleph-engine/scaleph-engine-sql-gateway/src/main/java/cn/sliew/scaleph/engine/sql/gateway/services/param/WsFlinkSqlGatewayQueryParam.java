@@ -16,26 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql.gateway.services.dto;
+package cn.sliew.scaleph.engine.sql.gateway.services.param;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Data
 @EqualsAndHashCode
-@Schema(name = "SqlGateway创建Catalog的参数", description = "SqlGateway创建Catalog的参数")
-public class WsFlinkSqlGatewayCreateCatalogParamsDTO {
+@Schema(name = "SqlGateway执行Sql的参数", description = "SqlGateway执行Sql的参数")
+public class WsFlinkSqlGatewayQueryParam {
 
-    @NotBlank
-    @Schema(description = "catalog 名称，不可为空")
-    private String catalogName;
+    @NotNull
+    @Schema(description = "sql")
+    private String sql;
 
-    @NotEmpty
-    @Schema(description = "catalog 参数选项")
-    private Map<String, String> options;
+    @Schema(description = "配置参数")
+    private Map<String, String> configuration;
 }
