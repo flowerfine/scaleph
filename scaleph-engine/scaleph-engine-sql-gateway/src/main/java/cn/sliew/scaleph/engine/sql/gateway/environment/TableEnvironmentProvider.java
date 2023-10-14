@@ -6,9 +6,7 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,26 +14,12 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql.gateway.services.dto;
+package cn.sliew.scaleph.engine.sql.gateway.environment;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.FlinkSqlGatewaySession;
+import org.apache.flink.table.api.internal.TableEnvironmentInternal;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import java.util.Map;
+public interface TableEnvironmentProvider {
 
-@Data
-@EqualsAndHashCode
-@Schema(name = "SqlGateway创建Catalog的参数", description = "SqlGateway创建Catalog的参数")
-public class WsFlinkSqlGatewayCreateCatalogParamsDTO {
-
-    @NotBlank
-    @Schema(description = "catalog 名称，不可为空")
-    private String catalogName;
-
-    @NotEmpty
-    @Schema(description = "catalog 参数选项")
-    private Map<String, String> options;
+    TableEnvironmentInternal getTableEnvironment(FlinkSqlGatewaySession session);
 }

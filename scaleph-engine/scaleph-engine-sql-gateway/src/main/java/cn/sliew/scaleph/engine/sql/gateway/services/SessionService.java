@@ -18,43 +18,60 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services;
 
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.FlinkSqlGatewaySession;
+import org.apache.flink.table.gateway.api.endpoint.EndpointVersion;
+import org.apache.flink.table.gateway.api.session.SessionEnvironment;
+import org.apache.flink.table.gateway.api.session.SessionHandle;
+import org.apache.flink.table.gateway.api.utils.SqlGatewayException;
 import org.apache.flink.table.gateway.service.session.Session;
 
 import java.util.Map;
 
-/**
- * 多级的 session 管理。
- * 默认配置。scaleph 系统级别
- * 全局配置。用户全局配置级别
- * 用户级别。和用户 id 关联 || 项目级别。和项目 id 关联
- *
- * SessionContext 中信息分为配置信息和状态信息。配置来自 SessoinEnvironment 和 DefaultContext 类的配置信息
- * SessionState 和 OperationManager 信息属于状态信息。SessionState 信息可以通过配置信息重建，OperationManager 信息由
- * OperationService 类管理
- */
 public interface SessionService {
 
-    // -------------------------------------------------------------------------------------------
-    // Global Session
-    // -------------------------------------------------------------------------------------------
+    /**
+     * Open the {@code Session}.
+     *
+     * @param environment Environment to initialize the Session.
+     * @return Returns a handle that used to identify the Session.
+     */
+    SessionHandle openSession(SessionEnvironment environment) throws SqlGatewayException;
 
-    Map<String, String> getGlobalSessionConfig() throws Exception;
+    /**
+     * Close the {@code Session}.
+     *
+     * @param sessionHandle handle to identify the Session needs to be closed.
+     */
+    void closeSession(SessionHandle sessionHandle) throws SqlGatewayException;
 
-    void configureGlobalSession(Map<String, String> config) throws Exception;
+    /**
+     * Using the statement to initialize the Session. It's only allowed to execute
+     * SET/RESET/CREATE/DROP/USE/ALTER/LOAD MODULE/UNLOAD MODULE/ADD JAR.
+     *
+     * <p>It returns until the execution finishes.
+     *
+     * @param sessionHandle handle to identify the session.
+     * @param statement the statement used to configure the session.
+     * @param executionTimeoutMs the execution timeout. Please use non-positive value to forbid the
+     *     timeout mechanism.
+     */
+    void configureSession(SessionHandle sessionHandle, String statement, long executionTimeoutMs)
+            throws SqlGatewayException;
 
-    void configureGlobalSession(String statement) throws Exception;
+    /**
+     * Get the current configuration of the {@code Session}.
+     *
+     * @param sessionHandle handle to identify the session.
+     * @return Returns configuration of the session.
+     */
+    Map<String, String> getSessionConfig(SessionHandle sessionHandle) throws SqlGatewayException;
 
-    // -------------------------------------------------------------------------------------------
-    // User Session || Project Session
-    // -------------------------------------------------------------------------------------------
-
-    Session openSession() throws Exception;
-
-    void closeSession() throws Exception;
-
-    Map<String, String> getSessionConfig() throws Exception;
-
-    void configureSession(Map<String, String> config) throws Exception;
-
-    void configureSession(String statement) throws Exception;
+    /**
+     * Get endpoint version that is negotiated in the openSession.
+     *
+     * @param sessionHandle handle to identify the session.
+     * @return Returns the version.
+     */
+    EndpointVersion getSessionEndpointVersion(SessionHandle sessionHandle)
+            throws SqlGatewayException;
 }

@@ -16,24 +16,34 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql.gateway.services.dto;
+package cn.sliew.scaleph.dao.entity.master.ws;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotNull;
-import java.util.Map;
-
+/**
+ * <p>
+ * flink sql gateway session
+ * </p>
+ */
 @Data
-@EqualsAndHashCode
-@Schema(name = "SqlGateway执行Sql的参数", description = "SqlGateway执行Sql的参数")
-public class WsFlinkSqlGatewayQueryParamsDTO {
+@TableName("ws_flink_sql_gateway_session")
+public class WsFlinkSqlGatewaySession extends BaseDO {
 
-    @NotNull
-    @Schema(description = "sql")
-    private String sql;
+    private static final long serialVersionUID = 1L;
 
-    @Schema(description = "配置参数")
-    private Map<String, String> configuration;
+    @TableField("session_handler")
+    private String sessionHandler;
+
+    @TableField("session_name")
+    private String sessionName;
+
+    @TableField("session_config")
+    private String sessionConfig;
+
+    @TableField("default_catalog")
+    private String defaultCatalog;
+
 }

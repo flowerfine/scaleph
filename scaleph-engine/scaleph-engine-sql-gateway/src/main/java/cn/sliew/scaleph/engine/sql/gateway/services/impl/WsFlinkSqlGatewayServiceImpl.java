@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.engine.sql.gateway.services.impl;
 
 import cn.sliew.scaleph.common.util.SystemUtil;
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.WsFlinkSqlGatewayQueryParamsDTO;
+import cn.sliew.scaleph.engine.sql.gateway.services.param.WsFlinkSqlGatewayQueryParam;
 import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.CatalogInfo;
 import cn.sliew.scaleph.engine.sql.gateway.exception.ScalephSqlGatewayNotFoundException;
 import cn.sliew.scaleph.engine.sql.gateway.internal.ScalephCatalogManager;
@@ -162,7 +162,7 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
      * @return
      */
     @Override
-    public String executeSql(String clusterId, WsFlinkSqlGatewayQueryParamsDTO params) {
+    public String executeSql(String clusterId, WsFlinkSqlGatewayQueryParam params) {
         return getCatalogManager(clusterId)
                 .orElseThrow(ScalephSqlGatewayNotFoundException::new)
                 .executeStatement(params.getSql(), params.getConfiguration());

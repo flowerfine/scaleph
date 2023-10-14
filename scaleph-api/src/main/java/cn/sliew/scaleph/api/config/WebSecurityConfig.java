@@ -84,48 +84,48 @@ public class WebSecurityConfig {
             }
         }
 
+        // @formatter:off
         http
                 //禁用cors
                 .csrf().disable()
+
                 //.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
 
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
 
                 //禁用iframe
-                .and()
                 .headers()
-                .frameOptions()
-                .disable()
+                    .frameOptions().disable()
+                .and()
 
                 //请求权限配置
-                .and()
                 .authorizeRequests()
-                //放行endpoint
-                .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
-                //自定义匿名访问url
-                .antMatchers(anonymousUrls.toArray(new String[0])).permitAll()
-                //静态资源
-                .antMatchers(HttpMethod.GET, "/**/*.css", "/**/*.js", "/**/*.png",
+                    //放行endpoint
+                    .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
+                    //自定义匿名访问url
+                    .antMatchers(anonymousUrls.toArray(new String[0])).permitAll()
+                    //静态资源
+                    .antMatchers(HttpMethod.GET, "/**/*.css", "/**/*.js", "/**/*.png",
                         "/**/*.woff", "/**/*.woff2", "/**/*.svg", "/**/*.json", "/**/*.ttf", "/**/*.ico",
-                        "/index.html"
-                ).permitAll()
-                .antMatchers("/swagger**/**", "/doc.html", "/v3/**", "/webjars/**").permitAll()
-                .antMatchers("/ui/**")
-                .permitAll()
-                //放行options请求
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .anyRequest().authenticated()
-
+                        "/index.html").permitAll()
+                    .antMatchers("/swagger**/**", "/doc.html", "/v3/**", "/webjars/**").permitAll()
+                    .antMatchers("/ui/**").permitAll()
+                    //放行options请求
+                    .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .anyRequest().authenticated()
                 .and()
+
                 .exceptionHandling()
-                .authenticationEntryPoint(customAuthenticationEntryPoint)
-                .accessDeniedHandler(customAccessDeniedHandler)
+                    .authenticationEntryPoint(customAuthenticationEntryPoint)
+                    .accessDeniedHandler(customAccessDeniedHandler)
+                .and()
 
                 //禁用session
-                .and()
                 .apply(tokenConfigurer)
         ;
+        // @formatter:on
         return http.build();
     }
 
