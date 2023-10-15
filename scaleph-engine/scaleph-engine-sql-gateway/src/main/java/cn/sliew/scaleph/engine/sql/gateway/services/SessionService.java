@@ -29,6 +29,8 @@ import java.util.Map;
 
 public interface SessionService {
 
+    FlinkSqlGatewaySession getSession(SessionHandle sessionHandle) throws SqlGatewayException;
+
     /**
      * Open the {@code Session}.
      *
