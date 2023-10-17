@@ -505,3 +505,21 @@ create table ws_flink_sql_gateway_session
     primary key (id),
     unique key uniq_session (session_handler)
 ) engine = innodb comment = 'flink sql gateway session';
+
+drop table if exists ws_flink_sql_gateway_operation;
+create table ws_flink_sql_gateway_operation
+(
+    id                bigint      not null auto_increment comment '自增主键',
+    session_handler   varchar(64) not null comment 'session handler',
+    operation_handler varchar(64) not null comment 'operation handler',
+    operation_status  varchar(64) not null comment 'operation status',
+    operation_error   text comment 'operation error',
+    job_id            varchar(64) comment 'job id',
+    is_query          varchar(8) comment 'is query',
+    creator           varchar(32) comment '创建人',
+    create_time       timestamp default current_timestamp comment '创建时间',
+    editor            varchar(32) comment '修改人',
+    update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
+    primary key (id),
+    unique key uniq_session (session_handler, operation_handler)
+) engine = innodb comment = 'flink sql gateway operation';

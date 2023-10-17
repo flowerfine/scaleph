@@ -92,6 +92,7 @@ public class SessionServiceImpl implements SessionService, InitializingBean, Dis
         sessions.cleanUp();
     }
 
+    @Override
     public FlinkSqlGatewaySession getSession(SessionHandle sessionHandle) throws SqlGatewayException {
         return sessions.get(sessionHandle);
     }
