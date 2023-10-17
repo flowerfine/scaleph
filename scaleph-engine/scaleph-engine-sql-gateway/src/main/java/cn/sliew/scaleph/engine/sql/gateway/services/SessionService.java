@@ -18,12 +18,10 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services;
 
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.FlinkSqlGatewaySession;
 import org.apache.flink.table.gateway.api.endpoint.EndpointVersion;
 import org.apache.flink.table.gateway.api.session.SessionEnvironment;
 import org.apache.flink.table.gateway.api.session.SessionHandle;
 import org.apache.flink.table.gateway.api.utils.SqlGatewayException;
-import org.apache.flink.table.gateway.service.session.Session;
 
 import java.util.Map;
 
@@ -50,10 +48,10 @@ public interface SessionService {
      *
      * <p>It returns until the execution finishes.
      *
-     * @param sessionHandle handle to identify the session.
-     * @param statement the statement used to configure the session.
+     * @param sessionHandle      handle to identify the session.
+     * @param statement          the statement used to configure the session.
      * @param executionTimeoutMs the execution timeout. Please use non-positive value to forbid the
-     *     timeout mechanism.
+     *                           timeout mechanism.
      */
     void configureSession(SessionHandle sessionHandle, String statement, long executionTimeoutMs)
             throws SqlGatewayException;
