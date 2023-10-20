@@ -19,18 +19,25 @@
 package cn.sliew.scaleph.engine.sql.gateway.services.impl;
 
 import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkSqlGatewayCatalog;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkSqlGatewaySession;
+import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkSqlGatewayCatalogMapper;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkSqlGatewaySessionMapper;
 import cn.sliew.scaleph.engine.sql.gateway.services.SessionService;
 import cn.sliew.scaleph.engine.sql.gateway.services.dto.FlinkSqlGatewaySession;
+import cn.sliew.scaleph.engine.sql.gateway.store.ScalephCatalogStoreOptions;
+import cn.sliew.scaleph.engine.sql.gateway.util.CatalogUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import com.github.benmanes.caffeine.cache.RemovalCause;
+import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.configuration.Configuration;
+import org.apache.flink.table.catalog.Catalog;
+import org.apache.flink.table.catalog.CommonCatalogOptions;
 import org.apache.flink.table.gateway.api.endpoint.EndpointVersion;
 import org.apache.flink.table.gateway.api.operation.OperationHandle;
 import org.apache.flink.table.gateway.api.session.SessionEnvironment;
@@ -49,6 +56,7 @@ import org.springframework.util.StringUtils;
 
 import java.time.Duration;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -65,14 +73,20 @@ public class SessionServiceImpl implements SessionService, InitializingBean, Dis
     private ExecutorService operationExecutorService;
     private DefaultContext defaultContext;
 
-    private LoadingCache<SessionHandle, FlinkSqlGatewaySession> sessions = Caffeine.newBuilder()
-            .maximumSize(100)
-            .expireAfterAccess(Duration.ofDays(3L))
-            .evictionListener((SessionHandle sessionHandle, FlinkSqlGatewaySession session, RemovalCause removalCause) -> doCloseSession(sessionHandle, session, removalCause))
-            .build(sessionHandle -> doGetSession(sessionHandle));
-
     @Autowired
     private WsFlinkSqlGatewaySessionMapper wsFlinkSqlGatewaySessionMapper;
+    @Autowired
+    private WsFlinkSqlGatewayCatalogMapper wsFlinkSqlGatewayCatalogMapper;
+
+    @Autowired
+    private HikariDataSource dataSource;
+
+    // TODO Initialize cache by settings
+    private final LoadingCache<SessionHandle, FlinkSqlGatewaySession> sessions = Caffeine.newBuilder()
+            .maximumSize(100)
+            .expireAfterAccess(Duration.ofDays(3L))
+            .evictionListener(this::doCloseSession)
+            .build(this::doGetSession);
 
     /**
      * session 的配置 2 级：sql gateway 实例级和 session 级别
@@ -84,7 +98,9 @@ public class SessionServiceImpl implements SessionService, InitializingBean, Dis
         this.defaultContext = DefaultContext.load(new Configuration(), Collections.emptyList(), false, false);
         // 加载所有的 session
         List<WsFlinkSqlGatewaySession> wsFlinkSqlGatewaySessions = wsFlinkSqlGatewaySessionMapper.selectList(Wrappers.emptyWrapper());
-        wsFlinkSqlGatewaySessions.stream().map(this::convertSession).forEach(session -> sessions.put(session.getSessionHandle(), session));
+        wsFlinkSqlGatewaySessions.stream()
+                .map(this::convertSession)
+                .forEach(session -> sessions.put(session.getSessionHandle(), session));
     }
 
     @Override
@@ -92,6 +108,7 @@ public class SessionServiceImpl implements SessionService, InitializingBean, Dis
         sessions.cleanUp();
     }
 
+    @Override
     public FlinkSqlGatewaySession getSession(SessionHandle sessionHandle) throws SqlGatewayException {
         return sessions.get(sessionHandle);
     }
@@ -127,9 +144,9 @@ public class SessionServiceImpl implements SessionService, InitializingBean, Dis
 
         WsFlinkSqlGatewaySession record = new WsFlinkSqlGatewaySession();
         record.setSessionHandler(sessionId.toString());
-        environment.getSessionName().ifPresent(sessionName -> record.setSessionName(sessionName));
-        environment.getDefaultCatalog().ifPresent(defaultCatalog -> record.setDefaultCatalog(defaultCatalog));
-        if (CollectionUtils.isEmpty(environment.getSessionConfig()) == false) {
+        environment.getSessionName().ifPresent(record::setSessionName);
+        environment.getDefaultCatalog().ifPresent(record::setDefaultCatalog);
+        if (CollectionUtils.isEmpty(environment.getSessionConfig())) {
             record.setSessionConfig(JacksonUtil.toJsonString(environment.getSessionConfig()));
         }
         wsFlinkSqlGatewaySessionMapper.insert(record);
@@ -202,18 +219,42 @@ public class SessionServiceImpl implements SessionService, InitializingBean, Dis
         SessionHandle sessionId = new SessionHandle(UUID.fromString(record.getSessionHandler()));
         session.setSessionHandle(sessionId);
 
-        Map<String, String> sessionConfig = Collections.emptyMap();
+        Map<String, String> sessionConfig = new HashMap<>();
         if (StringUtils.hasText(record.getSessionConfig())) {
-            sessionConfig = JacksonUtil.parseJsonString(record.getSessionConfig(), new TypeReference<Map<String, String>>() {
-            });
+            sessionConfig = JacksonUtil.parseJsonString(
+                    record.getSessionConfig(),
+                    new TypeReference<HashMap<String, String>>() {
+                    });
         }
+        // Set catalog store configuration
+        sessionConfig.put(CommonCatalogOptions.TABLE_CATALOG_STORE_KIND.key(), ScalephCatalogStoreOptions.IDENTIFIER);
+        sessionConfig.put(CommonCatalogOptions.TABLE_CATALOG_STORE_OPTION_PREFIX + ScalephCatalogStoreOptions.IDENTIFIER + "." + ScalephCatalogStoreOptions.DRIVER,
+                dataSource.getDriverClassName());
+        sessionConfig.put(CommonCatalogOptions.TABLE_CATALOG_STORE_OPTION_PREFIX + ScalephCatalogStoreOptions.IDENTIFIER + "." + ScalephCatalogStoreOptions.JDBC_URL,
+                dataSource.getJdbcUrl());
+        sessionConfig.put(CommonCatalogOptions.TABLE_CATALOG_STORE_OPTION_PREFIX + ScalephCatalogStoreOptions.IDENTIFIER + "." + ScalephCatalogStoreOptions.USERNAME,
+                dataSource.getUsername());
+        sessionConfig.put(CommonCatalogOptions.TABLE_CATALOG_STORE_OPTION_PREFIX + ScalephCatalogStoreOptions.IDENTIFIER + "." + ScalephCatalogStoreOptions.PASSWORD,
+                dataSource.getPassword());
+
         session.setSessionConfig(sessionConfig);
 
-        SessionEnvironment environment = SessionEnvironment.newBuilder()
+        SessionEnvironment.Builder sessionEnvBuilder = SessionEnvironment.newBuilder()
                 .setSessionName(record.getSessionName())
                 .setDefaultCatalog(record.getDefaultCatalog())
-                .addSessionConfig(sessionConfig)
-                .build();
+                .addSessionConfig(sessionConfig);
+        // Restore session catalogs from persisted storage
+        final Map<String, String> finalSessionConfig = sessionConfig;
+        wsFlinkSqlGatewayCatalogMapper.selectList(
+                        Wrappers.lambdaQuery(WsFlinkSqlGatewayCatalog.class)
+                                .eq(WsFlinkSqlGatewayCatalog::getSessionHandler, record.getSessionHandler()))
+                .forEach(wsFlinkSqlGatewayCatalog -> {
+                    String catalogName = wsFlinkSqlGatewayCatalog.getCatalogName();
+                    Catalog catalog = CatalogUtil.createCatalog(
+                            wsFlinkSqlGatewayCatalog, finalSessionConfig, null);
+                    sessionEnvBuilder.registerCatalog(catalogName, catalog);
+                });
+        SessionEnvironment environment = sessionEnvBuilder.build();
         SessionContext sessionContext = SessionContext.create(defaultContext, sessionId, environment, operationExecutorService);
         session.setSessionContext(sessionContext);
         return session;

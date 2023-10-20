@@ -17,19 +17,11 @@
 package cn.sliew.scaleph.engine.sql.gateway.internal;
 
 import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.CatalogInfo;
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.ColumnInfo;
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.DatabaseInfo;
 import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.FunctionInfo;
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.TableInfo;
+import cn.sliew.scaleph.engine.sql.gateway.util.CatalogUtil;
 import org.apache.flink.configuration.Configuration;
-import org.apache.flink.table.api.Schema;
 import org.apache.flink.table.catalog.Catalog;
-import org.apache.flink.table.catalog.CatalogBaseTable;
-import org.apache.flink.table.catalog.CatalogDatabase;
 import org.apache.flink.table.catalog.CatalogManager;
-import org.apache.flink.table.catalog.ObjectIdentifier;
-import org.apache.flink.table.catalog.ResolvedSchema;
-import org.apache.flink.table.catalog.exceptions.DatabaseNotExistException;
 import org.apache.flink.table.data.StringData;
 import org.apache.flink.table.factories.FactoryUtil;
 import org.apache.flink.table.gateway.api.operation.OperationHandle;
@@ -51,7 +43,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URLClassLoader;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -85,84 +76,27 @@ public class ScalephCatalogManager implements AutoCloseable {
         return new ScalephCatalogManager(sessionContext);
     }
 
-    private TableInfo getTableInfo(CatalogManager catalogManager, ObjectIdentifier tableName) {
-        TableInfo.TableInfoBuilder tableInfoBuilder = TableInfo.builder();
-        tableInfoBuilder.tableName(tableName.getObjectName());
-        catalogManager.getTable(tableName).ifPresent(contextResolvedTable -> {
-            CatalogBaseTable table = contextResolvedTable.getTable();
-            tableInfoBuilder.tableKind(table.getTableKind());
-            table.getDescription().ifPresent(tableInfoBuilder::description);
-            tableInfoBuilder.comment(table.getComment());
-            tableInfoBuilder.properties(table.getOptions());
-            Schema unresolvedSchema = table.getUnresolvedSchema();
-            ResolvedSchema schema = unresolvedSchema.resolve(catalogManager.getSchemaResolver());
-            List<ColumnInfo> columns = schema.getColumns().stream().map(column -> {
-                ColumnInfo.ColumnInfoBuilder columnInfoBuilder = ColumnInfo.builder()
-                        .columnName(column.getName())
-                        .dataType(column.getDataType().getLogicalType().toString())
-                        .isPersist(column.isPersisted())
-                        .isPhysical(column.isPhysical());
-                column.getComment().ifPresent(columnInfoBuilder::comment);
-                return columnInfoBuilder.build();
-            }).collect(Collectors.toList());
-            tableInfoBuilder.schema(columns);
-        });
-        return tableInfoBuilder.build();
-    }
-
     public Set<CatalogInfo> getCatalogInfo(boolean includeSystemFunctions) {
         SessionContext.SessionState sessionState = sessionContext.getSessionState();
         CatalogManager catalogManager = sessionState.catalogManager;
         ModuleManager moduleManager = sessionState.moduleManager;
         Set<FunctionInfo> systemFunctions = moduleManager.listFunctions()
                 .stream()
-                .map(functionName -> {
-                    FunctionInfo.FunctionInfoBuilder functionInfoBuilder = FunctionInfo.builder();
-                    functionInfoBuilder.functionName(functionName);
-                    moduleManager.getFunctionDefinition(functionName)
-                            .ifPresent(functionDefinition -> functionInfoBuilder.functionKind(functionDefinition.getKind()));
-                    return functionInfoBuilder.build();
-                }).collect(Collectors.toSet());
+                .flatMap(functionName ->
+                        moduleManager.getFunctionDefinition(functionName)
+                                .stream()
+                                .map(functionDefinition ->
+                                        CatalogUtil.createFunctionInfo(functionName, functionDefinition)
+                                ))
+                .collect(Collectors.toSet());
         return catalogManager.listCatalogs()
                 .stream()
                 .map(catalogName -> {
-                    CatalogInfo.CatalogInfoBuilder catalogInfoBuilder = CatalogInfo.builder();
+                    CatalogInfo catalogInfo = CatalogUtil.createCatalogInfo(sessionContext, catalogName);
                     if (includeSystemFunctions) {
-                        catalogInfoBuilder.systemFunctions(systemFunctions);
+                        catalogInfo.setSystemFunctions(systemFunctions);
                     }
-                    catalogInfoBuilder.catalogName(catalogName);
-                    catalogManager.getCatalog(catalogName).ifPresent(catalog -> {
-                        catalog.getFactory().ifPresent(factory -> {
-                            Map<String, String> properties = new HashMap<>();
-                            properties.put("factory", factory.factoryIdentifier());
-                            catalogInfoBuilder.properties(properties);
-                        });
-                        Set<DatabaseInfo> databaseInfos = catalog.listDatabases().stream().map(databaseName -> {
-                                    DatabaseInfo.DatabaseInfoBuilder databaseInfoBuilder = DatabaseInfo.builder();
-                                    databaseInfoBuilder.databaseName(databaseName);
-                                    try {
-                                        CatalogDatabase database = catalog.getDatabase(databaseName);
-                                        database.getDescription().ifPresent(databaseInfoBuilder::description);
-                                        databaseInfoBuilder.comment(database.getComment());
-                                        Set<TableInfo> views = catalogManager.listViews().stream()
-                                                .map(viewName -> getTableInfo(catalogManager, ObjectIdentifier.of(catalogName, databaseName, viewName)))
-                                                .collect(Collectors.toSet());
-                                        Set<TableInfo> tables = catalogManager.listTables(catalogName, databaseName).stream()
-                                                .map(tableName -> getTableInfo(catalogManager, ObjectIdentifier.of(catalogName, databaseName, tableName)))
-                                                .collect(Collectors.toSet());
-                                        databaseInfoBuilder.tables(tables);
-                                        databaseInfoBuilder.views(views);
-                                        databaseInfoBuilder.properties(database.getProperties());
-                                    } catch (DatabaseNotExistException e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                    return databaseInfoBuilder.build();
-                                })
-                                .collect(Collectors.toSet());
-                        catalogInfoBuilder.databases(databaseInfos);
-                    });
-
-                    return catalogInfoBuilder.build();
+                    return catalogInfo;
                 }).collect(Collectors.toSet());
     }
 
