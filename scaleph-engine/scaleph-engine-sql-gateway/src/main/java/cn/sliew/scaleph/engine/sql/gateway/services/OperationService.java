@@ -27,9 +27,12 @@ import org.apache.flink.table.gateway.api.results.ResultSet;
 import org.apache.flink.table.gateway.api.session.SessionHandle;
 import org.apache.flink.table.gateway.api.utils.SqlGatewayException;
 
+import java.util.Set;
 import java.util.concurrent.Callable;
 
 public interface OperationService {
+
+    Set<OperationInfo> listOperations(SessionHandle sessionHandle) throws SqlGatewayException;
 
     /**
      * Submit an operation and execute. The {@link SqlGatewayService} will take care of the

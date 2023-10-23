@@ -26,10 +26,15 @@ import org.apache.flink.table.gateway.api.results.ResultSet;
 import org.apache.flink.table.gateway.api.session.SessionHandle;
 import org.apache.flink.table.gateway.api.utils.SqlGatewayException;
 import org.apache.flink.table.gateway.service.context.SessionContext;
+import org.apache.flink.table.gateway.service.operation.OperationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 
 @Service
 public class OperationServiceImpl implements OperationService {
@@ -39,6 +44,22 @@ public class OperationServiceImpl implements OperationService {
     @Autowired
     public OperationServiceImpl(SessionService sessionService) {
         this.sessionService = sessionService;
+    }
+
+    @Override
+    public Set<OperationInfo> listOperations(SessionHandle sessionHandle) throws SqlGatewayException {
+        SessionContext sessionContext = sessionService.getSession(sessionHandle).getSessionContext();
+        try {
+            OperationManager operationManager = sessionContext.getOperationManager();
+            Class<? extends OperationManager> operationManagerClass = operationManager.getClass();
+            Field field = operationManagerClass.getDeclaredField("submittedOperations");
+            field.setAccessible(true);
+            Map<OperationHandle, OperationManager.Operation> map = (Map<OperationHandle, OperationManager.Operation>) field.get(operationManager);
+            return map.values().stream().map(OperationManager.Operation::getOperationInfo)
+                    .collect(Collectors.toSet());
+        } catch (Exception e) {
+            throw new SqlGatewayException(e);
+        }
     }
 
     @Override
