@@ -16,11 +16,10 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.util;
 
-import cn.sliew.sakura.dao.meta.MetaHandler;
-import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkSqlGatewayCatalogMapper;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.MybatisXMLLanguageDriver;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
+import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler;
 import com.baomidou.mybatisplus.core.toolkit.GlobalConfigUtils;
 import com.zaxxer.hikari.HikariDataSource;
@@ -28,6 +27,7 @@ import org.apache.ibatis.builder.xml.XMLMapperBuilder;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.logging.slf4j.Slf4jImpl;
 import org.apache.ibatis.mapping.Environment;
+import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.scripting.LanguageDriverRegistry;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
@@ -35,6 +35,7 @@ import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 
 import javax.sql.DataSource;
 import java.io.InputStream;
+import java.util.Date;
 
 public class CatalogStoreDataSourceUtil {
 
@@ -74,7 +75,16 @@ public class CatalogStoreDataSourceUtil {
                 }
             }
             GlobalConfig globalConfig = GlobalConfigUtils.getGlobalConfig(configuration);
-            globalConfig.setMetaObjectHandler(new MetaHandler());
+            globalConfig.setMetaObjectHandler(new MetaObjectHandler() {
+                public void insertFill(MetaObject metaObject) {
+                    this.strictInsertFill(metaObject, "createTime", Date::new, Date.class);
+                    this.strictInsertFill(metaObject, "updateTime", Date::new, Date.class);
+                }
+
+                public void updateFill(MetaObject metaObject) {
+                    this.strictUpdateFill(metaObject, "updateTime", Date::new, Date.class);
+                }
+            });
             return new DefaultSqlSessionFactory(configuration);
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
