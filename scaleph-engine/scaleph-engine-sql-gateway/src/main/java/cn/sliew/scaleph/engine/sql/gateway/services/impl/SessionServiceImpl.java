@@ -95,7 +95,7 @@ public class SessionServiceImpl implements SessionService, InitializingBean, Dis
     @Override
     public void afterPropertiesSet() throws Exception {
         this.operationExecutorService = Executors.newFixedThreadPool(4);
-        this.defaultContext = DefaultContext.load(new Configuration(), Collections.emptyList(), false, false);
+        this.defaultContext = new DefaultContext(new Configuration(), Collections.emptyList());
         // 加载所有的 session
         List<WsFlinkSqlGatewaySession> wsFlinkSqlGatewaySessions = wsFlinkSqlGatewaySessionMapper.selectList(Wrappers.emptyWrapper());
         wsFlinkSqlGatewaySessions.stream()
@@ -228,13 +228,15 @@ public class SessionServiceImpl implements SessionService, InitializingBean, Dis
         }
         // Set catalog store configuration
         sessionConfig.put(CommonCatalogOptions.TABLE_CATALOG_STORE_KIND.key(), ScalephCatalogStoreOptions.IDENTIFIER);
-        sessionConfig.put(CommonCatalogOptions.TABLE_CATALOG_STORE_OPTION_PREFIX + ScalephCatalogStoreOptions.IDENTIFIER + "." + ScalephCatalogStoreOptions.DRIVER,
+        sessionConfig.put(CommonCatalogOptions.TABLE_CATALOG_STORE_OPTION_PREFIX + ScalephCatalogStoreOptions.IDENTIFIER + "." + ScalephCatalogStoreOptions.SESSION_HANDLE.key(),
+                sessionId.toString());
+        sessionConfig.put(CommonCatalogOptions.TABLE_CATALOG_STORE_OPTION_PREFIX + ScalephCatalogStoreOptions.IDENTIFIER + "." + ScalephCatalogStoreOptions.DRIVER.key(),
                 dataSource.getDriverClassName());
-        sessionConfig.put(CommonCatalogOptions.TABLE_CATALOG_STORE_OPTION_PREFIX + ScalephCatalogStoreOptions.IDENTIFIER + "." + ScalephCatalogStoreOptions.JDBC_URL,
+        sessionConfig.put(CommonCatalogOptions.TABLE_CATALOG_STORE_OPTION_PREFIX + ScalephCatalogStoreOptions.IDENTIFIER + "." + ScalephCatalogStoreOptions.JDBC_URL.key(),
                 dataSource.getJdbcUrl());
-        sessionConfig.put(CommonCatalogOptions.TABLE_CATALOG_STORE_OPTION_PREFIX + ScalephCatalogStoreOptions.IDENTIFIER + "." + ScalephCatalogStoreOptions.USERNAME,
+        sessionConfig.put(CommonCatalogOptions.TABLE_CATALOG_STORE_OPTION_PREFIX + ScalephCatalogStoreOptions.IDENTIFIER + "." + ScalephCatalogStoreOptions.USERNAME.key(),
                 dataSource.getUsername());
-        sessionConfig.put(CommonCatalogOptions.TABLE_CATALOG_STORE_OPTION_PREFIX + ScalephCatalogStoreOptions.IDENTIFIER + "." + ScalephCatalogStoreOptions.PASSWORD,
+        sessionConfig.put(CommonCatalogOptions.TABLE_CATALOG_STORE_OPTION_PREFIX + ScalephCatalogStoreOptions.IDENTIFIER + "." + ScalephCatalogStoreOptions.PASSWORD.key(),
                 dataSource.getPassword());
 
         session.setSessionConfig(sessionConfig);

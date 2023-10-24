@@ -76,7 +76,7 @@ public class ScalephCatalogStore extends JdbcCatalogStore<WsFlinkSqlGatewayCatal
 
     @Override
     public Wrapper<WsFlinkSqlGatewayCatalog> buildWrapper(String catalogName) {
-        LambdaQueryWrapper<WsFlinkSqlGatewayCatalog> wrapper = Wrappers.<WsFlinkSqlGatewayCatalog>lambdaQuery()
+        LambdaQueryWrapper<WsFlinkSqlGatewayCatalog> wrapper = Wrappers.lambdaQuery(WsFlinkSqlGatewayCatalog.class)
                 .eq(WsFlinkSqlGatewayCatalog::getSessionHandler, sessionHandle.toString());
         if (catalogName != null) {
             wrapper.eq(WsFlinkSqlGatewayCatalog::getCatalogName, catalogName);

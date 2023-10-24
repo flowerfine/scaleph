@@ -65,7 +65,9 @@ public abstract class JdbcCatalogStore<DTO, MAPPER extends BaseMapper<DTO>> impl
 
     protected <R> R doAction(Function<MAPPER, R> action) {
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-            return action.apply(sqlSession.getMapper(getMapperClass()));
+            R result = action.apply(sqlSession.getMapper(getMapperClass()));
+            sqlSession.commit();
+            return result;
         }
     }
 
@@ -73,6 +75,7 @@ public abstract class JdbcCatalogStore<DTO, MAPPER extends BaseMapper<DTO>> impl
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             MAPPER mapper = sqlSession.getMapper(getMapperClass());
             consumer.accept(mapper);
+            sqlSession.commit();
         }
     }
 
