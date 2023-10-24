@@ -509,9 +509,9 @@ create table ws_flink_sql_gateway_session
 drop table if exists ws_flink_sql_gateway_catalog;
 create table ws_flink_sql_gateway_catalog
 (
-    id                    bigint       not null auto_increment comment '自增主键',
+    id                   bigint       not null auto_increment comment '自增主键',
     session_handler      varchar(64)  not null comment 'session handler',
-    `catalog_name`         varchar(255) not null comment 'catalog name',
+    `catalog_name`       varchar(255) not null comment 'catalog name',
     catalog_options      text comment 'catalog config options',
     catalog_description  varchar(255) comment 'catalog description',
     creator              varchar(32) comment '创建人',
@@ -519,5 +519,5 @@ create table ws_flink_sql_gateway_catalog
     editor               varchar(32) comment '修改人',
     update_time          timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    unique key uniq_session_catalog (session_handler, catalog_name)
+    unique key uniq_catalog (session_handler, catalog_name)
 ) engine = innodb comment = 'flink sql gateway catalog';
