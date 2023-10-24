@@ -20,6 +20,14 @@ import cn.sliew.scaleph.engine.sql.gateway.services.SessionService;
 import cn.sliew.scaleph.engine.sql.gateway.services.SqlService;
 import cn.sliew.scaleph.engine.sql.gateway.services.dto.FlinkSqlGatewaySession;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.calcite.rel.RelCollations;
+import org.apache.calcite.rel.RelNode;
+import org.apache.calcite.rel.logical.LogicalSort;
+import org.apache.calcite.rel.type.RelDataTypeSystem;
+import org.apache.calcite.rex.RexBuilder;
+import org.apache.calcite.rex.RexNode;
+import org.apache.calcite.sql.type.BasicSqlType;
+import org.apache.calcite.sql.type.SqlTypeName;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.table.api.internal.TableEnvironmentInternal;
 import org.apache.flink.table.api.internal.TableResultInternal;
@@ -33,6 +41,8 @@ import org.apache.flink.table.gateway.service.result.ResultFetcher;
 import org.apache.flink.table.operations.Operation;
 import org.apache.flink.table.operations.QueryOperation;
 import org.apache.flink.table.operations.SinkModifyOperation;
+import org.apache.flink.table.planner.calcite.FlinkTypeFactory;
+import org.apache.flink.table.planner.operations.PlannerQueryOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,7 +79,10 @@ public class SqlServiceImpl implements SqlService {
     }
 
     @Override
-    public OperationHandle executeStatement(SessionHandle sessionHandle, String statement, long executionTimeoutMs, Configuration executionConfig) throws SqlGatewayException {
+    public OperationHandle executeStatement(SessionHandle sessionHandle,
+                                            String statement,
+                                            long executionTimeoutMs,
+                                            Configuration executionConfig) throws SqlGatewayException {
         try {
             if (executionTimeoutMs > 0) {
                 // TODO: support the feature in FLINK-27838
@@ -103,11 +116,37 @@ public class SqlServiceImpl implements SqlService {
         }
         FlinkSqlGatewaySession session = sessionService.getSession(sessionHandle);
         SessionContext sessionContext = session.getSessionContext();
-        Configuration sessionConf = sessionContext.getSessionConf();
+        Configuration sessionConf = new Configuration(sessionContext.getSessionConf());
         sessionConf.addAll(sessionConf);
         TableEnvironmentInternal tableEnvironment = sessionContext.createOperationExecutor(sessionConf).getTableEnvironment();
-        Parser parser = tableEnvironment.getParser();
-        List<Operation> operations = parser.parse(statement);
+        QueryOperation queryOperation = parseSqlToQuery(tableEnvironment, statement, -1);
+        return sessionContext.getOperationManager().submitOperation(operationHandle -> {
+            TableResultInternal tableResultInternal = tableEnvironment.executeInternal(queryOperation);
+            return ResultFetcher.fromTableResult(operationHandle, tableResultInternal, true);
+        });
+    }
+
+    @Override
+    public OperationHandle previewStatement(SessionHandle sessionHandle,
+                                            String statement,
+                                            Configuration executionConfig,
+                                            long limit) throws SqlGatewayException {
+        FlinkSqlGatewaySession session = sessionService.getSession(sessionHandle);
+        SessionContext sessionContext = session.getSessionContext();
+        Configuration sessionConf = new Configuration(sessionContext.getSessionConf());
+        sessionConf.addAll(sessionConf);
+        TableEnvironmentInternal tableEnvironment = sessionContext.createOperationExecutor(sessionConf).getTableEnvironment();
+        QueryOperation queryOperation = parseSqlToQuery(tableEnvironment, statement, limit);
+        return sessionContext.getOperationManager().submitOperation(operationHandle -> {
+            TableResultInternal tableResultInternal = tableEnvironment.executeInternal(queryOperation);
+            return ResultFetcher.fromTableResult(operationHandle, tableResultInternal, true);
+        });
+    }
+
+    private QueryOperation parseSqlToQuery(TableEnvironmentInternal tEnv,
+                                           String sql, long limitation) {
+        Parser parser = tEnv.getParser();
+        List<Operation> operations = parser.parse(sql);
         if (operations.size() == 1) {
             Operation operation = operations.get(0);
             QueryOperation queryOperation;
@@ -118,11 +157,21 @@ public class SqlServiceImpl implements SqlService {
             } else {
                 throw new IllegalArgumentException("Only `SELECT` and `INSERT` statement is supported!");
             }
-            sessionContext.getOperationManager().submitOperation(operationHandle -> {
-                TableResultInternal tableResultInternal = tableEnvironment.executeInternal(queryOperation);
-                return ResultFetcher.fromTableResult(operationHandle, tableResultInternal, true);
-            });
+            if (limitation > 0 && queryOperation instanceof PlannerQueryOperation) {
+                PlannerQueryOperation plannerQueryOperation = (PlannerQueryOperation) queryOperation;
+                RelNode calciteTree = plannerQueryOperation.getCalciteTree();
+                RexNode fetch = new RexBuilder(new FlinkTypeFactory(tEnv.getClass().getClassLoader(), RelDataTypeSystem.DEFAULT))
+                        .makeLiteral(limitation, new BasicSqlType(RelDataTypeSystem.DEFAULT, SqlTypeName.DECIMAL));
+                LogicalSort logicalSort = LogicalSort.create(
+                        calciteTree,
+                        RelCollations.EMPTY,
+                        null,
+                        fetch);
+                return new PlannerQueryOperation(logicalSort);
+            }
+            return queryOperation;
         }
-        throw new SqlGatewayException("Only one statement should appear");
+        throw new IllegalArgumentException("Only one statement should appear");
     }
+
 }

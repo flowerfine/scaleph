@@ -52,4 +52,22 @@ public interface SqlService {
     OperationHandle executeStatement(SessionHandle sessionHandle, String statement, long executionTimeoutMs, Configuration executionConfig) throws SqlGatewayException;
 
     OperationHandle previewStatement(SessionHandle sessionHandle, String statement, long executionTimeoutMs, Configuration executionConfig) throws SqlGatewayException;
+
+    /**
+     * Preview the submitted statement.
+     *
+     * <p>NOTE</p>
+     * <p>
+     * Only `INSERT` or `SELECT` statement is supported
+     * </p>
+     *
+     * @param sessionHandle   handle to identify the session.
+     * @param statement       the SQL to execute.
+     * @param executionConfig execution config for the statement.
+     * @param limit           limitation of the rows to statement
+     * @return handle to identify the operation.
+     * @throws SqlGatewayException
+     */
+    OperationHandle previewStatement(SessionHandle sessionHandle, String statement, Configuration executionConfig, long limit) throws SqlGatewayException;
+
 }
