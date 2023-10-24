@@ -119,7 +119,7 @@ public class SqlServiceImpl implements SqlService {
         Configuration sessionConf = new Configuration(sessionContext.getSessionConf());
         sessionConf.addAll(sessionConf);
         TableEnvironmentInternal tableEnvironment = sessionContext.createOperationExecutor(sessionConf).getTableEnvironment();
-        QueryOperation queryOperation = parseSqlToQuery(tableEnvironment, statement, -1);
+        QueryOperation queryOperation = parseSqlToQueryOperation(tableEnvironment, statement, -1);
         return sessionContext.getOperationManager().submitOperation(operationHandle -> {
             TableResultInternal tableResultInternal = tableEnvironment.executeInternal(queryOperation);
             return ResultFetcher.fromTableResult(operationHandle, tableResultInternal, true);
@@ -136,15 +136,15 @@ public class SqlServiceImpl implements SqlService {
         Configuration sessionConf = new Configuration(sessionContext.getSessionConf());
         sessionConf.addAll(sessionConf);
         TableEnvironmentInternal tableEnvironment = sessionContext.createOperationExecutor(sessionConf).getTableEnvironment();
-        QueryOperation queryOperation = parseSqlToQuery(tableEnvironment, statement, limit);
+        QueryOperation queryOperation = parseSqlToQueryOperation(tableEnvironment, statement, limit);
         return sessionContext.getOperationManager().submitOperation(operationHandle -> {
             TableResultInternal tableResultInternal = tableEnvironment.executeInternal(queryOperation);
             return ResultFetcher.fromTableResult(operationHandle, tableResultInternal, true);
         });
     }
 
-    private QueryOperation parseSqlToQuery(TableEnvironmentInternal tEnv,
-                                           String sql, long limitation) {
+    private QueryOperation parseSqlToQueryOperation(TableEnvironmentInternal tEnv,
+                                                    String sql, long limitation) {
         Parser parser = tEnv.getParser();
         List<Operation> operations = parser.parse(sql);
         if (operations.size() == 1) {
