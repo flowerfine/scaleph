@@ -22,13 +22,17 @@ import cn.sliew.scaleph.engine.sql.gateway.services.dto.FlinkSqlGatewaySession;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.table.api.internal.TableEnvironmentInternal;
+import org.apache.flink.table.api.internal.TableResultInternal;
 import org.apache.flink.table.delegation.Parser;
 import org.apache.flink.table.gateway.api.operation.OperationHandle;
 import org.apache.flink.table.gateway.api.session.SessionHandle;
 import org.apache.flink.table.gateway.api.utils.SqlGatewayException;
 import org.apache.flink.table.gateway.service.context.SessionContext;
 import org.apache.flink.table.gateway.service.operation.OperationExecutor;
+import org.apache.flink.table.gateway.service.result.ResultFetcher;
 import org.apache.flink.table.operations.Operation;
+import org.apache.flink.table.operations.QueryOperation;
+import org.apache.flink.table.operations.SinkModifyOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -89,7 +93,36 @@ public class SqlServiceImpl implements SqlService {
     }
 
     @Override
-    public OperationHandle previewStatement(SessionHandle sessionHandle, String statement, long executionTimeoutMs, Configuration executionConfig) throws SqlGatewayException {
-        throw new SqlGatewayException("Not impl!");
+    public OperationHandle previewStatement(SessionHandle sessionHandle,
+                                            String statement,
+                                            long executionTimeoutMs,
+                                            Configuration executionConfig) throws SqlGatewayException {
+        if (executionTimeoutMs > 0) {
+            throw new UnsupportedOperationException(
+                    "SqlGatewayService doesn't support timeout mechanism now.");
+        }
+        FlinkSqlGatewaySession session = sessionService.getSession(sessionHandle);
+        SessionContext sessionContext = session.getSessionContext();
+        Configuration sessionConf = sessionContext.getSessionConf();
+        sessionConf.addAll(sessionConf);
+        TableEnvironmentInternal tableEnvironment = sessionContext.createOperationExecutor(sessionConf).getTableEnvironment();
+        Parser parser = tableEnvironment.getParser();
+        List<Operation> operations = parser.parse(statement);
+        if (operations.size() == 1) {
+            Operation operation = operations.get(0);
+            QueryOperation queryOperation;
+            if (operation instanceof SinkModifyOperation) {
+                queryOperation = ((SinkModifyOperation) operation).getChild();
+            } else if (operation instanceof QueryOperation) {
+                queryOperation = (QueryOperation) operation;
+            } else {
+                throw new IllegalArgumentException("Only `SELECT` and `INSERT` statement is supported!");
+            }
+            sessionContext.getOperationManager().submitOperation(operationHandle -> {
+                TableResultInternal tableResultInternal = tableEnvironment.executeInternal(queryOperation);
+                return ResultFetcher.fromTableResult(operationHandle, tableResultInternal, true);
+            });
+        }
+        throw new SqlGatewayException("Only one statement should appear");
     }
 }
