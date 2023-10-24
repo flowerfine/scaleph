@@ -198,6 +198,11 @@ public class SessionServiceImpl implements SessionService, InitializingBean, Dis
                                             .configureSession(handle, statement));
             operationManager.awaitOperationTermination(operationHandle);
             operationManager.closeOperation(operationHandle);
+
+            WsFlinkSqlGatewaySession session = wsFlinkSqlGatewaySessionMapper.selectOne(Wrappers.lambdaQuery(WsFlinkSqlGatewaySession.class)
+                    .eq(WsFlinkSqlGatewaySession::getSessionHandler, sessionHandle.toString()));
+            session.setSessionConfig(JacksonUtil.toJsonString(getSession(sessionHandle).getSessionContext().getSessionConf().toMap()));
+            wsFlinkSqlGatewaySessionMapper.updateById(session);
         } catch (Throwable t) {
             log.error("Failed to configure session.", t);
             throw new SqlGatewayException("Failed to configure session.", t);
