@@ -114,16 +114,7 @@ public class SqlServiceImpl implements SqlService {
             throw new UnsupportedOperationException(
                     "SqlGatewayService doesn't support timeout mechanism now.");
         }
-        FlinkSqlGatewaySession session = sessionService.getSession(sessionHandle);
-        SessionContext sessionContext = session.getSessionContext();
-        Configuration sessionConf = new Configuration(sessionContext.getSessionConf());
-        sessionConf.addAll(sessionConf);
-        TableEnvironmentInternal tableEnvironment = sessionContext.createOperationExecutor(sessionConf).getTableEnvironment();
-        QueryOperation queryOperation = parseSqlToQueryOperation(tableEnvironment, statement, -1);
-        return sessionContext.getOperationManager().submitOperation(operationHandle -> {
-            TableResultInternal tableResultInternal = tableEnvironment.executeInternal(queryOperation);
-            return ResultFetcher.fromTableResult(operationHandle, tableResultInternal, true);
-        });
+        return previewStatement(sessionHandle, statement, executionConfig, -1);
     }
 
     @Override
