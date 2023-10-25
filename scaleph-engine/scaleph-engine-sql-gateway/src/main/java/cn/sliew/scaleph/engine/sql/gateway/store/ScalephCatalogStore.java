@@ -16,36 +16,35 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.store;
 
-import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkSqlGatewayCatalog;
-import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkSqlGatewayCatalogMapper;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.fasterxml.jackson.core.type.TypeReference;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.table.catalog.CatalogDescriptor;
 import org.apache.flink.table.gateway.api.session.SessionHandle;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkSqlGatewayCatalog;
+import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkSqlGatewayCatalogMapper;
 
 public class ScalephCatalogStore extends JdbcCatalogStore<WsFlinkSqlGatewayCatalog, WsFlinkSqlGatewayCatalogMapper> {
 
     private final SessionHandle sessionHandle;
 
-    public ScalephCatalogStore(SessionHandle sessionHandle,
-                               String driver,
-                               String jdbcUrl,
-                               String username,
-                               String password) {
+    public ScalephCatalogStore(
+            SessionHandle sessionHandle, String driver, String jdbcUrl, String username, String password) {
         super(driver, jdbcUrl, username, password);
         this.sessionHandle = sessionHandle;
     }
 
     @Override
     public String[] getMapperPackages() {
-        return new String[]{"cn/sliew/scaleph/dao/mapper/master/ws/WsFlinkSqlGatewayCatalogMapper.xml"};
+        return new String[] {"cn/sliew/scaleph/dao/mapper/master/ws/WsFlinkSqlGatewayCatalogMapper.xml"};
     }
 
     @Override
@@ -70,7 +69,8 @@ public class ScalephCatalogStore extends JdbcCatalogStore<WsFlinkSqlGatewayCatal
     @Override
     public CatalogDescriptor toDescriptor(WsFlinkSqlGatewayCatalog wsFlinkSqlGatewayCatalog) {
         String catalogOptions = wsFlinkSqlGatewayCatalog.getCatalogOptions();
-        Map<String, String> optionsMap = JacksonUtil.parseJsonString(catalogOptions, new TypeReference<HashMap<String, String>>() {});
+        Map<String, String> optionsMap =
+                JacksonUtil.parseJsonString(catalogOptions, new TypeReference<HashMap<String, String>>() {});
         return CatalogDescriptor.of(wsFlinkSqlGatewayCatalog.getCatalogName(), Configuration.fromMap(optionsMap));
     }
 

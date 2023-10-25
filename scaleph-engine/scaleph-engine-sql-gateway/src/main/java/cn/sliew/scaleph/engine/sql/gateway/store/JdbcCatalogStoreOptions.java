@@ -34,5 +34,4 @@ public class JdbcCatalogStoreOptions {
 
     public static final ConfigOption<String> PASSWORD =
             ConfigOptions.key("password").stringType().noDefaultValue();
-
 }

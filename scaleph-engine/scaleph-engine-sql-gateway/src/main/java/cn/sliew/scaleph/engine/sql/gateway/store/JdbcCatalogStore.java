@@ -16,21 +16,23 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.store;
 
-import cn.sliew.scaleph.engine.sql.gateway.util.CatalogStoreDataSourceUtil;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zaxxer.hikari.HikariDataSource;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import org.apache.flink.table.catalog.CatalogDescriptor;
 import org.apache.flink.table.catalog.CatalogStore;
 import org.apache.flink.table.catalog.exceptions.CatalogException;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.zaxxer.hikari.HikariDataSource;
+
+import cn.sliew.scaleph.engine.sql.gateway.util.CatalogStoreDataSourceUtil;
 
 public abstract class JdbcCatalogStore<DTO, MAPPER extends BaseMapper<DTO>> implements CatalogStore {
 
@@ -123,10 +125,7 @@ public abstract class JdbcCatalogStore<DTO, MAPPER extends BaseMapper<DTO>> impl
     public Set<String> listCatalogs() throws CatalogException {
         return doAction(mapper -> {
             Wrapper<DTO> wrapper = buildWrapper(null);
-            return mapper.selectList(wrapper)
-                    .stream()
-                    .map(this::getCatalogName)
-                    .collect(Collectors.toSet());
+            return mapper.selectList(wrapper).stream().map(this::getCatalogName).collect(Collectors.toSet());
         });
     }
 
@@ -136,5 +135,4 @@ public abstract class JdbcCatalogStore<DTO, MAPPER extends BaseMapper<DTO>> impl
             return mapper.exists(buildWrapper(catalogName));
         });
     }
-
 }

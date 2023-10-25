@@ -19,13 +19,10 @@ package cn.sliew.scaleph.engine.sql.gateway.store;
 import org.apache.flink.configuration.ConfigOption;
 import org.apache.flink.configuration.ConfigOptions;
 
-public class ScalephCatalogStoreOptions extends JdbcCatalogStoreOptions{
+public class ScalephCatalogStoreOptions extends JdbcCatalogStoreOptions {
 
     public static final String IDENTIFIER = "scaleph";
 
-    public static final ConfigOption<String> SESSION_HANDLE = ConfigOptions
-            .key("session-handle")
-            .stringType()
-            .noDefaultValue();
-
+    public static final ConfigOption<String> SESSION_HANDLE =
+            ConfigOptions.key("session-handle").stringType().noDefaultValue();
 }

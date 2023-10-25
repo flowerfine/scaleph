@@ -16,6 +16,11 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.store;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
 import org.apache.flink.configuration.ConfigOption;
 import org.apache.flink.configuration.ReadableConfig;
 import org.apache.flink.table.catalog.CatalogStore;
@@ -24,18 +29,12 @@ import org.apache.flink.table.factories.CatalogStoreFactory;
 import org.apache.flink.table.factories.FactoryUtil;
 import org.apache.flink.table.gateway.api.session.SessionHandle;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
-import static cn.sliew.scaleph.engine.sql.gateway.store.ScalephCatalogStoreOptions.IDENTIFIER;
-import static cn.sliew.scaleph.engine.sql.gateway.store.ScalephCatalogStoreOptions.SESSION_HANDLE;
 import static cn.sliew.scaleph.engine.sql.gateway.store.ScalephCatalogStoreOptions.DRIVER;
+import static cn.sliew.scaleph.engine.sql.gateway.store.ScalephCatalogStoreOptions.IDENTIFIER;
 import static cn.sliew.scaleph.engine.sql.gateway.store.ScalephCatalogStoreOptions.JDBC_URL;
 import static cn.sliew.scaleph.engine.sql.gateway.store.ScalephCatalogStoreOptions.PASSWORD;
+import static cn.sliew.scaleph.engine.sql.gateway.store.ScalephCatalogStoreOptions.SESSION_HANDLE;
 import static cn.sliew.scaleph.engine.sql.gateway.store.ScalephCatalogStoreOptions.USERNAME;
-
 
 public class ScalephCatalogStoreFactory implements CatalogStoreFactory {
 
@@ -65,9 +64,7 @@ public class ScalephCatalogStoreFactory implements CatalogStoreFactory {
     }
 
     @Override
-    public void close() throws CatalogException {
-
-    }
+    public void close() throws CatalogException {}
 
     @Override
     public String factoryIdentifier() {

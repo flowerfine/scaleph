@@ -16,10 +16,9 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.exception;
 
-public class ScalephSqlGatewayNotFoundException extends ScalephSqlGatewayException{
+public class ScalephSqlGatewayNotFoundException extends ScalephSqlGatewayException {
 
     public ScalephSqlGatewayNotFoundException() {
         super("Flink sql gateway not found!");
     }
-
 }

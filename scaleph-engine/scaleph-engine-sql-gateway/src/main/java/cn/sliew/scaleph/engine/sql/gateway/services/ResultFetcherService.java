@@ -36,7 +36,8 @@ public interface ResultFetcherService {
      * @param maxRows         max number of rows to fetch.
      * @return Returns the results.
      */
-    ResultSet fetchResults(SessionHandle sessionHandle, OperationHandle operationHandle, long token, int maxRows) throws SqlGatewayException;
+    ResultSet fetchResults(SessionHandle sessionHandle, OperationHandle operationHandle, long token, int maxRows)
+            throws SqlGatewayException;
 
     /**
      * Fetch the results from the operation. When maxRows is Integer.MAX_VALUE, it means to fetch
@@ -49,5 +50,7 @@ public interface ResultFetcherService {
      * @param maxRows         max number of rows to fetch.
      * @return Returns the results.
      */
-    ResultSet fetchResults(SessionHandle sessionHandle, OperationHandle operationHandle, FetchOrientation orientation, int maxRows) throws SqlGatewayException;
+    ResultSet fetchResults(
+            SessionHandle sessionHandle, OperationHandle operationHandle, FetchOrientation orientation, int maxRows)
+            throws SqlGatewayException;
 }

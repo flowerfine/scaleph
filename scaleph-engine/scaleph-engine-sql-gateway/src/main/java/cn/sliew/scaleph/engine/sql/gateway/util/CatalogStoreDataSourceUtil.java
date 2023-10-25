@@ -16,13 +16,10 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.util;
 
-import com.baomidou.mybatisplus.core.MybatisConfiguration;
-import com.baomidou.mybatisplus.core.MybatisXMLLanguageDriver;
-import com.baomidou.mybatisplus.core.config.GlobalConfig;
-import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler;
-import com.baomidou.mybatisplus.core.toolkit.GlobalConfigUtils;
-import com.zaxxer.hikari.HikariDataSource;
+import java.io.InputStream;
+import java.util.Date;
+import javax.sql.DataSource;
+
 import org.apache.ibatis.builder.xml.XMLMapperBuilder;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.logging.slf4j.Slf4jImpl;
@@ -33,14 +30,17 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 
-import javax.sql.DataSource;
-import java.io.InputStream;
-import java.util.Date;
+import com.baomidou.mybatisplus.core.MybatisConfiguration;
+import com.baomidou.mybatisplus.core.MybatisXMLLanguageDriver;
+import com.baomidou.mybatisplus.core.config.GlobalConfig;
+import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler;
+import com.baomidou.mybatisplus.core.toolkit.GlobalConfigUtils;
+import com.zaxxer.hikari.HikariDataSource;
 
 public class CatalogStoreDataSourceUtil {
 
-    private CatalogStoreDataSourceUtil() {
-    }
+    private CatalogStoreDataSourceUtil() {}
 
     public static HikariDataSource createDataSource(String driver, String jdbcUrl, String username, String password) {
         HikariDataSource dataSource = new HikariDataSource();
@@ -71,7 +71,8 @@ public class CatalogStoreDataSourceUtil {
             configuration.setCacheEnabled(false);
             for (String mapperPackage : mapperPackages) {
                 try (InputStream inputStream = Resources.getResourceAsStream(mapperPackage)) {
-                    new XMLMapperBuilder(inputStream, configuration, mapperPackage, configuration.getSqlFragments()).parse();
+                    new XMLMapperBuilder(inputStream, configuration, mapperPackage, configuration.getSqlFragments())
+                            .parse();
                 }
             }
             GlobalConfig globalConfig = GlobalConfigUtils.getGlobalConfig(configuration);
@@ -90,5 +91,4 @@ public class CatalogStoreDataSourceUtil {
             throw new IllegalArgumentException(e);
         }
     }
-
 }

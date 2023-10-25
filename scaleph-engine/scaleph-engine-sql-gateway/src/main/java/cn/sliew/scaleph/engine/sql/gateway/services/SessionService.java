@@ -18,13 +18,14 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services;
 
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.FlinkSqlGatewaySession;
+import java.util.Map;
+
 import org.apache.flink.table.gateway.api.endpoint.EndpointVersion;
 import org.apache.flink.table.gateway.api.session.SessionEnvironment;
 import org.apache.flink.table.gateway.api.session.SessionHandle;
 import org.apache.flink.table.gateway.api.utils.SqlGatewayException;
 
-import java.util.Map;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.FlinkSqlGatewaySession;
 
 public interface SessionService {
 
@@ -73,6 +74,5 @@ public interface SessionService {
      * @param sessionHandle handle to identify the session.
      * @return Returns the version.
      */
-    EndpointVersion getSessionEndpointVersion(SessionHandle sessionHandle)
-            throws SqlGatewayException;
+    EndpointVersion getSessionEndpointVersion(SessionHandle sessionHandle) throws SqlGatewayException;
 }

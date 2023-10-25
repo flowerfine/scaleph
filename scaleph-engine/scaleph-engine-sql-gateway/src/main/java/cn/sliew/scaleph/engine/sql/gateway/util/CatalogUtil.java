@@ -16,14 +16,12 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.util;
 
-import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkSqlGatewayCatalog;
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.CatalogInfo;
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.ColumnInfo;
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.DatabaseInfo;
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.FunctionInfo;
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.TableInfo;
-import com.fasterxml.jackson.core.type.TypeReference;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.table.api.Schema;
 import org.apache.flink.table.catalog.Catalog;
@@ -39,22 +37,25 @@ import org.apache.flink.table.factories.FactoryUtil;
 import org.apache.flink.table.functions.FunctionDefinition;
 import org.apache.flink.table.gateway.service.context.SessionContext;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkSqlGatewayCatalog;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.CatalogInfo;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.ColumnInfo;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.DatabaseInfo;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.FunctionInfo;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.TableInfo;
 
 public class CatalogUtil {
 
-    public static Catalog createCatalog(WsFlinkSqlGatewayCatalog wsFlinkSqlGatewayCatalog,
-                                        Map<String, String> sessionConfig,
-                                        ClassLoader classLoader) {
+    public static Catalog createCatalog(
+            WsFlinkSqlGatewayCatalog wsFlinkSqlGatewayCatalog,
+            Map<String, String> sessionConfig,
+            ClassLoader classLoader) {
         String catalogName = wsFlinkSqlGatewayCatalog.getCatalogName();
         Map<String, String> options = JacksonUtil.parseJsonString(
-                wsFlinkSqlGatewayCatalog.getCatalogOptions(),
-                new TypeReference<HashMap<String, String>>() {
-                });
+                wsFlinkSqlGatewayCatalog.getCatalogOptions(), new TypeReference<HashMap<String, String>>() {});
         return FactoryUtil.createCatalog(
                 catalogName,
                 options,
@@ -64,9 +65,7 @@ public class CatalogUtil {
     }
 
     public static CatalogInfo createCatalogInfo(SessionContext sessionContext, String catalogName) {
-        Catalog catalog = sessionContext.getSessionState()
-                .catalogManager
-                .getCatalogOrThrowException(catalogName);
+        Catalog catalog = sessionContext.getSessionState().catalogManager.getCatalogOrThrowException(catalogName);
         CatalogInfo.CatalogInfoBuilder catalogInfoBuilder = CatalogInfo.builder();
         catalogInfoBuilder.catalogName(catalogName);
         catalog.getFactory().ifPresent(factory -> {
@@ -74,17 +73,15 @@ public class CatalogUtil {
             properties.put("factory", factory.factoryIdentifier());
             catalogInfoBuilder.properties(properties);
         });
-        Set<DatabaseInfo> databaseInfos = catalog.listDatabases()
-                .stream()
+        Set<DatabaseInfo> databaseInfos = catalog.listDatabases().stream()
                 .map(databaseName -> createDatabaseInfo(sessionContext, catalogName, databaseName))
                 .collect(Collectors.toSet());
         catalogInfoBuilder.databases(databaseInfos);
         return catalogInfoBuilder.build();
     }
 
-    public static DatabaseInfo createDatabaseInfo(SessionContext sessionContext,
-                                                  String catalogName,
-                                                  String databaseName) {
+    public static DatabaseInfo createDatabaseInfo(
+            SessionContext sessionContext, String catalogName, String databaseName) {
         SessionContext.SessionState sessionState = sessionContext.getSessionState();
         CatalogManager catalogManager = sessionState.catalogManager;
         FunctionCatalog functionCatalog = sessionState.functionCatalog;
@@ -101,22 +98,25 @@ public class CatalogUtil {
             Set<TableInfo> tables = catalogManager.listTables(catalogName, databaseName).stream()
                     .map(tableName -> createTableInfo(sessionContext, catalogName, databaseName, tableName))
                     .collect(Collectors.toSet());
-            Set<FunctionInfo> userDefinedFunctions = functionCatalog.getUserDefinedFunctions(catalogName, databaseName)
-                    .stream()
-                    .flatMap(functionIdentifier -> {
-                        ObjectIdentifier objectIdentifier = functionIdentifier.getIdentifier()
-                                .orElse(ObjectIdentifier.of(catalogName, databaseName, functionIdentifier.getFunctionName()));
-                        UnresolvedIdentifier unresolvedIdentifier = UnresolvedIdentifier.of(objectIdentifier);
-                        return functionCatalog
-                                .lookupFunction(unresolvedIdentifier)
-                                .map(contextResolvedFunction -> {
-                                    String functionName = objectIdentifier.getObjectName();
-                                    FunctionDefinition functionDefinition = contextResolvedFunction.getDefinition();
-                                    return createFunctionInfo(functionName, functionDefinition);
-                                })
-                                .stream();
-                    })
-                    .collect(Collectors.toSet());
+            Set<FunctionInfo> userDefinedFunctions =
+                    functionCatalog.getUserDefinedFunctions(catalogName, databaseName).stream()
+                            .flatMap(functionIdentifier -> {
+                                ObjectIdentifier objectIdentifier = functionIdentifier
+                                        .getIdentifier()
+                                        .orElse(ObjectIdentifier.of(
+                                                catalogName, databaseName, functionIdentifier.getFunctionName()));
+                                UnresolvedIdentifier unresolvedIdentifier = UnresolvedIdentifier.of(objectIdentifier);
+                                return functionCatalog
+                                        .lookupFunction(unresolvedIdentifier)
+                                        .map(contextResolvedFunction -> {
+                                            String functionName = objectIdentifier.getObjectName();
+                                            FunctionDefinition functionDefinition =
+                                                    contextResolvedFunction.getDefinition();
+                                            return createFunctionInfo(functionName, functionDefinition);
+                                        })
+                                        .stream();
+                            })
+                            .collect(Collectors.toSet());
             databaseInfoBuilder.tables(tables);
             databaseInfoBuilder.views(views);
             databaseInfoBuilder.userDefinedFunctions(userDefinedFunctions);
@@ -127,10 +127,8 @@ public class CatalogUtil {
         return databaseInfoBuilder.build();
     }
 
-    public static TableInfo createTableInfo(SessionContext sessionContext,
-                                            String catalogName,
-                                            String databaseName,
-                                            String tableName) {
+    public static TableInfo createTableInfo(
+            SessionContext sessionContext, String catalogName, String databaseName, String tableName) {
         SessionContext.SessionState sessionState = sessionContext.getSessionState();
         CatalogManager catalogManager = sessionState.catalogManager;
         TableInfo.TableInfoBuilder tableInfoBuilder = TableInfo.builder();
@@ -144,22 +142,23 @@ public class CatalogUtil {
             tableInfoBuilder.properties(table.getOptions());
             Schema unresolvedSchema = table.getUnresolvedSchema();
             ResolvedSchema schema = unresolvedSchema.resolve(catalogManager.getSchemaResolver());
-            List<ColumnInfo> columns = schema.getColumns().stream().map(column -> {
-                ColumnInfo.ColumnInfoBuilder columnInfoBuilder = ColumnInfo.builder()
-                        .columnName(column.getName())
-                        .dataType(column.getDataType().getLogicalType().toString())
-                        .isPersist(column.isPersisted())
-                        .isPhysical(column.isPhysical());
-                column.getComment().ifPresent(columnInfoBuilder::comment);
-                return columnInfoBuilder.build();
-            }).collect(Collectors.toList());
+            List<ColumnInfo> columns = schema.getColumns().stream()
+                    .map(column -> {
+                        ColumnInfo.ColumnInfoBuilder columnInfoBuilder = ColumnInfo.builder()
+                                .columnName(column.getName())
+                                .dataType(column.getDataType().getLogicalType().toString())
+                                .isPersist(column.isPersisted())
+                                .isPhysical(column.isPhysical());
+                        column.getComment().ifPresent(columnInfoBuilder::comment);
+                        return columnInfoBuilder.build();
+                    })
+                    .collect(Collectors.toList());
             tableInfoBuilder.schema(columns);
         });
         return tableInfoBuilder.build();
     }
 
-    public static FunctionInfo createFunctionInfo(String functionName,
-                                                  FunctionDefinition functionDefinition) {
+    public static FunctionInfo createFunctionInfo(String functionName, FunctionDefinition functionDefinition) {
         FunctionInfo.FunctionInfoBuilder functionBuilder = FunctionInfo.builder();
         functionBuilder.functionName(functionName);
         functionBuilder.functionKind(functionDefinition.getKind());

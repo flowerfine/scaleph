@@ -16,8 +16,9 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.environment;
 
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.FlinkSqlGatewaySession;
 import org.apache.flink.table.api.internal.TableEnvironmentInternal;
+
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.FlinkSqlGatewaySession;
 
 public interface TableEnvironmentProvider {
 

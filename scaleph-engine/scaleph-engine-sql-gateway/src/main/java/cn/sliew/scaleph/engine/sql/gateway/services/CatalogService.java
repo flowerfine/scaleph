@@ -18,7 +18,8 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services;
 
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.CatalogInfo;
+import java.util.Set;
+
 import org.apache.flink.table.catalog.CatalogBaseTable;
 import org.apache.flink.table.catalog.ObjectIdentifier;
 import org.apache.flink.table.catalog.ResolvedCatalogBaseTable;
@@ -29,7 +30,7 @@ import org.apache.flink.table.gateway.api.results.TableInfo;
 import org.apache.flink.table.gateway.api.session.SessionHandle;
 import org.apache.flink.table.gateway.api.utils.SqlGatewayException;
 
-import java.util.Set;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.CatalogInfo;
 
 /**
  * 使用用户 id 关联的 session 获取
@@ -73,7 +74,12 @@ public interface CatalogService {
      * @param tableKinds   used to specify the type of return values.
      * @return table info of the registered tables/views.
      */
-    Set<TableInfo> listTables(SessionHandle sessionHandle, String catalogName, String databaseName, Set<CatalogBaseTable.TableKind> tableKinds) throws SqlGatewayException;
+    Set<TableInfo> listTables(
+            SessionHandle sessionHandle,
+            String catalogName,
+            String databaseName,
+            Set<CatalogBaseTable.TableKind> tableKinds)
+            throws SqlGatewayException;
 
     /**
      * Return table of the given fully qualified name.
@@ -81,7 +87,8 @@ public interface CatalogService {
      * @param tableIdentifier fully qualified name of the table.
      * @return information of the table.
      */
-    ResolvedCatalogBaseTable<?> getTable(SessionHandle sessionHandle, ObjectIdentifier tableIdentifier) throws SqlGatewayException;
+    ResolvedCatalogBaseTable<?> getTable(SessionHandle sessionHandle, ObjectIdentifier tableIdentifier)
+            throws SqlGatewayException;
 
     /**
      * List all user defined functions.
@@ -90,7 +97,8 @@ public interface CatalogService {
      * @param databaseName name string of the given database.
      * @return user defined functions info.
      */
-    Set<FunctionInfo> listUserDefinedFunctions(SessionHandle sessionHandle, String catalogName, String databaseName) throws SqlGatewayException;
+    Set<FunctionInfo> listUserDefinedFunctions(SessionHandle sessionHandle, String catalogName, String databaseName)
+            throws SqlGatewayException;
 
     /**
      * List all available system functions.
@@ -107,5 +115,6 @@ public interface CatalogService {
      * @param functionIdentifier identifier of the function.
      * @return the definition of the function.
      */
-    FunctionDefinition getFunctionDefinition(SessionHandle sessionHandle, UnresolvedIdentifier functionIdentifier) throws SqlGatewayException;
+    FunctionDefinition getFunctionDefinition(SessionHandle sessionHandle, UnresolvedIdentifier functionIdentifier)
+            throws SqlGatewayException;
 }

@@ -16,9 +16,12 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services.impl;
 
-import cn.sliew.scaleph.engine.sql.gateway.services.OperationService;
-import cn.sliew.scaleph.engine.sql.gateway.services.SessionService;
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.FlinkSqlGatewaySession;
+import java.lang.reflect.Field;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
+
 import org.apache.flink.table.catalog.ResolvedSchema;
 import org.apache.flink.table.gateway.api.operation.OperationHandle;
 import org.apache.flink.table.gateway.api.results.OperationInfo;
@@ -30,11 +33,9 @@ import org.apache.flink.table.gateway.service.operation.OperationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Field;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.stream.Collectors;
+import cn.sliew.scaleph.engine.sql.gateway.services.OperationService;
+import cn.sliew.scaleph.engine.sql.gateway.services.SessionService;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.FlinkSqlGatewaySession;
 
 @Service
 public class OperationServiceImpl implements OperationService {
@@ -54,8 +55,10 @@ public class OperationServiceImpl implements OperationService {
             Class<? extends OperationManager> operationManagerClass = operationManager.getClass();
             Field field = operationManagerClass.getDeclaredField("submittedOperations");
             field.setAccessible(true);
-            Map<OperationHandle, OperationManager.Operation> map = (Map<OperationHandle, OperationManager.Operation>) field.get(operationManager);
-            return map.values().stream().map(OperationManager.Operation::getOperationInfo)
+            Map<OperationHandle, OperationManager.Operation> map =
+                    (Map<OperationHandle, OperationManager.Operation>) field.get(operationManager);
+            return map.values().stream()
+                    .map(OperationManager.Operation::getOperationInfo)
                     .collect(Collectors.toSet());
         } catch (Exception e) {
             throw new SqlGatewayException(e);
@@ -63,35 +66,40 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public OperationHandle submitOperation(SessionHandle sessionHandle, Callable<ResultSet> executor) throws SqlGatewayException {
+    public OperationHandle submitOperation(SessionHandle sessionHandle, Callable<ResultSet> executor)
+            throws SqlGatewayException {
         FlinkSqlGatewaySession session = sessionService.getSession(sessionHandle);
         SessionContext sessionContext = session.getSessionContext();
         return sessionContext.getOperationManager().submitOperation(executor);
     }
 
     @Override
-    public void cancelOperation(SessionHandle sessionHandle, OperationHandle operationHandle) throws SqlGatewayException {
+    public void cancelOperation(SessionHandle sessionHandle, OperationHandle operationHandle)
+            throws SqlGatewayException {
         FlinkSqlGatewaySession session = sessionService.getSession(sessionHandle);
         SessionContext sessionContext = session.getSessionContext();
         sessionContext.getOperationManager().cancelOperation(operationHandle);
     }
 
     @Override
-    public void closeOperation(SessionHandle sessionHandle, OperationHandle operationHandle) throws SqlGatewayException {
+    public void closeOperation(SessionHandle sessionHandle, OperationHandle operationHandle)
+            throws SqlGatewayException {
         FlinkSqlGatewaySession session = sessionService.getSession(sessionHandle);
         SessionContext sessionContext = session.getSessionContext();
         sessionContext.getOperationManager().closeOperation(operationHandle);
     }
 
     @Override
-    public OperationInfo getOperationInfo(SessionHandle sessionHandle, OperationHandle operationHandle) throws SqlGatewayException {
+    public OperationInfo getOperationInfo(SessionHandle sessionHandle, OperationHandle operationHandle)
+            throws SqlGatewayException {
         FlinkSqlGatewaySession session = sessionService.getSession(sessionHandle);
         SessionContext sessionContext = session.getSessionContext();
         return sessionContext.getOperationManager().getOperationInfo(operationHandle);
     }
 
     @Override
-    public ResolvedSchema getOperationResultSchema(SessionHandle sessionHandle, OperationHandle operationHandle) throws Exception {
+    public ResolvedSchema getOperationResultSchema(SessionHandle sessionHandle, OperationHandle operationHandle)
+            throws Exception {
         FlinkSqlGatewaySession session = sessionService.getSession(sessionHandle);
         SessionContext sessionContext = session.getSessionContext();
         return sessionContext.getOperationManager().getOperationResultSchema(operationHandle);

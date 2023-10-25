@@ -18,9 +18,12 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services.dto;
 
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.ColumnInfo;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.apache.commons.codec.binary.Hex;
 import org.apache.flink.table.api.ResultKind;
 import org.apache.flink.table.catalog.Column;
@@ -28,11 +31,9 @@ import org.apache.flink.table.data.*;
 import org.apache.flink.table.gateway.api.results.ResultSet;
 import org.apache.flink.table.types.logical.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.ColumnInfo;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
 
 @Data
 @EqualsAndHashCode
@@ -42,26 +43,34 @@ import java.util.stream.Collectors;
 @Builder
 public class WsFlinkSqlGatewayQueryResultDTO {
 
-    @Schema(description = "SQL 执行状态。NOT_READY: 未就绪，需轮询重试, PAYLOAD: 可查询, EOS: 数据查询已至末尾，后续无数据，不在调用",
+    @Schema(
+            description = "SQL 执行状态。NOT_READY: 未就绪，需轮询重试, PAYLOAD: 可查询, EOS: 数据查询已至末尾，后续无数据，不在调用",
             allowableValues = {"PAYLOAD", "NOT_READY", "EOS"})
     private ResultSet.ResultType resultType;
-    @Schema(description = "结果类型。SUCCESS: 执行成功, SUCCESS_WITH_CONTENT: 执行成功并可获取数据列表",
+
+    @Schema(
+            description = "结果类型。SUCCESS: 执行成功, SUCCESS_WITH_CONTENT: 执行成功并可获取数据列表",
             allowableValues = {"SUCCESS", "SUCCESS_WITH_CONTENT"})
     private ResultKind resultKind;
+
     @Schema(description = "任务 id")
     private String jobID;
+
     @Schema(description = "分页参数。查询下一页数据参数")
     private Long nextToken;
+
     @Schema(description = "是否支持查询数据")
     private Boolean isQueryResult;
+
     @Schema(description = "数据类型信息")
     private List<ColumnInfo> columns;
+
     @Schema(description = "数据")
     private List<Map<String, Object>> data;
 
     public static WsFlinkSqlGatewayQueryResultDTO fromResultSet(ResultSet resultSet) {
-        WsFlinkSqlGatewayQueryResultDTOBuilder builder = WsFlinkSqlGatewayQueryResultDTO.builder()
-                .resultType(resultSet.getResultType());
+        WsFlinkSqlGatewayQueryResultDTOBuilder builder =
+                WsFlinkSqlGatewayQueryResultDTO.builder().resultType(resultSet.getResultType());
         if (resultSet.getResultType() != ResultSet.ResultType.NOT_READY) {
             if (resultSet.getJobID() != null) {
                 builder.jobID(resultSet.getJobID().toHexString());
@@ -69,28 +78,38 @@ public class WsFlinkSqlGatewayQueryResultDTO {
             builder.resultKind(resultSet.getResultKind());
             if (resultSet.isQueryResult()) {
                 List<Column> columns = resultSet.getResultSchema().getColumns();
-                builder
-                        .columns(columns.stream().map(column -> {
-                            ColumnInfo.ColumnInfoBuilder columnInfoBuilder = ColumnInfo.builder()
-                                    .columnName(column.getName())
-                                    .dataType(column.getDataType().getLogicalType().toString())
-                                    .isPersist(column.isPersisted())
-                                    .isPhysical(column.isPhysical());
-                            column.getComment().ifPresent(columnInfoBuilder::comment);
-                            return columnInfoBuilder.build();
-                        }).collect(Collectors.toList()))
-                        .data(resultSet.getData().stream().map(rowData -> {
-                            Map<String, Object> map = new HashMap<>();
-                            for (int i = 0; i < columns.size(); i++) {
-                                Column column = columns.get(i);
-                                try {
-                                    map.put(column.getName(), getDataFromRow(rowData, column.getDataType().getLogicalType(), i));
-                                } catch (Exception e) {
-                                    throw new RuntimeException(e);
-                                }
-                            }
-                            return map;
-                        }).collect(Collectors.toList()));
+                builder.columns(columns.stream()
+                                .map(column -> {
+                                    ColumnInfo.ColumnInfoBuilder columnInfoBuilder = ColumnInfo.builder()
+                                            .columnName(column.getName())
+                                            .dataType(column.getDataType()
+                                                    .getLogicalType()
+                                                    .toString())
+                                            .isPersist(column.isPersisted())
+                                            .isPhysical(column.isPhysical());
+                                    column.getComment().ifPresent(columnInfoBuilder::comment);
+                                    return columnInfoBuilder.build();
+                                })
+                                .collect(Collectors.toList()))
+                        .data(resultSet.getData().stream()
+                                .map(rowData -> {
+                                    Map<String, Object> map = new HashMap<>();
+                                    for (int i = 0; i < columns.size(); i++) {
+                                        Column column = columns.get(i);
+                                        try {
+                                            map.put(
+                                                    column.getName(),
+                                                    getDataFromRow(
+                                                            rowData,
+                                                            column.getDataType().getLogicalType(),
+                                                            i));
+                                        } catch (Exception e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    }
+                                    return map;
+                                })
+                                .collect(Collectors.toList()));
                 builder.nextToken(resultSet.getNextToken());
             }
         }
@@ -114,7 +133,10 @@ public class WsFlinkSqlGatewayQueryResultDTO {
         switch (logicalType.getTypeRoot()) {
             case VARCHAR:
             case CHAR:
-                return dataClass.getDeclaredMethod("getString", int.class).invoke(rowData, index).toString();
+                return dataClass
+                        .getDeclaredMethod("getString", int.class)
+                        .invoke(rowData, index)
+                        .toString();
             case TINYINT:
             case SMALLINT:
                 return dataClass.getDeclaredMethod("getShort", int.class).invoke(rowData, index);
@@ -129,7 +151,8 @@ public class WsFlinkSqlGatewayQueryResultDTO {
                 return dataClass.getDeclaredMethod("getDouble", int.class).invoke(rowData, index);
             case DECIMAL:
                 DecimalType decimalType = (DecimalType) logicalType;
-                DecimalData decimalData = (DecimalData) dataClass.getDeclaredMethod("getDecimal", int.class, int.class, int.class)
+                DecimalData decimalData = (DecimalData) dataClass
+                        .getDeclaredMethod("getDecimal", int.class, int.class, int.class)
                         .invoke(rowData, index, decimalType.getPrecision(), decimalType.getScale());
                 return decimalData.toBigDecimal().doubleValue();
             case BIGINT:
@@ -141,12 +164,15 @@ public class WsFlinkSqlGatewayQueryResultDTO {
                 return null;
             case BINARY:
             case VARBINARY:
-                byte[] binary = (byte[]) dataClass.getDeclaredMethod("getBinary", int.class).invoke(rowData, index);
+                byte[] binary = (byte[])
+                        dataClass.getDeclaredMethod("getBinary", int.class).invoke(rowData, index);
                 return Hex.encodeHexString(binary);
             case ROW:
             case STRUCTURED_TYPE:
                 RowType rowType = (RowType) logicalType;
-                RowData row = (RowData) dataClass.getDeclaredMethod("getRow", int.class, int.class).invoke(rowData, index, rowType.getFieldCount());
+                RowData row = (RowData) dataClass
+                        .getDeclaredMethod("getRow", int.class, int.class)
+                        .invoke(rowData, index, rowType.getFieldCount());
                 Map<String, Object> mapInRow = new HashMap<>();
                 for (RowType.RowField rowField : rowType.getFields()) {
                     String fieldName = rowField.getName();
@@ -159,7 +185,8 @@ public class WsFlinkSqlGatewayQueryResultDTO {
                 MapType mapType = (MapType) logicalType;
                 LogicalType keyValueType = mapType.getKeyType();
                 LogicalType valueValueType = mapType.getValueType();
-                MapData mapData = (MapData) dataClass.getDeclaredMethod("getMap", int.class).invoke(rowData, index);
+                MapData mapData = (MapData)
+                        dataClass.getDeclaredMethod("getMap", int.class).invoke(rowData, index);
                 ArrayData keyArray = mapData.keyArray();
                 ArrayData valueArray = mapData.valueArray();
                 Map<Object, Object> mapInMap = new HashMap<>();
@@ -171,7 +198,8 @@ public class WsFlinkSqlGatewayQueryResultDTO {
                 return mapInMap;
             case ARRAY:
                 ArrayType arrayType = (ArrayType) logicalType;
-                ArrayData arrayData = (ArrayData) dataClass.getDeclaredMethod("getArray", int.class).invoke(rowData, index);
+                ArrayData arrayData = (ArrayData)
+                        dataClass.getDeclaredMethod("getArray", int.class).invoke(rowData, index);
                 LogicalType elementType = arrayType.getElementType();
                 List<Object> list = new ArrayList<>();
                 for (int i = 0; i < arrayData.size(); i++) {
@@ -180,7 +208,9 @@ public class WsFlinkSqlGatewayQueryResultDTO {
                 return list;
             case TIMESTAMP_WITH_LOCAL_TIME_ZONE:
             case TIMESTAMP_WITHOUT_TIME_ZONE:
-                TimestampData timestampData = (TimestampData) dataClass.getDeclaredMethod("getTimestamp", int.class, int.class).invoke(rowData, index, ((TimestampType) logicalType).getPrecision());
+                TimestampData timestampData = (TimestampData) dataClass
+                        .getDeclaredMethod("getTimestamp", int.class, int.class)
+                        .invoke(rowData, index, ((TimestampType) logicalType).getPrecision());
                 return timestampData.toTimestamp();
             case DISTINCT_TYPE:
                 DistinctType distinctType = (DistinctType) logicalType;

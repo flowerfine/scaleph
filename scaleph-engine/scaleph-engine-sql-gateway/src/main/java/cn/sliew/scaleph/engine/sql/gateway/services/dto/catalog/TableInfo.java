@@ -18,12 +18,13 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import org.apache.flink.table.catalog.CatalogBaseTable;
-
 import java.util.List;
 import java.util.Map;
+
+import org.apache.flink.table.catalog.CatalogBaseTable;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
 
 @Data
 @EqualsAndHashCode
@@ -36,7 +37,9 @@ public class TableInfo {
     @Schema(description = "表 名称")
     private String tableName;
 
-    @Schema(description = "表 类型，TABLE: 表, VIEW: 视图", allowableValues = {"TABLE", "VIEW"})
+    @Schema(
+            description = "表 类型，TABLE: 表, VIEW: 视图",
+            allowableValues = {"TABLE", "VIEW"})
     private CatalogBaseTable.TableKind tableKind;
 
     @Schema(description = "表 结构")

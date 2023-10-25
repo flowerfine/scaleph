@@ -16,8 +16,6 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services.impl;
 
-import cn.sliew.scaleph.engine.sql.gateway.services.ResultFetcherService;
-import cn.sliew.scaleph.engine.sql.gateway.services.SessionService;
 import org.apache.flink.table.gateway.api.operation.OperationHandle;
 import org.apache.flink.table.gateway.api.results.FetchOrientation;
 import org.apache.flink.table.gateway.api.results.ResultSet;
@@ -25,6 +23,9 @@ import org.apache.flink.table.gateway.api.session.SessionHandle;
 import org.apache.flink.table.gateway.api.utils.SqlGatewayException;
 import org.apache.flink.table.gateway.service.context.SessionContext;
 import org.springframework.stereotype.Service;
+
+import cn.sliew.scaleph.engine.sql.gateway.services.ResultFetcherService;
+import cn.sliew.scaleph.engine.sql.gateway.services.SessionService;
 
 @Service
 public class ResultFetcherServiceImpl implements ResultFetcherService {
@@ -36,13 +37,16 @@ public class ResultFetcherServiceImpl implements ResultFetcherService {
     }
 
     @Override
-    public ResultSet fetchResults(SessionHandle sessionHandle, OperationHandle operationHandle, long token, int maxRows) throws SqlGatewayException {
+    public ResultSet fetchResults(SessionHandle sessionHandle, OperationHandle operationHandle, long token, int maxRows)
+            throws SqlGatewayException {
         SessionContext sessionContext = sessionService.getSession(sessionHandle).getSessionContext();
         return sessionContext.getOperationManager().fetchResults(operationHandle, token, maxRows);
     }
 
     @Override
-    public ResultSet fetchResults(SessionHandle sessionHandle, OperationHandle operationHandle, FetchOrientation orientation, int maxRows) throws SqlGatewayException {
+    public ResultSet fetchResults(
+            SessionHandle sessionHandle, OperationHandle operationHandle, FetchOrientation orientation, int maxRows)
+            throws SqlGatewayException {
         SessionContext sessionContext = sessionService.getSession(sessionHandle).getSessionContext();
         return sessionContext.getOperationManager().fetchResults(operationHandle, orientation, maxRows);
     }

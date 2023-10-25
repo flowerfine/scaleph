@@ -18,12 +18,12 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services;
 
+import java.util.List;
+
 import org.apache.flink.table.factories.CatalogFactory;
 import org.apache.flink.table.factories.DynamicTableSinkFactory;
 import org.apache.flink.table.factories.DynamicTableSourceFactory;
 import org.apache.flink.table.factories.FormatFactory;
-
-import java.util.List;
 
 public interface FlinkFactoryService {
 
@@ -32,6 +32,6 @@ public interface FlinkFactoryService {
     List<FormatFactory> findFormats(Long id);
 
     List<DynamicTableSourceFactory> findSources(Long id);
-    
+
     List<DynamicTableSinkFactory> findSinks(Long id);
 }

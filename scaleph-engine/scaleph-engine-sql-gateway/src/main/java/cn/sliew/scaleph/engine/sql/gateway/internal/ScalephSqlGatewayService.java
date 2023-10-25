@@ -18,8 +18,11 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.internal;
 
-import cn.sliew.scaleph.engine.sql.gateway.services.SessionService;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.Callable;
+
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.table.catalog.*;
 import org.apache.flink.table.functions.FunctionDefinition;
@@ -31,10 +34,8 @@ import org.apache.flink.table.gateway.api.session.SessionEnvironment;
 import org.apache.flink.table.gateway.api.session.SessionHandle;
 import org.apache.flink.table.gateway.api.utils.SqlGatewayException;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.Callable;
+import cn.sliew.scaleph.engine.sql.gateway.services.SessionService;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ScalephSqlGatewayService implements SqlGatewayService {
@@ -56,7 +57,8 @@ public class ScalephSqlGatewayService implements SqlGatewayService {
     }
 
     @Override
-    public void configureSession(SessionHandle sessionHandle, String statement, long executionTimeoutMs) throws SqlGatewayException {
+    public void configureSession(SessionHandle sessionHandle, String statement, long executionTimeoutMs)
+            throws SqlGatewayException {
         sessionService.configureSession(sessionHandle, statement, executionTimeoutMs);
     }
 
@@ -71,42 +73,47 @@ public class ScalephSqlGatewayService implements SqlGatewayService {
     }
 
     @Override
-    public OperationHandle submitOperation(SessionHandle sessionHandle, Callable<ResultSet> callable) throws SqlGatewayException {
+    public OperationHandle submitOperation(SessionHandle sessionHandle, Callable<ResultSet> callable)
+            throws SqlGatewayException {
         return null;
     }
 
     @Override
-    public void cancelOperation(SessionHandle sessionHandle, OperationHandle operationHandle) throws SqlGatewayException {
-
-    }
-
-    @Override
-    public void closeOperation(SessionHandle sessionHandle, OperationHandle operationHandle) throws SqlGatewayException {
-
-    }
+    public void cancelOperation(SessionHandle sessionHandle, OperationHandle operationHandle)
+            throws SqlGatewayException {}
 
     @Override
-    public OperationInfo getOperationInfo(SessionHandle sessionHandle, OperationHandle operationHandle) throws SqlGatewayException {
+    public void closeOperation(SessionHandle sessionHandle, OperationHandle operationHandle)
+            throws SqlGatewayException {}
+
+    @Override
+    public OperationInfo getOperationInfo(SessionHandle sessionHandle, OperationHandle operationHandle)
+            throws SqlGatewayException {
         return null;
     }
 
     @Override
-    public ResolvedSchema getOperationResultSchema(SessionHandle sessionHandle, OperationHandle operationHandle) throws SqlGatewayException {
+    public ResolvedSchema getOperationResultSchema(SessionHandle sessionHandle, OperationHandle operationHandle)
+            throws SqlGatewayException {
         return null;
     }
 
     @Override
-    public OperationHandle executeStatement(SessionHandle sessionHandle, String s, long l, Configuration configuration) throws SqlGatewayException {
+    public OperationHandle executeStatement(SessionHandle sessionHandle, String s, long l, Configuration configuration)
+            throws SqlGatewayException {
         return null;
     }
 
     @Override
-    public ResultSet fetchResults(SessionHandle sessionHandle, OperationHandle operationHandle, long l, int i) throws SqlGatewayException {
+    public ResultSet fetchResults(SessionHandle sessionHandle, OperationHandle operationHandle, long l, int i)
+            throws SqlGatewayException {
         return null;
     }
 
     @Override
-    public ResultSet fetchResults(SessionHandle sessionHandle, OperationHandle operationHandle, FetchOrientation fetchOrientation, int i) throws SqlGatewayException {
+    public ResultSet fetchResults(
+            SessionHandle sessionHandle, OperationHandle operationHandle, FetchOrientation fetchOrientation, int i)
+            throws SqlGatewayException {
         return null;
     }
 
@@ -126,17 +133,21 @@ public class ScalephSqlGatewayService implements SqlGatewayService {
     }
 
     @Override
-    public Set<TableInfo> listTables(SessionHandle sessionHandle, String s, String s1, Set<CatalogBaseTable.TableKind> set) throws SqlGatewayException {
+    public Set<TableInfo> listTables(
+            SessionHandle sessionHandle, String s, String s1, Set<CatalogBaseTable.TableKind> set)
+            throws SqlGatewayException {
         return null;
     }
 
     @Override
-    public ResolvedCatalogBaseTable<?> getTable(SessionHandle sessionHandle, ObjectIdentifier objectIdentifier) throws SqlGatewayException {
+    public ResolvedCatalogBaseTable<?> getTable(SessionHandle sessionHandle, ObjectIdentifier objectIdentifier)
+            throws SqlGatewayException {
         return null;
     }
 
     @Override
-    public Set<FunctionInfo> listUserDefinedFunctions(SessionHandle sessionHandle, String s, String s1) throws SqlGatewayException {
+    public Set<FunctionInfo> listUserDefinedFunctions(SessionHandle sessionHandle, String s, String s1)
+            throws SqlGatewayException {
         return null;
     }
 
@@ -146,7 +157,8 @@ public class ScalephSqlGatewayService implements SqlGatewayService {
     }
 
     @Override
-    public FunctionDefinition getFunctionDefinition(SessionHandle sessionHandle, UnresolvedIdentifier unresolvedIdentifier) throws SqlGatewayException {
+    public FunctionDefinition getFunctionDefinition(
+            SessionHandle sessionHandle, UnresolvedIdentifier unresolvedIdentifier) throws SqlGatewayException {
         return null;
     }
 
