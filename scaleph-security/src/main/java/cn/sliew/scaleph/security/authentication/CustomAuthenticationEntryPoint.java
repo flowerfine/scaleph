@@ -37,12 +37,13 @@ import java.io.PrintWriter;
  */
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+
     @Override
-    public void commence(HttpServletRequest req, HttpServletResponse resp,
-                         AuthenticationException authException) throws IOException {
-        try (PrintWriter out = resp.getWriter()) {
-            resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            ResponseVO info = ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException {
+        try (PrintWriter out = response.getWriter()) {
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            ResponseVO info = ResponseVO.error(
+                    String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
                     I18nUtil.get("response.error.unauthorized"));
             out.write(info.toString());
             out.flush();

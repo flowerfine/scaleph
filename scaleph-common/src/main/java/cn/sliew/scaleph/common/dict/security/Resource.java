@@ -75,4 +75,13 @@ public enum Resource implements DictInstance {
     public String getLabel() {
         return label;
     }
+
+    public String getFullValue() {
+        Optional<Resource> optional = getParent();
+        if (optional.isPresent()) {
+            return optional.get().getFullValue() + getValue();
+        } else {
+            return getValue();
+        }
+    }
 }

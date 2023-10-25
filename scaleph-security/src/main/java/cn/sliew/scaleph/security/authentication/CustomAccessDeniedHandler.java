@@ -37,12 +37,13 @@ import java.io.PrintWriter;
  */
 @Component
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
+
     @Override
-    public void handle(HttpServletRequest req, HttpServletResponse resp,
-                       AccessDeniedException accessDeniedException) throws IOException {
-        try (PrintWriter out = resp.getWriter()) {
-            resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            ResponseVO info = ResponseVO.error(String.valueOf(HttpServletResponse.SC_FORBIDDEN),
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException {
+        try (PrintWriter out = response.getWriter()) {
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            ResponseVO info = ResponseVO.error(
+                    String.valueOf(HttpServletResponse.SC_FORBIDDEN),
                     I18nUtil.get("response.error.no.privilege"));
             out.write(info.toString());
             out.flush();
