@@ -23,6 +23,7 @@ import cn.sliew.scaleph.system.model.ResponseVO;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +35,7 @@ import java.io.PrintWriter;
  * 未登录用户访问无权限资源时候返回未鉴权信息，前端跳转登录页面
  *
  * @author gleiyu
+ * @see ExceptionTranslationFilter
  */
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
