@@ -24,32 +24,46 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum ResourceType implements DictInstance {
+public enum Resource implements DictInstance {
 
-    NAV("0", "导航"),
-    MENU("1", "菜单"),
-    PAGE("2", "页面"),
-    BUTTON("3", "按钮"),
-    ROW("10", "数据-行权限"),
-    COLUMN("11", "数据-列权限"),
+    STUDIO(null, ResourceType.NAV, "studio", "工作台"),
+    PROJECT(null, ResourceType.NAV, "project", "项目"),
+    RESOURCE(null, ResourceType.NAV, "resource", "资源"),
+    DATASOURCE(null, ResourceType.NAV, "datasource", "数据源"),
+    META(null, ResourceType.NAV, "meta", "数据元"),
+    SYSTEM(null, ResourceType.NAV, "system", "系统管理"),
+
     ;
 
     @JsonCreator
-    public static ResourceType of(String value) {
+    public static Resource of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(ResourceType.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(Resource.class, value));
     }
 
+    private Resource parent;
+    private ResourceType type;
     @EnumValue
     private String value;
     private String label;
 
-    ResourceType(String value, String label) {
+    Resource(Resource parent, ResourceType type, String value, String label) {
+        this.parent = parent;
+        this.type = type;
         this.value = value;
         this.label = label;
+    }
+
+    public Optional<Resource> getParent() {
+        return Optional.ofNullable(parent);
+    }
+
+    public ResourceType getType() {
+        return type;
     }
 
     @Override
