@@ -16,8 +16,9 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.security.web;
+package cn.sliew.scaleph.security.authentication;
 
+import cn.sliew.scaleph.security.web.OnlineUserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.web.context.HttpRequestResponseHolder;
@@ -31,7 +32,7 @@ import java.util.Optional;
  * https://docs.spring.io/spring-security/reference/servlet/authentication/persistence.html
  * @see OnlineUserService
  */
-public class RedisSecurityContextRepository implements SecurityContextRepository {
+public class CustomSecurityContextRepository implements SecurityContextRepository {
 
     @Override
     public SecurityContext loadContext(HttpRequestResponseHolder requestResponseHolder) {

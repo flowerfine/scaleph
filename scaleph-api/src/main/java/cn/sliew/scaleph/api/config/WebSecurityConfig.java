@@ -37,6 +37,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -45,13 +48,17 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
  */
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfig {
 
@@ -62,9 +69,22 @@ public class WebSecurityConfig {
     @Autowired
     private CustomAccessDeniedHandler customAccessDeniedHandler;
 
+    /**
+     * BCryptPasswordEncoder 自带加盐功能。密钥迭代次数为 2^strength。strength 区间为 4~31，默认 10
+     * 这里随便改个默认值
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(23);
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
     }
 
     @Bean
@@ -100,7 +120,37 @@ public class WebSecurityConfig {
                     .frameOptions().disable()
                 .and()
 
+                //todo 表单登陆
+//                .formLogin()
+//                .loginPage("") // 登陆页面
+//                .loginProcessingUrl("") // 服务端登陆接口
+//                .usernameParameter("username")
+//                .passwordParameter("password")
+//                .successHandler(null)
+//                .failureHandler(null)
+//                .permitAll()
+//                .and()
+
+//                .rememberMe()
+                // 用于散列的值，随便填写即可
+//                .key("rememberMe")
+                // remember-me 将信息存入 cookie，如果用户拿到 cookie 里面的信息，则可以直接绕过登陆
+                // PersistentTokenRepository 记录 remember-me cookie 生成时的地址，防止攻击者使用用户 cookie 绕过登陆
+//                .tokenRepository(new JdbcTokenRepositoryImpl())
+//                .tokenValiditySeconds((int) TimeUnit.HOURS.toSeconds(16L))
+//                .and()
+
+                // todo 注销
+//                .logout()
+//                .logoutUrl("/logout")
+//                .deleteCookies()
+//                .clearAuthentication(true)
+//                .invalidateHttpSession(true)
+//                .permitAll()
+//                .and()
+
                 //请求权限配置
+                // spring-security 按照从上往下顺序来匹配，一旦匹配成功则不在匹配
                 .authorizeRequests()
                     //放行endpoint
                     .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
@@ -122,7 +172,21 @@ public class WebSecurityConfig {
                     .accessDeniedHandler(customAccessDeniedHandler)
                 .and()
 
-                //禁用session
+                // session
+                .sessionManagement()
+                    // 同一个用户最多有 1 个 session，可达成后面登陆会自动踢掉前面的登陆
+                    .maximumSessions(1)
+                    // 在最多有 1 个 session 存在的限制下，默认的是后面登陆会自动踢掉前面的登陆
+                    // 如果要达成已经登陆后，后面无法登陆的效果，则通过如下配置即可
+                    // 加上这个限制后，需设置 HttpSessionEventPublisher 监听 session 时间，
+                    // 发布 session 的创建、销毁时间，触发 spring-security 内部的机制
+                    .maxSessionsPreventsLogin(true)
+                    .and()
+                    // session 固定攻击
+                    .sessionFixation().migrateSession()
+                .and()
+
+                // u_token
                 .apply(tokenConfigurer)
         ;
         // @formatter:on

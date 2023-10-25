@@ -42,6 +42,10 @@ spring:
     enabled: true
     max-file-size: 1024MB
     max-request-size: 1024MB
+  session:
+    store-type: redis
+    redis:
+      namespace: ${spring.application.name}
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     hikari:

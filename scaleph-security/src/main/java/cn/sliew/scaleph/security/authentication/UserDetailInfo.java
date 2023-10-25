@@ -22,16 +22,22 @@ import cn.sliew.scaleph.common.dict.security.UserStatus;
 import cn.sliew.scaleph.security.service.dto.SecUserDTO;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
+/**
+ * @see org.springframework.security.core.userdetails.User
+ */
 @Getter
 @Setter
-public class UserDetailInfo implements UserDetails {
+public class UserDetailInfo implements UserDetails, CredentialsContainer {
 
     private static final long serialVersionUID = -7255246796611902520L;
 
@@ -75,5 +81,33 @@ public class UserDetailInfo implements UserDetails {
     @Override
     public boolean isEnabled() {
         return user.getStatus() == UserStatus.ENABLED;
+    }
+
+    /**
+     * 重写 {@link #equals(Object)} 和 {@link #hashCode()} 方法。
+     * 如果不重写使用 session 的限制同一个账号只能同时有一个在线失败
+     *
+     * @see User
+     */
+    @Override
+    public void eraseCredentials() {
+        user.setPassword(null);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        UserDetailInfo that = (UserDetailInfo) o;
+        return Objects.equals(user.getUserName(), that.user.getUserName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user.getUserName());
     }
 }
