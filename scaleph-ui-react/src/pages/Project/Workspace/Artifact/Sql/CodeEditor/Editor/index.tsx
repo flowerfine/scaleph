@@ -120,7 +120,7 @@ const CodeEditor: React.FC = () => {
       <div className={styles.consoleOptionsWrapper}>
         <div className={styles.consoleOptionsLeft}>
           <Button type="primary" className={styles.runButton} onClick={onRun}>
-            <img src="https://s.xinc818.com/files/webcilkhr2wedded3qp/播放.svg" alt="" />
+            <img src="/images/EditorResult/播放.svg" alt="" />
             {intl.formatMessage({ id: 'Run' })}
           </Button>
           <Button type="default" className={styles.saveButton} onClick={onSave}>

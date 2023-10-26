@@ -69,14 +69,14 @@ const EditorRightResultTable: React.FC = ({ result, lastOneData }: any) => {
                 </Paragraph>
                 <div className={styles.tableHoverBox}>
                   <img
-                    src="https://s.xinc818.com/files/webcilklz16y4pxm3zv/位图 (1).svg"
+                    src="/images/EditorResult/查看.svg"
                     alt="查看"
                     onClick={() => {
                       viewTableCell({ name, value });
                     }}
                   />
                   <img
-                    src="https://s.xinc818.com/files/webcilklz19gz7rldus/复制_o.svg"
+                    src="/images/EditorResult/复制.svg"
                     alt="复制"
                     onClick={() => {
                       copyTableCell({ name, value });
