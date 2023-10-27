@@ -23,6 +23,7 @@ import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.util.SpringApplicationContextUtil;
 import cn.sliew.scaleph.security.authentication.CustomAccessDeniedHandler;
 import cn.sliew.scaleph.security.authentication.CustomAuthenticationEntryPoint;
+import cn.sliew.scaleph.security.config.AuthenticateConfigurer;
 import cn.sliew.scaleph.security.config.TokenConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
@@ -33,12 +34,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.util.ObjectUtils;
@@ -53,7 +51,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 /**
  * https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
@@ -116,13 +113,14 @@ public class WebSecurityConfig {
 
                 //fixme 表单登陆不能用于前后端分离模式下的登陆
                 //fixme 如果要实现前后端分离，使用 json 获取登陆信息，需要自定义拦截器
-//                .formLogin()
-//                .loginProcessingUrl("/api/user/login") // 服务端登陆接口
+                .formLogin().disable()
+//                    .apply(new AuthenticateConfigurer<>())
+//                    .loginProcessingUrl("/api/user/login") // 服务端登陆接口
 //                .usernameParameter("userName")
 //                .passwordParameter("password")
 //                .successHandler(null)
 //                .failureHandler(null)
-//                .permitAll()
+//                    .permitAll()
 //                .and()
 
 //                .rememberMe()
@@ -167,19 +165,19 @@ public class WebSecurityConfig {
                 .and()
 
                 // session
-                .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                    // 同一个用户最多有 1 个 session，可达成后面登陆会自动踢掉前面的登陆
-                    .maximumSessions(1)
-                    // 在最多有 1 个 session 存在的限制下，默认的是后面登陆会自动踢掉前面的登陆
-                    // 如果要达成已经登陆后，后面无法登陆的效果，则通过如下配置即可
-                    // 加上这个限制后，需设置 HttpSessionEventPublisher 监听 session 时间，
-                    // 发布 session 的创建、销毁时间，触发 spring-security 内部的机制
-                    .maxSessionsPreventsLogin(true)
-                    .and()
-                    // session 固定攻击
-                    .sessionFixation().migrateSession()
-                .and()
+//                .sessionManagement()
+//                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                    // 同一个用户最多有 1 个 session，可达成后面登陆会自动踢掉前面的登陆
+//                    .maximumSessions(1)
+//                    // 在最多有 1 个 session 存在的限制下，默认的是后面登陆会自动踢掉前面的登陆
+//                    // 如果要达成已经登陆后，后面无法登陆的效果，则通过如下配置即可
+//                    // 加上这个限制后，需设置 HttpSessionEventPublisher 监听 session 时间，
+//                    // 发布 session 的创建、销毁时间，触发 spring-security 内部的机制
+//                    .maxSessionsPreventsLogin(true)
+//                    .and()
+//                    // session 固定攻击
+//                    .sessionFixation().migrateSession()
+//                .and()
 
                 // u_token
                 .apply(tokenConfigurer)
@@ -192,7 +190,7 @@ public class WebSecurityConfig {
      * fix When allowCredentials is true, allowedOrigins cannot contain the special value "*" since that cannot be set on the "Access-Control-Allow-Origin" response header.
      * To allow credentials to a set of origins, list them explicitly or consider using "allowedOriginPatterns" instead
      */
-    @Bean
+//    @Bean
     public CorsFilter corsFilter() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();

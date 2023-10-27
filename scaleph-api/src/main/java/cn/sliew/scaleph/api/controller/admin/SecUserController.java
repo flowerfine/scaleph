@@ -153,8 +153,8 @@ public class SecUserController {
                 //存储信息到redis中
                 onlineUserService.insert(userInfo, token);
                 //启用 session
-                HttpSession session = request.getSession(true);
-                session.setAttribute(session.getId(), token);
+//                HttpSession session = request.getSession(true);
+//                session.setAttribute(session.getId(), token);
                 //验证成功返回token
                 return new ResponseEntity<>(ResponseVO.success(token), HttpStatus.OK);
             } catch (BadCredentialsException | InternalAuthenticationServiceException e) {
@@ -177,10 +177,10 @@ public class SecUserController {
         if (token != null) {
             this.onlineUserService.logoutByToken(token);
         }
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
+//        HttpSession session = request.getSession(false);
+//        if (session != null) {
+//            session.invalidate();
+//        }
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 

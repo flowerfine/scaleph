@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.security.config;
 
+import cn.sliew.scaleph.security.authentication.CustomUsernamePasswordAuthenticateFilter;
 import cn.sliew.scaleph.security.web.TokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
@@ -32,8 +33,8 @@ import org.springframework.stereotype.Component;
  * @author gleiyu
  */
 @Component
-public class TokenConfigurer
-    extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
+public class TokenConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
+
     private TokenFilter tokenFilter;
 
     @Autowired

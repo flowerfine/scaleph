@@ -108,7 +108,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         @Override
         public int getOrder() {
-            return Ordered.LOWEST_PRECEDENCE - 10;
+            return Ordered.HIGHEST_PRECEDENCE + 10;
         }
 
         @Override
