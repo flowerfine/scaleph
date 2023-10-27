@@ -71,6 +71,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -151,10 +152,11 @@ public class SecUserController {
                 userInfo.getUser().setRoles(roles);
                 //存储信息到redis中
                 onlineUserService.insert(userInfo, token);
+                //启用 session
+                HttpSession session = request.getSession(true);
+                session.setAttribute(session.getId(), token);
                 //验证成功返回token
-                ResponseVO info = ResponseVO.success();
-                info.setData(token);
-                return new ResponseEntity<>(info, HttpStatus.OK);
+                return new ResponseEntity<>(ResponseVO.success(token), HttpStatus.OK);
             } catch (BadCredentialsException | InternalAuthenticationServiceException e) {
                 return new ResponseEntity<>(
                         ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
@@ -171,9 +173,13 @@ public class SecUserController {
     @AnonymousAccess
     @PostMapping("/user/logout")
     @Operation(summary = "用户登出", description = "用户登出接口")
-    public ResponseEntity<ResponseVO> logout(String token) {
+    public ResponseEntity<ResponseVO> logout(HttpServletRequest request, String token) {
         if (token != null) {
             this.onlineUserService.logoutByToken(token);
+        }
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
         }
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }

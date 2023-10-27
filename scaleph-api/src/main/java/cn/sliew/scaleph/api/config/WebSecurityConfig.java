@@ -40,6 +40,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -58,7 +59,8 @@ import java.util.concurrent.TimeUnit;
  * https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
  */
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = false)
+@EnableRedisHttpSession(redisNamespace = "${spring.application.name}")
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfig {
 
@@ -78,10 +80,6 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder(23);
     }
 
-    /**
-     *
-     * @return
-     */
     @Bean
     public HttpSessionEventPublisher httpSessionEventPublisher() {
         return new HttpSessionEventPublisher();
@@ -111,20 +109,16 @@ public class WebSecurityConfig {
 
                 //.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
 
-                .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-
                 //禁用iframe
                 .headers()
                     .frameOptions().disable()
                 .and()
 
-                //todo 表单登陆
+                //fixme 表单登陆不能用于前后端分离模式下的登陆
+                //fixme 如果要实现前后端分离，使用 json 获取登陆信息，需要自定义拦截器
 //                .formLogin()
-//                .loginPage("") // 登陆页面
-//                .loginProcessingUrl("") // 服务端登陆接口
-//                .usernameParameter("username")
+//                .loginProcessingUrl("/api/user/login") // 服务端登陆接口
+//                .usernameParameter("userName")
 //                .passwordParameter("password")
 //                .successHandler(null)
 //                .failureHandler(null)
@@ -174,6 +168,7 @@ public class WebSecurityConfig {
 
                 // session
                 .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     // 同一个用户最多有 1 个 session，可达成后面登陆会自动踢掉前面的登陆
                     .maximumSessions(1)
                     // 在最多有 1 个 session 存在的限制下，默认的是后面登陆会自动踢掉前面的登陆
