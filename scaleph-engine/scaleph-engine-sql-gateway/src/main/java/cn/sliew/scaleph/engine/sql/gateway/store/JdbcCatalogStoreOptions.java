@@ -16,31 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog;
+package cn.sliew.scaleph.engine.sql.gateway.store;
 
-import java.util.Map;
+import org.apache.flink.configuration.ConfigOption;
+import org.apache.flink.configuration.ConfigOptions;
 
-import org.apache.flink.table.functions.FunctionKind;
+public class JdbcCatalogStoreOptions {
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+    public static final ConfigOption<String> DRIVER =
+            ConfigOptions.key("driver").stringType().noDefaultValue();
 
-@Data
-@EqualsAndHashCode
-@Schema(name = "SqlGateway 方法信息", description = "SqlGateway 方法信息")
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class FunctionInfo {
+    public static final ConfigOption<String> JDBC_URL =
+            ConfigOptions.key("jdbcUrl").stringType().noDefaultValue();
 
-    @Schema(description = "函数 名称")
-    private String functionName;
+    public static final ConfigOption<String> USERNAME =
+            ConfigOptions.key("username").stringType().noDefaultValue();
 
-    @Schema(
-            description = "函数 类型",
-            allowableValues = {"SCALAR", "TABLE", "ASYNC_TABLE", "AGGREGATE", "TABLE_AGGREGATE", "OTHER"})
-    private FunctionKind functionKind;
-
-    @Schema(description = "函数 属性")
-    private Map<String, String> properties;
+    public static final ConfigOption<String> PASSWORD =
+            ConfigOptions.key("password").stringType().noDefaultValue();
 }

@@ -18,20 +18,19 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services.param;
 
+import java.util.Map;
+import javax.validation.constraints.NotNull;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import javax.validation.constraints.NotNull;
-import java.util.Map;
 
 @Data
 @EqualsAndHashCode
 @Schema(name = "SqlGateway执行Sql的参数", description = "SqlGateway执行Sql的参数")
 public class WsFlinkSqlGatewayQueryParam {
 
-    @NotNull
-    @Schema(description = "sql")
+    @NotNull @Schema(description = "sql")
     private String sql;
 
     @Schema(description = "配置参数")

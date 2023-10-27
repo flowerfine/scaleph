@@ -81,6 +81,17 @@
             <name>Sonatype Nexus Snapshots</name>
             <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
+        <repository>
+            <id>apache.snapshots</id>
+            <name>Apache Development Snapshot Repository</name>
+            <url>https://repository.apache.org/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
     </repositories>
 
     <modules>
@@ -160,7 +171,7 @@
         <akka.version>2.5.21</akka.version>
         <protobuf.version>3.21.5</protobuf.version>
         <netty.version>4.1.82.Final</netty.version>
-        <flink.version>1.17.1</flink.version>
+        <flink.version>1.19-SNAPSHOT</flink.version>
         <flink.base.version>1.17</flink.base.version>
         <flink-jdbc.version>3.1.1</flink-jdbc.version>
         <paimon.version>0.4.0-incubating</paimon.version>
@@ -555,6 +566,11 @@
             <dependency>
                 <groupId>org.apache.flink</groupId>
                 <artifactId>flink-table-planner-loader</artifactId>
+                <version>${flink.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.flink</groupId>
+                <artifactId>flink-table-planner_2.12</artifactId>
                 <version>${flink.version}</version>
             </dependency>
 

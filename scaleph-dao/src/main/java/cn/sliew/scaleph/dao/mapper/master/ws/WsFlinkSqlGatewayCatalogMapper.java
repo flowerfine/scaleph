@@ -16,31 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog;
+package cn.sliew.scaleph.dao.mapper.master.ws;
 
-import java.util.Map;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkSqlGatewayCatalog;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-import org.apache.flink.table.functions.FunctionKind;
+/**
+ * <p>
+ * flink sql gateway catalog mapper
+ * </p>
+ */
+@Repository
+public interface WsFlinkSqlGatewayCatalogMapper extends BaseMapper<WsFlinkSqlGatewayCatalog> {
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-
-@Data
-@EqualsAndHashCode
-@Schema(name = "SqlGateway 方法信息", description = "SqlGateway 方法信息")
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class FunctionInfo {
-
-    @Schema(description = "函数 名称")
-    private String functionName;
-
-    @Schema(
-            description = "函数 类型",
-            allowableValues = {"SCALAR", "TABLE", "ASYNC_TABLE", "AGGREGATE", "TABLE_AGGREGATE", "OTHER"})
-    private FunctionKind functionKind;
-
-    @Schema(description = "函数 属性")
-    private Map<String, String> properties;
 }

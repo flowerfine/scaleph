@@ -18,8 +18,7 @@ package cn.sliew.scaleph.engine.sql.gateway.exception;
 
 public class ScalephSqlGatewayException extends RuntimeException {
 
-    public ScalephSqlGatewayException() {
-    }
+    public ScalephSqlGatewayException() {}
 
     public ScalephSqlGatewayException(String message) {
         super(message);
@@ -33,7 +32,8 @@ public class ScalephSqlGatewayException extends RuntimeException {
         super(cause);
     }
 
-    public ScalephSqlGatewayException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public ScalephSqlGatewayException(
+            String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

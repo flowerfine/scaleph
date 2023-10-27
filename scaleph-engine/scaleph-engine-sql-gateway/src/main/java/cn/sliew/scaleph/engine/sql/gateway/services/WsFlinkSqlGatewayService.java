@@ -18,16 +18,17 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services;
 
-import cn.sliew.scaleph.engine.sql.gateway.services.param.WsFlinkSqlGatewayQueryParam;
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.CatalogInfo;
-import cn.sliew.scaleph.engine.sql.gateway.internal.ScalephCatalogManager;
-import org.apache.flink.table.gateway.api.results.GatewayInfo;
-import org.apache.flink.table.gateway.api.results.ResultSet;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+
+import org.apache.flink.table.gateway.api.results.GatewayInfo;
+import org.apache.flink.table.gateway.api.results.ResultSet;
+
+import cn.sliew.scaleph.engine.sql.gateway.internal.ScalephCatalogManager;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.CatalogInfo;
+import cn.sliew.scaleph.engine.sql.gateway.services.param.WsFlinkSqlGatewayQueryParam;
 
 public interface WsFlinkSqlGatewayService {
 
@@ -94,9 +95,7 @@ public interface WsFlinkSqlGatewayService {
      * @param maxRows           Max rows to fetch
      * @return Operation handle id {@link org.apache.flink.table.gateway.api.results.ResultSet}
      */
-    ResultSet fetchResults(String clusterId,
-                           String operationHandleId,
-                           Long token, int maxRows);
+    ResultSet fetchResults(String clusterId, String operationHandleId, Long token, int maxRows);
 
     /**
      * Cancel running jobs
@@ -125,7 +124,7 @@ public interface WsFlinkSqlGatewayService {
      * @param statement
      * @throws Exception
      */
-//    void validStatement(String clusterId, String statement) throws Exception;
+    //    void validStatement(String clusterId, String statement) throws Exception;
 
     /**
      * Add dependency jars to the sql-gateway

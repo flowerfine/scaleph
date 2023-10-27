@@ -6,9 +6,7 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,31 +14,32 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog;
+package cn.sliew.scaleph.dao.entity.master.ws;
 
-import java.util.Map;
-
-import org.apache.flink.table.functions.FunctionKind;
-
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Builder;
+import lombok.Data;
 
 @Data
-@EqualsAndHashCode
-@Schema(name = "SqlGateway 方法信息", description = "SqlGateway 方法信息")
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class FunctionInfo {
+@TableName("ws_flink_sql_gateway_catalog")
+public class WsFlinkSqlGatewayCatalog extends BaseDO {
 
-    @Schema(description = "函数 名称")
-    private String functionName;
+    @TableField("session_handler")
+    private String sessionHandler;
 
-    @Schema(
-            description = "函数 类型",
-            allowableValues = {"SCALAR", "TABLE", "ASYNC_TABLE", "AGGREGATE", "TABLE_AGGREGATE", "OTHER"})
-    private FunctionKind functionKind;
+    @TableField("catalog_name")
+    private String catalogName;
 
-    @Schema(description = "函数 属性")
-    private Map<String, String> properties;
+    @TableField("catalog_options")
+    private String catalogOptions;
+
+    @TableField("catalog_description")
+    private String catalogDescription;
+
+    @TableField("catalog_dependencies")
+    private String catalogDependencies;
+
 }

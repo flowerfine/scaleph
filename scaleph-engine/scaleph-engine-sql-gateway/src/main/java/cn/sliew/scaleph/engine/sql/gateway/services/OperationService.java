@@ -18,6 +18,9 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services;
 
+import java.util.Set;
+import java.util.concurrent.Callable;
+
 import org.apache.flink.table.catalog.ResolvedSchema;
 import org.apache.flink.table.gateway.api.SqlGatewayService;
 import org.apache.flink.table.gateway.api.operation.OperationHandle;
@@ -27,9 +30,9 @@ import org.apache.flink.table.gateway.api.results.ResultSet;
 import org.apache.flink.table.gateway.api.session.SessionHandle;
 import org.apache.flink.table.gateway.api.utils.SqlGatewayException;
 
-import java.util.concurrent.Callable;
-
 public interface OperationService {
+
+    Set<OperationInfo> listOperations(SessionHandle sessionHandle) throws SqlGatewayException;
 
     /**
      * Submit an operation and execute. The {@link SqlGatewayService} will take care of the
@@ -39,7 +42,8 @@ public interface OperationService {
      * @param executor      the main logic to get the execution results.
      * @return Returns the handle for later retrieve results.
      */
-    OperationHandle submitOperation(SessionHandle sessionHandle, Callable<ResultSet> executor) throws SqlGatewayException;
+    OperationHandle submitOperation(SessionHandle sessionHandle, Callable<ResultSet> executor)
+            throws SqlGatewayException;
 
     /**
      * Cancel the operation when it is not in terminal status.
@@ -65,7 +69,8 @@ public interface OperationService {
      * @param sessionHandle   handle to identify the session.
      * @param operationHandle handle to identify the operation.
      */
-    OperationInfo getOperationInfo(SessionHandle sessionHandle, OperationHandle operationHandle) throws SqlGatewayException;
+    OperationInfo getOperationInfo(SessionHandle sessionHandle, OperationHandle operationHandle)
+            throws SqlGatewayException;
 
     /**
      * Get the result schema for the specified Operation.
@@ -76,6 +81,6 @@ public interface OperationService {
      * @param sessionHandle   handle to identify the session.
      * @param operationHandle handle to identify the operation.
      */
-    ResolvedSchema getOperationResultSchema(SessionHandle sessionHandle, OperationHandle operationHandle) throws SqlGatewayException;
-
+    ResolvedSchema getOperationResultSchema(SessionHandle sessionHandle, OperationHandle operationHandle)
+            throws Exception;
 }

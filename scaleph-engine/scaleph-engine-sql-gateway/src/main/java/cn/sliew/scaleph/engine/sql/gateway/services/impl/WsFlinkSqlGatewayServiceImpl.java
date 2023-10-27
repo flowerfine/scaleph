@@ -18,30 +18,6 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services.impl;
 
-import cn.sliew.scaleph.common.util.SystemUtil;
-import cn.sliew.scaleph.engine.sql.gateway.services.param.WsFlinkSqlGatewayQueryParam;
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.CatalogInfo;
-import cn.sliew.scaleph.engine.sql.gateway.exception.ScalephSqlGatewayNotFoundException;
-import cn.sliew.scaleph.engine.sql.gateway.internal.ScalephCatalogManager;
-import cn.sliew.scaleph.engine.sql.gateway.services.WsFlinkSqlGatewayService;
-import cn.sliew.scaleph.kubernetes.service.KubernetesService;
-import cn.sliew.scaleph.resource.service.ClusterCredentialService;
-import cn.sliew.scaleph.resource.service.JarService;
-import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
-import cn.sliew.scaleph.resource.service.dto.JarDTO;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.flink.configuration.Configuration;
-import org.apache.flink.configuration.DeploymentOptions;
-import org.apache.flink.configuration.GlobalConfiguration;
-import org.apache.flink.kubernetes.configuration.KubernetesConfigOptions;
-import org.apache.flink.table.gateway.api.operation.OperationHandle;
-import org.apache.flink.table.gateway.api.results.FetchOrientation;
-import org.apache.flink.table.gateway.api.results.GatewayInfo;
-import org.apache.flink.table.gateway.api.results.ResultSet;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
@@ -55,6 +31,31 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import org.apache.flink.configuration.Configuration;
+import org.apache.flink.configuration.DeploymentOptions;
+import org.apache.flink.configuration.GlobalConfiguration;
+import org.apache.flink.kubernetes.configuration.KubernetesConfigOptions;
+import org.apache.flink.table.gateway.api.operation.OperationHandle;
+import org.apache.flink.table.gateway.api.results.FetchOrientation;
+import org.apache.flink.table.gateway.api.results.GatewayInfo;
+import org.apache.flink.table.gateway.api.results.ResultSet;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import cn.sliew.scaleph.common.util.SystemUtil;
+import cn.sliew.scaleph.engine.sql.gateway.exception.ScalephSqlGatewayNotFoundException;
+import cn.sliew.scaleph.engine.sql.gateway.internal.ScalephCatalogManager;
+import cn.sliew.scaleph.engine.sql.gateway.services.WsFlinkSqlGatewayService;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog.CatalogInfo;
+import cn.sliew.scaleph.engine.sql.gateway.services.param.WsFlinkSqlGatewayQueryParam;
+import cn.sliew.scaleph.kubernetes.service.KubernetesService;
+import cn.sliew.scaleph.resource.service.ClusterCredentialService;
+import cn.sliew.scaleph.resource.service.JarService;
+import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
+import cn.sliew.scaleph.resource.service.dto.JarDTO;
+import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Service
 public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
@@ -63,16 +64,17 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
      * Store {@link ScalephCatalogManager}s in this map. </br>
      * In case multi {@link ScalephCatalogManager}s can be enabled in the future
      */
-    private static final Map<String, ScalephCatalogManager> CATALOG_MANAGER_MAP =
-            new ConcurrentHashMap<>();
+    private static final Map<String, ScalephCatalogManager> CATALOG_MANAGER_MAP = new ConcurrentHashMap<>();
+
     private final KubernetesService kubernetesService;
     private final ClusterCredentialService clusterCredentialService;
     private final JarService jarService;
 
     @Autowired
-    public WsFlinkSqlGatewayServiceImpl(KubernetesService kubernetesService,
-                                        ClusterCredentialService clusterCredentialService,
-                                        JarService jarService) {
+    public WsFlinkSqlGatewayServiceImpl(
+            KubernetesService kubernetesService,
+            ClusterCredentialService clusterCredentialService,
+            JarService jarService) {
         this.kubernetesService = kubernetesService;
         this.clusterCredentialService = clusterCredentialService;
         this.jarService = jarService;
@@ -178,11 +180,10 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
      * @return
      */
     @Override
-    public ResultSet fetchResults(String clusterId,
-                                  String operationHandleId,
-                                  Long token, int maxRows) {
+    public ResultSet fetchResults(String clusterId, String operationHandleId, Long token, int maxRows) {
         OperationHandle operationHandle = new OperationHandle(UUID.fromString(operationHandleId));
-        ScalephCatalogManager catalogManager = getCatalogManager(clusterId).orElseThrow(ScalephSqlGatewayNotFoundException::new);
+        ScalephCatalogManager catalogManager =
+                getCatalogManager(clusterId).orElseThrow(ScalephSqlGatewayNotFoundException::new);
         ResultSet resultSet;
         if (token == null || token < 0) {
             resultSet = catalogManager.fetchResults(operationHandle, FetchOrientation.FETCH_NEXT, maxRows);
@@ -214,7 +215,8 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
     @Override
     public Boolean addDependencies(String clusterId, List<Long> jarIdList) {
         try {
-            List<URI> jars = jarIdList.stream().map(jarId -> {
+            List<URI> jars = jarIdList.stream()
+                    .map(jarId -> {
                         JarDTO jarDTO = jarService.getRaw(jarId);
                         try {
                             Path localPath = SystemUtil.getLocalStorageDir().resolve("jars");
@@ -233,7 +235,8 @@ public class WsFlinkSqlGatewayServiceImpl implements WsFlinkSqlGatewayService {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                    }).map(Path::toUri)
+                    })
+                    .map(Path::toUri)
                     .collect(Collectors.toList());
             getCatalogManager(clusterId)
                     .orElseThrow(ScalephSqlGatewayNotFoundException::new)
