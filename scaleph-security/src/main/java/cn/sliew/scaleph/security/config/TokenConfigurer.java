@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.security.config;
 
-import cn.sliew.scaleph.security.authentication.CustomUsernamePasswordAuthenticateFilter;
 import cn.sliew.scaleph.security.web.TokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;

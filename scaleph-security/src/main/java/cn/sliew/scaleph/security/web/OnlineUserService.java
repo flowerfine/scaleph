@@ -70,12 +70,12 @@ public class OnlineUserService {
         onlineUser.setRemember(userInfo.getRemember());
         Set<String> roles = new TreeSet<>();
         Set<String> privileges = new TreeSet<>();
-        for (SecRoleDTO r : userInfo.getUser().getRoles()) {
-            roles.add(r.getCode().toLowerCase());
-            if (r.getPrivileges() == null) {
+        for (SecRoleDTO roleDTO : userInfo.getUser().getRoles()) {
+            roles.add(roleDTO.getCode().toLowerCase());
+            if (roleDTO.getPrivileges() == null) {
                 continue;
             }
-            for (SecPrivilegeDTO p : r.getPrivileges()) {
+            for (SecPrivilegeDTO p : roleDTO.getPrivileges()) {
                 privileges.add(p.getPrivilegeCode().toLowerCase());
             }
         }

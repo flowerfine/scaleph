@@ -18,10 +18,8 @@
 
 package cn.sliew.scaleph.api.controller.admin;
 
-import cn.hutool.extra.servlet.ServletUtil;
 import cn.sliew.scaleph.api.annotation.AnonymousAccess;
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.api.vo.LoginInfoVO;
 import cn.sliew.scaleph.api.vo.RegisterInfoVO;
 import cn.sliew.scaleph.api.vo.TransferVO;
 import cn.sliew.scaleph.cache.util.RedisUtil;
@@ -32,20 +30,16 @@ import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
 import cn.sliew.scaleph.common.util.I18nUtil;
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.mail.service.EmailService;
-import cn.sliew.scaleph.security.authentication.UserDetailInfo;
-import cn.sliew.scaleph.security.service.SecRoleService;
-import cn.sliew.scaleph.security.service.SecUserActiveService;
-import cn.sliew.scaleph.security.service.SecUserRoleService;
-import cn.sliew.scaleph.security.service.SecUserService;
+import cn.sliew.scaleph.security.service.*;
 import cn.sliew.scaleph.security.service.dto.SecRoleDTO;
 import cn.sliew.scaleph.security.service.dto.SecUserActiveDTO;
 import cn.sliew.scaleph.security.service.dto.SecUserDTO;
 import cn.sliew.scaleph.security.service.dto.SecUserRoleDTO;
+import cn.sliew.scaleph.security.service.param.SecLoginParam;
 import cn.sliew.scaleph.security.service.param.SecUserParam;
 import cn.sliew.scaleph.security.util.SecurityUtil;
 import cn.sliew.scaleph.security.vo.OnlineUserVO;
 import cn.sliew.scaleph.security.web.OnlineUserService;
-import cn.sliew.scaleph.security.web.TokenProvider;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -57,12 +51,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -71,7 +59,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -97,90 +84,37 @@ public class SecUserController {
     private String appHost;
 
     @Autowired
-    private SecUserService secUserService;
+    private RedisUtil redisUtil;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private EmailService emailService;
     @Autowired
-    private RedisUtil redisUtil;
+    private SecUserService secUserService;
     @Autowired
     private SecRoleService secRoleService;
     @Autowired
     private SecUserRoleService secUserRoleService;
     @Autowired
-    private AuthenticationManagerBuilder authenticationManagerBuilder;
-    @Autowired
-    private TokenProvider tokenProvider;
-    @Autowired
     private OnlineUserService onlineUserService;
     @Autowired
     private SecUserActiveService secUserActiveService;
+    @Autowired
+    private SecAuthenticateService secAuthenticateService;
 
-    /**
-     * 用户账号密码登录
-     * 单点登录
-     *
-     * @param loginUser 用户信息
-     * @return 登录成功后返回token
-     */
     @AnonymousAccess
     @PostMapping("/user/login")
     @Operation(summary = "用户登录", description = "用户登录接口")
-    public ResponseEntity<ResponseVO> login(@Validated @RequestBody LoginInfoVO loginUser, HttpServletRequest request) {
-        //检查验证码
-        String authCode = (String) redisUtil.get(loginUser.getUuid());
-        redisUtil.delKeys(loginUser.getUuid());
-        if (StringUtils.hasText(authCode) && authCode.equalsIgnoreCase(loginUser.getAuthCode())) {
-            try {
-                //检查用户名密码
-                UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken(loginUser.getUserName(),
-                                loginUser.getPassword());
-                //spring security框架调用userDetailsService获取用户信息并验证，验证通过后返回一个Authentication对象，存储到线程的SecurityContext中
-                Authentication authentication =
-                        authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-                //生成token 使用uuid作为token
-                String token = tokenProvider.createToken();
-                final UserDetailInfo userInfo = (UserDetailInfo) authentication.getPrincipal();
-                userInfo.setLoginTime(new Date());
-                userInfo.setLoginIpAddress(ServletUtil.getClientIP(request));
-                userInfo.setRemember(loginUser.getRemember());
-                //查询用户权限信息，同时存储到redis onlineuser中
-                List<SecRoleDTO> roles = secUserService.getAllPrivilegeByUserName(userInfo.getUsername());
-                userInfo.getUser().setRoles(roles);
-                //存储信息到redis中
-                onlineUserService.insert(userInfo, token);
-                //启用 session
-//                HttpSession session = request.getSession(true);
-//                session.setAttribute(session.getId(), token);
-                //验证成功返回token
-                return new ResponseEntity<>(ResponseVO.success(token), HttpStatus.OK);
-            } catch (BadCredentialsException | InternalAuthenticationServiceException e) {
-                return new ResponseEntity<>(
-                        ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                                I18nUtil.get("response.error.login.password"),
-                                ErrorShowTypeEnum.ERROR_MESSAGE), HttpStatus.OK);
-            }
-        } else {
-            return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.authCode"), ErrorShowTypeEnum.ERROR_MESSAGE),
-                    HttpStatus.OK);
-        }
+    public ResponseEntity<ResponseVO> login(@Validated @RequestBody SecLoginParam param, HttpServletRequest request) {
+        ResponseVO responseVO = secAuthenticateService.login(request, param);
+        return new ResponseEntity<>(responseVO, HttpStatus.OK);
     }
 
     @AnonymousAccess
     @PostMapping("/user/logout")
     @Operation(summary = "用户登出", description = "用户登出接口")
-    public ResponseEntity<ResponseVO> logout(HttpServletRequest request, String token) {
-        if (token != null) {
-            this.onlineUserService.logoutByToken(token);
-        }
-//        HttpSession session = request.getSession(false);
-//        if (session != null) {
-//            session.invalidate();
-//        }
+    public ResponseEntity<ResponseVO> logout(String token) {
+        secAuthenticateService.logout(token);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
@@ -298,8 +232,7 @@ public class SecUserController {
     /**
      * 用户注册
      *
-     * @param registerInfo       用户注册信息
-     * @param httpServletRequest HttpServletRequest
+     * @param registerInfo 用户注册信息
      * @return OperateInfo
      */
     @Logging

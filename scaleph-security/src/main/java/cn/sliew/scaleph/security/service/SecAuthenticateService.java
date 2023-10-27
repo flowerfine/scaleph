@@ -19,10 +19,10 @@
 package cn.sliew.scaleph.security.service;
 
 import cn.sliew.scaleph.security.service.dto.SecCaptchaDTO;
-import cn.sliew.scaleph.security.service.param.SecCaptchaVerifyParam;
+import cn.sliew.scaleph.security.service.param.SecLoginParam;
+import cn.sliew.scaleph.system.model.ResponseVO;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public interface SecAuthenticateService {
 
@@ -30,8 +30,8 @@ public interface SecAuthenticateService {
 
     boolean verityCaptcha(String uuid, String authCode);
 
-    String login(HttpServletRequest request, HttpServletResponse response, String username, String password, Boolean rememberMe);
+    ResponseVO login(HttpServletRequest request, SecLoginParam param);
 
-    boolean logout(HttpServletRequest request, HttpServletResponse response);
+    void logout(String token);
 
 }

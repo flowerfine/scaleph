@@ -1,6 +1,5 @@
 package cn.sliew.scaleph.security.config;
 
-import cn.sliew.scaleph.security.authentication.CustomUsernamePasswordAuthenticateFilter;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.HttpSecurityBuilder;
 import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;

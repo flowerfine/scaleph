@@ -23,7 +23,6 @@ import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.util.SpringApplicationContextUtil;
 import cn.sliew.scaleph.security.authentication.CustomAccessDeniedHandler;
 import cn.sliew.scaleph.security.authentication.CustomAuthenticationEntryPoint;
-import cn.sliew.scaleph.security.config.AuthenticateConfigurer;
 import cn.sliew.scaleph.security.config.TokenConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
@@ -34,6 +33,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -56,7 +56,7 @@ import java.util.Set;
  * https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
  */
 @Configuration
-@EnableWebSecurity(debug = false)
+@EnableWebSecurity
 @EnableRedisHttpSession(redisNamespace = "${spring.application.name}")
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfig {
@@ -70,17 +70,16 @@ public class WebSecurityConfig {
 
     /**
      * BCryptPasswordEncoder 自带加盐功能。密钥迭代次数为 2^strength。strength 区间为 4~31，默认 10
-     * 这里随便改个默认值
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(23);
+        return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public HttpSessionEventPublisher httpSessionEventPublisher() {
-        return new HttpSessionEventPublisher();
-    }
+//    @Bean
+//    public HttpSessionEventPublisher httpSessionEventPublisher() {
+//        return new HttpSessionEventPublisher();
+//    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -114,25 +113,17 @@ public class WebSecurityConfig {
                 //fixme 表单登陆不能用于前后端分离模式下的登陆
                 //fixme 如果要实现前后端分离，使用 json 获取登陆信息，需要自定义拦截器
                 .formLogin().disable()
-//                    .apply(new AuthenticateConfigurer<>())
-//                    .loginProcessingUrl("/api/user/login") // 服务端登陆接口
-//                .usernameParameter("userName")
-//                .passwordParameter("password")
-//                .successHandler(null)
-//                .failureHandler(null)
-//                    .permitAll()
-//                .and()
 
 //                .rememberMe()
                 // 用于散列的值，随便填写即可
-//                .key("rememberMe")
+//                .key("remember")
                 // remember-me 将信息存入 cookie，如果用户拿到 cookie 里面的信息，则可以直接绕过登陆
                 // PersistentTokenRepository 记录 remember-me cookie 生成时的地址，防止攻击者使用用户 cookie 绕过登陆
 //                .tokenRepository(new JdbcTokenRepositoryImpl())
 //                .tokenValiditySeconds((int) TimeUnit.HOURS.toSeconds(16L))
 //                .and()
 
-                // todo 注销
+                // fixme 注销
 //                .logout()
 //                .logoutUrl("/logout")
 //                .deleteCookies()
@@ -165,19 +156,20 @@ public class WebSecurityConfig {
                 .and()
 
                 // session
-//                .sessionManagement()
-//                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                    // 同一个用户最多有 1 个 session，可达成后面登陆会自动踢掉前面的登陆
+                .sessionManagement()
+                    // 不创建 session
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    // 同一个用户最多有 1 个 session，可达成后面登陆会自动踢掉前面的登陆
 //                    .maximumSessions(1)
-//                    // 在最多有 1 个 session 存在的限制下，默认的是后面登陆会自动踢掉前面的登陆
-//                    // 如果要达成已经登陆后，后面无法登陆的效果，则通过如下配置即可
-//                    // 加上这个限制后，需设置 HttpSessionEventPublisher 监听 session 时间，
-//                    // 发布 session 的创建、销毁时间，触发 spring-security 内部的机制
+                    // 在最多有 1 个 session 存在的限制下，默认的是后面登陆会自动踢掉前面的登陆
+                    // 如果要达成已经登陆后，后面无法登陆的效果，则通过如下配置即可
+                    // 加上这个限制后，需设置 HttpSessionEventPublisher 监听 session 时间，
+                    // 发布 session 的创建、销毁时间，触发 spring-security 内部的机制
 //                    .maxSessionsPreventsLogin(true)
 //                    .and()
-//                    // session 固定攻击
+                    // session 固定攻击
 //                    .sessionFixation().migrateSession()
-//                .and()
+                .and()
 
                 // u_token
                 .apply(tokenConfigurer)
@@ -190,7 +182,7 @@ public class WebSecurityConfig {
      * fix When allowCredentials is true, allowedOrigins cannot contain the special value "*" since that cannot be set on the "Access-Control-Allow-Origin" response header.
      * To allow credentials to a set of origins, list them explicitly or consider using "allowedOriginPatterns" instead
      */
-//    @Bean
+    @Bean
     public CorsFilter corsFilter() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
