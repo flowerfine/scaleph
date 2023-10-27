@@ -77,16 +77,16 @@ const TreeNode: React.FC<TreeNodeProps> = ({
   };
 
   const iconObject = {
-    table: 'https://s.xinc818.com/files/webcill227c735hbwl0/目录.svg',
-    column: 'https://s.xinc818.com/files/webcill3pz8k535lucd/分类.svg',
-    threeLevel: 'https://s.xinc818.com/files/webcill3pomg35sj7e3/柜子.svg',
-    icon: 'https://s.xinc818.com/files/webcill22cm8i9evk54/24gl-folderMinus (2).svg',
-    unfoldIcon: 'https://s.xinc818.com/files/webcill22dacyr0kmrk/24gl-folderOpen.svg',
+    table: '/images/EditorResult/目录.svg',
+    column: '/images/EditorResult/分类.svg',
+    threeLevel: '/images/EditorResult/柜子.svg',
+    icon: '/images/EditorResult/folderMinus.svg',
+    unfoldIcon: '/images/EditorResult/folderOpen.svg',
   };
 
   const recognizeIcon = (treeNodeType: TreeNodeType) => {
     if (treeNodeType === TreeNodeType.DATA_SOURCE) {
-      return 'https://s.xinc818.com/files/webcill0mnbh0t7hz95/刷新.svg';
+      return '/images/EditorResult/刷新.svg';
     } else {
       return treeNodeType
         ? iconObject[treeNodeType]
@@ -130,7 +130,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({
                 className={classnames(styles.arrowsIcon, {
                   [styles.rotateArrowsIcon]: showChildren,
                 })}
-                src="https://s.xinc818.com/files/webcill20nstumfa3vs/向下.svg"
+                src="/images/EditorResult/向下.svg"
               />
             </div>
           )}

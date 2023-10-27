@@ -98,7 +98,7 @@ const EditorRightResult: React.FC = () => {
           <div className={styles.bottomIcon}>
             <img
               style={{ width: 12, height: 13 }}
-              src="https://s.xinc818.com/files/webcilkl00h48b0mc6z/成功.svg"
+              src="/images/EditorResult/成功.svg"
               alt="Success"
             />
             <span>{item?.jobID}</span>

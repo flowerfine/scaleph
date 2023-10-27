@@ -131,10 +131,10 @@ const RenderTableBox: React.FC = () => {
               <div className={styles.modelName}>Table</div>
               <div className={styles.iconBox}>
                 <div className={styles.refreshIcon} onClick={() => refreshTableList()}>
-                  <img src="https://s.xinc818.com/files/webcill0mnbh0t7hz95/刷新.svg" />
+                  <img src="/images/EditorResult/刷新.svg" />
                 </div>
                 <div className={styles.searchIcon} onClick={() => openSearch()}>
-                  <img src="https://s.xinc818.com/files/webcill23gnulb18o7z/搜索.svg" />
+                  <img src="/images/EditorResult/搜索.svg" />
                 </div>
               </div>
             </div>
