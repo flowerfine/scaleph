@@ -18,85 +18,92 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services.impl;
 
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkSqlGatewayOperation;
-import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkSqlGatewayOperationMapper;
-import cn.sliew.scaleph.engine.sql.gateway.services.OperationService;
-import cn.sliew.scaleph.engine.sql.gateway.services.SessionService;
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.FlinkSqlGatewayOperation;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import org.apache.commons.lang3.EnumUtils;
-import org.apache.flink.api.common.JobID;
+import java.lang.reflect.Field;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
+
 import org.apache.flink.table.catalog.ResolvedSchema;
 import org.apache.flink.table.gateway.api.operation.OperationHandle;
-import org.apache.flink.table.gateway.api.operation.OperationStatus;
 import org.apache.flink.table.gateway.api.results.OperationInfo;
 import org.apache.flink.table.gateway.api.results.ResultSet;
 import org.apache.flink.table.gateway.api.session.SessionHandle;
 import org.apache.flink.table.gateway.api.utils.SqlGatewayException;
+import org.apache.flink.table.gateway.service.context.SessionContext;
+import org.apache.flink.table.gateway.service.operation.OperationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
-import java.util.UUID;
-import java.util.concurrent.Callable;
+import cn.sliew.scaleph.engine.sql.gateway.services.OperationService;
+import cn.sliew.scaleph.engine.sql.gateway.services.SessionService;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.FlinkSqlGatewaySession;
 
 @Service
 public class OperationServiceImpl implements OperationService {
 
+    private final SessionService sessionService;
+
     @Autowired
-    private SessionService sessionService;
-    @Autowired
-    private WsFlinkSqlGatewayOperationMapper wsFlinkSqlGatewayOperationMapper;
-
-    @Override
-    public OperationHandle submitOperation(SessionHandle sessionHandle, Callable<ResultSet> executor) throws SqlGatewayException {
-        return null;
+    public OperationServiceImpl(SessionService sessionService) {
+        this.sessionService = sessionService;
     }
 
     @Override
-    public void cancelOperation(SessionHandle sessionHandle, OperationHandle operationHandle) throws SqlGatewayException {
-
-    }
-
-    @Override
-    public void closeOperation(SessionHandle sessionHandle, OperationHandle operationHandle) throws SqlGatewayException {
-
-    }
-
-    @Override
-    public OperationInfo getOperationInfo(SessionHandle sessionHandle, OperationHandle operationHandle) throws SqlGatewayException {
-        return null;
-    }
-
-    @Override
-    public ResolvedSchema getOperationResultSchema(SessionHandle sessionHandle, OperationHandle operationHandle) throws SqlGatewayException {
-        return null;
-    }
-
-    private FlinkSqlGatewayOperation getOperation(SessionHandle sessionHandle, OperationHandle operationHandle) {
-        LambdaQueryWrapper<WsFlinkSqlGatewayOperation> queryWrapper = Wrappers.lambdaQuery(WsFlinkSqlGatewayOperation.class)
-                .eq(WsFlinkSqlGatewayOperation::getSessionHandler, sessionHandle.toString())
-                .eq(WsFlinkSqlGatewayOperation::getOperationHandler, operationHandle.toString());
-
-        WsFlinkSqlGatewayOperation record = wsFlinkSqlGatewayOperationMapper.selectOne(queryWrapper);
-        if (record == null) {
-            throw new SqlGatewayException(
-                    String.format("Can not find the submitted operation with the %s.", operationHandle));
+    public Set<OperationInfo> listOperations(SessionHandle sessionHandle) throws SqlGatewayException {
+        SessionContext sessionContext = sessionService.getSession(sessionHandle).getSessionContext();
+        try {
+            OperationManager operationManager = sessionContext.getOperationManager();
+            Class<? extends OperationManager> operationManagerClass = operationManager.getClass();
+            Field field = operationManagerClass.getDeclaredField("submittedOperations");
+            field.setAccessible(true);
+            Map<OperationHandle, OperationManager.Operation> map =
+                    (Map<OperationHandle, OperationManager.Operation>) field.get(operationManager);
+            return map.values().stream()
+                    .map(OperationManager.Operation::getOperationInfo)
+                    .collect(Collectors.toSet());
+        } catch (Exception e) {
+            throw new SqlGatewayException(e);
         }
-        return convertOperation(record);
     }
 
-    private FlinkSqlGatewayOperation convertOperation(WsFlinkSqlGatewayOperation record) {
-        FlinkSqlGatewayOperation operation = new FlinkSqlGatewayOperation();
-        operation.setSessionHandle(new SessionHandle(UUID.fromString(record.getSessionHandler())));
-        operation.setOperationHandle(new OperationHandle(UUID.fromString(record.getOperationHandler())));
-        operation.setOperationStatus(EnumUtils.getEnum(OperationStatus.class, record.getOperationStatus()));
-        operation.setOperationError(record.getOperationError());
-        if (StringUtils.hasText(record.getJobId())) {
-            operation.setJobID(JobID.fromHexString(record.getJobId()));
-        }
-        operation.setIsQuery(record.getIsQuery());
-        return operation;
+    @Override
+    public OperationHandle submitOperation(SessionHandle sessionHandle, Callable<ResultSet> executor)
+            throws SqlGatewayException {
+        FlinkSqlGatewaySession session = sessionService.getSession(sessionHandle);
+        SessionContext sessionContext = session.getSessionContext();
+        return sessionContext.getOperationManager().submitOperation(executor);
+    }
+
+    @Override
+    public void cancelOperation(SessionHandle sessionHandle, OperationHandle operationHandle)
+            throws SqlGatewayException {
+        FlinkSqlGatewaySession session = sessionService.getSession(sessionHandle);
+        SessionContext sessionContext = session.getSessionContext();
+        sessionContext.getOperationManager().cancelOperation(operationHandle);
+    }
+
+    @Override
+    public void closeOperation(SessionHandle sessionHandle, OperationHandle operationHandle)
+            throws SqlGatewayException {
+        FlinkSqlGatewaySession session = sessionService.getSession(sessionHandle);
+        SessionContext sessionContext = session.getSessionContext();
+        sessionContext.getOperationManager().closeOperation(operationHandle);
+    }
+
+    @Override
+    public OperationInfo getOperationInfo(SessionHandle sessionHandle, OperationHandle operationHandle)
+            throws SqlGatewayException {
+        FlinkSqlGatewaySession session = sessionService.getSession(sessionHandle);
+        SessionContext sessionContext = session.getSessionContext();
+        return sessionContext.getOperationManager().getOperationInfo(operationHandle);
+    }
+
+    @Override
+    public ResolvedSchema getOperationResultSchema(SessionHandle sessionHandle, OperationHandle operationHandle)
+            throws Exception {
+        FlinkSqlGatewaySession session = sessionService.getSession(sessionHandle);
+        SessionContext sessionContext = session.getSessionContext();
+        return sessionContext.getOperationManager().getOperationResultSchema(operationHandle);
     }
 }

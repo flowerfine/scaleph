@@ -18,11 +18,12 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import java.util.Map;
+
 import org.apache.flink.table.functions.FunctionKind;
 
-import java.util.Map;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
 
 @Data
 @EqualsAndHashCode
@@ -35,7 +36,8 @@ public class FunctionInfo {
     @Schema(description = "函数 名称")
     private String functionName;
 
-    @Schema(description = "函数 类型",
+    @Schema(
+            description = "函数 类型",
             allowableValues = {"SCALAR", "TABLE", "ASYNC_TABLE", "AGGREGATE", "TABLE_AGGREGATE", "OTHER"})
     private FunctionKind functionKind;
 

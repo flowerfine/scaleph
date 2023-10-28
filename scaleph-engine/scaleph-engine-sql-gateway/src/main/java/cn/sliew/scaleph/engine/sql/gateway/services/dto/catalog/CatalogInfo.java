@@ -18,11 +18,11 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services.dto.catalog;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-
 import java.util.Map;
 import java.util.Set;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
 
 @Data
 @EqualsAndHashCode

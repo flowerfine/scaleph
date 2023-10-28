@@ -1,7 +1,7 @@
 import { compareStrings } from '@/pages/Project/Workspace/Artifact/Sql/CodeEditor/components/sort';
 import { Editor } from '@monaco-editor/react';
 import { ArtColumn, BaseTable, features, useTablePipeline } from 'ali-react-table';
-import { Button, message, Modal } from 'antd';
+import { Button, message, Modal, Typography } from 'antd';
 import React, { useEffect, useMemo, useState } from 'react';
 import styles from './index.less';
 
@@ -11,6 +11,7 @@ interface IViewTableCellData {
 }
 
 const EditorRightResultTable: React.FC = ({ result, lastOneData }: any) => {
+  const { Paragraph, Text } = Typography;
   const [viewTableCellData, setViewTableCellData] = useState<IViewTableCellData | null>(null);
   const [headerList, setHeaderList] = useState([]);
   const [dataList, setDataList] = useState([]);
@@ -60,17 +61,22 @@ const EditorRightResultTable: React.FC = ({ result, lastOneData }: any) => {
           render: (value: any, row: any, rowIndex: number) => {
             return (
               <div className={styles.tableItem}>
-                <div>{value}</div>
+                <Paragraph ellipsis={{ rows: 1 }}>
+                  {/* 将数组或者对象类型转换成字符串类型 */}
+                  {Array.isArray(value) || typeof value === 'object'
+                    ? JSON.stringify(value)
+                    : value}
+                </Paragraph>
                 <div className={styles.tableHoverBox}>
                   <img
-                    src="https://s.xinc818.com/files/webcilklz16y4pxm3zv/位图 (1).svg"
+                    src="/images/EditorResult/查看.svg"
                     alt="查看"
                     onClick={() => {
                       viewTableCell({ name, value });
                     }}
                   />
                   <img
-                    src="https://s.xinc818.com/files/webcilklz19gz7rldus/复制_o.svg"
+                    src="/images/EditorResult/复制.svg"
                     alt="复制"
                     onClick={() => {
                       copyTableCell({ name, value });

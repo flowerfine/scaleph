@@ -18,12 +18,12 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services;
 
+import java.util.List;
+
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.table.gateway.api.operation.OperationHandle;
 import org.apache.flink.table.gateway.api.session.SessionHandle;
 import org.apache.flink.table.gateway.api.utils.SqlGatewayException;
-
-import java.util.List;
 
 public interface SqlService {
 
@@ -37,7 +37,8 @@ public interface SqlService {
      * @param position      position of where need completion hints.
      * @return completion hints.
      */
-    List<String> completeStatement(SessionHandle sessionHandle, String statement, int position) throws SqlGatewayException;
+    List<String> completeStatement(SessionHandle sessionHandle, String statement, int position)
+            throws SqlGatewayException;
 
     /**
      * Execute the submitted statement.
@@ -49,7 +50,30 @@ public interface SqlService {
      * @param executionConfig    execution config for the statement.
      * @return handle to identify the operation.
      */
-    OperationHandle executeStatement(SessionHandle sessionHandle, String statement, long executionTimeoutMs, Configuration executionConfig) throws SqlGatewayException;
+    OperationHandle executeStatement(
+            SessionHandle sessionHandle, String statement, long executionTimeoutMs, Configuration executionConfig)
+            throws SqlGatewayException;
 
-    OperationHandle previewStatement(SessionHandle sessionHandle, String statement, long executionTimeoutMs, Configuration executionConfig) throws SqlGatewayException;
+    OperationHandle previewStatement(
+            SessionHandle sessionHandle, String statement, long executionTimeoutMs, Configuration executionConfig)
+            throws SqlGatewayException;
+
+    /**
+     * Preview the submitted statement.
+     *
+     * <p>NOTE</p>
+     * <p>
+     * Only `INSERT` or `SELECT` statement is supported
+     * </p>
+     *
+     * @param sessionHandle   handle to identify the session.
+     * @param statement       the SQL to execute.
+     * @param executionConfig execution config for the statement.
+     * @param limit           limitation of the rows to statement
+     * @return handle to identify the operation.
+     * @throws SqlGatewayException
+     */
+    OperationHandle previewStatement(
+            SessionHandle sessionHandle, String statement, Configuration executionConfig, long limit)
+            throws SqlGatewayException;
 }

@@ -16,10 +16,11 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.environment;
 
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.FlinkSqlGatewaySession;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.internal.TableEnvironmentInternal;
 import org.apache.flink.table.gateway.service.operation.OperationExecutor;
+
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.FlinkSqlGatewaySession;
 
 /**
  * @see OperationExecutor#getTableEnvironment()
