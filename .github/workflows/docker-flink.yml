@@ -22,11 +22,11 @@ on:
       flinkVersion:
         description: 'flink version'
         required: true
-        default: '1.16.1'
+        default: '1.18.0'
         type: choice
         options:
-          - 1.17.0
-          - 1.16.1
+          - 1.18.0
+          - 1.17.1
 env:
   HUB: ghcr.io/flowerfine/scaleph_flink
   FLINK_VERSION: ${{ inputs.flinkVersion }}
