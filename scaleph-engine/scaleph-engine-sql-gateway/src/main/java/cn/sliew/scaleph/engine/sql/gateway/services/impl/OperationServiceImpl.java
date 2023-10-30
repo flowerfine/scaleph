@@ -99,9 +99,13 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public ResolvedSchema getOperationResultSchema(SessionHandle sessionHandle, OperationHandle operationHandle)
-            throws Exception {
+            throws SqlGatewayException {
         FlinkSqlGatewaySession session = sessionService.getSession(sessionHandle);
         SessionContext sessionContext = session.getSessionContext();
-        return sessionContext.getOperationManager().getOperationResultSchema(operationHandle);
+        try {
+            return sessionContext.getOperationManager().getOperationResultSchema(operationHandle);
+        } catch (Exception e) {
+            throw new SqlGatewayException(e);
+        }
     }
 }

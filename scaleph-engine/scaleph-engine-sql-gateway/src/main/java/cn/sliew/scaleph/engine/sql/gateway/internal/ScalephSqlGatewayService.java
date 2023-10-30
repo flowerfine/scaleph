@@ -33,17 +33,38 @@ import org.apache.flink.table.gateway.api.results.*;
 import org.apache.flink.table.gateway.api.session.SessionEnvironment;
 import org.apache.flink.table.gateway.api.session.SessionHandle;
 import org.apache.flink.table.gateway.api.utils.SqlGatewayException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import cn.sliew.scaleph.engine.sql.gateway.services.CatalogService;
+import cn.sliew.scaleph.engine.sql.gateway.services.OperationService;
+import cn.sliew.scaleph.engine.sql.gateway.services.ResultFetcherService;
 import cn.sliew.scaleph.engine.sql.gateway.services.SessionService;
+import cn.sliew.scaleph.engine.sql.gateway.services.SqlService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Component
 public class ScalephSqlGatewayService implements SqlGatewayService {
 
-    private SessionService sessionService;
+    private final SessionService sessionService;
+    private final CatalogService catalogService;
+    private final OperationService operationService;
+    private final SqlService sqlService;
+    private final ResultFetcherService resultFetcherService;
 
-    public ScalephSqlGatewayService(SessionService sessionService) {
+    @Autowired
+    public ScalephSqlGatewayService(
+            SessionService sessionService,
+            CatalogService catalogService,
+            OperationService operationService,
+            SqlService sqlService,
+            ResultFetcherService resultFetcherService) {
         this.sessionService = sessionService;
+        this.catalogService = catalogService;
+        this.operationService = operationService;
+        this.sqlService = sqlService;
+        this.resultFetcherService = resultFetcherService;
     }
 
     @Override
@@ -75,91 +96,102 @@ public class ScalephSqlGatewayService implements SqlGatewayService {
     @Override
     public OperationHandle submitOperation(SessionHandle sessionHandle, Callable<ResultSet> callable)
             throws SqlGatewayException {
-        return null;
+        return operationService.submitOperation(sessionHandle, callable);
     }
 
     @Override
     public void cancelOperation(SessionHandle sessionHandle, OperationHandle operationHandle)
-            throws SqlGatewayException {}
+            throws SqlGatewayException {
+        operationService.cancelOperation(sessionHandle, operationHandle);
+    }
 
     @Override
     public void closeOperation(SessionHandle sessionHandle, OperationHandle operationHandle)
-            throws SqlGatewayException {}
+            throws SqlGatewayException {
+        operationService.closeOperation(sessionHandle, operationHandle);
+    }
 
     @Override
     public OperationInfo getOperationInfo(SessionHandle sessionHandle, OperationHandle operationHandle)
             throws SqlGatewayException {
-        return null;
+        return operationService.getOperationInfo(sessionHandle, operationHandle);
     }
 
     @Override
     public ResolvedSchema getOperationResultSchema(SessionHandle sessionHandle, OperationHandle operationHandle)
             throws SqlGatewayException {
-        return null;
+        return operationService.getOperationResultSchema(sessionHandle, operationHandle);
     }
 
     @Override
-    public OperationHandle executeStatement(SessionHandle sessionHandle, String s, long l, Configuration configuration)
+    public OperationHandle executeStatement(
+            SessionHandle sessionHandle, String statement, long executionTimeoutMs, Configuration configuration)
             throws SqlGatewayException {
-        return null;
+        return sqlService.executeStatement(sessionHandle, statement, executionTimeoutMs, configuration);
     }
 
     @Override
-    public ResultSet fetchResults(SessionHandle sessionHandle, OperationHandle operationHandle, long l, int i)
+    public ResultSet fetchResults(SessionHandle sessionHandle, OperationHandle operationHandle, long token, int maxRows)
             throws SqlGatewayException {
-        return null;
+        return resultFetcherService.fetchResults(sessionHandle, operationHandle, token, maxRows);
     }
 
     @Override
     public ResultSet fetchResults(
-            SessionHandle sessionHandle, OperationHandle operationHandle, FetchOrientation fetchOrientation, int i)
+            SessionHandle sessionHandle,
+            OperationHandle operationHandle,
+            FetchOrientation fetchOrientation,
+            int maxRows)
             throws SqlGatewayException {
-        return null;
+        return resultFetcherService.fetchResults(sessionHandle, operationHandle, fetchOrientation, maxRows);
     }
 
     @Override
     public String getCurrentCatalog(SessionHandle sessionHandle) throws SqlGatewayException {
-        return null;
+        return catalogService.getCurrentCatalog(sessionHandle);
     }
 
     @Override
     public Set<String> listCatalogs(SessionHandle sessionHandle) throws SqlGatewayException {
-        return null;
+        return catalogService.listCatalogs(sessionHandle);
     }
 
     @Override
-    public Set<String> listDatabases(SessionHandle sessionHandle, String s) throws SqlGatewayException {
-        return null;
+    public Set<String> listDatabases(SessionHandle sessionHandle, String catalogName) throws SqlGatewayException {
+        return catalogService.listDatabases(sessionHandle, catalogName);
     }
 
     @Override
     public Set<TableInfo> listTables(
-            SessionHandle sessionHandle, String s, String s1, Set<CatalogBaseTable.TableKind> set)
+            SessionHandle sessionHandle,
+            String catalogName,
+            String databaseName,
+            Set<CatalogBaseTable.TableKind> tableKinds)
             throws SqlGatewayException {
-        return null;
+        return catalogService.listTables(sessionHandle, catalogName, databaseName, tableKinds);
     }
 
     @Override
-    public ResolvedCatalogBaseTable<?> getTable(SessionHandle sessionHandle, ObjectIdentifier objectIdentifier)
+    public ResolvedCatalogBaseTable<?> getTable(SessionHandle sessionHandle, ObjectIdentifier tableIdentifier)
             throws SqlGatewayException {
-        return null;
+        return catalogService.getTable(sessionHandle, tableIdentifier);
     }
 
     @Override
-    public Set<FunctionInfo> listUserDefinedFunctions(SessionHandle sessionHandle, String s, String s1)
-            throws SqlGatewayException {
-        return null;
+    public Set<FunctionInfo> listUserDefinedFunctions(
+            SessionHandle sessionHandle, String catalogName, String databaseName) throws SqlGatewayException {
+        return catalogService.listUserDefinedFunctions(sessionHandle, catalogName, databaseName);
     }
 
     @Override
     public Set<FunctionInfo> listSystemFunctions(SessionHandle sessionHandle) throws SqlGatewayException {
-        return null;
+        return catalogService.listSystemFunctions(sessionHandle);
     }
 
     @Override
     public FunctionDefinition getFunctionDefinition(
-            SessionHandle sessionHandle, UnresolvedIdentifier unresolvedIdentifier) throws SqlGatewayException {
-        return null;
+            SessionHandle sessionHandle, UnresolvedIdentifier functionIdentifier) throws SqlGatewayException {
+        return catalogService.getFunctionDefinition(sessionHandle, functionIdentifier);
     }
 
     @Override
@@ -168,7 +200,8 @@ public class ScalephSqlGatewayService implements SqlGatewayService {
     }
 
     @Override
-    public List<String> completeStatement(SessionHandle sessionHandle, String s, int i) throws SqlGatewayException {
-        return null;
+    public List<String> completeStatement(SessionHandle sessionHandle, String statement, int position)
+            throws SqlGatewayException {
+        return sqlService.completeStatement(sessionHandle, statement, position);
     }
 }
