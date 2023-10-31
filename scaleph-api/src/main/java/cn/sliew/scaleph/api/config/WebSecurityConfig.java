@@ -23,6 +23,8 @@ import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.util.SpringApplicationContextUtil;
 import cn.sliew.scaleph.security.authentication.CustomAccessDeniedHandler;
 import cn.sliew.scaleph.security.authentication.CustomAuthenticationEntryPoint;
+import cn.sliew.scaleph.security.authorization.CustomAuthorizationManager;
+import cn.sliew.scaleph.security.authorization.CustomRequestMatcher;
 import cn.sliew.scaleph.security.config.TokenConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
@@ -37,7 +39,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.cors.CorsConfiguration;
@@ -68,8 +69,14 @@ public class WebSecurityConfig {
     @Autowired
     private CustomAccessDeniedHandler customAccessDeniedHandler;
 
+    @Autowired
+    private CustomRequestMatcher customRequestMatcher;
+    @Autowired
+    private CustomAuthorizationManager customAuthorizationManager;
+
     /**
      * BCryptPasswordEncoder 自带加盐功能。密钥迭代次数为 2^strength。strength 区间为 4~31，默认 10
+     * 数据库存入的 sys_admin 用户密码即为使用这个加密的，对这里做任何调整，都要调整数据库中的密码
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -102,8 +109,6 @@ public class WebSecurityConfig {
         http
                 //禁用cors
                 .csrf().disable()
-
-                //.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
 
                 //禁用iframe
                 .headers()
@@ -147,6 +152,7 @@ public class WebSecurityConfig {
                     .antMatchers("/ui/**").permitAll()
                     //放行options请求
                     .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    // todo 自定义请求拦截器
                     .anyRequest().authenticated()
                 .and()
 
