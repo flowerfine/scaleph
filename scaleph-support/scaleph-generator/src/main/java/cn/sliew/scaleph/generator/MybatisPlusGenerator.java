@@ -54,7 +54,7 @@ public class MybatisPlusGenerator {
     /**
      * just add table names here and run the {@link #main(String[])} method.
      */
-    private static final String[] TABLES = {"dataservice_result_mapping", "dataservice_parameter_mapping"};
+    private static final String[] TABLES = {"sec_resource_web"};
 
     public static void main(String[] args) {
         //自动生成配置
@@ -108,8 +108,7 @@ public class MybatisPlusGenerator {
             .serviceImpl("service.impl")
             .mapper("dao.mapper")
             .xml("dao.mapper")
-            .controller("api.controller")
-            .other("other");
+            .controller("api.controller");
 //                .pathInfo(Collections.singletonMap(OutputFile.mapperXml, "/Users/wangqi/Downloads/generator"));
     }
 
