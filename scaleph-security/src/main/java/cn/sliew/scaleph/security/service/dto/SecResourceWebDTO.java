@@ -16,44 +16,43 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.security;
+package cn.sliew.scaleph.security.service.dto;
 
 import cn.sliew.scaleph.common.dict.security.ResourceType;
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.sliew.scaleph.system.model.BaseDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
  * 资源-web
  */
 @Data
-@TableName("sec_resource_web")
-public class SecResourceWeb extends BaseDO {
+@Schema(name = "SecResourceWeb对象", description = "资源-web")
+public class SecResourceWebDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("`type`")
+    @Schema(description = "资源类型。导航，菜单，页面，按钮")
     private ResourceType type;
 
-    @TableField("pid")
+    @Schema(description = "上级资源id")
     private Long pid;
     
-    @TableField("`name`")
+    @Schema(description = "前端名称")
     private String name;
 
-    @TableField("`path`")
+    @Schema(description = "前端路由路径")
     private String path;
 
-    @TableField("redirect")
+    @Schema(description = "前端重定向路径")
     private String redirect;
 
-    @TableField("layout")
+    @Schema(description = "前端全局布局显示。只在一级生效")
     private Boolean layout;
 
-    @TableField("icon")
+    @Schema(description = "前端 icon")
     private String icon;
 
-    @TableField("`component`")
+    @Schema(description = "前端组件")
     private String component;
 }

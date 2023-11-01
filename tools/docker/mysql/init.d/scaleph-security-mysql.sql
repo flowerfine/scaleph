@@ -288,7 +288,6 @@ create table sec_resource_web
     id          bigint       not null auto_increment comment '自增主键',
     type        varchar(128) not null comment '资源类型。导航，菜单，页面，按钮',
     pid         bigint       not null default '0' comment '上级资源id',
-    level       int          not null default '1' comment '层级',
     code        varchar(128) not null comment '编码',
     name        varchar(128) not null comment '前端名称',
     path        varchar(128) not null comment '前端路由路径',

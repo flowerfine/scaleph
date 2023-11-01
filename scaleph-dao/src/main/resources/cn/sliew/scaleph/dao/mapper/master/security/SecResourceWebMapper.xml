@@ -28,7 +28,6 @@
         <result column="update_time" property="updateTime" />
         <result column="type" property="type" />
         <result column="pid" property="pid" />
-        <result column="level" property="level" />
         <result column="name" property="name" />
         <result column="path" property="path" />
         <result column="redirect" property="redirect" />
@@ -44,7 +43,7 @@
         create_time,
         editor,
         update_time,
-        `type`, pid, `level`, `name`, `path`, redirect, layout, icon, `component`
+        `type`, pid, `name`, `path`, redirect, layout, icon, `component`
     </sql>
 
 </mapper>

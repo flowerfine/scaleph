@@ -95,7 +95,7 @@ public class SecAuthenticateServiceImpl implements SecAuthenticateService {
 
     @Override
     public ResponseVO login(HttpServletRequest request, SecLoginParam param) {
-        if (verityCaptcha(param.getUuid(), param.getAuthCode())) {
+        if (verityCaptcha(param.getUuid(), param.getAuthCode()) == false) {
             return ResponseVO.error(
                     ResponseCodeEnum.ERROR_CUSTOM.getCode(),
                     I18nUtil.get("response.error.authCode"),
