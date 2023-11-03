@@ -16,27 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
+package cn.sliew.scaleph.security.service.convert;
 
-/**
- * Enumeration for supported Flink versions.
- */
-public enum FlinkVersion {
-    v1_15,
-    v1_16,
-    v1_17,
-    v1_18;
+import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.dao.entity.master.security.SecResourceWeb;
+import cn.sliew.scaleph.security.service.dto.SecResourceWebDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
-    public boolean isNewerVersionThan(FlinkVersion otherVersion) {
-        return this.ordinal() > otherVersion.ordinal();
-    }
+@Mapper
+public interface SecResourceWebConvert extends BaseConvert<SecResourceWeb, SecResourceWebDTO> {
 
-    /**
-     * Returns the current version.
-     *
-     * @return The current version.
-     */
-    public static FlinkVersion current() {
-        return values()[values().length - 1];
-    }
+    SecResourceWebConvert INSTANCE = Mappers.getMapper(SecResourceWebConvert.class);
 }

@@ -16,34 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.security.config;
+package cn.sliew.scaleph.security.authorization;
 
-import cn.sliew.scaleph.security.web.TokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.DefaultSecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 
-/**
- * 配置token过滤器在用户密码过滤器之前
- *
- * @author gleiyu
- */
-@Component
-public class TokenConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
+import javax.servlet.http.HttpServletRequest;
 
-    private TokenFilter tokenFilter;
+@Component
+public class CustomRequestMatcher implements RequestMatcher {
 
     @Autowired
-    public void setTokenFilter(TokenFilter tokenFilter) {
-        this.tokenFilter = tokenFilter;
-    }
+    private SecurityValidateService securityValidateService;
 
     @Override
-    public void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
-        http.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
+    public boolean matches(HttpServletRequest request) {
+        return securityValidateService.support(request);
     }
 }

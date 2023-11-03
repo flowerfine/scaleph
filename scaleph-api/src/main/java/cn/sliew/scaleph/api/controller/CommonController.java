@@ -18,13 +18,10 @@
 
 package cn.sliew.scaleph.api.controller;
 
-import cn.hutool.captcha.CaptchaUtil;
-import cn.hutool.captcha.LineCaptcha;
-import cn.hutool.core.util.RandomUtil;
 import cn.sliew.scaleph.api.annotation.AnonymousAccess;
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.cache.util.RedisUtil;
-import cn.sliew.scaleph.common.constant.Constants;
+import cn.sliew.scaleph.security.service.SecAuthenticateService;
+import cn.sliew.scaleph.security.service.dto.SecCaptchaDTO;
 import cn.sliew.scaleph.system.snowflake.UidGenerator;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,13 +33,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 /**
  * @author gleiyu
  */
@@ -52,32 +42,19 @@ import java.util.UUID;
 public class CommonController {
 
     @Autowired
-    private RedisUtil redisUtil;
-    @Autowired
     private UidGenerator defaultUidGenerator;
+    @Autowired
+    private SecAuthenticateService secAuthenticateService;
 
     /**
      * 生成验证码
-     *
-     * @param req  request
-     * @param resp response
      */
     @AnonymousAccess
     @Operation(summary = "查询验证码", description = "查询验证码信息")
     @GetMapping(path = {"/authCode"})
-    public ResponseEntity<Object> authCode(HttpServletRequest req, HttpServletResponse resp) {
-        LineCaptcha lineCaptcha =
-                CaptchaUtil.createLineCaptcha(150, 32, 5, RandomUtil.randomInt(6, 10));
-        Font font = new Font("Stencil", Font.BOLD + Font.ITALIC, 20);
-        lineCaptcha.setFont(font);
-        lineCaptcha.setBackground(new Color(246, 250, 254));
-        lineCaptcha.createCode();
-        String uuid = Constants.AUTH_CODE_KEY + UUID.randomUUID().toString();
-        redisUtil.set(uuid, lineCaptcha.getCode(), 10 * 60);
-        Map<String, Object> map = new HashMap<>(2);
-        map.put("uuid", uuid);
-        map.put("img", lineCaptcha.getImageBase64Data());
-        return new ResponseEntity<>(map, HttpStatus.OK);
+    public ResponseEntity<Object> authCode() {
+        SecCaptchaDTO captcha = secAuthenticateService.getCaptcha();
+        return new ResponseEntity<>(captcha, HttpStatus.OK);
     }
 
     @Logging

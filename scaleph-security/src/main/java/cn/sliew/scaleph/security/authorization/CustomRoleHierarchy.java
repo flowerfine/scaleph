@@ -16,27 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
+package cn.sliew.scaleph.security.authorization;
 
-/**
- * Enumeration for supported Flink versions.
- */
-public enum FlinkVersion {
-    v1_15,
-    v1_16,
-    v1_17,
-    v1_18;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 
-    public boolean isNewerVersionThan(FlinkVersion otherVersion) {
-        return this.ordinal() > otherVersion.ordinal();
-    }
+public class CustomRoleHierarchy extends RoleHierarchyImpl {
 
-    /**
-     * Returns the current version.
-     *
-     * @return The current version.
-     */
-    public static FlinkVersion current() {
-        return values()[values().length - 1];
+    public CustomRoleHierarchy() {
+        // ADMIN 自动具有 USER 具有的所有权限
+        setHierarchy("ROLE_ADMIN > ROLE_USER");
     }
 }

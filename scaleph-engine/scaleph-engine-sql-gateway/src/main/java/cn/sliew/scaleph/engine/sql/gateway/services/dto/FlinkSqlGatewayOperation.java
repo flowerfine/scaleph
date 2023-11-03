@@ -16,27 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
+package cn.sliew.scaleph.engine.sql.gateway.services.dto;
+
+import cn.sliew.scaleph.common.dict.common.YesOrNo;
+import cn.sliew.scaleph.system.model.BaseDTO;
+import lombok.Data;
+import org.apache.flink.api.common.JobID;
+import org.apache.flink.table.gateway.api.operation.OperationHandle;
+import org.apache.flink.table.gateway.api.operation.OperationStatus;
+import org.apache.flink.table.gateway.api.session.SessionHandle;
 
 /**
- * Enumeration for supported Flink versions.
+ * org.apache.flink.table.gateway.service.operation.OperationManager.Operation
  */
-public enum FlinkVersion {
-    v1_15,
-    v1_16,
-    v1_17,
-    v1_18;
+@Data
+public class FlinkSqlGatewayOperation extends BaseDTO {
 
-    public boolean isNewerVersionThan(FlinkVersion otherVersion) {
-        return this.ordinal() > otherVersion.ordinal();
-    }
-
-    /**
-     * Returns the current version.
-     *
-     * @return The current version.
-     */
-    public static FlinkVersion current() {
-        return values()[values().length - 1];
-    }
+    private SessionHandle sessionHandle;
+    private OperationHandle operationHandle;
+    private OperationStatus operationStatus;
+    private String operationError;
+    private JobID jobID;
+    private YesOrNo isQuery;
 }

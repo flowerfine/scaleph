@@ -16,27 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
+package cn.sliew.scaleph.security.service.dto;
 
-/**
- * Enumeration for supported Flink versions.
- */
-public enum FlinkVersion {
-    v1_15,
-    v1_16,
-    v1_17,
-    v1_18;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-    public boolean isNewerVersionThan(FlinkVersion otherVersion) {
-        return this.ordinal() > otherVersion.ordinal();
-    }
+@Data
+@EqualsAndHashCode
+@Schema(name = "验证码", description = "验证码")
+public class SecCaptchaDTO {
 
-    /**
-     * Returns the current version.
-     *
-     * @return The current version.
-     */
-    public static FlinkVersion current() {
-        return values()[values().length - 1];
-    }
+    @Schema(description = "验证码生成时的 uuid")
+    private String uuid;
+
+    @Schema(description = "base64 编译后的验证码图片")
+    private String img;
 }

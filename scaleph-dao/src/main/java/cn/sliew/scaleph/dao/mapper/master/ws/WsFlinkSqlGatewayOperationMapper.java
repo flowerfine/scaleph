@@ -16,27 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
+package cn.sliew.scaleph.dao.mapper.master.ws;
+
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkSqlGatewayOperation;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
- * Enumeration for supported Flink versions.
+ * <p>
+ * flink sql gateway operation Mapper 接口
+ * </p>
  */
-public enum FlinkVersion {
-    v1_15,
-    v1_16,
-    v1_17,
-    v1_18;
+@Repository
+public interface WsFlinkSqlGatewayOperationMapper extends BaseMapper<WsFlinkSqlGatewayOperation> {
 
-    public boolean isNewerVersionThan(FlinkVersion otherVersion) {
-        return this.ordinal() > otherVersion.ordinal();
-    }
-
-    /**
-     * Returns the current version.
-     *
-     * @return The current version.
-     */
-    public static FlinkVersion current() {
-        return values()[values().length - 1];
-    }
 }

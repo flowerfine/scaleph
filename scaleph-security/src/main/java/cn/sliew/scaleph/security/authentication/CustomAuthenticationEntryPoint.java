@@ -19,33 +19,31 @@
 package cn.sliew.scaleph.security.authentication;
 
 import cn.sliew.scaleph.common.util.I18nUtil;
+import cn.sliew.scaleph.security.util.WebUtil;
 import cn.sliew.scaleph.system.model.ResponseVO;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * 未登录用户访问无权限资源时候返回未鉴权信息，前端跳转登录页面
  *
  * @author gleiyu
+ * @see ExceptionTranslationFilter
  */
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+
     @Override
-    public void commence(HttpServletRequest req, HttpServletResponse resp,
-                         AuthenticationException authException) throws IOException {
-        try (PrintWriter out = resp.getWriter()) {
-            resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            ResponseVO info = ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
-                    I18nUtil.get("response.error.unauthorized"));
-            out.write(info.toString());
-            out.flush();
-        }
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException {
+        ResponseVO info = ResponseVO.error(
+                String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
+                I18nUtil.get("response.error.unauthorized"));
+        WebUtil.renderJson(response, info);
     }
 }

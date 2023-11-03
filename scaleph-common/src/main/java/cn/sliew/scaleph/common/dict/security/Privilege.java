@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.dict.flink;
+package cn.sliew.scaleph.common.dict.security;
 
 import cn.sliew.scaleph.common.dict.DictInstance;
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -26,29 +26,32 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum FlinkVersion implements DictInstance {
+public enum Privilege implements DictInstance {
 
-    V_1_15_4("1.15.4", "1.15.4"),
+    ADD("1", "新增"),
+    UPDATE("2", "修改"),
+    DELETE("3", "删除"),
+    QUERY("4", "查询"),
 
-    V_1_16_2("1.16.2", "1.16.2"),
+    UPLOAD("5", "上传"),
+    DOWNLOAD("6", "下载"),
 
-    V_1_17_1("1.17.1", "1.17.1"),
-
-    V_1_18_0("1.18.0", "1.18.0"),
+    AUTHORIZE("7", "授权"),
+    UNAUTHORIZE("8", "取消授权"),
     ;
 
     @JsonCreator
-    public static FlinkVersion of(String value) {
+    public static Privilege of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(FlinkVersion.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(Privilege.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    FlinkVersion(String value, String label) {
+    Privilege(String value, String label) {
         this.value = value;
         this.label = label;
     }

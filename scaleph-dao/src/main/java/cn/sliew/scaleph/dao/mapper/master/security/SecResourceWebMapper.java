@@ -16,27 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
+package cn.sliew.scaleph.dao.mapper.master.security;
+
+import cn.sliew.scaleph.dao.entity.master.security.SecResourceWeb;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
- * Enumeration for supported Flink versions.
+ * 资源-web Mapper 接口
  */
-public enum FlinkVersion {
-    v1_15,
-    v1_16,
-    v1_17,
-    v1_18;
+@Repository
+public interface SecResourceWebMapper extends BaseMapper<SecResourceWeb> {
 
-    public boolean isNewerVersionThan(FlinkVersion otherVersion) {
-        return this.ordinal() > otherVersion.ordinal();
-    }
-
-    /**
-     * Returns the current version.
-     *
-     * @return The current version.
-     */
-    public static FlinkVersion current() {
-        return values()[values().length - 1];
-    }
 }

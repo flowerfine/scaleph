@@ -16,27 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
+package cn.sliew.scaleph.security.session;
+
+import org.springframework.security.core.session.SessionInformation;
+
+import java.util.Date;
 
 /**
- * Enumeration for supported Flink versions.
+ * 增加默认构造器，以便和 redis 集成
  */
-public enum FlinkVersion {
-    v1_15,
-    v1_16,
-    v1_17,
-    v1_18;
+public class CustomSessionInformation extends SessionInformation {
 
-    public boolean isNewerVersionThan(FlinkVersion otherVersion) {
-        return this.ordinal() > otherVersion.ordinal();
+    public CustomSessionInformation() {
+        super(new Object(), "-1", new Date());
     }
 
-    /**
-     * Returns the current version.
-     *
-     * @return The current version.
-     */
-    public static FlinkVersion current() {
-        return values()[values().length - 1];
+    public CustomSessionInformation(Object principal, String sessionId, Date lastRequest) {
+        super(principal, sessionId, lastRequest);
     }
 }

@@ -104,7 +104,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     @Slf4j
     @Component
-    public static class WebLogInterceptor extends OncePerRequestFilter implements Ordered {
+    public static class RequestResponseCacheFilter extends OncePerRequestFilter implements Ordered {
 
         @Override
         public int getOrder() {

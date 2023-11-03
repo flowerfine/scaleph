@@ -246,7 +246,6 @@ VALUES (600012, 'padr2', '修改', '2', 600001, 'sys', 'sys');
 INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
 VALUES (6000013, 'padr3', '删除', '2', 600001, 'sys', 'sys');
 
-
 /* 角色权限关联表 */
 drop table if exists sec_role_privilege;
 create table sec_role_privilege
@@ -281,6 +280,29 @@ from sec_privilege p,
      sec_role r
 where r.`code` in ('sys_normal')
   and p.resource_type in ('0', '1');
+
+
+drop table if exists sec_resource_web;
+create table sec_resource_web
+(
+    id          bigint       not null auto_increment comment '自增主键',
+    type        varchar(128) not null comment '资源类型。导航，菜单，页面，按钮',
+    pid         bigint       not null default '0' comment '上级资源id',
+    code        varchar(128) not null comment '编码',
+    name        varchar(128) not null comment '前端名称',
+    path        varchar(128) not null comment '前端路由路径',
+    redirect    varchar(128) comment '前端重定向路径',
+    layout      tinyint comment '前端全局布局显示。只在一级生效',
+    icon        varchar(128) comment '前端 icon',
+    component   varchar(255) comment '前端组件',
+    creator     varchar(32) comment '创建人',
+    create_time datetime     not null default current_timestamp comment '创建时间',
+    editor      varchar(32) comment '修改人',
+    update_time datetime     not null default current_timestamp on update current_timestamp comment '修改时间',
+    primary key (id),
+    unique key (type, pid, name)
+) engine = innodb comment = '资源-web';
+
 /* 部门表 */
 drop table if exists sec_dept;
 create table sec_dept

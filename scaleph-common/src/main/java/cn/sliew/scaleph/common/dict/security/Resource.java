@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.dict.flink;
+package cn.sliew.scaleph.common.dict.security;
 
 import cn.sliew.scaleph.common.dict.DictInstance;
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -24,33 +24,46 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum FlinkVersion implements DictInstance {
+public enum Resource implements DictInstance {
 
-    V_1_15_4("1.15.4", "1.15.4"),
+    STUDIO(null, ResourceType.NAV, "studio", "工作台"),
+    PROJECT(null, ResourceType.NAV, "project", "项目"),
+    RESOURCE(null, ResourceType.NAV, "resource", "资源"),
+    DATASOURCE(null, ResourceType.NAV, "datasource", "数据源"),
+    META(null, ResourceType.NAV, "meta", "数据元"),
+    SYSTEM(null, ResourceType.NAV, "system", "系统管理"),
 
-    V_1_16_2("1.16.2", "1.16.2"),
-
-    V_1_17_1("1.17.1", "1.17.1"),
-
-    V_1_18_0("1.18.0", "1.18.0"),
     ;
 
     @JsonCreator
-    public static FlinkVersion of(String value) {
+    public static Resource of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(FlinkVersion.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(Resource.class, value));
     }
 
+    private Resource parent;
+    private ResourceType type;
     @EnumValue
     private String value;
     private String label;
 
-    FlinkVersion(String value, String label) {
+    Resource(Resource parent, ResourceType type, String value, String label) {
+        this.parent = parent;
+        this.type = type;
         this.value = value;
         this.label = label;
+    }
+
+    public Optional<Resource> getParent() {
+        return Optional.ofNullable(parent);
+    }
+
+    public ResourceType getType() {
+        return type;
     }
 
     @Override
@@ -61,5 +74,14 @@ public enum FlinkVersion implements DictInstance {
     @Override
     public String getLabel() {
         return label;
+    }
+
+    public String getFullValue() {
+        Optional<Resource> optional = getParent();
+        if (optional.isPresent()) {
+            return optional.get().getFullValue() + getValue();
+        } else {
+            return getValue();
+        }
     }
 }
