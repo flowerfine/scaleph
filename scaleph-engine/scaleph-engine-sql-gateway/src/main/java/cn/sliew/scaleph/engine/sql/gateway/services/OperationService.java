@@ -82,5 +82,5 @@ public interface OperationService {
      * @param operationHandle handle to identify the operation.
      */
     ResolvedSchema getOperationResultSchema(SessionHandle sessionHandle, OperationHandle operationHandle)
-            throws Exception;
+            throws SqlGatewayException;
 }
