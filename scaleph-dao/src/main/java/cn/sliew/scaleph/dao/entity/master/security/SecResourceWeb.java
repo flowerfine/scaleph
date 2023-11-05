@@ -56,4 +56,7 @@ public class SecResourceWeb extends BaseDO {
 
     @TableField("`component`")
     private String component;
+
+    @TableField("remark")
+    private String remark;
 }

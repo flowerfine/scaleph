@@ -16,29 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.security.service;
+package cn.sliew.scaleph.security.service.param;
 
-import cn.sliew.scaleph.common.dict.security.ResourceType;
-import cn.sliew.scaleph.security.service.dto.SecResourceWebDTO;
-import cn.sliew.scaleph.security.service.param.*;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.sliew.scaleph.system.model.PaginationParam;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
-public interface SecResourceWebService {
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class SecResourceWebListParam extends PaginationParam {
 
-    Page<SecResourceWebDTO> listByPage(SecResourceWebListParam param);
+    @NotNull
+    @Schema(description = "上级权限id")
+    private Long pid;
 
-    List<SecResourceWebDTO> listAll(ResourceType resourceType);
-
-    List<SecResourceWebDTO> listByPid(Long pid, String name);
-
-    int insert(SecResourceWebAddParam param);
-
-    int update(SecResourceWebUpdateParam param);
-
-    int deleteById(Long id);
-
-    int deleteBatch(List<Long> ids);
+    @Schema(description = "web resource name")
+    private String name;
 
 }

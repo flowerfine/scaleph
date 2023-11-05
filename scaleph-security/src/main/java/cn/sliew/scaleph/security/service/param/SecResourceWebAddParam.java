@@ -16,25 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.security.service.dto;
+package cn.sliew.scaleph.security.service.param;
 
 import cn.sliew.scaleph.common.dict.security.ResourceType;
-import cn.sliew.scaleph.system.model.BaseDTO;
-import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
-/**
- * 资源-web
- */
 @Data
-@Schema(name = "SecResourceWeb对象", description = "资源-web")
-public class SecResourceWebDTO extends BaseDTO {
+@EqualsAndHashCode
+public class SecResourceWebAddParam {
 
-    private static final long serialVersionUID = 1L;
-
+    @NotNull
     @Schema(description = "资源类型。导航，菜单，页面，按钮")
     private ResourceType type;
 
@@ -61,7 +56,4 @@ public class SecResourceWebDTO extends BaseDTO {
 
     @Schema(description = "备注")
     private String remark;
-
-    @Schema(description = "下级资源")
-    private List<SecResourceWebDTO> children;
 }

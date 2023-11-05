@@ -288,13 +288,13 @@ create table sec_resource_web
     id          bigint       not null auto_increment comment '自增主键',
     type        varchar(128) not null comment '资源类型。导航，菜单，页面，按钮',
     pid         bigint       not null default '0' comment '上级资源id',
-    code        varchar(128) not null comment '编码',
-    name        varchar(128) not null comment '前端名称',
-    path        varchar(128) not null comment '前端路由路径',
+    name        varchar(128) comment '前端名称',
+    path        varchar(128) comment '前端路由路径',
     redirect    varchar(128) comment '前端重定向路径',
     layout      tinyint comment '前端全局布局显示。只在一级生效',
     icon        varchar(128) comment '前端 icon',
     component   varchar(255) comment '前端组件',
+    remark      varchar(256) comment '备注',
     creator     varchar(32) comment '创建人',
     create_time datetime     not null default current_timestamp comment '创建时间',
     editor      varchar(32) comment '修改人',
@@ -302,6 +302,22 @@ create table sec_resource_web
     primary key (id),
     unique key (type, pid, name)
 ) engine = innodb comment = '资源-web';
+
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (1, '2', 0, 'index', '/', '/studio/databoard', NULL, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (2, '2', 0, '404', '/404', NULL, NULL, NULL, './404', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (3, '2', 0, 'login', '/login', NULL, 0, NULL, './User/Login', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (4, '2', 0, 'register', '/register', NULL, 0, NULL, './User/Register', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (5, '2', 0, 'user-center', '/user/center', NULL, NULL, NULL, './User', NULL, 'sys', 'sys');
 
 /* 部门表 */
 drop table if exists sec_dept;

@@ -28,13 +28,22 @@ export default {
   'pages.admin.role.status': '角色状态',
 
   'pages.admin.resource': '资源管理',
+  'pages.admin.resource.type': '资源类型',
   'pages.admin.resource.web': 'Web 资源',
+  'pages.admin.resource.web.name': '名称',
+  'pages.admin.resource.web.path': '路径',
+  'pages.admin.resource.web.redirect': 'Redirect',
+  'pages.admin.resource.web.layout': 'Layout',
+  'pages.admin.resource.web.icon': 'Icon',
+  'pages.admin.resource.web.component': 'Component',
   'pages.admin.resource.privilegeName': '名称',
   'pages.admin.resource.privilegeCode': '权限标识',
   'pages.admin.resource.resourceType': '资源类型',
   'pages.admin.resource.resourcePath': '资源路由',
   'pages.admin.resource.pid': '父级资源',
   'pages.admin.resource.data': '数据资源',
+
+
 
   'pages.admin.dept': '部门管理',
   'pages.admin.dept.deptName': '名称',

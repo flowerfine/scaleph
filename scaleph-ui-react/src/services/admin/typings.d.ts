@@ -145,6 +145,50 @@ export type SecPrivilegeTreeNode = {
   children: SecPrivilegeTreeNode[];
 };
 
+export type SecResourceWeb = {
+  id: number;
+  type: Dict;
+  pid: number;
+  name: string;
+  path: string;
+  redirect?: string;
+  layout?: boolean;
+  icon?: string;
+  component?: string;
+  remark?: string;
+  children?: SecResourceWeb[]
+};
+
+export type SecResourceWebParam = QueryParam & {
+  pid: number;
+  name?: string;
+};
+
+export type SecResourceWebAddParam = {
+  type: string;
+  pid: number;
+  name?: string;
+  path?: string;
+  redirect?: string;
+  layout?: boolean;
+  icon?: string;
+  component?: string;
+  remark?: string;
+};
+
+export type SecResourceWebUpdateParam = {
+  id: number;
+  type: string;
+  pid: number;
+  name?: string;
+  path?: string;
+  redirect?: string;
+  layout?: boolean;
+  icon?: string;
+  component?: string;
+  remark?: string;
+};
+
 export type LogLogin = {
   id?: bigint;
   userName?: string;

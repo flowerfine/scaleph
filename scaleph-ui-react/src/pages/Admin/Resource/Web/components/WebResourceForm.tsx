@@ -1,10 +1,11 @@
 import {useIntl} from 'umi';
 import {Form, message, Modal} from 'antd';
-import {ProForm, ProFormDigit, ProFormSelect, ProFormText} from "@ant-design/pro-components";
-import {SecPrivilege} from "@/services/admin/typings";
+import {ProForm, ProFormDigit, ProFormSelect, ProFormSwitch, ProFormText} from "@ant-design/pro-components";
+import {SecResourceWeb} from "@/services/admin/typings";
 import {PrivilegeService} from "@/services/admin/privilege.service";
 import {DictDataService} from "@/services/admin/dictData.service";
 import {DICT_TYPE} from "@/constant";
+import {ResourceWebService} from "@/services/admin/resourceWeb.service";
 
 interface ModalFormParentProps<T> {
   parent: T;
@@ -14,13 +15,13 @@ interface ModalFormParentProps<T> {
   onCancel: () => void;
   onOK?: (values: any) => void;
 };
-const WebResourceForm: React.FC<ModalFormParentProps<SecPrivilege>> = ({
-                                                                         parent,
-                                                                         data,
-                                                                         visible,
-                                                                         onVisibleChange,
-                                                                         onCancel,
-                                                                       }) => {
+const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
+                                                                           parent,
+                                                                           data,
+                                                                           visible,
+                                                                           onVisibleChange,
+                                                                           onCancel
+                                                                         }) => {
   const intl = useIntl();
   const [form] = Form.useForm();
 
@@ -40,7 +41,7 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecPrivilege>> = ({
       onOk={() => {
         form.validateFields().then((values) => {
           data.id
-            ? PrivilegeService.update({...values}).then((response) => {
+            ? ResourceWebService.update({...values}).then((response) => {
               if (response.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}));
                 if (onVisibleChange) {
@@ -48,7 +49,7 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecPrivilege>> = ({
                 }
               }
             })
-            : PrivilegeService.add({...values}).then((response) => {
+            : ResourceWebService.add({...values}).then((response) => {
               if (response.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
                 if (onVisibleChange) {
@@ -68,10 +69,14 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecPrivilege>> = ({
         initialValues={{
           id: data.id,
           pid: parent?.id ? parent.id : (data?.pid ? data.pid : 0),
-          privilegeName: data.privilegeName,
-          privilegeCode: data.privilegeCode,
-          resourceType: data.resourceType?.value,
-          resourcePath: data.resourcePath
+          type: data.type?.value,
+          name: data.name,
+          path: data.path,
+          redirect: data.redirect,
+          layout: data.layout,
+          icon: data.icon,
+          component: data.component,
+          remark: data.remark
         }}
       >
         <ProFormDigit name="id" hidden/>
@@ -80,26 +85,40 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecPrivilege>> = ({
           label={intl.formatMessage({id: 'pages.admin.resource.pid'})}
           disabled
         />
-        <ProFormText
-          name={"privilegeName"}
-          label={intl.formatMessage({id: 'pages.admin.resource.privilegeName'})}
-          rules={[{required: true}]}
-        />
-        <ProFormText
-          name={"privilegeCode"}
-          label={intl.formatMessage({id: 'pages.admin.resource.privilegeCode'})}
-          rules={[{required: true}]}
-        />
         <ProFormSelect
-          name={"resourceType"}
-          label={intl.formatMessage({id: 'pages.admin.resource.resourceType'})}
+          name={"type"}
+          label={intl.formatMessage({id: 'pages.admin.resource.type'})}
           request={() => DictDataService.listDictDataByType2(DICT_TYPE.resourceType)}
           allowClear={false}
           rules={[{required: true}]}
         />
         <ProFormText
-          name={"resourcePath"}
-          label={intl.formatMessage({id: 'pages.admin.resource.resourcePath'})}
+          name={"name"}
+          label={intl.formatMessage({id: 'pages.admin.resource.web.name'})}
+        />
+        <ProFormText
+          name={"path"}
+          label={intl.formatMessage({id: 'pages.admin.resource.web.path'})}
+        />
+        <ProFormText
+          name={"redirect"}
+          label={intl.formatMessage({id: 'pages.admin.resource.web.redirect'})}
+        />
+        <ProFormSwitch
+          name={"layout"}
+          label={intl.formatMessage({id: 'pages.admin.resource.web.layout'})}
+        />
+        <ProFormText
+          name={"icon"}
+          label={intl.formatMessage({id: 'pages.admin.resource.web.icon'})}
+        />
+        <ProFormText
+          name={"component"}
+          label={intl.formatMessage({id: 'pages.admin.resource.web.component'})}
+        />
+        <ProFormText
+          name={"remark"}
+          label={intl.formatMessage({id: 'app.common.data.remark'})}
         />
       </ProForm>
     </Modal>
