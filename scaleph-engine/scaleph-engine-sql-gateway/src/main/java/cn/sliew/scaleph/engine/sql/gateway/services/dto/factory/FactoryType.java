@@ -14,42 +14,48 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
-package cn.sliew.scaleph.common.dict.common;
+package cn.sliew.scaleph.engine.sql.gateway.services.dto.factory;
 
 import cn.sliew.scaleph.common.dict.DictInstance;
-import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.apache.flink.table.factories.Factory;
 
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum YesOrNo implements DictInstance {
+public enum FactoryType implements DictInstance {
 
-    NO("0", "否"),
-    YES("1", "是"),
-    ;
+    CatalogFactory(
+            "CatalogFactory",
+            org.apache.flink.table.factories.CatalogFactory.class),
+    FormatFactory("FormatFactory",
+            org.apache.flink.table.factories.FormatFactory.class),
+    DynamicTableSourceFactory("DynamicTableSourceFactory",
+            org.apache.flink.table.factories.DynamicTableSourceFactory.class),
+    DynamicTableSinkFactory("DynamicTableSinkFactory",
+            org.apache.flink.table.factories.DynamicTableSinkFactory.class);
+
+    private final String value;
+    private final Class<? extends Factory>[] factoryClasses;
+
+    FactoryType(String value, Class<? extends Factory>... factoryClasses) {
+        this.value = value;
+        this.factoryClasses = factoryClasses;
+    }
 
     @JsonCreator
-    public static YesOrNo of(String value) {
+    public static FactoryType of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(YesOrNo.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(FactoryType.class, value));
     }
 
-    public static YesOrNo ofBoolean(boolean bool) {
-        return bool ? YesOrNo.YES : YesOrNo.NO;
-    }
-
-    @EnumValue
-    private String value;
-    private String label;
-
-    YesOrNo(String value, String label) {
-        this.value = value;
-        this.label = label;
+    public Class<? extends Factory>[] getFactoryClasses() {
+        return factoryClasses;
     }
 
     @Override
@@ -59,6 +65,6 @@ public enum YesOrNo implements DictInstance {
 
     @Override
     public String getLabel() {
-        return label;
+        return value;
     }
 }
