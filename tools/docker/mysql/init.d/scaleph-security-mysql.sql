@@ -318,6 +318,143 @@ VALUES (4, '2', 0, 'register', '/register', NULL, 0, NULL, './User/Register', NU
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
 VALUES (5, '2', 0, 'user-center', '/user/center', NULL, NULL, NULL, './User', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (6, '0', 0, 'studio', '/studio', NULL, NULL, 'codeSandbox', NULL, NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (7, '2', 6, '', '/studio', '/studio/databoard', NULL, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (8, '2', 6, 'databoard', '/studio/databoard', NULL, NULL, 'dashboard', './Studio/DataBoard', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (9, '0', 0, 'project', '/project', NULL, NULL, 'project', NULL, NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (10, '2', 9, NULL, '/project', NULL, NULL, NULL, './Project', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (11, '1', 0, NULL, '/workspace', NULL, NULL, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (12, '1', 11, NULL, '/workspace', '/workspace/artifact', NULL, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (13, '1', 11, 'project.artifact', '/workspace/artifact', NULL, NULL, 'code', NULL, NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (14, '2', 13, NULL, '/workspace/artifact', '/workspace/artifact/jar', NULL, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (15, '2', 13, 'jar', '/workspace/artifact/jar', NULL, NULL, NULL, './Project/Workspace/Artifact/Jar', NULL,
+        'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (16, '2', 13, NULL, '/workspace/artifact/history', NULL, NULL, NULL, './Project/Workspace/Artifact/Jar/History',
+        NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (17, '2', 13, 'sql', '/workspace/artifact/sql', NULL, NULL, NULL, './Project/Workspace/Artifact/Sql', NULL,
+        'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (18, '2', 13, NULL, '/workspace/artifact/editor', NULL, NULL, NULL,
+        './Project/Workspace/Artifact/Sql/CodeEditor', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (19, '2', 13, 'seatunnel', '/workspace/artifact/seatunnel', NULL, NULL, NULL,
+        './Project/Workspace/Artifact/DI/DiJobView', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (20, '2', 13, NULL, '/workspace/artifact/seatunnel/dag', NULL, NULL, NULL,
+        './Project/Workspace/Artifact/DI/DiJobFlow', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (21, '1', 11, 'project.flink.kubernetes', '/workspace/flink/kubernetes', NULL, NULL, 'deploymentUnit', NULL,
+        NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (22, '2', 21, NULL, '/workspace/flink/kubernetes', '/workspace/flink/kubernetes/template', NULL, NULL, NULL,
+        NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (23, '2', 21, 'template', '/workspace/flink/kubernetes/template', NULL, NULL, NULL,
+        './Project/Workspace/Kubernetes/Template', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (24, '2', 21, '', '/workspace/flink/kubernetes/template/detail', NULL, NULL, NULL,
+        './Project/Workspace/Kubernetes/Template/Detail', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (25, '2', 21, 'session-cluster', '/workspace/flink/kubernetes/session-cluster', NULL, NULL, NULL,
+        './Project/Workspace/Kubernetes/SessionCluster', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (26, '2', 21, NULL, '/workspace/flink/kubernetes/session-cluster/steps', NULL, NULL, NULL,
+        './Project/Workspace/Kubernetes/SessionCluster/Steps', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (27, '2', 21, NULL, '/workspace/flink/kubernetes/session-cluster/detail', NULL, NULL, NULL,
+        './Project/Workspace/Kubernetes/SessionCluster/Detail', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (28, '2', 21, 'deployment', '/workspace/flink/kubernetes/deployment', NULL, NULL, NULL,
+        './Project/Workspace/Kubernetes/Deployment', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (29, '2', 21, NULL, '/workspace/flink/kubernetes/deployment/steps', NULL, NULL, NULL,
+        './Project/Workspace/Kubernetes/Deployment/Steps', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (30, '2', 21, NULL, '/workspace/flink/kubernetes/deployment/detail', NULL, NULL, NULL,
+        './Project/Workspace/Kubernetes/Deployment/Detail', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (31, '2', 21, 'job', '/workspace/flink/kubernetes/job', NULL, NULL, NULL, './Project/Workspace/Kubernetes/Job',
+        NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (32, '2', 21, NULL, '/workspace/flink/kubernetes/job/detail', NULL, NULL, NULL,
+        './Project/Workspace/Kubernetes/Job/Detail', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (33, '0', 0, 'resource', '/resource', NULL, NULL, 'fileText', NULL, NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (34, '2', 33, '', '/resource', '/resource/jar', NULL, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (35, '2', 33, 'jar', '/resource/jar', NULL, NULL, NULL, './Resource/Jar', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (36, '2', 33, 'flinkRelease', '/resource/flink-release', NULL, NULL, NULL, './Resource/FlinkRelease', NULL,
+        'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (37, '2', 33, 'seatunnelRelease', '/resource/seatunnel-release', NULL, NULL, NULL, './Resource/SeaTunnelRelease',
+        NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (38, '2', 33, NULL, '/resource/seatunnel-release/connectors', NULL, NULL, NULL, './Resource/SeaTunnelConnector',
+        NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (39, '2', 33, 'kerberos', '/resource/kerberos', NULL, NULL, NULL, './Resource/Kerberos', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (40, '2', 33, 'clusterCredential', '/resource/cluster-credential', NULL, NULL, NULL,
+        './Resource/ClusterCredential', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (41, '0', 0, 'dataSource', '/dataSource', NULL, NULL, NULL, 'compass', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (42, '2', 41, NULL, '/dataSource', NULL, NULL, NULL, './DataSource', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (43, '2', 41, NULL, '/dataSource/stepForms', NULL, NULL, NULL, './DataSource/StepForms', NULL, 'sys', 'sys');
+
 
 /* 部门表 */
 drop table if exists sec_dept;
