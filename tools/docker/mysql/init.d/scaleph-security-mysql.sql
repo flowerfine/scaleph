@@ -300,7 +300,7 @@ create table sec_resource_web
     editor      varchar(32) comment '修改人',
     update_time datetime     not null default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    unique key (type, pid, name)
+    unique key (type, pid, path)
 ) engine = innodb comment = '资源-web';
 
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
@@ -454,7 +454,68 @@ VALUES (42, '2', 41, NULL, '/dataSource', NULL, NULL, NULL, './DataSource', NULL
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
 VALUES (43, '2', 41, NULL, '/dataSource/stepForms', NULL, NULL, NULL, './DataSource/StepForms', NULL, 'sys', 'sys');
-
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (44, '0', 0, 'stdata', '/stdata', NULL, NULL, 'database', NULL, NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (45, '2', 44, NULL, '/stdata', '/stdata/system', NULL, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (46, '2', 44, 'system', '/stdata/system', NULL, NULL, 'group', './Stdata/System', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (47, '2', 44, 'dataElement', '/stdata/dataElement', NULL, NULL, 'hdd', './Stdata/DataElement', NULL, 'sys',
+        'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (48, '2', 44, 'refdata', '/stdata/refdata', NULL, NULL, 'profile', './Stdata/RefData', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (49, '2', 44, NULL, '/stdata/refdata/value', NULL, NULL, NULL, './Stdata/RefData/Value', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (50, '2', 44, 'refdataMap', '/stdata/refdataMap', NULL, NULL, 'oneToOne', './Stdata/RefDataMap', NULL, 'sys',
+        'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (51, '0', 0, 'admin', '/admin', NULL, NULL, 'setting', NULL, NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (52, '2', 51, NULL, '/admin', '/admin/dept', NULL, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (53, '2', 51, 'dept', '/admin/dept', NULL, NULL, 'apartment', './Admin/Dept', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (54, '2', 51, 'role', '/admin/role', NULL, NULL, 'safety', './Admin/Role', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (55, '2', 51, 'user', '/admin/user', NULL, NULL, 'user', './Admin/User', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (56, '2', 51, 'resource.web', '/admin/resource/web', NULL, NULL, 'team', './Admin/Resource/Web', NULL, 'sys',
+        'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (57, '2', 51, 'privilege', '/admin/privilege', NULL, NULL, 'team', './Admin/Privilege', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (58, '2', 51, 'quartz', '/admin/workflow/quartz', NULL, NULL, 'fieldTime', './Workflow/Definition/Quartz', NULL,
+        'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (59, '2', 51, '', '/admin/workflow/quartz/task', NULL, NULL, NULL, './Workflow/Definition/Quartz/Task', NULL,
+        'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (61, '2', 51, NULL, '/admin/workflow/schedule', NULL, NULL, NULL, './Workflow/Schedule', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (62, '2', 51, 'dict', '/admin/dict', NULL, NULL, 'table', './Admin/Dict', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (63, '2', 51, 'setting', '/admin/setting', NULL, NULL, 'setting', './Admin/Setting', NULL, 'sys', 'sys');
 
 /* 部门表 */
 drop table if exists sec_dept;
