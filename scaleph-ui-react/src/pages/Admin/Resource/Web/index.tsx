@@ -5,23 +5,24 @@ import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {isEmpty} from "lodash";
 import {PRIVILEGE_CODE} from "@/constant";
-import {SecPrivilege} from "@/services/admin/typings";
+import {SecResourceWeb} from "@/services/admin/typings";
 import {PrivilegeService} from "@/services/admin/privilege.service";
 import WebResourceForm from "@/pages/Admin/Resource/Web/components/WebResourceForm";
+import {ResourceWebService} from "@/services/admin/resourceWeb.service";
 
 const WebResourceWeb: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<SecPrivilege[]>([]);
+  const [selectedRows, setSelectedRows] = useState<SecResourceWeb[]>([]);
   const [webResourceFormData, setWebResourceFormData] = useState<{
     visiable: boolean;
-    parent: SecPrivilege;
-    data: SecPrivilege;
+    parent: SecResourceWeb;
+    data: SecResourceWeb;
   }>({visiable: false, parent: {}, data: {}});
 
-  const onExpand = (expanded: boolean, record: SecPrivilege) => {
+  const onExpand = (expanded: boolean, record: SecResourceWeb) => {
     if (expanded && record.children && isEmpty(record.children)) {
       PrivilegeService.listByPid(record.id).then((response) => {
         record.children = response.data
@@ -29,41 +30,57 @@ const WebResourceWeb: React.FC = () => {
     }
   }
 
-  const tableColumns: ProColumns<SecPrivilege>[] = [
+  const tableColumns: ProColumns<SecResourceWeb>[] = [
     {
-      title: intl.formatMessage({id: 'pages.admin.resource.privilegeName'}),
-      dataIndex: 'privilegeName',
-      width: 200
-    },
-    {
-      title: intl.formatMessage({id: 'pages.admin.resource.privilegeCode'}),
-      dataIndex: 'privilegeCode',
-      hideInSearch: true,
-      width: 200
-    },
-    {
-      title: intl.formatMessage({id: 'pages.admin.resource.resourceType'}),
-      dataIndex: 'resourceType',
+      title: intl.formatMessage({id: 'pages.admin.resource.type'}),
+      dataIndex: 'type',
       render: (dom, entity) => {
-        return (<Tag>{entity.resourceType?.label}</Tag>)
+        return (<Tag>{entity.type?.label}</Tag>)
       },
-      hideInSearch: true,
-      width: 200
+      hideInSearch: true
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.resource.resourcePath'}),
-      dataIndex: 'resourcePath',
-      hideInSearch: true,
-      width: 200
+      title: intl.formatMessage({id: 'pages.admin.resource.web.name'}),
+      dataIndex: 'name'
     },
     {
-      title: intl.formatMessage({id: 'pages.stdata.createTime'}),
+      title: intl.formatMessage({id: 'pages.admin.resource.web.path'}),
+      dataIndex: 'path',
+      hideInSearch: true
+    },
+    {
+      title: intl.formatMessage({id: 'pages.admin.resource.web.redirect'}),
+      dataIndex: 'redirect',
+      hideInSearch: true
+    },
+    {
+      title: intl.formatMessage({id: 'pages.admin.resource.web.layout'}),
+      dataIndex: 'layout',
+      hideInSearch: true
+    },
+    {
+      title: intl.formatMessage({id: 'pages.admin.resource.web.icon'}),
+      dataIndex: 'icon',
+      hideInSearch: true
+    },
+    {
+      title: intl.formatMessage({id: 'pages.admin.resource.web.component'}),
+      dataIndex: 'component',
+      hideInSearch: true
+    },
+    {
+      title: intl.formatMessage({id: 'app.common.data.remark'}),
+      dataIndex: 'remark',
+      hideInSearch: true
+    },
+    {
+      title: intl.formatMessage({id: 'app.common.data.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'pages.stdata.updateTime'}),
+      title: intl.formatMessage({id: 'app.common.data.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
@@ -85,7 +102,7 @@ const WebResourceWeb: React.FC = () => {
                   type="link"
                   icon={<PlusOutlined/>}
                   onClick={() => setWebResourceFormData({visiable: true, parent: record, data: {}})}
-                ></Button>
+                />
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
@@ -112,7 +129,7 @@ const WebResourceWeb: React.FC = () => {
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
-                        PrivilegeService.deleteOne(record).then((d) => {
+                        ResourceWebService.deleteOne(record).then((d) => {
                           if (d.success) {
                             message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();
@@ -132,7 +149,7 @@ const WebResourceWeb: React.FC = () => {
 
   return (
     <div>
-      <ProTable<SecPrivilege>
+      <ProTable<SecResourceWeb>
         search={{
           labelWidth: 'auto',
           span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -143,7 +160,7 @@ const WebResourceWeb: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return PrivilegeService.listByPage({...params, pid: 0})
+          return ResourceWebService.listByPage({...params, pid: 0})
         }}
         toolbar={{
           actions: [
@@ -169,7 +186,7 @@ const WebResourceWeb: React.FC = () => {
                     okButtonProps: {danger: true},
                     cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                     onOk() {
-                      PrivilegeService.deleteBatch(selectedRows).then((d) => {
+                      ResourceWebService.deleteBatch(selectedRows).then((d) => {
                         if (d.success) {
                           message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                           actionRef.current?.reload();

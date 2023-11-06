@@ -34,6 +34,7 @@
         <result column="layout" property="layout" />
         <result column="icon" property="icon" />
         <result column="component" property="component" />
+        <result column="remark" property="remark" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -43,7 +44,7 @@
         create_time,
         editor,
         update_time,
-        `type`, pid, `name`, `path`, redirect, layout, icon, `component`
+        `type`, pid, `name`, `path`, redirect, layout, icon, `component`, remark
     </sql>
 
 </mapper>
