@@ -16,29 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
+package cn.sliew.scaleph.security.service.dto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+import java.util.List;
 
 /**
- * Enumeration for supported Flink versions.
+ * umi 的路由信息
+ * https://umijs.org/docs/guides/routes
+ * https://umijs.org/docs/max/layout-menu
  */
-public enum FlinkVersion {
+@Data
+@Schema(name = "UmiRoute", description = "umi.js 的 route 配置信息")
+public class UmiRoute {
 
-    v1_15,
-    v1_16,
-    v1_17,
-    v1_18,
-    v1_19;
-
-    public boolean isNewerVersionThan(FlinkVersion otherVersion) {
-        return this.ordinal() > otherVersion.ordinal();
-    }
-
-    /**
-     * Returns the current version.
-     *
-     * @return The current version.
-     */
-    public static FlinkVersion current() {
-        return values()[values().length - 1];
-    }
+    private String name;
+    private String path;
+    private String redirect;
+    private String icon;
+    private String component;
+    private List<UmiRoute> routes;
 }

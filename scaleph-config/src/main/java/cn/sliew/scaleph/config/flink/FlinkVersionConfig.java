@@ -39,19 +39,33 @@ public enum FlinkVersionConfig {
                     Arrays.asList("1.17.0", "1.17.1"),
                     "flink:1.17");
 
+    public static final FlinkVersionProperties FLINK_JAR_1_18 =
+            new FlinkVersionProperties(
+                    FlinkImageType.JAR,
+                    "1.18",
+                    Arrays.asList("1.18.0"),
+                    "flink:1.18");
+
     public static final FlinkVersionProperties FLINK_SQL_1_16 =
             new FlinkVersionProperties(
                     FlinkImageType.SQL,
                     "1.16",
                     Arrays.asList("1.16.0", "1.16.1", "1.16.2"),
-                    "ghcr.io/flowerfine/scaleph/scaleph-sql-template:1.16");
+                    ResourceNames.SQL_TEMPLATE_IMAGE_16);
 
     public static final FlinkVersionProperties FLINK_SQL_1_17 =
             new FlinkVersionProperties(
                     FlinkImageType.SQL,
                     "1.17",
                     Arrays.asList("1.17.0", "1.17.1"),
-                    ResourceNames.SQL_TEMPLATE_IMAGE);
+                    ResourceNames.SQL_TEMPLATE_IMAGE_17);
+
+    public static final FlinkVersionProperties FLINK_SQL_1_18 =
+            new FlinkVersionProperties(
+                    FlinkImageType.SQL,
+                    "1.18",
+                    Arrays.asList("1.18.0"),
+                    ResourceNames.SQL_TEMPLATE_IMAGE_18);
 
     public static final FlinkVersionProperties FLINK_SEATUNNEL_1_15 =
             new FlinkVersionProperties(
@@ -63,13 +77,13 @@ public enum FlinkVersionConfig {
     public static String findImage(FlinkImageType type, String flinkVersion) {
         switch (type) {
             case JAR:
-                return doFindImage(flinkVersion, FLINK_JAR_1_17.getImage(), FLINK_JAR_1_16, FLINK_JAR_1_17);
+                return doFindImage(flinkVersion, FLINK_JAR_1_18.getImage(), FLINK_JAR_1_16, FLINK_JAR_1_17, FLINK_JAR_1_18);
             case SQL:
-                return doFindImage(flinkVersion, FLINK_SQL_1_17.getImage(), FLINK_SQL_1_16, FLINK_SQL_1_17);
+                return doFindImage(flinkVersion, FLINK_SQL_1_18.getImage(), FLINK_SQL_1_16, FLINK_SQL_1_17, FLINK_SQL_1_18);
             case SEATUNNEL:
                 return doFindImage(flinkVersion, FLINK_SEATUNNEL_1_15.getImage(), FLINK_SEATUNNEL_1_15);
             default:
-                return FLINK_JAR_1_17.getImage();
+                return FLINK_JAR_1_18.getImage();
         }
     }
 

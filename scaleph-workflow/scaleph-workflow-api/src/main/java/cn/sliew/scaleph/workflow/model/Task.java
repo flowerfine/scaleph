@@ -16,29 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
+package cn.sliew.scaleph.workflow.model;
 
-/**
- * Enumeration for supported Flink versions.
- */
-public enum FlinkVersion {
+import java.util.List;
 
-    v1_15,
-    v1_16,
-    v1_17,
-    v1_18,
-    v1_19;
+public interface Task {
 
-    public boolean isNewerVersionThan(FlinkVersion otherVersion) {
-        return this.ordinal() > otherVersion.ordinal();
-    }
+    String getName();
 
-    /**
-     * Returns the current version.
-     *
-     * @return The current version.
-     */
-    public static FlinkVersion current() {
-        return values()[values().length - 1];
-    }
+    List<Input> getInputs();
+
+    List<Output> getOutputs();
 }

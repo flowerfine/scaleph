@@ -16,29 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
+package cn.sliew.scaleph.security.service;
 
-/**
- * Enumeration for supported Flink versions.
- */
-public enum FlinkVersion {
+import cn.sliew.scaleph.security.service.dto.UmiRoute;
 
-    v1_15,
-    v1_16,
-    v1_17,
-    v1_18,
-    v1_19;
+import java.util.List;
 
-    public boolean isNewerVersionThan(FlinkVersion otherVersion) {
-        return this.ordinal() > otherVersion.ordinal();
-    }
+public interface SecAuthorizeService {
 
     /**
-     * Returns the current version.
-     *
-     * @return The current version.
+     * 将用户拥有的前端资源转化为 umi.js 的 route 配置
      */
-    public static FlinkVersion current() {
-        return values()[values().length - 1];
-    }
+    List<UmiRoute> getWebRoute();
 }
