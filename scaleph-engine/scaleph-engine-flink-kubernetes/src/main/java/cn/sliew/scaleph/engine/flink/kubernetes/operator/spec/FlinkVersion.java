@@ -22,10 +22,12 @@ package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
  * Enumeration for supported Flink versions.
  */
 public enum FlinkVersion {
+
     v1_15,
     v1_16,
     v1_17,
-    v1_18;
+    v1_18,
+    v1_19;
 
     public boolean isNewerVersionThan(FlinkVersion otherVersion) {
         return this.ordinal() > otherVersion.ordinal();
