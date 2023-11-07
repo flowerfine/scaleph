@@ -18,6 +18,9 @@
 
 package cn.sliew.scaleph.workflow.model;
 
+import java.util.List;
+
 public interface Flow {
 
+    List<Task> getTasks();
 }

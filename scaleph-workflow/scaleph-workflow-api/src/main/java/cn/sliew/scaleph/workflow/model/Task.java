@@ -18,6 +18,13 @@
 
 package cn.sliew.scaleph.workflow.model;
 
+import java.util.List;
+
 public interface Task {
 
+    String getName();
+
+    List<Input> getInputs();
+
+    List<Output> getOutputs();
 }
