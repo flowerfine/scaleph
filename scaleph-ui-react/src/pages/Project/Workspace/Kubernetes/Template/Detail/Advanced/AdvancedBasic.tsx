@@ -13,8 +13,8 @@ const AdvancedBasic: React.FC = () => {
         label={"flinkVersion"}
         colProps={{span: 10, offset: 1}}
         showSearch={true}
-        options={["v1_16", "v1_17"]}
-        initialValue={"v1_16"}
+        options={["v1_15", "v1_16", "v1_17", "v1_18"]}
+        initialValue={"v1_18"}
       />
       <ProFormText
         name="serviceAccount"
