@@ -40,28 +40,25 @@ public class SecAuthorizeServiceImpl implements SecAuthorizeService {
      */
     @Override
     public List<UmiRoute> getWebRoute() {
-        List<SecResourceWebDTO> secResourceWebDTOS = secResourceWebService.listByPid(0L, null);
-        List<UmiRoute> routes = new ArrayList<>(secResourceWebDTOS.size());
-        for (SecResourceWebDTO secResourceWebDTO : secResourceWebDTOS) {
-            routes.add(buildRoute(secResourceWebDTO));
-        }
-        return routes;
+        return buildRouteByPid(0L);
     }
 
-    private UmiRoute buildRoute(SecResourceWebDTO secResourceWebDTO) {
-        UmiRoute route = new UmiRoute();
-        route.setName(secResourceWebDTO.getName());
-        route.setPath(secResourceWebDTO.getPath());
-        route.setRedirect(secResourceWebDTO.getRedirect());
-        route.setIcon(secResourceWebDTO.getIcon());
-        route.setComponent(secResourceWebDTO.getComponent());
-        if (CollectionUtils.isEmpty(secResourceWebDTO.getChildren()) == false) {
-            List<UmiRoute> routes = new ArrayList<>(secResourceWebDTO.getChildren().size());
-            for (SecResourceWebDTO child : secResourceWebDTO.getChildren()) {
-                routes.add(buildRoute(child));
+    private List<UmiRoute> buildRouteByPid(Long pid) {
+        List<SecResourceWebDTO> secResourceWebDTOS = secResourceWebService.listByPid(pid, null);
+        List<UmiRoute> routes = new ArrayList<>(secResourceWebDTOS.size());
+        for (SecResourceWebDTO secResourceWebDTO : secResourceWebDTOS) {
+            UmiRoute route = new UmiRoute();
+            route.setName(secResourceWebDTO.getName());
+            route.setPath(secResourceWebDTO.getPath());
+            route.setRedirect(secResourceWebDTO.getRedirect());
+            route.setIcon(secResourceWebDTO.getIcon());
+            route.setComponent(secResourceWebDTO.getComponent());
+            List<UmiRoute> childRoutes = buildRouteByPid(secResourceWebDTO.getId());
+            if (CollectionUtils.isEmpty(childRoutes) == false) {
+                route.setRoutes(childRoutes);
             }
-            route.setRoutes(routes);
+            routes.add(route);
         }
-        return route;
+        return routes;
     }
 }
