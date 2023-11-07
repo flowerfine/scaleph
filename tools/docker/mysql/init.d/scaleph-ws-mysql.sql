@@ -283,7 +283,7 @@ INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template
                                            `log_configuration`, `ingress`, additional_dependencies, `remark`, `creator`,
                                            `editor`)
 VALUES (3, 1, 'simple-sql-deployment', 'bceec5d5-6271-4079-b4d1-9936ab9fe9ca', 'FlinkDeployment', 'default',
-        '{"image":"ghcr.io/flowerfine/scaleph-sql-template:1.17","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
+        '{"image":"ghcr.io/flowerfine/scaleph-sql-template:1.18","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_18","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         NULL,
