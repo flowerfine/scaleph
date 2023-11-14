@@ -517,6 +517,21 @@ INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, 
                                `creator`, `editor`)
 VALUES (63, '2', 51, 'setting', '/admin/setting', NULL, NULL, 'setting', './Admin/Setting', NULL, 'sys', 'sys');
 
+
+drop table if exists sec_resource_web_role;
+create table sec_resource_web_role
+(
+    id              bigint   not null auto_increment comment '自增主键',
+    resource_web_id bigint   not null,
+    role_id         bigint   not null,
+    creator         varchar(32) comment '创建人',
+    create_time     datetime not null default current_timestamp comment '创建时间',
+    editor          varchar(32) comment '修改人',
+    update_time     datetime not null default current_timestamp on update current_timestamp comment '修改时间',
+    primary key (id),
+    unique key (resource_web_id, role_id)
+) engine = innodb comment = '资源-web与角色关联表';
+
 /* 部门表 */
 drop table if exists sec_dept;
 create table sec_dept

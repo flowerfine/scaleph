@@ -16,33 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.mapper.master.security;
+package cn.sliew.scaleph.engine.doris.operator;
 
-import cn.sliew.scaleph.dao.entity.master.security.SecRole;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import cn.sliew.scaleph.engine.doris.operator.spec.DorisClusterSpec;
+import cn.sliew.scaleph.engine.doris.operator.status.DorisClusterStatus;
+import io.fabric8.kubernetes.api.model.Namespaced;
+import io.fabric8.kubernetes.client.CustomResource;
+import io.fabric8.kubernetes.model.annotation.Group;
+import io.fabric8.kubernetes.model.annotation.Kind;
+import io.fabric8.kubernetes.model.annotation.Version;
 
-import java.io.Serializable;
-import java.util.List;
+@Version("v1")
+@Group("doris.selectdb.com")
+@Kind("DorisCluster")
+public class DorisCluster extends CustomResource<DorisClusterSpec, DorisClusterStatus> implements Namespaced {
 
-/**
- * <p>
- * 角色表 Mapper 接口
- * </p>
- *
- * @author liyu
- * @since 2021-08-01
- */
-@Repository
-public interface SecRoleMapper extends BaseMapper<SecRole> {
 
-    /**
-     * 查询部门对应的角色信息
-     *
-     * @param grant  是否授权
-     * @param deptId 部门id
-     * @return list
-     */
-    List<SecRole> selectRoleByDept(@Param("grant") String grant, @Param("deptId") Serializable deptId);
+
 }

@@ -16,33 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.mapper.master.security;
+package cn.sliew.scaleph.engine.doris.operator.spec;
 
-import cn.sliew.scaleph.dao.entity.master.security.SecRole;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
-
-import java.io.Serializable;
-import java.util.List;
+import lombok.Data;
 
 /**
- * <p>
- * 角色表 Mapper 接口
- * </p>
- *
- * @author liyu
- * @since 2021-08-01
+ * ResourceMetricSource indicates how to scale on a resource metric known to Kubernetes, as specified in requests and limits, describing each pod in the current scale target (e.g. CPU or memory).
+ * The values will be averaged together before being compared to the target.
+ * Such metrics are built in to Kubernetes, and have special scaling options on top of those available to normal per-pod metrics using the “pods” source.
+ * Only one “target” type should be set.
  */
-@Repository
-public interface SecRoleMapper extends BaseMapper<SecRole> {
+@Data
+public class ResourceMetricSource {
 
     /**
-     * 查询部门对应的角色信息
-     *
-     * @param grant  是否授权
-     * @param deptId 部门id
-     * @return list
+     * name is the name of the resource in question.
      */
-    List<SecRole> selectRoleByDept(@Param("grant") String grant, @Param("deptId") Serializable deptId);
+    private Object name;
+
+    /**
+     * target specifies the target value for the given metric
+     */
+    private MetricTarget target;
 }

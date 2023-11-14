@@ -16,33 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.mapper.master.security;
-
-import cn.sliew.scaleph.dao.entity.master.security.SecRole;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
-
-import java.io.Serializable;
-import java.util.List;
+package cn.sliew.scaleph.engine.doris.operator.spec;
 
 /**
- * <p>
- * 角色表 Mapper 接口
- * </p>
- *
- * @author liyu
- * @since 2021-08-01
+ * MetricTargetType specifies the type of metric being targeted, and should be either “Value”, “AverageValue”, or “Utilization”
  */
-@Repository
-public interface SecRoleMapper extends BaseMapper<SecRole> {
+public enum MetricTargetType {
 
     /**
-     * 查询部门对应的角色信息
-     *
-     * @param grant  是否授权
-     * @param deptId 部门id
-     * @return list
+     * AverageValueMetricType declares a MetricTarget is an
      */
-    List<SecRole> selectRoleByDept(@Param("grant") String grant, @Param("deptId") Serializable deptId);
+    AverageValue,
+
+    /**
+     * UtilizationMetricType declares a MetricTarget is an AverageUtilization value
+     */
+    Utilization,
+
+    /**
+     * ValueMetricType declares a MetricTarget is a raw value
+     */
+    Value;
 }

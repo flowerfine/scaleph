@@ -16,33 +16,27 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.mapper.master.security;
+package cn.sliew.scaleph.engine.doris.operator.spec;
 
-import cn.sliew.scaleph.dao.entity.master.security.SecRole;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import io.fabric8.kubernetes.api.model.LabelSelector;
+import lombok.Data;
 
-import java.io.Serializable;
-import java.util.List;
+import javax.annotation.Nullable;
 
 /**
- * <p>
- * 角色表 Mapper 接口
- * </p>
- *
- * @author liyu
- * @since 2021-08-01
+ * MetricIdentifier defines the name and optionally selector for a metric
  */
-@Repository
-public interface SecRoleMapper extends BaseMapper<SecRole> {
+@Data
+public class MetricIdentifier {
 
     /**
-     * 查询部门对应的角色信息
-     *
-     * @param grant  是否授权
-     * @param deptId 部门id
-     * @return list
+     * name is the name of the given metric
      */
-    List<SecRole> selectRoleByDept(@Param("grant") String grant, @Param("deptId") Serializable deptId);
+    private String name;
+
+    /**
+     * selector is the string-encoded form of a standard kubernetes label selector for the given metric When set, it is passed as an additional parameter to the metrics server for more specific metrics scoping. When unset, just the metricName will be used to gather metrics.
+     */
+    @Nullable
+    private LabelSelector selector;
 }

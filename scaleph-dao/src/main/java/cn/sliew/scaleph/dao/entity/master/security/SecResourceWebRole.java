@@ -16,33 +16,27 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.mapper.master.security;
+package cn.sliew.scaleph.dao.entity.master.security;
 
-import cn.sliew.scaleph.dao.entity.master.security.SecRole;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
-
-import java.io.Serializable;
-import java.util.List;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 /**
- * <p>
- * 角色表 Mapper 接口
- * </p>
- *
- * @author liyu
- * @since 2021-08-01
+ * 资源-web与角色关联表
  */
-@Repository
-public interface SecRoleMapper extends BaseMapper<SecRole> {
+@Data
+@TableName("sec_resource_web_role")
+@Schema(name = "SecResourceWebRole对象", description = "资源-web与角色关联表")
+public class SecResourceWebRole extends BaseDO {
 
-    /**
-     * 查询部门对应的角色信息
-     *
-     * @param grant  是否授权
-     * @param deptId 部门id
-     * @return list
-     */
-    List<SecRole> selectRoleByDept(@Param("grant") String grant, @Param("deptId") Serializable deptId);
+    private static final long serialVersionUID = 1L;
+
+    @TableField("resource_web_id")
+    private Long resourceWebId;
+
+    @TableField("role_id")
+    private Long roleId;
 }
