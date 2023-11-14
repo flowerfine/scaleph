@@ -18,8 +18,13 @@
 
 package cn.sliew.scaleph.dao.mapper.master.security;
 
+import cn.sliew.scaleph.common.dict.security.RoleStatus;
+import cn.sliew.scaleph.dao.entity.master.security.SecResourceWeb;
 import cn.sliew.scaleph.dao.entity.master.security.SecResourceWebRole;
+import cn.sliew.scaleph.dao.entity.master.security.SecRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -28,4 +33,21 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SecResourceWebRoleMapper extends BaseMapper<SecResourceWebRole> {
 
+    /**
+     * 查询 资源-web 关联的角色
+     */
+    Page<SecRole> selectRelatedRolesByWebResource(Page page,
+                                                  @Param("resourceWebId") Long resourceWebId,
+                                                  @Param("status") RoleStatus status,
+                                                  @Param("name") String name);
+
+    /**
+     * 查询 资源-web 未关联的角色
+     */
+    Page<SecRole> selectUnrelatedRolesByWebResource(Page page,
+                                                    @Param("resourceWebId") Long resourceWebId,
+                                                    @Param("status") RoleStatus status,
+                                                    @Param("name") String name);
+
+    Page<SecResourceWeb> selectAllResourceWebWithAuthorizeStatus(@Param("roleId") Long roleId);
 }
