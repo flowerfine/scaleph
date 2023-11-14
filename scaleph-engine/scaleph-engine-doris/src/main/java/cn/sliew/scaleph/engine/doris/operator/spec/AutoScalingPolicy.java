@@ -16,33 +16,37 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.mapper.master.security;
+package cn.sliew.scaleph.engine.doris.operator.spec;
 
-import cn.sliew.scaleph.dao.entity.master.security.SecRole;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import lombok.Data;
 
-import java.io.Serializable;
-import java.util.List;
+import javax.annotation.Nullable;
 
 /**
- * <p>
- * 角色表 Mapper 接口
- * </p>
- *
- * @author liyu
- * @since 2021-08-01
+ * AutoScalingPolicy defines the auto scale
  */
-@Repository
-public interface SecRoleMapper extends BaseMapper<SecRole> {
+@Data
+public class AutoScalingPolicy {
 
     /**
-     * 查询部门对应的角色信息
-     *
-     * @param grant  是否授权
-     * @param deptId 部门id
-     * @return list
+     * the policy of cn autoscale. operator use autoscaling v2.
      */
-    List<SecRole> selectRoleByDept(@Param("grant") String grant, @Param("deptId") Serializable deptId);
+    private Object hpaPolicy;
+
+    /**
+     * version represents the autoscaler version for cn service. only support v1,,v2
+     */
+    private AutoScalerVersion version;
+
+    /**
+     * the min numbers of target.
+     */
+    @Nullable
+    private Integer minReplicas;
+
+    /**
+     * the max numbers of target.
+     */
+    @Nullable
+    private Integer maxReplicas;
 }
