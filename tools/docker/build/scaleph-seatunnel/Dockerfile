@@ -16,7 +16,7 @@
 
 ARG FLINK_VERSION=1.15
 ARG BASE_RELEASE_IMAGE=flink:${FLINK_VERSION}
-FROM maven:3.8-eclipse-temurin-11 as build
+FROM $BASE_RELEASE_IMAGE as release
 
 ARG SEATUNNEL_VERSION=2.3.3
 ARG TAR_FILE=apache-seatunnel-${SEATUNNEL_VERSION}-bin.tar.gz
@@ -25,27 +25,28 @@ ENV SEATUNNEL_HOME=/opt/seatunnel
 RUN mkdir -p $SEATUNNEL_HOME
 
 RUN wget https://archive.apache.org/dist/seatunnel/${SEATUNNEL_VERSION}/$TAR_FILE ; \
-    tar -zxf $TAR_FILE --strip 1 -C $SEATUNNEL_HOME
+    tar -zxf $TAR_FILE --strip 1 -C $SEATUNNEL_HOME ; \
+    rm $TAR_FILE
 
 # strange behavior: replace mvnw by mvn on install-plugin.sh, remove useless comment on plugin_config
 RUN rm $SEATUNNEL_HOME/config/plugin_config
 COPY tools/docker/build/scaleph-seatunnel/plugin_config $SEATUNNEL_HOME/config
 
-RUN rm $SEATUNNEL_HOME/bin/install-plugin.sh
-COPY tools/docker/build/scaleph-seatunnel/install-plugin.sh $SEATUNNEL_HOME/bin
+#RUN rm $SEATUNNEL_HOME/bin/install-plugin.sh
+#COPY tools/docker/build/scaleph-seatunnel/install-plugin.sh $SEATUNNEL_HOME/bin
 
-RUN cd $SEATUNNEL_HOME ; \
-    sh -x bin/install-plugin.sh ${SEATUNNEL_VERSION}
+#RUN cd $SEATUNNEL_HOME ; \
+#    sh -x bin/install-plugin.sh ${SEATUNNEL_VERSION}
 
-#RUN cd ${SEATUNNEL_HOME}||sh bin/install-plugin.sh ${SEATUNNEL_VERSION}
+RUN cd ${SEATUNNEL_HOME}||sh bin/install-plugin.sh ${SEATUNNEL_VERSION}
 
 # BASE_RELEASE_IMAGE argument must be defined twice
-ARG FLINK_VERSION=1.15
-ARG BASE_RELEASE_IMAGE=flink:${FLINK_VERSION}
-FROM $BASE_RELEASE_IMAGE as release
-
-ENV SEATUNNEL_HOME=/opt/seatunnel
-
-RUN mkdir -p $SEATUNNEL_HOME
-
-COPY --from=build $SCALEPH_HOME $SCALEPH_HOME/
+#ARG FLINK_VERSION=1.15
+#ARG BASE_RELEASE_IMAGE=flink:${FLINK_VERSION}
+#FROM $BASE_RELEASE_IMAGE as release
+#
+#ENV SEATUNNEL_HOME=/opt/seatunnel
+#
+#RUN mkdir -p $SEATUNNEL_HOME
+#
+#COPY --from=build $SCALEPH_HOME $SCALEPH_HOME/
