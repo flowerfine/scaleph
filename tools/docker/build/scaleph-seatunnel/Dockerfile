@@ -32,8 +32,8 @@ RUN wget https://archive.apache.org/dist/seatunnel/${SEATUNNEL_VERSION}/$TAR_FIL
 RUN rm $SEATUNNEL_HOME/config/plugin_config
 COPY tools/docker/build/scaleph-seatunnel/plugin_config $SEATUNNEL_HOME/config
 
-#RUN rm $SEATUNNEL_HOME/bin/install-plugin.sh
-#COPY tools/docker/build/scaleph-seatunnel/install-plugin.sh $SEATUNNEL_HOME/bin
+RUN rm $SEATUNNEL_HOME/bin/install-plugin.sh
+COPY tools/docker/build/scaleph-seatunnel/install-plugin.sh $SEATUNNEL_HOME/bin
 
 RUN cd $SEATUNNEL_HOME ; \
     sh -x bin/install-plugin.sh ${SEATUNNEL_VERSION}
