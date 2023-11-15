@@ -6,6 +6,7 @@ const Footer: React.FC = () => {
     <DefaultFooter
       style={{
         background: 'none',
+        height: '30px', //添加布局底部高度
       }}
       links={[
         {

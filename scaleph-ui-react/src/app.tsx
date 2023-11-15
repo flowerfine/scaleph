@@ -1,19 +1,20 @@
 import Footer from '@/components/Footer';
 import RightContent from '@/components/RightContent';
-import {LinkOutlined} from '@ant-design/icons';
-import {Settings as LayoutSettings} from '@ant-design/pro-components';
-import type {RunTimeLayoutConfig} from '@umijs/max';
-import {message, notification} from 'antd';
-import {history, Link, RequestConfig} from 'umi';
+import { LinkOutlined } from '@ant-design/icons';
+import { Settings as LayoutSettings } from '@ant-design/pro-components';
+import type { RunTimeLayoutConfig } from '@umijs/max';
+import { message, notification, Space } from 'antd';
+import { useEffect, useState } from 'react';
+import { history, Link, RequestConfig } from 'umi';
 import defaultSettings from '../config/defaultSettings';
-import {OnlineUserInfo, ResponseBody} from './app.d';
-import {USER_AUTH} from './constant';
-import {UserService} from './services/admin/user.service';
-import {AuthService} from './services/auth';
+import { OnlineUserInfo, ResponseBody } from './app.d';
+import { USER_AUTH } from './constant';
+import Icon from './icon';
+import { UserService } from './services/admin/user.service';
+import { AuthService } from './services/auth';
 
 const isDev = process.env.NODE_ENV === 'development';
 const whiteList: string[] = ['login', 'register'];
-
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */
@@ -36,14 +37,26 @@ export async function getInitialState(): Promise<{
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
-export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => {
+export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
+  const [defaultMenus, setDefaultMenus] = useState<{}[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const dataList: ResponseBody<any> = await AuthService.menuRoutes();
+      if (dataList) {
+        setDefaultMenus(dataList);
+      }
+    };
+
+    fetchData();
+  }, []);
   return {
-    rightContentRender: () => <RightContent/>,
+    rightContentRender: () => <RightContent />,
     disableContentMargin: false,
-    contentStyle: {margin: 12},
-    footerRender: () => <Footer/>,
+    contentStyle: { margin: 12 },
+    footerRender: () => <Footer />,
     onPageChange: () => {
-      const {location} = history;
+      const { location } = history;
       const token = localStorage.getItem(USER_AUTH.token);
       if (!token && !whiteList.includes(location.pathname)) {
         localStorage.clear();
@@ -58,6 +71,22 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
           history.push('/login');
         }
       }
+    },
+    subMenuItemRender: (menuItemProps: any, defaultDom: any) => {
+      return (
+        <Space align="end" size={5}>
+          {menuItemProps.icon && <Icon icon={menuItemProps.icon} />}
+          <span>{menuItemProps?.name}</span>
+        </Space>
+      );
+    },
+    menuItemRender: (menuItemProps: any, defaultDom: any) => {
+      return (
+        <Space align="end" size={5}>
+          {menuItemProps.icon && <Icon icon={menuItemProps.icon} />}
+          <a onClick={() => history.push(menuItemProps.path)}>{menuItemProps?.name}</a>
+        </Space>
+      );
     },
     layoutBgImgList: [
       {
@@ -81,11 +110,12 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
     ],
     links: [
       <Link key="api" to="/scaleph/doc.html" target="_blank">
-        <LinkOutlined/>
+        <LinkOutlined />
         <span>API 文档</span>
       </Link>,
     ],
     menuHeaderRender: undefined,
+    menuDataRender: () => defaultMenus,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     // 增加一个 loading 的状态
@@ -121,7 +151,7 @@ const requestHeaderInterceptor: any = (url: string, options: RequestConfig) => {
   };
   return {
     url: `${url}`,
-    options: {...options, interceptors: true, headers: headers},
+    options: { ...options, interceptors: true, headers: headers },
   };
 };
 
@@ -164,7 +194,7 @@ const handleError = (
   } else if (showType == '2') {
     message.error(errorMessage, 2);
   } else if (showType == '4') {
-    notification.error({message: 'Error:' + errorCode, description: errorMessage, duration: 3});
+    notification.error({ message: 'Error:' + errorCode, description: errorMessage, duration: 3 });
   }
 };
 

@@ -9,7 +9,11 @@ export const AuthService = {
       data: loginInfo,
     });
   },
-
+  menuRoutes: async () => {
+    return request<ResponseBody<any>>('/api/admin/authorize/routes', {
+      method: 'GET',
+    });
+  },
   refreshAuthImage: async () => {
     return request<AuthCode>('/api/authCode', {
       method: 'GET',
