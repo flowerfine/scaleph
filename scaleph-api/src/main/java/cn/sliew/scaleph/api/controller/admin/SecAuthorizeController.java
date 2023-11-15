@@ -20,16 +20,23 @@ package cn.sliew.scaleph.api.controller.admin;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.security.service.SecAuthorizeService;
+import cn.sliew.scaleph.security.service.dto.SecResourceWebWithAuthorizeDTO;
+import cn.sliew.scaleph.security.service.dto.SecRoleDTO;
 import cn.sliew.scaleph.security.service.dto.UmiRoute;
+import cn.sliew.scaleph.security.service.param.SecResourceWebBatchAuthorizeForRoleParam;
+import cn.sliew.scaleph.security.service.param.SecResourceWebListByRoleParam;
+import cn.sliew.scaleph.security.service.param.SecRoleBatchAuthorizeForResourceWebParam;
+import cn.sliew.scaleph.security.service.param.SecRoleListByResourceWebParam;
+import cn.sliew.scaleph.system.model.ResponseVO;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -47,4 +54,61 @@ public class SecAuthorizeController {
         List<UmiRoute> routes = secAuthorizeService.getWebRoute();
         return new ResponseEntity<>(routes, HttpStatus.OK);
     }
+
+    @Logging
+    @GetMapping("resource-web/authorized-roles")
+    @Operation(summary = "查询 资源-web 绑定角色列表", description = "查询 资源-web 绑定角色列表")
+    public ResponseEntity<Page<SecRoleDTO>> listAuthorizedRolesByResourceWebId(@Valid SecRoleListByResourceWebParam param) {
+        Page<SecRoleDTO> result = secAuthorizeService.listAuthorizedRolesByResourceWebId(param);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("resource-web/unauthorized-roles")
+    @Operation(summary = "查询 资源-web 未绑定角色列表", description = "查询 资源-web 未绑定角色列表")
+    public ResponseEntity<Page<SecRoleDTO>> listUnauthorizedRolesByResourceWebId(@Valid SecRoleListByResourceWebParam param) {
+        Page<SecRoleDTO> result = secAuthorizeService.listUnauthorizedRolesByResourceWebId(param);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
+    @PutMapping("resource-web/roles")
+    @Operation(summary = "批量为 资源-web 绑定角色", description = "批量为 资源-web 绑定角色")
+    public ResponseEntity<ResponseVO> authorize(@Valid @RequestBody SecRoleBatchAuthorizeForResourceWebParam param) {
+        secAuthorizeService.authorize(param);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @DeleteMapping("resource-web/roles")
+    @Operation(summary = "批量为 资源-web 解除角色绑定", description = "批量为 资源-web 解除角色绑定")
+    public ResponseEntity<ResponseVO> unauthorize(@Valid @RequestBody SecRoleBatchAuthorizeForResourceWebParam param) {
+        secAuthorizeService.unauthorize(param);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("role/resource-webs")
+    @Operation(summary = "查询所有 资源-web 和指定角色绑定状态", description = "查询所有 资源-web 和指定角色绑定状态")
+    public ResponseEntity<List<SecResourceWebWithAuthorizeDTO>> listResourceWebsByRole(@Valid SecResourceWebListByRoleParam param) {
+        List<SecResourceWebWithAuthorizeDTO> result = secAuthorizeService.listResourceWebsByRoleId(param);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
+    @PutMapping("role/resource-webs")
+    @Operation(summary = "批量为角色绑定 资源-web", description = "批量为角色绑定 资源-web")
+    public ResponseEntity<ResponseVO> authorize(@Valid @RequestBody SecResourceWebBatchAuthorizeForRoleParam param) {
+        secAuthorizeService.authorize(param);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @DeleteMapping("role/resource-webs")
+    @Operation(summary = "批量为角色解除 资源-web 绑定", description = "批量为角色解除 资源-web 绑定")
+    public ResponseEntity<ResponseVO> unauthorize(@Valid @RequestBody SecResourceWebBatchAuthorizeForRoleParam param) {
+        secAuthorizeService.unauthorize(param);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
 }

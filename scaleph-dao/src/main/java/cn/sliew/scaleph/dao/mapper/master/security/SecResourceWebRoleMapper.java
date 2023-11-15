@@ -19,13 +19,15 @@
 package cn.sliew.scaleph.dao.mapper.master.security;
 
 import cn.sliew.scaleph.common.dict.security.RoleStatus;
-import cn.sliew.scaleph.dao.entity.master.security.SecResourceWeb;
 import cn.sliew.scaleph.dao.entity.master.security.SecResourceWebRole;
+import cn.sliew.scaleph.dao.entity.master.security.SecResourceWebVO;
 import cn.sliew.scaleph.dao.entity.master.security.SecRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * 资源-web与角色关联表 Mapper 接口
@@ -49,5 +51,8 @@ public interface SecResourceWebRoleMapper extends BaseMapper<SecResourceWebRole>
                                                     @Param("status") RoleStatus status,
                                                     @Param("name") String name);
 
-    Page<SecResourceWeb> selectAllResourceWebWithAuthorizeStatus(@Param("roleId") Long roleId);
+    /**
+     * 查询所有 资源-web，包含角色关联信息
+     */
+    List<SecResourceWebVO> selectAllResourceWebWithAuthorizeStatus(@Param("roleId") Long roleId, @Param("pid") Long pid);
 }

@@ -18,7 +18,14 @@
 
 package cn.sliew.scaleph.security.service;
 
+import cn.sliew.scaleph.security.service.dto.SecResourceWebWithAuthorizeDTO;
+import cn.sliew.scaleph.security.service.dto.SecRoleDTO;
 import cn.sliew.scaleph.security.service.dto.UmiRoute;
+import cn.sliew.scaleph.security.service.param.SecResourceWebBatchAuthorizeForRoleParam;
+import cn.sliew.scaleph.security.service.param.SecResourceWebListByRoleParam;
+import cn.sliew.scaleph.security.service.param.SecRoleBatchAuthorizeForResourceWebParam;
+import cn.sliew.scaleph.security.service.param.SecRoleListByResourceWebParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
 
@@ -28,4 +35,47 @@ public interface SecAuthorizeService {
      * 将用户拥有的前端资源转化为 umi.js 的 route 配置
      */
     List<UmiRoute> getWebRoute();
+
+    // -------------------------------------------------------------------------------------------
+    // resource-web -> role
+    // -------------------------------------------------------------------------------------------
+
+    /**
+     * 查询 资源-web 绑定角色列表
+     */
+    Page<SecRoleDTO> listAuthorizedRolesByResourceWebId(SecRoleListByResourceWebParam param);
+
+    /**
+     * 查询 资源-web 未绑定角色列表
+     */
+    Page<SecRoleDTO> listUnauthorizedRolesByResourceWebId(SecRoleListByResourceWebParam param);
+
+    /**
+     * 批量为 资源-web 绑定角色
+     */
+    void authorize(SecRoleBatchAuthorizeForResourceWebParam param);
+
+    /**
+     * 批量为 资源-web 解除角色绑定
+     */
+    void unauthorize(SecRoleBatchAuthorizeForResourceWebParam param);
+
+    // -------------------------------------------------------------------------------------------
+    // role -> resource-web
+    // -------------------------------------------------------------------------------------------
+    /**
+     * 查询所有 资源-web 和指定角色绑定状态
+     */
+    List<SecResourceWebWithAuthorizeDTO> listResourceWebsByRoleId(SecResourceWebListByRoleParam param);
+
+    /**
+     * 批量为角色绑定 资源-web
+     */
+    void authorize(SecResourceWebBatchAuthorizeForRoleParam param);
+
+    /**
+     * 批量为角色解除 资源-web 绑定
+     */
+    void unauthorize(SecResourceWebBatchAuthorizeForRoleParam param);
+
 }
