@@ -72,16 +72,14 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         }
       }
     },
-    // menuItemRender: (props, dom) => {
-    //   return (
-    //     <div>
-    //       <Space align="end" size={5}>
-    //         <Icon icon={props.icon} />
-    //         <span>{props.name}</span>
-    //       </Space>
-    //     </div>
-    //   );
-    // },
+    subMenuItemRender: (menuItemProps: any, defaultDom: any) => {
+      return (
+        <Space align="end" size={5}>
+          {menuItemProps.icon && <Icon icon={menuItemProps.icon} />}
+          <span>{menuItemProps?.name}</span>
+        </Space>
+      );
+    },
     menuItemRender: (menuItemProps: any, defaultDom: any) => {
       return (
         <Space align="end" size={5}>
