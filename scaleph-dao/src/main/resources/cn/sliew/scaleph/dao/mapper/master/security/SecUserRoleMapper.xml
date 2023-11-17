@@ -30,4 +30,39 @@
         <result column="role_id" property="roleId"/>
     </resultMap>
 
+    <select id="selectRelatedUsersByRole" resultMap="cn.sliew.scaleph.dao.mapper.master.security.SecUserMapper.BaseResultMap">
+        SELECT
+            t1.*
+        FROM
+            sec_user t1
+                JOIN sec_user_role t2 ON t1.id = t2.user_id
+        WHERE
+            t2.role_id = 1
+        <if test="status != null">
+            AND t1.`status` = #{status}
+        </if>
+        <if test="userName != null and userName != ''">
+            AND t1.`userName` like concat('%',#{userName},'%')
+        </if>
+        ORDER BY
+            t1.id
+    </select>
+
+    <select id="selectUnrelatedUsersByRole" resultMap="cn.sliew.scaleph.dao.mapper.master.security.SecUserMapper.BaseResultMap">
+        SELECT
+        t1.*
+        FROM
+        sec_user t1
+        WHERE
+        <if test="status != null">
+            AND t1.`status` = #{status}
+        </if>
+        <if test="userName != null and userName != ''">
+            AND t1.`userName` like concat('%',#{userName},'%')
+        </if>
+        AND NOT EXISTS ( SELECT * FROM sec_user_role t2 WHERE t1.id = t2.user_id AND t2.role_id = #{roleId} )
+        ORDER BY
+        t1.id
+    </select>
+
 </mapper>
