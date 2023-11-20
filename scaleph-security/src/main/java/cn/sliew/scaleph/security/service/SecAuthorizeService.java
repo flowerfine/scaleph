@@ -20,11 +20,9 @@ package cn.sliew.scaleph.security.service;
 
 import cn.sliew.scaleph.security.service.dto.SecResourceWebWithAuthorizeDTO;
 import cn.sliew.scaleph.security.service.dto.SecRoleDTO;
+import cn.sliew.scaleph.security.service.dto.SecUserDTO;
 import cn.sliew.scaleph.security.service.dto.UmiRoute;
-import cn.sliew.scaleph.security.service.param.SecResourceWebBatchAuthorizeForRoleParam;
-import cn.sliew.scaleph.security.service.param.SecResourceWebListByRoleParam;
-import cn.sliew.scaleph.security.service.param.SecRoleBatchAuthorizeForResourceWebParam;
-import cn.sliew.scaleph.security.service.param.SecRoleListByResourceWebParam;
+import cn.sliew.scaleph.security.service.param.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
@@ -63,6 +61,7 @@ public interface SecAuthorizeService {
     // -------------------------------------------------------------------------------------------
     // role -> resource-web
     // -------------------------------------------------------------------------------------------
+
     /**
      * 查询所有 资源-web 和指定角色绑定状态
      */
@@ -77,5 +76,53 @@ public interface SecAuthorizeService {
      * 批量为角色解除 资源-web 绑定
      */
     void unauthorize(SecResourceWebBatchAuthorizeForRoleParam param);
+
+    // -------------------------------------------------------------------------------------------
+    // role -> user
+    // -------------------------------------------------------------------------------------------
+
+    /**
+     * 查询角色绑定用户列表
+     */
+    Page<SecUserDTO> listAuthorizedUsersByRoleId(SecUserListByRoleParam param);
+
+    /**
+     * 查询角色未绑定用户列表
+     */
+    Page<SecUserDTO> listUnauthorizedUsersByRoleId(SecUserListByRoleParam param);
+
+    /**
+     * 批量为角色绑定用户
+     */
+    void authorize(SecUserBatchAuthorizeForRoleParam param);
+
+    /**
+     * 批量为角色解除用户绑定
+     */
+    void unauthorize(SecUserBatchAuthorizeForRoleParam param);
+
+    // -------------------------------------------------------------------------------------------
+    // user -> role
+    // -------------------------------------------------------------------------------------------
+
+    /**
+     * 查询用户绑定角色列表
+     */
+    List<SecRoleDTO> listAuthorizedRolesByUserId(SecRoleListByUserParam param);
+
+    /**
+     * 查询用户未绑定角色列表
+     */
+    List<SecRoleDTO> listUnauthorizedRolesByUserId(SecRoleListByUserParam param);
+
+    /**
+     * 批量为用户绑定角色
+     */
+    void authorize(SecRoleBatchAuthorizeForUserParam param);
+
+    /**
+     * 批量为用户解除角色绑定
+     */
+    void unauthorize(SecRoleBatchAuthorizeForUserParam param);
 
 }
