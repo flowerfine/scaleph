@@ -21,7 +21,6 @@ package cn.sliew.scaleph.security.service.impl;
 import cn.sliew.scaleph.dao.entity.master.security.*;
 import cn.sliew.scaleph.dao.mapper.master.security.SecResourceWebRoleMapper;
 import cn.sliew.scaleph.dao.mapper.master.security.SecUserRoleMapper;
-import cn.sliew.scaleph.security.authentication.UserDetailInfo;
 import cn.sliew.scaleph.security.service.SecAuthorizeService;
 import cn.sliew.scaleph.security.service.SecResourceWebService;
 import cn.sliew.scaleph.security.service.convert.SecResourceWebWithAuthorizeConvert;
@@ -29,19 +28,15 @@ import cn.sliew.scaleph.security.service.convert.SecRoleConvert;
 import cn.sliew.scaleph.security.service.convert.SecUserConvert;
 import cn.sliew.scaleph.security.service.dto.*;
 import cn.sliew.scaleph.security.service.param.*;
-import cn.sliew.scaleph.security.util.SecurityUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SecAuthorizeServiceImpl implements SecAuthorizeService {
@@ -58,11 +53,6 @@ public class SecAuthorizeServiceImpl implements SecAuthorizeService {
      */
     @Override
     public List<UmiRoute> getWebRoute() {
-        Optional<Long> optional = SecurityUtil.getCurrentUserId();
-        if (optional.isEmpty()) {
-            return Collections.emptyList();
-        }
-        Long userId = optional.get();
         return buildRouteByPid(0L);
     }
 
