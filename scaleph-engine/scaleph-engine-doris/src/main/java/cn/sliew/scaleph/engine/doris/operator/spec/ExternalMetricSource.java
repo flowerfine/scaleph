@@ -16,16 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.doris.operator.status;
+package cn.sliew.scaleph.engine.doris.operator.spec;
 
-import cn.sliew.scaleph.engine.doris.operator.spec.HorizontalScaler;
 import lombok.Data;
 
+/**
+ * ExternalMetricSource indicates how to scale on a metric not associated with any Kubernetes object (for example length of queue in cloud messaging service, or QPS from loadbalancer running outside of cluster).
+ */
 @Data
-public class CnStatus extends ComponentStatus {
+public class ExternalMetricSource {
 
     /**
-     * HorizontalAutoscaler have the autoscaler information.
+     * metric identifies the target metric by name and selector
      */
-    private HorizontalScaler horizontalScaler;
+    private MetricIdentifier metric;
+
+    /**
+     * target specifies the target value for the given metric
+     */
+    private MetricTarget target;
 }

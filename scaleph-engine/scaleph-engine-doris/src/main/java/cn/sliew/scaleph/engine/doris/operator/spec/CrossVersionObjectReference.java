@@ -16,16 +16,31 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.doris.operator.status;
+package cn.sliew.scaleph.engine.doris.operator.spec;
 
-import cn.sliew.scaleph.engine.doris.operator.spec.HorizontalScaler;
 import lombok.Data;
 
+import javax.annotation.Nullable;
+
+/**
+ * CrossVersionObjectReference contains enough information to let you identify the referred resource.
+ */
 @Data
-public class CnStatus extends ComponentStatus {
+public class CrossVersionObjectReference {
 
     /**
-     * HorizontalAutoscaler have the autoscaler information.
+     * Kind of the referent; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds”
      */
-    private HorizontalScaler horizontalScaler;
+    private String kind;
+
+    /**
+     * Name of the referent; More info: http://kubernetes.io/docs/user-guide/identifiers#names
+     */
+    private String name;
+
+    /**
+     * API version of the referent
+     */
+    @Nullable
+    private String apiVersion;
 }

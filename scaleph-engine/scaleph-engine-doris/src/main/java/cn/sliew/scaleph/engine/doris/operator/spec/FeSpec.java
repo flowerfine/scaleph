@@ -20,6 +20,14 @@ package cn.sliew.scaleph.engine.doris.operator.spec;
 
 import lombok.Data;
 
+/**
+ * FeSpec describes a template for creating copies of a fe software service.
+ */
 @Data
 public class FeSpec extends BaseSpec {
+
+    /**
+     * the number of fe in election. electionNumber <= replicas, left as observers. default value=3
+     */
+    private Integer electionNumber;
 }

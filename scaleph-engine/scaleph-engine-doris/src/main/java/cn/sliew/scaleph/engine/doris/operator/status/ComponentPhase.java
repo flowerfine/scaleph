@@ -18,14 +18,7 @@
 
 package cn.sliew.scaleph.engine.doris.operator.status;
 
-import cn.sliew.scaleph.engine.doris.operator.spec.HorizontalScaler;
-import lombok.Data;
+public enum ComponentPhase {
 
-@Data
-public class CnStatus extends ComponentStatus {
-
-    /**
-     * HorizontalAutoscaler have the autoscaler information.
-     */
-    private HorizontalScaler horizontalScaler;
+    available, haveMemberFailed, reconciling, waitScheduling;
 }

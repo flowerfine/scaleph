@@ -18,14 +18,35 @@
 
 package cn.sliew.scaleph.engine.doris.operator.status;
 
-import cn.sliew.scaleph.engine.doris.operator.spec.HorizontalScaler;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
-public class CnStatus extends ComponentStatus {
+public class ComponentCondition {
 
     /**
-     * HorizontalAutoscaler have the autoscaler information.
+     *
      */
-    private HorizontalScaler horizontalScaler;
+    private String subResourceName;
+
+    /**
+     * Phase of statefulset condition.
+     */
+    private ComponentPhase phase;
+
+    /**
+     * The last time this condition was updated.
+     */
+    private LocalDateTime lastTransitionTime;
+
+    /**
+     * The reason for the condition’s last transition.
+     */
+    private String reason;
+
+    /**
+     * A human readable message indicating details about the transition.
+     */
+    private String message;
 }

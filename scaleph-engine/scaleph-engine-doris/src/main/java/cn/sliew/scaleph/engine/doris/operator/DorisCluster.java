@@ -31,6 +31,4 @@ import io.fabric8.kubernetes.model.annotation.Version;
 @Kind("DorisCluster")
 public class DorisCluster extends CustomResource<DorisClusterSpec, DorisClusterStatus> implements Namespaced {
 
-
-
 }

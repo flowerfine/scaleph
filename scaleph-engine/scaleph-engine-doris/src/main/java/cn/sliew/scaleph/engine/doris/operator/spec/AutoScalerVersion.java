@@ -19,5 +19,14 @@
 package cn.sliew.scaleph.engine.doris.operator.spec;
 
 public enum AutoScalerVersion {
-    v1, v2;
+
+    /**
+     * the cn service use v1 autoscaler. reference to https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+     */
+    v1,
+
+    /**
+     * the cn service use v2. reference to https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+     */
+    v2;
 }

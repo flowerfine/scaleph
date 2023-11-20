@@ -16,16 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.doris.operator.status;
+package cn.sliew.scaleph.engine.doris.operator.spec;
 
-import cn.sliew.scaleph.engine.doris.operator.spec.HorizontalScaler;
-import lombok.Data;
-
-@Data
-public class CnStatus extends ComponentStatus {
+/**
+ * HPAScalingPolicyType is the type of the policy which could be used while making scaling decisions.
+ */
+public enum HPAScalingPolicyType {
 
     /**
-     * HorizontalAutoscaler have the autoscaler information.
+     * PercentScalingPolicy is a policy used to specify a relative amount of change with respect to the current number of pods.
      */
-    private HorizontalScaler horizontalScaler;
+    Percent,
+
+    /**
+     * PodsScalingPolicy is a policy used to specify a change in absolute number of pods.
+     */
+    Pods;
 }

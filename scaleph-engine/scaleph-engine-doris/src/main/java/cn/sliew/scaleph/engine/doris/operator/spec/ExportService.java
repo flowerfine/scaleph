@@ -21,17 +21,32 @@ package cn.sliew.scaleph.engine.doris.operator.spec;
 import cn.sliew.scaleph.common.dict.flink.ServiceExposedType;
 import lombok.Data;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
+/**
+ * ExportService consisting of expose ports for user access to software service.
+ */
 @Data
 public class ExportService {
 
     /**
      * fixme k8s 的 type
      * https://github.com/selectdb/doris-operator/blob/master/doc/api.md#exportservice
+     * type of service,the possible value for the service type are : ClusterIP, NodePort, LoadBalancer,ExternalName. More info: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
      */
+    @Nullable
     private ServiceExposedType type;
+
+    /**
+     * ServicePort config service for NodePort access mode.
+     */
     private List<DorisServicePort> servicePorts;
+
+    /**
+     * Only applies to Service Type: LoadBalancer. This feature depends on whether the underlying cloud-provider supports specifying the loadBalancerIP when a load balancer is created. This field will be ignored if the cloud-provider does not support the feature. This field was under-specified and its meaning varies across implementations, and it cannot support dual-stack. As of Kubernetes v1.24, users are encouraged to use implementation-specific annotations when available. This field may be removed in a future API version.
+     */
+    @Nullable
     private String loadBalancerIP;
 
 }

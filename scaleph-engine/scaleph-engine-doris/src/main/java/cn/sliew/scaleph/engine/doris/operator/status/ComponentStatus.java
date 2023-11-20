@@ -18,14 +18,35 @@
 
 package cn.sliew.scaleph.engine.doris.operator.status;
 
-import cn.sliew.scaleph.engine.doris.operator.spec.HorizontalScaler;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
-public class CnStatus extends ComponentStatus {
+public class ComponentStatus {
 
     /**
-     * HorizontalAutoscaler have the autoscaler information.
+     * DorisComponentStatus represents the status of a doris component. the name of fe service exposed for user.
      */
-    private HorizontalScaler horizontalScaler;
+    private String accessService;
+
+    /**
+     * FailedInstances failed pod names.
+     */
+    private List<String> failedInstances;
+
+    /**
+     * CreatingInstances in creating pod names.
+     */
+    private List<String> creatingInstances;
+
+    /**
+     * RunningInstances in running status pod names.
+     */
+    private List<String> runningInstances;
+
+    /**
+     *
+     */
+    private Object componentCondition;
 }
