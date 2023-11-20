@@ -18,9 +18,17 @@
 
 package cn.sliew.scaleph.dao.mapper.master.security;
 
+import cn.sliew.scaleph.common.dict.security.RoleStatus;
+import cn.sliew.scaleph.common.dict.security.UserStatus;
+import cn.sliew.scaleph.dao.entity.master.security.SecRole;
+import cn.sliew.scaleph.dao.entity.master.security.SecUser;
 import cn.sliew.scaleph.dao.entity.master.security.SecUserRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * <p>
@@ -33,4 +41,33 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SecUserRoleMapper extends BaseMapper<SecUserRole> {
 
+    /**
+     * 查询角色关联的用户
+     */
+    Page<SecUser> selectRelatedUsersByRole(Page page,
+                                           @Param("roleId") Long roleId,
+                                           @Param("status") UserStatus status,
+                                           @Param("userName") String userName);
+
+    /**
+     * 查询角色未关联的用户
+     */
+    Page<SecUser> selectUnrelatedUsersByRole(Page page,
+                                             @Param("roleId") Long roleId,
+                                             @Param("status") UserStatus status,
+                                             @Param("userName") String userName);
+
+    /**
+     * 查询用户关联的角色
+     */
+    List<SecRole> selectRelatedRolesByUser(@Param("userId") Long userId,
+                                           @Param("status") RoleStatus status,
+                                           @Param("name") String name);
+
+    /**
+     * 查询用户未关联的角色
+     */
+    List<SecRole> selectUnrelatedRolesByUser(@Param("userId") Long userId,
+                                             @Param("status") RoleStatus status,
+                                             @Param("name") String name);
 }

@@ -22,11 +22,9 @@ import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.security.service.SecAuthorizeService;
 import cn.sliew.scaleph.security.service.dto.SecResourceWebWithAuthorizeDTO;
 import cn.sliew.scaleph.security.service.dto.SecRoleDTO;
+import cn.sliew.scaleph.security.service.dto.SecUserDTO;
 import cn.sliew.scaleph.security.service.dto.UmiRoute;
-import cn.sliew.scaleph.security.service.param.SecResourceWebBatchAuthorizeForRoleParam;
-import cn.sliew.scaleph.security.service.param.SecResourceWebListByRoleParam;
-import cn.sliew.scaleph.security.service.param.SecRoleBatchAuthorizeForResourceWebParam;
-import cn.sliew.scaleph.security.service.param.SecRoleListByResourceWebParam;
+import cn.sliew.scaleph.security.service.param.*;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -107,6 +105,70 @@ public class SecAuthorizeController {
     @DeleteMapping("role/resource-webs")
     @Operation(summary = "批量为角色解除 资源-web 绑定", description = "批量为角色解除 资源-web 绑定")
     public ResponseEntity<ResponseVO> unauthorize(@Valid @RequestBody SecResourceWebBatchAuthorizeForRoleParam param) {
+        secAuthorizeService.unauthorize(param);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("role/authorized-users")
+    @Operation(summary = "查询角色绑定用户列表", description = "查询角色绑定用户列表")
+    public ResponseEntity<Page<SecUserDTO>> listAuthorizedUsersByRoleId(@Valid SecUserListByRoleParam param) {
+        Page<SecUserDTO> result = secAuthorizeService.listAuthorizedUsersByRoleId(param);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("role/unauthorized-users")
+    @Operation(summary = "查询角色未绑定用户列表", description = "查询角色未绑定用户列表")
+    public ResponseEntity<Page<SecUserDTO>> listUnauthorizedUsersByRoleId(@Valid SecUserListByRoleParam param) {
+        Page<SecUserDTO> result = secAuthorizeService.listUnauthorizedUsersByRoleId(param);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
+    @PutMapping("role/users")
+    @Operation(summary = "批量为角色绑定用户", description = "批量为角色绑定用户")
+    public ResponseEntity<ResponseVO> authorize(@Valid @RequestBody SecUserBatchAuthorizeForRoleParam param) {
+        secAuthorizeService.authorize(param);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @DeleteMapping("role/users")
+    @Operation(summary = "批量为角色解除用户绑定", description = "批量为角色解除用户绑定")
+    public ResponseEntity<ResponseVO> unauthorize(@Valid @RequestBody SecUserBatchAuthorizeForRoleParam param) {
+        secAuthorizeService.unauthorize(param);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("user/authorized-roles")
+    @Operation(summary = "查询用户绑定角色列表", description = "查询用户绑定角色列表")
+    public ResponseEntity<List<SecRoleDTO>> listAuthorizedRolesByUserId(@Valid SecRoleListByUserParam param) {
+        List<SecRoleDTO> result = secAuthorizeService.listAuthorizedRolesByUserId(param);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("user/unauthorized-roles")
+    @Operation(summary = "查询用户未绑定角色列表", description = "查询用户未绑定角色列表")
+    public ResponseEntity<List<SecRoleDTO>> listUnauthorizedRolesByUserId(@Valid SecRoleListByUserParam param) {
+        List<SecRoleDTO> result = secAuthorizeService.listUnauthorizedRolesByUserId(param);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
+    @PutMapping("user/roles")
+    @Operation(summary = "批量为用户绑定角色", description = "批量为用户绑定角色")
+    public ResponseEntity<ResponseVO> authorize(@Valid @RequestBody SecRoleBatchAuthorizeForUserParam param) {
+        secAuthorizeService.authorize(param);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @DeleteMapping("user/roles")
+    @Operation(summary = "批量为用户解除角色绑定", description = "批量为用户解除角色绑定")
+    public ResponseEntity<ResponseVO> unauthorize(@Valid @RequestBody SecRoleBatchAuthorizeForUserParam param) {
         secAuthorizeService.unauthorize(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }

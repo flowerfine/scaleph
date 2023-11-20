@@ -18,31 +18,30 @@
 
 package cn.sliew.scaleph.security.service.impl;
 
-import cn.sliew.scaleph.dao.entity.master.security.SecResourceWebRole;
-import cn.sliew.scaleph.dao.entity.master.security.SecResourceWebVO;
-import cn.sliew.scaleph.dao.entity.master.security.SecRole;
+import cn.sliew.scaleph.dao.entity.master.security.*;
 import cn.sliew.scaleph.dao.mapper.master.security.SecResourceWebRoleMapper;
+import cn.sliew.scaleph.dao.mapper.master.security.SecUserRoleMapper;
+import cn.sliew.scaleph.security.authentication.UserDetailInfo;
 import cn.sliew.scaleph.security.service.SecAuthorizeService;
 import cn.sliew.scaleph.security.service.SecResourceWebService;
 import cn.sliew.scaleph.security.service.convert.SecResourceWebWithAuthorizeConvert;
 import cn.sliew.scaleph.security.service.convert.SecRoleConvert;
-import cn.sliew.scaleph.security.service.dto.SecResourceWebDTO;
-import cn.sliew.scaleph.security.service.dto.SecResourceWebWithAuthorizeDTO;
-import cn.sliew.scaleph.security.service.dto.SecRoleDTO;
-import cn.sliew.scaleph.security.service.dto.UmiRoute;
-import cn.sliew.scaleph.security.service.param.SecResourceWebBatchAuthorizeForRoleParam;
-import cn.sliew.scaleph.security.service.param.SecResourceWebListByRoleParam;
-import cn.sliew.scaleph.security.service.param.SecRoleBatchAuthorizeForResourceWebParam;
-import cn.sliew.scaleph.security.service.param.SecRoleListByResourceWebParam;
+import cn.sliew.scaleph.security.service.convert.SecUserConvert;
+import cn.sliew.scaleph.security.service.dto.*;
+import cn.sliew.scaleph.security.service.param.*;
+import cn.sliew.scaleph.security.util.SecurityUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SecAuthorizeServiceImpl implements SecAuthorizeService {
@@ -51,12 +50,19 @@ public class SecAuthorizeServiceImpl implements SecAuthorizeService {
     private SecResourceWebService secResourceWebService;
     @Autowired
     private SecResourceWebRoleMapper secResourceWebRoleMapper;
+    @Autowired
+    private SecUserRoleMapper secUserRoleMapper;
 
     /**
      * fixme 这里没有获取用户自己的资源，先获取的所有资源
      */
     @Override
     public List<UmiRoute> getWebRoute() {
+        Optional<Long> optional = SecurityUtil.getCurrentUserId();
+        if (optional.isEmpty()) {
+            return Collections.emptyList();
+        }
+        Long userId = optional.get();
         return buildRouteByPid(0L);
     }
 
@@ -157,6 +163,78 @@ public class SecAuthorizeServiceImpl implements SecAuthorizeService {
                     .eq(SecResourceWebRole::getResourceWebId, resourceWebId)
                     .eq(SecResourceWebRole::getRoleId, param.getRoleId());
             secResourceWebRoleMapper.delete(queryWrapper);
+        }
+    }
+
+    @Override
+    public Page<SecUserDTO> listAuthorizedUsersByRoleId(SecUserListByRoleParam param) {
+        Page page = new Page(param.getCurrent(), param.getPageSize());
+        Page<SecUser> secUserPage = secUserRoleMapper.selectRelatedUsersByRole(page, param.getRoleId(), param.getStatus(), param.getUserName());
+        Page<SecUserDTO> result = new Page<>(secUserPage.getCurrent(), secUserPage.getSize(), secUserPage.getTotal());
+        List<SecUserDTO> secUserDTOS = SecUserConvert.INSTANCE.toDto(secUserPage.getRecords());
+        result.setRecords(secUserDTOS);
+        return result;
+    }
+
+    @Override
+    public Page<SecUserDTO> listUnauthorizedUsersByRoleId(SecUserListByRoleParam param) {
+        Page page = new Page(param.getCurrent(), param.getPageSize());
+        Page<SecUser> secUserPage = secUserRoleMapper.selectUnrelatedUsersByRole(page, param.getRoleId(), param.getStatus(), param.getUserName());
+        Page<SecUserDTO> result = new Page<>(secUserPage.getCurrent(), secUserPage.getSize(), secUserPage.getTotal());
+        List<SecUserDTO> secUserDTOS = SecUserConvert.INSTANCE.toDto(secUserPage.getRecords());
+        result.setRecords(secUserDTOS);
+        return result;
+    }
+
+    @Override
+    public void authorize(SecUserBatchAuthorizeForRoleParam param) {
+        for (Long userId : param.getUserIds()) {
+            SecUserRole record = new SecUserRole();
+            record.setUserId(userId);
+            record.setRoleId(param.getRoleId());
+            secUserRoleMapper.insert(record);
+        }
+    }
+
+    @Override
+    public void unauthorize(SecUserBatchAuthorizeForRoleParam param) {
+        for (Long userId : param.getUserIds()) {
+            LambdaQueryWrapper<SecUserRole> queryWrapper = Wrappers.lambdaQuery(SecUserRole.class)
+                    .eq(SecUserRole::getUserId, userId)
+                    .eq(SecUserRole::getRoleId, param.getRoleId());
+            secUserRoleMapper.delete(queryWrapper);
+        }
+    }
+
+    @Override
+    public List<SecRoleDTO> listAuthorizedRolesByUserId(SecRoleListByUserParam param) {
+        List<SecRole> secRoleList = secUserRoleMapper.selectRelatedRolesByUser(param.getUserId(), param.getStatus(), param.getName());
+        return SecRoleConvert.INSTANCE.toDto(secRoleList);
+    }
+
+    @Override
+    public List<SecRoleDTO> listUnauthorizedRolesByUserId(SecRoleListByUserParam param) {
+        List<SecRole> secRoleList = secUserRoleMapper.selectUnrelatedRolesByUser(param.getUserId(), param.getStatus(), param.getName());
+        return SecRoleConvert.INSTANCE.toDto(secRoleList);
+    }
+
+    @Override
+    public void authorize(SecRoleBatchAuthorizeForUserParam param) {
+        for (Long roleId : param.getRoleIds()) {
+            SecUserRole record = new SecUserRole();
+            record.setUserId(param.getUserId());
+            record.setRoleId(roleId);
+            secUserRoleMapper.insert(record);
+        }
+    }
+
+    @Override
+    public void unauthorize(SecRoleBatchAuthorizeForUserParam param) {
+        for (Long roleId : param.getRoleIds()) {
+            LambdaQueryWrapper<SecUserRole> queryWrapper = Wrappers.lambdaQuery(SecUserRole.class)
+                    .eq(SecUserRole::getUserId, param.getUserId())
+                    .eq(SecUserRole::getRoleId, roleId);
+            secUserRoleMapper.delete(queryWrapper);
         }
     }
 }

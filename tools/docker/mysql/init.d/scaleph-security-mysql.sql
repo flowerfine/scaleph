@@ -619,6 +619,7 @@ create table sec_user_role
 -- init data
 insert into sec_user_role (id, user_id, role_id, creator, editor)
 values (1, 1, 1, 'sys', 'sys');
+
 /* 部门角色关联表 */
 drop table if exists sec_dept_role;
 create table sec_dept_role
