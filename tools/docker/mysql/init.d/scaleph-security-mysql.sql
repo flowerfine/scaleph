@@ -320,16 +320,16 @@ INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, 
 VALUES (5, '2', 0, 'user-center', '/user/center', NULL, NULL, NULL, './User', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
-VALUES (6, '0', 0, 'studio', '/studio', NULL, NULL, 'codeSandbox', NULL, NULL, 'sys', 'sys');
+VALUES (6, '0', 0, 'studio', '/studio', NULL, NULL, 'CodeSandboxOutlined', NULL, NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
 VALUES (7, '2', 6, '', '/studio', '/studio/databoard', NULL, NULL, NULL, NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
-VALUES (8, '2', 6, 'databoard', '/studio/databoard', NULL, NULL, 'dashboard', './Studio/DataBoard', NULL, 'sys', 'sys');
+VALUES (8, '2', 6, 'databoard', '/studio/databoard', NULL, NULL, 'DashboardOutlined', './Studio/DataBoard', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
-VALUES (9, '0', 0, 'project', '/project', NULL, NULL, 'project', NULL, NULL, 'sys', 'sys');
+VALUES (9, '0', 0, 'project', '/project', NULL, NULL, 'ProjectOutlined', NULL, NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
 VALUES (10, '2', 9, NULL, '/project', NULL, NULL, NULL, './Project', NULL, 'sys', 'sys');
@@ -341,7 +341,7 @@ INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`,
 VALUES (12, '1', 11, NULL, '/workspace', '/workspace/artifact', NULL, NULL, NULL, NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
-VALUES (13, '1', 11, 'project.artifact', '/workspace/artifact', NULL, NULL, 'code', NULL, NULL, 'sys', 'sys');
+VALUES (13, '1', 11, 'project.artifact', '/workspace/artifact', NULL, NULL, 'CodeOutlined', NULL, NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
 VALUES (14, '2', 13, NULL, '/workspace/artifact', '/workspace/artifact/jar', NULL, NULL, NULL, NULL, 'sys', 'sys');
@@ -371,7 +371,7 @@ VALUES (20, '2', 13, NULL, '/workspace/artifact/seatunnel/dag', NULL, NULL, NULL
         './Project/Workspace/Artifact/DI/DiJobFlow', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
-VALUES (21, '1', 11, 'project.flink.kubernetes', '/workspace/flink/kubernetes', NULL, NULL, 'deploymentUnit', NULL,
+VALUES (21, '1', 11, 'project.flink.kubernetes', '/workspace/flink/kubernetes', NULL, NULL, 'DeploymentUnitOutlined', NULL,
         NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
@@ -419,7 +419,7 @@ VALUES (32, '2', 21, NULL, '/workspace/flink/kubernetes/job/detail', NULL, NULL,
         './Project/Workspace/Kubernetes/Job/Detail', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
-VALUES (33, '0', 0, 'resource', '/resource', NULL, NULL, 'fileText', NULL, NULL, 'sys', 'sys');
+VALUES (33, '0', 0, 'resource', '/resource', NULL, NULL, 'FileTextOutlined', NULL, NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
 VALUES (34, '2', 33, '', '/resource', '/resource/jar', NULL, NULL, NULL, NULL, 'sys', 'sys');
@@ -456,52 +456,52 @@ INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`,
 VALUES (43, '2', 41, NULL, '/dataSource/stepForms', NULL, NULL, NULL, './DataSource/StepForms', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
-VALUES (44, '0', 0, 'stdata', '/stdata', NULL, NULL, 'database', NULL, NULL, 'sys', 'sys');
+VALUES (44, '0', 0, 'stdata', '/stdata', NULL, NULL, 'DatabaseOutlined', NULL, NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
 VALUES (45, '2', 44, NULL, '/stdata', '/stdata/system', NULL, NULL, NULL, NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
-VALUES (46, '2', 44, 'system', '/stdata/system', NULL, NULL, 'group', './Stdata/System', NULL, 'sys', 'sys');
+VALUES (46, '2', 44, 'system', '/stdata/system', NULL, NULL, 'GroupOutlined', './Stdata/System', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
-VALUES (47, '2', 44, 'dataElement', '/stdata/dataElement', NULL, NULL, 'hdd', './Stdata/DataElement', NULL, 'sys',
+VALUES (47, '2', 44, 'dataElement', '/stdata/dataElement', NULL, NULL, 'HddOutlined', './Stdata/DataElement', NULL, 'sys',
         'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
-VALUES (48, '2', 44, 'refdata', '/stdata/refdata', NULL, NULL, 'profile', './Stdata/RefData', NULL, 'sys', 'sys');
+VALUES (48, '2', 44, 'refdata', '/stdata/refdata', NULL, NULL, 'ProfileOutlined', './Stdata/RefData', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
 VALUES (49, '2', 44, NULL, '/stdata/refdata/value', NULL, NULL, NULL, './Stdata/RefData/Value', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
-VALUES (50, '2', 44, 'refdataMap', '/stdata/refdataMap', NULL, NULL, 'oneToOne', './Stdata/RefDataMap', NULL, 'sys',
+VALUES (50, '2', 44, 'refdataMap', '/stdata/refdataMap', NULL, NULL, 'OneToOneOutlined', './Stdata/RefDataMap', NULL, 'sys',
         'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
-VALUES (51, '0', 0, 'admin', '/admin', NULL, NULL, 'setting', NULL, NULL, 'sys', 'sys');
+VALUES (51, '0', 0, 'admin', '/admin', NULL, NULL, 'SettingOutlined', NULL, NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
 VALUES (52, '2', 51, NULL, '/admin', '/admin/dept', NULL, NULL, NULL, NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
-VALUES (53, '2', 51, 'dept', '/admin/dept', NULL, NULL, 'apartment', './Admin/Dept', NULL, 'sys', 'sys');
+VALUES (53, '2', 51, 'dept', '/admin/dept', NULL, NULL, 'ApartmentOutlined', './Admin/Dept', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
-VALUES (54, '2', 51, 'role', '/admin/role', NULL, NULL, 'safety', './Admin/Role', NULL, 'sys', 'sys');
+VALUES (54, '2', 51, 'role', '/admin/role', NULL, NULL, 'SafetyOutlined', './Admin/Role', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
-VALUES (55, '2', 51, 'user', '/admin/user', NULL, NULL, 'user', './Admin/User', NULL, 'sys', 'sys');
+VALUES (55, '2', 51, 'user', '/admin/user', NULL, NULL, 'UserOutlined', './Admin/User', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
-VALUES (56, '2', 51, 'resource.web', '/admin/resource/web', NULL, NULL, 'team', './Admin/Resource/Web', NULL, 'sys',
+VALUES (56, '2', 51, 'resource.web', '/admin/resource/web', NULL, NULL, 'TeamOutlined', './Admin/Resource/Web', NULL, 'sys',
         'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
-VALUES (57, '2', 51, 'privilege', '/admin/privilege', NULL, NULL, 'team', './Admin/Privilege', NULL, 'sys', 'sys');
+VALUES (57, '2', 51, 'privilege', '/admin/privilege', NULL, NULL, 'TeamOutlined', './Admin/Privilege', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
-VALUES (58, '2', 51, 'quartz', '/admin/workflow/quartz', NULL, NULL, 'fieldTime', './Workflow/Definition/Quartz', NULL,
+VALUES (58, '2', 51, 'quartz', '/admin/workflow/quartz', NULL, NULL, 'FieldTimeOutlined', './Workflow/Definition/Quartz', NULL,
         'sys', 'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
@@ -512,10 +512,10 @@ INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, 
 VALUES (61, '2', 51, NULL, '/admin/workflow/schedule', NULL, NULL, NULL, './Workflow/Schedule', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
-VALUES (62, '2', 51, 'dict', '/admin/dict', NULL, NULL, 'table', './Admin/Dict', NULL, 'sys', 'sys');
+VALUES (62, '2', 51, 'dict', '/admin/dict', NULL, NULL, 'TableOutlined', './Admin/Dict', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
-VALUES (63, '2', 51, 'setting', '/admin/setting', NULL, NULL, 'setting', './Admin/Setting', NULL, 'sys', 'sys');
+VALUES (63, '2', 51, 'setting', '/admin/setting', NULL, NULL, 'SettingOutlined', './Admin/Setting', NULL, 'sys', 'sys');
 
 
 drop table if exists sec_resource_web_role;

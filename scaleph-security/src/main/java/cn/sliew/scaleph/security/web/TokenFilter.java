@@ -125,6 +125,7 @@ public class TokenFilter extends GenericFilterBean {
             }
             onlineUser.setRoles(roleList);
             onlineUser.setPrivileges(privilegeList);
+            // fixme User != UserDetailInfo
             User principal = new User(onlineUser.getUserName(), "", authorities);
             return new UsernamePasswordAuthenticationToken(principal, onlineUser.getToken(),
                     authorities);
