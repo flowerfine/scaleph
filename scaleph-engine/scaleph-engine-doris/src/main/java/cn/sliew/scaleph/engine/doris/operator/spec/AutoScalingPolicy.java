@@ -31,7 +31,7 @@ public class AutoScalingPolicy {
     /**
      * the policy of cn autoscale. operator use autoscaling v2.
      */
-    private Object hpaPolicy;
+    private HPAPolicy hpaPolicy;
 
     /**
      * version represents the autoscaler version for cn service. only support v1,,v2

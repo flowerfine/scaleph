@@ -20,12 +20,34 @@ package cn.sliew.scaleph.engine.doris.operator.spec;
 
 import lombok.Data;
 
+/**
+ * DorisClusterSpec defines the desired state of DorisCluster
+ */
 @Data
 public class DorisClusterSpec {
 
+    /**
+     * defines the fe cluster state that will be created by operator.
+     */
     private FeSpec feSpec;
+
+    /**
+     * defines the be cluster state pod that will be created by operator.
+     */
     private BeSpec beSpec;
+
+    /**
+     * defines the cn cluster state that will be created by operator.
+     */
     private CnSpec cnSpec;
+
+    /**
+     * efines the broker state that will be created by operator.
+     */
     private BrokerSpec brokerSpec;
+
+    /**
+     * administrator for register or drop component from fe cluster. adminUser for all component register and operator drop component.
+     */
     private AdminUser adminUser;
 }

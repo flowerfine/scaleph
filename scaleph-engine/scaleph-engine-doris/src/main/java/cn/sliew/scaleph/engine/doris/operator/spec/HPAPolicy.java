@@ -30,11 +30,11 @@ public class HPAPolicy {
      * Metrics specifies how to scale based on a single metric the struct copy from k8s.io/api/autoscaling/v2beta2/types.go. the redundancy code will hide the restriction about HorizontalPodAutoscaler version and kubernetes releases matching issue. the splice will have unsafe.Pointer convert, so be careful to edit the struct fileds.
      */
     @Nullable
-    private List<Object> metrics;
+    private List<MetricSpec> metrics;
 
     /**
      * HorizontalPodAutoscalerBehavior configures the scaling behavior of the target. the struct copy from k8s.io/api/autoscaling/v2beta2/types.go. the redundancy code will hide the restriction about HorizontalPodAutoscaler version and kubernetes releases matching issue. the
      */
     @Nullable
-    private Object behavior;
+    private HorizontalPodAutoscalerBehavior behavior;
 }

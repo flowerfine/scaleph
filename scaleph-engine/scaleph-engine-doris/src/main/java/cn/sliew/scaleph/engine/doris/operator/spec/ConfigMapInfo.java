@@ -20,6 +20,9 @@ package cn.sliew.scaleph.engine.doris.operator.spec;
 
 import lombok.Data;
 
+/**
+ * ConfigMapInfo specify configmap to mount for component.
+ */
 @Data
 public class ConfigMapInfo {
 

@@ -16,16 +16,28 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.doris.operator.status;
+package cn.sliew.scaleph.engine.doris.operator.spec;
 
-import cn.sliew.scaleph.engine.doris.operator.spec.HorizontalScaler;
 import lombok.Data;
 
+/**
+ * HPAScalingPolicy is a single policy which must hold true for a specified past interval.
+ */
 @Data
-public class CnStatus extends ComponentStatus {
+public class HPAScalingPolicy {
 
     /**
-     * HorizontalAutoscaler have the autoscaler information.
+     * Type is used to specify the scaling policy.
      */
-    private HorizontalScaler horizontalScaler;
+    private HPAScalingPolicyType type;
+
+    /**
+     * Value contains the amount of change which is permitted by the policy. It must be greater than zero
+     */
+    private Integer value;
+
+    /**
+     * PeriodSeconds specifies the window of time for which the policy should hold true. PeriodSeconds must be greater than zero and less than or equal to 1800 (30 min).
+     */
+    private Integer periodSeconds;
 }
