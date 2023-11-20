@@ -62,6 +62,7 @@ public enum SecurityUtil {
      * 获取当前登录的用户名称
      *
      * @return username
+     * @see cn.sliew.scaleph.security.web.TokenFilter
      */
     public static Optional<Long> getCurrentUserId() {
         UserDetailInfo userDetailInfo = (UserDetailInfo) SecurityUtil.getCurrentUser();
