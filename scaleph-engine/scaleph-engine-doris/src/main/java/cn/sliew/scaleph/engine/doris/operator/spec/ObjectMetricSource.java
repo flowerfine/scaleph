@@ -29,12 +29,12 @@ public class ObjectMetricSource {
     /**
      *
      */
-    private Object describedObject;
+    private CrossVersionObjectReference describedObject;
 
     /**
      * metric identifies the target metric by name and selector
      */
-    private Object metric;
+    private MetricIdentifier metric;
 
     /**
      * target specifies the target value for the given metric

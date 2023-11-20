@@ -18,5 +18,31 @@
 
 package cn.sliew.scaleph.engine.doris.operator.status;
 
+import lombok.Data;
+
+/**
+ * DorisClusterStatus defines the observed state of DorisCluster
+ */
+@Data
 public class DorisClusterStatus {
+
+    /**
+     * describe fe cluster status, record running, creating and failed pods.
+     */
+    private ComponentStatus feStatus;
+
+    /**
+     * describe be cluster status, recode running, creating and failed pods.
+     */
+    private ComponentStatus beStatus;
+
+    /**
+     * describe cn cluster status, record running, creating and failed pods.
+     */
+    private CnStatus cnStatus;
+
+    /**
+     * describe broker cluster status, record running, creating and failed pods.
+     */
+    private ComponentStatus brokerStatus;
 }

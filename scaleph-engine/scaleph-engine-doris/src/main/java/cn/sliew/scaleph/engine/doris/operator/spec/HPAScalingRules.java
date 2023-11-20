@@ -20,8 +20,27 @@ package cn.sliew.scaleph.engine.doris.operator.spec;
 
 import lombok.Data;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 @Data
 public class HPAScalingRules {
 
+    /**
+     * StabilizationWindowSeconds is the number of seconds for which past recommendations should be considered while scaling up or scaling down. StabilizationWindowSeconds must be greater than or equal to zero and less than or equal to 3600 (one hour). If not set, use the default values: - For scale up: 0 (i.e. no stabilization is done). - For scale down: 300 (i.e. the stabilization window is 300 seconds long).
+     */
+    @Nullable
+    private Integer stabilizationWindowSeconds;
 
+    /**
+     * selectPolicy is used to specify which policy should be used. If not set, the default value MaxPolicySelect is used.
+     */
+    @Nullable
+    private ScalingPolicySelect selectPolicy;
+
+    /**
+     * policies is a list of potential scaling polices which can be used during scaling. At least one policy must be specified, otherwise the HPAScalingRules will be discarded as invalid
+     */
+    @Nullable
+    private List<HPAScalingPolicy> policies;
 }

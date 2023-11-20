@@ -64,15 +64,16 @@
         t1.*
         FROM
         sec_role t1
-        WHERE
-        <if test="status != null">
-            AND t1.`status` = #{status}
-        </if>
-        <if test="name != null and name != ''">
-            AND t1.`name` like concat('%',#{name},'%')
-        </if>
-        AND NOT EXISTS ( SELECT * FROM sec_resource_web_role t2 WHERE t1.id = t2.role_id AND t2.resource_web_id =
-        #{resourceWebId} )
+        <where>
+            <if test="status != null">
+                AND t1.`status` = #{status}
+            </if>
+            <if test="name != null and name != ''">
+                AND t1.`name` like concat('%',#{name},'%')
+            </if>
+            AND NOT EXISTS ( SELECT * FROM sec_resource_web_role t2 WHERE t1.id = t2.role_id AND t2.resource_web_id =
+            #{resourceWebId} )
+        </where>
         ORDER BY
         t1.`code`
     </select>

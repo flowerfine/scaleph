@@ -20,9 +20,19 @@ package cn.sliew.scaleph.engine.doris.operator.spec;
 
 import lombok.Data;
 
+/**
+ * AdminUser describe administrator for manage components in specified cluster.
+ */
 @Data
 public class AdminUser extends BaseSpec {
 
+    /**
+     * the user name for admin service’s node.
+     */
     private String name;
+
+    /**
+     * password, login to doris db.
+     */
     private String password;
 }

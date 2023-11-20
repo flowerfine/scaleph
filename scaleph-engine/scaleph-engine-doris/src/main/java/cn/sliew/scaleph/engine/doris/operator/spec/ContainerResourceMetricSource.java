@@ -21,18 +21,24 @@ package cn.sliew.scaleph.engine.doris.operator.spec;
 import lombok.Data;
 
 /**
- * FeAddress specify the fe address, please set it when you deploy fe outside k8s or deploy components use crd except fe, if not set .
+ * ContainerResourceMetricSource indicates how to scale on a resource metric known to Kubernetes, as specified in requests and limits, describing each pod in the current scale target (e.g. CPU or memory). The values will be averaged together before being compared to the target. Such metrics are built in to Kubernetes, and have special scaling options on top of those available to normal per-pod metrics using the “pods” source. Only one “target” type should be set.
  */
 @Data
-public class FeAddress {
+public class ContainerResourceMetricSource {
 
     /**
-     * the service name that proxy fe on k8s. the service must in same namespace with fe.
+     * name is the name of the resource in question.
      */
-    private String serviceName;
+    private String name;
 
     /**
-     * the fe addresses if not deploy by crd, user can use k8s deploy fe observer.
+     * target specifies the target value for the given metric
      */
-    private Endpoints endpoints;
+    private MetricTarget target;
+
+    /**
+     * container is the name of the container in the pods of the scaling target
+     */
+    private String container;
+
 }
