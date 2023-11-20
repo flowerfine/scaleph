@@ -18,10 +18,13 @@
 
 package cn.sliew.scaleph.security.util;
 
+import cn.sliew.scaleph.security.authentication.UserDetailInfo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.ObjectUtils;
+
+import java.util.Optional;
 
 /**
  * @author gleiyu
@@ -53,5 +56,18 @@ public enum SecurityUtil {
             return currentUser.getUsername();
         }
         return null;
+    }
+
+    /**
+     * 获取当前登录的用户名称
+     *
+     * @return username
+     */
+    public static Optional<Long> getCurrentUserId() {
+        UserDetailInfo userDetailInfo = (UserDetailInfo) SecurityUtil.getCurrentUser();
+        if (userDetailInfo != null) {
+            return Optional.of(userDetailInfo.getUser().getId());
+        }
+        return Optional.empty();
     }
 }
