@@ -18,18 +18,27 @@
 
 package cn.sliew.scaleph.engine.doris.service.impl;
 
+import cn.sliew.scaleph.common.util.UUIDUtil;
+import cn.sliew.scaleph.dao.entity.master.ws.WsDorisTemplate;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsDorisTemplateMapper;
 import cn.sliew.scaleph.engine.doris.service.WsDorisTemplateService;
+import cn.sliew.scaleph.engine.doris.service.convert.WsDorisTemplateConvert;
 import cn.sliew.scaleph.engine.doris.service.dto.WsDorisTemplateDTO;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisTemplateAddParam;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisTemplateListParam;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisTemplateUpdateParam;
 import cn.sliew.scaleph.engine.doris.service.resource.DorisTemplate;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
+
+import static cn.sliew.milky.common.check.Ensures.checkState;
 
 @Service
 public class WsDorisTemplateServiceImpl implements WsDorisTemplateService {
@@ -39,12 +48,23 @@ public class WsDorisTemplateServiceImpl implements WsDorisTemplateService {
 
     @Override
     public Page<WsDorisTemplateDTO> list(WsDorisTemplateListParam param) {
-        return null;
+        Page<WsDorisTemplate> page = new Page<>(param.getCurrent(), param.getPageSize());
+        LambdaQueryWrapper<WsDorisTemplate> queryWrapper = Wrappers.lambdaQuery(WsDorisTemplate.class)
+                .eq(WsDorisTemplate::getProjectId, param.getProjectId())
+                .like(StringUtils.hasText(param.getName()), WsDorisTemplate::getName, param.getName())
+                .orderByAsc(WsDorisTemplate::getId);
+        Page<WsDorisTemplate> wsDorisTemplatePage = wsDorisTemplateMapper.selectPage(page, queryWrapper);
+        Page<WsDorisTemplateDTO> result = new Page<>(wsDorisTemplatePage.getCurrent(), wsDorisTemplatePage.getSize(), wsDorisTemplatePage.getTotal());
+        List<WsDorisTemplateDTO> dtoList = WsDorisTemplateConvert.INSTANCE.toDto(page.getRecords());
+        result.setRecords(dtoList);
+        return result;
     }
 
     @Override
     public WsDorisTemplateDTO selectOne(Long id) {
-        return null;
+        WsDorisTemplate record = wsDorisTemplateMapper.selectById(id);
+        checkState(record != null, () -> "doris template not exist for id = " + id);
+        return WsDorisTemplateConvert.INSTANCE.toDto(record);
     }
 
     @Override
@@ -54,21 +74,26 @@ public class WsDorisTemplateServiceImpl implements WsDorisTemplateService {
 
     @Override
     public int insert(WsDorisTemplateAddParam param) {
-        return 0;
+        WsDorisTemplate record = new WsDorisTemplate();
+        BeanUtils.copyProperties(param, record);
+        record.setTemplateId(UUIDUtil.randomUUId());
+        return wsDorisTemplateMapper.insert(record);
     }
 
     @Override
     public int update(WsDorisTemplateUpdateParam param) {
-        return 0;
+        WsDorisTemplate record = new WsDorisTemplate();
+        BeanUtils.copyProperties(param, record);
+        return wsDorisTemplateMapper.updateById(record);
     }
 
     @Override
     public int deleteById(Long id) {
-        return 0;
+        return wsDorisTemplateMapper.deleteById(id);
     }
 
     @Override
     public int deleteBatch(List<Long> ids) {
-        return 0;
+        return wsDorisTemplateMapper.deleteBatchIds(ids);
     }
 }
