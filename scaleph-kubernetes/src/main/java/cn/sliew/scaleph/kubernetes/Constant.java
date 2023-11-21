@@ -25,6 +25,12 @@ public enum Constant {
     // https://kubernetes.io/docs/reference/using-api/api-concepts/#the-resourceversion-parameter
     public static final String KUBERNETES_ZERO_RESOURCE_VERSION = "0";
 
+    public static final String[] JSON_PROPERTY_ORDER = {"apiVersion", "kind", "metadata", "spec", "status"};
+
+    public static final String SCALEPH_GROUP = "scaleph.sliew.cn";
+    public static final String SCALEPH_VERSION = "v1alpha";
+    public static final String SCALEPH_API_VERSION = SCALEPH_GROUP + "/" + SCALEPH_VERSION;
+
     public static final String GROUP = "flink.apache.org";
     public static final String VERSION = "v1beta1";
     public static final String API_VERSION = GROUP + "/" + VERSION;

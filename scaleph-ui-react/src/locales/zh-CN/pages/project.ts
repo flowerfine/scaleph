@@ -919,6 +919,12 @@ export default {
   'pages.project.flink.kubernetes.job.detail.savepoint.formatType': 'Format',
   'pages.project.flink.kubernetes.job.detail.savepoint.triggerType': 'Trigger Type',
   'pages.project.flink.kubernetes.job.detail.savepoint.location': 'Location',
+
+  'pages.project.doris.template': 'Template',
+  'pages.project.doris.template.name': '名称',
+  'pages.project.doris.template.namespace': '命名空间',
+
+
   'Run': '运行',
   'Save': '保存',
   'Format': '格式化',
