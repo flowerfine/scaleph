@@ -18,15 +18,62 @@
 
 package cn.sliew.scaleph.engine.doris.service.convert;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDorisTemplate;
+import cn.sliew.scaleph.engine.doris.operator.spec.*;
 import cn.sliew.scaleph.engine.doris.service.dto.WsDorisTemplateDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
+import org.springframework.beans.BeanUtils;
+import org.springframework.util.StringUtils;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface WsDorisTemplateConvert extends BaseConvert<WsDorisTemplate, WsDorisTemplateDTO> {
     WsDorisTemplateConvert INSTANCE = Mappers.getMapper(WsDorisTemplateConvert.class);
 
+    @Override
+    default WsDorisTemplate toDo(WsDorisTemplateDTO dto) {
+        WsDorisTemplate entity = new WsDorisTemplate();
+        BeanUtils.copyProperties(dto, entity);
+        if (dto.getAdmin() != null) {
+            entity.setAdmin(JacksonUtil.toJsonString(dto.getAdmin()));
+        }
+        if (dto.getFeSpec() != null) {
+            entity.setFeSpec(JacksonUtil.toJsonString(dto.getFeSpec()));
+        }
+        if (dto.getBeSpec() != null) {
+            entity.setBeSpec(JacksonUtil.toJsonString(dto.getBeSpec()));
+        }
+        if (dto.getCnSpec() != null) {
+            entity.setCnSpec(JacksonUtil.toJsonString(dto.getCnSpec()));
+        }
+        if (dto.getBrokerSpec() != null) {
+            entity.setBrokerSpec(JacksonUtil.toJsonString(dto.getBrokerSpec()));
+        }
+        return entity;
+    }
+
+    @Override
+    default WsDorisTemplateDTO toDto(WsDorisTemplate entity) {
+        WsDorisTemplateDTO dto = new WsDorisTemplateDTO();
+        BeanUtils.copyProperties(entity, dto);
+        if (StringUtils.hasText(entity.getAdmin())) {
+            dto.setAdmin(JacksonUtil.parseJsonString(entity.getAdmin(), AdminUser.class));
+        }
+        if (StringUtils.hasText(entity.getFeSpec())) {
+            dto.setFeSpec(JacksonUtil.parseJsonString(entity.getFeSpec(), FeSpec.class));
+        }
+        if (StringUtils.hasText(entity.getBeSpec())) {
+            dto.setBeSpec(JacksonUtil.parseJsonString(entity.getBeSpec(), BeSpec.class));
+        }
+        if (StringUtils.hasText(entity.getCnSpec())) {
+            dto.setCnSpec(JacksonUtil.parseJsonString(entity.getCnSpec(), CnSpec.class));
+        }
+        if (StringUtils.hasText(entity.getBrokerSpec())) {
+            dto.setBrokerSpec(JacksonUtil.parseJsonString(entity.getBrokerSpec(), BrokerSpec.class));
+        }
+        return dto;
+    }
 }
