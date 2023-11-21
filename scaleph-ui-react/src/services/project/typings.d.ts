@@ -427,3 +427,37 @@ export type WsFlinkKubernetesJobInstanceSavepoint = {
 export type WsFlinkKubernetesJobInstanceSavepointParam = QueryParam & {
   wsFlinkKubernetesJobInstanceId: number
 };
+
+export type WsDorisTemplate = {
+  id?: number;
+  projectId: number;
+  name?: string;
+  namespace: string;
+  admin?: Record<string, any>;
+  feSpec?: Record<string, any>;
+  beSpec?: Record<string, any>;
+  cnSpec?: Record<string, any>;
+  brokerSpec?: Record<string, any>;
+  remark?: string;
+  createTime?: Date;
+  updateTime?: Date;
+};
+
+export type WsDorisTemplateParam = QueryParam & {
+  projectId: number;
+  name?: string;
+};
+
+export type WsDorisTemplateAddParam = {
+  projectId: number;
+  name: string;
+  namespace: string;
+  remark?: string;
+};
+
+export type WsDorisTemplateUpdateParam = {
+  id: number;
+  name: string;
+  namespace: string;
+  remark?: string;
+};

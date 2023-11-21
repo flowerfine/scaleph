@@ -218,6 +218,29 @@ export default [
           },
         ]
       },
+      {
+        name: 'project.doris',
+        path: '/workspace/doris',
+        icon: 'solution',
+        pCode: PRIVILEGE_CODE.workspaceClusterShow,
+        access: 'normalRouteFilter',
+        routes: [
+          {
+            path: '/workspace/doris',
+            redirect: '/workspace/doris/template',
+            pCode: PRIVILEGE_CODE.workspaceJobShow,
+            access: 'normalRouteFilter',
+          },
+          {
+            name: 'template',
+            path: '/workspace/doris/template',
+            exact: true,
+            component: './Project/Workspace/Doris/Template',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          }
+        ]
+      },
     ]
   },
   {

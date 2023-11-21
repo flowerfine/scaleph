@@ -12,6 +12,8 @@ export default {
   'menu.project.flink.kubernetes.session-cluster': 'SessionCluster',
   'menu.project.flink.kubernetes.deployment': 'Deployment',
   'menu.project.flink.kubernetes.job': 'Job',
+  'menu.project.doris': 'Doris',
+  'menu.project.doris.template': 'Template',
 
   'menu.resource': '资源',
   'menu.resource.jar': '公共 Jar',
