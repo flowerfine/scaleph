@@ -561,3 +561,10 @@ create table ws_doris_template
     primary key (id),
     unique key uniq_name (project_id, `name`)
 ) engine = innodb comment = 'doris template';
+
+INSERT INTO `ws_doris_template`(`id`, `project_id`, `name`, `template_id`, `namespace`, `admin`, `fe_spec`, `be_spec`,
+                                `cn_spec`, `broker_spec`, `remark`, `creator`, `editor`)
+VALUES (1, 1, 'simple-doriscluster-sample', 'zexbfaf0eba4ce824787a9bed88148eb233f', 'default', NULL,
+        '{\"replicas\":1,\"image\":\"selectdb/doris.fe-ubuntu:2.0.2\",\"limits\":{\"cpu\":4,\"memory\":\"8Gi\"},\"requests\":{\"cpu\":4,\"memory\":\"8Gi\"}}',
+        '{\"replicas\":1,\"image\":\"selectdb/doris.be-ubuntu:2.0.2\",\"limits\":{\"cpu\":4,\"memory\":\"8Gi\"},\"requests\":{\"cpu\":4,\"memory\":\"8Gi\"}}',
+        NULL, NULL, NULL, 'sys', 'sys');

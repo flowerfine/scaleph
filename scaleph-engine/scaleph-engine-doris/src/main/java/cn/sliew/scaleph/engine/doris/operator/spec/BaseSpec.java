@@ -18,10 +18,13 @@
 
 package cn.sliew.scaleph.engine.doris.operator.spec;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.fabric8.kubernetes.api.model.*;
 import lombok.Data;
 
 import javax.annotation.Nullable;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,10 +74,13 @@ public class BaseSpec {
     private Integer replicas;
 
     /**
-     * fixme 错误
      * (Members of ResourceRequirements are embedded into this type.)
      */
-    private ResourceRequirements ResourceRequirements;
+    @JsonProperty("limits")
+    private Map<String, Quantity> limits = new LinkedHashMap();
+
+    @JsonProperty("requests")
+    private Map<String, Quantity> requests = new LinkedHashMap();
 
     /**
      * (Optional) Tolerations for scheduling pods onto some dedicated nodes

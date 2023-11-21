@@ -1,52 +1,35 @@
 import {history, useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
-import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
+import {Button, message, Modal, Space, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
-import {ActionType, ProColumns, ProFormInstance, ProFormSelect, ProTable} from "@ant-design/pro-components";
-import {DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF} from "@/constant";
-import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
+import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
+import {PRIVILEGE_CODE, WORKSPACE_CONF} from "@/constant";
+import {WsDorisTemplate} from "@/services/project/typings";
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
-import {DictDataService} from "@/services/admin/dictData.service";
+import {WsDorisTemplateService} from "@/services/project/WsDorisTemplateService";
+import DorisTemplateForm from "@/pages/Project/Workspace/Doris/Template/DorisTemplateForm";
 
 const DorisTemplateWeb: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<WsFlinkKubernetesTemplate[]>([]);
-  const [deploymentTemplateFormData, setDeploymentTemplateFormData] = useState<{
+  const [selectedRows, setSelectedRows] = useState<WsDorisTemplate[]>([]);
+  const [dorisTemplateFormData, setDorisTemplateFormData] = useState<{
     visiable: boolean;
-    data: WsFlinkKubernetesTemplate;
+    data: WsDorisTemplate;
   }>({visiable: false, data: {}});
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
-  const tableColumns: ProColumns<WsFlinkKubernetesTemplate>[] = [
+  const tableColumns: ProColumns<WsDorisTemplate>[] = [
     {
-      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.name'}),
+      title: intl.formatMessage({id: 'pages.project.doris.template.name'}),
       dataIndex: 'name'
     },
     {
-      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.deploymentKind'}),
-      dataIndex: 'deploymentKind',
-      width: 150,
-      render: (dom, entity) => {
-        return (<Tag>{entity.deploymentKind?.label}</Tag>)
-      },
-      renderFormItem: (item, {defaultRender, ...rest}, form) => {
-        return (
-          <ProFormSelect
-            showSearch={false}
-            allowClear={true}
-            request={() => DictDataService.listDictDataByType2(DICT_TYPE.deploymentKind)}
-          />
-        );
-      }
-    },
-    {
-      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.namespace'}),
+      title: intl.formatMessage({id: 'pages.project.doris.template.namespace'}),
       dataIndex: 'namespace',
       hideInSearch: true,
-      width: 150
     },
     {
       title: intl.formatMessage({id: 'app.common.data.remark'}),
@@ -81,7 +64,7 @@ const DorisTemplateWeb: React.FC = () => {
                 type="link"
                 icon={<EditOutlined/>}
                 onClick={() => {
-                  setDeploymentTemplateFormData({visiable: true, data: record});
+                  setDorisTemplateFormData({visiable: true, data: record});
                 }}
               />
             </Tooltip>
@@ -113,7 +96,7 @@ const DorisTemplateWeb: React.FC = () => {
                     okButtonProps: {danger: true},
                     cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                     onOk() {
-                      WsFlinkKubernetesTemplateService.delete(record).then((d) => {
+                      WsDorisTemplateService.delete(record).then((d) => {
                         if (d.success) {
                           message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                           actionRef.current?.reload();
@@ -131,7 +114,7 @@ const DorisTemplateWeb: React.FC = () => {
   ];
 
   return (<div>
-    <ProTable<WsFlinkKubernetesTemplate>
+    <ProTable<WsDorisTemplate>
       search={{
         labelWidth: 'auto',
         span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -142,7 +125,7 @@ const DorisTemplateWeb: React.FC = () => {
       options={false}
       columns={tableColumns}
       request={(params, sorter, filter) =>
-        WsFlinkKubernetesTemplateService.list({...params, projectId: projectId})
+        WsDorisTemplateService.list({...params, projectId: projectId})
       }
       toolbar={{
         actions: [
@@ -151,7 +134,7 @@ const DorisTemplateWeb: React.FC = () => {
               key="new"
               type="primary"
               onClick={() => {
-                setDeploymentTemplateFormData({visiable: true, data: {}});
+                setDorisTemplateFormData({visiable: true, data: {}});
               }}
             >
               {intl.formatMessage({id: 'app.common.operate.new.label'})}
@@ -170,7 +153,7 @@ const DorisTemplateWeb: React.FC = () => {
                   okButtonProps: {danger: true},
                   cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                   onOk() {
-                    WsFlinkKubernetesTemplateService.deleteBatch(selectedRows).then((d) => {
+                    WsDorisTemplateService.deleteBatch(selectedRows).then((d) => {
                       if (d.success) {
                         message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                         actionRef.current?.reload();
@@ -195,6 +178,19 @@ const DorisTemplateWeb: React.FC = () => {
       tableAlertRender={false}
       tableAlertOptionRender={false}
     />
+    {dorisTemplateFormData.visiable && (
+      <DorisTemplateForm
+        visible={dorisTemplateFormData.visiable}
+        onCancel={() => {
+          setDorisTemplateFormData({visiable: false, data: {}});
+        }}
+        onVisibleChange={(visiable) => {
+          setDorisTemplateFormData({visiable: visiable, data: {}});
+          actionRef.current?.reload();
+        }}
+        data={dorisTemplateFormData.data}
+      />
+    )}
   </div>);
 }
 
