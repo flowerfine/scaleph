@@ -73,6 +73,12 @@ public class JobSpec implements Diffable<JobSpec> {
     private String initialSavepointPath;
 
     /**
+     * Nonce used to manually trigger checkpoint for the running job. In order to trigger a
+     * checkpoint, change the number to anything other than the current value.
+     */
+    private Long checkpointTriggerNonce;
+
+    /**
      * Upgrade mode of the Flink job.
      */
     private UpgradeMode upgradeMode = UpgradeMode.STATELESS;

@@ -18,49 +18,26 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.operator.status;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.apache.flink.configuration.description.InlineElement;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(toBuilder = true)
-public class JobStatus {
+import static org.apache.flink.configuration.description.TextElement.text;
 
-    /**
-     * Name of the job.
-     */
-    private String jobName;
+/**
+ * Checkpoint format type.
+ */
+public enum CheckpointType {
+
+    FULL("A comprehensive snapshot, saving the complete state of a data stream."),
+    INCREMENTAL("A more efficient, reduced snapshot, saving only the differences in state data since the last checkpoint."),
 
     /**
-     * Flink JobId of the Job.
+     * Checkpoint format unknown, if the checkpoint was not triggered by the operator.
      */
-    private String jobId;
+    UNKNOWN("Only for internal purposes.");
 
-    /**
-     * Last observed state of the job.
-     */
-    private String state;
+    private final InlineElement description;
 
-    /**
-     * Start time of the job.
-     */
-    private String startTime;
-
-    /**
-     * Update time of the job.
-     */
-    private String updateTime;
-
-    /**
-     * Information about pending and last savepoint for the job.
-     */
-    private SavepointInfo savepointInfo = new SavepointInfo();
-
-    /**
-     * Information about pending and last checkpoint for the job.
-     */
-    private Object checkpointInfo = new Object();
+    CheckpointType(String description) {
+        this.description = text(description);
+    }
 }
