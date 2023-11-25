@@ -133,7 +133,7 @@ const DorisTemplateWeb: React.FC = () => {
               key="new"
               type="primary"
               onClick={() => {
-                setDorisTemplateFormData({visiable: true, data: {}});
+                history.push("/workspace/doris/template/steps")
               }}
             >
               {intl.formatMessage({id: 'app.common.operate.new.label'})}
