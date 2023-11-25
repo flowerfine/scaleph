@@ -2,7 +2,7 @@ import {useIntl} from "umi";
 import React, {useRef} from "react";
 import {ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
 import {WORKSPACE_CONF} from "@/constant";
-import DorisTemplateComponent from "@/pages/Project/Workspace/Doris/Template/Steps/Component";
+import DorisTemplateComponent from "@/pages/Project/Workspace/Doris/Template/Steps/ComponentStepForm";
 
 const DorisTemplateSteps: React.FC = () => {
   const intl = useIntl();
