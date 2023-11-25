@@ -1,16 +1,16 @@
 import {useIntl} from "umi";
-import {ProCard, ProFormDigit, ProFormGroup, ProFormList, ProFormText} from "@ant-design/pro-components";
+import {ProCard, ProFormDigit, ProFormText} from "@ant-design/pro-components";
 
 const DorisFeComponent: React.FC = () => {
   const intl = useIntl();
 
   return (<ProCard
-    title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.fe'})}
+    title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.cn'})}
     headerBordered
     collapsible={true}
     defaultCollapsed>
     <ProFormDigit
-      name="fe.replicas"
+      name="cn.replicas"
       label={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.replicas'})}
       colProps={{span: 10, offset: 1}}
       initialValue={3}
@@ -19,13 +19,13 @@ const DorisFeComponent: React.FC = () => {
       }}
     />
     <ProFormText
-      name="fe.image"
+      name="cn.image"
       label={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.image'})}
       colProps={{span: 10, offset: 1}}
-      initialValue={"selectdb/doris.fe-ubuntu:2.0.2"}
+      initialValue={"selectdb/doris.be-ubuntu:2.0.2"}
     />
     <ProFormDigit
-      name="fe.requests.cpu"
+      name="cn.requests.cpu"
       label={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.requests.cpu'})}
       colProps={{span: 10, offset: 1}}
       initialValue={8}
@@ -34,13 +34,13 @@ const DorisFeComponent: React.FC = () => {
       }}
     />
     <ProFormText
-      name="fe.requests.memory"
+      name="cn.requests.memory"
       label={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.requests.memory'})}
       colProps={{span: 10, offset: 1}}
       initialValue={"16Gi"}
     />
     <ProFormDigit
-      name="fe.limits.cpu"
+      name="cn.limits.cpu"
       label={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.limits.cpu'})}
       colProps={{span: 10, offset: 1}}
       initialValue={16}
@@ -49,7 +49,7 @@ const DorisFeComponent: React.FC = () => {
       }}
     />
     <ProFormText
-      name="fe.limits.memory"
+      name="cn.limits.memory"
       label={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.limits.memory'})}
       colProps={{span: 10, offset: 1}}
       initialValue={"32Gi"}

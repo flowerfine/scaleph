@@ -3,6 +3,7 @@ import React, {useRef} from "react";
 import {ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
 import {WORKSPACE_CONF} from "@/constant";
 import DorisTemplateComponent from "@/pages/Project/Workspace/Doris/Template/Steps/ComponentStepForm";
+import DorisTemplateBase from "@/pages/Project/Workspace/Doris/Template/Steps/BaseStepForm";
 
 const DorisTemplateSteps: React.FC = () => {
   const intl = useIntl();
@@ -18,6 +19,12 @@ const DorisTemplateSteps: React.FC = () => {
           rowProps: {gutter: [16, 8]}
         }}
       >
+        <StepsForm.StepForm
+          name="base"
+          title={intl.formatMessage({id: 'pages.project.doris.template.steps.base'})}
+          style={{width: 1000}}>
+          <DorisTemplateBase/>
+        </StepsForm.StepForm>
         <StepsForm.StepForm
           name="component"
           title={intl.formatMessage({id: 'pages.project.doris.template.steps.component'})}

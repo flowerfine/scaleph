@@ -1,19 +1,21 @@
 import React from "react";
 import {Form} from "antd";
-import {ProForm} from "@ant-design/pro-components";
+import {ProCard} from "@ant-design/pro-components";
 import DorisFeComponent from "@/pages/Project/Workspace/Doris/Template/Steps/Component/DorisFeComponent";
+import DorisAdminUser from "@/pages/Project/Workspace/Doris/Template/Steps/Component/DorisAdminUser";
+import DorisBeComponent from "@/pages/Project/Workspace/Doris/Template/Steps/Component/DorisBeComponent";
+import DorisCnComponent from "@/pages/Project/Workspace/Doris/Template/Steps/Component/DorisCnComponent";
 
 const DorisTemplateComponent: React.FC = () => {
   const [form] = Form.useForm()
 
   return (
-    <ProForm
-      form={form}
-      grid={true}
-      submitter={false}
-    >
+    <ProCard>
+      <DorisAdminUser/>
       <DorisFeComponent/>
-    </ProForm>
+      <DorisBeComponent/>
+      <DorisCnComponent/>
+    </ProCard>
   );
 }
 
