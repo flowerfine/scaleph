@@ -95,10 +95,10 @@ logging:
 
 springdoc:
   swagger-ui:
-    path: /swagger-ui.html
     tags-sorter: alpha
     operations-sorter: alpha
   api-docs:
+    enabled: true
     path: /v3/api-docs
   group-configs:
     - group: 'default'
