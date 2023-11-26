@@ -133,7 +133,7 @@
         <mapstruct.lombok.binding.version>0.2.0</mapstruct.lombok.binding.version>
         <org.projectlombok.version>1.18.24</org.projectlombok.version>
         <velocity.engine.version>2.2</velocity.engine.version>
-        <knife4j.version>4.3.0</knife4j.version>
+        <knife4j.version>4.1.0</knife4j.version>
         <auto-service.version>1.0.1</auto-service.version>
         <hutool.version>5.8.22</hutool.version>
         <commons.lang3.version>3.12.0</commons.lang3.version>

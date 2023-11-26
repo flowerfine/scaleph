@@ -18,49 +18,26 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.operator.status;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+/**
+ * Interface representing common snapshot information.
+ */
+public interface SnapshotInfo {
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(toBuilder = true)
-public class JobStatus {
+    String getTriggerId();
 
-    /**
-     * Name of the job.
-     */
-    private String jobName;
+    Long getTriggerTimestamp();
 
-    /**
-     * Flink JobId of the Job.
-     */
-    private String jobId;
+    Long getLastTriggerNonce();
 
-    /**
-     * Last observed state of the job.
-     */
-    private String state;
+    long getLastPeriodicTriggerTimestamp();
 
-    /**
-     * Start time of the job.
-     */
-    private String startTime;
+    SnapshotTriggerType getLastTriggerType();
 
-    /**
-     * Update time of the job.
-     */
-    private String updateTime;
+    SnapshotTriggerType getTriggerType();
 
-    /**
-     * Information about pending and last savepoint for the job.
-     */
-    private SavepointInfo savepointInfo = new SavepointInfo();
+    String formatErrorMessage(Long triggerNonce);
 
-    /**
-     * Information about pending and last checkpoint for the job.
-     */
-    private Object checkpointInfo = new Object();
+    Snapshot getLastSnapshot();
+
+    void resetTrigger();
 }

@@ -24,46 +24,38 @@ import lombok.NoArgsConstructor;
 import javax.annotation.Nullable;
 
 /**
- * Represents information about a finished savepoint.
+ * Represents information about a finished checkpoint.
  */
 @Data
 @NoArgsConstructor
-public class Savepoint implements Snapshot {
-
+public class Checkpoint implements Snapshot {
     /**
-     * Millisecond timestamp at the start of the savepoint operation.
+     * Millisecond timestamp at the start of the checkpoint operation.
      */
     private long timeStamp;
 
     /**
-     * External pointer of the savepoint can be used to recover jobs.
-     */
-    private String location;
-
-    /**
-     * Savepoint trigger mechanism.
+     * Checkpoint trigger mechanism.
      */
     private SnapshotTriggerType triggerType = SnapshotTriggerType.UNKNOWN;
 
     /**
-     * Savepoint format.
+     * Checkpoint format.
      */
-    private SavepointFormatType formatType = SavepointFormatType.UNKNOWN;
+    private CheckpointType formatType = CheckpointType.UNKNOWN;
 
     /**
-     * Nonce value used when the savepoint was triggered manually {@link
-     * SnapshotTriggerType#MANUAL}, null for other types of savepoints.
+     * Nonce value used when the checkpoint was triggered manually {@link
+     * SnapshotTriggerType#MANUAL}, null for other types of checkpoint.
      */
     private Long triggerNonce;
 
-    public Savepoint(
+    public Checkpoint(
             long timeStamp,
-            String location,
             @Nullable SnapshotTriggerType triggerType,
-            @Nullable SavepointFormatType formatType,
+            @Nullable CheckpointType formatType,
             @Nullable Long triggerNonce) {
         this.timeStamp = timeStamp;
-        this.location = location;
         if (triggerType != null) {
             this.triggerType = triggerType;
         }
@@ -73,21 +65,16 @@ public class Savepoint implements Snapshot {
         this.triggerNonce = triggerNonce;
     }
 
-    public static Savepoint of(String location, long timeStamp, SnapshotTriggerType triggerType) {
-        return new Savepoint(timeStamp, location, triggerType, SavepointFormatType.UNKNOWN, null);
+    public static Checkpoint of(long timeStamp, SnapshotTriggerType triggerType) {
+        return new Checkpoint(timeStamp, triggerType, CheckpointType.UNKNOWN, null);
     }
 
-    public static Savepoint of(String location, SnapshotTriggerType triggerType) {
-        return new Savepoint(
-                System.currentTimeMillis(),
-                location,
-                triggerType,
-                SavepointFormatType.UNKNOWN,
-                null);
+    public static Checkpoint of(SnapshotTriggerType triggerType) {
+        return new Checkpoint(
+                System.currentTimeMillis(), triggerType, CheckpointType.UNKNOWN, null);
     }
 
-    public static Savepoint of(
-            String location, SnapshotTriggerType triggerType, SavepointFormatType formatType) {
-        return new Savepoint(System.currentTimeMillis(), location, triggerType, formatType, null);
+    public static Checkpoint of(SnapshotTriggerType triggerType, CheckpointType formatType) {
+        return new Checkpoint(System.currentTimeMillis(), triggerType, formatType, null);
     }
 }

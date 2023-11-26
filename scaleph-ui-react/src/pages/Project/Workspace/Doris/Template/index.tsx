@@ -5,7 +5,6 @@ import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {PRIVILEGE_CODE, WORKSPACE_CONF} from "@/constant";
 import {WsDorisTemplate} from "@/services/project/typings";
-import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
 import {WsDorisTemplateService} from "@/services/project/WsDorisTemplateService";
 import DorisTemplateForm from "@/pages/Project/Workspace/Doris/Template/DorisTemplateForm";
 
@@ -70,13 +69,13 @@ const DorisTemplateWeb: React.FC = () => {
             </Tooltip>
           )}
           {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
-            <Tooltip title={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.define'})}>
+            <Tooltip title={intl.formatMessage({id: 'pages.project.doris.template.define'})}>
               <Button
                 shape="default"
                 type="link"
                 icon={<NodeIndexOutlined/>}
                 onClick={() => {
-                  history.push("/workspace/flink/kubernetes/template/detail", record)
+                  history.push("/workspace/doris/template/detail", record)
                 }}
               />
             </Tooltip>
@@ -134,7 +133,7 @@ const DorisTemplateWeb: React.FC = () => {
               key="new"
               type="primary"
               onClick={() => {
-                setDorisTemplateFormData({visiable: true, data: {}});
+                history.push("/workspace/doris/template/steps")
               }}
             >
               {intl.formatMessage({id: 'app.common.operate.new.label'})}
