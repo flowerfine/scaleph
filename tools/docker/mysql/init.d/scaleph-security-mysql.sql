@@ -534,6 +534,14 @@ INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`,
                                 `remark`, `creator`, `editor`)
 VALUES (66, '2', 64, 'template', '/workspace/doris/template', NULL, NULL, NULL, './Project/Workspace/Doris/Template',
         NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (67, '2', 64, NULL, '/workspace/doris/template/steps', NULL, NULL, NULL,
+        './Project/Workspace/Doris/Template/Steps', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (68, '2', 64, NULL, '/workspace/doris/template/detail', NULL, NULL, NULL,
+        './Project/Workspace/Doris/Template/Detail', NULL, 'sys', 'sys');
 
 drop table if exists sec_resource_web_role;
 create table sec_resource_web_role

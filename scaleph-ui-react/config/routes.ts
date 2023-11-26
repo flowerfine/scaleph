@@ -238,7 +238,21 @@ export default [
             component: './Project/Workspace/Doris/Template',
             pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
             access: 'normalRouteFilter'
-          }
+          },
+          {
+            path: '/workspace/doris/template/steps',
+            exact: true,
+            component: './Project/Workspace/Doris/Template/Steps',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
+          {
+            path: '/workspace/doris/template/detail',
+            exact: true,
+            component: './Project/Workspace/Doris/Template/Detail',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
         ]
       },
     ]

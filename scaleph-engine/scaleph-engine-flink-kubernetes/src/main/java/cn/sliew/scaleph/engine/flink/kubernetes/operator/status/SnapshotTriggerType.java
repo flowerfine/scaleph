@@ -18,49 +18,24 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.operator.status;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(toBuilder = true)
-public class JobStatus {
-
+/**
+ * Snapshot trigger mechanism.
+ */
+public enum SnapshotTriggerType {
     /**
-     * Name of the job.
+     * Snapshot manually triggered by changing a triggerNonce.
      */
-    private String jobName;
-
+    MANUAL,
     /**
-     * Flink JobId of the Job.
+     * Snapshot periodically triggered by the operator.
      */
-    private String jobId;
-
+    PERIODIC,
     /**
-     * Last observed state of the job.
+     * Snapshot triggered during stateful upgrade.
      */
-    private String state;
-
+    UPGRADE,
     /**
-     * Start time of the job.
+     * Snapshot trigger mechanism unknown, such as savepoint retrieved directly from Flink job.
      */
-    private String startTime;
-
-    /**
-     * Update time of the job.
-     */
-    private String updateTime;
-
-    /**
-     * Information about pending and last savepoint for the job.
-     */
-    private SavepointInfo savepointInfo = new SavepointInfo();
-
-    /**
-     * Information about pending and last checkpoint for the job.
-     */
-    private Object checkpointInfo = new Object();
+    UNKNOWN
 }
