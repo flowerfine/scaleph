@@ -941,6 +941,8 @@ export default {
   'pages.project.doris.template.steps.component.base.limits.memory': '最大内存',
   'pages.project.doris.template.steps.yaml': 'YAML',
   'pages.project.doris.template.detail': '模版详情',
+  'pages.project.doris.template.detail.component': '集群组件',
+  'pages.project.doris.template.detail.yaml': 'YAML',
 
 
   'Run': '运行',
