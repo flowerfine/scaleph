@@ -1,4 +1,4 @@
-import {connect, useIntl} from "umi";
+import {connect, history, useIntl} from "umi";
 import React, {useRef} from "react";
 import {ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
 import {WORKSPACE_CONF} from "@/constant";
@@ -6,9 +6,7 @@ import DorisTemplateComponent from "@/pages/Project/Workspace/Doris/Template/Ste
 import DorisTemplateBase from "@/pages/Project/Workspace/Doris/Template/Steps/BaseStepForm";
 import DorisTemplateYAML from "@/pages/Project/Workspace/Doris/Template/Steps/YAMLStepForm";
 import {WsDorisTemplate} from "@/services/project/typings";
-import {FieldData} from "rc-field-form/lib/interface";
 import {WsDorisTemplateService} from "@/services/project/WsDorisTemplateService";
-import {history} from "@@/core/history";
 
 const DorisTemplateSteps: React.FC = (props: any) => {
   const intl = useIntl();
@@ -26,23 +24,24 @@ const DorisTemplateSteps: React.FC = (props: any) => {
     return Promise.resolve(true)
   }
 
-  const onFieldsChange = (changedFields: FieldData[], allFields: FieldData[]) => {
+  const onComponentStepFinish = (values: Record<string, any>) => {
     try {
-      const template: WsDorisTemplate = WsDorisTemplateService.formatData(props.dorisTemplateDetail.template, formRef.current.getFieldsValue(true))
+      const template: WsDorisTemplate = WsDorisTemplateService.formatData(props.dorisTemplateSteps.template, values)
       editDorisTemplate(template)
+      return Promise.resolve(true)
     } catch (unused) {
     }
   }
 
   const editDorisTemplate = (template: WsDorisTemplate) => {
     props.dispatch({
-      type: 'dorisTemplateDetail/editTemplate',
+      type: 'dorisTemplateSteps/editTemplate',
       payload: template
     })
   }
 
   const onAllFinish = (values: Record<string, any>) => {
-    return WsDorisTemplateService.add(props.dorisTemplateDetail.template).then((response) => {
+    return WsDorisTemplateService.add(props.dorisTemplateSteps.template).then((response) => {
       if (response.success) {
         history.back()
       }
@@ -70,7 +69,7 @@ const DorisTemplateSteps: React.FC = (props: any) => {
           name="component"
           title={intl.formatMessage({id: 'pages.project.doris.template.steps.component'})}
           style={{width: 1000}}
-          onFieldsChange={onFieldsChange}>
+          onFinish={onComponentStepFinish}>
           <DorisTemplateComponent/>
         </StepsForm.StepForm>
         <StepsForm.StepForm
@@ -84,5 +83,5 @@ const DorisTemplateSteps: React.FC = (props: any) => {
   )
 }
 
-const mapModelToProps = ({dorisTemplateDetail}: any) => ({dorisTemplateDetail})
+const mapModelToProps = ({dorisTemplateSteps}: any) => ({dorisTemplateSteps})
 export default connect(mapModelToProps)(DorisTemplateSteps);

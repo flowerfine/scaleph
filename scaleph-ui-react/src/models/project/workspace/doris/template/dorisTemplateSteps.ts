@@ -1,6 +1,5 @@
-import {WsDorisTemplate, WsFlinkKubernetesTemplate} from "@/services/project/typings";
-import { Reducer, Effect } from "umi";
-import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
+import {WsDorisTemplate} from "@/services/project/typings";
+import {Effect, Reducer} from "umi";
 import YAML from "yaml";
 import {WsDorisTemplateService} from "@/services/project/WsDorisTemplateService";
 
@@ -25,6 +24,8 @@ export interface ModelType {
 }
 
 const model: ModelType = {
+  namespace: "dorisTemplateSteps",
+
   state: {
     template: null,
     templateYaml: null,
@@ -32,15 +33,21 @@ const model: ModelType = {
   },
 
   effects: {
-    *editTemplate({ payload }, { call, put }) {
-      const { data } = yield call(WsDorisTemplateService.asYaml, payload);
+    * editTemplate({payload}, {call, put}) {
+      const {data} = yield call(WsDorisTemplateService.asYaml, payload);
       const response = yield call(WsDorisTemplateService.asYaml, payload);
-      yield put({ type: 'updateTemplate', payload: {template: payload, templateYaml: YAML.stringify(data), templateYamlWithDefault: YAML.stringify(response.data)} });
+      yield put({type: 'updateTemplate',
+        payload: {
+          template: payload,
+          templateYaml: YAML.stringify(data),
+          templateYamlWithDefault: YAML.stringify(response.data)
+        }
+      });
     },
   },
 
   reducers: {
-    updateTemplate(state, { payload }) {
+    updateTemplate(state, {payload}) {
       return {
         ...state,
         template: payload.template,

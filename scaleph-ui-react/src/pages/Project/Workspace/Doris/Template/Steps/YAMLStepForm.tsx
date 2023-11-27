@@ -22,7 +22,7 @@ const DorisTemplateYAML: React.FC = (props: any) => {
         height="600px"
         language="yaml"
         theme="vs-white"
-        value={props.dorisTemplateDetail.templateYaml}
+        value={props.dorisTemplateSteps.templateYaml}
         options={{
           selectOnLineNumbers: true,
           readOnly: true,
@@ -37,5 +37,5 @@ const DorisTemplateYAML: React.FC = (props: any) => {
   );
 }
 
-const mapModelToProps = ({dorisTemplateDetail}: any) => ({dorisTemplateDetail})
+const mapModelToProps = ({dorisTemplateSteps}: any) => ({dorisTemplateSteps})
 export default connect(mapModelToProps)(DorisTemplateYAML);
