@@ -1,5 +1,5 @@
 import {useIntl} from "umi";
-import {ProCard, ProFormDigit, ProFormGroup, ProFormList, ProFormText} from "@ant-design/pro-components";
+import {ProCard, ProFormGroup, ProFormText} from "@ant-design/pro-components";
 
 const DorisAdminUser: React.FC = () => {
   const intl = useIntl();

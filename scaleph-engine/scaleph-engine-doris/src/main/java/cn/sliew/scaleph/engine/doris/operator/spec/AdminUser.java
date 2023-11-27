@@ -24,7 +24,7 @@ import lombok.Data;
  * AdminUser describe administrator for manage components in specified cluster.
  */
 @Data
-public class AdminUser extends BaseSpec {
+public class AdminUser {
 
     /**
      * the user name for admin service’s node.

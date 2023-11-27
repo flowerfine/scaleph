@@ -7,17 +7,28 @@ import DorisTemplateBase from "@/pages/Project/Workspace/Doris/Template/Steps/Ba
 import DorisTemplateYAML from "@/pages/Project/Workspace/Doris/Template/Steps/YAMLStepForm";
 import {WsDorisTemplate} from "@/services/project/typings";
 import {FieldData} from "rc-field-form/lib/interface";
+import {WsDorisTemplateService} from "@/services/project/WsDorisTemplateService";
 
 const DorisTemplateSteps: React.FC = (props: any) => {
   const intl = useIntl();
   const formRef = useRef<ProFormInstance>();
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
+  const onBaseStepFinish = (values: Record<string, any>) => {
+    const template: WsDorisTemplate = {
+      projectId: projectId,
+      name: values.name,
+      namespace: values.namespace,
+      remark: values.remark,
+    }
+    editDorisTemplate(template)
+    return Promise.resolve(true)
+  }
+
   const onFieldsChange = (changedFields: FieldData[], allFields: FieldData[]) => {
     try {
-      const value: Record<string, any> = formRef.current.getFieldsValue(true)
-      console.log('DorisTemplateSteps', value)
-      editDorisTemplate(value)
+      const template: WsDorisTemplate = WsDorisTemplateService.formatData(props.dorisTemplateDetail.template, formRef.current.getFieldsValue(true))
+      editDorisTemplate(template)
     } catch (unused) {
     }
   }
@@ -41,7 +52,8 @@ const DorisTemplateSteps: React.FC = (props: any) => {
         <StepsForm.StepForm
           name="base"
           title={intl.formatMessage({id: 'pages.project.doris.template.steps.base'})}
-          style={{width: 1000}}>
+          style={{width: 1000}}
+          onFinish={onBaseStepFinish}>
           <DorisTemplateBase/>
         </StepsForm.StepForm>
         <StepsForm.StepForm
