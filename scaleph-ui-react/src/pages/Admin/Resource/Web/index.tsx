@@ -1,9 +1,10 @@
 import { PRIVILEGE_CODE } from '@/constant';
+import WebAssugnRoles from '@/pages/Admin/Resource/Web/components/WebAssugnRoles';
 import WebResourceForm from '@/pages/Admin/Resource/Web/components/WebResourceForm';
 import { PrivilegeService } from '@/services/admin/privilege.service';
 import { ResourceWebService } from '@/services/admin/resourceWeb.service';
 import { SecResourceWeb } from '@/services/admin/typings';
-import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, FormOutlined, PlusOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
 import { Button, message, Modal, Space, Tag, Tooltip } from 'antd';
 import { isEmpty } from 'lodash';
@@ -19,6 +20,11 @@ const WebResourceWeb: React.FC = () => {
   const [webResourceFormData, setWebResourceFormData] = useState<{
     visiable: boolean;
     parent: SecResourceWeb;
+    data: SecResourceWeb;
+  }>({ visiable: false, parent: {}, data: {} });
+
+  const [webAssignRoles, setWebAssignRoles] = useState<{
+    visiable: boolean;
     data: SecResourceWeb;
   }>({ visiable: false, parent: {}, data: {} });
 
@@ -44,6 +50,9 @@ const WebResourceWeb: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'pages.admin.resource.web.name' }),
       dataIndex: 'name',
+      // render: (dom, entity) => {
+      //   return intl.formatMessage({ id: `menu.${entity?.name}` });
+      // },
     },
     {
       title: intl.formatMessage({ id: 'pages.admin.resource.web.path' }),
@@ -91,12 +100,22 @@ const WebResourceWeb: React.FC = () => {
       title: intl.formatMessage({ id: 'app.common.operate.label' }),
       dataIndex: 'actions',
       align: 'center',
-      width: 120,
+      width: 160,
       fixed: 'right',
       valueType: 'option',
       render: (_, record) => (
         <>
           <Space>
+            {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
+              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.new.roles' })}>
+                <Button
+                  shape="default"
+                  type="link"
+                  icon={<FormOutlined />}
+                  onClick={() => setWebAssignRoles({ visiable: true, data: record })}
+                />
+              </Tooltip>
+            )}
             {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
               <Tooltip title={intl.formatMessage({ id: 'app.common.operate.new.label' })}>
                 <Button
@@ -234,6 +253,18 @@ const WebResourceWeb: React.FC = () => {
           }}
           parent={webResourceFormData.parent}
           data={webResourceFormData.data}
+        />
+      )}
+
+      {webAssignRoles.visiable && (
+        <WebAssugnRoles
+          visible={webAssignRoles.visiable}
+          onCancel={() => setWebAssignRoles({ visiable: false, data: {} })}
+          onVisibleChange={(visiable) => {
+            setWebAssignRoles({ visiable: visiable, data: {} });
+            actionRef.current?.reload();
+          }}
+          data={webAssignRoles.data}
         />
       )}
     </div>
