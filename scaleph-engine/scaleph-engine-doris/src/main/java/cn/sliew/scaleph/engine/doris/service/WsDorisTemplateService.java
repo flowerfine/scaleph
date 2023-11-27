@@ -22,7 +22,7 @@ import cn.sliew.scaleph.engine.doris.service.dto.WsDorisTemplateDTO;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisTemplateAddParam;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisTemplateListParam;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisTemplateUpdateParam;
-import cn.sliew.scaleph.engine.doris.service.resource.DorisTemplate;
+import cn.sliew.scaleph.engine.doris.service.resource.template.DorisTemplate;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public interface WsDorisTemplateService {
 
     WsDorisTemplateDTO selectOne(Long id);
 
-    DorisTemplate asYaml(Long id);
+    DorisTemplate asYaml(WsDorisTemplateDTO dto);
 
     int insert(WsDorisTemplateAddParam param);
 

@@ -24,6 +24,7 @@ import cn.sliew.scaleph.engine.doris.service.dto.WsDorisTemplateDTO;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisTemplateAddParam;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisTemplateListParam;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisTemplateUpdateParam;
+import cn.sliew.scaleph.engine.doris.service.resource.template.DorisTemplate;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -59,6 +60,14 @@ public class WsDorisTemplateController {
     public ResponseEntity<ResponseVO<WsDorisTemplateDTO>> selectOne(@PathVariable("id") Long id) {
         WsDorisTemplateDTO dto = wsDorisTemplateService.selectOne(id);
         return new ResponseEntity(ResponseVO.success(dto), HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping("asYaml")
+    @Operation(summary = "转换模板信息", description = "转换模板信息")
+    public ResponseEntity<ResponseVO<DorisTemplate>> asYaml(@RequestBody WsDorisTemplateDTO dto) {
+        DorisTemplate template = wsDorisTemplateService.asYaml(dto);
+        return new ResponseEntity(ResponseVO.success(template), HttpStatus.OK);
     }
 
     @Logging

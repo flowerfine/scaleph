@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.doris.service.param;
 
+import cn.sliew.scaleph.engine.doris.operator.spec.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -38,6 +39,23 @@ public class WsDorisTemplateAddParam {
     @NotBlank
     @Schema(description = "namespace")
     private String namespace;
+
+    @NotNull
+    @Schema(description = "admin user")
+    private AdminUser admin;
+
+    @NotNull
+    @Schema(description = "fe spec")
+    private FeSpec feSpec;
+
+    @Schema(description = "be spec")
+    private BeSpec beSpec;
+
+    @Schema(description = "cn spec")
+    private CnSpec cnSpec;
+
+    @Schema(description = "broker spec")
+    private BrokerSpec brokerSpec;
 
     @Schema(description = "remark")
     private String remark;
