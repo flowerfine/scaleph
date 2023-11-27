@@ -548,7 +548,7 @@ create table ws_doris_template
     `name`        varchar(64)  not null,
     template_id   varchar(64)  not null,
     namespace     varchar(255) not null,
-    admin         varchar(255) comment 'session handler',
+    admin         varchar(255) comment 'admin user',
     `fe_spec`     text comment 'fe spec',
     `be_spec`     text comment 'be spec',
     `cn_spec`     text comment 'cn spec',
@@ -569,3 +569,31 @@ VALUES (1, 1, 'simple-doriscluster-sample', 'zexbfaf0eba4ce824787a9bed88148eb233
         '{\"replicas\":1,\"image\":\"selectdb/doris.fe-ubuntu:2.0.2\",\"limits\":{\"cpu\":4,\"memory\":\"8Gi\"},\"requests\":{\"cpu\":4,\"memory\":\"8Gi\"}}',
         '{\"replicas\":1,\"image\":\"selectdb/doris.be-ubuntu:2.0.2\",\"limits\":{\"cpu\":4,\"memory\":\"8Gi\"},\"requests\":{\"cpu\":4,\"memory\":\"8Gi\"}}',
         NULL, NULL, NULL, 'sys', 'sys');
+
+drop table if exists ws_doris_instance;
+create table ws_doris_instance
+(
+    id                    bigint       not null auto_increment comment '自增主键',
+    project_id            bigint       not null comment '项目id',
+    cluster_credential_id bigint       not null,
+    `name`                varchar(64)  not null,
+    instance_id           varchar(64)  not null,
+    namespace             varchar(255) not null,
+    admin                 varchar(255) comment 'admin user',
+    `fe_spec`             text comment 'fe spec',
+    `be_spec`             text comment 'be spec',
+    `cn_spec`             text comment 'cn spec',
+    `broker_spec`         text comment 'broker spec',
+    deployed              varchar(8) comment '是否部署',
+    `fe_status`           text comment 'fe status',
+    `be_status`           text comment 'be status',
+    `cn_status`           text comment 'cn status',
+    `broker_status`       text comment 'broker status',
+    remark                varchar(255),
+    creator               varchar(32) comment '创建人',
+    create_time           timestamp default current_timestamp comment '创建时间',
+    editor                varchar(32) comment '修改人',
+    update_time           timestamp default current_timestamp on update current_timestamp comment '修改时间',
+    primary key (id),
+    unique key uniq_name (project_id, `name`, cluster_credential_id)
+) engine = innodb comment = 'doris instance';

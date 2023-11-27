@@ -16,37 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.doris.operator.status;
+package cn.sliew.scaleph.dao.mapper.master.ws;
 
-import lombok.Data;
+import cn.sliew.scaleph.dao.entity.master.ws.WsDorisInstance;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
+/**
+ * doris instance Mapper 接口
+ */
+@Repository
+public interface WsDorisInstanceMapper extends BaseMapper<WsDorisInstance> {
 
-@Data
-public class ComponentStatus {
-
-    /**
-     * DorisComponentStatus represents the status of a doris component. the name of fe service exposed for user.
-     */
-    private String accessService;
-
-    /**
-     * FailedInstances failed pod names.
-     */
-    private List<String> failedInstances;
-
-    /**
-     * CreatingInstances in creating pod names.
-     */
-    private List<String> creatingInstances;
-
-    /**
-     * RunningInstances in running status pod names.
-     */
-    private List<String> runningInstances;
-
-    /**
-     *
-     */
-    private ComponentCondition componentCondition;
 }
