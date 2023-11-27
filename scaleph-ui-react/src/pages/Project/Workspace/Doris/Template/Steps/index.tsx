@@ -28,9 +28,9 @@ const DorisTemplateSteps: React.FC = (props: any) => {
     try {
       const template: WsDorisTemplate = WsDorisTemplateService.formatData(props.dorisTemplateSteps.template, values)
       editDorisTemplate(template)
-      return Promise.resolve(true)
     } catch (unused) {
     }
+    return Promise.resolve(true)
   }
 
   const editDorisTemplate = (template: WsDorisTemplate) => {

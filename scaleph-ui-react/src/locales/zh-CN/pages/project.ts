@@ -940,6 +940,7 @@ export default {
   'pages.project.doris.template.steps.component.base.limits.cpu': '最大CPU',
   'pages.project.doris.template.steps.component.base.limits.memory': '最大内存',
   'pages.project.doris.template.steps.yaml': 'YAML',
+  'pages.project.doris.template.detail': '模版详情',
 
 
   'Run': '运行',
