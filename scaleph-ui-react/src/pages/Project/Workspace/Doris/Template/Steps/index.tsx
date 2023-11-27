@@ -8,6 +8,7 @@ import DorisTemplateYAML from "@/pages/Project/Workspace/Doris/Template/Steps/YA
 import {WsDorisTemplate} from "@/services/project/typings";
 import {FieldData} from "rc-field-form/lib/interface";
 import {WsDorisTemplateService} from "@/services/project/WsDorisTemplateService";
+import {history} from "@@/core/history";
 
 const DorisTemplateSteps: React.FC = (props: any) => {
   const intl = useIntl();
@@ -40,6 +41,14 @@ const DorisTemplateSteps: React.FC = (props: any) => {
     })
   }
 
+  const onAllFinish = (values: Record<string, any>) => {
+    return WsDorisTemplateService.add(props.dorisTemplateDetail.template).then((response) => {
+      if (response.success) {
+        history.back()
+      }
+    })
+  }
+
   return (
     <ProCard className={'step-form-submitter'}>
       <StepsForm
@@ -48,6 +57,7 @@ const DorisTemplateSteps: React.FC = (props: any) => {
           grid: true,
           rowProps: {gutter: [16, 8]}
         }}
+        onFinish={onAllFinish}
       >
         <StepsForm.StepForm
           name="base"

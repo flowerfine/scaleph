@@ -1,12 +1,6 @@
 import {PageResponse, ResponseBody} from '@/app.d';
 import {request} from 'umi';
-import {
-  WsDorisTemplate,
-  WsDorisTemplateAddParam,
-  WsDorisTemplateParam,
-  WsDorisTemplateUpdateParam,
-  WsFlinkKubernetesTemplate
-} from './typings';
+import {WsDorisTemplate, WsDorisTemplateAddParam, WsDorisTemplateParam, WsDorisTemplateUpdateParam} from './typings';
 
 export const WsDorisTemplateService = {
   url: '/api/doris/template',

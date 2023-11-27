@@ -453,6 +453,11 @@ export type WsDorisTemplateAddParam = {
   projectId: number;
   name: string;
   namespace: string;
+  admin?: Record<string, any>;
+  feSpec?: Record<string, any>;
+  beSpec?: Record<string, any>;
+  cnSpec?: Record<string, any>;
+  brokerSpec?: Record<string, any>;
   remark?: string;
 };
 
@@ -460,5 +465,10 @@ export type WsDorisTemplateUpdateParam = {
   id: number;
   name: string;
   namespace: string;
+  admin?: Record<string, any>;
+  feSpec?: Record<string, any>;
+  beSpec?: Record<string, any>;
+  cnSpec?: Record<string, any>;
+  brokerSpec?: Record<string, any>;
   remark?: string;
 };
