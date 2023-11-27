@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.dao.entity.master.ws;
 
-import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -61,9 +60,6 @@ public class WsDorisTemplate extends BaseDO {
 
     @TableField("broker_spec")
     private String brokerSpec;
-
-    @TableField("create_status")
-    private YesOrNo createStatus;
 
     @TableField("remark")
     private String remark;

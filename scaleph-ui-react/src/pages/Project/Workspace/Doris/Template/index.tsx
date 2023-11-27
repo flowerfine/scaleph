@@ -31,14 +31,6 @@ const DorisTemplateWeb: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.project.doris.template.createStatus'}),
-      dataIndex: 'namespace',
-      hideInSearch: true,
-      render: (dom, entity) => {
-        return (<Tag>{entity.createStatus?.label}</Tag>)
-      },
-    },
-    {
       title: intl.formatMessage({id: 'app.common.data.remark'}),
       dataIndex: 'remark',
       hideInSearch: true,

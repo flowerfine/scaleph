@@ -35,7 +35,6 @@
         <result column="be_spec" property="beSpec" />
         <result column="cn_spec" property="cnSpec" />
         <result column="broker_spec" property="brokerSpec" />
-        <result column="create_status" property="createStatus" />
         <result column="remark" property="remark" />
     </resultMap>
 
@@ -46,7 +45,7 @@
         create_time,
         editor,
         update_time,
-        project_id, `name`, template_id, namespace, `admin`, fe_spec, be_spec, cn_spec, broker_spec, create_status, remark
+        project_id, `name`, template_id, namespace, `admin`, fe_spec, be_spec, cn_spec, broker_spec, remark
     </sql>
 
 </mapper>
