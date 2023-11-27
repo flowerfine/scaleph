@@ -1,15 +1,33 @@
-import {useIntl} from "umi";
+import {connect, useIntl} from "umi";
 import React, {useRef} from "react";
 import {ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
 import {WORKSPACE_CONF} from "@/constant";
 import DorisTemplateComponent from "@/pages/Project/Workspace/Doris/Template/Steps/ComponentStepForm";
 import DorisTemplateBase from "@/pages/Project/Workspace/Doris/Template/Steps/BaseStepForm";
 import DorisTemplateYAML from "@/pages/Project/Workspace/Doris/Template/Steps/YAMLStepForm";
+import {WsDorisTemplate} from "@/services/project/typings";
+import {FieldData} from "rc-field-form/lib/interface";
 
-const DorisTemplateSteps: React.FC = () => {
+const DorisTemplateSteps: React.FC = (props: any) => {
   const intl = useIntl();
   const formRef = useRef<ProFormInstance>();
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
+
+  const onFieldsChange = (changedFields: FieldData[], allFields: FieldData[]) => {
+    try {
+      const value: Record<string, any> = formRef.current.getFieldsValue(true)
+      console.log('DorisTemplateSteps', value)
+      editDorisTemplate(value)
+    } catch (unused) {
+    }
+  }
+
+  const editDorisTemplate = (template: WsDorisTemplate) => {
+    props.dispatch({
+      type: 'dorisTemplateDetail/editTemplate',
+      payload: template
+    })
+  }
 
   return (
     <ProCard className={'step-form-submitter'}>
@@ -29,7 +47,8 @@ const DorisTemplateSteps: React.FC = () => {
         <StepsForm.StepForm
           name="component"
           title={intl.formatMessage({id: 'pages.project.doris.template.steps.component'})}
-          style={{width: 1000}}>
+          style={{width: 1000}}
+          onFieldsChange={onFieldsChange}>
           <DorisTemplateComponent/>
         </StepsForm.StepForm>
         <StepsForm.StepForm
@@ -43,4 +62,5 @@ const DorisTemplateSteps: React.FC = () => {
   )
 }
 
-export default DorisTemplateSteps;
+const mapModelToProps = ({dorisTemplateDetail}: any) => ({dorisTemplateDetail})
+export default connect(mapModelToProps)(DorisTemplateSteps);

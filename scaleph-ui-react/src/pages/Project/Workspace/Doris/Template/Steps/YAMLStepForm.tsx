@@ -1,23 +1,15 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef} from "react";
 import {ProCard} from "@ant-design/pro-components";
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
-import {Form} from "antd";
+import {connect} from "umi";
 
-const DorisTemplateYAML: React.FC = () => {
+const DorisTemplateYAML: React.FC = (props: any) => {
   const editorRef = useRef(null);
   const monaco = useMonaco();
-  const [form] = Form.useForm()
-
-  const [yaml, setYaml] = useState<string>()
 
   useEffect(() => {
     monaco?.languages.typescript.javascriptDefaults.setEagerModelSync(true);
   }, [monaco]);
-
-  useEffect(() => {
-    const values: Record<string, any> = form.getFieldsValue(true)
-    console.log('DorisTemplateYAML', values)
-  }, []);
 
   const handleEditorDidMount = (editor, monaco: Monaco) => {
     editorRef.current = editor;
@@ -30,7 +22,7 @@ const DorisTemplateYAML: React.FC = () => {
         height="600px"
         language="yaml"
         theme="vs-white"
-        value={yaml}
+        value={props.dorisTemplateDetail.templateYaml}
         options={{
           selectOnLineNumbers: true,
           readOnly: true,
@@ -45,4 +37,5 @@ const DorisTemplateYAML: React.FC = () => {
   );
 }
 
-export default DorisTemplateYAML;
+const mapModelToProps = ({dorisTemplateDetail}: any) => ({dorisTemplateDetail})
+export default connect(mapModelToProps)(DorisTemplateYAML);
