@@ -38,7 +38,7 @@ public class WsDorisTemplateDTO extends BaseDTO {
 
     private String namespace;
 
-    @Schema(description = "session handler")
+    @Schema(description = "admin user")
     private AdminUser admin;
 
     @Schema(description = "fe spec")

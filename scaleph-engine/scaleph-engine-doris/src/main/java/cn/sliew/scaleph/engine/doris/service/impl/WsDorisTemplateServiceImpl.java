@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.doris.service.impl;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDorisTemplate;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsDorisTemplateMapper;
@@ -27,7 +28,8 @@ import cn.sliew.scaleph.engine.doris.service.dto.WsDorisTemplateDTO;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisTemplateAddParam;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisTemplateListParam;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisTemplateUpdateParam;
-import cn.sliew.scaleph.engine.doris.service.resource.DorisTemplate;
+import cn.sliew.scaleph.engine.doris.service.resource.template.DorisTemplate;
+import cn.sliew.scaleph.engine.doris.service.resource.template.DorisTemplateConverter;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -68,8 +70,8 @@ public class WsDorisTemplateServiceImpl implements WsDorisTemplateService {
     }
 
     @Override
-    public DorisTemplate asYaml(Long id) {
-        return null;
+    public DorisTemplate asYaml(WsDorisTemplateDTO dto) {
+        return DorisTemplateConverter.INSTANCE.convertTo(dto);
     }
 
     @Override
@@ -77,6 +79,21 @@ public class WsDorisTemplateServiceImpl implements WsDorisTemplateService {
         WsDorisTemplate record = new WsDorisTemplate();
         BeanUtils.copyProperties(param, record);
         record.setTemplateId(UUIDUtil.randomUUId());
+        if (param.getAdmin() != null) {
+            record.setAdmin(JacksonUtil.toJsonString(param.getAdmin()));
+        }
+        if (param.getFeSpec() != null) {
+            record.setFeSpec(JacksonUtil.toJsonString(param.getFeSpec()));
+        }
+        if (param.getBeSpec() != null) {
+            record.setBeSpec(JacksonUtil.toJsonString(param.getBeSpec()));
+        }
+        if (param.getCnSpec() != null) {
+            record.setCnSpec(JacksonUtil.toJsonString(param.getCnSpec()));
+        }
+        if (param.getBrokerSpec() != null) {
+            record.setBrokerSpec(JacksonUtil.toJsonString(param.getBrokerSpec()));
+        }
         return wsDorisTemplateMapper.insert(record);
     }
 
@@ -84,6 +101,21 @@ public class WsDorisTemplateServiceImpl implements WsDorisTemplateService {
     public int update(WsDorisTemplateUpdateParam param) {
         WsDorisTemplate record = new WsDorisTemplate();
         BeanUtils.copyProperties(param, record);
+        if (param.getAdmin() != null) {
+            record.setAdmin(JacksonUtil.toJsonString(param.getAdmin()));
+        }
+        if (param.getFeSpec() != null) {
+            record.setFeSpec(JacksonUtil.toJsonString(param.getFeSpec()));
+        }
+        if (param.getBeSpec() != null) {
+            record.setBeSpec(JacksonUtil.toJsonString(param.getBeSpec()));
+        }
+        if (param.getCnSpec() != null) {
+            record.setCnSpec(JacksonUtil.toJsonString(param.getCnSpec()));
+        }
+        if (param.getBrokerSpec() != null) {
+            record.setBrokerSpec(JacksonUtil.toJsonString(param.getBrokerSpec()));
+        }
         return wsDorisTemplateMapper.updateById(record);
     }
 

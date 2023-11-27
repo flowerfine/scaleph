@@ -34,7 +34,6 @@ public class WsDorisTemplate extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "项目id")
     @TableField("project_id")
     private Long projectId;
 
@@ -47,23 +46,18 @@ public class WsDorisTemplate extends BaseDO {
     @TableField("namespace")
     private String namespace;
 
-    @Schema(description = "session handler")
     @TableField("`admin`")
     private String admin;
 
-    @Schema(description = "fe spec")
     @TableField("fe_spec")
     private String feSpec;
 
-    @Schema(description = "be spec")
     @TableField("be_spec")
     private String beSpec;
 
-    @Schema(description = "cn spec")
     @TableField("cn_spec")
     private String cnSpec;
 
-    @Schema(description = "broker spec")
     @TableField("broker_spec")
     private String brokerSpec;
 
