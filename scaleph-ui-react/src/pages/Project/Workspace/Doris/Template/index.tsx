@@ -1,6 +1,6 @@
 import {history, useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
-import {Button, message, Modal, Space, Tooltip} from "antd";
+import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {PRIVILEGE_CODE, WORKSPACE_CONF} from "@/constant";
@@ -29,6 +29,14 @@ const DorisTemplateWeb: React.FC = () => {
       title: intl.formatMessage({id: 'pages.project.doris.template.namespace'}),
       dataIndex: 'namespace',
       hideInSearch: true,
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.doris.template.createStatus'}),
+      dataIndex: 'namespace',
+      hideInSearch: true,
+      render: (dom, entity) => {
+        return (<Tag>{entity.createStatus?.label}</Tag>)
+      },
     },
     {
       title: intl.formatMessage({id: 'app.common.data.remark'}),

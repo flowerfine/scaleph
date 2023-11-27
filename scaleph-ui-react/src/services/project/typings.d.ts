@@ -438,6 +438,7 @@ export type WsDorisTemplate = {
   beSpec?: Record<string, any>;
   cnSpec?: Record<string, any>;
   brokerSpec?: Record<string, any>;
+  createStatus?: Dict;
   remark?: string;
   createTime?: Date;
   updateTime?: Date;

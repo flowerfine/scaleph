@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.doris.service.dto;
 
+import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.engine.doris.operator.spec.*;
 import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -52,6 +53,9 @@ public class WsDorisTemplateDTO extends BaseDTO {
 
     @Schema(description = "broker spec")
     private BrokerSpec brokerSpec;
+
+    @Schema(description = "create status")
+    private YesOrNo createStatus;
 
     private String remark;
 }

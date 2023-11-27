@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.doris.service.impl;
 
+import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDorisTemplate;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsDorisTemplateMapper;
@@ -78,6 +79,7 @@ public class WsDorisTemplateServiceImpl implements WsDorisTemplateService {
         WsDorisTemplate record = new WsDorisTemplate();
         BeanUtils.copyProperties(param, record);
         record.setTemplateId(UUIDUtil.randomUUId());
+        record.setCreateStatus(YesOrNo.NO);
         return wsDorisTemplateMapper.insert(record);
     }
 
