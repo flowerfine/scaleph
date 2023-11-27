@@ -119,7 +119,35 @@ export const WsDorisTemplateService = {
   },
 
   parseData: (data: WsDorisTemplate) => {
-    const value: Record<string, any> = {}
+    const value: Record<string, any> = {
+      'name': data.name,
+      'namespace': data.namespace,
+      'remark': data.remark,
+
+      'admin.name': data.admin?.name,
+      'admin.password': data.admin?.password,
+
+      'fe.replicas': data.feSpec?.replicas,
+      'fe.image': data.feSpec?.image,
+      'fe.requests.cpu': data.feSpec?.requests?.cpu,
+      'fe.requests.memory': data.feSpec?.requests?.memory,
+      'fe.limits.cpu': data.feSpec?.limits?.cpu,
+      'fe.limits.memory': data.feSpec?.limits?.memory,
+
+      'be.replicas': data.beSpec?.replicas,
+      'be.image': data.beSpec?.image,
+      'be.requests.cpu': data.beSpec?.requests?.cpu,
+      'be.requests.memory': data.beSpec?.requests?.memory,
+      'be.limits.cpu': data.beSpec?.limits?.cpu,
+      'be.limits.memory': data.beSpec?.limits?.memory,
+
+      'cn.replicas': data.cnSpec?.replicas,
+      'cn.image': data.cnSpec?.image,
+      'cn.requests.cpu': data.cnSpec?.requests?.cpu,
+      'cn.requests.memory': data.cnSpec?.requests?.memory,
+      'cn.limits.cpu': data.cnSpec?.limits?.cpu,
+      'cn.limits.memory': data.cnSpec?.limits?.memory,
+    }
 
     return value
   }
