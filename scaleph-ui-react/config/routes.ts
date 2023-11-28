@@ -253,6 +253,14 @@ export default [
             pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
             access: 'normalRouteFilter'
           },
+          {
+            name: 'instance',
+            path: '/workspace/doris/instance',
+            exact: true,
+            component: './Project/Workspace/Doris/Instance',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
         ]
       },
     ]
