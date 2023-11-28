@@ -261,6 +261,13 @@ export default [
             pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
             access: 'normalRouteFilter'
           },
+          {
+            path: '/workspace/doris/instance/steps',
+            exact: true,
+            component: './Project/Workspace/Doris/Instance/Steps',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
         ]
       },
     ]

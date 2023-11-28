@@ -943,6 +943,8 @@ export default {
   'pages.project.doris.template.detail': '模版详情',
   'pages.project.doris.template.detail.component': '集群组件',
   'pages.project.doris.template.detail.yaml': 'YAML',
+  'pages.project.doris.instance': 'Instance',
+  'pages.project.doris.instance.steps': '创建实例',
 
 
   'Run': '运行',

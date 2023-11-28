@@ -132,7 +132,7 @@ const DorisInstanceWeb: React.FC = () => {
               key="new"
               type="primary"
               onClick={() => {
-                history.push("/workspace/doris/template/steps")
+                history.push("/workspace/doris/instance/steps")
               }}
             >
               {intl.formatMessage({id: 'app.common.operate.new.label'})}
