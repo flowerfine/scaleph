@@ -2,9 +2,9 @@ import {connect, history, useIntl} from "umi";
 import React, {useRef} from "react";
 import {PageContainer, ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
 import {WORKSPACE_CONF} from "@/constant";
-import DorisTemplateBase from "@/pages/Project/Workspace/Doris/Template/Steps/BaseStepForm";
 import {WsDorisTemplate} from "@/services/project/typings";
 import {WsDorisTemplateService} from "@/services/project/WsDorisTemplateService";
+import DorisInstanceBase from "@/pages/Project/Workspace/Doris/Instance/Steps/BaseStepForm";
 
 const DorisInstanceSteps: React.FC = (props: any) => {
   const intl = useIntl();
@@ -59,10 +59,10 @@ const DorisInstanceSteps: React.FC = (props: any) => {
         >
           <StepsForm.StepForm
             name="base"
-            title={intl.formatMessage({id: 'pages.project.doris.template.steps.base'})}
+            title={intl.formatMessage({id: 'pages.project.doris.instance.steps.base'})}
             style={{width: 1000}}
             onFinish={onBaseStepFinish}>
-            <DorisTemplateBase/>
+            <DorisInstanceBase/>
           </StepsForm.StepForm>
         </StepsForm>
       </ProCard>

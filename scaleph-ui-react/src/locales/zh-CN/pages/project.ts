@@ -945,6 +945,9 @@ export default {
   'pages.project.doris.template.detail.yaml': 'YAML',
   'pages.project.doris.instance': 'Instance',
   'pages.project.doris.instance.steps': '创建实例',
+  'pages.project.doris.instance.steps.base': '基础信息',
+  'pages.project.doris.instance.steps.base.cluster': 'Cluster',
+  'pages.project.doris.instance.steps.base.template': 'Template',
 
 
   'Run': '运行',
