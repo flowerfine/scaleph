@@ -15,6 +15,7 @@ export default {
   'app.common.operate.success': '操作成功',
   'app.common.operate.new.label': '新增',
   'app.common.operate.new.roles': '分配角色',
+  'app.common.operate.new.rolesUser': '角色分配用户',
   'app.common.operate.new.user': '用户配置',
   'app.common.operate.new.assets': '权限配置',
   'app.common.operate.new.success': '新增成功',

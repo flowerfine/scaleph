@@ -101,11 +101,7 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
   // 角色转移事件处理
   const handleChange = useCallback(
     async (targetKeys, direction, moveKeys) => {
-      const roleIds =
-        direction === 'right'
-          ? targetKeys.map((item: string | number) => +item)
-          : moveKeys.map((item: string | number) => +item);
-
+      const roleIds = moveKeys.map((item: string | number) => +item);
       const params = {
         resourceWebId: data?.id,
         roleIds: roleIds,

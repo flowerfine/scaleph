@@ -62,8 +62,8 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
   // 异步获取数据
   const fetchData = useCallback(async () => {
     try {
-      const res1 = await AuthService.requestAuthorizedUsers({ roleId: data?.id });
-      const res2 = await AuthService.requestUnauthorizedUsers({ roleId: data?.id });
+      const res1 = await AuthService.requestUnauthorizedUsers({ roleId: data?.id });
+      const res2 = await AuthService.requestAuthorizedUsers({ roleId: data?.id });
       if (res1?.records && res2?.records) {
         const mergedArray = mergeArrays(res1.records, res2.records);
         setRoleLists(mergedArray);
@@ -101,11 +101,7 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
   // 角色转移事件处理
   const handleChange = useCallback(
     async (targetKeys, direction, moveKeys) => {
-      const roleIds =
-        direction === 'right'
-          ? targetKeys.map((item: string | number) => +item)
-          : moveKeys.map((item: string | number) => +item);
-
+      const roleIds = moveKeys.map((item: string | number) => +item);
       const params = {
         roleId: data?.id,
         userIds: roleIds,
@@ -131,7 +127,7 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
   return (
     <Modal
       open={visible}
-      title={data.id ? intl.formatMessage({ id: 'app.common.operate.new.roles' }) : ''}
+      title={data.id ? intl.formatMessage({ id: 'app.common.operate.new.rolesUser' }) : ''}
       width={1100}
       destroyOnClose={true}
       onCancel={onCancel}

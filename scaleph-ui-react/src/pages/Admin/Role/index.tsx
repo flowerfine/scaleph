@@ -116,16 +116,6 @@ const RoleWeb: React.FC = () => {
                 />
               </Tooltip>
             )}
-            {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.new.assets' })}>
-                <Button
-                  shape="default"
-                  type="link"
-                  icon={<FormOutlined />}
-                  onClick={() => setWebAssignRoles({ visiable: true, data: record })}
-                />
-              </Tooltip>
-            )}
             {access.canAccess(PRIVILEGE_CODE.roleEdit) && (
               <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
                 <Button
