@@ -2,18 +2,18 @@ import {connect, history, useIntl} from "umi";
 import React, {useRef} from "react";
 import {PageContainer, ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
 import {WORKSPACE_CONF} from "@/constant";
-import {WsDorisTemplate} from "@/services/project/typings";
+import {WsDorisInstance, WsDorisTemplate} from "@/services/project/typings";
 import {WsDorisTemplateService} from "@/services/project/WsDorisTemplateService";
 import DorisInstanceBase from "@/pages/Project/Workspace/Doris/Instance/Steps/BaseStepForm";
 
 const DorisInstanceSteps: React.FC = (props: any) => {
   const intl = useIntl();
   const formRef = useRef<ProFormInstance>();
-  const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
+  const localProjectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
   const onBaseStepFinish = (values: Record<string, any>) => {
-    const template: WsDorisTemplate = {
-      projectId: projectId,
+    const template: WsDorisInstance = {
+      projectId: localProjectId,
       name: values.name,
       namespace: values.namespace,
       remark: values.remark,

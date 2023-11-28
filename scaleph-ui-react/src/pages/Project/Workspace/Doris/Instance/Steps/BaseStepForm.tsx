@@ -9,14 +9,14 @@ import {WORKSPACE_CONF} from "@/constant";
 
 const DorisInstanceBase: React.FC = () => {
   const intl = useIntl();
-  const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
+  const localProjectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
   return (
     <ProCard>
       <ProFormDigit name={"id"} hidden/>
       <ProFormText
         name={"name"}
-        label={intl.formatMessage({id: 'pages.project.doris.template.name'})}
+        label={intl.formatMessage({id: 'pages.project.doris.instance.name'})}
         rules={[{required: true}]}
       />
       <ProFormSelect
@@ -37,7 +37,7 @@ const DorisInstanceBase: React.FC = () => {
       />
       <ProFormText
         name={"namespace"}
-        label={intl.formatMessage({id: 'pages.project.doris.template.namespace'})}
+        label={intl.formatMessage({id: 'pages.project.doris.instance.namespace'})}
         rules={[{required: true}]}
       />
       <ProFormSelect
@@ -47,11 +47,10 @@ const DorisInstanceBase: React.FC = () => {
         allowClear={false}
         request={((params, props) => {
           const param: WsDorisTemplate = {
-            projectId: projectId,
+            projectId: localProjectId,
             name: params.keyWords,
           };
           return WsDorisTemplateService.list(param).then((response) => {
-
             return response.data.map((item) => {
               return {label: item.name, value: item.id, item: item}
             })
