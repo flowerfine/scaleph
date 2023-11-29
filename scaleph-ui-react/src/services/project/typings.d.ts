@@ -432,6 +432,7 @@ export type WsDorisTemplate = {
   id?: number;
   projectId: number;
   name?: string;
+  templateId?: string;
   namespace: string;
   admin?: Record<string, any>;
   feSpec?: Record<string, any>;
@@ -462,6 +463,59 @@ export type WsDorisTemplateAddParam = {
 
 export type WsDorisTemplateUpdateParam = {
   id: number;
+  name: string;
+  namespace: string;
+  admin?: Record<string, any>;
+  feSpec?: Record<string, any>;
+  beSpec?: Record<string, any>;
+  cnSpec?: Record<string, any>;
+  brokerSpec?: Record<string, any>;
+  remark?: string;
+};
+
+export type WsDorisInstance = {
+  id?: number;
+  projectId: number;
+  clusterCredentialId?: number;
+  name?: string;
+  instanceId?: string;
+  namespace: string;
+  admin?: Record<string, any>;
+  feSpec?: Record<string, any>;
+  beSpec?: Record<string, any>;
+  cnSpec?: Record<string, any>;
+  brokerSpec?: Record<string, any>;
+  deployed?: Dict;
+  feStatus?: Record<string, any>;
+  beStatus?: Record<string, any>;
+  cnStatus?: Record<string, any>;
+  brokerStatus?: Record<string, any>;
+  remark?: string;
+  createTime?: Date;
+  updateTime?: Date;
+};
+
+export type WsDorisInstanceParam = QueryParam & {
+  projectId: number;
+  name?: string;
+};
+
+export type WsDorisInstanceAddParam = {
+  projectId: number;
+  clusterCredentialId?: number;
+  name: string;
+  namespace: string;
+  admin?: Record<string, any>;
+  feSpec?: Record<string, any>;
+  beSpec?: Record<string, any>;
+  cnSpec?: Record<string, any>;
+  brokerSpec?: Record<string, any>;
+  remark?: string;
+};
+
+export type WsDorisInstanceUpdateParam = {
+  id: number;
+  clusterCredentialId?: number;
   name: string;
   namespace: string;
   admin?: Record<string, any>;

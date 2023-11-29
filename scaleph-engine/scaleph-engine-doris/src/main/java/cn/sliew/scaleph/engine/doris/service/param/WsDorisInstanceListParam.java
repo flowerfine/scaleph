@@ -16,37 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.doris.operator.status;
+package cn.sliew.scaleph.engine.doris.service.param;
 
+import cn.sliew.scaleph.system.model.PaginationParam;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 @Data
-public class ComponentStatus {
+public class WsDorisInstanceListParam extends PaginationParam {
 
-    /**
-     * DorisComponentStatus represents the status of a doris component. the name of fe service exposed for user.
-     */
-    private String accessService;
+    @NotNull
+    @Schema(description = "project id")
+    private Long projectId;
 
-    /**
-     * FailedInstances failed pod names.
-     */
-    private List<String> failedInstances;
-
-    /**
-     * CreatingInstances in creating pod names.
-     */
-    private List<String> creatingInstances;
-
-    /**
-     * RunningInstances in running status pod names.
-     */
-    private List<String> runningInstances;
-
-    /**
-     *
-     */
-    private ComponentCondition componentCondition;
+    @Schema(description = "name")
+    private String name;
 }
