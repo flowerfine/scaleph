@@ -34,6 +34,23 @@ insert into sec_user (id, type, user_name, nick_name, avatar, email, phone, pass
 values (1, '0', 'sys_admin', '超级管理员', null, 'test@admin.com', null,
         '$2a$10$QX2DBrOBGLuhEmboliW66ulvQ5Hiy9GCdhsqqs1HgJVgslYhZEC6q',
         '0', null, null, 0, '0', null, 'sys', 'sys');
+INSERT INTO `sec_user`(`id`, `type`, `user_name`, `nick_name`, `avatar`, `email`, `phone`, `password`, `gender`,
+                       `address`, `summary`, `order`, `status`, `remark`, `creator`, `editor`)
+VALUES (2, '1', 'kalencaya', '王奇', NULL, '1942460489@qq.com', NULL,
+        '$2a$10$QX2DBrOBGLuhEmboliW66ulvQ5Hiy9GCdhsqqs1HgJVgslYhZEC6q', '1', NULL, NULL, 0, '0', NULL, 'sys', 'sys');
+INSERT INTO `sec_user`(`id`, `type`, `user_name`, `nick_name`, `avatar`, `email`, `phone`, `password`, `gender`,
+                       `address`, `summary`, `order`, `status`, `remark`, `creator`, `editor`)
+VALUES (3, '1', 'gleiyu', '耿雷雨', NULL, 'gleiyu@sina.cn', NULL,
+        '$2a$10$QX2DBrOBGLuhEmboliW66ulvQ5Hiy9GCdhsqqs1HgJVgslYhZEC6q', '1', NULL, NULL, 0, '0', NULL, 'sys', 'sys');
+INSERT INTO `sec_user`(`id`, `type`, `user_name`, `nick_name`, `avatar`, `email`, `phone`, `password`, `gender`,
+                       `address`, `summary`, `order`, `status`, `remark`, `creator`, `editor`)
+VALUES (4, '1', 'LiuBodong', 'LiuBodong', NULL, 'liubodong2010@126.com', NULL,
+        '$2a$10$QX2DBrOBGLuhEmboliW66ulvQ5Hiy9GCdhsqqs1HgJVgslYhZEC6q', '1', NULL,
+        'Want to learn everything but do well in nothing.', 0, '0', NULL, 'sys', 'sys');
+INSERT INTO `sec_user`(`id`, `type`, `user_name`, `nick_name`, `avatar`, `email`, `phone`, `password`, `gender`,
+                       `address`, `summary`, `order`, `status`, `remark`, `creator`, `editor`)
+VALUES (5, '1', 'bailongsen1027', NULL, NULL, 'test@123.com', NULL,
+        '$2a$10$QX2DBrOBGLuhEmboliW66ulvQ5Hiy9GCdhsqqs1HgJVgslYhZEC6q', '1', NULL, NULL, 0, '0', NULL, 'sys', 'sys');
 
 /* 角色表 */
 drop table if exists sec_role;
@@ -305,19 +322,19 @@ create table sec_resource_web
 
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
-VALUES (1, '2', 0, 'index', '/', '/studio/databoard', NULL, NULL, NULL, NULL, 'sys', 'sys');
+VALUES (1, '2', 0, NULL, '/', '/studio/databoard', NULL, NULL, NULL, NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
-VALUES (2, '2', 0, '404', '/404', NULL, NULL, NULL, './404', NULL, 'sys', 'sys');
+VALUES (2, '2', 0, NULL, '/404', NULL, NULL, NULL, './404', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
-VALUES (3, '2', 0, 'login', '/login', NULL, 0, NULL, './User/Login', NULL, 'sys', 'sys');
+VALUES (3, '2', 0, NULL, '/login', NULL, 0, NULL, './User/Login', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
-VALUES (4, '2', 0, 'register', '/register', NULL, 0, NULL, './User/Register', NULL, 'sys', 'sys');
+VALUES (4, '2', 0, NULL, '/register', NULL, 0, NULL, './User/Register', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
-VALUES (5, '2', 0, 'user-center', '/user/center', NULL, NULL, NULL, './User', NULL, 'sys', 'sys');
+VALUES (5, '2', 0, NULL, '/user/center', NULL, NULL, NULL, './User', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
 VALUES (6, '0', 0, 'studio', '/studio', NULL, NULL, 'CodeSandboxOutlined', NULL, NULL, 'sys', 'sys');
@@ -542,6 +559,14 @@ INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`,
                                 `remark`, `creator`, `editor`)
 VALUES (68, '2', 64, NULL, '/workspace/doris/template/detail', NULL, NULL, NULL,
         './Project/Workspace/Doris/Template/Detail', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (69, '2', 64, 'instance', '/workspace/doris/instance', NULL, NULL, NULL, './Project/Workspace/Doris/Instance',
+        NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (70, '2', 64, NULL, '/workspace/doris/instance/steps', NULL, NULL, NULL,
+        './Project/Workspace/Doris/Instance/Steps', NULL, 'sys', 'sys');
 
 drop table if exists sec_resource_web_role;
 create table sec_resource_web_role

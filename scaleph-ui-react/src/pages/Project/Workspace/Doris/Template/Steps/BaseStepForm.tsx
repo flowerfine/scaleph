@@ -1,11 +1,9 @@
 import React from "react";
-import {Form} from "antd";
 import {ProCard, ProFormDigit, ProFormText} from "@ant-design/pro-components";
 import {useIntl} from "umi";
 
 const DorisTemplateBase: React.FC = () => {
   const intl = useIntl();
-  const [form] = Form.useForm()
 
   return (
     <ProCard>

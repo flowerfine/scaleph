@@ -1,12 +1,13 @@
-import {WsDorisTemplate} from "@/services/project/typings";
+import {WsDorisInstance, WsDorisTemplate} from "@/services/project/typings";
 import {Effect, Reducer} from "umi";
 import YAML from "yaml";
 import {WsDorisTemplateService} from "@/services/project/WsDorisTemplateService";
 
 export interface StateType {
   template: WsDorisTemplate,
-  templateYaml: string
-  templateYamlWithDefault: string
+  instance: WsDorisInstance,
+  instanceYaml: string
+  instanceYamlWithDefault: string
 }
 
 export interface ModelType {
@@ -24,7 +25,7 @@ export interface ModelType {
 }
 
 const model: ModelType = {
-  namespace: "dorisTemplateSteps",
+  namespace: "dorisInstanceSteps",
 
   state: {
     template: null,

@@ -14,6 +14,7 @@ export default {
   'menu.project.flink.kubernetes.job': 'Job',
   'menu.project.doris': 'Doris',
   'menu.project.doris.template': 'Template',
+  'menu.project.doris.instance': 'Instance',
 
   'menu.resource': '资源',
   'menu.resource.jar': '公共 Jar',

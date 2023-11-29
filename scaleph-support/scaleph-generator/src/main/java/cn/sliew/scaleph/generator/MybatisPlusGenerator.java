@@ -54,7 +54,7 @@ public class MybatisPlusGenerator {
     /**
      * just add table names here and run the {@link #main(String[])} method.
      */
-    private static final String[] TABLES = {"ws_doris_template"};
+    private static final String[] TABLES = {"ws_doris_instance"};
 
     public static void main(String[] args) {
         //自动生成配置
