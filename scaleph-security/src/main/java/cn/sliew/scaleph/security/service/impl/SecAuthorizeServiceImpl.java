@@ -53,9 +53,6 @@ public class SecAuthorizeServiceImpl implements SecAuthorizeService {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    /**
-     * fixme 这里没有获取用户自己的资源，先获取的所有资源
-     */
     @Override
     public List<UmiRoute> getWebRoute() {
         UserDetailInfo userDetails = (UserDetailInfo) userDetailsService.loadUserByUsername(SecurityUtil.getCurrentUserName());
