@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.engine.doris.service.impl;
 
 import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDorisInstance;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsDorisInstanceMapper;
@@ -27,9 +28,11 @@ import cn.sliew.scaleph.engine.doris.service.WsDorisInstanceService;
 import cn.sliew.scaleph.engine.doris.service.WsDorisTemplateService;
 import cn.sliew.scaleph.engine.doris.service.convert.WsDorisInstanceConvert;
 import cn.sliew.scaleph.engine.doris.service.dto.WsDorisInstanceDTO;
+import cn.sliew.scaleph.engine.doris.service.dto.WsDorisTemplateDTO;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisInstanceAddParam;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisInstanceListParam;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisInstanceUpdateParam;
+import cn.sliew.scaleph.engine.doris.service.resource.cluster.DorisClusterConverter;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -73,12 +76,20 @@ public class WsDorisInstanceServiceImpl implements WsDorisInstanceService {
 
     @Override
     public WsDorisInstanceDTO fromTemplate(Long templateId) {
-        return null;
+        WsDorisTemplateDTO wsDorisTemplateDTO = wsDorisTemplateService.selectOne(templateId);
+        WsDorisInstanceDTO wsDorisInstanceDTO = new WsDorisInstanceDTO();
+        wsDorisInstanceDTO.setAdmin(wsDorisTemplateDTO.getAdmin());
+        wsDorisInstanceDTO.setFeSpec(wsDorisTemplateDTO.getFeSpec());
+        wsDorisInstanceDTO.setBeSpec(wsDorisTemplateDTO.getBeSpec());
+        wsDorisInstanceDTO.setCnSpec(wsDorisTemplateDTO.getCnSpec());
+        wsDorisInstanceDTO.setBrokerSpec(wsDorisTemplateDTO.getBrokerSpec());
+        wsDorisInstanceDTO.setRemark("generated from template-" + wsDorisTemplateDTO.getName());
+        return wsDorisInstanceDTO;
     }
 
     @Override
     public DorisCluster asYaml(WsDorisInstanceDTO dto) {
-        return null;
+        return DorisClusterConverter.INSTANCE.convertTo(dto);
     }
 
     @Override
@@ -86,6 +97,7 @@ public class WsDorisInstanceServiceImpl implements WsDorisInstanceService {
         WsDorisInstance record = new WsDorisInstance();
         BeanUtils.copyProperties(param, record);
         record.setInstanceId(UUIDUtil.randomUUId());
+        record.setDeployed(YesOrNo.NO);
         if (param.getAdmin() != null) {
             record.setAdmin(JacksonUtil.toJsonString(param.getAdmin()));
         }

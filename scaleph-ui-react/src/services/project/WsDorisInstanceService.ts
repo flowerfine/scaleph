@@ -20,6 +20,13 @@ export const WsDorisInstanceService = {
     });
   },
 
+  fromTemplate: async (templateId: number) => {
+    return request<ResponseBody<WsDorisInstance>>(`${WsDorisInstanceService.url}/fromTemplate`, {
+      method: 'GET',
+      params: {templateId: templateId},
+    });
+  },
+
   asYaml: async (param: WsDorisInstance) => {
     return request<ResponseBody<any>>(`${WsDorisInstanceService.url}/asYaml`, {
       method: 'POST',
