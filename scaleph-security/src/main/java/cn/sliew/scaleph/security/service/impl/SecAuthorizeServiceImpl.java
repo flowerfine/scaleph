@@ -21,6 +21,7 @@ package cn.sliew.scaleph.security.service.impl;
 import cn.sliew.scaleph.dao.entity.master.security.*;
 import cn.sliew.scaleph.dao.mapper.master.security.SecResourceWebRoleMapper;
 import cn.sliew.scaleph.dao.mapper.master.security.SecUserRoleMapper;
+import cn.sliew.scaleph.security.authentication.UserDetailInfo;
 import cn.sliew.scaleph.security.service.SecAuthorizeService;
 import cn.sliew.scaleph.security.service.SecResourceWebService;
 import cn.sliew.scaleph.security.service.convert.SecResourceWebWithAuthorizeConvert;
@@ -28,10 +29,12 @@ import cn.sliew.scaleph.security.service.convert.SecRoleConvert;
 import cn.sliew.scaleph.security.service.convert.SecUserConvert;
 import cn.sliew.scaleph.security.service.dto.*;
 import cn.sliew.scaleph.security.service.param.*;
+import cn.sliew.scaleph.security.util.SecurityUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -47,17 +50,17 @@ public class SecAuthorizeServiceImpl implements SecAuthorizeService {
     private SecResourceWebRoleMapper secResourceWebRoleMapper;
     @Autowired
     private SecUserRoleMapper secUserRoleMapper;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
-    /**
-     * fixme 这里没有获取用户自己的资源，先获取的所有资源
-     */
     @Override
     public List<UmiRoute> getWebRoute() {
-        return buildRouteByPid(0L);
+        UserDetailInfo userDetails = (UserDetailInfo) userDetailsService.loadUserByUsername(SecurityUtil.getCurrentUserName());
+        return buildRouteByPid(0L, userDetails.getUser().getId());
     }
 
-    private List<UmiRoute> buildRouteByPid(Long pid) {
-        List<SecResourceWebDTO> secResourceWebDTOS = secResourceWebService.listByPid(pid, null);
+    private List<UmiRoute> buildRouteByPid(Long pid, Long userId) {
+        List<SecResourceWebDTO> secResourceWebDTOS = secResourceWebService.listByPidAndUserId(pid, userId, null);
         List<UmiRoute> routes = new ArrayList<>(secResourceWebDTOS.size());
         for (SecResourceWebDTO secResourceWebDTO : secResourceWebDTOS) {
             UmiRoute route = new UmiRoute();
@@ -66,7 +69,7 @@ public class SecAuthorizeServiceImpl implements SecAuthorizeService {
             route.setRedirect(secResourceWebDTO.getRedirect());
             route.setIcon(secResourceWebDTO.getIcon());
             route.setComponent(secResourceWebDTO.getComponent());
-            List<UmiRoute> childRoutes = buildRouteByPid(secResourceWebDTO.getId());
+            List<UmiRoute> childRoutes = buildRouteByPid(secResourceWebDTO.getId(), userId);
             if (CollectionUtils.isEmpty(childRoutes) == false) {
                 route.setRoutes(childRoutes);
             }

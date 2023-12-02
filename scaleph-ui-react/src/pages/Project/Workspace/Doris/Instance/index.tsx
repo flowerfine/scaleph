@@ -1,11 +1,12 @@
 import {history, useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
-import {Button, message, Modal, Space, Tooltip} from "antd";
+import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
-import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {PRIVILEGE_CODE, WORKSPACE_CONF} from "@/constant";
+import {ActionType, ProColumns, ProFormInstance, ProFormSelect, ProTable} from "@ant-design/pro-components";
+import {DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF} from "@/constant";
 import {WsDorisInstance, WsDorisTemplate} from "@/services/project/typings";
 import {WsDorisInstanceService} from "@/services/project/WsDorisInstanceService";
+import {DictDataService} from "@/services/admin/dictData.service";
 
 const DorisInstanceWeb: React.FC = () => {
   const intl = useIntl();
@@ -21,13 +22,21 @@ const DorisInstanceWeb: React.FC = () => {
 
   const tableColumns: ProColumns<WsDorisInstance>[] = [
     {
-      title: intl.formatMessage({id: 'pages.project.doris.template.name'}),
+      title: intl.formatMessage({id: 'pages.project.doris.instance.name'}),
       dataIndex: 'name'
     },
     {
-      title: intl.formatMessage({id: 'pages.project.doris.template.namespace'}),
+      title: intl.formatMessage({id: 'pages.project.doris.instance.namespace'}),
       dataIndex: 'namespace',
       hideInSearch: true,
+    },
+
+    {
+      title: intl.formatMessage({id: 'pages.project.doris.instance.deployed'}),
+      dataIndex: 'deployed',
+      render: (dom, entity) => {
+        return (<Tag>{entity.deployed?.label}</Tag>)
+      }
     },
     {
       title: intl.formatMessage({id: 'app.common.data.remark'}),
@@ -74,7 +83,7 @@ const DorisInstanceWeb: React.FC = () => {
                 type="link"
                 icon={<NodeIndexOutlined/>}
                 onClick={() => {
-                  history.push("/workspace/doris/template/detail", record)
+                  // history.push("/workspace/doris/template/detail", record)
                 }}
               />
             </Tooltip>

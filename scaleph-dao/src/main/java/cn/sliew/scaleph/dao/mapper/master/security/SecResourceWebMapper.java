@@ -20,12 +20,17 @@ package cn.sliew.scaleph.dao.mapper.master.security;
 
 import cn.sliew.scaleph.dao.entity.master.security.SecResourceWeb;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * 资源-web Mapper 接口
  */
 @Repository
 public interface SecResourceWebMapper extends BaseMapper<SecResourceWeb> {
+
+    List<SecResourceWeb> listByPidAndUserId(@Param("pid") Long pid, @Param("userId") Long userId, @Param("name") String name);
 
 }
