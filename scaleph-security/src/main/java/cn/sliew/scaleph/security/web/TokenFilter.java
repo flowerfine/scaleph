@@ -71,9 +71,7 @@ public class TokenFilter extends GenericFilterBean {
             throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String token = resolveToken(httpServletRequest);
-        //用户在线且有效，获取用户的权限信息 只要在redis中存在数据则认为是有效在线用户
-        OnlineUserVO onlineUser =
-                (OnlineUserVO) redisUtil.get(Constants.ONLINE_TOKEN_KEY + token);
+        OnlineUserVO onlineUser = onlineUserService.getOnlineUser(token);
         if (onlineUser != null) {
             long time =
                     onlineUser.getRemember() ? properties.getLongTokenValidityInSeconds() / 1000 :

@@ -62,6 +62,14 @@ public class WsDorisInstanceController {
     }
 
     @Logging
+    @GetMapping("fromTemplate")
+    @Operation(summary = "根据模板创建实例", description = "根据模板创建实例")
+    public ResponseEntity<ResponseVO<WsDorisInstanceDTO>> fromTemplate(@RequestParam("templateId") Long templateId) {
+        WsDorisInstanceDTO cluster = wsDorisInstanceService.fromTemplate(templateId);
+        return new ResponseEntity(ResponseVO.success(cluster), HttpStatus.OK);
+    }
+
+    @Logging
     @PostMapping("asYaml")
     @Operation(summary = "转换实例信息", description = "转换实例信息")
     public ResponseEntity<ResponseVO<DorisCluster>> asYaml(@RequestBody WsDorisInstanceDTO dto) {

@@ -83,6 +83,12 @@ public class SecResourceWebServiceImpl implements SecResourceWebService {
     }
 
     @Override
+    public List<SecResourceWebDTO> listByPidAndUserId(Long pid, Long userId, String name) {
+        List<SecResourceWeb> list = secResourceWebMapper.listByPidAndUserId(pid, userId, name);
+        return SecResourceWebConvert.INSTANCE.toDto(list);
+    }
+
+    @Override
     public int insert(SecResourceWebAddParam param) {
         SecResourceWeb record = BeanUtil.copy(param, new SecResourceWeb());
         return secResourceWebMapper.insert(record);

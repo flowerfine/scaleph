@@ -582,6 +582,15 @@ create table sec_resource_web_role
     unique key (resource_web_id, role_id)
 ) engine = innodb comment = '资源-web与角色关联表';
 
+insert into sec_resource_web_role (resource_web_id, role_id, creator, editor)
+select t1.id as resource_web_id,
+       t2.id as role_id,
+       'sys' as creator,
+       'sys' as editor
+from sec_resource_web t1,
+     sec_role t2
+where t2.`code` in ('sys_admin', 'sys_super_admin');
+
 /* 部门表 */
 drop table if exists sec_dept;
 create table sec_dept

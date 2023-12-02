@@ -63,6 +63,7 @@ public class OnlineUserService {
     public void insert(UserDetailInfo userInfo, String token) {
         OnlineUserVO onlineUser = new OnlineUserVO();
         onlineUser.setToken(token);
+        onlineUser.setUserId(userInfo.getUser().getId());
         onlineUser.setEmail(userInfo.getUser().getEmail());
         onlineUser.setIpAddress(userInfo.getLoginIpAddress());
         onlineUser.setLoginTime(userInfo.getLoginTime());
@@ -92,6 +93,11 @@ public class OnlineUserService {
             properties.getTokenValidityInSeconds() / 1000;
         redisUtil.set(Constants.ONLINE_USER_KEY + onlineUser.getUserName(), token, time);
         redisUtil.set(Constants.ONLINE_TOKEN_KEY + token, onlineUser, time);
+    }
+
+    public OnlineUserVO getOnlineUser(String token) {
+        //用户在线且有效，获取用户的权限信息 只要在redis中存在数据则认为是有效在线用户
+        return (OnlineUserVO) redisUtil.get(Constants.ONLINE_TOKEN_KEY + token);
     }
 
     /**
