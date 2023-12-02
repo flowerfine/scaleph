@@ -83,7 +83,7 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
   const returnTitle = useMemo(() => {
     return (
       <Space direction="vertical">
-        <span>{` ${intl.formatMessage({ id: `menu.${data?.name}` })}-资源分配详情`}</span>
+        <span>{` ${intl.formatMessage({ id: `menu.${data?.name}` })}-${intl.formatMessage({ id: 'app.common.operate.new.rolesUser' })}`}</span>
       </Space>
     );
   }, [data, intl]);
@@ -131,11 +131,11 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
       width={1100}
       destroyOnClose={true}
       onCancel={onCancel}
-      cancelText="关闭"
+      cancelText={intl.formatMessage({ id: 'app.common.operate.close.label' })}
       centered
       footer={[
         <Button type="primary" onClick={onCancel}>
-          关闭
+          {intl.formatMessage({ id: 'app.common.operate.close.label' })}
         </Button>,
       ]}
     >

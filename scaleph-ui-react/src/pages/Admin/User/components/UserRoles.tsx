@@ -1,10 +1,10 @@
 import mainHeight from '@/models/useMainSize';
+import TableTransfer from '@/pages/Admin/Resource/Web/components/TransferTable';
 import { SecResourceWeb } from '@/services/admin/typings';
 import { AuthService } from '@/services/auth';
 import { Button, Card, Form, message, Modal, Space } from 'antd';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'umi';
-import TableTransfer from './TransferTable';
 
 // 定义组件 Props 类型
 interface ModalFormParentProps<T> {
@@ -34,9 +34,12 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
       width: 300,
     },
     {
-      dataIndex: 'desc',
-      title: '描述',
+      dataIndex: 'status.label',
+      title: '角色状态',
       width: 300,
+      render: (text: any, record: { status: { label: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; }; }) => (
+        <span>{record.status.label}</span>
+      ),
     },
   ];
 
@@ -49,23 +52,22 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
   }
 
   // 合并数组
-  function mergeArrays(array1: Role[], array2: Role[]): Role[] {
-    array1.forEach((obj, index) => {
+  function mergeArrays(array1: any, array2: any): any {
+    array1.forEach((obj: { checkOut: number; }, index: any) => {
       obj.checkOut = 0;
     });
-    array2.forEach((obj, index) => {
+    array2.forEach((obj: { checkOut: number; }, index: any) => {
       obj.checkOut = 1;
     });
     return [...array1, ...array2];
   }
-
   // 异步获取数据
   const fetchData = useCallback(async () => {
     try {
-      const res1 = await AuthService.unauthorizedRoles({ resourceWebId: data?.id });
-      const res2 = await AuthService.authorizedRoles({ resourceWebId: data?.id });
-      if (res1?.records && res2?.records) {
-        const mergedArray = mergeArrays(res1.records, res2.records);
+      const res1 = await AuthService.requestUnauthorizedRoles({ userId: data?.id });
+      const res2 = await AuthService.requestUserAuthorizedRoles({ userId: data?.id });
+      if (res1 && res2) {
+        const mergedArray = mergeArrays(res1, res2);
         setRoleLists(mergedArray);
       }
     } catch (error) {
@@ -83,7 +85,7 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
   const returnTitle = useMemo(() => {
     return (
       <Space direction="vertical">
-        <span>{` ${intl.formatMessage({ id: `menu.${data?.name}` })}-资源分配详情`}</span>
+        <span>{` ${intl.formatMessage({ id: `menu.${data?.userName}` })}-${intl.formatMessage({ id: 'app.common.operate.new.roles' })}`}</span>
       </Space>
     );
   }, [data, intl]);
@@ -103,19 +105,19 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
     async (targetKeys, direction, moveKeys) => {
       const roleIds = moveKeys.map((item: string | number) => +item);
       const params = {
-        resourceWebId: data?.id,
+        userId: data?.id,
         roleIds: roleIds,
       };
       if (direction === 'right') {
-        // 绑定角色资源
-        await AuthService.resourceWebRoles(params).then((res) => {
+        // 批量为角色绑定用户
+        await AuthService.requestUserRoles(params).then((res) => {
           if (res?.success) {
             message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }), 2);
           }
         });
       } else {
-        // 删除绑定的角色资源
-        await AuthService.resourceWebRolesDelete(params).then((res) => {
+        // 批量为角色解除用户绑定
+        await AuthService.requestDeleteUserRoles(params).then((res) => {
           message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }), 2);
         });
       }
@@ -127,7 +129,7 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
   return (
     <Modal
       open={visible}
-      title={data.id ? intl.formatMessage({ id: 'app.common.operate.new.roles' }) : ''}
+      title={data.id ? intl.formatMessage({ id: 'app.common.operate.new.rolesUser' }) : ''}
       width={1100}
       destroyOnClose={true}
       onCancel={onCancel}

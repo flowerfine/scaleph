@@ -116,4 +116,35 @@ export const AuthService = {
       data: param,
     });
   },
+
+  //查询用户未绑定角色列表
+  requestUnauthorizedRoles: async (param: any) => {
+    return request<ResponseBody<any>>('/api/admin/authorize/user/unauthorized-roles', {
+      method: 'GET',
+      params: param,
+    });
+  },
+  //查询角色绑定用户列表
+  requestUserAuthorizedRoles: async (param: any) => {
+    return request<ResponseBody<any>>('/api/admin/authorize/user/authorized-roles', {
+      method: 'GET',
+      params: param,
+    });
+  },
+
+  //批量为用户绑定角色
+  requestUserRoles: async (param: any) => {
+    return request<ResponseBody<any>>('/api/admin/authorize/user/roles', {
+      method: 'PUT',
+      data: param,
+    });
+  },
+
+  //批量为用户解除角色绑定
+  requestDeleteUserRoles: async (param: any) => {
+    return request<ResponseBody<any>>('/api/admin/authorize/user/roles', {
+      method: 'DELETE',
+      data: param,
+    });
+  },
 };
