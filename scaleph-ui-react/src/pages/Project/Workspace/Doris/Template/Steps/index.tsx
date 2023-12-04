@@ -17,7 +17,6 @@ const DorisTemplateSteps: React.FC = (props: any) => {
     const template: WsDorisTemplate = {
       projectId: projectId,
       name: values.name,
-      namespace: values.namespace,
       remark: values.remark,
     }
     editDorisTemplate(template)

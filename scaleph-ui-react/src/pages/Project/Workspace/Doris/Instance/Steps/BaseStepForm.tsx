@@ -1,5 +1,5 @@
 import React from "react";
-import {ProCard, ProFormDigit, ProFormSelect, ProFormText} from "@ant-design/pro-components";
+import {ProCard, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import {useIntl} from "umi";
 import {ClusterCredentialListParam} from "@/services/resource/typings";
 import {ClusterCredentialService} from "@/services/resource/clusterCredential.service";
@@ -39,6 +39,7 @@ const DorisInstanceBase: React.FC = () => {
         name={"namespace"}
         label={intl.formatMessage({id: 'pages.project.doris.instance.namespace'})}
         rules={[{required: true}]}
+        initialValue={"doris"}
       />
       <ProFormSelect
         name="templateId"
@@ -57,7 +58,7 @@ const DorisInstanceBase: React.FC = () => {
           })
         })}
       />
-      <ProFormText
+      <ProFormTextArea
         name={"remark"}
         label={intl.formatMessage({id: 'app.common.data.remark'})}
       />

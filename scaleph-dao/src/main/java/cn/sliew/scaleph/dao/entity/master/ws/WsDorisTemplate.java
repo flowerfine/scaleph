@@ -43,9 +43,6 @@ public class WsDorisTemplate extends BaseDO {
     @TableField("template_id")
     private String templateId;
 
-    @TableField("namespace")
-    private String namespace;
-
     @TableField("`admin`")
     private String admin;
 

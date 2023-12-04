@@ -36,7 +36,6 @@ public enum DorisTemplateConverter implements ResourceConverter<WsDorisTemplateD
         ObjectMetaBuilder builder = new ObjectMetaBuilder(true);
         String name = StringUtils.hasText(source.getTemplateId()) ? source.getTemplateId() : source.getName();
         builder.withName(name);
-        builder.withNamespace(source.getNamespace());
         builder.withLabels(Map.of(ResourceLabels.SCALEPH_LABEL_NAME, source.getName()));
         template.setMetadata(builder.build());
         DorisClusterSpec spec = new DorisClusterSpec();
@@ -59,7 +58,6 @@ public enum DorisTemplateConverter implements ResourceConverter<WsDorisTemplateD
         }
         dto.setName(name);
         dto.setTemplateId(target.getMetadata().getName());
-        dto.setNamespace(target.getMetadata().getNamespace());
 
         DorisClusterSpec spec = target.getSpec();
         dto.setFeSpec(spec.getFeSpec());

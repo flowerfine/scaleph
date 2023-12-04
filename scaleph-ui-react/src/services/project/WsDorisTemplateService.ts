@@ -115,7 +115,6 @@ export const WsDorisTemplateService = {
   parseData: (data: WsDorisTemplate) => {
     const value: Record<string, any> = {
       'name': data.name,
-      'namespace': data.namespace,
       'remark': data.remark,
 
       'admin.name': data.admin?.name,
