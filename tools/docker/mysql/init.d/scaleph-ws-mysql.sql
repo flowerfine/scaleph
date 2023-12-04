@@ -257,7 +257,7 @@ INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template
                                            `log_configuration`, `ingress`, additional_dependencies, `remark`, `creator`,
                                            `editor`)
 VALUES (1, 1, 'simple-sessioin-cluster', '19b77b47-b9e4-418c-90a1-533ea6121c16', 'FlinkSessionJob', 'default',
-        '{"image":"flink:1.18","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
+        '{"image":"flink:1.18","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_18","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         NULL,
@@ -301,7 +301,7 @@ VALUES (4, 1, 'simple-seatunnel-deployment', '35e4a532-3c7b-4273-8cdb-edbef2cb9e
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         NULL,
-        '{"web.cancel.enable":"false","taskmanager.numberOfTaskSlots":"8","kubernetes.rest-service.exposed.type":"NodePort","kubernetes.rest-service.exposed.node-port-address-type":"ExternalIP"}',
+        '{"web.cancel.enable":"false","taskmanager.numberOfTaskSlots":"1","kubernetes.rest-service.exposed.type":"NodePort","kubernetes.rest-service.exposed.node-port-address-type":"ExternalIP"}',
         NULL, NULL, NULL, NULL, 'sys', 'sys');
 
 INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
@@ -323,7 +323,7 @@ INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template
                                            `log_configuration`, `ingress`, additional_dependencies, `remark`, `creator`,
                                            `editor`)
 VALUES (6, 1, 'session-cluster', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkSessionJob', 'default',
-        '{"image":"flink:1.18","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
+        '{"image":"flink:1.18","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_18","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"apiVersion":"v1","kind":"Pod","spec":{"containers":[{"name":"flink-main-container","volumeMounts":[{"mountPath":"/flink-data","name":"flink-volume"}]}],"volumes":[{"emptyDir":{"sizeLimit":"500Mi"},"name":"flink-volume"}]}}',
