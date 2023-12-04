@@ -27,7 +27,9 @@ const DorisInstanceDetailWeb: React.FC = () => {
   }
 
   useEffect(() => {
-    WsDorisInstanceService.asYaml(data).then((response) => {
+    const yamlData = {...data}
+    yamlData.deployed = undefined
+    WsDorisInstanceService.asYaml(yamlData).then((response) => {
       if (response.success) {
         setYaml(YAML.stringify(response.data))
       }
