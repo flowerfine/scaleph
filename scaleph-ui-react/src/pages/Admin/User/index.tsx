@@ -124,7 +124,7 @@ const User: React.FC = () => {
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.new.user' })}>
+              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.new.roles' })}>
                 <Button
                   shape="default"
                   type="link"
