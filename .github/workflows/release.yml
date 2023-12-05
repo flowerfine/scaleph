@@ -54,4 +54,5 @@ jobs:
           file: tools/docker/build/${{ matrix.image }}/Dockerfile
           tags: |
             ${{ env.HUB }}/${{ matrix.image }}:${{ github.sha }},
-            ${{ env.HUB }}/${{ matrix.image }}:${{ github.ref_name }}
+            ${{ env.HUB }}/${{ matrix.image }}:${{ github.ref_name }},
+            ${{ env.HUB }}/${{ matrix.image }}:latest
