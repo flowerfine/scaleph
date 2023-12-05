@@ -1,7 +1,7 @@
 import {useIntl} from 'umi';
 import {useState} from 'react';
 import {Form, message, Modal, UploadFile, UploadProps} from 'antd';
-import {ProForm, ProFormDigit, ProFormText, ProFormUploadButton} from '@ant-design/pro-components';
+import {ProForm, ProFormDigit, ProFormTextArea, ProFormUploadButton} from '@ant-design/pro-components';
 import {ModalFormProps} from '@/app.d';
 import {ResourceJarService} from '@/services/resource/jar.service';
 import {Jar, JarUploadParam} from '@/services/resource/typings';
@@ -72,11 +72,6 @@ const JarForm: React.FC<ModalFormProps<Jar>> = ({data, visible, onVisibleChange,
     >
       <ProForm form={form} layout={"horizontal"} submitter={false} labelCol={{span: 6}} wrapperCol={{span: 16}}>
         <ProFormDigit name="id" hidden/>
-        <ProFormText
-          name="group"
-          label={intl.formatMessage({id: 'pages.resource.jar.group'})}
-          rules={[{required: true}, {max: 128}]}
-        />
         <ProFormUploadButton
           name={"file"}
           label={intl.formatMessage({id: 'pages.resource.file'})}
@@ -85,7 +80,7 @@ const JarForm: React.FC<ModalFormProps<Jar>> = ({data, visible, onVisibleChange,
           fieldProps={props}
           rules={[{required: true}]}
         />
-        <ProFormText
+        <ProFormTextArea
           name="remark"
           label={intl.formatMessage({id: 'app.common.data.remark'})}
           rules={[{max: 200}]}

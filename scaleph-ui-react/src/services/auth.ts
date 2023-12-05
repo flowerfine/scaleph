@@ -63,4 +63,112 @@ export const AuthService = {
       params: { token: token },
     });
   },
+
+  unauthorizedRoles: async (param: any) => {
+    return request<ResponseBody<any>>('/api/admin/authorize/resource-web/unauthorized-roles', {
+      method: 'GET',
+      params: param,
+    });
+  },
+  authorizedRoles: async (param: any) => {
+    return request<ResponseBody<any>>('/api/admin/authorize/resource-web/authorized-roles', {
+      method: 'GET',
+      params: param,
+    });
+  },
+  resourceWebRoles: async (param: any) => {
+    return request<ResponseBody<any>>('/api/admin/authorize/resource-web/roles', {
+      method: 'PUT',
+      data: param,
+    });
+  },
+  resourceWebRolesDelete: async (param: any) => {
+    return request<ResponseBody<any>>('/api/admin/authorize/resource-web/roles', {
+      method: 'DELETE',
+      data: param,
+    });
+  },
+  //查询角色绑定用户列表
+  requestAuthorizedUsers: async (param: any) => {
+    return request<ResponseBody<any>>('/api/admin/authorize/role/authorized-users', {
+      method: 'GET',
+      params: param,
+    });
+  },
+  //查询角色未绑定用户列表
+  requestUnauthorizedUsers: async (param: any) => {
+    return request<ResponseBody<any>>('/api/admin/authorize/role/unauthorized-users', {
+      method: 'GET',
+      params: param,
+    });
+  },
+  //批量为角色绑定用户
+  rolesUser: async (param: any) => {
+    return request<ResponseBody<any>>('/api/admin/authorize/role/users', {
+      method: 'PUT',
+      data: param,
+    });
+  },
+  //批量为角色解除用户绑定
+  deleteRolesUser: async (param: any) => {
+    return request<ResponseBody<any>>('/api/admin/authorize/role/users', {
+      method: 'DELETE',
+      data: param,
+    });
+  },
+
+  //查询用户未绑定角色列表
+  requestUnauthorizedRoles: async (param: any) => {
+    return request<ResponseBody<any>>('/api/admin/authorize/user/unauthorized-roles', {
+      method: 'GET',
+      params: param,
+    });
+  },
+  //查询角色绑定用户列表
+  requestUserAuthorizedRoles: async (param: any) => {
+    return request<ResponseBody<any>>('/api/admin/authorize/user/authorized-roles', {
+      method: 'GET',
+      params: param,
+    });
+  },
+
+  //批量为用户绑定角色
+  requestUserRoles: async (param: any) => {
+    return request<ResponseBody<any>>('/api/admin/authorize/user/roles', {
+      method: 'PUT',
+      data: param,
+    });
+  },
+
+  //批量为用户解除角色绑定
+  requestDeleteUserRoles: async (param: any) => {
+    return request<ResponseBody<any>>('/api/admin/authorize/user/roles', {
+      method: 'DELETE',
+      data: param,
+    });
+  },
+
+  //查询所有 资源-web 和指定角色绑定状态
+  requestResourceWebs: async (param: any) => {
+    return request<ResponseBody<any>>('/api/admin/authorize/role/resource-webs', {
+      method: 'GET',
+      params: param,
+    });
+  },
+
+  //批量为角色绑定 资源-web
+  requestRoleResourceWebs: async (param: any) => {
+    return request<ResponseBody<any>>('/api/admin/authorize/role/resource-webs', {
+      method: 'PUT',
+      data: param,
+    });
+  },
+
+  //批量为角色解除 资源-web 绑定
+  requestDeleteRoleResourceWebs: async (param: any) => {
+    return request<ResponseBody<any>>('/api/admin/authorize/role/resource-webs', {
+      method: 'DELETE',
+      data: param,
+    });
+  },
 };

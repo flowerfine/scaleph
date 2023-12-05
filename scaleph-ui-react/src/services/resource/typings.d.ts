@@ -8,7 +8,6 @@ export type ResourceListParam = QueryParam & {
 
 export type Jar = {
   id?: number;
-  group?: string;
   fileName?: string;
   path?: string;
   remark?: string;
@@ -17,12 +16,10 @@ export type Jar = {
 }
 
 export type JarListParam = QueryParam & {
-  group?: string;
   fileName?: string;
 }
 
 export type JarUploadParam = QueryParam & {
-  group?: string;
   file: File;
   remark?: String;
 }

@@ -29,7 +29,6 @@ export const ResourceJarService = {
 
   upload: async (uploadParam: JarUploadParam) => {
     const formData = new FormData();
-    formData.append('group', uploadParam.group);
     formData.append('file', uploadParam.file);
     if (uploadParam.remark) {
       formData.append('remark', uploadParam.remark);

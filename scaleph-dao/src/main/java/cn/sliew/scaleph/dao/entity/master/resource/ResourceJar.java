@@ -36,9 +36,6 @@ public class ResourceJar extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("`group`")
-    private String group;
-
     @TableField("file_name")
     private String fileName;
 

@@ -26,7 +26,6 @@
         <result column="create_time" property="createTime" />
         <result column="editor" property="editor" />
         <result column="update_time" property="updateTime" />
-        <result column="group" property="group" />
         <result column="file_name" property="fileName" />
         <result column="path" property="path" />
         <result column="remark" property="remark" />
@@ -35,7 +34,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        `group`, file_name, `path`, remark
+        file_name, `path`, remark
     </sql>
 
 </mapper>
