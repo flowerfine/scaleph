@@ -567,6 +567,10 @@ INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`,
                                 `remark`, `creator`, `editor`)
 VALUES (70, '2', 64, NULL, '/workspace/doris/instance/steps', NULL, NULL, NULL,
         './Project/Workspace/Doris/Instance/Steps', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (71, '2', 64, '', '/workspace/doris/instance/detail', NULL, NULL, NULL,
+        './Project/Workspace/Doris/Instance/Detail', NULL, 'sys', 'sys');
 
 drop table if exists sec_resource_web_role;
 create table sec_resource_web_role

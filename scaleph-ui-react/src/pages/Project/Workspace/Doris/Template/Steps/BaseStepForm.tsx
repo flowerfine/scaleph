@@ -1,5 +1,5 @@
 import React from "react";
-import {ProCard, ProFormDigit, ProFormText} from "@ant-design/pro-components";
+import {ProCard, ProFormDigit, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import {useIntl} from "umi";
 
 const DorisTemplateBase: React.FC = () => {
@@ -13,12 +13,7 @@ const DorisTemplateBase: React.FC = () => {
         label={intl.formatMessage({id: 'pages.project.doris.template.name'})}
         rules={[{required: true}]}
       />
-      <ProFormText
-        name={"namespace"}
-        label={intl.formatMessage({id: 'pages.project.doris.template.namespace'})}
-        rules={[{required: true}]}
-      />
-      <ProFormText
+      <ProFormTextArea
         name={"remark"}
         label={intl.formatMessage({id: 'app.common.data.remark'})}
       />

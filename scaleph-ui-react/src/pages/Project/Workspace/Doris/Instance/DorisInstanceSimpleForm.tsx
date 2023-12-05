@@ -3,16 +3,16 @@ import React from "react";
 import {Form, message, Modal} from "antd";
 import {ProForm, ProFormDigit, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import {ModalFormProps} from '@/app.d';
-import {WsDorisTemplate} from "@/services/project/typings";
+import {WsDorisInstance} from "@/services/project/typings";
 import {WORKSPACE_CONF} from "@/constant";
-import {WsDorisTemplateService} from "@/services/project/WsDorisTemplateService";
+import {WsDorisInstanceService} from "@/services/project/WsDorisInstanceService";
 
-const DorisTemplateForm: React.FC<ModalFormProps<WsDorisTemplate>> = ({
-                                                                        data,
-                                                                        visible,
-                                                                        onVisibleChange,
-                                                                        onCancel
-                                                                      }) => {
+const DorisInstanceSimpleForm: React.FC<ModalFormProps<WsDorisInstance>> = ({
+                                                                              data,
+                                                                              visible,
+                                                                              onVisibleChange,
+                                                                              onCancel
+                                                                            }) => {
   const intl = useIntl();
   const [form] = Form.useForm();
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
@@ -33,7 +33,7 @@ const DorisTemplateForm: React.FC<ModalFormProps<WsDorisTemplate>> = ({
       onOk={() => {
         form.validateFields().then((values) => {
           data.id
-            ? WsDorisTemplateService.update({...values}).then((response) => {
+            ? WsDorisInstanceService.update({...values}).then((response) => {
               if (response.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}));
                 if (onVisibleChange) {
@@ -41,7 +41,7 @@ const DorisTemplateForm: React.FC<ModalFormProps<WsDorisTemplate>> = ({
                 }
               }
             })
-            : WsDorisTemplateService.add({...values, projectId: projectId}).then((response) => {
+            : WsDorisInstanceService.add({...values, projectId: projectId}).then((response) => {
               if (response.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
                 if (onVisibleChange) {
@@ -68,7 +68,7 @@ const DorisTemplateForm: React.FC<ModalFormProps<WsDorisTemplate>> = ({
         <ProFormDigit name={"id"} hidden/>
         <ProFormText
           name={"name"}
-          label={intl.formatMessage({id: 'pages.project.doris.template.name'})}
+          label={intl.formatMessage({id: 'pages.project.doris.instance.name'})}
           rules={[{required: true}]}
         />
         <ProFormTextArea
@@ -80,4 +80,4 @@ const DorisTemplateForm: React.FC<ModalFormProps<WsDorisTemplate>> = ({
   );
 }
 
-export default DorisTemplateForm;
+export default DorisInstanceSimpleForm;

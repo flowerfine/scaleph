@@ -433,7 +433,6 @@ export type WsDorisTemplate = {
   projectId: number;
   name?: string;
   templateId?: string;
-  namespace: string;
   admin?: Record<string, any>;
   feSpec?: Record<string, any>;
   beSpec?: Record<string, any>;
@@ -452,7 +451,6 @@ export type WsDorisTemplateParam = QueryParam & {
 export type WsDorisTemplateAddParam = {
   projectId: number;
   name: string;
-  namespace: string;
   admin?: Record<string, any>;
   feSpec?: Record<string, any>;
   beSpec?: Record<string, any>;
@@ -464,7 +462,6 @@ export type WsDorisTemplateAddParam = {
 export type WsDorisTemplateUpdateParam = {
   id: number;
   name: string;
-  namespace: string;
   admin?: Record<string, any>;
   feSpec?: Record<string, any>;
   beSpec?: Record<string, any>;

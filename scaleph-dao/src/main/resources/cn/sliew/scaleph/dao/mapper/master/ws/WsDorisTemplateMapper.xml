@@ -29,7 +29,6 @@
         <result column="project_id" property="projectId" />
         <result column="name" property="name" />
         <result column="template_id" property="templateId" />
-        <result column="namespace" property="namespace" />
         <result column="admin" property="admin" />
         <result column="fe_spec" property="feSpec" />
         <result column="be_spec" property="beSpec" />
@@ -45,7 +44,7 @@
         create_time,
         editor,
         update_time,
-        project_id, `name`, template_id, namespace, `admin`, fe_spec, be_spec, cn_spec, broker_spec, remark
+        project_id, `name`, template_id, `admin`, fe_spec, be_spec, cn_spec, broker_spec, remark
     </sql>
 
 </mapper>

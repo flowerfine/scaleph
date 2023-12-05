@@ -36,10 +36,6 @@ public class WsDorisTemplateUpdateParam {
     @Schema(description = "name")
     private String name;
 
-    @NotBlank
-    @Schema(description = "namespace")
-    private String namespace;
-
     @NotNull
     @Schema(description = "admin user")
     private AdminUser admin;

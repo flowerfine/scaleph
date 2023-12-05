@@ -26,11 +26,6 @@ const DorisTemplateWeb: React.FC = () => {
       dataIndex: 'name'
     },
     {
-      title: intl.formatMessage({id: 'pages.project.doris.template.namespace'}),
-      dataIndex: 'namespace',
-      hideInSearch: true,
-    },
-    {
       title: intl.formatMessage({id: 'app.common.data.remark'}),
       dataIndex: 'remark',
       hideInSearch: true,
