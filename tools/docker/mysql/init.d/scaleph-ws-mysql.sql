@@ -70,7 +70,7 @@ create table ws_flink_artifact_jar
     editor            varchar(32) comment '修改人',
     update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key idx_flink_artifact (flink_artifact_id)
+    key               idx_flink_artifact (flink_artifact_id)
 ) engine = innodb comment = 'flink artifact jar';
 
 DROP TABLE IF EXISTS ws_flink_artifact_sql;
@@ -86,7 +86,7 @@ CREATE TABLE ws_flink_artifact_sql
     editor            varchar(32),
     update_time       datetime    not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
-    key idx_flink_artifact (flink_artifact_id)
+    key               idx_flink_artifact (flink_artifact_id)
 ) ENGINE = INNODB COMMENT = 'flink artifact sql';
 
 INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
@@ -139,7 +139,7 @@ create table ws_di_job
     editor            varchar(32) comment '修改人',
     update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key idx_flink_artifact (flink_artifact_id)
+    key               idx_flink_artifact (flink_artifact_id)
 ) engine = innodb comment '数据集成-作业信息';
 INSERT INTO ws_di_job (id, flink_artifact_id, job_engine, job_id, current, creator, editor)
 VALUES (1, 4, 'seatunnel', 'b8e16c94-258c-4487-a88c-8aad40a38b35', 1, 'sys', 'sys');
@@ -257,7 +257,7 @@ INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template
                                            `log_configuration`, `ingress`, additional_dependencies, `remark`, `creator`,
                                            `editor`)
 VALUES (1, 1, 'simple-sessioin-cluster', '19b77b47-b9e4-418c-90a1-533ea6121c16', 'FlinkSessionJob', 'default',
-        '{"image":"flink:1.18","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
+        '{"image":"flink:1.18","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_18","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         NULL,
@@ -301,7 +301,7 @@ VALUES (4, 1, 'simple-seatunnel-deployment', '35e4a532-3c7b-4273-8cdb-edbef2cb9e
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         NULL,
-        '{"web.cancel.enable":"false","taskmanager.numberOfTaskSlots":"8","kubernetes.rest-service.exposed.type":"NodePort","kubernetes.rest-service.exposed.node-port-address-type":"ExternalIP"}',
+        '{"web.cancel.enable":"false","taskmanager.numberOfTaskSlots":"1","kubernetes.rest-service.exposed.type":"NodePort","kubernetes.rest-service.exposed.node-port-address-type":"ExternalIP"}',
         NULL, NULL, NULL, NULL, 'sys', 'sys');
 
 INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
@@ -323,7 +323,7 @@ INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template
                                            `log_configuration`, `ingress`, additional_dependencies, `remark`, `creator`,
                                            `editor`)
 VALUES (6, 1, 'session-cluster', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkSessionJob', 'default',
-        '{"image":"flink:1.18","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_17","serviceAccount":"flink"}',
+        '{"image":"flink:1.18","imagePullPolicy":"IfNotPresent","flinkVersion":"v1_18","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"apiVersion":"v1","kind":"Pod","spec":{"containers":[{"name":"flink-main-container","volumeMounts":[{"mountPath":"/flink-data","name":"flink-volume"}]}],"volumes":[{"emptyDir":{"sizeLimit":"500Mi"},"name":"flink-volume"}]}}',
@@ -471,7 +471,7 @@ create table ws_flink_custom_artifact
     editor        varchar(32) comment '修改人',
     update_time   timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key idx_custom (flink_version, type, file_name)
+    key           idx_custom (flink_version, type, file_name)
 ) engine = innodb comment = 'flink custom artifact';
 
 drop table if exists ws_flink_custom_factory;
@@ -487,7 +487,7 @@ create table ws_flink_custom_factory
     editor                   varchar(32) comment '修改人',
     update_time              timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key idx_custom (flink_custom_artifact_id, factory_class, `name`)
+    key                      idx_custom (flink_custom_artifact_id, factory_class, `name`)
 ) engine = innodb comment = 'flink custom factory';
 
 drop table if exists ws_flink_sql_gateway_session;
@@ -543,11 +543,10 @@ create table ws_flink_sql_gateway_catalog
 drop table if exists ws_doris_template;
 create table ws_doris_template
 (
-    id            bigint       not null auto_increment comment '自增主键',
-    project_id    bigint       not null comment '项目id',
-    `name`        varchar(64)  not null,
-    template_id   varchar(64)  not null,
-    namespace     varchar(255) not null,
+    id            bigint      not null auto_increment comment '自增主键',
+    project_id    bigint      not null comment '项目id',
+    `name`        varchar(64) not null,
+    template_id   varchar(64) not null,
     admin         varchar(255) comment 'admin user',
     `fe_spec`     text comment 'fe spec',
     `be_spec`     text comment 'be spec',
@@ -562,9 +561,9 @@ create table ws_doris_template
     unique key uniq_name (project_id, `name`)
 ) engine = innodb comment = 'doris template';
 
-INSERT INTO `ws_doris_template`(`id`, `project_id`, `name`, `template_id`, `namespace`, `admin`, `fe_spec`, `be_spec`,
-                                `cn_spec`, `broker_spec`, `remark`, `creator`, `editor`)
-VALUES (1, 1, 'simple-doriscluster-sample', 'zexbfaf0eba4ce824787a9bed88148eb233f', 'default',
+INSERT INTO `ws_doris_template`(`id`, `project_id`, `name`, `template_id`, `admin`, `fe_spec`, `be_spec`, `cn_spec`,
+                                `broker_spec`, `remark`, `creator`, `editor`)
+VALUES (1, 1, 'simple-doriscluster-sample', 'zexbfaf0eba4ce824787a9bed88148eb233f',
         '{"name":"admin","password":"Admin123"}',
         '{\"replicas\":1,\"image\":\"selectdb/doris.fe-ubuntu:2.0.2\",\"limits\":{\"cpu\":4,\"memory\":\"8Gi\"},\"requests\":{\"cpu\":4,\"memory\":\"8Gi\"}}',
         '{\"replicas\":1,\"image\":\"selectdb/doris.be-ubuntu:2.0.2\",\"limits\":{\"cpu\":4,\"memory\":\"8Gi\"},\"requests\":{\"cpu\":4,\"memory\":\"8Gi\"}}',

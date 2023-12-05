@@ -36,8 +36,6 @@ public class WsDorisTemplateDTO extends BaseDTO {
 
     private String templateId;
 
-    private String namespace;
-
     @Schema(description = "admin user")
     private AdminUser admin;
 
