@@ -148,7 +148,7 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
         >
           <TableTransfer
             containerHeight={containerInfo.height}
-            titles={['未授权人员', '已授权人员']}
+            titles={[intl.formatMessage({ id: 'app.common.operate.new.accreditUser' }), intl.formatMessage({ id: 'app.common.operate.new.notAccreditUser' })]}
             dataSource={roleLists}
             targetKeys={originTargetKeys}
             showSearch={true}

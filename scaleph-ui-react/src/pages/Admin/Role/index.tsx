@@ -3,7 +3,7 @@ import RoleForm from '@/pages/Admin/Role/components/RoleForm';
 import { DictDataService } from '@/services/admin/dictData.service';
 import { RoleService } from '@/services/admin/role.service';
 import { SecRole } from '@/services/admin/typings';
-import { DeleteOutlined, EditOutlined, FormOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, FormOutlined, SelectOutlined } from '@ant-design/icons';
 import {
   ActionType,
   ProColumns,
@@ -15,6 +15,7 @@ import { Button, message, Modal, Space, Tag, Tooltip } from 'antd';
 import React, { useRef, useState } from 'react';
 import { useAccess, useIntl } from 'umi';
 import WebAssugnRoles from './components/WebAssugnRoles';
+import ResourceWebs from './components/ResourceWebs';
 
 const RoleWeb: React.FC = () => {
   const intl = useIntl();
@@ -28,6 +29,11 @@ const RoleWeb: React.FC = () => {
   }>({ visiable: false, data: {} });
 
   const [webAssignRoles, setWebAssignRoles] = useState<{
+    visiable: boolean;
+    data: SecRole;
+  }>({ visiable: false, parent: {}, data: {} });
+
+  const [resourceWebs, setResourceWebs] = useState<{
     visiable: boolean;
     data: SecRole;
   }>({ visiable: false, parent: {}, data: {} });
@@ -113,6 +119,16 @@ const RoleWeb: React.FC = () => {
                   type="link"
                   icon={<FormOutlined />}
                   onClick={() => setWebAssignRoles({ visiable: true, data: record })}
+                />
+              </Tooltip>
+            )}
+            {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
+              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.new.webs' })}>
+                <Button
+                  shape="default"
+                  type="link"
+                  icon={<SelectOutlined />}
+                  onClick={() => setResourceWebs({ visiable: true, data: record })}
                 />
               </Tooltip>
             )}
@@ -251,6 +267,17 @@ const RoleWeb: React.FC = () => {
             actionRef.current?.reload();
           }}
           data={webAssignRoles.data}
+        />
+      )}
+      {resourceWebs.visiable && (
+        <ResourceWebs
+          visible={resourceWebs.visiable}
+          onCancel={() => setResourceWebs({ visiable: false, data: {} })}
+          onVisibleChange={(visiable) => {
+            setResourceWebs({ visiable: visiable, data: {} });
+            actionRef.current?.reload();
+          }}
+          data={resourceWebs.data}
         />
       )}
     </div>

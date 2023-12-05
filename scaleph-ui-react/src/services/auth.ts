@@ -147,4 +147,28 @@ export const AuthService = {
       data: param,
     });
   },
+
+  //查询所有 资源-web 和指定角色绑定状态
+  requestResourceWebs: async (param: any) => {
+    return request<ResponseBody<any>>('/api/admin/authorize/role/resource-webs', {
+      method: 'GET',
+      params: param,
+    });
+  },
+
+  //批量为角色绑定 资源-web
+  requestRoleResourceWebs: async (param: any) => {
+    return request<ResponseBody<any>>('/api/admin/authorize/role/resource-webs', {
+      method: 'PUT',
+      data: param,
+    });
+  },
+
+  //批量为角色解除 资源-web 绑定
+  requestDeleteRoleResourceWebs: async (param: any) => {
+    return request<ResponseBody<any>>('/api/admin/authorize/role/resource-webs', {
+      method: 'DELETE',
+      data: param,
+    });
+  },
 };
