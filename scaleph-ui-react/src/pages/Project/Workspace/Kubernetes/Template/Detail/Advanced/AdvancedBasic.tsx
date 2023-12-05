@@ -26,7 +26,7 @@ const AdvancedBasic: React.FC = () => {
         name="image"
         label={'image'}
         colProps={{span: 10, offset: 1}}
-        initialValue={"flink:1.16"}
+        initialValue={"flink:1.18"}
       />
       <ProFormSelect
         name="imagePullPolicy"

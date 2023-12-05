@@ -818,11 +818,11 @@ export default {
   // Sql
   'pages.project.di.step.sql.query': 'SQL',
 
-  'pages.project.flink.kubernetes.deployment.template': 'Deployment Template',
-  'pages.project.flink.kubernetes.deployment.template.name': '名称',
-  'pages.project.flink.kubernetes.deployment.template.deploymentKind': '部署模式',
-  'pages.project.flink.kubernetes.deployment.template.namespace': 'Namespace',
-  'pages.project.flink.kubernetes.deployment.template.define': '模板定义',
+  'pages.project.flink.kubernetes.template': 'Template',
+  'pages.project.flink.kubernetes.template.name': '名称',
+  'pages.project.flink.kubernetes.template.deploymentKind': '部署模式',
+  'pages.project.flink.kubernetes.template.namespace': 'Namespace',
+  'pages.project.flink.kubernetes.template.detail': '模板详情',
   'pages.project.flink.kubernetes.template.step.advanced.configOptions': 'ConfigOption',
   'pages.project.flink.kubernetes.template.step.advanced.configOptions.key': 'Config',
   'pages.project.flink.kubernetes.template.step.advanced.configOptions.value': 'Value',

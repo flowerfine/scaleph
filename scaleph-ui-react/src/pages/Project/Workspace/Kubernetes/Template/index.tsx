@@ -25,11 +25,11 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
 
   const tableColumns: ProColumns<WsFlinkKubernetesTemplate>[] = [
     {
-      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.name'}),
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.template.name'}),
       dataIndex: 'name'
     },
     {
-      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.deploymentKind'}),
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.template.deploymentKind'}),
       dataIndex: 'deploymentKind',
       width: 150,
       render: (dom, entity) => {
@@ -46,7 +46,7 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
       }
     },
     {
-      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.namespace'}),
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.template.namespace'}),
       dataIndex: 'namespace',
       hideInSearch: true,
       width: 150
@@ -90,7 +90,7 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
             </Tooltip>
           )}
           {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
-            <Tooltip title={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.define'})}>
+            <Tooltip title={intl.formatMessage({id: 'pages.project.flink.kubernetes.template.detail'})}>
               <Button
                 shape="default"
                 type="link"
