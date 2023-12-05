@@ -75,7 +75,6 @@ DROP TABLE IF EXISTS resource_jar;
 CREATE TABLE resource_jar
 (
     id          bigint       NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-    `group`     varchar(255) NOT NULL COMMENT 'jar group',
     file_name   varchar(255) NOT NULL COMMENT '文件名称',
     path        varchar(255) NOT NULL COMMENT '存储路径',
     remark      varchar(255)      DEFAULT NULL COMMENT '备注',

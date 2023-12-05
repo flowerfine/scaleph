@@ -21,7 +21,6 @@ export default {
     'YARN 上传 core-site.xml 和 hdfs-site.xml, ' +
     'Kubernetes 上传 kubeconfig 文件',
   'pages.resource.jar': '公共 Jar',
-  'pages.resource.jar.group': 'Group',
   'pages.resource.jar.file': 'Jar',
   'pages.resource.jar.fileName': '文件名',
   'pages.resource.jar.path': '存储路径',

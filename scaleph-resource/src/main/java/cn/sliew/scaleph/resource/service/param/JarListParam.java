@@ -27,9 +27,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class JarListParam extends PaginationParam {
 
-    @Schema(description = "jar group")
-    private String group;
-
     @Schema(description = "文件名称。支持模糊匹配")
     private String fileName;
 

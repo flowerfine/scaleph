@@ -35,8 +35,7 @@ public interface JarConvert extends BaseConvert<ResourceJar, JarDTO> {
 
     default JarListParam convert(ResourceListParam param) {
         JarListParam target = BeanUtil.copy(param, new JarListParam());
-        target.setGroup(param.getLabel());
-        target.setFileName(param.getName());
+        target.setFileName(param.getLabel());
         return target;
     }
 
