@@ -154,7 +154,7 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
               key="new"
               type="primary"
               onClick={() => {
-                setDeploymentTemplateFormData({visiable: true, data: {}});
+                history.push("/workspace/flink/kubernetes/template/steps")
               }}
             >
               {intl.formatMessage({id: 'app.common.operate.new.label'})}

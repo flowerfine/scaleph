@@ -823,6 +823,7 @@ export default {
   'pages.project.flink.kubernetes.template.deploymentKind': '部署模式',
   'pages.project.flink.kubernetes.template.namespace': 'Namespace',
   'pages.project.flink.kubernetes.template.detail': '模板详情',
+  'pages.project.flink.kubernetes.template.step.base': '基础信息',
   'pages.project.flink.kubernetes.template.step.advanced.configOptions': 'ConfigOption',
   'pages.project.flink.kubernetes.template.step.advanced.configOptions.key': 'Config',
   'pages.project.flink.kubernetes.template.step.advanced.configOptions.value': 'Value',
