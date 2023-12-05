@@ -30,7 +30,7 @@ const FlinkKubernetesDeploymentTemplateDetailWeb: React.FC = (props: any) => {
     {label: 'YAML', key: 'yaml', children: <DeploymentTemplateYAML data={data}/>},
   ]
   return (
-    <PageContainer>
+    <PageContainer title={intl.formatMessage({id: 'pages.project.flink.kubernetes.template.detail'})}>
       <Tabs items={items}/>
       <FooterToolbar>
         <Button onClick={onCancel}>{intl.formatMessage({id: 'app.common.operate.cancel.label'})}</Button>

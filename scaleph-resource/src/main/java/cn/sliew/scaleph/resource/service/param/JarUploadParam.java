@@ -21,15 +21,9 @@ package cn.sliew.scaleph.resource.service.param;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-
 @Data
 public class JarUploadParam {
-
-    @NotBlank
-    @Schema(description = "jar group")
-    private String group;
-
+    
     @Schema(description = "备注")
     private String remark;
 }

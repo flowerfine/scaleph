@@ -151,6 +151,13 @@ export default [
             access: 'normalRouteFilter'
           },
           {
+            path: '/workspace/flink/kubernetes/template/steps',
+            exact: true,
+            component: './Project/Workspace/Kubernetes/Template/Steps',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
+          {
             path: '/workspace/flink/kubernetes/template/detail',
             exact: true,
             component: './Project/Workspace/Kubernetes/Template/Detail',

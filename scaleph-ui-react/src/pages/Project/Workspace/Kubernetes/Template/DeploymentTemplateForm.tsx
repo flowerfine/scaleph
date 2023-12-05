@@ -1,21 +1,19 @@
 import {useIntl} from "umi";
 import React from "react";
 import {Form, message, Modal} from "antd";
-import {ProForm, ProFormDigit, ProFormRadio, ProFormSelect, ProFormText} from "@ant-design/pro-components";
+import {ProForm, ProFormDigit, ProFormRadio, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import {ModalFormProps} from '@/app.d';
 import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
-import {
-  WsFlinkKubernetesTemplateService
-} from "@/services/project/WsFlinkKubernetesTemplateService";
+import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
 import {DICT_TYPE, WORKSPACE_CONF} from "@/constant";
 import {DictDataService} from "@/services/admin/dictData.service";
 
 const DeploymentTemplateForm: React.FC<ModalFormProps<WsFlinkKubernetesTemplate>> = ({
-                                                                                                 data,
-                                                                                                 visible,
-                                                                                                 onVisibleChange,
-                                                                                                 onCancel
-                                                                                               }) => {
+                                                                                       data,
+                                                                                       visible,
+                                                                                       onVisibleChange,
+                                                                                       onCancel
+                                                                                     }) => {
   const intl = useIntl();
   const [form] = Form.useForm();
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
@@ -26,9 +24,9 @@ const DeploymentTemplateForm: React.FC<ModalFormProps<WsFlinkKubernetesTemplate>
       title={
         data.id
           ? intl.formatMessage({id: 'app.common.operate.edit.label'}) +
-          intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template'})
+          intl.formatMessage({id: 'pages.project.flink.kubernetes.template'})
           : intl.formatMessage({id: 'app.common.operate.new.label'}) +
-          intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template'})
+          intl.formatMessage({id: 'pages.project.flink.kubernetes.template'})
       }
       width={580}
       destroyOnClose={true}
@@ -72,22 +70,22 @@ const DeploymentTemplateForm: React.FC<ModalFormProps<WsFlinkKubernetesTemplate>
         <ProFormDigit name={"id"} hidden/>
         <ProFormText
           name={"name"}
-          label={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.name'})}
+          label={intl.formatMessage({id: 'pages.project.flink.kubernetes.template.name'})}
           rules={[{required: true}]}
         />
         <ProFormRadio.Group
           name={"deploymentKind"}
-          label={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.deploymentKind'})}
+          label={intl.formatMessage({id: 'pages.project.flink.kubernetes.template.deploymentKind'})}
           rules={[{required: true}]}
           disabled={data?.id}
           request={() => DictDataService.listDictDataByType2(DICT_TYPE.deploymentKind)}
         />
         <ProFormText
           name={"namespace"}
-          label={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.namespace'})}
+          label={intl.formatMessage({id: 'pages.project.flink.kubernetes.template.namespace'})}
           rules={[{required: true}]}
         />
-        <ProFormText
+        <ProFormTextArea
           name={"remark"}
           label={intl.formatMessage({id: 'app.common.data.remark'})}
         />

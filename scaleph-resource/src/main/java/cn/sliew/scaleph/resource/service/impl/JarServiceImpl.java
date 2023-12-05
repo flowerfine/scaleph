@@ -80,7 +80,6 @@ public class JarServiceImpl implements JarService {
         final Page<ResourceJar> page = jarMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(ResourceJar.class)
-                        .eq(StringUtils.hasText(param.getGroup()), ResourceJar::getGroup, param.getGroup())
                         .like(StringUtils.hasText(param.getFileName()), ResourceJar::getFileName, param.getFileName()));
         Page<JarDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
@@ -101,7 +100,7 @@ public class JarServiceImpl implements JarService {
         String fileName = file.getOriginalFilename();
         Path path = null;
         try (InputStream inputStream = file.getInputStream()) {
-            path = fileSystemService.upload(inputStream, getJarPath(param.getGroup(), fileName));
+            path = fileSystemService.upload(inputStream, getJarPath(fileName));
         }
         ResourceJar record = new ResourceJar();
         BeanUtils.copyProperties(param, record);
@@ -134,10 +133,9 @@ public class JarServiceImpl implements JarService {
         jarMapper.deleteById(id);
     }
 
-    private String getJarPath(String group, String fileName) {
-        return String.format("%s/%s/%s", getJarRootPath(), group, fileName);
+    private String getJarPath(String fileName) {
+        return String.format("%s/%s", getJarRootPath(), fileName);
     }
-
 
     private String getJarRootPath() {
         return "jar";
