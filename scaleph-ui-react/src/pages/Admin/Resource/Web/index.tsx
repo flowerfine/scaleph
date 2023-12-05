@@ -22,7 +22,6 @@ const WebResourceWeb: React.FC = () => {
     parent: SecResourceWeb;
     data: SecResourceWeb;
   }>({ visiable: false, parent: {}, data: {} });
-
   const [webAssignRoles, setWebAssignRoles] = useState<{
     visiable: boolean;
     data: SecResourceWeb;
