@@ -50,7 +50,6 @@ jobs:
       - name: Build with Maven
         timeout-minutes: 360
         run: mvn -B -U -T 4C clean package
-      - name: Build scaleph-file-fetcher
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
