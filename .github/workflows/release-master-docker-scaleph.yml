@@ -14,30 +14,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Docker-Build-Flink
+name: Release-Docker-Scaleph-Master
 
 on:
   workflow_dispatch:
-    inputs:
-      flinkVersion:
-        description: 'flink version'
-        required: true
-        default: '1.18.0'
-        type: choice
-        options:
-          - 1.18.0
-          - 1.17.1
+  push:
+    paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg']
+    branches:
+      - master
+
 env:
-  HUB: ghcr.io/flowerfine/scaleph_flink
-  FLINK_VERSION: ${{ inputs.flinkVersion }}
+  HUB: ghcr.io/flowerfine/scaleph
 
 jobs:
-  build:
+  release:
+    if: github.repository == 'flowerfine/scaleph'
+    strategy:
+      matrix:
+        image: [ scaleph-api, scaleph-ui-react, scaleph-file-fetcher, mysql ]
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-    timeout-minutes: 30
+    timeout-minutes: 360
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -53,15 +52,29 @@ jobs:
         uses: docker/setup-qemu-action@v2
         with:
           platforms: amd64,arm64
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      - name: Build image
+      - name: Fetch Project Version
+        run: |
+          echo "PROJECT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >>$GITHUB_ENV
+      - name: Build scaleph-dist
+        run: mvn -B -U -T 4C clean package -Pdist -DskipTests -Dfast
+      - name: Build scaleph-ui-react-dist
+        run: mvn -B -U package -pl scaleph-ui-react -am -DskipTests
+      - name: Build scaleph-ui-react
+        run: cd scaleph-ui-react && npm install && npm run build --prod
+      - name: Build scaleph-file-fetcher
+        run: mvn -B -U -T 4C clean package -Pdist -DskipTests -Dfast -am --projects scaleph-file-fetcher
+      - name: Push image
         uses: docker/build-push-action@v4
         with:
           no-cache: false
           push: true
           context: .
-          build-args: FLINK_VERSION=${{ env.FLINK_VERSION }}
           platforms: linux/amd64,linux/arm64
-          file: tools/docker/build/flink/Dockerfile
-          tags: ${{ env.HUB }}:${{ env.FLINK_VERSION }}_${{ env.SCALA_VERSION }}
+          file: tools/docker/build/${{ matrix.image }}/Dockerfile
+          tags: |
+            ${{ env.HUB }}/${{ matrix.image }}:${{ env.PROJECT_VERSION }},
+            ${{ env.HUB }}/${{ matrix.image }}:latest

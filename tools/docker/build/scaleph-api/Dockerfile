@@ -3,7 +3,8 @@ FROM $BASE_RELEASE_IMAGE as release
 
 ADD scaleph-dist/target/scaleph-*-bin.tar.gz /opt
 
-ENV MYSQL_URL="jdbc:mysql://mysql:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai"
+ENV MYSQL_HOST=mysql
+ENV MYSQL_PORT=3306
 ENV MYSQL_USERNAME=root
 ENV MYSQL_PASSWORD=123456
 ENV REDIS_HOST=redis
@@ -15,26 +16,6 @@ ENV MINIO_SECRET_KEY=password
 
 ENV TZ Asia/Shanghai
 ENV SCALEPH_HOME /opt/scaleph
-
-ENV ENV_PARAMS=" --spring.datasource.master.jdbc-url=$MYSQL_URL \
- --spring.datasource.master.username=$MYSQL_USERNAME \
- --spring.datasource.master.password=$MYSQL_PASSWORD \
- --spring.datasource.log.jdbc-url=$MYSQL_URL \
- --spring.datasource.log.username=$MYSQL_USERNAME \
- --spring.datasource.log.password=$MYSQL_PASSWORD \
- --spring.datasource.sakura.jdbc-url=$MYSQL_URL \
- --spring.datasource.sakura.username=$MYSQL_USERNAME \
- --spring.datasource.sakura.password=$MYSQL_PASSWORD \
- --spring.quartz.properties.org.quartz.dataSource.quartzDS.URL=$MYSQL_URL \
- --spring.quartz.properties.org.quartz.dataSource.quartzDS.user=$MYSQL_USERNAME \
- --spring.quartz.properties.org.quartz.dataSource.quartzDS.password=$MYSQL_PASSWORD \
- --spring.redis.host=$REDIS_HOST \
- --spring.redis.port=$REDIS_PORT \
- --spring.redis.password=$REDIS_PASSWORD \
- --file-system.endPoint=$MINIO_ENDPOINT \
- --file-system.accessKey=$MINIO_ACCESS_KEY \
- --file-system.secretKey=$MINIO_SECRET_KEY \
- "
 
 RUN mkdir -p $SCALEPH_HOME
 

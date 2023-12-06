@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: SonarCloud
+name: CI-NPM
 
 on:
   pull_request:
@@ -22,32 +22,23 @@ on:
   push:
     paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
   schedule:
-    - cron: '0 3 * * *' # automatic test while every day on 03:00 am
+    - cron: '0 20 * * *' # automatic test while every day on 04:00 am at UTC+10
   workflow_dispatch:
 
 jobs:
-  sonarcloud-scan:
+  build:
     if: github.repository == 'flowerfine/scaleph'
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Setup Java JDK
-        uses: actions/setup-java@v3
-        with:
-          java-version: 11
-          distribution: adopt
-          cache: maven
-
-      - name: Run SonarCloud Analysis
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: >
-          mvn -B verify sonar:sonar
-          -DskipTests
-          -Dsonar.host.url=https://sonarcloud.io
-          -Dsonar.organization=flowerfine
-          -Dsonar.projectKey=flowerfine_scaleph
+      - name: Build scaleph-ui-react-dist
+        run: mvn -B -U package -pl scaleph-ui-react -am -DskipTests
+      - name: Build with NPM
+        timeout-minutes: 360
+        run: cd scaleph-ui-react && npm install && npm run build --prod

@@ -14,28 +14,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Docker-Build-Seatunnel
+name: Relase-Docker-Flink
 
 on:
   workflow_dispatch:
     inputs:
-      seatunnelVersion:
-        description: 'seatunnel version'
-        required: true
-        default: '2.3.3'
-        type: choice
-        options:
-          - 2.3.3
       flinkVersion:
         description: 'flink version'
         required: true
-        default: '1.15'
+        default: '1.18.0'
         type: choice
         options:
-          - 1.15
+          - 1.18.0
+          - 1.17.1
 env:
-  HUB: ghcr.io/flowerfine/scaleph-seatunnel
-  SEATUNNEL_VERSION: ${{ inputs.seatunnelVersion }}
+  HUB: ghcr.io/flowerfine/scaleph_flink
   FLINK_VERSION: ${{ inputs.flinkVersion }}
 
 jobs:
@@ -44,7 +37,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-    timeout-minutes: 360
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -65,12 +58,10 @@ jobs:
       - name: Build image
         uses: docker/build-push-action@v4
         with:
-          no-cache: true
+          no-cache: false
           push: true
           context: .
-          build-args: |
-            FLINK_VERSION=${{ env.FLINK_VERSION }}
-            SEATUNNEL_VERSION=${{ env.SEATUNNEL_VERSION }}
+          build-args: FLINK_VERSION=${{ env.FLINK_VERSION }}
           platforms: linux/amd64,linux/arm64
-          file: tools/docker/build/scaleph-seatunnel/Dockerfile
-          tags: ${{ env.HUB }}:${{ env.SEATUNNEL_VERSION }}-flink-${{ env.FLINK_VERSION }}
+          file: tools/docker/build/flink/Dockerfile
+          tags: ${{ env.HUB }}:${{ env.FLINK_VERSION }}_${{ env.SCALA_VERSION }}
