@@ -19,16 +19,86 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.handler;
 
 import cn.sliew.scaleph.system.snowflake.utils.NetUtils;
+import lombok.extern.slf4j.Slf4j;
 
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.URI;
+
+@Slf4j
 public enum MinioUtil {
     ;
 
+    /* The common local hosts and ips */
+    private static final String[] LOCAL_IPS = {
+            "localhost", "127.0.0.1", "0.0.0.0"
+    };
+
+    /**
+     * If the endpoint pointing to a local address,
+     * we should replace the local address with PUBLIC address
+     * to make sure all pods/container can access to the minio.
+     *
+     * <p>
+     * Generally, the endpoint should be a uri.
+     * So we firstly parse it to a uri and get the host.
+     * Then check if the host is a local address.
+     * </p>
+     * <p>
+     * If exception occurs in parsing uri,
+     * we replace the endpoint in hard coded ways.
+     * </p>
+     *
+     * @param endpoint The minio endpoint, Generally in uri format
+     * @return Replaced endpoint.
+     */
     public static String replaceLocalhost(String endpoint) {
-        if (endpoint.contains("localhost") || endpoint.contains("127.0.0.1")) {
-            String localIP = NetUtils.getLocalIP();
-            return endpoint.replace("localhost", localIP).replace("127.0.0.1", localIP);
+        String result = endpoint;
+        try {
+            URI uri = URI.create(endpoint);
+            String host = uri.getHost();
+            InetAddress inetAddress = InetAddress.getByName(host);
+            if (inetAddress.isLoopbackAddress() || inetAddress.isAnyLocalAddress()) {
+                log.info("Host {}, address = {} is a local address", host, inetAddress);
+                InetAddress publicAddress = NetUtils.getLocalInetAddress();
+                log.info("Public address is {}", publicAddress);
+                if (validateInetAddress(publicAddress)) {
+                    log.info("Public address {} is valid!", publicAddress);
+                    URI res = new URI(uri.getScheme(),
+                            uri.getUserInfo(),
+                            publicAddress.getHostAddress(),
+                            uri.getPort(),
+                            uri.getPath(),
+                            uri.getQuery(),
+                            uri.getFragment());
+                    result = res.toString();
+                }
+            }
+        } catch (Exception e) {
+            log.error(e.getLocalizedMessage(), e);
+            try {
+                InetAddress publicAddress = NetUtils.getLocalInetAddress();
+                log.info("Public address is {}", publicAddress);
+                if (validateInetAddress(publicAddress)) {
+                    log.info("Public address {} is valid!", publicAddress);
+                    for (String localIp : LOCAL_IPS) {
+                        if (result.contains(localIp)) {
+                            log.info("Endpoint {} contains local ip {}", result, localIp);
+                            result = result.replace(localIp, publicAddress.getHostAddress());
+                        }
+                    }
+                }
+            } catch (SocketException ex) {
+                log.error(ex.getLocalizedMessage(), ex);
+            }
         }
-        return endpoint;
+        log.info("Final endpoint is {}", result);
+        return result;
     }
 
+    private static boolean validateInetAddress(InetAddress inetAddress) {
+        return !inetAddress.isLinkLocalAddress()
+                && !inetAddress.isLoopbackAddress()
+                && !inetAddress.isAnyLocalAddress();
+    }
 }
