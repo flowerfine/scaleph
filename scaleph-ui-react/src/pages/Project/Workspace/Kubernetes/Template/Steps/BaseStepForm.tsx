@@ -3,6 +3,7 @@ import {ProCard, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea} from
 import {useIntl} from "umi";
 import {DICT_TYPE} from "@/constant";
 import {DictDataService} from "@/services/admin/dictData.service";
+import {InfoCircleOutlined} from "@ant-design/icons";
 
 const FlinkKubernetesTemplateBase: React.FC = () => {
   const intl = useIntl();
@@ -24,6 +25,10 @@ const FlinkKubernetesTemplateBase: React.FC = () => {
       <ProFormText
         name={"namespace"}
         label={intl.formatMessage({id: 'pages.project.flink.kubernetes.template.namespace'})}
+        tooltip={{
+          title: intl.formatMessage({id: 'pages.project.flink.kubernetes.template.namespace.tooltip'}),
+          icon: <InfoCircleOutlined/>,
+        }}
         rules={[{required: true}]}
       />
       <ProFormTextArea

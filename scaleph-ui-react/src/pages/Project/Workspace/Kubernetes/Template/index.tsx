@@ -84,7 +84,7 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
                 type="link"
                 icon={<EditOutlined/>}
                 onClick={() => {
-                  setDeploymentTemplateFormData({visiable: true, data: record});
+                  history.push("/workspace/flink/kubernetes/template/detail", record)
                 }}
               />
             </Tooltip>
