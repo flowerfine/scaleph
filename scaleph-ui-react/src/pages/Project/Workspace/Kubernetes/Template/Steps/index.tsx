@@ -2,7 +2,7 @@ import {connect, history, useIntl} from "umi";
 import React, {useRef} from "react";
 import {ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
 import {WORKSPACE_CONF} from "@/constant";
-import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
+import {WsFlinkKubernetesTemplate, WsFlinkKubernetesTemplateAddParam} from "@/services/project/typings";
 import FlinkKubernetesTemplateBase from "@/pages/Project/Workspace/Kubernetes/Template/Steps/BaseStepForm";
 import FlinkKubernetesTemplateAdvancedStep from "@/pages/Project/Workspace/Kubernetes/Template/Steps/AdvancedStepForm";
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
@@ -19,7 +19,7 @@ const FlinkKubernetesTemplateSteps: React.FC = (props: any) => {
       deploymentKind: {value: values.deploymentKind},
       name: values.name,
       namespace: values.namespace,
-      remark: values.remark,
+      remark: values.remark
     }
     editFlinkKubernetesTemplate(template)
     return Promise.resolve(true)
@@ -42,9 +42,10 @@ const FlinkKubernetesTemplateSteps: React.FC = (props: any) => {
   }
 
   const onAllFinish = (values: Record<string, any>) => {
-    const template: WsFlinkKubernetesTemplate = {...props.flinkKubernetesTemplateSteps.template}
-    template.deploymentKind = props.flinkKubernetesTemplateSteps.template.deploymentKind?.value
-    return WsFlinkKubernetesTemplateService.add(template).then((response) => {
+    console.log('onAllFinish', props.flinkKubernetesTemplateSteps.template)
+    const param: WsFlinkKubernetesTemplateAddParam = {...props.flinkKubernetesTemplateSteps.template}
+    param.deploymentKind = props.flinkKubernetesTemplateSteps.template.deploymentKind?.value
+    return WsFlinkKubernetesTemplateService.add(param).then((response) => {
       if (response.success) {
         history.back()
       }
