@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.dict.flink;
+package cn.sliew.scaleph.common.dict.flink.kubernetes;
 
 import cn.sliew.scaleph.common.dict.DictInstance;
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -26,38 +26,29 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum FlinkVersion implements DictInstance {
+public enum OperatorFlinkVersion implements DictInstance {
 
-    V_1_15_0("1.15.0", "1.15.0"),
-    V_1_15_1("1.15.1", "1.15.1"),
-    V_1_15_2("1.15.2", "1.15.2"),
-    V_1_15_3("1.15.3", "1.15.3"),
-    V_1_15_4("1.15.4", "1.15.4"),
+    v1_15("v1_15", "v1_15"),
 
-    V_1_16_0("1.16.0", "1.16.0"),
-    V_1_16_1("1.16.1", "1.16.1"),
-    V_1_16_2("1.16.2", "1.16.2"),
-    V_1_16_3("1.16.3", "1.16.3"),
+    v1_16("v1_16", "v1_16"),
 
-    V_1_17_0("1.17.0", "1.17.0"),
-    V_1_17_1("1.17.1", "1.17.1"),
-    V_1_17_2("1.17.2", "1.17.2"),
+    v1_17("v1_17", "v1_17"),
 
-    V_1_18_0("1.18.0", "1.18.0"),
+    v1_18("v1_18", "v1_18"),
     ;
 
     @JsonCreator
-    public static FlinkVersion of(String value) {
+    public static OperatorFlinkVersion of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(FlinkVersion.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(OperatorFlinkVersion.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    FlinkVersion(String value, String label) {
+    OperatorFlinkVersion(String value, String label) {
         this.value = value;
         this.label = label;
     }

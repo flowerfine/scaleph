@@ -84,6 +84,7 @@ public enum DictType implements DictDefinition {
 
     FLINK_KUBERNETES_DEPLOYMENT_MODE("deployment_mode", "Deployment 模式", DeploymentMode.class),
     FLINK_KUBERNETES_DEPLOYMENT_KIND("deployment_kind", "Deployment 类型", DeploymentKind.class),
+    FLINK_KUBERNETES_OPERATOR_FLINK_VERSION("operator_flink_version", "Flink Kubernetes Operator Flink 版本", OperatorFlinkVersion.class),
     FLINK_KUBERNETES_RESOURCE_LIFECYCLE_STATE("resource_lifecycle_state", "Deployment 状态", ResourceLifecycleState.class),
     FLINK_KUBERNETES_UPGRADE_MODE("upgrade_mode", "Upgrade 方式", UpgradeMode.class),
     FLINK_KUBERNETES_SAVEPOINT_FORMAT_TYPE("savepoint_format_type", "Savepoint Format 类型", SavepointFormatType.class),

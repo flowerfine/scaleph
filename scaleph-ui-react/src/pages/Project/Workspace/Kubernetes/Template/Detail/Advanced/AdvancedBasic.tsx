@@ -1,6 +1,7 @@
-import {ProCard, ProFormGroup, ProFormSelect, ProFormText} from "@ant-design/pro-components";
+import {ProCard, ProFormGroup, ProFormSelect, ProFormText, ProFormTreeSelect} from "@ant-design/pro-components";
 import {DICT_TYPE} from "@/constant";
 import {DictDataService} from "@/services/admin/dictData.service";
+import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
 
 const AdvancedBasic: React.FC = () => {
   return (<ProCard
@@ -12,9 +13,15 @@ const AdvancedBasic: React.FC = () => {
         name="flinkVersion"
         label={"flinkVersion"}
         colProps={{span: 10, offset: 1}}
+        rules={[{required: true}]}
         showSearch={true}
-        options={["v1_15", "v1_16", "v1_17", "v1_18"]}
-        initialValue={"v1_18"}
+        request={() => {
+          return WsFlinkKubernetesTemplateService.getFlinkVersionOptions().then(response => {
+            if (response.success) {
+              return response.data
+            }
+          })
+        }}
       />
       <ProFormText
         name="serviceAccount"
@@ -22,11 +29,21 @@ const AdvancedBasic: React.FC = () => {
         colProps={{span: 10, offset: 1}}
         initialValue={"flink"}
       />
-      <ProFormText
+      <ProFormSelect
         name="image"
         label={'image'}
         colProps={{span: 10, offset: 1}}
-        initialValue={"flink:1.18"}
+        rules={[{required: true}]}
+        dependencies={['flinkVersion']}
+        request={(params) => {
+          if (params.flinkVersion) {
+            return WsFlinkKubernetesTemplateService.getFlinkImageOptions(params.flinkVersion).then(response => {
+              if (response.success) {
+                return response.data
+              }
+            })
+          }
+        }}
       />
       <ProFormSelect
         name="imagePullPolicy"
