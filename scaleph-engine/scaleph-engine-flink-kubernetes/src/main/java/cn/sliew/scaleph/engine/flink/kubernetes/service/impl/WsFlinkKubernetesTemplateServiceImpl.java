@@ -128,7 +128,11 @@ public class WsFlinkKubernetesTemplateServiceImpl implements WsFlinkKubernetesTe
 
     @Override
     public int insert(WsFlinkKubernetesTemplateAddParam param) {
-        WsFlinkKubernetesTemplate record = new WsFlinkKubernetesTemplate();
+        WsFlinkKubernetesTemplateDTO dto = new WsFlinkKubernetesTemplateDTO();
+        BeanUtils.copyProperties(param, dto);
+        WsFlinkKubernetesTemplateDTO mergeWithDefault = mergeDefault(dto);
+        mergeWithDefault.setAdditionalDependencies(param.getAdditionalDependencies());
+        WsFlinkKubernetesTemplate record = WsFlinkKubernetesTemplateConvert.INSTANCE.toDo(mergeWithDefault);
         BeanUtils.copyProperties(param, record);
         record.setTemplateId(UUIDUtil.randomUUId());
         return wsFlinkKubernetesTemplateMapper.insert(record);

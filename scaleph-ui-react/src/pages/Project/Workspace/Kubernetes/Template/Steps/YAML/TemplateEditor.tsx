@@ -4,7 +4,7 @@ import {Props} from '@/app.d';
 import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
 import {connect} from "umi";
 
-const TemplateEditor: React.FC<Props<WsFlinkKubernetesTemplate>> = (props: any) => {
+const FlinkKubernetesTemplateYAMLStepEditor: React.FC<Props<WsFlinkKubernetesTemplate>> = (props: any) => {
   const editorRef = useRef(null);
   const monaco = useMonaco();
 
@@ -23,7 +23,7 @@ const TemplateEditor: React.FC<Props<WsFlinkKubernetesTemplate>> = (props: any) 
       height="600px"
       language="yaml"
       theme="vs-white"
-      value={props.templateDetail.templateYaml}
+      value={props.flinkKubernetesTemplateSteps.templateYaml}
       options={{
         selectOnLineNumbers: true,
         readOnly: true,
@@ -35,5 +35,6 @@ const TemplateEditor: React.FC<Props<WsFlinkKubernetesTemplate>> = (props: any) 
     />
   );
 }
-const mapModelToProps = ({templateDetail}: any) => ({templateDetail})
-export default connect(mapModelToProps)(TemplateEditor);
+
+const mapModelToProps = ({flinkKubernetesTemplateSteps}: any) => ({flinkKubernetesTemplateSteps})
+export default connect(mapModelToProps)(FlinkKubernetesTemplateYAMLStepEditor);
