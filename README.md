@@ -10,7 +10,7 @@ Scaleph is driven by personal interest and evolves actively through faithful dev
 
 ## News
 
-Congratulation, Scaleph has been ready for releasing `1.0.4` version and providing full data integration scene backened by SeaTunnel on `2023-04-23`!
+Congratulation, Scaleph has been ready for releasing `2.0.0` version and providing full data integration scene backened by SeaTunnel on `2023-12-05`!
 
 Now, community is working on preparation job such as docs, bug fix, or deploy tools. There are so many miscellaneous to handle and we are really looking forward any help from you! Just associate us on issue or wechat group and make scaleph better.
 
@@ -27,7 +27,7 @@ Now, community is working on preparation job such as docs, bug fix, or deploy to
 ### data integration
 
 * Web-ui click-and-drag data integration ways backended by Apache SeaTunnel(incubating)
-*  Support 2.3.1 V2 out-of-the-box connectors and transforms
+*  Support 2.3.3 V2 out-of-the-box connectors and transforms
 * DataSource management
 
 ### data develop
@@ -51,13 +51,13 @@ Luckily, deploy Scaleph locally just takes three steps.
 git clone https://github.com/flowerfine/scaleph.git
 
 cd scaleph
-git checkout 1.0.4
+git checkout 2.0.0
 
 cd scaleph/tools/docker/deploy/scaleph
 docker-compose up
 ```
 
-Once all containers have started, the UI is ready to go at [http://localhost](http://localhost/), user can login by `sys_admin/123456`.
+Once all containers have started, the UI is ready to go at [http://localhost:8096](http://localhost:8096/), user can login by `sys_admin/123456`.
 
 Next, read documentation website [quick start](https://flowerfine.github.io/scaleph-website/zh/docs/guide/quick-start/initialize) and try to run prefined SeaTunnel demos.
 
@@ -100,8 +100,7 @@ please refer [website](https://flowerfine.github.io/scaleph-website/zh)
 1. cloud native
    1. container and kubernetes development and runtime environment.
       1. flink operator
-      2. seatunnel operator
-      3. scaleph operator
+      2. scaleph operator
    2. java 17, quarkus.
 2. plugins. https://dubbo.apache.org/zh/docsv2.7/dev/principals/
 
