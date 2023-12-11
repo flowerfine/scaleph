@@ -26,7 +26,6 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.template.deploymentKind'}),
       dataIndex: 'deploymentKind',
-      width: 150,
       render: (dom, entity) => {
         return (<Tag>{entity.deploymentKind?.label}</Tag>)
       },
@@ -39,6 +38,32 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
           />
         );
       }
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.template.flinkVersion'}),
+      dataIndex: 'flinkVersion',
+      hideInSearch: true,
+      render: (dom, entity) => {
+        return (<Tag>{entity.kubernetesOptions?.flinkVersion}</Tag>)
+      },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <ProFormSelect
+            showSearch={false}
+            allowClear={true}
+            request={() => DictDataService.listDictDataByType2(DICT_TYPE.flinkVersion)}
+          />
+        );
+      }
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.template.image'}),
+      dataIndex: 'namespace',
+      hideInSearch: true,
+      width: 150,
+      render: (dom, entity) => {
+        return entity.kubernetesOptions?.image
+      },
     },
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.template.namespace'}),
