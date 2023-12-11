@@ -5,7 +5,8 @@ import {ProForm, ProFormDigit, ProFormRadio, ProFormText} from "@ant-design/pro-
 import {ModalFormProps} from '@/app.d';
 import {WsFlinkKubernetesDeployment} from "@/services/project/typings";
 import {DictDataService} from "@/services/admin/dictData.service";
-import {DICT_TYPE, WORKSPACE_CONF} from "@/constant";
+import {WORKSPACE_CONF} from "@/constants/constant";
+import {DICT_TYPE} from "@/constants/dictType";
 
 const DeploymentForm: React.FC<ModalFormProps<WsFlinkKubernetesDeployment>> = ({
                                                                                  data,

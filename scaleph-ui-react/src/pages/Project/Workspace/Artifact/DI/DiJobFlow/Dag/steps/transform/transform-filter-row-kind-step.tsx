@@ -9,7 +9,7 @@ import {ProForm, ProFormSelect, ProFormText,} from '@ant-design/pro-components';
 import {useEffect} from 'react';
 import {InfoCircleOutlined} from "@ant-design/icons";
 import {DictDataService} from "@/services/admin/dictData.service";
-import {DICT_TYPE} from "@/constant";
+import {DICT_TYPE} from "@/constants/dictType";
 
 const TransformFilterRowKindStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;

@@ -13,7 +13,7 @@ import {
 } from "@ant-design/pro-components";
 import {DsCategoryService} from "@/services/datasource/category.service";
 import {DictDataService} from "@/services/admin/dictData.service";
-import {DICT_TYPE} from "@/constant";
+import {DICT_TYPE} from "@/constants/dictType";
 
 const RedisForm: React.FC = () => {
   const intl = useIntl();

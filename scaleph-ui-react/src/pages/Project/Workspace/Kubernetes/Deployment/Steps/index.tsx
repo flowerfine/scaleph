@@ -2,7 +2,7 @@ import {connect, history, useIntl} from "umi";
 import React, {useRef} from "react";
 import {ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
-import {WORKSPACE_CONF} from "@/constant";
+import {WORKSPACE_CONF} from "@/constants/constant";
 import {FieldData} from "rc-field-form/lib/interface";
 import {WsFlinkKubernetesDeployment} from "@/services/project/typings";
 import DeploymentClusterStepForm from "@/pages/Project/Workspace/Kubernetes/Deployment/Steps/ClusterStepForm";

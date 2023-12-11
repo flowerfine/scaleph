@@ -1,5 +1,5 @@
 import { OnlineUserInfo } from '@/app.d';
-import { USER_AUTH } from '@/constant';
+import { USER_AUTH } from '@/constants/constant';
 import { AuthService } from '@/services/auth';
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { history } from '@umijs/max';

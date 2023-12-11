@@ -1,14 +1,13 @@
-import {useAccess, useIntl, history} from "umi";
+import {history, useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
-import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProFormSelect, ProTable} from "@ant-design/pro-components";
-import {DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF} from "@/constant";
+import {WORKSPACE_CONF} from "@/constants/constant";
+import {DICT_TYPE} from "@/constants/dictType";
+import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
-import {
-  WsFlinkKubernetesTemplateService
-} from "@/services/project/WsFlinkKubernetesTemplateService";
-import DeploymentTemplateForm from "@/pages/Project/Workspace/Kubernetes/Template/DeploymentTemplateForm";
+import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
 import {DictDataService} from "@/services/admin/dictData.service";
 
 const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
@@ -17,10 +16,6 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<WsFlinkKubernetesTemplate[]>([]);
-  const [deploymentTemplateFormData, setDeploymentTemplateFormData] = useState<{
-    visiable: boolean;
-    data: WsFlinkKubernetesTemplate;
-  }>({visiable: false, data: {}});
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
   const tableColumns: ProColumns<WsFlinkKubernetesTemplate>[] = [
@@ -83,18 +78,6 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
                 shape="default"
                 type="link"
                 icon={<EditOutlined/>}
-                onClick={() => {
-                  history.push("/workspace/flink/kubernetes/template/detail", record)
-                }}
-              />
-            </Tooltip>
-          )}
-          {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
-            <Tooltip title={intl.formatMessage({id: 'pages.project.flink.kubernetes.template.detail'})}>
-              <Button
-                shape="default"
-                type="link"
-                icon={<NodeIndexOutlined/>}
                 onClick={() => {
                   history.push("/workspace/flink/kubernetes/template/detail", record)
                 }}
@@ -198,19 +181,6 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
       tableAlertRender={false}
       tableAlertOptionRender={false}
     />
-    {deploymentTemplateFormData.visiable && (
-      <DeploymentTemplateForm
-        visible={deploymentTemplateFormData.visiable}
-        onCancel={() => {
-          setDeploymentTemplateFormData({visiable: false, data: {}});
-        }}
-        onVisibleChange={(visiable) => {
-          setDeploymentTemplateFormData({visiable: visiable, data: {}});
-          actionRef.current?.reload();
-        }}
-        data={deploymentTemplateFormData.data}
-      />
-    )}
   </div>);
 }
 

@@ -1,5 +1,5 @@
 import { PageResponse, ResponseBody } from '@/app.d';
-import { USER_AUTH } from '@/constant';
+import { USER_AUTH } from '@/constants/constant';
 import { Jar, JarListParam, JarUploadParam } from '@/services/resource/typings';
 import { request } from 'umi';
 

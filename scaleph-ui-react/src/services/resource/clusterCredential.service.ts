@@ -5,7 +5,7 @@ import {
   ClusterCredentialUploadParam,
 } from '@/services/resource/typings';
 import {request} from 'umi';
-import {USER_AUTH} from "@/constant";
+import {USER_AUTH} from "@/constants/constant";
 
 export const ClusterCredentialService = {
   url: '/api/resource/cluster-credential',

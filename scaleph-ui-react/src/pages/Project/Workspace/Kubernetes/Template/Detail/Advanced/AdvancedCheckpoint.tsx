@@ -6,7 +6,7 @@ import {
   ProFormSwitch,
   ProFormText
 } from "@ant-design/pro-components";
-import {DICT_TYPE} from "@/constant";
+import {DICT_TYPE} from "@/constants/dictType";
 import {DictDataService} from "@/services/admin/dictData.service";
 
 const AdvancedCheckpoint: React.FC = () => {

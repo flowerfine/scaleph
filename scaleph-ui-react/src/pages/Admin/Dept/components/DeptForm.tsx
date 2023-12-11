@@ -3,7 +3,7 @@ import {Form, message, Modal} from 'antd';
 import {ProForm, ProFormDigit, ProFormSelect, ProFormText, ProFormTreeSelect} from "@ant-design/pro-components";
 import {SecDeptTree} from "@/services/admin/typings";
 import {DictDataService} from "@/services/admin/dictData.service";
-import {DICT_TYPE} from "@/constant";
+import {DICT_TYPE} from "@/constants/dictType";
 import {DeptService} from "@/services/admin/dept.service";
 
 interface ModalFormParentProps<T> {

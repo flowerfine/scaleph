@@ -3,7 +3,7 @@ import React, {useRef, useState} from "react";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {SecDeptTree} from "@/services/admin/typings";
 import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
-import {PRIVILEGE_CODE} from "@/constant";
+import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {DeptService} from "@/services/admin/dept.service";
 import DeptForm from "@/pages/Admin/Dept/components/DeptForm";

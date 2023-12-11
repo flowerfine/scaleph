@@ -1,7 +1,7 @@
 import {connect, history, useIntl} from "umi";
 import React, {useRef} from "react";
 import {ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
-import {WORKSPACE_CONF} from "@/constant";
+import {WORKSPACE_CONF} from "@/constants/constant";
 import {WsFlinkKubernetesTemplate, WsFlinkKubernetesTemplateAddParam} from "@/services/project/typings";
 import FlinkKubernetesTemplateBase from "@/pages/Project/Workspace/Kubernetes/Template/Steps/BaseStepForm";
 import FlinkKubernetesTemplateAdvancedStep from "@/pages/Project/Workspace/Kubernetes/Template/Steps/AdvancedStepForm";

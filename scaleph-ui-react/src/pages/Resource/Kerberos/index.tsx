@@ -3,7 +3,7 @@ import {useRef, useState} from 'react';
 import {Button, message, Modal, Space, Tooltip} from 'antd';
 import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {PRIVILEGE_CODE} from '@/constant';
+import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
 import {ResourceJarService} from '@/services/resource/jar.service';
 import {Kerberos} from "@/pages/Resource/typings";
 import {KerberosService} from "@/pages/Resource/KerberosService";

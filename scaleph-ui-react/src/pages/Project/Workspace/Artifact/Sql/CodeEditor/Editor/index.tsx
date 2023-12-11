@@ -6,7 +6,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as sqlFormatter from 'sql-formatter';
 import { useIntl, useModel } from 'umi';
 
-import { WORKSPACE_CONF } from '@/constant';
+import { WORKSPACE_CONF } from '@/constants/constant';
 import { WsFlinkArtifactSql } from '@/services/project/typings';
 import { FlinkArtifactSqlService } from '@/services/project/WsFlinkArtifactSqlService';
 import { WsFlinkKubernetesSessionClusterService } from '@/services/project/WsFlinkKubernetesSessionClusterService';

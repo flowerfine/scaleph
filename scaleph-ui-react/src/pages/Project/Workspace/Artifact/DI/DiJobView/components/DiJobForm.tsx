@@ -5,7 +5,8 @@ import {useIntl} from 'umi';
 import {ProForm, ProFormDigit, ProFormSelect, ProFormText} from "@ant-design/pro-components";
 import React from "react";
 import {DictDataService} from "@/services/admin/dictData.service";
-import {DICT_TYPE, WORKSPACE_CONF} from "@/constant";
+import {WORKSPACE_CONF} from "@/constants/constant";
+import {DICT_TYPE} from "@/constants/dictType";
 
 interface DiJobFormProps<DiJob> {
   data: DiJob;

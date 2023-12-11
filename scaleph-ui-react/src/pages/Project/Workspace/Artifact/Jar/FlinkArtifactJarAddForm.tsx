@@ -1,5 +1,6 @@
 import {ModalFormProps} from '@/app';
-import {DICT_TYPE, WORKSPACE_CONF} from '@/constant';
+import {WORKSPACE_CONF} from '@/constants/constant';
+import {DICT_TYPE} from '@/constants/dictType';
 import {WsFlinkArtifactJar, WsFlinkArtifactJarUploadParam} from '@/services/project/typings';
 import {Form, message, Modal, UploadFile, UploadProps} from 'antd';
 import {useIntl} from 'umi';

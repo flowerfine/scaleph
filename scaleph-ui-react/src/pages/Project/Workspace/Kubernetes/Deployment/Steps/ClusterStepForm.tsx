@@ -5,7 +5,7 @@ import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubern
 import {WsFlinkKubernetesTemplateParam} from "@/services/project/typings";
 import {ClusterCredentialService} from "@/services/resource/clusterCredential.service";
 import {ClusterCredentialListParam} from "@/services/resource/typings";
-import {WORKSPACE_CONF} from "@/constant";
+import {WORKSPACE_CONF} from "@/constants/constant";
 import {connect} from "umi";
 import {DeploymentKind} from "@/constants/enum";
 

@@ -1,7 +1,7 @@
 import {connect, history, useIntl} from "umi";
 import React, {useRef} from "react";
 import {PageContainer, ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
-import {WORKSPACE_CONF} from "@/constant";
+import {WORKSPACE_CONF} from "@/constants/constant";
 import {WsDorisInstance, WsDorisTemplate} from "@/services/project/typings";
 import {WsDorisTemplateService} from "@/services/project/WsDorisTemplateService";
 import DorisInstanceBase from "@/pages/Project/Workspace/Doris/Instance/Steps/BaseStepForm";
