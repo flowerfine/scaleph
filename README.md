@@ -8,15 +8,13 @@ It trys to provide one-stop data platform for simplifying development of data ap
 
 Scaleph is driven by personal interest and evolves actively through faithful developer, flowerfine is open and appreciates any helps.
 
-## News
-
-Congratulation, Scaleph has been ready for releasing `2.0.0` version and providing full data integration scene backened by SeaTunnel on `2023-12-05`!
-
-Now, community is working on preparation job such as docs, bug fix, or deploy tools. There are so many miscellaneous to handle and we are really looking forward any help from you! Just associate us on issue or wechat group and make scaleph better.
-
 ## Features
 
 * Provide Flink ecosystem to every data developer easily.
+  * Jar
+  * SQL
+  * SeaTunnel. support SeaTunnel Flink engine
+
 * Predefined expert Flink decisions and excellent step wizard.
 * Job management.
   * Step job wizard
@@ -27,15 +25,14 @@ Now, community is working on preparation job such as docs, bug fix, or deploy to
 ### data integration
 
 * Web-ui click-and-drag data integration ways backended by Apache SeaTunnel(incubating)
-*  Support 2.3.3 V2 out-of-the-box connectors and transforms
+*  Support 2.3.2 V2 out-of-the-box connectors and transforms
 * DataSource management
 
 ### data develop
 
-* Multiple deployment modes and  different resource providers.
-  * Standalone。Session
-  * YARN。Application, Per-Job, Session
-  * Kubernetes。Session
+* Multiple Flink job type.
+  * Jar. User develops flink jar job using DataStream or Table API and package it as a jar
+  * SQL. User develops flink sql job on sql online editor backend by [SQL Gateway](https://nightlies.apache.org/flink/flink-docs-release-1.18/docs/dev/table/sql-gateway/overview/), then deploy it as sql job
 
 ## Quick Start
 
@@ -59,50 +56,11 @@ docker-compose up
 
 Once all containers have started, the UI is ready to go at [http://localhost:8096](http://localhost:8096/), user can login by `sys_admin/123456`.
 
-Next, read documentation website [quick start](https://flowerfine.github.io/scaleph-website/zh/docs/guide/quick-start/initialize) and try to run prefined SeaTunnel demos.
+Next, read documentation website [quick start](https://flowerfine.github.io/scaleph-repress-site/guide/quick-start/initialize.html) and try to run predefined SeaTunnel demos.
 
 ## Documentation
 
 please refer [website](https://flowerfine.github.io/scaleph-website/zh)
-
-## Build and Deployment
-
-* [develop](docs/develop/develop.md). This doc describes how to set up local development environment of Scaleph project.
-* checkstyle. Scaleph project requires clean and robust code, which can help Scaleph go further and develop better.
-* build. This doc describes how to compile `scaleph-api` or `scaleph-ui-react` from source and build corresponding docker image. For more information about build from source, refer [workflows](https://github.com/flowerfine/scaleph/tree/dev/.github/workflows) and [actions](https://github.com/flowerfine/scaleph/actions).
-    * compile.  Scaleph adopts `maven` as its build system.
-        * [local](https://flowerfine.github.io/scaleph-website/zh/docs/guide/compile#%E7%BC%96%E8%AF%91). People has to install jdk, maven, node, use `mvn clean package` or `npm` command to compile project.
-        * [docker](https://flowerfine.github.io/scaleph-website/zh/docs/guide/compile#%E5%AE%B9%E5%99%A8%E5%86%85%E7%BC%96%E8%AF%91). Recommend way. Just need git and docker, after clone the source code, use docker as the build tools to compile project, which is slower than local.
-    
-    * docker. As more application runs in container on cloud then bare metal machine, Scaleph provides own image.
-        * [docker-image-build](docs/docker/docker-image-build.md)。Choose different docker compose yaml file, people can build scalph-api, scaleph-ui-react or both.
-        * [docker-image-build-zh](docs/docker/docker-image-build-zh.md)。For Chinese user.
-    
-* deploy. For different deployment purpose such as develop, test or production, Scaleph make the best effort for people deploy project on local, docker and kubernetes.
-  * [docker](docs/deploy/docker/docker.md). require fluent network.
-  * [kubernetes](docs/deploy/kubernetes/kubernetes.md). work in process.
-  * [binary](docs/deploy/binary/binary.md). you can get the binary from [github](https://github.com/flowerfine/scaleph/releases) or [build yourself](docs/build/build-local.md).
-
-## RoadMap
-
-### features
-
-1. data ingress and egress.
-   1. Flink way data integration . Scaleph reduces complexity of integration through `seatunnel`, `flink-cdc-connectors` and other flink connectors.
-   2. Friendly web-ui to newbies . 
-2. data develop
-   1. udf + sql.
-   1. support multi-layer data warehouse development.
-3. job schedule and orchestrate
-
-### architectures
-
-1. cloud native
-   1. container and kubernetes development and runtime environment.
-      1. flink operator
-      2. scaleph operator
-   2. java 17, quarkus.
-2. plugins. https://dubbo.apache.org/zh/docsv2.7/dev/principals/
 
 ## Code of Conduct
 

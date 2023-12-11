@@ -835,6 +835,8 @@ export default {
 
   'pages.project.flink.kubernetes.session-cluster': 'SessionCluster',
   'pages.project.flink.kubernetes.session-cluster.name': '名称',
+  'pages.project.flink.kubernetes.session-cluster.flinkVersion': 'Flink 版本',
+  'pages.project.flink.kubernetes.session-cluster.image': '镜像',
   'pages.project.flink.kubernetes.session-cluster.namespace': 'Namespace',
   'pages.project.flink.kubernetes.session-cluster.sql-gateway': 'Sql Gateway',
   'pages.project.flink.kubernetes.session-cluster.state': 'State',
@@ -863,6 +865,8 @@ export default {
   'pages.project.flink.kubernetes.deployment.kind': '类型',
   'pages.project.flink.kubernetes.deployment.name': '名称',
   'pages.project.flink.kubernetes.deployment.type': '类型',
+  'pages.project.flink.kubernetes.deployment.flinkVersion': 'Flink 版本',
+  'pages.project.flink.kubernetes.deployment.image': '镜像',
   'pages.project.flink.kubernetes.deployment.namespace': 'Namespace',
   'pages.project.flink.kubernetes.deployment.steps.cluster': 'Cluster & Template',
   'pages.project.flink.kubernetes.deployment.steps.cluster.template': 'Template',

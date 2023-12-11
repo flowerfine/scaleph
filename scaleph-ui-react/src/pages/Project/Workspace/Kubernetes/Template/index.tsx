@@ -58,9 +58,8 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
     },
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.template.image'}),
-      dataIndex: 'namespace',
+      dataIndex: 'image',
       hideInSearch: true,
-      width: 150,
       render: (dom, entity) => {
         return entity.kubernetesOptions?.image
       },
