@@ -69,7 +69,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.paimon</groupId>
-            <artifactId>paimon-flink-${flink.base.version}</artifactId>
+            <artifactId>paimon-flink-1.17</artifactId>
         </dependency>
         <dependency>
             <groupId>cn.sliew</groupId>
