@@ -1,4 +1,4 @@
-import { USER_AUTH } from '@/constant';
+import { USER_AUTH } from '@/constants/constant';
 import { request } from 'umi';
 import { AuthCode, LoginInfo, OnlineUserInfo, RegisterInfo, ResponseBody } from '../app.d';
 

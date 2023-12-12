@@ -2,7 +2,7 @@ import {useIntl} from "umi";
 import {Form, message, Modal} from "antd";
 import {ProForm, ProFormDigit, ProFormSelect, ProFormText} from "@ant-design/pro-components";
 import {ModalFormProps} from '@/app.d';
-import {DICT_TYPE} from "@/constant";
+import {DICT_TYPE} from "@/constants/dictType";
 import {MetaDataElement} from "@/services/stdata/typings";
 import {MetaDataElementService} from "@/services/stdata/data-element.service";
 import {RefdataService} from "@/services/stdata/refdata.service";

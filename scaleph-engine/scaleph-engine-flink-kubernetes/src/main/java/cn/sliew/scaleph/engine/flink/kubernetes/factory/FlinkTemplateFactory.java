@@ -71,8 +71,8 @@ public enum FlinkTemplateFactory {
     private static FlinkTemplate createFlinkTemplateDefaults() {
         FlinkTemplate template = new FlinkTemplate();
         FlinkTemplateSpec spec = new FlinkTemplateSpec();
-        spec.setFlinkVersion(FlinkVersion.v1_17);
-        spec.setImage("flink:1.17");
+        spec.setFlinkVersion(FlinkVersion.v1_18);
+        spec.setImage("flink:1.18");
         spec.setImagePullPolicy(ImagePullPolicy.IF_NOT_PRESENT.getValue());
         spec.setServiceAccount("flink");
         spec.setMode(KubernetesDeploymentMode.NATIVE);
@@ -102,6 +102,8 @@ public enum FlinkTemplateFactory {
     private static Map<String, String> createFlinkConfiguration() {
         Map<String, String> flinkConfiguration = new HashMap<>();
         flinkConfiguration.put("web.cancel.enable", "true");
+        flinkConfiguration.put("akka.ask.timeout", "100s");
+        flinkConfiguration.put("taskmanager.slot.timeout", "100s");
         flinkConfiguration.putAll(createFailureTolerateConfiguration());
         flinkConfiguration.putAll(createCheckpointConfiguration());
         flinkConfiguration.putAll(createPeriodicSavepointConfiguration());

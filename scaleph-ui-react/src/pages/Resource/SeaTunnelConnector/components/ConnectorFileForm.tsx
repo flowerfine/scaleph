@@ -3,7 +3,7 @@ import {useState} from 'react';
 import {Form, message, Modal, UploadFile, UploadProps} from 'antd';
 import {ProForm, ProFormSelect, ProFormUploadButton} from "@ant-design/pro-components";
 import {ModalFormProps} from '@/app.d';
-import {DICT_TYPE} from "@/constant";
+import {DICT_TYPE} from "@/constants/dictType";
 import {SeaTunnelConnectorUploadParam} from '@/services/resource/typings';
 import {DictDataService} from "@/services/admin/dictData.service";
 import {SeatunnelReleaseService} from "@/services/resource/seatunnelRelease.service";

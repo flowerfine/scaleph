@@ -4,7 +4,7 @@ import {Form, message, Modal} from "antd";
 import {ProForm, ProFormDigit, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import {ModalFormProps} from '@/app.d';
 import {WsDorisTemplate} from "@/services/project/typings";
-import {WORKSPACE_CONF} from "@/constant";
+import {WORKSPACE_CONF} from "@/constants/constant";
 import {WsDorisTemplateService} from "@/services/project/WsDorisTemplateService";
 
 const DorisTemplateForm: React.FC<ModalFormProps<WsDorisTemplate>> = ({

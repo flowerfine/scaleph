@@ -5,7 +5,7 @@ import {FolderOpenOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {WorkflowDefinition, WorkflowTaskDefinition} from "@/services/workflow/typings";
 import {WorkflowService} from "@/services/workflow/workflow.service";
-import {PRIVILEGE_CODE} from "@/constant";
+import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 
 const QuartzTaskDefinition: React.FC = () => {
   const urlParams = useLocation();

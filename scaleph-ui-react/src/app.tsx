@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { history, Link, RequestConfig } from 'umi';
 import defaultSettings from '../config/defaultSettings';
 import { OnlineUserInfo, ResponseBody } from './app.d';
-import { USER_AUTH } from './constant';
+import { USER_AUTH } from './constants/constant';
 import Icon from './icon';
 import { UserService } from './services/admin/user.service';
 import { AuthService } from './services/auth';

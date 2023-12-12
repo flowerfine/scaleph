@@ -5,7 +5,7 @@ import {FolderOpenOutlined, SettingOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {WorkflowDefinition} from "@/services/workflow/typings";
 import {WorkflowService} from "@/services/workflow/workflow.service";
-import {PRIVILEGE_CODE} from "@/constant";
+import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import ScheduleEnableForm from "@/pages/Workflow/Schedule/ScheduleEnableForm";
 import {SchedulerService} from "@/services/workflow/scheduler.service";
 

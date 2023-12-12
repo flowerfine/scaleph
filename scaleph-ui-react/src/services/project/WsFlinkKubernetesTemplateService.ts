@@ -1,4 +1,4 @@
-import {PageResponse, ResponseBody} from '@/app.d';
+import {PageResponse, ResponseBody, SelectOption} from '@/app.d';
 import {request} from 'umi';
 import {
   KubernetesOptionsVO,
@@ -29,6 +29,19 @@ export const WsFlinkKubernetesTemplateService = {
   selectOne: async (id: number) => {
     return request<ResponseBody<WsFlinkKubernetesTemplate>>(`${WsFlinkKubernetesTemplateService.url}/` + id, {
       method: 'GET',
+    });
+  },
+
+  getFlinkVersionOptions: async () => {
+    return request<ResponseBody<Array<SelectOption>>>(`${WsFlinkKubernetesTemplateService.url}/flinkVersionMappings`, {
+      method: 'GET',
+    });
+  },
+
+  getFlinkImageOptions: async (version: string) => {
+    return request<ResponseBody<Array<SelectOption>>>(`${WsFlinkKubernetesTemplateService.url}/flinkImageMappings`, {
+      method: 'GET',
+      params: {flinkVersion: version},
     });
   },
 

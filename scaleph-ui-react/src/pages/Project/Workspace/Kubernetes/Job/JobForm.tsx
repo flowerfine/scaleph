@@ -20,7 +20,8 @@ import {
   WsFlinkKubernetesSessionClusterSelectListParam
 } from "@/services/project/typings";
 import {DictDataService} from "@/services/admin/dictData.service";
-import {DICT_TYPE, WORKSPACE_CONF} from "@/constant";
+import {WORKSPACE_CONF} from "@/constants/constant";
+import {DICT_TYPE} from "@/constants/dictType";
 import {WsFlinkKubernetesDeploymentService} from "@/services/project/WsFlinkKubernetesDeploymentService";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
 import {FlinkArtifactJarService} from "@/services/project/flinkArtifactJar.service";

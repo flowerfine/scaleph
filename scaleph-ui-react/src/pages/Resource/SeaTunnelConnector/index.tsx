@@ -3,7 +3,7 @@ import {useEffect, useRef, useState} from 'react';
 import {Button, message, Space, Tooltip} from 'antd';
 import {DownloadOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {PRIVILEGE_CODE} from '@/constant';
+import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
 import {CredentialFile, SeaTunnelConnectorFile} from '@/services/resource/typings';
 import {SeatunnelReleaseService} from "@/services/resource/seatunnelRelease.service";
 import ConnectorFileForm from "@/pages/Resource/SeaTunnelConnector/components/ConnectorFileForm";

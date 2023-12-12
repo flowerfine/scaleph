@@ -1,4 +1,5 @@
-import {PRIVILEGE_CODE, WORKSPACE_CONF} from '@/constant';
+import {WORKSPACE_CONF} from '@/constants/constant';
+import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
 import {WsProjectService} from '@/services/project/WsProjectService';
 import {WsProject, WsProjectParam} from '@/services/project/typings';
 import {DeleteOutlined, EditOutlined, FolderOpenOutlined} from '@ant-design/icons';

@@ -76,16 +76,14 @@ public class NetUtils {
                 .filter(networkInterface -> networkInterface.getName().startsWith(ETHERNET_PREFIX))
                 .findAny()
                 .orElseGet(() -> {
-                    log.info("No network interface name starts with {}", ETHERNET_PREFIX);
-                    log.info("Trying to find wireless...");
+                    log.info("No network interface name starts with {}, trying to find wireless...", ETHERNET_PREFIX);
                     return networkInterfaces
                             .stream()
                             // Then try to find NetworkInterfaces named wlp{n}s{n}, This means wireless network
                             .filter(networkInterface -> networkInterface.getName().startsWith(WIRELESS_LAN_PREFIX))
                             .findAny()
                             .orElseGet(() -> {
-                                log.info("No network interface name starts with {}", WIRELESS_LAN_PREFIX);
-                                log.info("Trying to find by index...");
+                                log.info("No network interface name starts with {}, trying to find by index...", WIRELESS_LAN_PREFIX);
                                 return networkInterfaces
                                         // Then find NetworkInterfaces by its index
                                         // Generally the wired and wireless network are ahead of those
@@ -109,8 +107,7 @@ public class NetUtils {
                                         .findFirst()
                                         // Finally get the first network interface in the list
                                         .orElseGet(() -> {
-                                            log.info("No network interface by index");
-                                            log.info("Trying to get the first one or return null");
+                                            log.info("No network interface by index, trying to get the first one or return null");
                                             return networkInterfaces
                                                     .stream()
                                                     .findAny()

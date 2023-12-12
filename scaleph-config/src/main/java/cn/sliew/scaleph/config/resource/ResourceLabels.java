@@ -35,5 +35,6 @@ public enum ResourceLabels {
     public static final String SCALEPH_LABEL_JOB_INSTANCE_ID = SCALEPH_GROUP + "/" + "jobInstanceId";
     public static final String SCALEPH_LABEL_CREATOR = SCALEPH_GROUP + "/" + "creator";
     public static final String SCALEPH_LABEL_EDITOR = SCALEPH_GROUP + "/" + "editor";
+    public static final String SCALEPH_LABEL_FLINK_VERSION = SCALEPH_GROUP + "/" + "flinkVersion";
 
 }

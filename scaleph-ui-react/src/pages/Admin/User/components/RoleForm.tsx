@@ -1,5 +1,5 @@
 import { Dict, ModalFormProps } from '@/app.d';
-import { DICT_TYPE } from '@/constant';
+import { DICT_TYPE } from '@/constants/dictType';
 import { DictDataService } from '@/services/admin/dictData.service';
 import { RoleService } from '@/services/admin/role.service';
 import { SecRole } from '@/services/admin/typings';

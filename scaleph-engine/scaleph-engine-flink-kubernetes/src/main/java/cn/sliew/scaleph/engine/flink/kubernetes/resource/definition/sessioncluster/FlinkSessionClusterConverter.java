@@ -18,13 +18,16 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.sessioncluster;
 
+import cn.sliew.scaleph.common.dict.flink.kubernetes.OperatorFlinkVersion;
 import cn.sliew.scaleph.config.resource.ResourceLabels;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionClusterSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkVersion;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.KubernetesDeploymentMode;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FlinkVersionMapping;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
 import cn.sliew.scaleph.kubernetes.resource.ResourceConverter;
+import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.util.StringUtils;
@@ -38,18 +41,23 @@ public enum FlinkSessionClusterConverter implements ResourceConverter<WsFlinkKub
     public FlinkSessionCluster convertTo(WsFlinkKubernetesSessionClusterDTO source) {
         FlinkSessionCluster sessionCluster = new FlinkSessionCluster();
         ObjectMetaBuilder builder = new ObjectMetaBuilder(true);
+        FlinkSessionClusterSpec spec = new FlinkSessionClusterSpec();
+
         String name = StringUtils.hasText(source.getSessionClusterId()) ? source.getSessionClusterId() : source.getName();
         builder.withName(name);
         builder.withNamespace(source.getNamespace());
-        builder.withLabels(Map.of(ResourceLabels.SCALEPH_LABEL_NAME, source.getName()));
-        sessionCluster.setMetadata(builder.build());
-        FlinkSessionClusterSpec spec = new FlinkSessionClusterSpec();
+        builder.addToLabels(ResourceLabels.SCALEPH_LABEL_NAME, source.getName());
+
         KubernetesOptionsVO kuberenetesOptions = source.getKubernetesOptions();
         if (kuberenetesOptions != null) {
             spec.setImage(kuberenetesOptions.getImage());
             spec.setImagePullPolicy(kuberenetesOptions.getImagePullPolicy());
             spec.setServiceAccount(kuberenetesOptions.getServiceAccount());
-            spec.setFlinkVersion(EnumUtils.getEnum(FlinkVersion.class, kuberenetesOptions.getFlinkVersion()));
+            if (StringUtils.hasLength(kuberenetesOptions.getFlinkVersion())) {
+                builder.addToLabels(ResourceLabels.SCALEPH_LABEL_FLINK_VERSION, kuberenetesOptions.getFlinkVersion());
+            }
+            FlinkVersionMapping flinkVersionMapping = FlinkVersionMapping.of(cn.sliew.scaleph.common.dict.flink.FlinkVersion.of(kuberenetesOptions.getFlinkVersion()));
+            spec.setFlinkVersion(EnumUtils.getEnum(FlinkVersion.class, flinkVersionMapping.getMajorVersion().getValue()));
         }
         spec.setFlinkConfiguration(source.getFlinkConfiguration());
         spec.setJobManager(source.getJobManager());
@@ -57,6 +65,8 @@ public enum FlinkSessionClusterConverter implements ResourceConverter<WsFlinkKub
         spec.setPodTemplate(source.getPodTemplate());
         spec.setIngress(source.getIngress());
         spec.setMode(KubernetesDeploymentMode.NATIVE);
+
+        sessionCluster.setMetadata(builder.build());
         sessionCluster.setSpec(spec);
         return sessionCluster;
     }
@@ -64,26 +74,35 @@ public enum FlinkSessionClusterConverter implements ResourceConverter<WsFlinkKub
     @Override
     public WsFlinkKubernetesSessionClusterDTO convertFrom(FlinkSessionCluster target) {
         WsFlinkKubernetesSessionClusterDTO dto = new WsFlinkKubernetesSessionClusterDTO();
-        String name = target.getMetadata().getName();
-        if (target.getMetadata().getLabels() != null) {
-            Map<String, String> labels = target.getMetadata().getLabels();
-            name = labels.computeIfAbsent(ResourceLabels.SCALEPH_LABEL_NAME, key -> target.getMetadata().getName());
+        ObjectMeta metadata = target.getMetadata();
+        FlinkSessionClusterSpec spec = target.getSpec();
+        String name = metadata.getName();
+        String flinkVersion = null;
+        if (metadata.getLabels() != null) {
+            Map<String, String> labels = metadata.getLabels();
+            name = labels.computeIfAbsent(ResourceLabels.SCALEPH_LABEL_NAME, key -> metadata.getName());
+            flinkVersion = labels.get(ResourceLabels.SCALEPH_LABEL_FLINK_VERSION);
         }
         dto.setName(name);
-        dto.setSessionClusterId(target.getMetadata().getName());
-        dto.setNamespace(target.getMetadata().getNamespace());
-        dto.setSessionClusterId(target.getMetadata().getUid());
-        FlinkSessionClusterSpec spec = target.getSpec();
-        KubernetesOptionsVO kuberenetesOptions = new KubernetesOptionsVO();
-        if (kuberenetesOptions != null) {
-            kuberenetesOptions.setImage(spec.getImage());
-            kuberenetesOptions.setImagePullPolicy(spec.getImagePullPolicy());
-            kuberenetesOptions.setServiceAccount(spec.getServiceAccount());
-            if (spec.getFlinkVersion() != null) {
-                kuberenetesOptions.setFlinkVersion(spec.getFlinkVersion().name());
-            }
+        dto.setSessionClusterId(metadata.getName());
+        dto.setNamespace(metadata.getNamespace());
+        dto.setSessionClusterId(metadata.getUid());
+
+        KubernetesOptionsVO optionsVO = new KubernetesOptionsVO();
+        optionsVO.setImage(spec.getImage());
+        optionsVO.setImagePullPolicy(spec.getImagePullPolicy());
+        optionsVO.setServiceAccount(spec.getServiceAccount());
+        cn.sliew.scaleph.common.dict.flink.FlinkVersion version = null;
+        if (StringUtils.hasLength(flinkVersion)) {
+            version = cn.sliew.scaleph.common.dict.flink.FlinkVersion.of(flinkVersion);
+        } else if (spec.getFlinkVersion() != null) {
+            FlinkVersionMapping flinkVersionMapping = FlinkVersionMapping.of(OperatorFlinkVersion.of(spec.getFlinkVersion().name()));
+            version = flinkVersionMapping.getDefaultVersion();
         }
-        dto.setKubernetesOptions(kuberenetesOptions);
+        if (version != null) {
+            optionsVO.setFlinkVersion(version.getValue());
+        }
+        dto.setKubernetesOptions(optionsVO);
         dto.setFlinkConfiguration(spec.getFlinkConfiguration());
         dto.setJobManager(spec.getJobManager());
         dto.setTaskManager(spec.getTaskManager());

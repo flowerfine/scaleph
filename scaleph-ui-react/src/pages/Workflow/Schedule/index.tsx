@@ -4,7 +4,7 @@ import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {history, useAccess, useIntl, useLocation} from "umi";
 import {WorkflowDefinition, WorkflowSchedule} from "@/services/workflow/typings";
-import {PRIVILEGE_CODE} from "@/constant";
+import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {SchedulerService} from "@/services/workflow/scheduler.service";
 import ScheduleForm from "@/pages/Workflow/Schedule/ScheduleForm";
 

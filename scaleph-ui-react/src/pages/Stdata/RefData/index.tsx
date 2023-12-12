@@ -3,7 +3,7 @@ import {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined, FolderOpenOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {PRIVILEGE_CODE} from "@/constant";
+import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {MetaDataSetType} from "@/services/stdata/typings";
 import {RefdataService} from "@/services/stdata/refdata.service";
 import DataSetTypeForm from "@/pages/Stdata/RefData/components/DataSetTypeForm";

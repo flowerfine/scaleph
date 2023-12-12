@@ -1,5 +1,5 @@
 import {PageResponse, ResponseBody} from '@/app.d';
-import {USER_AUTH} from '@/constant';
+import {USER_AUTH} from '@/constants/constant';
 import {request} from 'umi';
 import {Kerberos, KerberosListParam, KerberosUploadParam} from "@/pages/Resource/typings";
 
