@@ -60,7 +60,7 @@ Next, read documentation website [quick start](https://flowerfine.github.io/scal
 
 ## Documentation
 
-please refer [website](https://flowerfine.github.io/scaleph-website/zh)
+please refer [website](https://flowerfine.github.io/scaleph-repress-site/)
 
 ## Code of Conduct
 
