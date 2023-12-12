@@ -18,7 +18,7 @@ import {useEffect} from 'react';
 import {InfoCircleOutlined} from "@ant-design/icons";
 import {StepSchemaService} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/helper";
 import {DictDataService} from "@/services/admin/dictData.service";
-import {DICT_TYPE} from "@/constant";
+import {DICT_TYPE} from "@/constants/dictType";
 
 const SourceCDCMySQLStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;

@@ -6,7 +6,7 @@ import {MetaDataSet} from "@/services/stdata/typings";
 import {RefdataService} from "@/services/stdata/refdata.service";
 import {MetaSystemService} from "@/services/stdata/system.service";
 import {DictDataService} from "@/services/admin/dictData.service";
-import {DICT_TYPE} from "@/constant";
+import {DICT_TYPE} from "@/constants/dictType";
 
 const DataSetForm: React.FC<ModalFormProps<MetaDataSet>> = ({
                                                               data,

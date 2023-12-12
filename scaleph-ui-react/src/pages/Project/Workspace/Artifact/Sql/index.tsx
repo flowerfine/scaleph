@@ -1,4 +1,6 @@
-import {DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF} from '@/constant';
+import {WORKSPACE_CONF} from '@/constants/constant';
+import {DICT_TYPE} from '@/constants/dictType';
+import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
 import {WsFlinkArtifactSql} from '@/services/project/typings';
 import {DeleteOutlined, EditOutlined, FolderOpenOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';

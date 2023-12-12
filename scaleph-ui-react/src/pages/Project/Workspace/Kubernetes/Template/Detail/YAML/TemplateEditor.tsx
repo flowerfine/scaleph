@@ -2,7 +2,7 @@ import React, {useEffect, useRef} from "react";
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
 import {Props} from '@/app.d';
 import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
-import {connect} from "@@/exports";
+import {connect} from "umi";
 
 const TemplateEditor: React.FC<Props<WsFlinkKubernetesTemplate>> = (props: any) => {
   const editorRef = useRef(null);

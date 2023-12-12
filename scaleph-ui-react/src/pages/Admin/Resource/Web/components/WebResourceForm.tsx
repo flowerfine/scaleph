@@ -2,9 +2,8 @@ import {useIntl} from 'umi';
 import {Form, message, Modal} from 'antd';
 import {ProForm, ProFormDigit, ProFormSelect, ProFormSwitch, ProFormText} from "@ant-design/pro-components";
 import {SecResourceWeb} from "@/services/admin/typings";
-import {PrivilegeService} from "@/services/admin/privilege.service";
 import {DictDataService} from "@/services/admin/dictData.service";
-import {DICT_TYPE} from "@/constant";
+import {DICT_TYPE} from "@/constants/dictType";
 import {ResourceWebService} from "@/services/admin/resourceWeb.service";
 
 interface ModalFormParentProps<T> {

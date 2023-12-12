@@ -19,8 +19,11 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.template.FlinkTemplate;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesTemplateService;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.FlinkImageOption;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.FlinkVersionOption;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesTemplateDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesTemplateAddParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesTemplateListParam;
@@ -60,6 +63,22 @@ public class WsFlinkKubernetesTemplateController {
     public ResponseEntity<ResponseVO<WsFlinkKubernetesTemplateDTO>> selectOne(@PathVariable("id") Long id) {
         WsFlinkKubernetesTemplateDTO dto = wsFlinkKubernetesTemplateService.selectOne(id);
         return new ResponseEntity(ResponseVO.success(dto), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("/flinkVersionMappings")
+    @Operation(summary = "查询 Flink 版本映射", description = "查询 Flink 版本映射")
+    public ResponseEntity<ResponseVO<List<FlinkVersionOption>>> getFlinkVersionOptions() {
+        List<FlinkVersionOption> options = wsFlinkKubernetesTemplateService.getFlinkVersionOptions();
+        return new ResponseEntity(ResponseVO.success(options), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("/flinkImageMappings")
+    @Operation(summary = "查询 Flink 镜像映射", description = "查询 Flink 镜像映射")
+    public ResponseEntity<ResponseVO<List<FlinkImageOption>>> getFlinkVersionOptions(FlinkVersion flinkVersion) {
+        List<FlinkImageOption> options = wsFlinkKubernetesTemplateService.getFlinkImageOptions(flinkVersion);
+        return new ResponseEntity(ResponseVO.success(options), HttpStatus.OK);
     }
 
     @Logging

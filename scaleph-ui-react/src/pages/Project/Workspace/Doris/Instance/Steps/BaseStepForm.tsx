@@ -5,7 +5,7 @@ import {ClusterCredentialListParam} from "@/services/resource/typings";
 import {ClusterCredentialService} from "@/services/resource/clusterCredential.service";
 import {WsDorisTemplate} from "@/services/project/typings";
 import {WsDorisTemplateService} from "@/services/project/WsDorisTemplateService";
-import {WORKSPACE_CONF} from "@/constant";
+import {WORKSPACE_CONF} from "@/constants/constant";
 
 const DorisInstanceBase: React.FC = () => {
   const intl = useIntl();

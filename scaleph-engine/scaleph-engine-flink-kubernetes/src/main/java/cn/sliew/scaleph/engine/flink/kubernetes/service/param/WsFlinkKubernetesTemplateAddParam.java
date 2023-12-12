@@ -19,11 +19,18 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.service.param;
 
 import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.IngressSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.TaskManagerSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
+import io.fabric8.kubernetes.api.model.Pod;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
+import java.util.Map;
 
 @Data
 public class WsFlinkKubernetesTemplateAddParam {
@@ -43,6 +50,30 @@ public class WsFlinkKubernetesTemplateAddParam {
     @NotBlank
     @Schema(description = "namespace")
     private String namespace;
+
+    @Schema(description = "kubernetes options")
+    private KubernetesOptionsVO kubernetesOptions;
+
+    @Schema(description = "job manager")
+    private JobManagerSpec jobManager;
+
+    @Schema(description = "task manager")
+    private TaskManagerSpec taskManager;
+
+    @Schema(description = "pod template")
+    private Pod podTemplate;
+
+    @Schema(description = "flink configuration")
+    private Map<String, String> flinkConfiguration;
+
+    @Schema(description = "log configuration")
+    private Map<String, String> logConfiguration;
+
+    @Schema(description = "ingress")
+    private IngressSpec ingress;
+
+    @Schema(description = "additional dependencies")
+    private List<Long> additionalDependencies;
 
     @Schema(description = "remark")
     private String remark;

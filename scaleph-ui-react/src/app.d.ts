@@ -1,5 +1,3 @@
-import { extend } from 'lodash';
-
 export type AuthCode = {
   uuid: string;
   img: string;
@@ -98,4 +96,9 @@ export type CascaderOption = {
   disabled?: boolean;
   children?: Option[];
   isLeaf?: boolean;
+};
+
+export type SelectOption = {
+  label: string;
+  options?: Dict[];
 };

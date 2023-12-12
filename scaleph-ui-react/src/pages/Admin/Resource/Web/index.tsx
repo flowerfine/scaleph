@@ -1,4 +1,4 @@
-import { PRIVILEGE_CODE } from '@/constant';
+import { PRIVILEGE_CODE } from '@/constants/privilegeCode';
 import WebAssugnRoles from '@/pages/Admin/Resource/Web/components/WebAssugnRoles';
 import WebResourceForm from '@/pages/Admin/Resource/Web/components/WebResourceForm';
 import { PrivilegeService } from '@/services/admin/privilege.service';

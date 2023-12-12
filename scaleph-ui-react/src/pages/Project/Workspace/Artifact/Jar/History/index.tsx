@@ -1,4 +1,4 @@
-import {PRIVILEGE_CODE} from '@/constant';
+import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
 import {FlinkArtifactJarService} from '@/services/project/flinkArtifactJar.service';
 import {WsProjectService} from '@/services/project/WsProjectService';
 import {WsFlinkArtifact, WsFlinkArtifactJar, WsProject} from '@/services/project/typings';

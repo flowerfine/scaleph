@@ -5,7 +5,7 @@ import {DsInfo, DsType} from "@/services/datasource/typings";
 import {DsCategoryService} from "@/services/datasource/category.service";
 import {DsInfoService} from "@/services/datasource/info.service";
 import {Button, message, Modal, Select, Space, Tooltip} from "antd";
-import {PRIVILEGE_CODE} from "@/constant";
+import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {DeleteOutlined} from "@ant-design/icons";
 
 const DataSourceListWeb: React.FC = () => {

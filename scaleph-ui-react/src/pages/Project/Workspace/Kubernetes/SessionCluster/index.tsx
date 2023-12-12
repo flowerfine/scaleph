@@ -1,9 +1,18 @@
 import {history, useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
-import {Button, message, Modal, Popconfirm, Space, Tooltip} from "antd";
+import {Button, message, Modal, Popconfirm, Space, Tag, Tooltip} from "antd";
 import {CaretRightOutlined, CloseOutlined, DeleteOutlined, EyeOutlined} from "@ant-design/icons";
-import {ActionType, ProColumns, ProFormInstance, ProFormSwitch, ProTable} from "@ant-design/pro-components";
-import {DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF} from "@/constant";
+import {
+  ActionType,
+  ProColumns,
+  ProFormInstance,
+  ProFormSelect,
+  ProFormSwitch,
+  ProTable
+} from "@ant-design/pro-components";
+import {WORKSPACE_CONF} from "@/constants/constant";
+import {DICT_TYPE} from "@/constants/dictType";
+import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
 import {DictDataService} from "@/services/admin/dictData.service";
@@ -33,6 +42,31 @@ const FlinkKubernetesSessionClusterWeb: React.FC = () => {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.name'}),
       dataIndex: 'name',
       width: 200,
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.flinkVersion'}),
+      dataIndex: 'flinkVersion',
+      hideInSearch: true,
+      render: (dom, entity) => {
+        return (<Tag>{entity.kubernetesOptions?.flinkVersion}</Tag>)
+      },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <ProFormSelect
+            showSearch={false}
+            allowClear={true}
+            request={() => DictDataService.listDictDataByType2(DICT_TYPE.flinkVersion)}
+          />
+        );
+      }
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.image'}),
+      dataIndex: 'image',
+      hideInSearch: true,
+      render: (dom, entity) => {
+        return entity.kubernetesOptions?.image
+      },
     },
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.namespace'}),

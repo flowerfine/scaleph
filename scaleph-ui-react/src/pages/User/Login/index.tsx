@@ -1,6 +1,6 @@
 import { AuthCode, LoginInfo } from '@/app.d';
 import Footer from '@/components/Footer';
-import { USER_AUTH } from '@/constant';
+import { USER_AUTH } from '@/constants/constant';
 import { AuthService } from '@/services/auth';
 import { Button, Checkbox, Col, Form, Input, message, Row } from 'antd';
 import React, { useEffect, useState } from 'react';

@@ -1,5 +1,5 @@
 import {ModalFormProps} from '@/app.d';
-import {DICT_TYPE} from '@/constant';
+import {DICT_TYPE} from '@/constants/dictType';
 import {DictDataService} from '@/services/admin/dictData.service';
 import {WsDiJobService} from '@/services/project/WsDiJobService';
 import {WsDiJob} from '@/services/project/typings';

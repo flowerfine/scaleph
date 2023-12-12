@@ -1,5 +1,5 @@
 import { TreeNode } from '@/app.d';
-import { PRIVILEGE_CODE } from '@/constant';
+import { PRIVILEGE_CODE } from '@/constants/privilegeCode';
 import { DeptService } from '@/services/admin/dept.service';
 import { PrivilegeService } from '@/services/admin/privilege.service';
 import { RoleService } from '@/services/admin/role.service';

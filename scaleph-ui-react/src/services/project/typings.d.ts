@@ -242,6 +242,14 @@ export type WsFlinkKubernetesTemplateAddParam = {
   name: string;
   deploymentKind?: string;
   namespace: string;
+  kubernetesOptions?: KubernetesOptionsVO;
+  jobManager?: Record<string, any>;
+  taskManager?: Record<string, any>;
+  podTemplate?: Record<string, any>;
+  flinkConfiguration?: Record<string, any>;
+  logConfiguration?: Record<string, any>;
+  ingress?: Record<string, any>;
+  additionalDependencies?: Array<number>;
   remark?: string;
 };
 

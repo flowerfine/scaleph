@@ -1,12 +1,15 @@
 import {history, useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
-import {Button, message, Modal, Space, Tooltip} from "antd";
+import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
-import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {PRIVILEGE_CODE, WORKSPACE_CONF} from "@/constant";
+import {ActionType, ProColumns, ProFormInstance, ProFormSelect, ProTable} from "@ant-design/pro-components";
+import {WORKSPACE_CONF} from "@/constants/constant";
+import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {WsFlinkKubernetesDeployment} from "@/services/project/typings";
 import {WsFlinkKubernetesDeploymentService} from "@/services/project/WsFlinkKubernetesDeploymentService";
 import DeploymentForm from "@/pages/Project/Workspace/Kubernetes/Deployment/DeploymentForm";
+import {DictDataService} from "@/services/admin/dictData.service";
+import {DICT_TYPE} from "@/constants/dictType";
 
 const FlinkKubernetesDeploymentWeb: React.FC = () => {
   const intl = useIntl();
@@ -27,10 +30,34 @@ const FlinkKubernetesDeploymentWeb: React.FC = () => {
       width: 200,
     },
     {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.flinkVersion'}),
+      dataIndex: 'flinkVersion',
+      hideInSearch: true,
+      render: (dom, entity) => {
+        return (<Tag>{entity.kubernetesOptions?.flinkVersion}</Tag>)
+      },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <ProFormSelect
+            showSearch={false}
+            allowClear={true}
+            request={() => DictDataService.listDictDataByType2(DICT_TYPE.flinkVersion)}
+          />
+        );
+      }
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.image'}),
+      dataIndex: 'image',
+      hideInSearch: true,
+      render: (dom, entity) => {
+        return entity.kubernetesOptions?.image
+      },
+    },
+    {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.namespace'}),
       dataIndex: 'namespace',
       hideInSearch: true,
-      width: 200
     },
     {
       title: intl.formatMessage({id: 'app.common.data.remark'}),

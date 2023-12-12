@@ -1,7 +1,7 @@
 import {getIntl, getLocale} from "umi";
 import {ProFormGroup, ProFormSelect} from "@ant-design/pro-components";
 import {DictDataService} from "@/services/admin/dictData.service";
-import {DICT_TYPE} from "@/constant";
+import {DICT_TYPE} from "@/constants/dictType";
 import {STEP_ATTR_TYPE} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/constant";
 import {DsInfoParam} from "@/services/datasource/typings";
 import {DsInfoService} from "@/services/datasource/info.service";

@@ -1,4 +1,4 @@
-import { WORKSPACE_CONF } from '@/constant';
+import { WORKSPACE_CONF } from '@/constants/constant';
 import { WsFlinkKubernetesSessionClusterService } from '@/services/project/WsFlinkKubernetesSessionClusterService';
 import { WsFlinkSqlGatewayService } from '@/services/project/WsFlinkSqlGatewayService';
 import { Spin, Tabs } from 'antd';

@@ -1,13 +1,12 @@
-import {useAccess, useIntl, useLocation} from "umi";
+import {useAccess, useIntl, useLocation, history} from "umi";
 import {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {PRIVILEGE_CODE} from "@/constant";
+import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {MetaDataSet, MetaDataSetType} from "@/services/stdata/typings";
 import {RefdataService} from "@/services/stdata/refdata.service";
 import DataSetForm from "@/pages/Stdata/RefData/Value/DataSetForm";
-import {history} from "@@/core/history";
 
 const RefDataSetValue: React.FC = () => {
   const urlParams = useLocation();

@@ -18,6 +18,8 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesTemplate;
@@ -29,8 +31,13 @@ import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.TaskManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.util.TemplateMerger;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.template.FlinkTemplate;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.template.FlinkTemplateConverter;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FlinkImageMapping;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FlinkVersionMapping;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesTemplateService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernetesTemplateConvert;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.ChildOption;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.FlinkImageOption;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.FlinkVersionOption;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesTemplateDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesTemplateAddParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesTemplateListParam;
@@ -44,8 +51,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class WsFlinkKubernetesTemplateServiceImpl implements WsFlinkKubernetesTemplateService {
@@ -72,6 +81,36 @@ public class WsFlinkKubernetesTemplateServiceImpl implements WsFlinkKubernetesTe
     public WsFlinkKubernetesTemplateDTO selectOne(Long id) {
         WsFlinkKubernetesTemplate record = wsFlinkKubernetesTemplateMapper.selectById(id);
         return WsFlinkKubernetesTemplateConvert.INSTANCE.toDto(record);
+    }
+
+    @Override
+    public List<FlinkVersionOption> getFlinkVersionOptions() {
+        List<FlinkVersionOption> options = new ArrayList<>();
+        for (FlinkVersionMapping mapping : FlinkVersionMapping.values()) {
+            options.add(mapping.toOption());
+        }
+        return options;
+    }
+
+    @Override
+    public List<FlinkImageOption> getFlinkImageOptions(FlinkVersion flinkVersion) {
+        List<FlinkImageOption> options = new ArrayList<>();
+        List<FlinkImageMapping> mappings = FlinkImageMapping.of(flinkVersion);
+        Map<FlinkJobType, List<FlinkImageMapping>> mappingMap = mappings.stream().collect(Collectors.groupingBy(FlinkImageMapping::getJobType));
+        for (Map.Entry<FlinkJobType, List<FlinkImageMapping>> entry : mappingMap.entrySet()) {
+            FlinkImageOption option = new FlinkImageOption();
+            option.setLabel(entry.getKey().getLabel());
+            List<ChildOption> childOptions = new ArrayList<>();
+            for (FlinkImageMapping mapping : entry.getValue()) {
+                ChildOption childOption = new ChildOption();
+                childOption.setLabel(mapping.getImage());
+                childOption.setValue(mapping.getImage());
+                childOptions.add(childOption);
+            }
+            option.setOptions(childOptions);
+            options.add(option);
+        }
+        return options;
     }
 
     @Override
@@ -128,7 +167,11 @@ public class WsFlinkKubernetesTemplateServiceImpl implements WsFlinkKubernetesTe
 
     @Override
     public int insert(WsFlinkKubernetesTemplateAddParam param) {
-        WsFlinkKubernetesTemplate record = new WsFlinkKubernetesTemplate();
+        WsFlinkKubernetesTemplateDTO dto = new WsFlinkKubernetesTemplateDTO();
+        BeanUtils.copyProperties(param, dto);
+        WsFlinkKubernetesTemplateDTO mergeWithDefault = mergeDefault(dto);
+        mergeWithDefault.setAdditionalDependencies(param.getAdditionalDependencies());
+        WsFlinkKubernetesTemplate record = WsFlinkKubernetesTemplateConvert.INSTANCE.toDo(mergeWithDefault);
         BeanUtils.copyProperties(param, record);
         record.setTemplateId(UUIDUtil.randomUUId());
         return wsFlinkKubernetesTemplateMapper.insert(record);

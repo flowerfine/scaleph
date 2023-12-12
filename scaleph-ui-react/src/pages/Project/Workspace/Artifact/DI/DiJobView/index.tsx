@@ -3,11 +3,13 @@ import React, {useRef, useState} from 'react';
 import {Button, Col, message, Modal, Row, Space, Tooltip} from 'antd';
 import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF} from '@/constant';
+import {WORKSPACE_CONF} from '@/constants/constant';
+import {DICT_TYPE} from '@/constants/dictType';
 import {DictDataService} from '@/services/admin/dictData.service';
 import {WsDiJobService} from '@/services/project/WsDiJobService';
 import {WsDiJob} from '@/services/project/typings';
 import DiJobForm from './components/DiJobForm';
+import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
 
 const DiJobView: React.FC = () => {
   const intl = useIntl();

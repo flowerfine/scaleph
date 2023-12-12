@@ -6,7 +6,7 @@ import SessionClusterOptionsStepForm from "@/pages/Project/Workspace/Kubernetes/
 import SessionClusterYAMLStepForm from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Steps/YAMLStepForm";
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
-import {WORKSPACE_CONF} from "@/constant";
+import {WORKSPACE_CONF} from "@/constants/constant";
 import {FieldData} from "rc-field-form/lib/interface";
 import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
 

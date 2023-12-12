@@ -18,7 +18,7 @@ import {
 import {FakeParams, SchemaParams, STEP_ATTR_TYPE} from '../../constant';
 import {StepSchemaService} from '../helper';
 import {DictDataService} from "@/services/admin/dictData.service";
-import {DICT_TYPE} from "@/constant";
+import {DICT_TYPE} from "@/constants/dictType";
 
 const SourceFakeStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
