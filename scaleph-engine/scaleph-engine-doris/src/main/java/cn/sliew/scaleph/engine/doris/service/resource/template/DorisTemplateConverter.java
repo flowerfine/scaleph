@@ -20,18 +20,18 @@ package cn.sliew.scaleph.engine.doris.service.resource.template;
 
 import cn.sliew.scaleph.config.resource.ResourceLabels;
 import cn.sliew.scaleph.engine.doris.operator.spec.DorisClusterSpec;
-import cn.sliew.scaleph.engine.doris.service.dto.WsDorisTemplateDTO;
+import cn.sliew.scaleph.engine.doris.service.dto.WsDorisOperatorTemplateDTO;
 import cn.sliew.scaleph.kubernetes.resource.ResourceConverter;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import org.springframework.util.StringUtils;
 
 import java.util.Map;
 
-public enum DorisTemplateConverter implements ResourceConverter<WsDorisTemplateDTO, DorisTemplate> {
+public enum DorisTemplateConverter implements ResourceConverter<WsDorisOperatorTemplateDTO, DorisTemplate> {
     INSTANCE;
 
     @Override
-    public DorisTemplate convertTo(WsDorisTemplateDTO source) {
+    public DorisTemplate convertTo(WsDorisOperatorTemplateDTO source) {
         DorisTemplate template = new DorisTemplate();
         ObjectMetaBuilder builder = new ObjectMetaBuilder(true);
         String name = StringUtils.hasText(source.getTemplateId()) ? source.getTemplateId() : source.getName();
@@ -49,8 +49,8 @@ public enum DorisTemplateConverter implements ResourceConverter<WsDorisTemplateD
     }
 
     @Override
-    public WsDorisTemplateDTO convertFrom(DorisTemplate target) {
-        WsDorisTemplateDTO dto = new WsDorisTemplateDTO();
+    public WsDorisOperatorTemplateDTO convertFrom(DorisTemplate target) {
+        WsDorisOperatorTemplateDTO dto = new WsDorisOperatorTemplateDTO();
         String name = target.getMetadata().getName();
         if (target.getMetadata().getLabels() != null) {
             Map<String, String> labels = target.getMetadata().getLabels();

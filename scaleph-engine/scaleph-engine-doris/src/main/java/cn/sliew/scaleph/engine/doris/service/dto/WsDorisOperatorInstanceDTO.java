@@ -18,23 +18,30 @@
 
 package cn.sliew.scaleph.engine.doris.service.dto;
 
+import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.engine.doris.operator.spec.*;
+import cn.sliew.scaleph.engine.doris.operator.status.CnStatus;
+import cn.sliew.scaleph.engine.doris.operator.status.ComponentStatus;
 import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@Schema(name = "WsDorisTemplate对象", description = "doris template")
-public class WsDorisTemplateDTO extends BaseDTO {
+@Schema(name = "WsDorisOperatorInstance对象", description = "doris operator instance")
+public class WsDorisOperatorInstanceDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
     @Schema(description = "项目id")
     private Long projectId;
 
+    private Long clusterCredentialId;
+
     private String name;
 
-    private String templateId;
+    private String instanceId;
+
+    private String namespace;
 
     @Schema(description = "admin user")
     private AdminUser admin;
@@ -50,6 +57,21 @@ public class WsDorisTemplateDTO extends BaseDTO {
 
     @Schema(description = "broker spec")
     private BrokerSpec brokerSpec;
+
+    @Schema(description = "是否部署")
+    private YesOrNo deployed;
+
+    @Schema(description = "fe status")
+    private ComponentStatus feStatus;
+
+    @Schema(description = "be status")
+    private ComponentStatus beStatus;
+
+    @Schema(description = "cn status")
+    private CnStatus cnStatus;
+
+    @Schema(description = "broker status")
+    private ComponentStatus brokerStatus;
 
     private String remark;
 }

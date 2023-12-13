@@ -26,7 +26,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class WsDorisInstanceUpdateParam {
+public class WsDorisOperatorInstanceUpdateParam {
 
     @NotNull
     @Schema(description = "id")

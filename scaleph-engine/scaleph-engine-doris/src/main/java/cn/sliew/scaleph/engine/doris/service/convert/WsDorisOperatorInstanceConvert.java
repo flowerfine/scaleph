@@ -20,9 +20,11 @@ package cn.sliew.scaleph.engine.doris.service.convert;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.ws.WsDorisOperatorTemplate;
+import cn.sliew.scaleph.dao.entity.master.ws.WsDorisOperatorInstance;
 import cn.sliew.scaleph.engine.doris.operator.spec.*;
-import cn.sliew.scaleph.engine.doris.service.dto.WsDorisTemplateDTO;
+import cn.sliew.scaleph.engine.doris.operator.status.CnStatus;
+import cn.sliew.scaleph.engine.doris.operator.status.ComponentStatus;
+import cn.sliew.scaleph.engine.doris.service.dto.WsDorisOperatorInstanceDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
@@ -30,12 +32,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface WsDorisTemplateConvert extends BaseConvert<WsDorisOperatorTemplate, WsDorisTemplateDTO> {
-    WsDorisTemplateConvert INSTANCE = Mappers.getMapper(WsDorisTemplateConvert.class);
+public interface WsDorisOperatorInstanceConvert extends BaseConvert<WsDorisOperatorInstance, WsDorisOperatorInstanceDTO> {
+    WsDorisOperatorInstanceConvert INSTANCE = Mappers.getMapper(WsDorisOperatorInstanceConvert.class);
 
     @Override
-    default WsDorisOperatorTemplate toDo(WsDorisTemplateDTO dto) {
-        WsDorisOperatorTemplate entity = new WsDorisOperatorTemplate();
+    default WsDorisOperatorInstance toDo(WsDorisOperatorInstanceDTO dto) {
+        WsDorisOperatorInstance entity = new WsDorisOperatorInstance();
         BeanUtils.copyProperties(dto, entity);
         if (dto.getAdmin() != null) {
             entity.setAdmin(JacksonUtil.toJsonString(dto.getAdmin()));
@@ -52,12 +54,24 @@ public interface WsDorisTemplateConvert extends BaseConvert<WsDorisOperatorTempl
         if (dto.getBrokerSpec() != null) {
             entity.setBrokerSpec(JacksonUtil.toJsonString(dto.getBrokerSpec()));
         }
+        if (dto.getFeStatus() != null) {
+            entity.setFeStatus(JacksonUtil.toJsonString(dto.getFeStatus()));
+        }
+        if (dto.getBeStatus() != null) {
+            entity.setBeStatus(JacksonUtil.toJsonString(dto.getBeStatus()));
+        }
+        if (dto.getCnStatus() != null) {
+            entity.setCnStatus(JacksonUtil.toJsonString(dto.getCnStatus()));
+        }
+        if (dto.getBrokerStatus() != null) {
+            entity.setBrokerStatus(JacksonUtil.toJsonString(dto.getBrokerStatus()));
+        }
         return entity;
     }
 
     @Override
-    default WsDorisTemplateDTO toDto(WsDorisOperatorTemplate entity) {
-        WsDorisTemplateDTO dto = new WsDorisTemplateDTO();
+    default WsDorisOperatorInstanceDTO toDto(WsDorisOperatorInstance entity) {
+        WsDorisOperatorInstanceDTO dto = new WsDorisOperatorInstanceDTO();
         BeanUtils.copyProperties(entity, dto);
         if (StringUtils.hasText(entity.getAdmin())) {
             dto.setAdmin(JacksonUtil.parseJsonString(entity.getAdmin(), AdminUser.class));
@@ -73,6 +87,18 @@ public interface WsDorisTemplateConvert extends BaseConvert<WsDorisOperatorTempl
         }
         if (StringUtils.hasText(entity.getBrokerSpec())) {
             dto.setBrokerSpec(JacksonUtil.parseJsonString(entity.getBrokerSpec(), BrokerSpec.class));
+        }
+        if (StringUtils.hasText(entity.getFeStatus())) {
+            dto.setFeStatus(JacksonUtil.parseJsonString(entity.getFeStatus(), ComponentStatus.class));
+        }
+        if (StringUtils.hasText(entity.getBeStatus())) {
+            dto.setBeStatus(JacksonUtil.parseJsonString(entity.getBeStatus(), ComponentStatus.class));
+        }
+        if (StringUtils.hasText(entity.getCnStatus())) {
+            dto.setCnStatus(JacksonUtil.parseJsonString(entity.getCnStatus(), CnStatus.class));
+        }
+        if (StringUtils.hasText(entity.getBrokerStatus())) {
+            dto.setBrokerStatus(JacksonUtil.parseJsonString(entity.getBrokerStatus(), ComponentStatus.class));
         }
         return dto;
     }

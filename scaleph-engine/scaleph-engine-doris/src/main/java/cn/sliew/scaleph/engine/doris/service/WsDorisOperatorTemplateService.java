@@ -18,28 +18,26 @@
 
 package cn.sliew.scaleph.engine.doris.service;
 
-import cn.sliew.scaleph.engine.doris.operator.DorisCluster;
-import cn.sliew.scaleph.engine.doris.service.dto.WsDorisInstanceDTO;
-import cn.sliew.scaleph.engine.doris.service.param.WsDorisInstanceAddParam;
-import cn.sliew.scaleph.engine.doris.service.param.WsDorisInstanceListParam;
-import cn.sliew.scaleph.engine.doris.service.param.WsDorisInstanceUpdateParam;
+import cn.sliew.scaleph.engine.doris.service.dto.WsDorisOperatorTemplateDTO;
+import cn.sliew.scaleph.engine.doris.service.param.WsDorisOperatorTemplateAddParam;
+import cn.sliew.scaleph.engine.doris.service.param.WsDorisOperatorTemplateListParam;
+import cn.sliew.scaleph.engine.doris.service.param.WsDorisOperatorTemplateUpdateParam;
+import cn.sliew.scaleph.engine.doris.service.resource.template.DorisTemplate;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
 
-public interface WsDorisInstanceService {
+public interface WsDorisOperatorTemplateService {
 
-    Page<WsDorisInstanceDTO> list(WsDorisInstanceListParam param);
+    Page<WsDorisOperatorTemplateDTO> list(WsDorisOperatorTemplateListParam param);
 
-    WsDorisInstanceDTO selectOne(Long id);
+    WsDorisOperatorTemplateDTO selectOne(Long id);
 
-    WsDorisInstanceDTO fromTemplate(Long templateId);
+    DorisTemplate asYaml(WsDorisOperatorTemplateDTO dto);
 
-    DorisCluster asYaml(WsDorisInstanceDTO dto);
+    int insert(WsDorisOperatorTemplateAddParam param);
 
-    int insert(WsDorisInstanceAddParam param);
-
-    int update(WsDorisInstanceUpdateParam param);
+    int update(WsDorisOperatorTemplateUpdateParam param);
 
     int deleteById(Long id);
 

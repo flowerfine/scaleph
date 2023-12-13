@@ -20,11 +20,11 @@ package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.engine.doris.operator.DorisCluster;
-import cn.sliew.scaleph.engine.doris.service.WsDorisInstanceService;
-import cn.sliew.scaleph.engine.doris.service.dto.WsDorisInstanceDTO;
-import cn.sliew.scaleph.engine.doris.service.param.WsDorisInstanceAddParam;
-import cn.sliew.scaleph.engine.doris.service.param.WsDorisInstanceListParam;
-import cn.sliew.scaleph.engine.doris.service.param.WsDorisInstanceUpdateParam;
+import cn.sliew.scaleph.engine.doris.service.WsDorisOperatorInstanceService;
+import cn.sliew.scaleph.engine.doris.service.dto.WsDorisOperatorInstanceDTO;
+import cn.sliew.scaleph.engine.doris.service.param.WsDorisOperatorInstanceAddParam;
+import cn.sliew.scaleph.engine.doris.service.param.WsDorisOperatorInstanceListParam;
+import cn.sliew.scaleph.engine.doris.service.param.WsDorisOperatorInstanceUpdateParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,36 +43,36 @@ import java.util.List;
 public class WsDorisInstanceController {
 
     @Autowired
-    private WsDorisInstanceService wsDorisInstanceService;
+    private WsDorisOperatorInstanceService wsDorisInstanceService;
 
     @Logging
     @GetMapping
     @Operation(summary = "查询实例列表", description = "分页查询实例列表")
-    public ResponseEntity<Page<WsDorisInstanceDTO>> list(@Valid WsDorisInstanceListParam param) {
-        Page<WsDorisInstanceDTO> page = wsDorisInstanceService.list(param);
+    public ResponseEntity<Page<WsDorisOperatorInstanceDTO>> list(@Valid WsDorisOperatorInstanceListParam param) {
+        Page<WsDorisOperatorInstanceDTO> page = wsDorisInstanceService.list(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @Logging
     @GetMapping("/{id}")
     @Operation(summary = "查询实例信息", description = "查询实例信息")
-    public ResponseEntity<ResponseVO<WsDorisInstanceDTO>> selectOne(@PathVariable("id") Long id) {
-        WsDorisInstanceDTO dto = wsDorisInstanceService.selectOne(id);
+    public ResponseEntity<ResponseVO<WsDorisOperatorInstanceDTO>> selectOne(@PathVariable("id") Long id) {
+        WsDorisOperatorInstanceDTO dto = wsDorisInstanceService.selectOne(id);
         return new ResponseEntity(ResponseVO.success(dto), HttpStatus.OK);
     }
 
     @Logging
     @GetMapping("fromTemplate")
     @Operation(summary = "根据模板创建实例", description = "根据模板创建实例")
-    public ResponseEntity<ResponseVO<WsDorisInstanceDTO>> fromTemplate(@RequestParam("templateId") Long templateId) {
-        WsDorisInstanceDTO cluster = wsDorisInstanceService.fromTemplate(templateId);
+    public ResponseEntity<ResponseVO<WsDorisOperatorInstanceDTO>> fromTemplate(@RequestParam("templateId") Long templateId) {
+        WsDorisOperatorInstanceDTO cluster = wsDorisInstanceService.fromTemplate(templateId);
         return new ResponseEntity(ResponseVO.success(cluster), HttpStatus.OK);
     }
 
     @Logging
     @PostMapping("asYaml")
     @Operation(summary = "转换实例信息", description = "转换实例信息")
-    public ResponseEntity<ResponseVO<DorisCluster>> asYaml(@RequestBody WsDorisInstanceDTO dto) {
+    public ResponseEntity<ResponseVO<DorisCluster>> asYaml(@RequestBody WsDorisOperatorInstanceDTO dto) {
         DorisCluster cluster = wsDorisInstanceService.asYaml(dto);
         return new ResponseEntity(ResponseVO.success(cluster), HttpStatus.OK);
     }
@@ -80,7 +80,7 @@ public class WsDorisInstanceController {
     @Logging
     @PutMapping
     @Operation(summary = "新增实例", description = "新增实例")
-    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody WsDorisInstanceAddParam param) {
+    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody WsDorisOperatorInstanceAddParam param) {
         wsDorisInstanceService.insert(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
@@ -88,7 +88,7 @@ public class WsDorisInstanceController {
     @Logging
     @PostMapping
     @Operation(summary = "修改实例", description = "修改实例")
-    public ResponseEntity<ResponseVO> update(@Valid @RequestBody WsDorisInstanceUpdateParam param) {
+    public ResponseEntity<ResponseVO> update(@Valid @RequestBody WsDorisOperatorInstanceUpdateParam param) {
         wsDorisInstanceService.update(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }

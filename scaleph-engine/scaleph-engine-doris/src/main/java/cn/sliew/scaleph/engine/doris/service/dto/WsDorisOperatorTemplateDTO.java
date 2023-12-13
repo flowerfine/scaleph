@@ -16,39 +16,29 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.doris.service.param;
+package cn.sliew.scaleph.engine.doris.service.dto;
 
 import cn.sliew.scaleph.engine.doris.operator.spec.*;
+import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
 @Data
-public class WsDorisInstanceAddParam {
+@Schema(name = "WsDorisOperatorTemplate对象", description = "doris operator template")
+public class WsDorisOperatorTemplateDTO extends BaseDTO {
 
-    @NotNull
-    @Schema(description = "project id")
+    private static final long serialVersionUID = 1L;
+
+    @Schema(description = "项目id")
     private Long projectId;
 
-    @NotNull
-    @Schema(description = "cluster credential id")
-    private Long clusterCredentialId;
-
-    @NotBlank
-    @Schema(description = "name")
     private String name;
 
-    @NotBlank
-    @Schema(description = "namespace")
-    private String namespace;
+    private String templateId;
 
-    @NotNull
     @Schema(description = "admin user")
     private AdminUser admin;
 
-    @NotNull
     @Schema(description = "fe spec")
     private FeSpec feSpec;
 
@@ -61,6 +51,5 @@ public class WsDorisInstanceAddParam {
     @Schema(description = "broker spec")
     private BrokerSpec brokerSpec;
 
-    @Schema(description = "remark")
     private String remark;
 }

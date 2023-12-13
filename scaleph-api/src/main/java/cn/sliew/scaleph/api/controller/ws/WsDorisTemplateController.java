@@ -19,11 +19,11 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.engine.doris.service.WsDorisTemplateService;
-import cn.sliew.scaleph.engine.doris.service.dto.WsDorisTemplateDTO;
-import cn.sliew.scaleph.engine.doris.service.param.WsDorisTemplateAddParam;
-import cn.sliew.scaleph.engine.doris.service.param.WsDorisTemplateListParam;
-import cn.sliew.scaleph.engine.doris.service.param.WsDorisTemplateUpdateParam;
+import cn.sliew.scaleph.engine.doris.service.WsDorisOperatorTemplateService;
+import cn.sliew.scaleph.engine.doris.service.dto.WsDorisOperatorTemplateDTO;
+import cn.sliew.scaleph.engine.doris.service.param.WsDorisOperatorTemplateAddParam;
+import cn.sliew.scaleph.engine.doris.service.param.WsDorisOperatorTemplateListParam;
+import cn.sliew.scaleph.engine.doris.service.param.WsDorisOperatorTemplateUpdateParam;
 import cn.sliew.scaleph.engine.doris.service.resource.template.DorisTemplate;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
@@ -44,28 +44,28 @@ import java.util.List;
 public class WsDorisTemplateController {
 
     @Autowired
-    private WsDorisTemplateService wsDorisTemplateService;
+    private WsDorisOperatorTemplateService wsDorisTemplateService;
 
     @Logging
     @GetMapping
     @Operation(summary = "查询模板列表", description = "分页查询模板列表")
-    public ResponseEntity<Page<WsDorisTemplateDTO>> list(@Valid WsDorisTemplateListParam param) {
-        Page<WsDorisTemplateDTO> page = wsDorisTemplateService.list(param);
+    public ResponseEntity<Page<WsDorisOperatorTemplateDTO>> list(@Valid WsDorisOperatorTemplateListParam param) {
+        Page<WsDorisOperatorTemplateDTO> page = wsDorisTemplateService.list(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @Logging
     @GetMapping("/{id}")
     @Operation(summary = "查询模板信息", description = "查询模板信息")
-    public ResponseEntity<ResponseVO<WsDorisTemplateDTO>> selectOne(@PathVariable("id") Long id) {
-        WsDorisTemplateDTO dto = wsDorisTemplateService.selectOne(id);
+    public ResponseEntity<ResponseVO<WsDorisOperatorTemplateDTO>> selectOne(@PathVariable("id") Long id) {
+        WsDorisOperatorTemplateDTO dto = wsDorisTemplateService.selectOne(id);
         return new ResponseEntity(ResponseVO.success(dto), HttpStatus.OK);
     }
 
     @Logging
     @PostMapping("asYaml")
     @Operation(summary = "转换模板信息", description = "转换模板信息")
-    public ResponseEntity<ResponseVO<DorisTemplate>> asYaml(@RequestBody WsDorisTemplateDTO dto) {
+    public ResponseEntity<ResponseVO<DorisTemplate>> asYaml(@RequestBody WsDorisOperatorTemplateDTO dto) {
         DorisTemplate template = wsDorisTemplateService.asYaml(dto);
         return new ResponseEntity(ResponseVO.success(template), HttpStatus.OK);
     }
@@ -73,7 +73,7 @@ public class WsDorisTemplateController {
     @Logging
     @PutMapping
     @Operation(summary = "新增模板", description = "新增模板")
-    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody WsDorisTemplateAddParam param) throws UidGenerateException {
+    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody WsDorisOperatorTemplateAddParam param) throws UidGenerateException {
         wsDorisTemplateService.insert(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
@@ -81,7 +81,7 @@ public class WsDorisTemplateController {
     @Logging
     @PostMapping
     @Operation(summary = "修改模板", description = "修改模板")
-    public ResponseEntity<ResponseVO> update(@Valid @RequestBody WsDorisTemplateUpdateParam param) {
+    public ResponseEntity<ResponseVO> update(@Valid @RequestBody WsDorisOperatorTemplateUpdateParam param) {
         wsDorisTemplateService.update(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }

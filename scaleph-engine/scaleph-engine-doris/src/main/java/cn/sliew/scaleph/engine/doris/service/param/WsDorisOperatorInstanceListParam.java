@@ -18,41 +18,19 @@
 
 package cn.sliew.scaleph.engine.doris.service.param;
 
-import cn.sliew.scaleph.engine.doris.operator.spec.*;
+import cn.sliew.scaleph.system.model.PaginationParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class WsDorisTemplateUpdateParam {
+public class WsDorisOperatorInstanceListParam extends PaginationParam {
 
     @NotNull
-    @Schema(description = "id")
-    private Long id;
+    @Schema(description = "project id")
+    private Long projectId;
 
-    @NotBlank
     @Schema(description = "name")
     private String name;
-
-    @NotNull
-    @Schema(description = "admin user")
-    private AdminUser admin;
-
-    @NotNull
-    @Schema(description = "fe spec")
-    private FeSpec feSpec;
-
-    @Schema(description = "be spec")
-    private BeSpec beSpec;
-
-    @Schema(description = "cn spec")
-    private CnSpec cnSpec;
-
-    @Schema(description = "broker spec")
-    private BrokerSpec brokerSpec;
-
-    @Schema(description = "remark")
-    private String remark;
 }
