@@ -77,10 +77,10 @@ public class BaseSpec {
      * (Members of ResourceRequirements are embedded into this type.)
      */
     @JsonProperty("limits")
-    private Map<String, Quantity> limits = new LinkedHashMap();
+    private Map<String, Quantity> limits;
 
     @JsonProperty("requests")
-    private Map<String, Quantity> requests = new LinkedHashMap();
+    private Map<String, Quantity> requests;
 
     /**
      * (Optional) Tolerations for scheduling pods onto some dedicated nodes

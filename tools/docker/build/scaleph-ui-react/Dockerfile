@@ -1,14 +1,6 @@
-#FROM node:16 as build
-#
-#COPY ./ /scaleph
-#RUN cd /scaleph/scaleph-ui-react && npm install && npm run build --prod
-
-
 FROM nginx:latest as release
 
 RUN mkdir /dist
-#COPY --from=build  /scaleph/scaleph-ui-react/dist /dist
-#COPY --from=build /scaleph/tools/docker/build/scaleph-ui-react/nginx.conf.template /
 
 COPY scaleph-ui-react/dist /dist
 COPY tools/docker/build/scaleph-ui-react/nginx.conf.template /

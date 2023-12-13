@@ -161,28 +161,28 @@
           {
             name: 'template',
             path: '/workspace/doris/template',
-            component: './Project/Workspace/Doris/Template',
+            component: './Project/Workspace/Doris/OperatorTemplate',
           },
           {
             path: '/workspace/doris/template/steps',
-            component: './Project/Workspace/Doris/Template/Steps',
+            component: './Project/Workspace/Doris/OperatorTemplate/Steps',
           },
           {
             path: '/workspace/doris/template/detail',
-            component: './Project/Workspace/Doris/Template/Detail',
+            component: './Project/Workspace/Doris/OperatorTemplate/Detail',
           },
           {
             name: 'instance',
             path: '/workspace/doris/instance',
-            component: './Project/Workspace/Doris/Instance',
+            component: './Project/Workspace/Doris/OperatorInstance',
           },
           {
             path: '/workspace/doris/instance/steps',
-            component: './Project/Workspace/Doris/Instance/Steps',
+            component: './Project/Workspace/Doris/OperatorInstance/Steps',
           },
           {
             path: '/workspace/doris/instance/detail',
-            component: './Project/Workspace/Doris/Instance/Detail',
+            component: './Project/Workspace/Doris/OperatorInstance/Detail',
           },
         ]
       },
