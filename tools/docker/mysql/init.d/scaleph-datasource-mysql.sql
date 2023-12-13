@@ -131,7 +131,7 @@ VALUES (39, 'Cassandra', NULL, 44, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (40, 'StarRocks', NULL, 45, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (41, 'MaxCompute', NULL, 46, NULL, 'sys', 'sys');
+VALUES (41, 'MaxCompute', '/images/MaxCompute.png', 46, NULL, 'sys', 'sys');
 
 DROP TABLE IF EXISTS ds_category_type_relation;
 CREATE TABLE `ds_category_type_relation`
