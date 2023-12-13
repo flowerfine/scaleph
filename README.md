@@ -25,7 +25,7 @@ Scaleph is driven by personal interest and evolves actively through faithful dev
 ### data integration
 
 * Web-ui click-and-drag data integration ways backended by Apache SeaTunnel(incubating)
-*  Support 2.3.2 V2 out-of-the-box connectors and transforms
+*  Support 2.3.3 V2 out-of-the-box connectors and transforms
 * DataSource management
 
 ### data develop
