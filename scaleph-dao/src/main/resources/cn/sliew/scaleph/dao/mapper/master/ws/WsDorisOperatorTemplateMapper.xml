@@ -17,30 +17,23 @@
   -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.sliew.scaleph.dao.mapper.master.ws.WsDorisInstanceMapper">
+<mapper namespace="cn.sliew.scaleph.dao.mapper.master.ws.WsDorisOperatorTemplateMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsDorisInstance">
+    <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsDorisOperatorTemplate">
         <result column="id" property="id" />
         <result column="creator" property="creator" />
         <result column="create_time" property="createTime" />
         <result column="editor" property="editor" />
         <result column="update_time" property="updateTime" />
         <result column="project_id" property="projectId" />
-        <result column="cluster_credential_id" property="clusterCredentialId" />
         <result column="name" property="name" />
-        <result column="instance_id" property="instanceId" />
-        <result column="namespace" property="namespace" />
+        <result column="template_id" property="templateId" />
         <result column="admin" property="admin" />
         <result column="fe_spec" property="feSpec" />
         <result column="be_spec" property="beSpec" />
         <result column="cn_spec" property="cnSpec" />
         <result column="broker_spec" property="brokerSpec" />
-        <result column="deployed" property="deployed" />
-        <result column="fe_status" property="feStatus" />
-        <result column="be_status" property="beStatus" />
-        <result column="cn_status" property="cnStatus" />
-        <result column="broker_status" property="brokerStatus" />
         <result column="remark" property="remark" />
     </resultMap>
 
@@ -51,7 +44,7 @@
         create_time,
         editor,
         update_time,
-        project_id, cluster_credential_id, `name`, instance_id, namespace, `admin`, fe_spec, be_spec, cn_spec, broker_spec, deployed, fe_status, be_status, cn_status, broker_status, remark
+        project_id, `name`, template_id, `admin`, fe_spec, be_spec, cn_spec, broker_spec, remark
     </sql>
 
 </mapper>

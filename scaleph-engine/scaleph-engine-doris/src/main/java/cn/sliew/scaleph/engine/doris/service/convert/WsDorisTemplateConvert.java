@@ -20,7 +20,7 @@ package cn.sliew.scaleph.engine.doris.service.convert;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.ws.WsDorisTemplate;
+import cn.sliew.scaleph.dao.entity.master.ws.WsDorisOperatorTemplate;
 import cn.sliew.scaleph.engine.doris.operator.spec.*;
 import cn.sliew.scaleph.engine.doris.service.dto.WsDorisTemplateDTO;
 import org.mapstruct.Mapper;
@@ -30,12 +30,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface WsDorisTemplateConvert extends BaseConvert<WsDorisTemplate, WsDorisTemplateDTO> {
+public interface WsDorisTemplateConvert extends BaseConvert<WsDorisOperatorTemplate, WsDorisTemplateDTO> {
     WsDorisTemplateConvert INSTANCE = Mappers.getMapper(WsDorisTemplateConvert.class);
 
     @Override
-    default WsDorisTemplate toDo(WsDorisTemplateDTO dto) {
-        WsDorisTemplate entity = new WsDorisTemplate();
+    default WsDorisOperatorTemplate toDo(WsDorisTemplateDTO dto) {
+        WsDorisOperatorTemplate entity = new WsDorisOperatorTemplate();
         BeanUtils.copyProperties(dto, entity);
         if (dto.getAdmin() != null) {
             entity.setAdmin(JacksonUtil.toJsonString(dto.getAdmin()));
@@ -56,7 +56,7 @@ public interface WsDorisTemplateConvert extends BaseConvert<WsDorisTemplate, WsD
     }
 
     @Override
-    default WsDorisTemplateDTO toDto(WsDorisTemplate entity) {
+    default WsDorisTemplateDTO toDto(WsDorisOperatorTemplate entity) {
         WsDorisTemplateDTO dto = new WsDorisTemplateDTO();
         BeanUtils.copyProperties(entity, dto);
         if (StringUtils.hasText(entity.getAdmin())) {

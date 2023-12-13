@@ -28,8 +28,8 @@ import lombok.Data;
  * doris instance
  */
 @Data
-@TableName("ws_doris_instance")
-public class WsDorisInstance extends BaseDO {
+@TableName("ws_doris_operator_instance")
+public class WsDorisOperatorInstance extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 

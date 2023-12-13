@@ -92,7 +92,7 @@ CREATE TABLE ws_flink_artifact_sql
 INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
                                      `editor`)
 VALUES (1, 1, '1.18.0',
-        'CREATE TEMPORARY TABLE source_table (\n  `id` bigint,\n  `name` string,\n  `age` int,\n  `address` string,\n  `create_time`TIMESTAMP(3),\n  `update_time`TIMESTAMP(3),\n  WATERMARK FOR `update_time` AS update_time - INTERVAL \'1\' MINUTE\n)\nCOMMENT \'\'\nWITH (\n  \' connector\' = \'datagen\',\n  \'number-of-rows\' = \'100\'\n);\n\nCREATE TEMPORARY TABLE `sink_table` (\n  `id` BIGINT,\n  `name` VARCHAR(2147483647),\n  `age` INT,\n  `address` VARCHAR(2147483647),\n  `create_time` TIMESTAMP(3),\n  `update_time` TIMESTAMP(3)\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'print\'\n);\n\ninsert into sink_table\nselect id, name, age, address, create_time, update_time from source_table;',
+        'CREATE TEMPORARY TABLE source_table (\n  `id` bigint,\n  `name` string,\n  `age` int,\n  `address` string,\n  `create_time`TIMESTAMP(3),\n  `update_time`TIMESTAMP(3),\n  WATERMARK FOR `update_time` AS update_time - INTERVAL \'1\' MINUTE\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'datagen\',\n  \'number-of-rows\' = \'100\'\n);\n\nCREATE TEMPORARY TABLE `sink_table` (\n  `id` BIGINT,\n  `name` VARCHAR(2147483647),\n  `age` INT,\n  `address` VARCHAR(2147483647),\n  `create_time` TIMESTAMP(3),\n  `update_time` TIMESTAMP(3)\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'print\'\n);\n\ninsert into sink_table\nselect id, name, age, address, create_time, update_time from source_table;',
         '1', 'sys', 'sys');
 INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
                                      `editor`)
@@ -323,7 +323,7 @@ INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template
                                            `log_configuration`, `ingress`, additional_dependencies, `remark`, `creator`,
                                            `editor`)
 VALUES (6, 1, 'session-cluster', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkSessionJob', 'default',
-        '{"image":"flink:1.18","imagePullPolicy":"IfNotPresent","flinkVersion":"1.18.0ui","serviceAccount":"flink"}',
+        '{"image":"flink:1.18","imagePullPolicy":"IfNotPresent","flinkVersion":"1.18.0","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"apiVersion":"v1","kind":"Pod","spec":{"containers":[{"name":"flink-main-container","volumeMounts":[{"mountPath":"/flink-data","name":"flink-volume"}]}],"volumes":[{"emptyDir":{"sizeLimit":"500Mi"},"name":"flink-volume"}]}}',
@@ -540,8 +540,8 @@ create table ws_flink_sql_gateway_catalog
     unique key uniq_catalog (session_handler, catalog_name)
 ) engine = innodb comment = 'flink sql gateway catalog';
 
-drop table if exists ws_doris_template;
-create table ws_doris_template
+drop table if exists ws_doris_operator_template;
+create table ws_doris_operator_template
 (
     id            bigint      not null auto_increment comment '自增主键',
     project_id    bigint      not null comment '项目id',
@@ -559,9 +559,9 @@ create table ws_doris_template
     update_time   timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique key uniq_name (project_id, `name`)
-) engine = innodb comment = 'doris template';
+) engine = innodb comment = 'doris operator template';
 
-INSERT INTO `ws_doris_template`(`id`, `project_id`, `name`, `template_id`, `admin`, `fe_spec`, `be_spec`, `cn_spec`,
+INSERT INTO `ws_doris_operator_template`(`id`, `project_id`, `name`, `template_id`, `admin`, `fe_spec`, `be_spec`, `cn_spec`,
                                 `broker_spec`, `remark`, `creator`, `editor`)
 VALUES (1, 1, 'simple-doriscluster-sample', 'zexbfaf0eba4ce824787a9bed88148eb233f',
         '{"name":"admin","password":"Admin123"}',
@@ -569,8 +569,8 @@ VALUES (1, 1, 'simple-doriscluster-sample', 'zexbfaf0eba4ce824787a9bed88148eb233
         '{\"replicas\":1,\"image\":\"selectdb/doris.be-ubuntu:2.0.2\",\"limits\":{\"cpu\":4,\"memory\":\"8Gi\"},\"requests\":{\"cpu\":4,\"memory\":\"8Gi\"}}',
         NULL, NULL, NULL, 'sys', 'sys');
 
-drop table if exists ws_doris_instance;
-create table ws_doris_instance
+drop table if exists ws_doris_operator_instance;
+create table ws_doris_operator_instance
 (
     id                    bigint       not null auto_increment comment '自增主键',
     project_id            bigint       not null comment '项目id',
@@ -595,4 +595,4 @@ create table ws_doris_instance
     update_time           timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique key uniq_name (project_id, `name`, cluster_credential_id)
-) engine = innodb comment = 'doris instance';
+) engine = innodb comment = 'doris operator instance';

@@ -20,7 +20,7 @@ package cn.sliew.scaleph.engine.doris.service.convert;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.ws.WsDorisInstance;
+import cn.sliew.scaleph.dao.entity.master.ws.WsDorisOperatorInstance;
 import cn.sliew.scaleph.engine.doris.operator.spec.*;
 import cn.sliew.scaleph.engine.doris.operator.status.CnStatus;
 import cn.sliew.scaleph.engine.doris.operator.status.ComponentStatus;
@@ -32,12 +32,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface WsDorisInstanceConvert extends BaseConvert<WsDorisInstance, WsDorisInstanceDTO> {
+public interface WsDorisInstanceConvert extends BaseConvert<WsDorisOperatorInstance, WsDorisInstanceDTO> {
     WsDorisInstanceConvert INSTANCE = Mappers.getMapper(WsDorisInstanceConvert.class);
 
     @Override
-    default WsDorisInstance toDo(WsDorisInstanceDTO dto) {
-        WsDorisInstance entity = new WsDorisInstance();
+    default WsDorisOperatorInstance toDo(WsDorisInstanceDTO dto) {
+        WsDorisOperatorInstance entity = new WsDorisOperatorInstance();
         BeanUtils.copyProperties(dto, entity);
         if (dto.getAdmin() != null) {
             entity.setAdmin(JacksonUtil.toJsonString(dto.getAdmin()));
@@ -70,7 +70,7 @@ public interface WsDorisInstanceConvert extends BaseConvert<WsDorisInstance, WsD
     }
 
     @Override
-    default WsDorisInstanceDTO toDto(WsDorisInstance entity) {
+    default WsDorisInstanceDTO toDto(WsDorisOperatorInstance entity) {
         WsDorisInstanceDTO dto = new WsDorisInstanceDTO();
         BeanUtils.copyProperties(entity, dto);
         if (StringUtils.hasText(entity.getAdmin())) {

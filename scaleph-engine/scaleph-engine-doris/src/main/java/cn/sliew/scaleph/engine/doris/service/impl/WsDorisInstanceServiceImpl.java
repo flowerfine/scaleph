@@ -21,8 +21,8 @@ package cn.sliew.scaleph.engine.doris.service.impl;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.util.UUIDUtil;
-import cn.sliew.scaleph.dao.entity.master.ws.WsDorisInstance;
-import cn.sliew.scaleph.dao.mapper.master.ws.WsDorisInstanceMapper;
+import cn.sliew.scaleph.dao.entity.master.ws.WsDorisOperatorInstance;
+import cn.sliew.scaleph.dao.mapper.master.ws.WsDorisOperatorInstanceMapper;
 import cn.sliew.scaleph.engine.doris.operator.DorisCluster;
 import cn.sliew.scaleph.engine.doris.service.WsDorisInstanceService;
 import cn.sliew.scaleph.engine.doris.service.WsDorisTemplateService;
@@ -49,18 +49,18 @@ import static cn.sliew.milky.common.check.Ensures.checkState;
 public class WsDorisInstanceServiceImpl implements WsDorisInstanceService {
 
     @Autowired
-    private WsDorisInstanceMapper wsDorisInstanceMapper;
+    private WsDorisOperatorInstanceMapper wsDorisOperatorInstanceMapper;
     @Autowired
     private WsDorisTemplateService wsDorisTemplateService;
 
     @Override
     public Page<WsDorisInstanceDTO> list(WsDorisInstanceListParam param) {
-        Page<WsDorisInstance> page = new Page<>(param.getCurrent(), param.getPageSize());
-        LambdaQueryWrapper<WsDorisInstance> queryWrapper = Wrappers.lambdaQuery(WsDorisInstance.class)
-                .eq(WsDorisInstance::getProjectId, param.getProjectId())
-                .like(StringUtils.hasText(param.getName()), WsDorisInstance::getName, param.getName())
-                .orderByAsc(WsDorisInstance::getId);
-        Page<WsDorisInstance> wsDorisInstancePage = wsDorisInstanceMapper.selectPage(page, queryWrapper);
+        Page<WsDorisOperatorInstance> page = new Page<>(param.getCurrent(), param.getPageSize());
+        LambdaQueryWrapper<WsDorisOperatorInstance> queryWrapper = Wrappers.lambdaQuery(WsDorisOperatorInstance.class)
+                .eq(WsDorisOperatorInstance::getProjectId, param.getProjectId())
+                .like(StringUtils.hasText(param.getName()), WsDorisOperatorInstance::getName, param.getName())
+                .orderByAsc(WsDorisOperatorInstance::getId);
+        Page<WsDorisOperatorInstance> wsDorisInstancePage = wsDorisOperatorInstanceMapper.selectPage(page, queryWrapper);
         Page<WsDorisInstanceDTO> result = new Page<>(wsDorisInstancePage.getCurrent(), wsDorisInstancePage.getSize(), wsDorisInstancePage.getTotal());
         List<WsDorisInstanceDTO> dtoList = WsDorisInstanceConvert.INSTANCE.toDto(page.getRecords());
         result.setRecords(dtoList);
@@ -69,7 +69,7 @@ public class WsDorisInstanceServiceImpl implements WsDorisInstanceService {
 
     @Override
     public WsDorisInstanceDTO selectOne(Long id) {
-        WsDorisInstance record = wsDorisInstanceMapper.selectById(id);
+        WsDorisOperatorInstance record = wsDorisOperatorInstanceMapper.selectById(id);
         checkState(record != null, () -> "doris instance not exist for id = " + id);
         return WsDorisInstanceConvert.INSTANCE.toDto(record);
     }
@@ -94,7 +94,7 @@ public class WsDorisInstanceServiceImpl implements WsDorisInstanceService {
 
     @Override
     public int insert(WsDorisInstanceAddParam param) {
-        WsDorisInstance record = new WsDorisInstance();
+        WsDorisOperatorInstance record = new WsDorisOperatorInstance();
         BeanUtils.copyProperties(param, record);
         record.setInstanceId(UUIDUtil.randomUUId());
         record.setDeployed(YesOrNo.NO);
@@ -113,12 +113,12 @@ public class WsDorisInstanceServiceImpl implements WsDorisInstanceService {
         if (param.getBrokerSpec() != null) {
             record.setBrokerSpec(JacksonUtil.toJsonString(param.getBrokerSpec()));
         }
-        return wsDorisInstanceMapper.insert(record);
+        return wsDorisOperatorInstanceMapper.insert(record);
     }
 
     @Override
     public int update(WsDorisInstanceUpdateParam param) {
-        WsDorisInstance record = new WsDorisInstance();
+        WsDorisOperatorInstance record = new WsDorisOperatorInstance();
         BeanUtils.copyProperties(param, record);
         if (param.getAdmin() != null) {
             record.setAdmin(JacksonUtil.toJsonString(param.getAdmin()));
@@ -135,16 +135,16 @@ public class WsDorisInstanceServiceImpl implements WsDorisInstanceService {
         if (param.getBrokerSpec() != null) {
             record.setBrokerSpec(JacksonUtil.toJsonString(param.getBrokerSpec()));
         }
-        return wsDorisInstanceMapper.updateById(record);
+        return wsDorisOperatorInstanceMapper.updateById(record);
     }
 
     @Override
     public int deleteById(Long id) {
-        return wsDorisInstanceMapper.deleteById(id);
+        return wsDorisOperatorInstanceMapper.deleteById(id);
     }
 
     @Override
     public int deleteBatch(List<Long> ids) {
-        return wsDorisInstanceMapper.deleteBatchIds(ids);
+        return wsDorisOperatorInstanceMapper.deleteBatchIds(ids);
     }
 }

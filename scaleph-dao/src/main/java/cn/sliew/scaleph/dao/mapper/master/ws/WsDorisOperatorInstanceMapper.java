@@ -18,14 +18,14 @@
 
 package cn.sliew.scaleph.dao.mapper.master.ws;
 
-import cn.sliew.scaleph.dao.entity.master.ws.WsDorisInstance;
+import cn.sliew.scaleph.dao.entity.master.ws.WsDorisOperatorInstance;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
 /**
- * doris instance Mapper 接口
+ * doris operator instance Mapper 接口
  */
 @Repository
-public interface WsDorisInstanceMapper extends BaseMapper<WsDorisInstance> {
+public interface WsDorisOperatorInstanceMapper extends BaseMapper<WsDorisOperatorInstance> {
 
 }

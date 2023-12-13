@@ -21,16 +21,14 @@ package cn.sliew.scaleph.dao.entity.master.ws;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * doris template
+ * doris operator template
  */
 @Data
-@TableName("ws_doris_template")
-@Schema(name = "WsDorisTemplate对象", description = "doris template")
-public class WsDorisTemplate extends BaseDO {
+@TableName("ws_doris_operator_template")
+public class WsDorisOperatorTemplate extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
