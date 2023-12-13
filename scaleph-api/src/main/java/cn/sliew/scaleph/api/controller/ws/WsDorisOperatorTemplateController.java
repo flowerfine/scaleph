@@ -38,10 +38,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Tag(name = "Doris管理-模板管理")
+@Tag(name = "Doris管理-Operator模板管理")
 @RestController
-@RequestMapping(path = "/api/doris/template")
-public class WsDorisTemplateController {
+@RequestMapping(path = "/api/doris/operator/template")
+public class WsDorisOperatorTemplateController {
 
     @Autowired
     private WsDorisOperatorTemplateService wsDorisTemplateService;

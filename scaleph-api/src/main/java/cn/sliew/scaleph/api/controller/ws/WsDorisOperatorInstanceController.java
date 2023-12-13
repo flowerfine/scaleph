@@ -37,10 +37,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Tag(name = "Doris管理-实例管理")
+@Tag(name = "Doris管理-Operator实例管理")
 @RestController
-@RequestMapping(path = "/api/doris/instance")
-public class WsDorisInstanceController {
+@RequestMapping(path = "/api/doris/operator/instance")
+public class WsDorisOperatorInstanceController {
 
     @Autowired
     private WsDorisOperatorInstanceService wsDorisInstanceService;
