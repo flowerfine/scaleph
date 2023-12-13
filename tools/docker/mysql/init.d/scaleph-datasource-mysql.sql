@@ -61,7 +61,7 @@ VALUES (4, 'SQLServer', '/images/SQLServer.png', 13, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (5, 'DmDB', '/images/DmDB.png', 14, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (6, 'GBase8a', '/images/GBase8a.jpg', 15, NULL, 'sys', 'sys');
+VALUES (6, 'GBase8a', '/images/GBase8a.png', 15, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (7, 'Greenplum', '/images/Greenplum.png', 16, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
@@ -81,15 +81,15 @@ VALUES (14, 'Kafka', '/images/Kafka.png', 20, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (15, 'Pulsar', '/images/Pulsar.svg', 21, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (16, 'DataHub', '/images/DataHub.webp', 22, NULL, 'sys', 'sys');
+VALUES (16, 'DataHub', '/images/DataHub.png', 22, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (17, 'Ftp', '/images/Ftp.png', 23, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (18, 'Sftp', '/images/Sftp.svg', 24, NULL, 'sys', 'sys');
+VALUES (18, 'Sftp', '/images/Sftp.png', 24, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (19, 'OSS', '/images/OSS.webp', 25, NULL, 'sys', 'sys');
+VALUES (19, 'OSS', '/images/OSS.png', 25, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (20, 'S3', '/images/S3.svg', 26, NULL, 'sys', 'sys');
+VALUES (20, 'S3', '/images/S3.png', 26, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (21, 'HDFS', '/images/HDFS.png', 27, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
@@ -111,7 +111,7 @@ VALUES (29, 'Druid', '/images/Druid.png', 35, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (30, 'IoTDB', '/images/IoTDB.png', 36, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (31, 'Neo4j', '/images/Neo4j.svg', 37, NULL, 'sys', 'sys');
+VALUES (31, 'Neo4j', '/images/Neo4j.png', 37, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (32, 'Hudi', '/images/Hudi.png', 38, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
