@@ -19,6 +19,7 @@
 
 package cn.sliew.scaleph.engine.doris.sql.dto;
 
+import cn.sliew.scaleph.engine.doris.sql.dto.enums.TableType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,15 +32,9 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-@Schema(name = "表字段描述", description = "表字段描述")
-public class TableColumn {
-
-    private String columnName;
-
-    private String dataType;
-
-    private boolean nullable;
-
-    private String comment;
-
+@Schema(name = "Jdbc 表基础信息", description = "Jdbc 表基础信息")
+public class BaseTable {
+    protected String tableName;
+    protected TableType tableType;
+    protected String comment;
 }

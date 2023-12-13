@@ -31,4 +31,9 @@ public class MysqlDialect extends SqlDialect {
     public String getDataTypeSummaryString(String typeName, int dataType, int length, int scale) {
         return super.getDataTypeSummaryString(typeName, dataType, length, scale);
     }
+
+    @Override
+    public String getLimitationQuery(String sql, int limitation) {
+        return String.format("SELECT * FROM (%s) limit %d", sql, limitation);
+    }
 }

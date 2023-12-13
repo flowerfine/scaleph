@@ -44,6 +44,6 @@ public class TableSchema {
     private List<PrimaryKey> primaryKeys;
 
     @Singular
-    private List<IndexInfo> indices;
+    private List<Index> indices;
 
 }

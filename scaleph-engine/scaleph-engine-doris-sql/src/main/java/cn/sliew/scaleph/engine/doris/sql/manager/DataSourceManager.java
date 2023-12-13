@@ -22,13 +22,16 @@ package cn.sliew.scaleph.engine.doris.sql.manager;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
 @Slf4j
+@Component
 public class DataSourceManager {
 
     private final Map<Long, HikariDataSource> dataSourceMap;
@@ -47,11 +50,10 @@ public class DataSourceManager {
             try {
                 return dataSource.getConnection();
             } catch (SQLException e) {
-                log.error("Error get connection, sql state = " + e.getSQLState(), e);
-                return null;
+                throw new IllegalArgumentException("Error get connection, sql state = " + e.getSQLState(), e);
             }
         }
-        return null;
+        throw new IllegalArgumentException("Datasource of cluster id " + clusterCredentialId + " not exists!");
     }
 
     public boolean addDataSource(Long clusterCredentialId, HikariConfig hikariConfig, boolean overwrite) {
@@ -72,6 +74,14 @@ public class DataSourceManager {
         }
         HikariDataSource removedDataSource = dataSourceMap.remove(clusterCredentialId);
         removedDataSource.close();
+    }
+
+    public <T> T actionWithConnection(Long clusterCredentialId, Function<Connection, T> action) {
+        try (Connection connection = getConnection(clusterCredentialId)) {
+            return action.apply(connection);
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
 }

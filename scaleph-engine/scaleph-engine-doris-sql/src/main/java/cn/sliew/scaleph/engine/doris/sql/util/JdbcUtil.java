@@ -20,16 +20,18 @@
 package cn.sliew.scaleph.engine.doris.sql.util;
 
 import cn.sliew.scaleph.engine.doris.sql.dialect.SqlDialect;
-import cn.sliew.scaleph.engine.doris.sql.dto.BaseTableInfo;
+import cn.sliew.scaleph.engine.doris.sql.dto.BaseTable;
+import cn.sliew.scaleph.engine.doris.sql.dto.Function;
+import cn.sliew.scaleph.engine.doris.sql.dto.Index;
 import cn.sliew.scaleph.engine.doris.sql.dto.IndexColumn;
-import cn.sliew.scaleph.engine.doris.sql.dto.IndexInfo;
-import cn.sliew.scaleph.engine.doris.sql.dto.IndexType;
+import cn.sliew.scaleph.engine.doris.sql.dto.enums.FunctionType;
+import cn.sliew.scaleph.engine.doris.sql.dto.enums.IndexType;
 import cn.sliew.scaleph.engine.doris.sql.dto.Order;
 import cn.sliew.scaleph.engine.doris.sql.dto.PrimaryKey;
+import cn.sliew.scaleph.engine.doris.sql.dto.Table;
 import cn.sliew.scaleph.engine.doris.sql.dto.TableColumn;
-import cn.sliew.scaleph.engine.doris.sql.dto.TableInfo;
 import cn.sliew.scaleph.engine.doris.sql.dto.TableSchema;
-import cn.sliew.scaleph.engine.doris.sql.dto.TableType;
+import cn.sliew.scaleph.engine.doris.sql.dto.enums.TableType;
 
 import javax.annotation.Nonnull;
 import java.sql.DatabaseMetaData;
@@ -51,7 +53,7 @@ public class JdbcUtil {
     private JdbcUtil() {
     }
 
-    public static List<String> listDatabases(DatabaseMetaData databaseMetaData) throws SQLException {
+    public static List<String> listCatalogs(DatabaseMetaData databaseMetaData) throws SQLException {
         List<String> catalogs = new ArrayList<>();
         try (ResultSet rs = databaseMetaData.getCatalogs()) {
             while (rs.next()) {
@@ -73,8 +75,8 @@ public class JdbcUtil {
         return schemas;
     }
 
-    public static List<BaseTableInfo> listTables(DatabaseMetaData databaseMetaData, String catalogName, String schemaName, TableType[] tableTypes) throws SQLException {
-        List<BaseTableInfo> baseTableInfoList = new ArrayList<>();
+    public static List<BaseTable> listTables(DatabaseMetaData databaseMetaData, String catalogName, String schemaName, TableType[] tableTypes) throws SQLException {
+        List<BaseTable> baseTableList = new ArrayList<>();
         String[] tableTypeStrings;
         if (tableTypes == null) {
             tableTypeStrings = null;
@@ -88,42 +90,68 @@ public class JdbcUtil {
                 String tableName = rs.getString("TABLE_NAME");
                 String tableTypeString = rs.getString("TABLE_TYPE");
                 String remarks = rs.getString("REMARKS");
-                BaseTableInfo baseTableInfo = BaseTableInfo.builder()
+                BaseTable baseTable = BaseTable.builder()
                         .tableName(tableName)
                         .tableType(TableType.fromTypeName(tableTypeString))
                         .comment(remarks)
                         .build();
-                baseTableInfoList.add(baseTableInfo);
+                baseTableList.add(baseTable);
             }
         }
-        return baseTableInfoList;
+        return baseTableList;
     }
 
-    public List<TableColumn> getTableColumns(DatabaseMetaData databaseMetaData, String catalogName, String schemaName, @Nonnull String tableName, SqlDialect sqlDialect) throws SQLException {
+    private static TableColumn tableColumnFromRs(ResultSet rs, SqlDialect sqlDialect) throws SQLException {
+        String columnName = rs.getString("COLUMN_NAME");
+        int nullable = rs.getInt("NULLABLE");
+        int dataTypeInt = rs.getInt("DATA_TYPE");
+        String typeName = rs.getString("TYPE_NAME");
+        String comment = rs.getString("REMARKS");
+        int columnSize = rs.getInt("COLUMN_SIZE");
+        int decimalDigits = rs.getInt("DECIMAL_DIGITS");
+        String dataTypeSummaryString = sqlDialect.getDataTypeSummaryString(typeName, dataTypeInt, columnSize, decimalDigits);
+        return TableColumn.builder()
+                .columnName(columnName)
+                .dataType(dataTypeSummaryString)
+                .nullable(nullable != 0)
+                .comment(comment)
+                .build();
+    }
+
+    public  static TableColumn getTableColumn(DatabaseMetaData databaseMetaData,
+                                      String catalogName,
+                                      String schemaName,
+                                      @Nonnull String tableName,
+                                      String columnName,
+                                      SqlDialect sqlDialect) throws SQLException {
+        try (ResultSet rs = databaseMetaData.getColumns(catalogName, schemaName, tableName, columnName)) {
+            if (rs.next()) {
+                return tableColumnFromRs(rs, sqlDialect);
+            }
+        }
+        throw new IllegalArgumentException("Column " + columnName + " not exists in table " + tableName);
+    }
+
+    public static List<TableColumn> getTableColumns(DatabaseMetaData databaseMetaData,
+                                             String catalogName,
+                                             String schemaName,
+                                             @Nonnull String tableName,
+                                             SqlDialect sqlDialect) throws SQLException {
         List<TableColumn> tableColumns = new ArrayList<>();
         try (ResultSet rs = databaseMetaData.getColumns(catalogName, schemaName, tableName, null)) {
             while (rs.next()) {
-                String columnName = rs.getString("COLUMN_NAME");
-                int nullable = rs.getInt("NULLABLE");
-                int dataTypeInt = rs.getInt("DATA_TYPE");
-                String typeName = rs.getString("TYPE_NAME");
-                String comment = rs.getString("REMARKS");
-                int columnSize = rs.getInt("COLUMN_SIZE");
-                int decimalDigits = rs.getInt("DECIMAL_DIGITS");
-                String dataTypeSummaryString = sqlDialect.getDataTypeSummaryString(typeName, dataTypeInt, columnSize, decimalDigits);
-                TableColumn tableColumn = TableColumn.builder()
-                        .columnName(columnName)
-                        .dataType(dataTypeSummaryString)
-                        .nullable(nullable != 0)
-                        .comment(comment)
-                        .build();
+                TableColumn tableColumn = tableColumnFromRs(rs, sqlDialect);
                 tableColumns.add(tableColumn);
             }
         }
         return tableColumns;
     }
 
-    public List<IndexInfo> getTableIndices(DatabaseMetaData databaseMetaData, String catalogName, String schemaName, @Nonnull String tableName, SqlDialect sqlDialect) throws SQLException {
+    public static List<Index> getTableIndices(DatabaseMetaData databaseMetaData,
+                                       String catalogName,
+                                       String schemaName,
+                                       @Nonnull String tableName,
+                                       SqlDialect sqlDialect) throws SQLException {
         Map<String, TreeMap<Short, IndexColumn>> map = new HashMap<>();
         Map<String, IndexType> indexTypeMap = new HashMap<>();
         try (ResultSet rs = databaseMetaData.getIndexInfo(catalogName, schemaName, tableName, false, false)) {
@@ -134,10 +162,13 @@ public class JdbcUtil {
                 short ordinalPosition = rs.getShort("ORDINAL_POSITION");
                 String ascOrDesc = rs.getString("ASC_OR_DESC");
                 Order order = ascOrDesc.equalsIgnoreCase("A") ? Order.ASC : Order.DESC;
+                TableColumn tableColumn = getTableColumn(databaseMetaData, catalogName, schemaName, tableName, columnName, sqlDialect);
                 IndexColumn indexColumn = IndexColumn.builder()
                         .columnName(columnName)
+                        .dataType(tableColumn.getDataType())
+                        .comment(tableColumn.getComment())
+                        .nullable(tableColumn.isNullable())
                         .order(order)
-                        .ordinalPosition(ordinalPosition)
                         .build();
                 indexTypeMap.putIfAbsent(indexName, indexType);
                 map.compute(indexName, (s, treeMap) -> {
@@ -153,7 +184,7 @@ public class JdbcUtil {
             String indexName = entry.getKey();
             TreeMap<Short, IndexColumn> treeMap = entry.getValue();
             List<IndexColumn> indexColumns = new ArrayList<>(treeMap.values());
-            return IndexInfo.builder()
+            return Index.builder()
                     .indexName(indexName)
                     .indexType(indexTypeMap.get(indexName))
                     .indexColumns(indexColumns)
@@ -161,24 +192,68 @@ public class JdbcUtil {
         }).collect(Collectors.toList());
     }
 
-    public List<PrimaryKey> getTablePrimaryKeys(DatabaseMetaData databaseMetaData, String catalogName, String schemaName, @Nonnull String tableName, SqlDialect sqlDialect) throws SQLException {
+    public static List<PrimaryKey> getTablePrimaryKeys(DatabaseMetaData databaseMetaData,
+                                                String catalogName,
+                                                String schemaName,
+                                                @Nonnull String tableName,
+                                                SqlDialect sqlDialect) throws SQLException {
+        Map<String, TreeMap<Short, TableColumn>> pkMap = new HashMap<>();
         try (ResultSet rs = databaseMetaData.getPrimaryKeys(catalogName, schemaName, tableName)) {
             while (rs.next()) {
                 String pkName = rs.getString("PK_NAME");
                 String columnName = rs.getString("COLUMN_NAME");
+                TableColumn tableColumn = getTableColumn(databaseMetaData, catalogName, schemaName, tableName, columnName, sqlDialect);
                 short keySeq = rs.getShort("KEY_SEQ");
+                pkMap.compute(pkName, (pk, treeMap) -> {
+                    if (treeMap == null) {
+                        treeMap = new TreeMap<>();
+                    }
+                    treeMap.put(keySeq, tableColumn);
+                    return treeMap;
+                });
             }
         }
-        return null;
+        return pkMap.entrySet().stream()
+                .map(entry -> PrimaryKey.builder()
+                        .primaryKeyName(entry.getKey())
+                        .columns(new ArrayList<>(entry.getValue().values()))
+                        .build())
+                .collect(Collectors.toList());
     }
 
-    public TableInfo getTableInfo(DatabaseMetaData databaseMetaData, String catalogName, String schemaName, @Nonnull String tableName, SqlDialect sqlDialect) throws SQLException {
-        BaseTableInfo baseTableInfo = null;
+    public static List<Function> getFunctions(DatabaseMetaData databaseMetaData,
+                                       String catalogName,
+                                       String schemaName,
+                                       @Nonnull String tableName,
+                                       SqlDialect sqlDialect) throws SQLException {
+        List<Function> functions = new ArrayList<>();
+        try (ResultSet rs = databaseMetaData.getFunctions(catalogName, schemaName, null)) {
+            while (rs.next()) {
+                String functionName = rs.getString("FUNCTION_NAME");
+                String comment = rs.getString("REMARKS");
+                short functionType = rs.getShort("FUNCTION_TYPE");
+                Function function = Function.builder()
+                        .functionName(functionName)
+                        .comment(comment)
+                        .functionType(FunctionType.fromFunctionType(functionType))
+                        .build();
+                functions.add(function);
+            }
+        }
+        return functions;
+    }
+
+    public static Table getTableInfo(DatabaseMetaData databaseMetaData,
+                              String catalogName,
+                              String schemaName,
+                              @Nonnull String tableName,
+                              SqlDialect sqlDialect) throws SQLException {
+        BaseTable baseTable = null;
         try (ResultSet rs = databaseMetaData.getTables(catalogName, schemaName, tableName, null)) {
             if (rs.next()) {
                 String tableTypeString = rs.getString("TABLE_TYPE");
                 String remarks = rs.getString("REMARKS");
-                baseTableInfo = BaseTableInfo.builder()
+                baseTable = BaseTable.builder()
                         .tableName(tableName)
                         .tableType(TableType.fromTypeName(tableTypeString))
                         .comment(remarks)
@@ -187,20 +262,20 @@ public class JdbcUtil {
                 return null;
             }
         }
-        if (baseTableInfo == null) {
+        if (baseTable == null) {
             return null;
         }
         List<TableColumn> columns = getTableColumns(databaseMetaData, catalogName, schemaName, tableName, sqlDialect);
-        List<IndexInfo> indices = getTableIndices(databaseMetaData, catalogName, schemaName, tableName, sqlDialect);
+        List<Index> indices = getTableIndices(databaseMetaData, catalogName, schemaName, tableName, sqlDialect);
         List<PrimaryKey> primaryKeys = getTablePrimaryKeys(databaseMetaData, catalogName, schemaName, tableName, sqlDialect);
-        TableInfo tableInfo = new TableInfo(baseTableInfo);
+        Table table = new Table(baseTable);
         TableSchema tableSchema = TableSchema.builder()
                 .columns(columns)
                 .primaryKeys(primaryKeys)
                 .indices(indices)
                 .build();
-        tableInfo.setTableSchema(tableSchema);
-        return tableInfo;
+        table.setTableSchema(tableSchema);
+        return table;
     }
 
 }

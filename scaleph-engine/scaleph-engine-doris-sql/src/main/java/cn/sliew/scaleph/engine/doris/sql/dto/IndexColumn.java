@@ -22,20 +22,17 @@ package cn.sliew.scaleph.engine.doris.sql.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import net.minidev.json.annotate.JsonIgnore;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @Schema(name = "索引列信息", description = "索引列信息")
-public class IndexColumn {
-
-    private String columnName;
+public class IndexColumn extends TableColumn {
     private Order order;
-    @JsonIgnore
-    private short ordinalPosition;
-
 }

@@ -6,36 +6,32 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
-package cn.sliew.scaleph.engine.doris.sql.dto;
+package cn.sliew.scaleph.engine.doris.sql.params;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Singular;
 import lombok.experimental.SuperBuilder;
 
-import java.util.List;
-
 @Data
+@EqualsAndHashCode
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(name = "索引信息", description = "索引信息")
-public class IndexInfo {
-    private String indexName;
-    private IndexType indexType;
-    @Singular
-    private List<IndexColumn> indexColumns;
+@Schema(name = "Sql查询参数", description = "Sql查询参数")
+public class SqlExecutionParam {
+
+    private String sql;
+    private int limitation = 100;
+
 }

@@ -19,27 +19,24 @@
 
 package cn.sliew.scaleph.engine.doris.sql.dto;
 
+import cn.sliew.scaleph.engine.doris.sql.dto.enums.IndexType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Singular;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
+
 @Data
-@EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
 @SuperBuilder
-@Schema(name = "表字段描述", description = "表字段描述")
-public class TableColumn {
-
-    private String columnName;
-
-    private String dataType;
-
-    private boolean nullable;
-
-    private String comment;
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Schema(name = "索引信息", description = "索引信息")
+public class Index {
+    private String indexName;
+    private IndexType indexType;
+    @Singular
+    private List<IndexColumn> indexColumns;
 }

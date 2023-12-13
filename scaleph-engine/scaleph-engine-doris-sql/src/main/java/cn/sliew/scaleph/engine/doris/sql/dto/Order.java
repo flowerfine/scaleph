@@ -21,5 +21,5 @@ package cn.sliew.scaleph.engine.doris.sql.dto;
 
 public enum Order {
     ASC,
-    DESC;
+    DESC
 }

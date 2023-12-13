@@ -32,14 +32,14 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 @Schema(name = "Jdbc 表信息", description = "Jdbc 表信息")
-public class TableInfo extends BaseTableInfo {
+public class Table extends BaseTable {
 
     private TableSchema tableSchema;
 
-    public TableInfo(BaseTableInfo baseTableInfo) {
-        this.tableName = baseTableInfo.tableName;
-        this.tableType = baseTableInfo.tableType;
-        this.comment = baseTableInfo.comment;
+    public Table(BaseTable baseTable) {
+        this.tableName = baseTable.tableName;
+        this.tableType = baseTable.tableType;
+        this.comment = baseTable.comment;
     }
 
 }

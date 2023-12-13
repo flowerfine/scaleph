@@ -20,8 +20,9 @@
 package cn.sliew.scaleph.engine.doris.sql;
 
 import cn.sliew.scaleph.engine.doris.sql.dto.QueryResult;
-import cn.sliew.scaleph.engine.doris.sql.dto.TableInfo;
-import cn.sliew.scaleph.engine.doris.sql.dto.TableType;
+import cn.sliew.scaleph.engine.doris.sql.dto.Table;
+import cn.sliew.scaleph.engine.doris.sql.dto.enums.TableType;
+import cn.sliew.scaleph.engine.doris.sql.params.SqlExecutionParam;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Nonnull;
@@ -72,15 +73,15 @@ public interface WsDorisSqlService {
      * @param tableName           Table name, not null
      * @return Detail information of a table
      */
-    TableInfo getTableInfo(Long clusterCredentialId, String catalogName, String schemaName, @Nonnull String tableName);
+    Table getTableInfo(Long clusterCredentialId, String catalogName, String schemaName, @Nonnull String tableName);
 
     /**
      * Execute a sql in a doris cluster
      *
      * @param clusterCredentialId Doris k8s cluster id
-     * @param sql                 Sql string to execute
+     * @param sqlExecutionParam   Parameters
      * @return Query result
      */
-    QueryResult executeSql(Long clusterCredentialId, String sql);
+    QueryResult executeSql(Long clusterCredentialId, SqlExecutionParam sqlExecutionParam);
 
 }

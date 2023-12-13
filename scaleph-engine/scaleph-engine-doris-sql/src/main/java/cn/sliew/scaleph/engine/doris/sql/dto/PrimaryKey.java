@@ -19,5 +19,22 @@
 
 package cn.sliew.scaleph.engine.doris.sql.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.Singular;
+import lombok.experimental.SuperBuilder;
+
+import java.util.List;
+
+@Data
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
+@Schema(name = "主键信息", description = "主键信息")
 public class PrimaryKey {
+    private String primaryKeyName;
+    @Singular
+    List<TableColumn> columns;
 }

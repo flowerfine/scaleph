@@ -19,5 +19,71 @@
 
 package cn.sliew.scaleph.engine.doris.sql.dto;
 
+import cn.sliew.scaleph.engine.doris.sql.dialect.SqlDialect;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.Singular;
+import lombok.experimental.SuperBuilder;
+
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+@Data
+@SuperBuilder
+@EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
+@Schema(name = "查询结果", description = "查询结果")
 public class QueryResult {
+    @Singular
+    private List<TableColumn> tableColumns;
+    @Singular("sheep")
+    private List<Map<String, Object>> dataList;
+
+    public static QueryResult fromResultSet(ResultSet resultSet, SqlDialect sqlDialect) throws SQLException {
+        List<TableColumn> tableColumns = new ArrayList<>();
+        ResultSetMetaData metaData = resultSet.getMetaData();
+        int columnCount = metaData.getColumnCount();
+        for (int i = 1; i <= columnCount; i++) {
+            String columnName = metaData.getColumnName(i);
+            String columnTypeName = metaData.getColumnTypeName(i);
+            int dataType = metaData.getColumnType(i);
+            int precision = metaData.getPrecision(i);
+            int scale = metaData.getScale(i);
+            String dataTypeSummaryString = sqlDialect.getDataTypeSummaryString(columnTypeName, dataType, precision, scale);
+            TableColumn tableColumn = TableColumn.builder()
+                    .columnName(columnName)
+                    .dataType(dataTypeSummaryString)
+                    .build();
+            tableColumns.add(tableColumn);
+        }
+        List<Map<String, Object>> dataList = new ArrayList<>();
+        while (resultSet.next()) {
+            Map<String, Object> data = tableColumns.stream()
+                    .map(tableColumn -> {
+                        String columnName = tableColumn.getColumnName();
+                        Object o;
+                        try {
+                            o = resultSet.getObject(columnName);
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                        return Map.entry(columnName, o);
+                    })
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+            dataList.add(data);
+        }
+        return QueryResult.builder()
+                .tableColumns(tableColumns)
+                .dataList(dataList)
+                .build();
+    }
 }

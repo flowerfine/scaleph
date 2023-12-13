@@ -46,4 +46,6 @@ public abstract class SqlDialect {
         }
     }
 
+    public abstract String getLimitationQuery(String sql, int limitation);
+
 }
