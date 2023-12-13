@@ -123,11 +123,11 @@ VALUES (35, 'Email', NULL, 41, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (36, 'Socket', '/images/DataSource/Socket.png', 42, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (37, 'Http', NULL, 42, NULL, 'sys', 'sys');
+VALUES (37, 'Http', '/images/DataSource/Http.png', 42, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (38, 'OSSJindo', NULL, 43, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (39, 'Cassandra', NULL, 44, NULL, 'sys', 'sys');
+VALUES (39, 'Cassandra', '/images/DataSource/Cassandra.png', 44, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (40, 'StarRocks', NULL, 45, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
