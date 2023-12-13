@@ -2,11 +2,11 @@ import {connect, history, useIntl} from "umi";
 import React, {useRef} from "react";
 import {ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
 import {WORKSPACE_CONF} from "@/constants/constant";
-import DorisTemplateComponent from "@/pages/Project/Workspace/Doris/Template/Steps/ComponentStepForm";
-import DorisTemplateBase from "@/pages/Project/Workspace/Doris/Template/Steps/BaseStepForm";
-import DorisTemplateYAML from "@/pages/Project/Workspace/Doris/Template/Steps/YAMLStepForm";
-import {WsDorisTemplate} from "@/services/project/typings";
-import {WsDorisTemplateService} from "@/services/project/WsDorisTemplateService";
+import DorisTemplateComponent from "@/pages/Project/Workspace/Doris/OperatorTemplate/Steps/ComponentStepForm";
+import DorisTemplateBase from "@/pages/Project/Workspace/Doris/OperatorTemplate/Steps/BaseStepForm";
+import DorisTemplateYAML from "@/pages/Project/Workspace/Doris/OperatorTemplate/Steps/YAMLStepForm";
+import {WsDorisOperatorTemplate} from "@/services/project/typings";
+import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";
 
 const DorisTemplateSteps: React.FC = (props: any) => {
   const intl = useIntl();
@@ -14,7 +14,7 @@ const DorisTemplateSteps: React.FC = (props: any) => {
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
   const onBaseStepFinish = (values: Record<string, any>) => {
-    const template: WsDorisTemplate = {
+    const template: WsDorisOperatorTemplate = {
       projectId: projectId,
       name: values.name,
       remark: values.remark,
@@ -25,14 +25,14 @@ const DorisTemplateSteps: React.FC = (props: any) => {
 
   const onComponentStepFinish = (values: Record<string, any>) => {
     try {
-      const template: WsDorisTemplate = WsDorisTemplateService.formatData(props.dorisTemplateSteps.template, values)
+      const template: WsDorisOperatorTemplate = WsDorisOperatorTemplateService.formatData(props.dorisTemplateSteps.template, values)
       editDorisTemplate(template)
     } catch (unused) {
     }
     return Promise.resolve(true)
   }
 
-  const editDorisTemplate = (template: WsDorisTemplate) => {
+  const editDorisTemplate = (template: WsDorisOperatorTemplate) => {
     props.dispatch({
       type: 'dorisTemplateSteps/editTemplate',
       payload: template
@@ -40,7 +40,7 @@ const DorisTemplateSteps: React.FC = (props: any) => {
   }
 
   const onAllFinish = (values: Record<string, any>) => {
-    return WsDorisTemplateService.add(props.dorisTemplateSteps.template).then((response) => {
+    return WsDorisOperatorTemplateService.add(props.dorisTemplateSteps.template).then((response) => {
       if (response.success) {
         history.back()
       }

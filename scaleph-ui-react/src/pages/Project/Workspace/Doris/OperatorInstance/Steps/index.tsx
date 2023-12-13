@@ -2,12 +2,12 @@ import {connect, history, useIntl} from "umi";
 import React, {useRef} from "react";
 import {PageContainer, ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
 import {WORKSPACE_CONF} from "@/constants/constant";
-import {WsDorisInstance, WsDorisTemplate} from "@/services/project/typings";
-import {WsDorisTemplateService} from "@/services/project/WsDorisTemplateService";
-import DorisInstanceBase from "@/pages/Project/Workspace/Doris/Instance/Steps/BaseStepForm";
-import {WsDorisInstanceService} from "@/services/project/WsDorisInstanceService";
-import DorisInstanceComponent from "@/pages/Project/Workspace/Doris/Instance/Steps/ComponentStepForm";
-import DorisInstanceYAML from "@/pages/Project/Workspace/Doris/Instance/Steps/YAMLStepForm";
+import {WsDorisOperatorInstance, WsDorisOperatorTemplate} from "@/services/project/typings";
+import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";
+import DorisInstanceBase from "@/pages/Project/Workspace/Doris/OperatorInstance/Steps/BaseStepForm";
+import {WsDorisOperatorInstanceService} from "@/services/project/WsDorisOperatorInstanceService";
+import DorisInstanceComponent from "@/pages/Project/Workspace/Doris/OperatorInstance/Steps/ComponentStepForm";
+import DorisInstanceYAML from "@/pages/Project/Workspace/Doris/OperatorInstance/Steps/YAMLStepForm";
 
 const DorisInstanceSteps: React.FC = (props: any) => {
   const intl = useIntl();
@@ -15,8 +15,8 @@ const DorisInstanceSteps: React.FC = (props: any) => {
   const localProjectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
   const onBaseStepFinish = (values: Record<string, any>) => {
-    return WsDorisInstanceService.fromTemplate(values.templateId).then(response => {
-      const instance: WsDorisInstance = response.data
+    return WsDorisOperatorInstanceService.fromTemplate(values.templateId).then(response => {
+      const instance: WsDorisOperatorInstance = response.data
       instance.projectId = localProjectId
       instance.name = values.name
       instance.clusterCredentialId = values.clusterCredentialId
@@ -29,8 +29,8 @@ const DorisInstanceSteps: React.FC = (props: any) => {
 
   const onComponentStepFinish = (values: Record<string, any>) => {
     try {
-      const template: WsDorisTemplate = WsDorisTemplateService.formatData({}, values)
-      const instance: WsDorisInstance = {
+      const template: WsDorisOperatorTemplate = WsDorisOperatorTemplateService.formatData({}, values)
+      const instance: WsDorisOperatorInstance = {
         ...props.dorisInstanceSteps.instance,
         admin: template.admin,
         feSpec: template.feSpec,
@@ -44,7 +44,7 @@ const DorisInstanceSteps: React.FC = (props: any) => {
     return Promise.resolve(true)
   }
 
-  const editDorisInstance = (template: WsDorisInstance) => {
+  const editDorisInstance = (template: WsDorisOperatorInstance) => {
     props.dispatch({
       type: 'dorisInstanceSteps/editInstance',
       payload: template
@@ -52,7 +52,7 @@ const DorisInstanceSteps: React.FC = (props: any) => {
   }
 
   const onAllFinish = (values: Record<string, any>) => {
-    return WsDorisInstanceService.add(props.dorisInstanceSteps.instance).then((response) => {
+    return WsDorisOperatorInstanceService.add(props.dorisInstanceSteps.instance).then((response) => {
       if (response.success) {
         history.back()
       }

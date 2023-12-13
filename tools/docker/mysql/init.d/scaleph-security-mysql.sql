@@ -549,28 +549,28 @@ INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`,
 VALUES (65, '2', 64, NULL, '/workspace/doris', '/workspace/doris/template', NULL, NULL, NULL, NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
-VALUES (66, '2', 64, 'template', '/workspace/doris/template', NULL, NULL, NULL, './Project/Workspace/Doris/Template',
+VALUES (66, '2', 64, 'template', '/workspace/doris/template', NULL, NULL, NULL, './Project/Workspace/Doris/OperatorTemplate',
         NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
 VALUES (67, '2', 64, NULL, '/workspace/doris/template/steps', NULL, NULL, NULL,
-        './Project/Workspace/Doris/Template/Steps', NULL, 'sys', 'sys');
+        './Project/Workspace/Doris/OperatorTemplate/Steps', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
 VALUES (68, '2', 64, NULL, '/workspace/doris/template/detail', NULL, NULL, NULL,
-        './Project/Workspace/Doris/Template/Detail', NULL, 'sys', 'sys');
+        './Project/Workspace/Doris/OperatorTemplate/Detail', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
-VALUES (69, '2', 64, 'instance', '/workspace/doris/instance', NULL, NULL, NULL, './Project/Workspace/Doris/Instance',
+VALUES (69, '2', 64, 'instance', '/workspace/doris/instance', NULL, NULL, NULL, './Project/Workspace/Doris/OperatorInstance',
         NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
 VALUES (70, '2', 64, NULL, '/workspace/doris/instance/steps', NULL, NULL, NULL,
-        './Project/Workspace/Doris/Instance/Steps', NULL, 'sys', 'sys');
+        './Project/Workspace/Doris/OperatorInstance/Steps', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
                                `creator`, `editor`)
 VALUES (71, '2', 64, '', '/workspace/doris/instance/detail', NULL, NULL, NULL,
-        './Project/Workspace/Doris/Instance/Detail', NULL, 'sys', 'sys');
+        './Project/Workspace/Doris/OperatorInstance/Detail', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
 VALUES (72, '2', 21, NULL, '/workspace/flink/kubernetes/template/steps', NULL, NULL, NULL,

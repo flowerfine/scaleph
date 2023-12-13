@@ -3,11 +3,11 @@ import React from "react";
 import {Form, message, Modal} from "antd";
 import {ProForm, ProFormDigit, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import {ModalFormProps} from '@/app.d';
-import {WsDorisInstance} from "@/services/project/typings";
+import {WsDorisOperatorInstance} from "@/services/project/typings";
 import {WORKSPACE_CONF} from "@/constants/constant";
-import {WsDorisInstanceService} from "@/services/project/WsDorisInstanceService";
+import {WsDorisOperatorInstanceService} from "@/services/project/WsDorisOperatorInstanceService";
 
-const DorisInstanceSimpleForm: React.FC<ModalFormProps<WsDorisInstance>> = ({
+const DorisInstanceSimpleForm: React.FC<ModalFormProps<WsDorisOperatorInstance>> = ({
                                                                               data,
                                                                               visible,
                                                                               onVisibleChange,
@@ -33,7 +33,7 @@ const DorisInstanceSimpleForm: React.FC<ModalFormProps<WsDorisInstance>> = ({
       onOk={() => {
         form.validateFields().then((values) => {
           data.id
-            ? WsDorisInstanceService.update({...values}).then((response) => {
+            ? WsDorisOperatorInstanceService.update({...values}).then((response) => {
               if (response.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}));
                 if (onVisibleChange) {
@@ -41,7 +41,7 @@ const DorisInstanceSimpleForm: React.FC<ModalFormProps<WsDorisInstance>> = ({
                 }
               }
             })
-            : WsDorisInstanceService.add({...values, projectId: projectId}).then((response) => {
+            : WsDorisOperatorInstanceService.add({...values, projectId: projectId}).then((response) => {
               if (response.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
                 if (onVisibleChange) {

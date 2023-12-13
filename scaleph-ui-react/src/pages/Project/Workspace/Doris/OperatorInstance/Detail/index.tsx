@@ -1,16 +1,17 @@
 import {useIntl, useLocation} from "umi";
 import React, {useEffect, useRef, useState} from "react";
-import {WsDorisTemplate} from "@/services/project/typings";
+import {WsDorisOperatorInstance} from "@/services/project/typings";
 import {PageContainer, ProCard, StatisticCard} from "@ant-design/pro-components";
 import {Divider, Space, Statistic} from "antd";
 import RcResizeObserver from 'rc-resize-observer';
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
-import {WsDorisTemplateService} from "@/services/project/WsDorisTemplateService";
+import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";
 import YAML from "yaml";
+import {WsDorisOperatorInstanceService} from "@/services/project/WsDorisOperatorInstanceService";
 
-const DorisTemplateDetailWeb: React.FC = () => {
+const DorisInstanceDetailWeb: React.FC = () => {
   const intl = useIntl();
-  const data = useLocation().state as WsDorisTemplate
+  const data = useLocation().state as WsDorisOperatorInstance
   const editorRef = useRef(null);
   const monaco = useMonaco();
 
@@ -26,7 +27,9 @@ const DorisTemplateDetailWeb: React.FC = () => {
   }
 
   useEffect(() => {
-    WsDorisTemplateService.asYaml(data).then((response) => {
+    const yamlData = {...data}
+    yamlData.deployed = undefined
+    WsDorisOperatorInstanceService.asYaml(yamlData).then((response) => {
       if (response.success) {
         setYaml(YAML.stringify(response.data))
       }
@@ -180,4 +183,4 @@ const DorisTemplateDetailWeb: React.FC = () => {
   );
 }
 
-export default DorisTemplateDetailWeb;
+export default DorisInstanceDetailWeb;

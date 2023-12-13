@@ -436,7 +436,7 @@ export type WsFlinkKubernetesJobInstanceSavepointParam = QueryParam & {
   wsFlinkKubernetesJobInstanceId: number
 };
 
-export type WsDorisTemplate = {
+export type WsDorisOperatorTemplate = {
   id?: number;
   projectId: number;
   name?: string;
@@ -451,12 +451,12 @@ export type WsDorisTemplate = {
   updateTime?: Date;
 };
 
-export type WsDorisTemplateParam = QueryParam & {
+export type WsDorisOperatorTemplateParam = QueryParam & {
   projectId: number;
   name?: string;
 };
 
-export type WsDorisTemplateAddParam = {
+export type WsDorisOperatorTemplateAddParam = {
   projectId: number;
   name: string;
   admin?: Record<string, any>;
@@ -467,7 +467,7 @@ export type WsDorisTemplateAddParam = {
   remark?: string;
 };
 
-export type WsDorisTemplateUpdateParam = {
+export type WsDorisOperatorTemplateUpdateParam = {
   id: number;
   name: string;
   admin?: Record<string, any>;
@@ -478,7 +478,7 @@ export type WsDorisTemplateUpdateParam = {
   remark?: string;
 };
 
-export type WsDorisInstance = {
+export type WsDorisOperatorInstance = {
   id?: number;
   projectId: number;
   clusterCredentialId?: number;
@@ -500,12 +500,12 @@ export type WsDorisInstance = {
   updateTime?: Date;
 };
 
-export type WsDorisInstanceParam = QueryParam & {
+export type WsDorisOperatorInstanceParam = QueryParam & {
   projectId: number;
   name?: string;
 };
 
-export type WsDorisInstanceAddParam = {
+export type WsDorisOperatorInstanceAddParam = {
   projectId: number;
   clusterCredentialId?: number;
   name: string;
@@ -518,7 +518,7 @@ export type WsDorisInstanceAddParam = {
   remark?: string;
 };
 
-export type WsDorisInstanceUpdateParam = {
+export type WsDorisOperatorInstanceUpdateParam = {
   id: number;
   clusterCredentialId?: number;
   name: string;

@@ -1,12 +1,12 @@
 import {PageResponse, ResponseBody} from '@/app.d';
 import {request} from 'umi';
-import {WsDorisTemplate, WsDorisTemplateAddParam, WsDorisTemplateParam, WsDorisTemplateUpdateParam} from './typings';
+import {WsDorisOperatorTemplate, WsDorisOperatorTemplateAddParam, WsDorisOperatorTemplateParam, WsDorisOperatorTemplateUpdateParam} from './typings';
 
-export const WsDorisTemplateService = {
-  url: '/api/doris/template',
+export const WsDorisOperatorTemplateService = {
+  url: '/api/doris/operator/template',
 
-  list: async (queryParam: WsDorisTemplateParam) => {
-    return request<PageResponse<WsDorisTemplate>>(`${WsDorisTemplateService.url}`, {
+  list: async (queryParam: WsDorisOperatorTemplateParam) => {
+    return request<PageResponse<WsDorisOperatorTemplate>>(`${WsDorisOperatorTemplateService.url}`, {
       method: 'GET',
       params: queryParam,
     }).then((res) => {
@@ -20,42 +20,42 @@ export const WsDorisTemplateService = {
     });
   },
 
-  asYaml: async (param: WsDorisTemplate) => {
-    return request<ResponseBody<any>>(`${WsDorisTemplateService.url}/asYaml`, {
+  asYaml: async (param: WsDorisOperatorTemplate) => {
+    return request<ResponseBody<any>>(`${WsDorisOperatorTemplateService.url}/asYaml`, {
       method: 'POST',
       data: param,
     });
   },
 
-  add: async (param: WsDorisTemplateAddParam) => {
-    return request<ResponseBody<any>>(`${WsDorisTemplateService.url}`, {
+  add: async (param: WsDorisOperatorTemplateAddParam) => {
+    return request<ResponseBody<any>>(`${WsDorisOperatorTemplateService.url}`, {
       method: 'PUT',
       data: param,
     });
   },
 
-  update: async (param: WsDorisTemplateUpdateParam) => {
-    return request<ResponseBody<any>>(`${WsDorisTemplateService.url}`, {
+  update: async (param: WsDorisOperatorTemplateUpdateParam) => {
+    return request<ResponseBody<any>>(`${WsDorisOperatorTemplateService.url}`, {
       method: 'POST',
       data: param,
     });
   },
 
-  delete: async (row: WsDorisTemplate) => {
-    return request<ResponseBody<any>>(`${WsDorisTemplateService.url}/` + row.id, {
+  delete: async (row: WsDorisOperatorTemplate) => {
+    return request<ResponseBody<any>>(`${WsDorisOperatorTemplateService.url}/` + row.id, {
       method: 'DELETE',
     });
   },
 
-  deleteBatch: async (rows: WsDorisTemplate[]) => {
+  deleteBatch: async (rows: WsDorisOperatorTemplate[]) => {
     const params = rows.map((row) => row.id);
-    return request<ResponseBody<any>>(`${WsDorisTemplateService.url}/` + 'batch', {
+    return request<ResponseBody<any>>(`${WsDorisOperatorTemplateService.url}/` + 'batch', {
       method: 'DELETE',
       data: params,
     });
   },
 
-  formatData: (data: WsDorisTemplate, value: Record<string, any>) => {
+  formatData: (data: WsDorisOperatorTemplate, value: Record<string, any>) => {
     const admin: Record<string, any> = {
       name: value['admin.name'],
       password: value['admin.password'],
@@ -112,7 +112,7 @@ export const WsDorisTemplateService = {
     return data
   },
 
-  parseData: (data: WsDorisTemplate) => {
+  parseData: (data: WsDorisOperatorTemplate) => {
     const value: Record<string, any> = {
       'name': data.name,
       'remark': data.remark,

@@ -3,11 +3,11 @@ import React from "react";
 import {Form, message, Modal} from "antd";
 import {ProForm, ProFormDigit, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import {ModalFormProps} from '@/app.d';
-import {WsDorisTemplate} from "@/services/project/typings";
+import {WsDorisOperatorTemplate} from "@/services/project/typings";
 import {WORKSPACE_CONF} from "@/constants/constant";
-import {WsDorisTemplateService} from "@/services/project/WsDorisTemplateService";
+import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";
 
-const DorisTemplateForm: React.FC<ModalFormProps<WsDorisTemplate>> = ({
+const DorisTemplateForm: React.FC<ModalFormProps<WsDorisOperatorTemplate>> = ({
                                                                         data,
                                                                         visible,
                                                                         onVisibleChange,
@@ -33,7 +33,7 @@ const DorisTemplateForm: React.FC<ModalFormProps<WsDorisTemplate>> = ({
       onOk={() => {
         form.validateFields().then((values) => {
           data.id
-            ? WsDorisTemplateService.update({...values}).then((response) => {
+            ? WsDorisOperatorTemplateService.update({...values}).then((response) => {
               if (response.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}));
                 if (onVisibleChange) {
@@ -41,7 +41,7 @@ const DorisTemplateForm: React.FC<ModalFormProps<WsDorisTemplate>> = ({
                 }
               }
             })
-            : WsDorisTemplateService.add({...values, projectId: projectId}).then((response) => {
+            : WsDorisOperatorTemplateService.add({...values, projectId: projectId}).then((response) => {
               if (response.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
                 if (onVisibleChange) {

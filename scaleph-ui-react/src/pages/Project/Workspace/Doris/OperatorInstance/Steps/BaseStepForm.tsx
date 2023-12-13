@@ -3,8 +3,8 @@ import {ProCard, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea} from
 import {useIntl} from "umi";
 import {ClusterCredentialListParam} from "@/services/resource/typings";
 import {ClusterCredentialService} from "@/services/resource/clusterCredential.service";
-import {WsDorisTemplate} from "@/services/project/typings";
-import {WsDorisTemplateService} from "@/services/project/WsDorisTemplateService";
+import {WsDorisOperatorTemplate} from "@/services/project/typings";
+import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";
 import {WORKSPACE_CONF} from "@/constants/constant";
 
 const DorisInstanceBase: React.FC = () => {
@@ -47,11 +47,11 @@ const DorisInstanceBase: React.FC = () => {
         rules={[{required: true}]}
         allowClear={false}
         request={((params, props) => {
-          const param: WsDorisTemplate = {
+          const param: WsDorisOperatorTemplate = {
             projectId: localProjectId,
             name: params.keyWords,
           };
-          return WsDorisTemplateService.list(param).then((response) => {
+          return WsDorisOperatorTemplateService.list(param).then((response) => {
             return response.data.map((item) => {
               return {label: item.name, value: item.id, item: item}
             })

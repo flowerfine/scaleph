@@ -1,30 +1,44 @@
 import {history, useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
-import {Button, message, Modal, Space, Tooltip} from "antd";
+import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {WORKSPACE_CONF} from "@/constants/constant";
 import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
-import {WsDorisTemplate} from "@/services/project/typings";
-import {WsDorisTemplateService} from "@/services/project/WsDorisTemplateService";
-import DorisTemplateForm from "@/pages/Project/Workspace/Doris/Template/DorisTemplateForm";
+import {WsDorisOperatorInstance, WsDorisOperatorTemplate} from "@/services/project/typings";
+import {WsDorisOperatorInstanceService} from "@/services/project/WsDorisOperatorInstanceService";
+import DorisInstanceSimpleForm from "@/pages/Project/Workspace/Doris/OperatorInstance/DorisInstanceSimpleForm";
 
-const DorisTemplateWeb: React.FC = () => {
+const DorisInstanceWeb: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<WsDorisTemplate[]>([]);
-  const [dorisTemplateFormData, setDorisTemplateFormData] = useState<{
-    visiable: boolean;
-    data: WsDorisTemplate;
+  const [selectedRows, setSelectedRows] = useState<WsDorisOperatorInstance[]>([]);
+  const [dorisInstanceFormData, setDorisInstanceFormData] = useState<{
+    visiable: WsDorisOperatorInstance;
+    data: WsDorisOperatorTemplate;
   }>({visiable: false, data: {}});
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
-  const tableColumns: ProColumns<WsDorisTemplate>[] = [
+  const tableColumns: ProColumns<WsDorisOperatorInstance>[] = [
     {
-      title: intl.formatMessage({id: 'pages.project.doris.template.name'}),
+      title: intl.formatMessage({id: 'pages.project.doris.instance.name'}),
       dataIndex: 'name'
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.doris.instance.namespace'}),
+      dataIndex: 'namespace',
+      hideInSearch: true,
+    },
+
+    {
+      title: intl.formatMessage({id: 'pages.project.doris.instance.deployed'}),
+      dataIndex: 'deployed',
+      render: (dom, entity) => {
+        return (<Tag>{entity.deployed?.label}</Tag>)
+      },
+      hideInSearch: true
     },
     {
       title: intl.formatMessage({id: 'app.common.data.remark'}),
@@ -59,7 +73,7 @@ const DorisTemplateWeb: React.FC = () => {
                 type="link"
                 icon={<EditOutlined/>}
                 onClick={() => {
-                  setDorisTemplateFormData({visiable: true, data: record});
+                  setDorisInstanceFormData({visiable: true, data: record});
                 }}
               />
             </Tooltip>
@@ -71,7 +85,7 @@ const DorisTemplateWeb: React.FC = () => {
                 type="link"
                 icon={<NodeIndexOutlined/>}
                 onClick={() => {
-                  history.push("/workspace/doris/template/detail", record)
+                  history.push("/workspace/doris/instance/detail", record)
                 }}
               />
             </Tooltip>
@@ -91,7 +105,7 @@ const DorisTemplateWeb: React.FC = () => {
                     okButtonProps: {danger: true},
                     cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                     onOk() {
-                      WsDorisTemplateService.delete(record).then((d) => {
+                      WsDorisOperatorInstanceService.delete(record).then((d) => {
                         if (d.success) {
                           message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                           actionRef.current?.reload();
@@ -109,7 +123,7 @@ const DorisTemplateWeb: React.FC = () => {
   ];
 
   return (<div>
-    <ProTable<WsDorisTemplate>
+    <ProTable<WsDorisOperatorInstance>
       search={{
         labelWidth: 'auto',
         span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -120,7 +134,7 @@ const DorisTemplateWeb: React.FC = () => {
       options={false}
       columns={tableColumns}
       request={(params, sorter, filter) =>
-        WsDorisTemplateService.list({...params, projectId: projectId})
+        WsDorisOperatorInstanceService.list({...params, projectId: projectId})
       }
       toolbar={{
         actions: [
@@ -129,7 +143,7 @@ const DorisTemplateWeb: React.FC = () => {
               key="new"
               type="primary"
               onClick={() => {
-                history.push("/workspace/doris/template/steps")
+                history.push("/workspace/doris/instance/steps")
               }}
             >
               {intl.formatMessage({id: 'app.common.operate.new.label'})}
@@ -148,7 +162,7 @@ const DorisTemplateWeb: React.FC = () => {
                   okButtonProps: {danger: true},
                   cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                   onOk() {
-                    WsDorisTemplateService.deleteBatch(selectedRows).then((d) => {
+                    WsDorisOperatorInstanceService.deleteBatch(selectedRows).then((d) => {
                       if (d.success) {
                         message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                         actionRef.current?.reload();
@@ -173,20 +187,20 @@ const DorisTemplateWeb: React.FC = () => {
       tableAlertRender={false}
       tableAlertOptionRender={false}
     />
-    {dorisTemplateFormData.visiable && (
-      <DorisTemplateForm
-        visible={dorisTemplateFormData.visiable}
+    {dorisInstanceFormData.visiable && (
+      <DorisInstanceSimpleForm
+        visible={dorisInstanceFormData.visiable}
         onCancel={() => {
-          setDorisTemplateFormData({visiable: false, data: {}});
+          setDorisInstanceFormData({visiable: false, data: {}});
         }}
         onVisibleChange={(visiable) => {
-          setDorisTemplateFormData({visiable: visiable, data: {}});
+          setDorisInstanceFormData({visiable: visiable, data: {}});
           actionRef.current?.reload();
         }}
-        data={dorisTemplateFormData.data}
+        data={dorisInstanceFormData.data}
       />
     )}
   </div>);
 }
 
-export default DorisTemplateWeb;
+export default DorisInstanceWeb;
