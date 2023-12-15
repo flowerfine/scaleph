@@ -16,20 +16,8 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.doris.operator;
+package cn.sliew.scaleph.config.kubernetes.flink;
 
-import cn.sliew.scaleph.config.kubernetes.resource.ResourceLabels;
-import cn.sliew.scaleph.engine.doris.operator.spec.DorisClusterSpec;
-import cn.sliew.scaleph.engine.doris.operator.status.DorisClusterStatus;
-import io.fabric8.kubernetes.api.model.Namespaced;
-import io.fabric8.kubernetes.client.CustomResource;
-import io.fabric8.kubernetes.model.annotation.Group;
-import io.fabric8.kubernetes.model.annotation.Kind;
-import io.fabric8.kubernetes.model.annotation.Version;
-
-@Version(ResourceLabels.DORIS_VERSION)
-@Group(ResourceLabels.DORIS_GROUP)
-@Kind(ResourceLabels.DORIS_CLUSTER)
-public class DorisCluster extends CustomResource<DorisClusterSpec, DorisClusterStatus> implements Namespaced {
-
+public enum FlinkImageType {
+    JAR, SQL, SEATUNNEL;
 }

@@ -2,7 +2,7 @@ package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instanc
 
 import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.common.util.SeaTunnelReleaseUtil;
-import cn.sliew.scaleph.config.resource.ResourceNames;
+import cn.sliew.scaleph.config.kubernetes.resource.ResourceNames;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactSql;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;

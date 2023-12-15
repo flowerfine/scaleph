@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.config.flink;
+package cn.sliew.scaleph.config.kubernetes.flink;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

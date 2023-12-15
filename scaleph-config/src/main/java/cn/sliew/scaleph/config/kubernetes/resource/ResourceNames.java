@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.config.resource;
+package cn.sliew.scaleph.config.kubernetes.resource;
 
 public enum ResourceNames {
     ;

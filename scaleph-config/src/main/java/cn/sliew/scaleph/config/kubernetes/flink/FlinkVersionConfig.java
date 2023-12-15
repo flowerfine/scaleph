@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.config.flink;
+package cn.sliew.scaleph.config.kubernetes.flink;
 
-import cn.sliew.scaleph.config.resource.ResourceNames;
+import cn.sliew.scaleph.config.kubernetes.resource.ResourceNames;
 
 import java.util.Arrays;
 

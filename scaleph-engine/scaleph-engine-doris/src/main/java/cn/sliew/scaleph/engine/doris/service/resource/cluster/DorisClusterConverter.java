@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.engine.doris.service.resource.cluster;
 
-import cn.sliew.scaleph.config.resource.ResourceLabels;
+import cn.sliew.scaleph.config.kubernetes.resource.ResourceLabels;
 import cn.sliew.scaleph.engine.doris.operator.DorisCluster;
 import cn.sliew.scaleph.engine.doris.operator.spec.DorisClusterSpec;
 import cn.sliew.scaleph.engine.doris.service.dto.WsDorisOperatorInstanceDTO;

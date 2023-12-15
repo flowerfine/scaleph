@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.config.resource;
+package cn.sliew.scaleph.config.kubernetes.resource;
 
 public enum ResourceLabels {
     ;
@@ -36,5 +36,10 @@ public enum ResourceLabels {
     public static final String SCALEPH_LABEL_CREATOR = SCALEPH_GROUP + "/" + "creator";
     public static final String SCALEPH_LABEL_EDITOR = SCALEPH_GROUP + "/" + "editor";
     public static final String SCALEPH_LABEL_FLINK_VERSION = SCALEPH_GROUP + "/" + "flinkVersion";
+
+    public static final String DORIS_CLUSTER = "DorisCluster";
+    public static final String DORIS_GROUP = "doris.selectdb.com";
+    public static final String DORIS_VERSION = "v1";
+    public static final String DORIS_API_VERSION = DORIS_GROUP + "/" + DORIS_VERSION;
 
 }

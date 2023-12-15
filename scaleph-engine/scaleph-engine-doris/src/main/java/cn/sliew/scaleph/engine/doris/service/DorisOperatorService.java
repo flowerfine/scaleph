@@ -16,8 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.config.flink;
+package cn.sliew.scaleph.engine.doris.service;
 
-public enum FlinkImageType {
-    JAR, SQL, SEATUNNEL;
+import cn.sliew.scaleph.engine.doris.service.dto.WsDorisOperatorInstanceDTO;
+import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
+
+import java.util.Optional;
+
+public interface DorisOperatorService {
+
+    Optional<GenericKubernetesResource> get(WsDorisOperatorInstanceDTO instanceDTO) throws Exception;
+
+    void deploy(Long clusterCredentialId, String dorisCluster);
+
+    void apply(Long clusterCredentialId, String dorisCluster);
+
+    void shutdown(Long clusterCredentialId, String dorisCluster);
 }
