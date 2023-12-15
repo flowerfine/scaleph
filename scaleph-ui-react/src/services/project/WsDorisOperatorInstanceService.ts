@@ -61,4 +61,16 @@ export const WsDorisOperatorInstanceService = {
       data: params,
     });
   },
+
+  deploy: async (id: number) => {
+    return request<ResponseBody<any>>(`${WsDorisOperatorInstanceService.url}/deploy/` + id, {
+      method: 'PUT',
+    });
+  },
+
+  shutdown: async (id: number) => {
+    return request<ResponseBody<any>>(`${WsDorisOperatorInstanceService.url}/shutdown/` + id, {
+      method: 'DELETE',
+    });
+  },
 };

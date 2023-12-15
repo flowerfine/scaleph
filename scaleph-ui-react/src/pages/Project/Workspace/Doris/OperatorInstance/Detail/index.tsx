@@ -2,12 +2,12 @@ import {useIntl, useLocation} from "umi";
 import React, {useEffect, useRef, useState} from "react";
 import {WsDorisOperatorInstance} from "@/services/project/typings";
 import {PageContainer, ProCard, StatisticCard} from "@ant-design/pro-components";
-import {Divider, Space, Statistic} from "antd";
+import {Button, Divider, message, Popconfirm, Space, Statistic} from "antd";
 import RcResizeObserver from 'rc-resize-observer';
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
-import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";
 import YAML from "yaml";
 import {WsDorisOperatorInstanceService} from "@/services/project/WsDorisOperatorInstanceService";
+import {CaretRightOutlined, CloseOutlined} from "@ant-design/icons";
 
 const DorisInstanceDetailWeb: React.FC = () => {
   const intl = useIntl();
@@ -37,14 +37,53 @@ const DorisInstanceDetailWeb: React.FC = () => {
   }, []);
 
   return (
-    <PageContainer title={intl.formatMessage({id: 'pages.project.doris.template.detail'})}>
+    <PageContainer title={intl.formatMessage({id: 'pages.project.doris.instance.detail'})}>
       <RcResizeObserver
         key="resize-observer"
         onResize={(offset) => {
           setResponsive(offset.width < 596);
         }}
       >
-        <ProCard.Group title={intl.formatMessage({id: 'pages.project.doris.template.detail.component'})}
+        <ProCard.Group direction={responsive ? 'column' : 'row'}>
+          <ProCard extra={
+            <div>
+              <Popconfirm
+                title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
+                onConfirm={() => {
+                  WsDorisOperatorInstanceService.deploy(data.id).then(response => {
+                    if (response.success) {
+                      message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
+                    }
+                  })
+                }}
+              >
+                <Button type="default" icon={<CaretRightOutlined/>}>
+                  {intl.formatMessage({id: 'pages.project.doris.instance.detail.deploy'})}
+                </Button>
+              </Popconfirm>
+
+
+              <Popconfirm
+                title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
+                onConfirm={() => {
+                  WsDorisOperatorInstanceService.shutdown(data.id).then(response => {
+                    if (response.success) {
+                      message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
+                    }
+                  })
+                }}
+              >
+                <Button icon={<CloseOutlined/>}>
+                  {intl.formatMessage({id: 'pages.project.doris.instance.detail.shutdown'})}
+                </Button>
+              </Popconfirm>
+            </div>
+          }>
+            集群信息
+          </ProCard>
+        </ProCard.Group>
+        <Divider type={'horizontal'}/>
+        <ProCard.Group title={intl.formatMessage({id: 'pages.project.doris.instance.detail.component'})}
                        direction={responsive ? 'column' : 'row'}>
           <ProCard bordered hoverable>
             <StatisticCard title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.fe'})}
@@ -159,7 +198,8 @@ const DorisInstanceDetailWeb: React.FC = () => {
           </ProCard>
         </ProCard.Group>
         <Divider type={'horizontal'}/>
-        <ProCard.Group title="YAML" direction={responsive ? 'column' : 'row'}>
+        <ProCard.Group title={intl.formatMessage({id: 'pages.project.doris.instance.detail.yaml'})}
+                       direction={responsive ? 'column' : 'row'}>
           <ProCard bordered>
             <Editor
               width="730"
