@@ -8,13 +8,13 @@ import {RocketMQParams, STEP_ATTR_TYPE} from '../../constant';
 import {WsDiJobService} from '@/services/project/WsDiJobService';
 import {
   ProForm,
-  ProFormDependency, ProFormDigit,
+  ProFormDependency,
+  ProFormDigit,
   ProFormGroup,
   ProFormSelect,
   ProFormSwitch,
   ProFormText
 } from '@ant-design/pro-components';
-import FieldItem from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/steps/fields";
 
 const SinkRocketMQStepForm: React.FC<
   ModalFormProps<{

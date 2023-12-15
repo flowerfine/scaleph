@@ -39,6 +39,8 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
   const [form] = Form.useForm();
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
+  console.log('FlinkKubernetesJobForm', data)
+
   return (
     <Modal
       open={visible}
@@ -84,12 +86,13 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
           id: data?.id,
           name: data?.name,
           executionMode: data?.executionMode?.value,
-          flinkDeploymentMode: data?.flinkDeploymentMode?.value,
+          deploymentKind: data?.deploymentKind?.value,
           flinkDeploymentId: data?.flinkDeployment?.id,
           flinkSessionClusterId: data?.flinkSessionCluster?.id,
           type: data?.type?.value,
           flinkArtifactJarId: data?.flinkArtifactJar?.id,
           flinkArtifactSqlId: data?.flinkArtifactSql?.id,
+          wsDiJobId: data?.wsDiJob?.id,
           remark: data?.remark
         }}
       >
