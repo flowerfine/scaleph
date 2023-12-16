@@ -41,5 +41,10 @@ public enum ResourceLabels {
     public static final String DORIS_GROUP = "doris.selectdb.com";
     public static final String DORIS_VERSION = "v1";
     public static final String DORIS_API_VERSION = DORIS_GROUP + "/" + DORIS_VERSION;
+    public static final String DORIS_APP_NAME = "app.kubernetes.io/name";
+    public static final String DORIS_APP_NAME_VALUE = "doriscluster";
+    public static final String DORIS_APP_INSTANCE = "app.kubernetes.io/instance";
+    public static final String DORIS_APP_PART_OF = "app.kubernetes.io/part-of";
+    public static final String DORIS_APP_PART_OF_VALUE = "doris-operator";
 
 }

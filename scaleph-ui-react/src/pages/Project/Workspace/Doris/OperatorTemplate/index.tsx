@@ -65,7 +65,7 @@ const DorisTemplateWeb: React.FC = () => {
             </Tooltip>
           )}
           {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
-            <Tooltip title={intl.formatMessage({id: 'pages.project.doris.template.define'})}>
+            <Tooltip title={intl.formatMessage({id: 'pages.project.doris.template.detail'})}>
               <Button
                 shape="default"
                 type="link"

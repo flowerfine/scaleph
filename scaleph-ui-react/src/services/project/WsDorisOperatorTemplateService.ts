@@ -56,11 +56,13 @@ export const WsDorisOperatorTemplateService = {
   },
 
   formatData: (data: WsDorisOperatorTemplate, value: Record<string, any>) => {
-    const admin: Record<string, any> = {
-      name: value['admin.name'],
-      password: value['admin.password'],
+    if (value['admin.name'] || value['admin.password']) {
+      const admin: Record<string, any> = {
+        name: value['admin.name'],
+        password: value['admin.password'],
+      }
+      data.admin = admin
     }
-    data.admin = admin
 
     const feSpec: Record<string, any> = {
       replicas: value['fe.replicas'],

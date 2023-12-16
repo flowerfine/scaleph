@@ -38,7 +38,10 @@ public enum DorisClusterConverter implements ResourceConverter<WsDorisOperatorIn
         String name = StringUtils.hasText(source.getInstanceId()) ? source.getInstanceId() : source.getName();
         builder.withName(name);
         builder.withNamespace(source.getNamespace());
-        builder.withLabels(Map.of(ResourceLabels.SCALEPH_LABEL_NAME, source.getName()));
+        builder.addToLabels(ResourceLabels.SCALEPH_LABEL_NAME, source.getName());
+        builder.addToLabels(ResourceLabels.DORIS_APP_NAME, ResourceLabels.DORIS_APP_NAME_VALUE);
+        builder.addToLabels(ResourceLabels.DORIS_APP_INSTANCE, name);
+        builder.addToLabels(ResourceLabels.DORIS_APP_PART_OF, ResourceLabels.DORIS_APP_PART_OF_VALUE);
         cluster.setMetadata(builder.build());
         DorisClusterSpec spec = new DorisClusterSpec();
         spec.setFeSpec(source.getFeSpec());

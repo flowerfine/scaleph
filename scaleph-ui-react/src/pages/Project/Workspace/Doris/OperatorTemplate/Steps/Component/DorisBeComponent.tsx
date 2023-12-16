@@ -1,5 +1,5 @@
 import {useIntl} from "umi";
-import {ProCard, ProFormDigit, ProFormGroup, ProFormList, ProFormText} from "@ant-design/pro-components";
+import {ProCard, ProFormDigit, ProFormGroup, ProFormText} from "@ant-design/pro-components";
 
 const DorisFeComponent: React.FC = () => {
   const intl = useIntl();
@@ -7,8 +7,7 @@ const DorisFeComponent: React.FC = () => {
   return (<ProCard
     title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.be'})}
     headerBordered
-    collapsible={true}
-    defaultCollapsed>
+    collapsible={true}>
     <ProFormGroup>
       <ProFormDigit
         name="be.replicas"

@@ -13,14 +13,12 @@ const DorisAdminUser: React.FC = () => {
         name="admin.name"
         label={intl.formatMessage({id: 'pages.project.doris.template.steps.component.admin.name'})}
         colProps={{span: 10, offset: 1}}
-        rules={[{required: true}]}
         initialValue={"admin"}
       />
       <ProFormText
         name="admin.password"
         label={intl.formatMessage({id: 'pages.project.doris.template.steps.component.admin.password'})}
         colProps={{span: 10, offset: 1}}
-        rules={[{required: true}]}
         initialValue={"Admin123"}
       />
     </ProFormGroup>
