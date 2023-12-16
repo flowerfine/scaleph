@@ -6,6 +6,7 @@ import {ClusterCredentialService} from "@/services/resource/clusterCredential.se
 import {WsDorisOperatorTemplate} from "@/services/project/typings";
 import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";
 import {WORKSPACE_CONF} from "@/constants/constant";
+import {InfoCircleOutlined} from "@ant-design/icons";
 
 const DorisInstanceBase: React.FC = () => {
   const intl = useIntl();
@@ -23,6 +24,10 @@ const DorisInstanceBase: React.FC = () => {
         name="clusterCredentialId"
         label={intl.formatMessage({id: 'pages.project.doris.instance.steps.base.cluster'})}
         rules={[{required: true}]}
+        tooltip={{
+          title: intl.formatMessage({id: 'pages.project.doris.instance.steps.base.cluster.tooltip'}),
+          icon: <InfoCircleOutlined/>,
+        }}
         allowClear={false}
         request={((params, props) => {
           const param: ClusterCredentialListParam = {
@@ -39,6 +44,10 @@ const DorisInstanceBase: React.FC = () => {
         name={"namespace"}
         label={intl.formatMessage({id: 'pages.project.doris.instance.namespace'})}
         rules={[{required: true}]}
+        tooltip={{
+          title: intl.formatMessage({id: 'pages.project.doris.instance.namespace.tooltip'}),
+          icon: <InfoCircleOutlined/>,
+        }}
         initialValue={"doris"}
       />
       <ProFormSelect
