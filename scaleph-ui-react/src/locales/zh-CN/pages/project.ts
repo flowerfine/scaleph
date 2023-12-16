@@ -661,7 +661,6 @@ export default {
   'pages.project.di.step.starrocks.scanMemLimit': '扫描内存限制(字节)',
   'pages.project.di.step.starrocks.requestTabletSize': '请求Tablet大小',
 
-
   // maxcompute
   'pages.project.di.step.maxcompute.project': '项目',
   'pages.project.di.step.maxcompute.tableName': '数据表',
@@ -932,7 +931,6 @@ export default {
 
   'pages.project.doris.template': 'Template',
   'pages.project.doris.template.name': '名称',
-  'pages.project.doris.template.define': '模板定义',
   'pages.project.doris.template.steps.base': '基础信息',
   'pages.project.doris.template.steps.component': '集群组件',
   'pages.project.doris.template.steps.component.admin': 'Admin用户',

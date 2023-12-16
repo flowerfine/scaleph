@@ -1,5 +1,5 @@
 import {useIntl} from "umi";
-import {ProCard, ProFormDigit, ProFormGroup, ProFormList, ProFormText} from "@ant-design/pro-components";
+import {ProCard, ProFormDigit, ProFormGroup, ProFormText} from "@ant-design/pro-components";
 
 const DorisFeComponent: React.FC = () => {
   const intl = useIntl();
