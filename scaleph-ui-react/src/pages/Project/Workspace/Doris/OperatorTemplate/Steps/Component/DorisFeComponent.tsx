@@ -7,8 +7,7 @@ const DorisFeComponent: React.FC = () => {
   return (<ProCard
     title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.fe'})}
     headerBordered
-    collapsible={true}
-    defaultCollapsed>
+    collapsible={true}>
     <ProFormGroup>
       <ProFormDigit
         name="fe.replicas"
