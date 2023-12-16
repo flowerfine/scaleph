@@ -36,7 +36,6 @@ public class WsDorisOperatorTemplateUpdateParam {
     @Schema(description = "name")
     private String name;
 
-    @NotNull
     @Schema(description = "admin user")
     private AdminUser admin;
 

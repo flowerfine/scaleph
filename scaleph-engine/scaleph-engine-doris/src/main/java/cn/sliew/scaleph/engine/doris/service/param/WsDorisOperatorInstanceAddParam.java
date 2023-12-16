@@ -44,7 +44,6 @@ public class WsDorisOperatorInstanceAddParam {
     @Schema(description = "namespace")
     private String namespace;
 
-    @NotNull
     @Schema(description = "admin user")
     private AdminUser admin;
 
