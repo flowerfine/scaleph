@@ -78,37 +78,41 @@ export const WsDorisOperatorTemplateService = {
     feSpec.limits = feSpecLimits
     data.feSpec = feSpec
 
-    const beSpec: Record<string, any> = {
-      replicas: value['be.replicas'],
-      image: value['be.image']
+    if (value['be.replicas']) {
+      const beSpec: Record<string, any> = {
+        replicas: value['be.replicas'],
+        image: value['be.image']
+      }
+      const beSpecRequests: Record<string, any> = {
+        cpu: value['be.requests.cpu'],
+        memory: value['be.requests.memory']
+      }
+      const beSpecLimits: Record<string, any> = {
+        cpu: value['be.limits.cpu'],
+        memory: value['be.limits.memory']
+      }
+      beSpec.requests = beSpecRequests
+      beSpec.limits = beSpecLimits
+      data.beSpec = beSpec
     }
-    const beSpecRequests: Record<string, any> = {
-      cpu: value['be.requests.cpu'],
-      memory: value['be.requests.memory']
-    }
-    const beSpecLimits: Record<string, any> = {
-      cpu: value['be.limits.cpu'],
-      memory: value['be.limits.memory']
-    }
-    beSpec.requests = beSpecRequests
-    beSpec.limits = beSpecLimits
-    data.beSpec = beSpec
 
-    const cnSpec: Record<string, any> = {
-      replicas: value['cn.replicas'],
-      image: value['cn.image']
+    if (value['cn.replicas']) {
+      const cnSpec: Record<string, any> = {
+        replicas: value['cn.replicas'],
+        image: value['cn.image']
+      }
+      const cnSpecRequests: Record<string, any> = {
+        cpu: value['cn.requests.cpu'],
+        memory: value['cn.requests.memory']
+      }
+      const cnSpecLimits: Record<string, any> = {
+        cpu: value['cn.limits.cpu'],
+        memory: value['cn.limits.memory']
+      }
+      cnSpec.requests = cnSpecRequests
+      cnSpec.limits = cnSpecLimits
+      data.cnSpec = cnSpec
     }
-    const cnSpecRequests: Record<string, any> = {
-      cpu: value['cn.requests.cpu'],
-      memory: value['cn.requests.memory']
-    }
-    const cnSpecLimits: Record<string, any> = {
-      cpu: value['cn.limits.cpu'],
-      memory: value['cn.limits.memory']
-    }
-    cnSpec.requests = cnSpecRequests
-    cnSpec.limits = cnSpecLimits
-    data.cnSpec = cnSpec
     return data
   },
 

@@ -156,7 +156,8 @@ const DorisTemplateDetailWeb: React.FC = () => {
           </ProCard>
         </ProCard.Group>
         <Divider type={'horizontal'}/>
-        <ProCard.Group title="YAML" direction={responsive ? 'column' : 'row'}>
+        <ProCard.Group title={intl.formatMessage({id: 'pages.project.doris.template.detail.yaml'})}
+                       direction={responsive ? 'column' : 'row'}>
           <ProCard bordered>
             <Editor
               width="730"

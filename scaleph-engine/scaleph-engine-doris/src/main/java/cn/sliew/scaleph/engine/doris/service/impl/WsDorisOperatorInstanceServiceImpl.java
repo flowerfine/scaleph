@@ -24,6 +24,7 @@ import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDorisOperatorInstance;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsDorisOperatorInstanceMapper;
 import cn.sliew.scaleph.engine.doris.operator.DorisCluster;
+import cn.sliew.scaleph.engine.doris.service.DorisOperatorService;
 import cn.sliew.scaleph.engine.doris.service.WsDorisOperatorInstanceService;
 import cn.sliew.scaleph.engine.doris.service.WsDorisOperatorTemplateService;
 import cn.sliew.scaleph.engine.doris.service.convert.WsDorisOperatorInstanceConvert;
@@ -36,6 +37,7 @@ import cn.sliew.scaleph.engine.doris.service.resource.cluster.DorisClusterConver
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.fabric8.kubernetes.client.utils.Serialization;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,6 +54,8 @@ public class WsDorisOperatorInstanceServiceImpl implements WsDorisOperatorInstan
     private WsDorisOperatorInstanceMapper wsDorisOperatorInstanceMapper;
     @Autowired
     private WsDorisOperatorTemplateService wsDorisOperatorTemplateService;
+    @Autowired
+    private DorisOperatorService dorisOperatorService;
 
     @Override
     public Page<WsDorisOperatorInstanceDTO> list(WsDorisOperatorInstanceListParam param) {
@@ -146,5 +150,29 @@ public class WsDorisOperatorInstanceServiceImpl implements WsDorisOperatorInstan
     @Override
     public int deleteBatch(List<Long> ids) {
         return wsDorisOperatorInstanceMapper.deleteBatchIds(ids);
+    }
+
+    @Override
+    public void deploy(Long id) {
+        WsDorisOperatorInstanceDTO instanceDTO = selectOne(id);
+        DorisCluster dorisCluster = asYaml(instanceDTO);
+        String yaml = Serialization.asYaml(dorisCluster);
+        dorisOperatorService.deploy(instanceDTO.getClusterCredentialId(), yaml);
+    }
+
+    @Override
+    public void apply(Long id) {
+        WsDorisOperatorInstanceDTO instanceDTO = selectOne(id);
+        DorisCluster dorisCluster = asYaml(instanceDTO);
+        String yaml = Serialization.asYaml(dorisCluster);
+        dorisOperatorService.apply(instanceDTO.getClusterCredentialId(), yaml);
+    }
+
+    @Override
+    public void shutdown(Long id) {
+        WsDorisOperatorInstanceDTO instanceDTO = selectOne(id);
+        DorisCluster dorisCluster = asYaml(instanceDTO);
+        String yaml = Serialization.asYaml(dorisCluster);
+        dorisOperatorService.shutdown(instanceDTO.getClusterCredentialId(), yaml);
     }
 }

@@ -44,4 +44,10 @@ public interface WsDorisOperatorInstanceService {
     int deleteById(Long id);
 
     int deleteBatch(List<Long> ids);
+
+    void deploy(Long id);
+
+    void apply(Long id);
+
+    void shutdown(Long id);
 }

@@ -19,7 +19,6 @@ import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJ
 import FlinkKubernetesJobDeployForm from "@/pages/Project/Workspace/Kubernetes/Job/Detail/JobDeployForm";
 import FlinkKubernetesJobShutdownForm from "@/pages/Project/Workspace/Kubernetes/Job/Detail/JobShutdownForm";
 import FlinkKubernetesJobDetailInstanceListWeb from "@/pages/Project/Workspace/Kubernetes/Job/Detail/InstanceList";
-import FlinkKubernetesJobDemoWeb from "@/pages/Project/Workspace/Kubernetes/Job/Detail/Demo";
 import FlinkKubernetesJobDetailSavepointWeb from "@/pages/Project/Workspace/Kubernetes/Job/Detail/Savepoint";
 
 const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {

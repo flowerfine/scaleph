@@ -963,6 +963,12 @@ export default {
   'pages.project.doris.instance.steps.component': '集群组件',
   'pages.project.doris.instance.steps.yaml': 'YAML',
 
+  'pages.project.doris.instance.detail': '实例详情',
+  'pages.project.doris.instance.detail.component': '集群组件',
+  'pages.project.doris.instance.detail.access': '连接信息',
+  'pages.project.doris.instance.detail.yaml': 'YAML',
+  'pages.project.doris.instance.detail.deploy': 'Deploy',
+  'pages.project.doris.instance.detail.shutdown': 'Shutdown',
 
   'Run': '运行',
   'Save': '保存',

@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.engine.doris.service.resource.template;
 
-import cn.sliew.scaleph.config.resource.ResourceLabels;
+import cn.sliew.scaleph.config.kubernetes.resource.ResourceLabels;
 import cn.sliew.scaleph.engine.doris.operator.spec.DorisClusterSpec;
 import cn.sliew.scaleph.engine.doris.service.dto.WsDorisOperatorTemplateDTO;
 import cn.sliew.scaleph.kubernetes.resource.ResourceConverter;

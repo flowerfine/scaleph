@@ -109,4 +109,20 @@ public class WsDorisOperatorInstanceController {
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
+    @Logging
+    @PutMapping("deploy/{id}")
+    @Operation(summary = "启动实例", description = "启动实例")
+    public ResponseEntity<ResponseVO> deploy(@PathVariable("id") Long id) {
+        wsDorisInstanceService.deploy(id);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @DeleteMapping("shutdown/{id}")
+    @Operation(summary = "关闭实例", description = "关闭实例")
+    public ResponseEntity<ResponseVO> shutdown(@PathVariable("id") Long id) {
+        wsDorisInstanceService.shutdown(id);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
 }

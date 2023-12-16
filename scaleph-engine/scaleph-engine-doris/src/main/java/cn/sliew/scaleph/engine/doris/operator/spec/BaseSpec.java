@@ -18,13 +18,11 @@
 
 package cn.sliew.scaleph.engine.doris.operator.spec;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.fabric8.kubernetes.api.model.*;
 import lombok.Data;
 
 import javax.annotation.Nullable;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -95,7 +93,7 @@ public class BaseSpec {
     private ConfigMapInfo configMapInfo;
 
     /**
-     cnEnvVars is a slice of environment variables that are added to the pods, the default is empty.
+     * cnEnvVars is a slice of environment variables that are added to the pods, the default is empty.
      */
     @Nullable
     private List<EnvVar> envVars;
