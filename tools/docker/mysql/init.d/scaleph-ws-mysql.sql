@@ -70,7 +70,7 @@ create table ws_flink_artifact_jar
     editor            varchar(32) comment '修改人',
     update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key idx_flink_artifact (flink_artifact_id)
+    key               idx_flink_artifact (flink_artifact_id)
 ) engine = innodb comment = 'flink artifact jar';
 
 DROP TABLE IF EXISTS ws_flink_artifact_sql;
@@ -86,13 +86,13 @@ CREATE TABLE ws_flink_artifact_sql
     editor            varchar(32),
     update_time       datetime    not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
-    key idx_flink_artifact (flink_artifact_id)
+    key               idx_flink_artifact (flink_artifact_id)
 ) ENGINE = INNODB COMMENT = 'flink artifact sql';
 
 INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
                                      `editor`)
 VALUES (1, 1, '1.18.0',
-        'CREATE TEMPORARY TABLE source_table (\n  `id` bigint,\n  `name` string,\n  `age` int,\n  `address` string,\n  `create_time`TIMESTAMP(3),\n  `update_time`TIMESTAMP(3),\n  WATERMARK FOR `update_time` AS update_time - INTERVAL \'1\' MINUTE -- sql editor 这里直接运行正确，在 flink kubernetes -> job 部署的时候异常\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'datagen\',\n  \'number-of-rows\' = \'100\'\n);\n\nCREATE TEMPORARY TABLE `sink_table` (\n  `id` BIGINT,\n  `name` VARCHAR(2147483647),\n  `age` INT,\n  `address` VARCHAR(2147483647),\n  `create_time` TIMESTAMP(3),\n  `update_time` TIMESTAMP(3)\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'print\'\n);\n\ninsert into sink_table\nselect id, name, age, address, create_time, update_time from source_table;',
+        'CREATE TEMPORARY TABLE source_table (\n  `id` bigint,\n  `name` string,\n  `age` int,\n  `address` string,\n  `create_time`TIMESTAMP(3),\n  `update_time`TIMESTAMP(3),\n  WATERMARK FOR `update_time` AS update_time - INTERVAL \'1\' MINUTE -- sql editor 这里直接运行正确，在 flink kubernetes -> job 部署的时候异常\n)\nCOMMENT \'\'\nWITH (\n  \' connector\' = \'datagen\',\n  \'number-of-rows\' = \'100\'\n);\n\nCREATE TEMPORARY TABLE `sink_table` (\n  `id` BIGINT,\n  `name` VARCHAR(2147483647),\n  `age` INT,\n  `address` VARCHAR(2147483647),\n  `create_time` TIMESTAMP(3),\n  `update_time` TIMESTAMP(3)\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'print\'\n);\n\ninsert into sink_table\nselect id, name, age, address, create_time, update_time from source_table;',
         '1', 'sys', 'sys');
 INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
                                      `editor`)
@@ -138,7 +138,7 @@ create table ws_di_job
     editor            varchar(32) comment '修改人',
     update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key idx_flink_artifact (flink_artifact_id)
+    key               idx_flink_artifact (flink_artifact_id)
 ) engine = innodb comment '数据集成-作业信息';
 INSERT INTO ws_di_job (id, flink_artifact_id, job_engine, job_id, current, creator, editor)
 VALUES (1, 4, 'seatunnel', 'b8e16c94-258c-4487-a88c-8aad40a38b35', 1, 'sys', 'sys');
@@ -470,7 +470,7 @@ create table ws_flink_custom_artifact
     editor        varchar(32) comment '修改人',
     update_time   timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key idx_custom (flink_version, type, file_name)
+    key           idx_custom (flink_version, type, file_name)
 ) engine = innodb comment = 'flink custom artifact';
 
 drop table if exists ws_flink_custom_factory;
@@ -486,7 +486,7 @@ create table ws_flink_custom_factory
     editor                   varchar(32) comment '修改人',
     update_time              timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key idx_custom (flink_custom_artifact_id, factory_class, `name`)
+    key                      idx_custom (flink_custom_artifact_id, factory_class, `name`)
 ) engine = innodb comment = 'flink custom factory';
 
 drop table if exists ws_flink_sql_gateway_session;
@@ -561,12 +561,22 @@ create table ws_doris_operator_template
 ) engine = innodb comment = 'doris operator template';
 
 INSERT INTO `ws_doris_operator_template`(`id`, `project_id`, `name`, `template_id`, `admin`, `fe_spec`, `be_spec`,
-                                         `cn_spec`,
-                                         `broker_spec`, `remark`, `creator`, `editor`)
-VALUES (1, 1, 'simple-doriscluster-sample', 'zexbfaf0eba4ce824787a9bed88148eb233f',
-        '{"name":"admin","password":"Admin123"}',
+                                         `cn_spec`, `broker_spec`, `remark`, `creator`, `editor`)
+VALUES (1, 1, 'simple-doriscluster-sample', 'zexbfaf0eba4ce824787a9bed88148eb233f', NULL,
         '{\"replicas\":1,\"image\":\"selectdb/doris.fe-ubuntu:2.0.2\",\"limits\":{\"cpu\":4,\"memory\":\"8Gi\"},\"requests\":{\"cpu\":4,\"memory\":\"8Gi\"}}',
         '{\"replicas\":1,\"image\":\"selectdb/doris.be-ubuntu:2.0.2\",\"limits\":{\"cpu\":4,\"memory\":\"8Gi\"},\"requests\":{\"cpu\":4,\"memory\":\"8Gi\"}}',
+        NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `ws_doris_operator_template`(`id`, `project_id`, `name`, `template_id`, `admin`, `fe_spec`, `be_spec`,
+                                         `cn_spec`, `broker_spec`, `remark`, `creator`, `editor`)
+VALUES (2, 1, 'k3s-example', 'zfaf33a71d3280994d6c8c623b5e453f568d', NULL,
+        '{\"image\":\"selectdb/doris.fe-ubuntu:2.0.2\",\"replicas\":1,\"limits\":{\"cpu\":\"2\",\"memory\":\"4Gi\"},\"requests\":{\"cpu\":\"1\",\"memory\":\"2Gi\"}}',
+        '{\"image\":\"selectdb/doris.be-ubuntu:2.0.2\",\"replicas\":1,\"limits\":{\"cpu\":\"2\",\"memory\":\"8Gi\"},\"requests\":{\"cpu\":\"1\",\"memory\":\"4Gi\"}}',
+        NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `ws_doris_operator_template`(`id`, `project_id`, `name`, `template_id`, `admin`, `fe_spec`, `be_spec`,
+                                         `cn_spec`, `broker_spec`, `remark`, `creator`, `editor`)
+VALUES (3, 1, 'simple-k3s-example', 'cnhk93d797b4504542f888f0e684d0c1122c', NULL,
+        '{\"image\":\"selectdb/doris.fe-ubuntu:2.0.2\",\"replicas\":1,\"limits\":{\"cpu\":\"1\",\"memory\":\"1Gi\"},\"requests\":{\"cpu\":\"1\",\"memory\":\"1Gi\"}}',
+        '{\"image\":\"selectdb/doris.be-ubuntu:2.0.2\",\"replicas\":1,\"limits\":{\"cpu\":\"1\",\"memory\":\"2Gi\"},\"requests\":{\"cpu\":\"1\",\"memory\":\"2Gi\"}}',
         NULL, NULL, NULL, 'sys', 'sys');
 
 drop table if exists ws_doris_operator_instance;

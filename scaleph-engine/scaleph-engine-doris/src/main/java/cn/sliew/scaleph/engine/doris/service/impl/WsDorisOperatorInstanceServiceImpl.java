@@ -38,6 +38,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.fabric8.kubernetes.client.utils.Serialization;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,7 @@ import java.util.List;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
+@Slf4j
 @Service
 public class WsDorisOperatorInstanceServiceImpl implements WsDorisOperatorInstanceService {
 
@@ -156,6 +158,10 @@ public class WsDorisOperatorInstanceServiceImpl implements WsDorisOperatorInstan
     public void deploy(Long id) {
         WsDorisOperatorInstanceDTO instanceDTO = selectOne(id);
         DorisCluster dorisCluster = asYaml(instanceDTO);
+        if (dorisCluster.getSpec().getAdminUser() != null) {
+            log.error("{} can't specify doris admin when deploy, remove it automatically", instanceDTO.getName());
+            dorisCluster.getSpec().setAdminUser(null);
+        }
         String yaml = Serialization.asYaml(dorisCluster);
         dorisOperatorService.deploy(instanceDTO.getClusterCredentialId(), yaml);
     }
