@@ -25,7 +25,7 @@ Scaleph is driven by personal interest and evolves actively through faithful dev
 ### data integration
 
 * Web-ui click-and-drag data integration ways backended by Apache SeaTunnel(incubating)
-*  Support 2.3.2 V2 out-of-the-box connectors and transforms
+*  Support 2.3.3 V2 out-of-the-box connectors and transforms
 * DataSource management
 
 ### data develop
@@ -60,7 +60,7 @@ Next, read documentation website [quick start](https://flowerfine.github.io/scal
 
 ## Documentation
 
-please refer [website](https://flowerfine.github.io/scaleph-website/zh)
+please refer [website](https://flowerfine.github.io/scaleph-repress-site/)
 
 ## Code of Conduct
 

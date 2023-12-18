@@ -1,10 +1,10 @@
-import {WsDorisTemplate} from "@/services/project/typings";
+import {WsDorisOperatorTemplate} from "@/services/project/typings";
 import {Effect, Reducer} from "umi";
 import YAML from "yaml";
-import {WsDorisTemplateService} from "@/services/project/WsDorisTemplateService";
+import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";
 
 export interface StateType {
-  template: WsDorisTemplate,
+  template: WsDorisOperatorTemplate,
   templateYaml: string
   templateYamlWithDefault: string
 }
@@ -34,8 +34,8 @@ const model: ModelType = {
 
   effects: {
     *editTemplate({payload}, {call, put}) {
-      const {data} = yield call(WsDorisTemplateService.asYaml, payload);
-      const response = yield call(WsDorisTemplateService.asYaml, payload);
+      const {data} = yield call(WsDorisOperatorTemplateService.asYaml, payload);
+      const response = yield call(WsDorisOperatorTemplateService.asYaml, payload);
       yield put({type: 'updateTemplate',
         payload: {
           template: payload,

@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.handler;
 
-import cn.sliew.scaleph.config.resource.ResourceNames;
+import cn.sliew.scaleph.config.kubernetes.resource.ResourceNames;
 import io.fabric8.kubernetes.api.model.PodBuilder;
 import io.fabric8.kubernetes.api.model.PodFluent;
 import io.fabric8.kubernetes.api.model.PodSpecFluent;

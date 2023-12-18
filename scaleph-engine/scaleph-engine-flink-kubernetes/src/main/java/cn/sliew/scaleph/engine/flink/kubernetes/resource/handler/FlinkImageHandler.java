@@ -19,8 +19,8 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.handler;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.config.flink.FlinkImageType;
-import cn.sliew.scaleph.config.flink.FlinkVersionConfig;
+import cn.sliew.scaleph.config.kubernetes.flink.FlinkImageType;
+import cn.sliew.scaleph.config.kubernetes.flink.FlinkVersionConfig;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instance.FlinkJobInstanceConverterFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;

@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.deployment;
 
 import cn.sliew.scaleph.common.dict.flink.kubernetes.OperatorFlinkVersion;
-import cn.sliew.scaleph.config.resource.ResourceLabels;
+import cn.sliew.scaleph.config.kubernetes.resource.ResourceLabels;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkVersion;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FlinkVersionMapping;

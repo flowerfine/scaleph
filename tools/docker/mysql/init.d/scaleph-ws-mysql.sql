@@ -92,7 +92,7 @@ CREATE TABLE ws_flink_artifact_sql
 INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
                                      `editor`)
 VALUES (1, 1, '1.18.0',
-        'CREATE TEMPORARY TABLE source_table (\n  `id` bigint,\n  `name` string,\n  `age` int,\n  `address` string,\n  `create_time`TIMESTAMP(3),\n  `update_time`TIMESTAMP(3),\n  WATERMARK FOR `update_time` AS update_time - INTERVAL \'1\' MINUTE\n)\nCOMMENT \'\'\nWITH (\n  \' connector\' = \'datagen\',\n  \'number-of-rows\' = \'100\'\n);\n\nCREATE TEMPORARY TABLE `sink_table` (\n  `id` BIGINT,\n  `name` VARCHAR(2147483647),\n  `age` INT,\n  `address` VARCHAR(2147483647),\n  `create_time` TIMESTAMP(3),\n  `update_time` TIMESTAMP(3)\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'print\'\n);\n\ninsert into sink_table\nselect id, name, age, address, create_time, update_time from source_table;',
+        'CREATE TEMPORARY TABLE source_table (\n  `id` bigint,\n  `name` string,\n  `age` int,\n  `address` string,\n  `create_time`TIMESTAMP(3),\n  `update_time`TIMESTAMP(3),\n  WATERMARK FOR `update_time` AS update_time - INTERVAL \'1\' MINUTE -- sql editor 这里直接运行正确，在 flink kubernetes -> job 部署的时候异常\n)\nCOMMENT \'\'\nWITH (\n  \' connector\' = \'datagen\',\n  \'number-of-rows\' = \'100\'\n);\n\nCREATE TEMPORARY TABLE `sink_table` (\n  `id` BIGINT,\n  `name` VARCHAR(2147483647),\n  `age` INT,\n  `address` VARCHAR(2147483647),\n  `create_time` TIMESTAMP(3),\n  `update_time` TIMESTAMP(3)\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'print\'\n);\n\ninsert into sink_table\nselect id, name, age, address, create_time, update_time from source_table;',
         '1', 'sys', 'sys');
 INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
                                      `editor`)
@@ -104,17 +104,16 @@ INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`,
 VALUES (3, 3, '1.18.0',
         'CREATE TABLE orders (\n  order_number BIGINT,\n  price        DECIMAL(32,2),\n  buyer        ROW<first_name STRING, last_name STRING>,\n  order_time   TIMESTAMP(3)\n) WITH (\n  \'connector\' = \'datagen\'\n);\n\nCREATE TABLE print_table WITH (\'connector\' = \'print\')\n    LIKE orders;\nCREATE TABLE blackhole_table WITH (\'connector\' = \'blackhole\')\n    LIKE orders;\n\nEXECUTE STATEMENT SET\nBEGIN\nINSERT INTO print_table SELECT * FROM orders;\nINSERT INTO blackhole_table SELECT * FROM orders;\nEND;',
         '1', 'sys', 'sys');
-INSERT INTO `ws_flink_artifact_sql`(`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
-                                    `editor`)
+INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
+                                     `editor`)
 VALUES (4, 6, '1.18.0',
-        'CREATE CATALOG my_catalog WITH (\n    \'type\' = \'generic_in_memory\'\n);\n\nCREATE DATABASE my_catalog.my_database;\n\n\nCREATE TABLE my_catalog.my_database.source_table (\n  `id` bigint,\n  `name` string,\n  `age` int,\n  `address` string,\n  `create_time`TIMESTAMP(3),\n  `update_time`TIMESTAMP(3),\n  WATERMARK FOR `update_time` AS update_time - INTERVAL \'1\' MINUTE\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'datagen\',\n  \'number-of-rows\' = \'100\'\n);\n\nCREATE TABLE my_catalog.my_database.sink_table (\n  `id` BIGINT,\n  `name` VARCHAR(2147483647),\n  `age` INT,\n  `address` VARCHAR(2147483647),\n  `create_time` TIMESTAMP(3),\n  `update_time` TIMESTAMP(3)\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'print\'\n);\n\nINSERT INTO my_catalog.my_database.sink_table\nSELECT id, name, age, address, create_time, update_time FROM my_catalog.my_database.source_table;',
+        'CREATE CATALOG my_catalog WITH (\n    \'type\' = \'generic_in_memory\'\n);\n\nCREATE DATABASE my_catalog.my_database;\n\n\nCREATE TABLE my_catalog.my_database.source_table (\n  `id` bigint,\n  `name` string,\n  `age` int,\n  `address` string,\n  `create_time`TIMESTAMP(3),\n  `update_time`TIMESTAMP(3),\n  WATERMARK FOR `update_time` AS update_time - INTERVAL \'1\' MINUTE -- sql editor 这里直接运行正确，在 flink kubernetes -> job 部署的时候异常\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'datagen\',\n  \'number-of-rows\' = \'100\'\n);\n\nCREATE TABLE my_catalog.my_database.sink_table (\n  `id` BIGINT,\n  `name` VARCHAR(2147483647),\n  `age` INT,\n  `address` VARCHAR(2147483647),\n  `create_time` TIMESTAMP(3),\n  `update_time` TIMESTAMP(3)\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'print\'\n);\n\nINSERT INTO my_catalog.my_database.sink_table\nSELECT id, name, age, address, create_time, update_time FROM my_catalog.my_database.source_table;',
         '1', 'sys', 'sys');
 INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
                                      `editor`)
 VALUES (5, 7, '1.18.0',
-        'CREATE CATALOG my_catalog WITH (\n    \'type\' = \'generic_in_memory\'\n);\n\nCREATE DATABASE my_catalog.my_database;\n\n\nCREATE TABLE my_catalog.my_database.source_table (\n  `id` bigint,\n  `name` string,\n  `age` int,\n  `address` string,\n  `money` decimal(64, 4),\n  `create_time`TIMESTAMP(3),\n  `update_time`TIMESTAMP(3),\n  WATERMARK FOR `update_time` AS update_time - INTERVAL \'1\' MINUTE\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'datagen\',\n  \'number-of-rows\' = \'200\'\n);\n\nSELECT * FROM my_catalog.my_database.source_table;',
+        'CREATE CATALOG my_catalog WITH (\n    \'type\' = \'generic_in_memory\'\n);\n\nCREATE DATABASE my_catalog.my_database;\n\n\nCREATE TABLE my_catalog.my_database.source_table (\n  `id` bigint,\n  `name` string,\n  `age` int,\n  `address` string,\n  `money` decimal(64, 4),\n  `create_time`TIMESTAMP(3),\n  `update_time`TIMESTAMP(3),\n  WATERMARK FOR `update_time` AS update_time - INTERVAL \'1\' MINUTE -- sql editor 这里直接运行正确，在 flink kubernetes -> job 部署的时候异常\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'datagen\',\n  \'number-of-rows\' = \'200\'\n);\n\nSELECT * FROM my_catalog.my_database.source_table;',
         '1', 'sys', 'sys');
-
 INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
                                      `editor`)
 VALUES (6, 8, '1.18.0',
@@ -261,7 +260,7 @@ VALUES (1, 1, 'simple-sessioin-cluster', '19b77b47-b9e4-418c-90a1-533ea6121c16',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         NULL,
-        '{"web.cancel.enable":"false","akka.ask.timeout":"100s","taskmanager.slot.timeout":"100s","taskmanager.numberOfTaskSlots":"8","kubernetes.rest-service.exposed.type":"LoadBalancer"}',
+        '{"web.cancel.enable":"false","pekko.ask.timeout":"100s","taskmanager.slot.timeout":"100s","taskmanager.numberOfTaskSlots":"8","kubernetes.rest-service.exposed.type":"LoadBalancer"}',
         NULL, NULL, NULL, NULL, 'sys', 'sys');
 
 INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
@@ -274,7 +273,7 @@ VALUES (2, 1, 'simple-jar-deployment', 'b4dc61d0-ad0e-4e39-b1a4-f0692122635f', '
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         NULL,
-        '{"web.cancel.enable":"false","akka.ask.timeout":"100s","taskmanager.slot.timeout":"100s","taskmanager.numberOfTaskSlots":"8","kubernetes.rest-service.exposed.type":"NodePort","kubernetes.rest-service.exposed.node-port-address-type":"ExternalIP"}',
+        '{"web.cancel.enable":"false","pekko.ask.timeout":"100s","taskmanager.slot.timeout":"100s","taskmanager.numberOfTaskSlots":"8","kubernetes.rest-service.exposed.type":"NodePort","kubernetes.rest-service.exposed.node-port-address-type":"ExternalIP"}',
         NULL, NULL, NULL, NULL, 'sys', 'sys');
 
 INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
@@ -287,7 +286,7 @@ VALUES (3, 1, 'simple-sql-deployment', 'bceec5d5-6271-4079-b4d1-9936ab9fe9ca', '
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         NULL,
-        '{"web.cancel.enable":"false","akka.ask.timeout":"100s","taskmanager.slot.timeout":"100s","taskmanager.numberOfTaskSlots":"8","kubernetes.rest-service.exposed.type":"NodePort","kubernetes.rest-service.exposed.node-port-address-type":"ExternalIP"}',
+        '{"web.cancel.enable":"false","pekko.ask.timeout":"100s","taskmanager.slot.timeout":"100s","taskmanager.numberOfTaskSlots":"8","kubernetes.rest-service.exposed.type":"NodePort","kubernetes.rest-service.exposed.node-port-address-type":"ExternalIP"}',
         NULL, NULL, NULL, NULL, 'sys', 'sys');
 
 
@@ -314,7 +313,7 @@ VALUES (5, 1, 'deployment', '3f0c6600-b6d7-4e2c-b2e5-4a0b3cdb3cbb', 'FlinkDeploy
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"apiVersion":"v1","kind":"Pod","spec":{"containers":[{"name":"flink-main-container","volumeMounts":[{"mountPath":"/flink-data","name":"flink-volume"}]}],"volumes":[{"emptyDir":{"sizeLimit":"500Mi"},"name":"flink-volume"}]}}',
-        '{"kubernetes.operator.savepoint.history.max.count":"10","execution.checkpointing.mode":"exactly_once","state.checkpoints.num-retained":"10","restart-strategy.failure-rate.delay":"10s","restart-strategy.failure-rate.max-failures-per-interval":"30","kubernetes.operator.savepoint.format.type":"NATIVE","web.cancel.enable":"false","akka.ask.timeout":"100s","taskmanager.slot.timeout":"100s","kubernetes.operator.cluster.health-check.enabled":"true","execution.checkpointing.interval":"180s","execution.checkpointing.timeout":"10min","kubernetes.operator.savepoint.history.max.age":"72h","execution.checkpointing.externalized-checkpoint-retention":"RETAIN_ON_CANCELLATION","kubernetes.operator.cluster.health-check.restarts.threshold":"30","restart-strategy":"failurerate","restart-strategy.failure-rate.failure-rate-interval":"10min","execution.checkpointing.min-pause":"180s","kubernetes.operator.cluster.health-check.restarts.window":"10min","execution.checkpointing.max-concurrent-checkpoints":"1","kubernetes.operator.periodic.savepoint.interval":"1h","kubernetes.operator.savepoint.trigger.grace-period":"20min","execution.checkpointing.alignment-timeout":"120s","kubernetes.rest-service.exposed.type":"LoadBalancer","state.savepoints.dir":"file:///flink-data/savepoints","state.checkpoints.dir":"file:///flink-data/checkpoints"}',
+        '{"kubernetes.operator.savepoint.history.max.count":"10","execution.checkpointing.mode":"exactly_once","state.checkpoints.num-retained":"10","restart-strategy.failure-rate.delay":"10s","restart-strategy.failure-rate.max-failures-per-interval":"30","kubernetes.operator.savepoint.format.type":"NATIVE","web.cancel.enable":"false","pekko.ask.timeout":"100s","taskmanager.slot.timeout":"100s","kubernetes.operator.cluster.health-check.enabled":"true","execution.checkpointing.interval":"180s","execution.checkpointing.timeout":"10min","kubernetes.operator.savepoint.history.max.age":"72h","execution.checkpointing.externalized-checkpoint-retention":"RETAIN_ON_CANCELLATION","kubernetes.operator.cluster.health-check.restarts.threshold":"30","restart-strategy":"failurerate","restart-strategy.failure-rate.failure-rate-interval":"10min","execution.checkpointing.min-pause":"180s","kubernetes.operator.cluster.health-check.restarts.window":"10min","execution.checkpointing.max-concurrent-checkpoints":"1","kubernetes.operator.periodic.savepoint.interval":"1h","kubernetes.operator.savepoint.trigger.grace-period":"20min","execution.checkpointing.alignment-timeout":"120s","kubernetes.rest-service.exposed.type":"LoadBalancer","state.savepoints.dir":"file:///flink-data/savepoints","state.checkpoints.dir":"file:///flink-data/checkpoints"}',
         NULL, NULL, NULL, NULL, 'sys', 'sys');
 
 INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template_id`, `deployment_kind`,
@@ -323,11 +322,11 @@ INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template
                                            `log_configuration`, `ingress`, additional_dependencies, `remark`, `creator`,
                                            `editor`)
 VALUES (6, 1, 'session-cluster', '8b330683-05ec-4c29-b991-df35b2036e2d', 'FlinkSessionJob', 'default',
-        '{"image":"flink:1.18","imagePullPolicy":"IfNotPresent","flinkVersion":"1.18.0ui","serviceAccount":"flink"}',
+        '{"image":"flink:1.18","imagePullPolicy":"IfNotPresent","flinkVersion":"1.18.0","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"apiVersion":"v1","kind":"Pod","spec":{"containers":[{"name":"flink-main-container","volumeMounts":[{"mountPath":"/flink-data","name":"flink-volume"}]}],"volumes":[{"emptyDir":{"sizeLimit":"500Mi"},"name":"flink-volume"}]}}',
-        '{"kubernetes.operator.savepoint.history.max.count":"10","execution.checkpointing.mode":"exactly_once","state.checkpoints.num-retained":"10","restart-strategy.failure-rate.delay":"10s","restart-strategy.failure-rate.max-failures-per-interval":"30","kubernetes.operator.savepoint.format.type":"NATIVE","web.cancel.enable":"false","akka.ask.timeout":"100s","taskmanager.slot.timeout":"100s","kubernetes.operator.cluster.health-check.enabled":"true","execution.checkpointing.interval":"180s","execution.checkpointing.timeout":"10min","kubernetes.operator.savepoint.history.max.age":"72h","execution.checkpointing.externalized-checkpoint-retention":"RETAIN_ON_CANCELLATION","kubernetes.operator.cluster.health-check.restarts.threshold":"30","restart-strategy":"failurerate","restart-strategy.failure-rate.failure-rate-interval":"10min","execution.checkpointing.min-pause":"180s","kubernetes.operator.cluster.health-check.restarts.window":"10min","execution.checkpointing.max-concurrent-checkpoints":"1","kubernetes.operator.periodic.savepoint.interval":"1h","kubernetes.operator.savepoint.trigger.grace-period":"20min","execution.checkpointing.alignment-timeout":"120s","kubernetes.rest-service.exposed.type":"LoadBalancer","state.savepoints.dir":"file:///flink-data/savepoints","state.checkpoints.dir":"file:///flink-data/checkpoints"}',
+        '{"kubernetes.operator.savepoint.history.max.count":"10","execution.checkpointing.mode":"exactly_once","state.checkpoints.num-retained":"10","restart-strategy.failure-rate.delay":"10s","restart-strategy.failure-rate.max-failures-per-interval":"30","kubernetes.operator.savepoint.format.type":"NATIVE","web.cancel.enable":"false","pekko.ask.timeout":"100s","taskmanager.slot.timeout":"100s","kubernetes.operator.cluster.health-check.enabled":"true","execution.checkpointing.interval":"180s","execution.checkpointing.timeout":"10min","kubernetes.operator.savepoint.history.max.age":"72h","execution.checkpointing.externalized-checkpoint-retention":"RETAIN_ON_CANCELLATION","kubernetes.operator.cluster.health-check.restarts.threshold":"30","restart-strategy":"failurerate","restart-strategy.failure-rate.failure-rate-interval":"10min","execution.checkpointing.min-pause":"180s","kubernetes.operator.cluster.health-check.restarts.window":"10min","execution.checkpointing.max-concurrent-checkpoints":"1","kubernetes.operator.periodic.savepoint.interval":"1h","kubernetes.operator.savepoint.trigger.grace-period":"20min","execution.checkpointing.alignment-timeout":"120s","kubernetes.rest-service.exposed.type":"LoadBalancer","state.savepoints.dir":"file:///flink-data/savepoints","state.checkpoints.dir":"file:///flink-data/checkpoints"}',
         NULL, NULL, NULL, NULL, 'sys', 'sys');
 
 DROP TABLE IF EXISTS ws_flink_kubernetes_deployment;
@@ -540,8 +539,8 @@ create table ws_flink_sql_gateway_catalog
     unique key uniq_catalog (session_handler, catalog_name)
 ) engine = innodb comment = 'flink sql gateway catalog';
 
-drop table if exists ws_doris_template;
-create table ws_doris_template
+drop table if exists ws_doris_operator_template;
+create table ws_doris_operator_template
 (
     id            bigint      not null auto_increment comment '自增主键',
     project_id    bigint      not null comment '项目id',
@@ -559,18 +558,29 @@ create table ws_doris_template
     update_time   timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique key uniq_name (project_id, `name`)
-) engine = innodb comment = 'doris template';
+) engine = innodb comment = 'doris operator template';
 
-INSERT INTO `ws_doris_template`(`id`, `project_id`, `name`, `template_id`, `admin`, `fe_spec`, `be_spec`, `cn_spec`,
-                                `broker_spec`, `remark`, `creator`, `editor`)
-VALUES (1, 1, 'simple-doriscluster-sample', 'zexbfaf0eba4ce824787a9bed88148eb233f',
-        '{"name":"admin","password":"Admin123"}',
+INSERT INTO `ws_doris_operator_template`(`id`, `project_id`, `name`, `template_id`, `admin`, `fe_spec`, `be_spec`,
+                                         `cn_spec`, `broker_spec`, `remark`, `creator`, `editor`)
+VALUES (1, 1, 'simple-doriscluster-sample', 'zexbfaf0eba4ce824787a9bed88148eb233f', NULL,
         '{\"replicas\":1,\"image\":\"selectdb/doris.fe-ubuntu:2.0.2\",\"limits\":{\"cpu\":4,\"memory\":\"8Gi\"},\"requests\":{\"cpu\":4,\"memory\":\"8Gi\"}}',
         '{\"replicas\":1,\"image\":\"selectdb/doris.be-ubuntu:2.0.2\",\"limits\":{\"cpu\":4,\"memory\":\"8Gi\"},\"requests\":{\"cpu\":4,\"memory\":\"8Gi\"}}',
         NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `ws_doris_operator_template`(`id`, `project_id`, `name`, `template_id`, `admin`, `fe_spec`, `be_spec`,
+                                         `cn_spec`, `broker_spec`, `remark`, `creator`, `editor`)
+VALUES (2, 1, 'k3s-example', 'zfaf33a71d3280994d6c8c623b5e453f568d', NULL,
+        '{\"image\":\"selectdb/doris.fe-ubuntu:2.0.2\",\"replicas\":1,\"limits\":{\"cpu\":\"2\",\"memory\":\"4Gi\"},\"requests\":{\"cpu\":\"1\",\"memory\":\"2Gi\"}}',
+        '{\"image\":\"selectdb/doris.be-ubuntu:2.0.2\",\"replicas\":1,\"limits\":{\"cpu\":\"2\",\"memory\":\"8Gi\"},\"requests\":{\"cpu\":\"1\",\"memory\":\"4Gi\"}}',
+        NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `ws_doris_operator_template`(`id`, `project_id`, `name`, `template_id`, `admin`, `fe_spec`, `be_spec`,
+                                         `cn_spec`, `broker_spec`, `remark`, `creator`, `editor`)
+VALUES (3, 1, 'simple-k3s-example', 'cnhk93d797b4504542f888f0e684d0c1122c', NULL,
+        '{\"image\":\"selectdb/doris.fe-ubuntu:2.0.2\",\"replicas\":1,\"limits\":{\"cpu\":\"1\",\"memory\":\"1Gi\"},\"requests\":{\"cpu\":\"1\",\"memory\":\"1Gi\"}}',
+        '{\"image\":\"selectdb/doris.be-ubuntu:2.0.2\",\"replicas\":1,\"limits\":{\"cpu\":\"1\",\"memory\":\"2Gi\"},\"requests\":{\"cpu\":\"1\",\"memory\":\"2Gi\"}}',
+        NULL, NULL, NULL, 'sys', 'sys');
 
-drop table if exists ws_doris_instance;
-create table ws_doris_instance
+drop table if exists ws_doris_operator_instance;
+create table ws_doris_operator_instance
 (
     id                    bigint       not null auto_increment comment '自增主键',
     project_id            bigint       not null comment '项目id',
@@ -595,4 +605,4 @@ create table ws_doris_instance
     update_time           timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique key uniq_name (project_id, `name`, cluster_credential_id)
-) engine = innodb comment = 'doris instance';
+) engine = innodb comment = 'doris operator instance';

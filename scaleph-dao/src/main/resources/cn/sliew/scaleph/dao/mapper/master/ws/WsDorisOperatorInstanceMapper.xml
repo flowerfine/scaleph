@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sliew.scaleph.dao.mapper.master.ws.WsDorisOperatorInstanceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsDorisOperatorInstance">
+        <result column="id" property="id" />
+        <result column="creator" property="creator" />
+        <result column="create_time" property="createTime" />
+        <result column="editor" property="editor" />
+        <result column="update_time" property="updateTime" />
+        <result column="project_id" property="projectId" />
+        <result column="cluster_credential_id" property="clusterCredentialId" />
+        <result column="name" property="name" />
+        <result column="instance_id" property="instanceId" />
+        <result column="namespace" property="namespace" />
+        <result column="admin" property="admin" />
+        <result column="fe_spec" property="feSpec" />
+        <result column="be_spec" property="beSpec" />
+        <result column="cn_spec" property="cnSpec" />
+        <result column="broker_spec" property="brokerSpec" />
+        <result column="deployed" property="deployed" />
+        <result column="fe_status" property="feStatus" />
+        <result column="be_status" property="beStatus" />
+        <result column="cn_status" property="cnStatus" />
+        <result column="broker_status" property="brokerStatus" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        creator,
+        create_time,
+        editor,
+        update_time,
+        project_id, cluster_credential_id, `name`, instance_id, namespace, `admin`, fe_spec, be_spec, cn_spec, broker_spec, deployed, fe_status, be_status, cn_status, broker_status, remark
+    </sql>
+
+</mapper>

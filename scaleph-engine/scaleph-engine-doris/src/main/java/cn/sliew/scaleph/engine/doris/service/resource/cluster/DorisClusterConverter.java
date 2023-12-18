@@ -18,27 +18,30 @@
 
 package cn.sliew.scaleph.engine.doris.service.resource.cluster;
 
-import cn.sliew.scaleph.config.resource.ResourceLabels;
+import cn.sliew.scaleph.config.kubernetes.resource.ResourceLabels;
 import cn.sliew.scaleph.engine.doris.operator.DorisCluster;
 import cn.sliew.scaleph.engine.doris.operator.spec.DorisClusterSpec;
-import cn.sliew.scaleph.engine.doris.service.dto.WsDorisInstanceDTO;
+import cn.sliew.scaleph.engine.doris.service.dto.WsDorisOperatorInstanceDTO;
 import cn.sliew.scaleph.kubernetes.resource.ResourceConverter;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import org.springframework.util.StringUtils;
 
 import java.util.Map;
 
-public enum DorisClusterConverter implements ResourceConverter<WsDorisInstanceDTO, DorisCluster> {
+public enum DorisClusterConverter implements ResourceConverter<WsDorisOperatorInstanceDTO, DorisCluster> {
     INSTANCE;
 
     @Override
-    public DorisCluster convertTo(WsDorisInstanceDTO source) {
+    public DorisCluster convertTo(WsDorisOperatorInstanceDTO source) {
         DorisCluster cluster = new DorisCluster();
         ObjectMetaBuilder builder = new ObjectMetaBuilder(true);
         String name = StringUtils.hasText(source.getInstanceId()) ? source.getInstanceId() : source.getName();
         builder.withName(name);
         builder.withNamespace(source.getNamespace());
-        builder.withLabels(Map.of(ResourceLabels.SCALEPH_LABEL_NAME, source.getName()));
+        builder.addToLabels(ResourceLabels.SCALEPH_LABEL_NAME, source.getName());
+        builder.addToLabels(ResourceLabels.DORIS_APP_NAME, ResourceLabels.DORIS_APP_NAME_VALUE);
+        builder.addToLabels(ResourceLabels.DORIS_APP_INSTANCE, name);
+        builder.addToLabels(ResourceLabels.DORIS_APP_PART_OF, ResourceLabels.DORIS_APP_PART_OF_VALUE);
         cluster.setMetadata(builder.build());
         DorisClusterSpec spec = new DorisClusterSpec();
         spec.setFeSpec(source.getFeSpec());
@@ -51,8 +54,8 @@ public enum DorisClusterConverter implements ResourceConverter<WsDorisInstanceDT
     }
 
     @Override
-    public WsDorisInstanceDTO convertFrom(DorisCluster target) {
-        WsDorisInstanceDTO dto = new WsDorisInstanceDTO();
+    public WsDorisOperatorInstanceDTO convertFrom(DorisCluster target) {
+        WsDorisOperatorInstanceDTO dto = new WsDorisOperatorInstanceDTO();
         String name = target.getMetadata().getName();
         if (target.getMetadata().getLabels() != null) {
             Map<String, String> labels = target.getMetadata().getLabels();

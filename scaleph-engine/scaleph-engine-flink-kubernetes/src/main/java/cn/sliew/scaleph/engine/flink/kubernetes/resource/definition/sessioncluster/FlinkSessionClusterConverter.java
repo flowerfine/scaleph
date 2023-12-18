@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.sessioncluster;
 
 import cn.sliew.scaleph.common.dict.flink.kubernetes.OperatorFlinkVersion;
-import cn.sliew.scaleph.config.resource.ResourceLabels;
+import cn.sliew.scaleph.config.kubernetes.resource.ResourceLabels;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionClusterSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkVersion;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.KubernetesDeploymentMode;

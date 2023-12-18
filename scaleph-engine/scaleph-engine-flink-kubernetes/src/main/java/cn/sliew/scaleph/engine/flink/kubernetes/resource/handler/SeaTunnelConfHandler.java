@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.handler;
 
 import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.config.resource.ResourceNames;
+import cn.sliew.scaleph.config.kubernetes.resource.ResourceNames;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
