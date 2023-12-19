@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.doris.operator.status;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -38,6 +39,7 @@ public class ComponentCondition {
     /**
      * The last time this condition was updated.
      */
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime lastTransitionTime;
 
     /**
