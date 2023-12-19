@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.engine.doris.service;
 
 import cn.sliew.scaleph.engine.doris.operator.DorisCluster;
+import cn.sliew.scaleph.engine.doris.operator.status.DorisClusterStatus;
 import cn.sliew.scaleph.engine.doris.service.dto.WsDorisOperatorInstanceDTO;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisOperatorInstanceAddParam;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisOperatorInstanceListParam;
@@ -30,6 +31,8 @@ import java.util.List;
 public interface WsDorisOperatorInstanceService {
 
     Page<WsDorisOperatorInstanceDTO> list(WsDorisOperatorInstanceListParam param);
+
+    List<Long> listAll();
 
     WsDorisOperatorInstanceDTO selectOne(Long id);
 
@@ -50,4 +53,8 @@ public interface WsDorisOperatorInstanceService {
     void apply(Long id);
 
     void shutdown(Long id);
+
+    int updateStatus(Long id, DorisClusterStatus status);
+
+    int clearStatus(Long id);
 }
