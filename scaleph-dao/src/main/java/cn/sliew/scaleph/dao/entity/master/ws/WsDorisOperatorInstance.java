@@ -20,6 +20,7 @@ package cn.sliew.scaleph.dao.entity.master.ws;
 
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -66,16 +67,16 @@ public class WsDorisOperatorInstance extends BaseDO {
     @TableField("deployed")
     private YesOrNo deployed;
 
-    @TableField("fe_status")
+    @TableField(value = "fe_status", updateStrategy = FieldStrategy.IGNORED)
     private String feStatus;
 
-    @TableField("be_status")
+    @TableField(value = "be_status", updateStrategy = FieldStrategy.IGNORED)
     private String beStatus;
 
-    @TableField("cn_status")
+    @TableField(value = "cn_status", updateStrategy = FieldStrategy.IGNORED)
     private String cnStatus;
 
-    @TableField("broker_status")
+    @TableField(value = "broker_status", updateStrategy = FieldStrategy.IGNORED)
     private String brokerStatus;
 
     @TableField("remark")
