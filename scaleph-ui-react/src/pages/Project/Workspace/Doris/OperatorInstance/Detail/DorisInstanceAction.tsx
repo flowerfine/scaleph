@@ -15,6 +15,7 @@ const DorisInstanceDetailAction: React.FC<{ data: WsDorisOperatorInstance }> = (
         <div>
           <Popconfirm
             title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
+            disabled={data.deployed?.value == '1'}
             onConfirm={() => {
               WsDorisOperatorInstanceService.deploy(data.id).then(response => {
                 if (response.success) {
@@ -23,7 +24,11 @@ const DorisInstanceDetailAction: React.FC<{ data: WsDorisOperatorInstance }> = (
               })
             }}
           >
-            <Button type="default" icon={<CaretRightOutlined/>}>
+            <Button
+              type="default"
+              icon={<CaretRightOutlined/>}
+              disabled={data.deployed?.value == '1'}
+            >
               {intl.formatMessage({id: 'pages.project.doris.instance.detail.deploy'})}
             </Button>
           </Popconfirm>
@@ -31,6 +36,7 @@ const DorisInstanceDetailAction: React.FC<{ data: WsDorisOperatorInstance }> = (
 
           <Popconfirm
             title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
+            disabled={data.deployed?.value == '0'}
             onConfirm={() => {
               WsDorisOperatorInstanceService.shutdown(data.id).then(response => {
                 if (response.success) {
@@ -39,7 +45,10 @@ const DorisInstanceDetailAction: React.FC<{ data: WsDorisOperatorInstance }> = (
               })
             }}
           >
-            <Button icon={<CloseOutlined/>}>
+            <Button
+              icon={<CloseOutlined/>}
+              disabled={data.deployed?.value == '0'}
+            >
               {intl.formatMessage({id: 'pages.project.doris.instance.detail.shutdown'})}
             </Button>
           </Popconfirm>
