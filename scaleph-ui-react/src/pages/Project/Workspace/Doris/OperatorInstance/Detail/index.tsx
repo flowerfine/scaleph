@@ -5,7 +5,7 @@ import {PageContainer} from "@ant-design/pro-components";
 import {Divider} from "antd";
 import DorisInstanceDetailComponent
   from "@/pages/Project/Workspace/Doris/OperatorInstance/Detail/DorisInstanceComponent";
-import DorisInstanceDetailYAML from "@/pages/Project/Workspace/Doris/OperatorInstance/Detail/DorisInstanceYaml";
+import DorisInstanceDetailYAML from "@/pages/Project/Workspace/Doris/OperatorInstance/Detail/YAML";
 import DorisInstanceDetailAction from "@/pages/Project/Workspace/Doris/OperatorInstance/Detail/DorisInstanceAction";
 import DorisInstanceDetailAccess from "@/pages/Project/Workspace/Doris/OperatorInstance/Detail/DorisInstanceAccess";
 

@@ -974,7 +974,9 @@ export default {
   'pages.project.doris.instance.detail.component.cn': '计算节点',
   'pages.project.doris.instance.detail.component.broker': 'Broker节点',
   'pages.project.doris.instance.detail.access': '连接信息',
-  'pages.project.doris.instance.detail.yaml': 'YAML',
+  'pages.project.doris.instance.detail.yaml': '实例&状态',
+  'pages.project.doris.instance.detail.yaml.instance': '实例',
+  'pages.project.doris.instance.detail.yaml.status': '状态',
   'pages.project.doris.instance.detail.deploy': 'Deploy',
   'pages.project.doris.instance.detail.shutdown': 'Shutdown',
 
