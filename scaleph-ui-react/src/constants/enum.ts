@@ -71,3 +71,8 @@ export enum DeploymentKind {
   Deployment = 'FlinkDeployment',
   SessionCluster = 'FlinkSessionJob'
 }
+
+export enum YesOrNo {
+  YES = '1',
+  NO = '0'
+}

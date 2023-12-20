@@ -5,6 +5,7 @@ import {ProCard} from "@ant-design/pro-components";
 import {WsDorisOperatorInstanceService} from "@/services/project/WsDorisOperatorInstanceService";
 import {Button, message, Popconfirm} from "antd";
 import {CaretRightOutlined, CloseOutlined} from "@ant-design/icons";
+import {YesOrNo} from "@/constants/enum";
 
 const DorisInstanceDetailAction: React.FC<{ data: WsDorisOperatorInstance }> = ({data}) => {
   const intl = useIntl();
@@ -15,7 +16,7 @@ const DorisInstanceDetailAction: React.FC<{ data: WsDorisOperatorInstance }> = (
         <div>
           <Popconfirm
             title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
-            disabled={data.deployed?.value == '1'}
+            disabled={data.deployed?.value == YesOrNo.YES}
             onConfirm={() => {
               WsDorisOperatorInstanceService.deploy(data.id).then(response => {
                 if (response.success) {
@@ -27,16 +28,14 @@ const DorisInstanceDetailAction: React.FC<{ data: WsDorisOperatorInstance }> = (
             <Button
               type="default"
               icon={<CaretRightOutlined/>}
-              disabled={data.deployed?.value == '1'}
+              disabled={data.deployed?.value == YesOrNo.YES}
             >
               {intl.formatMessage({id: 'pages.project.doris.instance.detail.deploy'})}
             </Button>
           </Popconfirm>
-
-
           <Popconfirm
             title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
-            disabled={data.deployed?.value == '0'}
+            disabled={data.deployed?.value == YesOrNo.NO}
             onConfirm={() => {
               WsDorisOperatorInstanceService.shutdown(data.id).then(response => {
                 if (response.success) {
@@ -47,7 +46,7 @@ const DorisInstanceDetailAction: React.FC<{ data: WsDorisOperatorInstance }> = (
           >
             <Button
               icon={<CloseOutlined/>}
-              disabled={data.deployed?.value == '0'}
+              disabled={data.deployed?.value == YesOrNo.NO}
             >
               {intl.formatMessage({id: 'pages.project.doris.instance.detail.shutdown'})}
             </Button>
