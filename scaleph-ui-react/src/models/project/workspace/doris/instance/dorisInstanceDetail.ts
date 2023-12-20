@@ -1,12 +1,13 @@
-import {WsDorisOperatorInstance} from "@/services/project/typings";
+import {WsDorisOperatorInstance, WsDorisOperatorTemplate} from "@/services/project/typings";
 import {Effect, Reducer} from "umi";
 import YAML from "yaml";
+import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";
 import {WsDorisOperatorInstanceService} from "@/services/project/WsDorisOperatorInstanceService";
 
 export interface StateType {
   instance: WsDorisOperatorInstance,
   instanceYaml: string
-  instanceYamlWithDefault: string
+  instanceStatusYaml: string
 }
 
 export interface ModelType {
@@ -24,24 +25,23 @@ export interface ModelType {
 }
 
 const model: ModelType = {
-  namespace: "dorisInstanceSteps",
+  namespace: "dorisInstanceDetail",
 
   state: {
     instance: null,
     instanceYaml: null,
-    instanceYamlWithDefault: null
+    instanceStatusYaml: null
   },
 
   effects: {
     *editInstance({payload}, {call, put}) {
-      const {data} = yield call(WsDorisOperatorInstanceService.asYaml, payload);
-      const response = yield call(WsDorisOperatorInstanceService.asYaml, payload);
-      yield put({
-        type: 'updateInstance',
+      const {yaml} = yield call(WsDorisOperatorInstanceService.asYaml, payload);
+      const {statusYaml} = yield call(WsDorisOperatorInstanceService.status, payload);
+      yield put({type: 'updateInstance',
         payload: {
           instance: payload,
-          instanceYaml: YAML.stringify(data),
-          instanceYamlWithDefault: YAML.stringify(response.data)
+          instanceYaml: YAML.stringify(yaml),
+          instanceStatusYaml: YAML.stringify(statusYaml)
         }
       });
     },
@@ -53,7 +53,7 @@ const model: ModelType = {
         ...state,
         instance: payload.instance,
         instanceYaml: payload.instanceYaml,
-        instanceYamlWithDefault: payload.instanceYamlWithDefault,
+        instanceStatusYaml: payload.instanceStatusYaml,
       };
     },
   },

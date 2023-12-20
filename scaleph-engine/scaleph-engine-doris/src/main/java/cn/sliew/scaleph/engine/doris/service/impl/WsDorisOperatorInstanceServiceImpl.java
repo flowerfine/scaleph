@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.doris.service.impl;
 
+import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.util.UUIDUtil;
@@ -38,14 +39,19 @@ import cn.sliew.scaleph.engine.doris.service.resource.cluster.DorisClusterConver
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
+import io.fabric8.kubernetes.api.model.GenericKubernetesResourceBuilder;
+import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.client.utils.Serialization;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Predicates;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
@@ -201,6 +207,31 @@ public class WsDorisOperatorInstanceServiceImpl implements WsDorisOperatorInstan
         WsDorisOperatorInstance record = new WsDorisOperatorInstance();
         record.setId(instanceDTO.getId());
         wsDorisOperatorInstanceMapper.updateById(record);
+    }
+
+    @Override
+    public Optional<GenericKubernetesResource> getStatus(Long id) {
+        try {
+            WsDorisOperatorInstanceDTO instanceDTO = selectOne(id);
+            return dorisOperatorService.get(instanceDTO);
+        } catch (Exception e) {
+            Rethrower.throwAs(e);
+            return null;
+        }
+    }
+
+    @Override
+    public Optional<GenericKubernetesResource> getStatusWithoutManagedFields(Long id) {
+        Optional<GenericKubernetesResource> optional = getStatus(id);
+        if (optional.isEmpty()) {
+            return Optional.empty();
+        }
+        GenericKubernetesResource status = optional.get();
+        GenericKubernetesResourceBuilder builder = new GenericKubernetesResourceBuilder(status);
+        ObjectMetaBuilder objectMetaBuilder = new ObjectMetaBuilder(status.getMetadata());
+        objectMetaBuilder.removeMatchingFromManagedFields(Predicates.isTrue());
+        builder.withMetadata(objectMetaBuilder.build());
+        return Optional.of(builder.build());
     }
 
     @Override

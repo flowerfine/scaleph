@@ -1,6 +1,11 @@
 import {PageResponse, ResponseBody} from '@/app.d';
 import {request} from 'umi';
-import {WsDorisOperatorInstance, WsDorisOperatorInstanceAddParam, WsDorisOperatorInstanceParam, WsDorisOperatorInstanceUpdateParam} from './typings';
+import {
+  WsDorisOperatorInstance,
+  WsDorisOperatorInstanceAddParam,
+  WsDorisOperatorInstanceParam,
+  WsDorisOperatorInstanceUpdateParam
+} from './typings';
 
 export const WsDorisOperatorInstanceService = {
   url: '/api/doris/operator/instance',
@@ -71,6 +76,12 @@ export const WsDorisOperatorInstanceService = {
   shutdown: async (id: number) => {
     return request<ResponseBody<any>>(`${WsDorisOperatorInstanceService.url}/shutdown/` + id, {
       method: 'DELETE',
+    });
+  },
+
+  status: async (row: WsDorisOperatorInstance) => {
+    return request<ResponseBody<any>>(`${WsDorisOperatorInstanceService.url}/status${row.id}`, {
+      method: 'GET',
     });
   },
 };

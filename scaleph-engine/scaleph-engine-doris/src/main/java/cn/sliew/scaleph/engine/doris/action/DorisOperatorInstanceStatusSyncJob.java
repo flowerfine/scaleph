@@ -21,9 +21,7 @@ package cn.sliew.scaleph.engine.doris.action;
 import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.engine.doris.operator.status.DorisClusterStatus;
-import cn.sliew.scaleph.engine.doris.service.DorisOperatorService;
 import cn.sliew.scaleph.engine.doris.service.WsDorisOperatorInstanceService;
-import cn.sliew.scaleph.engine.doris.service.dto.WsDorisOperatorInstanceDTO;
 import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
 import cn.sliew.scaleph.workflow.engine.workflow.AbstractWorkFlow;
@@ -41,8 +39,6 @@ public class DorisOperatorInstanceStatusSyncJob extends AbstractWorkFlow {
 
     @Autowired
     private WsDorisOperatorInstanceService wsDorisOperatorInstanceService;
-    @Autowired
-    private DorisOperatorService dorisOperatorService;
 
     public DorisOperatorInstanceStatusSyncJob() {
         super("DORIS_OPERATOR_INSTANCE_STATUS_SYNC_JOB");
@@ -61,8 +57,7 @@ public class DorisOperatorInstanceStatusSyncJob extends AbstractWorkFlow {
 
     private void doProcess(Long id) {
         try {
-            WsDorisOperatorInstanceDTO instanceDTO = wsDorisOperatorInstanceService.selectOne(id);
-            Optional<GenericKubernetesResource> optional = dorisOperatorService.get(instanceDTO);
+            Optional<GenericKubernetesResource> optional = wsDorisOperatorInstanceService.getStatusWithoutManagedFields(id);
             if (optional.isPresent()) {
                 String json = JacksonUtil.toJsonString(optional.get().get("status"));
                 DorisClusterStatus status = JacksonUtil.parseJsonString(json, DorisClusterStatus.class);
