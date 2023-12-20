@@ -10,7 +10,10 @@ const DorisInstanceDetailAccess: React.FC<{ data: WsDorisOperatorInstance }> = (
     <ProCard.Group title={intl.formatMessage({id: 'pages.project.doris.instance.detail.access'})}
                    direction={'row'}>
       <ProCard bordered>
-      集群连接信息，敬请期待~
+      k8s内部连接信息，敬请期待~
+      </ProCard>
+      <ProCard bordered>
+        k8s外部连接信息，敬请期待~
       </ProCard>
       </ProCard.Group>
       );
