@@ -4,7 +4,7 @@ import {
   WsDorisOperatorInstance,
   WsDorisOperatorInstanceAddParam,
   WsDorisOperatorInstanceParam,
-  WsDorisOperatorInstanceUpdateParam
+  WsDorisOperatorInstanceUpdateParam, WsFlinkKubernetesJob
 } from './typings';
 
 export const WsDorisOperatorInstanceService = {
@@ -22,6 +22,12 @@ export const WsDorisOperatorInstanceService = {
         current: res.current,
       };
       return result;
+    });
+  },
+
+  selectOne: async (id: number) => {
+    return request<ResponseBody<WsDorisOperatorInstance>>(`${WsDorisOperatorInstanceService.url}/` + id, {
+      method: 'GET',
     });
   },
 
@@ -80,7 +86,7 @@ export const WsDorisOperatorInstanceService = {
   },
 
   status: async (row: WsDorisOperatorInstance) => {
-    return request<ResponseBody<any>>(`${WsDorisOperatorInstanceService.url}/status${row.id}`, {
+    return request<ResponseBody<any>>(`${WsDorisOperatorInstanceService.url}/status/${row.id}`, {
       method: 'GET',
     });
   },

@@ -35,8 +35,9 @@ const model: ModelType = {
 
   effects: {
     *editInstance({payload}, {call, put}) {
-      const {yaml} = yield call(WsDorisOperatorInstanceService.asYaml, payload);
-      const {statusYaml} = yield call(WsDorisOperatorInstanceService.status, payload);
+      const {data} = yield call(WsDorisOperatorInstanceService.selectOne, payload);
+      const {yaml} = yield call(WsDorisOperatorInstanceService.asYaml, data);
+      const {statusYaml} = yield call(WsDorisOperatorInstanceService.status, data);
       yield put({type: 'updateInstance',
         payload: {
           instance: payload,

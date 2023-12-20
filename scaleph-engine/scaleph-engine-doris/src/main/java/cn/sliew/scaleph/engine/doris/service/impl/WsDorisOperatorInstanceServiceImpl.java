@@ -213,7 +213,10 @@ public class WsDorisOperatorInstanceServiceImpl implements WsDorisOperatorInstan
     public Optional<GenericKubernetesResource> getStatus(Long id) {
         try {
             WsDorisOperatorInstanceDTO instanceDTO = selectOne(id);
-            return dorisOperatorService.get(instanceDTO);
+            if (instanceDTO.getDeployed() == YesOrNo.YES) {
+                return dorisOperatorService.get(instanceDTO);
+            }
+            return Optional.empty();
         } catch (Exception e) {
             Rethrower.throwAs(e);
             return null;
