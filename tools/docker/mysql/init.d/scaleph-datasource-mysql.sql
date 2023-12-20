@@ -77,7 +77,7 @@ VALUES (12, 'MongoDB', '/images/DataSource/MongoDB.svg', 18, NULL, 'sys', 'sys')
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (13, 'TiDB', '/images/DataSource/TiDB.png', 19, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (14, 'Kafka', '/images/DataSource/Kafka.png', 20, NULL, 'sys', 'sys');
+VALUES (14, 'Kafka', '/images/DataSource/Kafka.svg', 20, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (15, 'Pulsar', '/images/DataSource/Pulsar.svg', 21, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
@@ -127,7 +127,7 @@ VALUES (37, 'Http', '/images/DataSource/Http.png', 42, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (38, 'OSSJindo', NULL, 43, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (39, 'Cassandra', '/images/DataSource/Cassandra.png', 44, NULL, 'sys', 'sys');
+VALUES (39, 'Cassandra', '/images/DataSource/Cassandra.svg', 44, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (40, 'StarRocks', NULL, 45, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
