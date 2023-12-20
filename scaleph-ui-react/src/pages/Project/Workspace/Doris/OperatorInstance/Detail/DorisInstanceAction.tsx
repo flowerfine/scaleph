@@ -1,14 +1,48 @@
-import {useIntl} from "umi";
+import {connect, useIntl} from "umi";
 import React from "react";
-import {WsDorisOperatorInstance} from "@/services/project/typings";
-import {ProCard} from "@ant-design/pro-components";
+import {ProCard, ProDescriptions} from "@ant-design/pro-components";
 import {WsDorisOperatorInstanceService} from "@/services/project/WsDorisOperatorInstanceService";
 import {Button, message, Popconfirm} from "antd";
 import {CaretRightOutlined, CloseOutlined} from "@ant-design/icons";
 import {YesOrNo} from "@/constants/enum";
+import {ProDescriptionsItemProps} from "@ant-design/pro-descriptions";
+import {WsFlinkKubernetesJob} from "@/services/project/typings";
 
-const DorisInstanceDetailAction: React.FC<{ data: WsDorisOperatorInstance }> = ({data}) => {
+const DorisInstanceDetailAction: React.FC = (props: any) => {
   const intl = useIntl();
+
+  const descriptionColumns: ProDescriptionsItemProps<WsFlinkKubernetesJob>[] = [
+    {
+      title: intl.formatMessage({id: 'pages.project.doris.instance.name'}),
+      key: `name`,
+      dataIndex: 'name',
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.doris.instance.instanceId'}),
+      key: `instanceId`,
+      dataIndex: 'instanceId',
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.doris.instance.namespace'}),
+      key: `namespace`,
+      dataIndex: 'namespace',
+    },
+    {
+      title: intl.formatMessage({id: 'app.common.data.remark'}),
+      key: `remark`,
+      dataIndex: 'remark',
+    },
+    {
+      title: intl.formatMessage({id: 'app.common.data.createTime'}),
+      key: `createTime`,
+      dataIndex: 'createTime',
+    },
+    {
+      title: intl.formatMessage({id: 'app.common.data.updateTime'}),
+      key: `updateTime`,
+      dataIndex: 'updateTime',
+    },
+  ]
 
   return (
     <ProCard.Group direction={'row'}>
@@ -16,9 +50,9 @@ const DorisInstanceDetailAction: React.FC<{ data: WsDorisOperatorInstance }> = (
         <div>
           <Popconfirm
             title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
-            disabled={data.deployed?.value == YesOrNo.YES}
+            disabled={props.dorisInstanceDetail.instance?.deployed?.value == YesOrNo.YES}
             onConfirm={() => {
-              WsDorisOperatorInstanceService.deploy(data.id).then(response => {
+              WsDorisOperatorInstanceService.deploy(props.dorisInstanceDetail.instance?.id).then(response => {
                 if (response.success) {
                   message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
                 }
@@ -28,16 +62,16 @@ const DorisInstanceDetailAction: React.FC<{ data: WsDorisOperatorInstance }> = (
             <Button
               type="default"
               icon={<CaretRightOutlined/>}
-              disabled={data.deployed?.value == YesOrNo.YES}
+              disabled={props.dorisInstanceDetail.instance?.deployed?.value == YesOrNo.YES}
             >
               {intl.formatMessage({id: 'pages.project.doris.instance.detail.deploy'})}
             </Button>
           </Popconfirm>
           <Popconfirm
             title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
-            disabled={data.deployed?.value == YesOrNo.NO}
+            disabled={props.dorisInstanceDetail.instance?.deployed?.value == YesOrNo.NO}
             onConfirm={() => {
-              WsDorisOperatorInstanceService.shutdown(data.id).then(response => {
+              WsDorisOperatorInstanceService.shutdown(props.dorisInstanceDetail.instance?.id).then(response => {
                 if (response.success) {
                   message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
                 }
@@ -46,17 +80,22 @@ const DorisInstanceDetailAction: React.FC<{ data: WsDorisOperatorInstance }> = (
           >
             <Button
               icon={<CloseOutlined/>}
-              disabled={data.deployed?.value == YesOrNo.NO}
+              disabled={props.dorisInstanceDetail.instance?.deployed?.value == YesOrNo.NO}
             >
               {intl.formatMessage({id: 'pages.project.doris.instance.detail.shutdown'})}
             </Button>
           </Popconfirm>
         </div>
       }>
-        集群信息，敬请期待~
+        <ProDescriptions
+          column={2}
+          dataSource={props.dorisInstanceDetail.instance}
+          columns={descriptionColumns}
+        />
       </ProCard>
     </ProCard.Group>
   );
 }
 
-export default DorisInstanceDetailAction;
+const mapModelToProps = ({dorisInstanceDetail}: any) => ({dorisInstanceDetail})
+export default connect(mapModelToProps)(DorisInstanceDetailAction);

@@ -953,6 +953,7 @@ export default {
   'pages.project.doris.instance': 'Instance',
   'pages.project.doris.instance.name': '名称',
   'pages.project.doris.instance.namespace': '命名空间',
+  'pages.project.doris.instance.instanceId': '实例ID',
   'pages.project.doris.instance.namespace.tooltip': '填写 Kubernetes Namespace',
   'pages.project.doris.instance.deployed': '是否部署？',
   'pages.project.doris.instance.steps': '创建实例',
