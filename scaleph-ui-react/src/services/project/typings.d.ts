@@ -530,3 +530,10 @@ export type WsDorisOperatorInstanceUpdateParam = {
   brokerSpec?: Record<string, any>;
   remark?: string;
 };
+
+export type DorisClusterFeEndpoint = {
+  http?: string;
+  rpc?: string;
+  query?: string;
+  editLog?: string;
+};

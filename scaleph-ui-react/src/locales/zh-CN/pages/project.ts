@@ -981,6 +981,9 @@ export default {
   'pages.project.doris.instance.detail.yaml.status': '状态',
   'pages.project.doris.instance.detail.deploy': 'Deploy',
   'pages.project.doris.instance.detail.shutdown': 'Shutdown',
+  'pages.project.doris.instance.detail.fe': 'FE',
+  'pages.project.doris.instance.detail.metrics': 'Metrics',
+  'pages.project.doris.instance.detail.logs': 'Logs',
 
   'Run': '运行',
   'Save': '保存',

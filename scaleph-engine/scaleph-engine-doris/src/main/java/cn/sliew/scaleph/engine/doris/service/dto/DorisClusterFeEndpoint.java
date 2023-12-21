@@ -21,13 +21,12 @@ package cn.sliew.scaleph.engine.doris.service.dto;
 import lombok.Data;
 
 import java.net.URI;
-import java.util.Optional;
 
 @Data
 public class DorisClusterFeEndpoint {
 
-    private Optional<URI> http;
-    private Optional<URI> rpc;
-    private Optional<URI> query;
-    private Optional<URI> editLog;
+    private URI http;
+    private URI rpc;
+    private URI query;
+    private URI editLog;
 }

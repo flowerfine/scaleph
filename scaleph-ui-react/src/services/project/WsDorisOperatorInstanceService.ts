@@ -1,10 +1,11 @@
 import {PageResponse, ResponseBody} from '@/app.d';
 import {request} from 'umi';
 import {
+  DorisClusterFeEndpoint,
   WsDorisOperatorInstance,
   WsDorisOperatorInstanceAddParam,
   WsDorisOperatorInstanceParam,
-  WsDorisOperatorInstanceUpdateParam, WsFlinkKubernetesJob
+  WsDorisOperatorInstanceUpdateParam
 } from './typings';
 
 export const WsDorisOperatorInstanceService = {
@@ -87,6 +88,12 @@ export const WsDorisOperatorInstanceService = {
 
   status: async (row: WsDorisOperatorInstance) => {
     return request<ResponseBody<any>>(`${WsDorisOperatorInstanceService.url}/status/${row.id}`, {
+      method: 'GET',
+    });
+  },
+
+  feEndpoint: async (id: number) => {
+    return request<ResponseBody<DorisClusterFeEndpoint>>(`${WsDorisOperatorInstanceService.url}/endpoint/fe/${id}`, {
       method: 'GET',
     });
   },
