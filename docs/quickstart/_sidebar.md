@@ -1,5 +1,0 @@
-* [Preface](/quickstart/README.md)
-* [Deploy](/quickstart/deploy.md)
-* [Build on Docker](/quickstart/build-docker.md)
-* [Build on Local](/quickstart/build-local.md)
-* [Develop](/quickstart/develop.md)
