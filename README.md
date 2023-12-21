@@ -35,7 +35,7 @@ Firstly, read documentation website [quick start](https://flowerfine.github.io/s
 
 Secondly, take followed steps.
 
-* **Install Docker and Kubernetes on your machine **. Reference: [Prepare](https://flowerfine.github.io/scaleph-repress-site/quick-start/prepare/index.html)
+* **Install Docker and Kubernetes on your machine**. Reference: [Prepare](https://flowerfine.github.io/scaleph-repress-site/quick-start/prepare/index.html)
 * Clone the repository
 * Use Docker Compose and Scaleph Docker image quickly install and run Scaleph.
 
