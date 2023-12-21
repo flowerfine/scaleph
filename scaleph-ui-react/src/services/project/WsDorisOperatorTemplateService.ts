@@ -78,10 +78,12 @@ export const WsDorisOperatorTemplateService = {
     }
     feSpec.requests = feSpecRequests
     feSpec.limits = feSpecLimits
-    const feSpecService: Record<string, any> = {
-      type: value['fe.service.type']
+    if (value['fe.service.type']) {
+      const feSpecService: Record<string, any> = {
+        type: value['fe.service.type']
+      }
+      feSpec.service = feSpecService
     }
-    feSpec.service = feSpecService
     data.feSpec = feSpec
 
     if (value['be.replicas']) {
