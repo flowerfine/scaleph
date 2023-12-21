@@ -10,37 +10,32 @@ Scaleph is driven by personal interest and evolves actively through faithful dev
 
 ## Features
 
-* Provide Flink ecosystem to every data developer easily.
-  * Jar
-  * SQL
-  * SeaTunnel. support SeaTunnel Flink engine
+* Data Integration
+  * Web-ui click-and-drag data integration ways backended by [Apache SeaTunnel](https://seatunnel.apache.org/) on Flink engine.
+  
+  * Support the latest 2.3.3 V2 out-of-the-box connectors and transforms.
 
-* Predefined expert Flink decisions and excellent step wizard.
-* Job management.
-  * Step job wizard
-  * Multiple versions
-  * Full job detail web
-  * Configuration, dependency and resource
+  * DataSource management.
+  
+* Data Development
+  * Jar. User develops Flink job using DataStream or Table API and package it as a jar.
+  * SQL. Support online Flink SQL editor backended by [Flink SQL Gateway](https://nightlies.apache.org/flink/flink-docs-release-1.18/docs/dev/table/sql-gateway/overview/).
+* Data Warehouse
+  * Doris. Support Doris Cluster management on Kubernetes backended by [doris-operator](https://github.com/selectdb/doris-operator).
 
-### data integration
+* Other
+  * Kubernetes. Manage Flink through [Flink Kubernetes Operator](https://nightlies.apache.org/flink/flink-kubernetes-operator-docs-stable/) and Doris through [doris-operator](https://github.com/selectdb/doris-operator).
 
-* Web-ui click-and-drag data integration ways backended by Apache SeaTunnel(incubating)
-*  Support 2.3.3 V2 out-of-the-box connectors and transforms
-* DataSource management
 
-### data develop
-
-* Multiple Flink job type.
-  * Jar. User develops flink jar job using DataStream or Table API and package it as a jar
-  * SQL. User develops flink sql job on sql online editor backend by [SQL Gateway](https://nightlies.apache.org/flink/flink-docs-release-1.18/docs/dev/table/sql-gateway/overview/), then deploy it as sql job
-
-## Quick Start
+## Documentation
 
 Whenever people want to explore Scaleph system, they want a running Scaleph application, then people can interact with Scaleph through Scaleph Admin.
 
-Luckily, deploy Scaleph locally just takes three steps.
+Firstly, read documentation website [quick start](https://flowerfine.github.io/scaleph-repress-site/quick-start/) and begin to bootstrap scaleph.
 
-* Make sure Docker installed on your machine.
+Secondly, take followed steps.
+
+* **Install Docker and Kubernetes on your machine **. Reference: [Prepare](https://flowerfine.github.io/scaleph-repress-site/quick-start/prepare/index.html)
 * Clone the repository
 * Use Docker Compose and Scaleph Docker image quickly install and run Scaleph.
 
@@ -48,19 +43,13 @@ Luckily, deploy Scaleph locally just takes three steps.
 git clone https://github.com/flowerfine/scaleph.git
 
 cd scaleph
-git checkout 2.0.0
+git checkout 2.0.1
 
 cd scaleph/tools/docker/deploy/scaleph
 docker-compose up
 ```
 
 Once all containers have started, the UI is ready to go at [http://localhost:8096](http://localhost:8096/), user can login by `sys_admin/123456`.
-
-Next, read documentation website [quick start](https://flowerfine.github.io/scaleph-repress-site/guide/quick-start/initialize.html) and try to run predefined SeaTunnel demos.
-
-## Documentation
-
-please refer [website](https://flowerfine.github.io/scaleph-repress-site/)
 
 ## Code of Conduct
 
