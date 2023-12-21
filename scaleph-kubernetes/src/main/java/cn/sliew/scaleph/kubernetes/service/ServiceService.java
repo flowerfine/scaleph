@@ -20,11 +20,12 @@ package cn.sliew.scaleph.kubernetes.service;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface ServiceService {
 
     Optional<URI> getIngress(Long clusterCredentialId, String namespace, String name);
 
-    Optional<List<URI>> getService(Long clusterCredentialId, String namespace, String name);
+    Optional<Map<String, URI>> getService(Long clusterCredentialId, String namespace, String name);
 }

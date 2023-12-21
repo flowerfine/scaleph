@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.kubernetes.service.impl;
 
-import cn.sliew.milky.common.collect.Tuple;
 import cn.sliew.scaleph.common.dict.flink.ServiceExposedType;
 import cn.sliew.scaleph.kubernetes.service.KubernetesService;
 import cn.sliew.scaleph.kubernetes.service.ServiceService;
@@ -33,7 +32,6 @@ import org.springframework.util.StringUtils;
 
 import java.net.URI;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -64,11 +62,11 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Override
-    public Optional<List<URI>> getService(Long clusterCredentialId, String namespace, String name) {
+    public Optional<Map<String, URI>> getService(Long clusterCredentialId, String namespace, String name) {
         NamespacedKubernetesClient client = kubernetesService.getClient(clusterCredentialId, namespace);
         Resource<io.fabric8.kubernetes.api.model.Service> serviceResource = client.services()
                 .inNamespace(namespace)
-                .withName(String.format("%s-rest", name));
+                .withName(name);
         if (serviceResource != null && serviceResource.isReady()) {
             io.fabric8.kubernetes.api.model.Service service = serviceResource.get();
             ServiceExposedType type = ServiceExposedType.of(service.getSpec().getType());
@@ -85,21 +83,20 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
 
-    private Optional<URI> getLoadBalancer(io.fabric8.kubernetes.api.model.Service service) {
+    private Optional<Map<String, URI>> getLoadBalancer(io.fabric8.kubernetes.api.model.Service service) {
         String format = "http://${host}:${port}/";
         Optional<String> host = formatHost(service.getStatus().getLoadBalancer());
         if (host.isEmpty()) {
             return Optional.empty();
         }
         Map<String, URI> uris = new HashMap<>();
-
-//        Optional<Integer> port = formatPort(service.getSpec());
-        if (port.isEmpty()) {
-            return Optional.empty();
+        for (ServicePort servicePort : service.getSpec().getPorts()) {
+            Map<String, String> variables = Map.of("host", host.get(), "port", servicePort.getPort().toString());
+            StrSubstitutor substitutor = new StrSubstitutor(variables);
+            URI uri = URI.create(substitutor.replace(format));
+            uris.put(servicePort.getName(), uri);
         }
-        Map<String, String> variables = Map.of("host", host.get(), "port", port.get().toString());
-        StrSubstitutor substitutor = new StrSubstitutor(variables);
-        return Optional.of(URI.create(substitutor.replace(format)));
+        return Optional.of(uris);
     }
 
     private Optional<Map<String, URI>> getNodePort(io.fabric8.kubernetes.api.model.Service service) {
