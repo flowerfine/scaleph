@@ -953,6 +953,7 @@ export default {
   'pages.project.doris.instance': 'Instance',
   'pages.project.doris.instance.name': '名称',
   'pages.project.doris.instance.namespace': '命名空间',
+  'pages.project.doris.instance.instanceId': '实例ID',
   'pages.project.doris.instance.namespace.tooltip': '填写 Kubernetes Namespace',
   'pages.project.doris.instance.deployed': '是否部署？',
   'pages.project.doris.instance.steps': '创建实例',
@@ -974,7 +975,9 @@ export default {
   'pages.project.doris.instance.detail.component.cn': '计算节点',
   'pages.project.doris.instance.detail.component.broker': 'Broker节点',
   'pages.project.doris.instance.detail.access': '连接信息',
-  'pages.project.doris.instance.detail.yaml': 'YAML',
+  'pages.project.doris.instance.detail.yaml': '实例&状态',
+  'pages.project.doris.instance.detail.yaml.instance': '实例',
+  'pages.project.doris.instance.detail.yaml.status': '状态',
   'pages.project.doris.instance.detail.deploy': 'Deploy',
   'pages.project.doris.instance.detail.shutdown': 'Shutdown',
 
