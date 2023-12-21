@@ -78,6 +78,10 @@ export const WsDorisOperatorTemplateService = {
     }
     feSpec.requests = feSpecRequests
     feSpec.limits = feSpecLimits
+    const feSpecService: Record<string, any> = {
+      type: value['fe.service.type']
+    }
+    feSpec.service = feSpecService
     data.feSpec = feSpec
 
     if (value['be.replicas']) {
@@ -132,6 +136,7 @@ export const WsDorisOperatorTemplateService = {
       'fe.requests.memory': data.feSpec?.requests?.memory,
       'fe.limits.cpu': data.feSpec?.limits?.cpu,
       'fe.limits.memory': data.feSpec?.limits?.memory,
+      'fe.service.type': data.feSpec?.service?.type?.value,
 
       'be.replicas': data.beSpec?.replicas,
       'be.image': data.beSpec?.image,

@@ -81,6 +81,7 @@ public enum DictType implements DictDefinition {
     FLINK_JOB_STATUS("flink_job_status", "Flink 任务状态", FlinkJobState.class),
     FLINK_JOB_TYPE("flink_job_type", "Flink 任务类型", FlinkJobType.class),
     FLINK_SAVEPOINT_TYPE("flink_savepoint_type", "Flink Savepoint 类型", FlinkSavepointType.class),
+    FLINK_SERVICE_EXPOSED_TYPE("flink_service_exposed_type", "Flink Service Expose 类型", ServiceExposedType.class),
 
     FLINK_KUBERNETES_DEPLOYMENT_MODE("deployment_mode", "Deployment 模式", DeploymentMode.class),
     FLINK_KUBERNETES_DEPLOYMENT_KIND("deployment_kind", "Deployment 类型", DeploymentKind.class),

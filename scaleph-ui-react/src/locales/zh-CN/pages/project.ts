@@ -946,6 +946,7 @@ export default {
   'pages.project.doris.template.steps.component.base.requests.memory': '内存',
   'pages.project.doris.template.steps.component.base.limits.cpu': '最大CPU',
   'pages.project.doris.template.steps.component.base.limits.memory': '最大内存',
+  'pages.project.doris.template.steps.component.base.service.type': '网络服务类型',
   'pages.project.doris.template.steps.yaml': 'YAML',
   'pages.project.doris.template.detail': '模版详情',
   'pages.project.doris.template.detail.component': '集群组件',
