@@ -30,7 +30,8 @@ const DorisFeComponent: React.FC = () => {
         colProps={{span: 10, offset: 1}}
         initialValue={8}
         fieldProps={{
-          min: 1
+          min: 0,
+          precision: 2
         }}
       />
       <ProFormText
@@ -45,7 +46,8 @@ const DorisFeComponent: React.FC = () => {
         colProps={{span: 10, offset: 1}}
         initialValue={16}
         fieldProps={{
-          min: 1
+          min: 0,
+          precision: 2
         }}
       />
       <ProFormText
