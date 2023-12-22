@@ -72,7 +72,7 @@ public class ServiceServiceImpl implements ServiceService {
             ServiceExposedType type = ServiceExposedType.of(service.getSpec().getType());
             switch (type) {
                 case NODE_PORT:
-                    return getNodePort(service);
+                    return getNodePort(client.getMasterUrl().getHost(), service);
                 case LOAD_BALANCER:
                     return getLoadBalancer(service);
                 default:
@@ -99,11 +99,11 @@ public class ServiceServiceImpl implements ServiceService {
         return Optional.of(uris);
     }
 
-    private Optional<Map<String, URI>> getNodePort(io.fabric8.kubernetes.api.model.Service service) {
+    private Optional<Map<String, URI>> getNodePort(String masterHost, io.fabric8.kubernetes.api.model.Service service) {
         String format = "http://${host}:${nodePort}/";
         Optional<String> host = formatHost(service.getStatus().getLoadBalancer());
         if (host.isEmpty()) {
-            return Optional.empty();
+            host = Optional.of(masterHost);
         }
 
         Map<String, URI> uris = new HashMap<>();
