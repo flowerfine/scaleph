@@ -20,7 +20,7 @@ const DefaultTemplateEditor: React.FC = (props: any) => {
       height="600px"
       language="yaml"
       theme="vs-white"
-      value={props.templateDetail.templateYamlWithDefault}
+      value={props.flinkKubernetesTemplateDetail.templateYamlWithDefault}
       options={{
         selectOnLineNumbers: true,
         readOnly: true,
@@ -33,5 +33,5 @@ const DefaultTemplateEditor: React.FC = (props: any) => {
   );
 }
 
-const mapModelToProps = ({templateDetail}: any) => ({templateDetail})
+const mapModelToProps = ({flinkKubernetesTemplateDetail}: any) => ({flinkKubernetesTemplateDetail})
 export default connect(mapModelToProps)(DefaultTemplateEditor);

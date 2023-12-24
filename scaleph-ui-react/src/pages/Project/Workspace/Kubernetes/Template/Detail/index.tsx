@@ -16,8 +16,8 @@ const FlinkKubernetesDeploymentTemplateDetailWeb: React.FC = (props: any) => {
   }
 
   const onSubmit = () => {
-    if (props.templateDetail.template) {
-      WsFlinkKubernetesTemplateService.updateTemplate(props.templateDetail.template).then((response) => {
+    if (props.flinkKubernetesTemplateDetail.template) {
+      WsFlinkKubernetesTemplateService.updateTemplate(props.flinkKubernetesTemplateDetail.template).then((response) => {
         if (response.success) {
           history.back()
         }
@@ -40,5 +40,5 @@ const FlinkKubernetesDeploymentTemplateDetailWeb: React.FC = (props: any) => {
   );
 }
 
-const mapModelToProps = ({templateDetail}: any) => ({templateDetail})
+const mapModelToProps = ({flinkKubernetesTemplateDetail}: any) => ({flinkKubernetesTemplateDetail})
 export default connect(mapModelToProps)(FlinkKubernetesDeploymentTemplateDetailWeb);

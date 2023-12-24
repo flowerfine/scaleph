@@ -37,7 +37,7 @@ const DeploymentTemplateAdvanced: React.FC<Props<WsFlinkKubernetesTemplate>> = (
 
   const editTemplate = (template: WsFlinkKubernetesTemplate) => {
     props.dispatch({
-      type: 'templateDetail/editTemplate',
+      type: 'flinkKubernetesTemplateDetail/editTemplate',
       payload: template
     })
   }
@@ -63,5 +63,5 @@ const DeploymentTemplateAdvanced: React.FC<Props<WsFlinkKubernetesTemplate>> = (
 }
 
 
-const mapModelToProps = ({templateDetail}: any) => ({templateDetail})
+const mapModelToProps = ({flinkKubernetesTemplateDetail}: any) => ({flinkKubernetesTemplateDetail})
 export default connect(mapModelToProps)(DeploymentTemplateAdvanced);
