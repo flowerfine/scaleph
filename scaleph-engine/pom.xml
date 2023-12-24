@@ -31,6 +31,7 @@
 
     <modules>
         <module>scaleph-engine-doris</module>
+        <module>scaleph-engine-doris-sql</module>
         <module>scaleph-engine-flink-client</module>
         <module>scaleph-engine-seatunnel</module>
         <module>scaleph-engine-flink</module>

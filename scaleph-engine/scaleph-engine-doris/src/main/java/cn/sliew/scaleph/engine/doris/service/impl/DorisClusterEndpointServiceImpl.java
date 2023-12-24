@@ -18,12 +18,15 @@
 
 package cn.sliew.scaleph.engine.doris.service.impl;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
+import cn.sliew.scaleph.engine.doris.operator.status.DorisClusterStatus;
 import cn.sliew.scaleph.engine.doris.service.DorisClusterEndpointService;
 import cn.sliew.scaleph.engine.doris.service.WsDorisOperatorInstanceService;
 import cn.sliew.scaleph.engine.doris.service.dto.DorisClusterFeEndpoint;
 import cn.sliew.scaleph.engine.doris.service.dto.WsDorisOperatorInstanceDTO;
 import cn.sliew.scaleph.kubernetes.service.ServiceService;
+import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +47,16 @@ public class DorisClusterEndpointServiceImpl implements DorisClusterEndpointServ
         WsDorisOperatorInstanceDTO instanceDTO = wsDorisOperatorInstanceService.selectOne(dorisInstanceId);
         if (instanceDTO.getDeployed() == YesOrNo.NO) {
             return null;
+        }
+
+        if (instanceDTO.getFeStatus() == null || instanceDTO.getBeStatus() == null) {
+            Optional<GenericKubernetesResource> status = wsDorisOperatorInstanceService.getStatusWithoutManagedFields(instanceDTO.getId());
+            status.ifPresent(genericKubernetesResource -> {
+                String json = JacksonUtil.toJsonString(genericKubernetesResource.get("status"));
+                DorisClusterStatus dorisClusterStatus = JacksonUtil.parseJsonString(json, DorisClusterStatus.class);
+                instanceDTO.setFeStatus(dorisClusterStatus.getFeStatus());
+                instanceDTO.setBeStatus(dorisClusterStatus.getBeStatus());
+            });
         }
 
         Optional<Map<String, URI>> optional = serviceService.getService(instanceDTO.getClusterCredentialId(), instanceDTO.getNamespace(), instanceDTO.getFeStatus().getAccessService());
