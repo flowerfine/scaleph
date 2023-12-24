@@ -113,9 +113,12 @@ public class MybatisPlusGenerator {
     }
 
     private static void templateConfig(TemplateConfig.Builder builder) {
+        // 设置 null 避免对应的类生成
+        // 修改 entity 模板，使用自定义的
         builder.controller(null)
                 .service(null)
-                .serviceImpl(null);
+                .serviceImpl(null)
+                .entity("/custom-entity.java.vm");
     }
 
     /**
