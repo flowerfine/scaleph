@@ -20,10 +20,10 @@ const FlinkKubernetesSessinClusterDetailOptionsWeb: React.FC = (props: any) => {
   const formRef = useRef<ProFormInstance>();
 
   useEffect(() => {
-    if (props.sessionClusterDetail.sessionCluster) {
-      formRef.current?.setFieldsValue(WsFlinkKubernetesTemplateService.parseData({...props.sessionClusterDetail.sessionCluster}))
+    if (props.flinkKubernetesSessionClusterDetail.sessionCluster) {
+      formRef.current?.setFieldsValue(WsFlinkKubernetesTemplateService.parseData({...props.flinkKubernetesSessionClusterDetail.sessionCluster}))
     }
-  }, [props.sessionClusterDetail.sessionCluster]);
+  }, [props.flinkKubernetesSessionClusterDetail.sessionCluster]);
 
   return (
     <ProForm
@@ -45,5 +45,5 @@ const FlinkKubernetesSessinClusterDetailOptionsWeb: React.FC = (props: any) => {
   );
 }
 
-const mapModelToProps = ({sessionClusterDetail}: any) => ({sessionClusterDetail})
+const mapModelToProps = ({flinkKubernetesSessionClusterDetail}: any) => ({flinkKubernetesSessionClusterDetail})
 export default connect(mapModelToProps)(FlinkKubernetesSessinClusterDetailOptionsWeb);

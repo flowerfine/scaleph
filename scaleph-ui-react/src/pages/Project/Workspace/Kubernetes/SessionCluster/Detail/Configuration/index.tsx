@@ -13,9 +13,9 @@ const FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb: React.FC = (props
   const [dataSource, setDataSource] = useState<Config[]>([])
 
   useEffect(() => {
-    if (props.sessionClusterDetail.sessionCluster) {
+    if (props.flinkKubernetesSessionClusterDetail.sessionCluster) {
       const config: Array<Config> = []
-      Object.entries<[string, any][]>(props.sessionClusterDetail.sessionCluster.flinkConfiguration ? {...props.sessionClusterDetail.sessionCluster.flinkConfiguration} : {}).forEach(([key, value]) => {
+      Object.entries<[string, any][]>(props.flinkKubernetesSessionClusterDetail.sessionCluster?.flinkConfiguration ? {...props.flinkKubernetesSessionClusterDetail.sessionCluster?.flinkConfiguration} : {}).forEach(([key, value]) => {
         config.push({
           key: key,
           value: value
@@ -23,7 +23,7 @@ const FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb: React.FC = (props
       });
       setDataSource(config)
     }
-  }, [props.sessionClusterDetail.sessionCluster]);
+  }, [props.flinkKubernetesSessionClusterDetail.sessionCluster]);
 
   const tableColumns: ProColumns<Config>[] = [
     {
@@ -48,5 +48,5 @@ const FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb: React.FC = (props
   );
 }
 
-const mapModelToProps = ({sessionClusterDetail}: any) => ({sessionClusterDetail})
+const mapModelToProps = ({flinkKubernetesSessionClusterDetail}: any) => ({flinkKubernetesSessionClusterDetail})
 export default connect(mapModelToProps)(FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb);

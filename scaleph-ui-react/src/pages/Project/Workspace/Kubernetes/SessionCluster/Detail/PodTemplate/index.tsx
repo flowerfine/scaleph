@@ -6,15 +6,15 @@ const FlinkKubernetesSessinClusterDetailPodTemplateWeb: React.FC = (props: any) 
   const access = useAccess();
 
   useEffect(() => {
-    if (props.sessionClusterDetail.sessionCluster) {
+    if (props.flinkKubernetesSessionClusterDetail.sessionCluster) {
 
     }
-  }, [props.sessionClusterDetail.sessionCluster]);
+  }, [props.flinkKubernetesSessionClusterDetail.sessionCluster]);
 
   return (
     <div>FlinkKubernetesSessinClusterDetailPodTemplateWeb</div>
   );
 }
 
-const mapModelToProps = ({sessionClusterDetail}: any) => ({sessionClusterDetail})
+const mapModelToProps = ({flinkKubernetesSessionClusterDetail}: any) => ({flinkKubernetesSessionClusterDetail})
 export default connect(mapModelToProps)(FlinkKubernetesSessinClusterDetailPodTemplateWeb);
