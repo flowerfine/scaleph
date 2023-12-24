@@ -3,12 +3,12 @@ import React, {useRef} from "react";
 import {PageContainer, ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
 import {WORKSPACE_CONF} from "@/constants/constant";
 import {WsFlinkKubernetesTemplate, WsFlinkKubernetesTemplateAddParam} from "@/services/project/typings";
-import FlinkKubernetesTemplateBase from "@/pages/Project/Workspace/Kubernetes/Template/Steps/BaseStepForm";
-import FlinkKubernetesTemplateAdvancedStep from "@/pages/Project/Workspace/Kubernetes/Template/Steps/AdvancedStepForm";
+import FlinkKubernetesTemplateBase from "@/pages/Project/Workspace/Kubernetes/Template/Steps/New/BaseStepForm";
+import FlinkKubernetesTemplateAdvancedStep from "@/pages/Project/Workspace/Kubernetes/Template/Steps/New/AdvancedStepForm";
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
-import FlinkKubernetesTemplateYAMLStep from "@/pages/Project/Workspace/Kubernetes/Template/Steps/YAMLStepForm";
+import FlinkKubernetesTemplateYAMLStep from "@/pages/Project/Workspace/Kubernetes/Template/Steps/New/YAMLStepForm";
 
-const FlinkKubernetesTemplateSteps: React.FC = (props: any) => {
+const FlinkKubernetesTemplateNewSteps: React.FC = (props: any) => {
   const intl = useIntl();
   const formRef = useRef<ProFormInstance>();
   const localProjectId = localStorage.getItem(WORKSPACE_CONF.projectId);
@@ -89,4 +89,4 @@ const FlinkKubernetesTemplateSteps: React.FC = (props: any) => {
 }
 
 const mapModelToProps = ({flinkKubernetesTemplateSteps}: any) => ({flinkKubernetesTemplateSteps})
-export default connect(mapModelToProps)(FlinkKubernetesTemplateSteps);
+export default connect(mapModelToProps)(FlinkKubernetesTemplateNewSteps);

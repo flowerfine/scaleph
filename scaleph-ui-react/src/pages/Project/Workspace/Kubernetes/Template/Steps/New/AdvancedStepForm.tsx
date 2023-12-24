@@ -1,8 +1,7 @@
-import {connect} from "umi";
-import React, {useEffect} from "react";
-import {Form} from "antd";
+import React from "react";
 import {ProCard} from "@ant-design/pro-components";
 import AdvancedBasic from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedBasic";
+import AdvancedResource from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedResource";
 import AdvancedCheckpoint from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedCheckpoint";
 import AdvancedPeriodicSavepoint
   from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedPeriodicSavepoint";
@@ -11,21 +10,11 @@ import AdvancedFaultTolerance
   from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedFaultTolerance";
 import AdvancedHighAvailability
   from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedHighAvailability";
-import AdvancedResource from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedResource";
-import AdvancedAdditional from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedAdditional";
-import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
 import AdvancedAdditionalDependencies
   from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedAdditionalDependencies";
+import AdvancedAdditional from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedAdditional";
 
-const DeploymentOptionsStepForm: React.FC = (props: any) => {
-  const form = Form.useFormInstance()
-
-  useEffect(() => {
-    if (props.deploymentStep.deployment) {
-      form.setFieldsValue(WsFlinkKubernetesTemplateService.parseData({...props.deploymentStep.deployment}))
-    }
-  }, [props.deploymentStep.deployment]);
-
+const FlinkKubernetesTemplateAdvancedStep: React.FC = () => {
   return (
     <ProCard>
       <AdvancedBasic/>
@@ -38,8 +27,7 @@ const DeploymentOptionsStepForm: React.FC = (props: any) => {
       <AdvancedAdditionalDependencies/>
       <AdvancedAdditional/>
     </ProCard>
-  )
+  );
 }
 
-const mapModelToProps = ({deploymentStep}: any) => ({deploymentStep})
-export default connect(mapModelToProps)(DeploymentOptionsStepForm);
+export default FlinkKubernetesTemplateAdvancedStep;

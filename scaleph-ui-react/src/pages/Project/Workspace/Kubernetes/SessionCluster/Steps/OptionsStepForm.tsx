@@ -2,20 +2,20 @@ import {connect} from "umi";
 import React, {useEffect} from "react";
 import {Form} from "antd";
 import {ProCard} from "@ant-design/pro-components";
-import AdvancedBasic from "@/pages/Project/Workspace/Kubernetes/Template/Update/Advanced/AdvancedBasic";
-import AdvancedCheckpoint from "@/pages/Project/Workspace/Kubernetes/Template/Update/Advanced/AdvancedCheckpoint";
+import AdvancedBasic from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedBasic";
+import AdvancedCheckpoint from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedCheckpoint";
 import AdvancedPeriodicSavepoint
-  from "@/pages/Project/Workspace/Kubernetes/Template/Update/Advanced/AdvancedPeriodicSavepoint";
-import AdvancedRestart from "@/pages/Project/Workspace/Kubernetes/Template/Update/Advanced/AdvancedRestart";
+  from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedPeriodicSavepoint";
+import AdvancedRestart from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedRestart";
 import AdvancedFaultTolerance
-  from "@/pages/Project/Workspace/Kubernetes/Template/Update/Advanced/AdvancedFaultTolerance";
+  from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedFaultTolerance";
 import AdvancedHighAvailability
-  from "@/pages/Project/Workspace/Kubernetes/Template/Update/Advanced/AdvancedHighAvailability";
-import AdvancedResource from "@/pages/Project/Workspace/Kubernetes/Template/Update/Advanced/AdvancedResource";
-import AdvancedAdditional from "@/pages/Project/Workspace/Kubernetes/Template/Update/Advanced/AdvancedAdditional";
+  from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedHighAvailability";
+import AdvancedResource from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedResource";
+import AdvancedAdditional from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedAdditional";
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
 import AdvancedAdditionalDependencies
-  from "@/pages/Project/Workspace/Kubernetes/Template/Update/Advanced/AdvancedAdditionalDependencies";
+  from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedAdditionalDependencies";
 
 const SessionClusterOptionsStepForm: React.FC = (props: any) => {
   const form = Form.useFormInstance()

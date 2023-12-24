@@ -103,7 +103,7 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
                 type="link"
                 icon={<EditOutlined/>}
                 onClick={() => {
-                  history.push("/workspace/flink/kubernetes/template/update", record)
+                  history.push("/workspace/flink/kubernetes/template/steps/update", record)
                 }}
               />
             </Tooltip>
@@ -161,7 +161,7 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
               key="new"
               type="primary"
               onClick={() => {
-                history.push("/workspace/flink/kubernetes/template/steps")
+                history.push("/workspace/flink/kubernetes/template/steps/new")
               }}
             >
               {intl.formatMessage({id: 'app.common.operate.new.label'})}

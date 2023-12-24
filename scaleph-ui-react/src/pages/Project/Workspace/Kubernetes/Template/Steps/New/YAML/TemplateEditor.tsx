@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from "react";
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
-import {Props} from '@/app.d';
+import {Props} from '@/app';
 import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
 import {connect} from "umi";
 

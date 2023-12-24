@@ -2,7 +2,7 @@ import {connect, history, useIntl, useLocation} from "umi";
 import React from "react";
 import {Button, Tabs} from "antd";
 import {FooterToolbar, PageContainer} from "@ant-design/pro-components";
-import DeploymentTemplateAdvanced from "@/pages/Project/Workspace/Kubernetes/Template/Update/Advanced";
+import DeploymentTemplateAdvanced from "src/pages/Project/Workspace/Kubernetes/Advanced";
 import FlinkKubernetesDeploymentTemplateYAML from "@/pages/Project/Workspace/Kubernetes/Template/Update/YAML";
 import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
