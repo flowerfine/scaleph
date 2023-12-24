@@ -40,6 +40,7 @@ public abstract class SqlDialect {
             case Types.LONGVARCHAR:
             case Types.NCHAR:
             case Types.NVARCHAR:
+            case Types.CHAR:
                 return String.format(LENGTH_FMT, typeName, length);
             default:
                 return typeName;

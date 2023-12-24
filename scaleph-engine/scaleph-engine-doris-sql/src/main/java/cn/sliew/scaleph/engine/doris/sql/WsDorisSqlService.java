@@ -19,11 +19,11 @@
 
 package cn.sliew.scaleph.engine.doris.sql;
 
+import cn.sliew.scaleph.engine.doris.sql.dto.Function;
 import cn.sliew.scaleph.engine.doris.sql.dto.QueryResult;
 import cn.sliew.scaleph.engine.doris.sql.dto.Table;
 import cn.sliew.scaleph.engine.doris.sql.dto.enums.TableType;
-import cn.sliew.scaleph.engine.doris.sql.params.SqlExecutionParam;
-import org.springframework.stereotype.Service;
+import cn.sliew.scaleph.engine.doris.sql.params.WsDorisSqlExecutionParam;
 
 import javax.annotation.Nonnull;
 import java.sql.DatabaseMetaData;
@@ -32,56 +32,56 @@ import java.util.List;
 /**
  * Service to process doris notebook query request.
  */
-@Service
 public interface WsDorisSqlService {
 
     /**
      * List catalogs of a doris cluster
      *
-     * @param clusterCredentialId Doris k8s cluster id
+     * @param dorisInstanceId Doris k8s instance id
      * @return A list of catalogs
      */
-    List<String> listCatalogs(Long clusterCredentialId);
+    List<String> listCatalogs(Long dorisInstanceId);
 
 
     /**
      * List schemas of a doris cluster
      *
-     * @param clusterCredentialId Doris k8s cluster id
-     * @param catalogName         Catalog name. null for all catalogs
+     * @param dorisInstanceId Doris k8s instance id
+     * @param catalogName     Catalog name. null for all catalogs
      * @return A list of schemas
      */
-    List<String> listSchemas(Long clusterCredentialId, String catalogName);
+    List<String> listSchemas(Long dorisInstanceId, String catalogName);
 
     /**
      * List table names of a doris cluster
      *
-     * @param clusterCredentialId Doris k8s cluster id
-     * @param catalogName         Catalog name. null for all catalogs
-     * @param schemaName          Schema name. null for all schemas
-     * @param tableTypes          Table types {@link DatabaseMetaData#getTableTypes()}
+     * @param dorisInstanceId Doris k8s cluster id
+     * @param catalogName     Catalog name. null for all catalogs
+     * @param schemaName      Schema name. null for all schemas
+     * @param tableTypes      Table types {@link DatabaseMetaData#getTableTypes()}
      * @return A list of table names
      */
-    List<String> listTables(Long clusterCredentialId, String catalogName, String schemaName, TableType[] tableTypes);
+    List<String> listTables(Long dorisInstanceId, String catalogName, String schemaName, TableType[] tableTypes);
 
     /**
      * Get detail information of a table
      *
-     * @param clusterCredentialId Doris k8s cluster id
-     * @param catalogName         Catalog name. null for all catalogs
-     * @param schemaName          Schema name. null for all schemas
-     * @param tableName           Table name, not null
+     * @param dorisInstanceId Doris k8s instance id
+     * @param catalogName     Catalog name. null for all catalogs
+     * @param schemaName      Schema name. null for all schemas
+     * @param tableName       Table name, not null
      * @return Detail information of a table
      */
-    Table getTableInfo(Long clusterCredentialId, String catalogName, String schemaName, @Nonnull String tableName);
+    Table getTableInfo(Long dorisInstanceId, String catalogName, String schemaName, @Nonnull String tableName);
+
+    List<Function> listFunctions(Long dorisInstanceId, String catalogName, String schemaName);
 
     /**
      * Execute a sql in a doris cluster
      *
-     * @param clusterCredentialId Doris k8s cluster id
-     * @param sqlExecutionParam   Parameters
+     * @param wsDorisSqlExecutionParam Parameters
      * @return Query result
      */
-    QueryResult executeSql(Long clusterCredentialId, SqlExecutionParam sqlExecutionParam);
+    QueryResult executeSql(WsDorisSqlExecutionParam wsDorisSqlExecutionParam);
 
 }

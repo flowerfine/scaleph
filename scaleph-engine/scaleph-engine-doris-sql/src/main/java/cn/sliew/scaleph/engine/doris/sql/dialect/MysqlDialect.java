@@ -34,6 +34,14 @@ public class MysqlDialect extends SqlDialect {
 
     @Override
     public String getLimitationQuery(String sql, int limitation) {
-        return String.format("SELECT * FROM (%s) limit %d", sql, limitation);
+        String trimmedSql = sql.trim();
+        while (trimmedSql.endsWith(";")) {
+            trimmedSql = trimmedSql.substring(0, trimmedSql.length() - 1).trim();
+        }
+        if (limitation <= 0) {
+            return trimmedSql;
+        } else {
+            return String.format("SELECT * FROM (%s) T limit %d", trimmedSql, limitation);
+        }
     }
 }

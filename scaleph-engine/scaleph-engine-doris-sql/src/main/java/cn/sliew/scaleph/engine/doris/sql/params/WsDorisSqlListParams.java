@@ -16,6 +16,8 @@
 
 package cn.sliew.scaleph.engine.doris.sql.params;
 
+import cn.sliew.scaleph.engine.doris.sql.dto.enums.TableType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,10 +30,17 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(name = "Sql查询参数", description = "Sql查询参数")
-public class SqlExecutionParam {
-
-    private String sql;
-    private int limitation = 100;
-
+@Schema(name = "Doris 数据库信息获取参数", description = "Doris 数据库信息获取参数")
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class WsDorisSqlListParams {
+    @Schema(description = "Doris Operator Instance Id")
+    private Long instanceId;
+    @Schema(description = "Catalog名称")
+    private String catalogName;
+    @Schema(description = "Schema名称")
+    private String schemaName;
+    @Schema(description = "表名")
+    private String tableName;
+    @Schema(description = "表类型，用于查询Doris Table列表时使用")
+    private TableType[] tableTypes;
 }

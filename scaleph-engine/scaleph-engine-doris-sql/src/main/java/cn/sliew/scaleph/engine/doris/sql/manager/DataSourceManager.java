@@ -19,69 +19,84 @@
 
 package cn.sliew.scaleph.engine.doris.sql.manager;
 
+import cn.sliew.scaleph.engine.doris.service.DorisClusterEndpointService;
+import cn.sliew.scaleph.engine.doris.service.dto.DorisClusterFeEndpoint;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.LoadingCache;
+import com.github.benmanes.caffeine.cache.RemovalListener;
+import com.mysql.cj.jdbc.Driver;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.net.URI;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
+import java.time.Duration;
 
 @Slf4j
 @Component
 public class DataSourceManager {
 
-    private final Map<Long, HikariDataSource> dataSourceMap;
+    private final DorisClusterEndpointService endpointService;
 
-    public DataSourceManager() {
-        this.dataSourceMap = new ConcurrentHashMap<>();
+    private final LoadingCache<Long, HikariDataSource> dataSources;
+
+    @Autowired
+    public DataSourceManager(DorisClusterEndpointService endpointService) {
+        this.endpointService = endpointService;
+        this.dataSources = Caffeine.newBuilder()
+                .maximumSize(100)
+                .expireAfterAccess(Duration.ofMinutes(15))
+                .evictionListener((RemovalListener<Long, HikariDataSource>) (key, value, cause) -> {
+                    if (!value.isClosed()) {
+                        value.close();
+                    }
+                })
+                .build(this::getDataSource);
     }
 
-    public boolean hasCluster(Long clusterCredentialId) {
-        return dataSourceMap.containsKey(clusterCredentialId);
-    }
-
-    public Connection getConnection(Long clusterCredentialId) {
-        if (hasCluster(clusterCredentialId)) {
-            HikariDataSource dataSource = dataSourceMap.get(clusterCredentialId);
-            try {
-                return dataSource.getConnection();
-            } catch (SQLException e) {
-                throw new IllegalArgumentException("Error get connection, sql state = " + e.getSQLState(), e);
-            }
+    public Connection getConnection(Long dorisInstanceId) {
+        HikariDataSource dataSource = dataSources.get(dorisInstanceId);
+        try {
+            return dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("Error get connection, sql state = " + e.getSQLState(), e);
         }
-        throw new IllegalArgumentException("Datasource of cluster id " + clusterCredentialId + " not exists!");
     }
 
-    public boolean addDataSource(Long clusterCredentialId, HikariConfig hikariConfig, boolean overwrite) {
-        if (hasCluster(clusterCredentialId) && !overwrite) {
-            log.info("Cluster datasource already exists!");
-            return false;
+    public HikariDataSource getDataSource(Long dorisInstanceId) {
+        DorisClusterFeEndpoint feEndpoint = endpointService.getFEEndpoint(dorisInstanceId);
+        if (feEndpoint == null) {
+            return null;
+        } else {
+            URI query = feEndpoint.getQuery();
+            String host = query.getHost();
+            int port = query.getPort();
+            String jdbcUrl = String.format("jdbc:mysql://%s:%d", host, port);
+            HikariConfig hikariConfig = new HikariConfig();
+            hikariConfig.setJdbcUrl(jdbcUrl);
+            hikariConfig.setDriverClassName(Driver.class.getName());
+            hikariConfig.setUsername("root");
+            // hikariConfig.setPassword();
+            return new HikariDataSource(hikariConfig);
         }
-        // Destroy exist data source
-        destroyDataSource(clusterCredentialId);
-        HikariDataSource dataSource = new HikariDataSource(hikariConfig);
-        dataSourceMap.put(clusterCredentialId, dataSource);
-        return true;
     }
 
-    public void destroyDataSource(Long clusterCredentialId) {
-        if (!hasCluster(clusterCredentialId)) {
-            return;
-        }
-        HikariDataSource removedDataSource = dataSourceMap.remove(clusterCredentialId);
-        removedDataSource.close();
-    }
 
-    public <T> T actionWithConnection(Long clusterCredentialId, Function<Connection, T> action) {
-        try (Connection connection = getConnection(clusterCredentialId)) {
+    public <T> T actionWithConnection(Long dorisInstanceId, JdbcConnectionFunction<T> action) {
+        try (Connection connection = getConnection(dorisInstanceId)) {
             return action.apply(connection);
         } catch (SQLException e) {
             throw new IllegalArgumentException(e);
         }
+    }
+
+    @FunctionalInterface
+    public interface JdbcConnectionFunction<T> {
+        public T apply(Connection connection) throws SQLException;
     }
 
 }

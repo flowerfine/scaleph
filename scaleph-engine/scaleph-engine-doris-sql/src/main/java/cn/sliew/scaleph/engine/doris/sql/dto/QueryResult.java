@@ -32,9 +32,10 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Data
 @SuperBuilder
@@ -43,12 +44,18 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Schema(name = "查询结果", description = "查询结果")
 public class QueryResult {
+    private boolean hasResult;
     @Singular
-    private List<TableColumn> tableColumns;
+    private List<TableColumn> tableColumns = Collections.emptyList();
     @Singular("sheep")
-    private List<Map<String, Object>> dataList;
+    private List<Map<String, Object>> dataList = Collections.emptyList();
 
     public static QueryResult fromResultSet(ResultSet resultSet, SqlDialect sqlDialect) throws SQLException {
+        if (resultSet == null) {
+            return QueryResult.builder()
+                    .hasResult(false)
+                    .build();
+        }
         List<TableColumn> tableColumns = new ArrayList<>();
         ResultSetMetaData metaData = resultSet.getMetaData();
         int columnCount = metaData.getColumnCount();
@@ -67,18 +74,12 @@ public class QueryResult {
         }
         List<Map<String, Object>> dataList = new ArrayList<>();
         while (resultSet.next()) {
-            Map<String, Object> data = tableColumns.stream()
-                    .map(tableColumn -> {
-                        String columnName = tableColumn.getColumnName();
-                        Object o;
-                        try {
-                            o = resultSet.getObject(columnName);
-                        } catch (SQLException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return Map.entry(columnName, o);
-                    })
-                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+            Map<String, Object> data = new HashMap<>();
+            for (TableColumn tableColumn : tableColumns) {
+                String columnName = tableColumn.getColumnName();
+                Object columnData = resultSet.getObject(columnName);
+                data.put(columnName, columnData);
+            }
             dataList.add(data);
         }
         return QueryResult.builder()

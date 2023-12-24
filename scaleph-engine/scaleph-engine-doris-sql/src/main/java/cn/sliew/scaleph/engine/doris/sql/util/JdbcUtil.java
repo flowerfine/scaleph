@@ -223,9 +223,7 @@ public class JdbcUtil {
 
     public static List<Function> getFunctions(DatabaseMetaData databaseMetaData,
                                        String catalogName,
-                                       String schemaName,
-                                       @Nonnull String tableName,
-                                       SqlDialect sqlDialect) throws SQLException {
+                                       String schemaName) throws SQLException {
         List<Function> functions = new ArrayList<>();
         try (ResultSet rs = databaseMetaData.getFunctions(catalogName, schemaName, null)) {
             while (rs.next()) {
