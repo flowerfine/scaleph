@@ -21,10 +21,10 @@ const SessionClusterOptionsStepForm: React.FC = (props: any) => {
   const form = Form.useFormInstance()
 
   useEffect(() => {
-    if (props.sessionClusterStep2.sessionCluster) {
-      form.setFieldsValue(WsFlinkKubernetesTemplateService.parseData({...props.sessionClusterStep2.sessionCluster}))
+    if (props.flinkKubernetesSessionClusterSteps.sessionCluster) {
+      form.setFieldsValue(WsFlinkKubernetesTemplateService.parseData({...props.flinkKubernetesSessionClusterSteps.sessionCluster}))
     }
-  }, [props.sessionClusterStep2.sessionCluster]);
+  }, [props.flinkKubernetesSessionClusterSteps.sessionCluster]);
 
   return (
     <ProCard>
@@ -41,5 +41,5 @@ const SessionClusterOptionsStepForm: React.FC = (props: any) => {
   )
 }
 
-const mapModelToProps = ({sessionClusterStep2}: any) => ({sessionClusterStep2})
+const mapModelToProps = ({flinkKubernetesSessionClusterSteps}: any) => ({flinkKubernetesSessionClusterSteps})
 export default connect(mapModelToProps)(SessionClusterOptionsStepForm);

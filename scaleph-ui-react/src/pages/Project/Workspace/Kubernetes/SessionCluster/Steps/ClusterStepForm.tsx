@@ -6,10 +6,9 @@ import {WsFlinkKubernetesTemplateParam} from "@/services/project/typings";
 import {ClusterCredentialService} from "@/services/resource/clusterCredential.service";
 import {ClusterCredentialListParam} from "@/services/resource/typings";
 import {WORKSPACE_CONF} from "@/constants/constant";
-import {connect} from "umi";
 import {DeploymentKind} from "@/constants/enum";
 
-const SessionClusterClusterStepForm: React.FC = (props: any) => {
+const SessionClusterClusterStepForm: React.FC = () => {
   const intl = useIntl();
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
@@ -68,5 +67,4 @@ const SessionClusterClusterStepForm: React.FC = (props: any) => {
   )
 }
 
-const mapModelToProps = ({sessionClusterStep2}: any) => ({sessionClusterStep2})
-export default connect(mapModelToProps)(SessionClusterClusterStepForm);
+export default SessionClusterClusterStepForm;

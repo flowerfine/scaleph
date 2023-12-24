@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.factory.FlinkTemplateFactory;
+import cn.sliew.scaleph.engine.flink.kubernetes.factory.FlinkDefaultTemplateFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkJobManagerEndpointService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobInstanceService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesSessionClusterService;
@@ -72,14 +72,14 @@ public class FlinkJobManagerEndpointServiceImpl implements FlinkJobManagerEndpoi
     }
 
     /**
-     * @see FlinkTemplateFactory#createIngressSpec()
+     * @see FlinkDefaultTemplateFactory#createIngressSpec()
      */
     private Optional<URI> getEndpointByIngress(Long clusterCredentialId, String namespace, String name) {
         return serviceService.getIngress(clusterCredentialId, namespace, name);
     }
 
     /**
-     * @see FlinkTemplateFactory#createServiceConfiguration()
+     * @see FlinkDefaultTemplateFactory#createServiceConfiguration()
      */
     private Optional<URI> getEndpointByService(Long clusterCredentialId, String namespace, String name) {
         String serviceName = String.format("%s-rest", name);

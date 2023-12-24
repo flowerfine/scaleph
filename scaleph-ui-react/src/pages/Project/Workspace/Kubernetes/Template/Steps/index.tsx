@@ -1,6 +1,6 @@
 import {connect, history, useIntl} from "umi";
 import React, {useRef} from "react";
-import {ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
+import {PageContainer, ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
 import {WORKSPACE_CONF} from "@/constants/constant";
 import {WsFlinkKubernetesTemplate, WsFlinkKubernetesTemplateAddParam} from "@/services/project/typings";
 import FlinkKubernetesTemplateBase from "@/pages/Project/Workspace/Kubernetes/Template/Steps/BaseStepForm";
@@ -42,7 +42,6 @@ const FlinkKubernetesTemplateSteps: React.FC = (props: any) => {
   }
 
   const onAllFinish = (values: Record<string, any>) => {
-    console.log('onAllFinish', props.flinkKubernetesTemplateSteps.template)
     const param: WsFlinkKubernetesTemplateAddParam = {...props.flinkKubernetesTemplateSteps.template}
     param.deploymentKind = props.flinkKubernetesTemplateSteps.template.deploymentKind?.value
     return WsFlinkKubernetesTemplateService.add(param).then((response) => {
@@ -53,37 +52,39 @@ const FlinkKubernetesTemplateSteps: React.FC = (props: any) => {
   }
 
   return (
-    <ProCard className={'step-form-submitter'}>
-      <StepsForm
-        formRef={formRef}
-        formProps={{
-          grid: true,
-          rowProps: {gutter: [16, 8]}
-        }}
-        onFinish={onAllFinish}
-      >
-        <StepsForm.StepForm
-          name="base"
-          title={intl.formatMessage({id: 'pages.project.flink.kubernetes.template.step.base'})}
-          style={{width: 1000}}
-          onFinish={onBaseStepFinish}>
-          <FlinkKubernetesTemplateBase/>
-        </StepsForm.StepForm>
-        <StepsForm.StepForm
-          name="component"
-          title={intl.formatMessage({id: 'pages.project.flink.kubernetes.template.step.advanced'})}
-          style={{width: 1000}}
-          onFinish={onAdvancedStepFinish}>
-          <FlinkKubernetesTemplateAdvancedStep/>
-        </StepsForm.StepForm>
-        <StepsForm.StepForm
-          name="yaml"
-          title={intl.formatMessage({id: 'pages.project.flink.kubernetes.template.step.yaml'})}
-          style={{width: 1100}}>
-          <FlinkKubernetesTemplateYAMLStep/>
-        </StepsForm.StepForm>
-      </StepsForm>
-    </ProCard>
+    <PageContainer title={false}>
+      <ProCard className={'step-form-submitter'}>
+        <StepsForm
+          formRef={formRef}
+          formProps={{
+            grid: true,
+            rowProps: {gutter: [16, 8]}
+          }}
+          onFinish={onAllFinish}
+        >
+          <StepsForm.StepForm
+            name="base"
+            title={intl.formatMessage({id: 'pages.project.flink.kubernetes.template.step.base'})}
+            style={{width: 1000}}
+            onFinish={onBaseStepFinish}>
+            <FlinkKubernetesTemplateBase/>
+          </StepsForm.StepForm>
+          <StepsForm.StepForm
+            name="component"
+            title={intl.formatMessage({id: 'pages.project.flink.kubernetes.template.step.advanced'})}
+            style={{width: 1000}}
+            onFinish={onAdvancedStepFinish}>
+            <FlinkKubernetesTemplateAdvancedStep/>
+          </StepsForm.StepForm>
+          <StepsForm.StepForm
+            name="yaml"
+            title={intl.formatMessage({id: 'pages.project.flink.kubernetes.template.step.yaml'})}
+            style={{width: 1100}}>
+            <FlinkKubernetesTemplateYAMLStep/>
+          </StepsForm.StepForm>
+        </StepsForm>
+      </ProCard>
+    </PageContainer>
   )
 }
 

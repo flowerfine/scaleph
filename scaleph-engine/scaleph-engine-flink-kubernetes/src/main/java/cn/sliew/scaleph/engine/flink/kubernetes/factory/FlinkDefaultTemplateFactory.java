@@ -24,13 +24,19 @@ import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkVersion;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.*;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.template.FlinkTemplate;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.template.FlinkTemplateSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FlinkImageMapping;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FlinkVersionMapping;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
+import org.apache.commons.lang3.EnumUtils;
+import org.apache.flink.configuration.*;
+import org.apache.flink.kubernetes.configuration.KubernetesConfigOptions;
+import org.apache.flink.streaming.api.environment.ExecutionCheckpointingOptions;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum FlinkTemplateFactory {
+public enum FlinkDefaultTemplateFactory {
     ;
 
     public static FlinkTemplate create(String name, String namespace, FlinkTemplate defaultTemplate) {
@@ -71,8 +77,11 @@ public enum FlinkTemplateFactory {
     private static FlinkTemplate createFlinkTemplateDefaults() {
         FlinkTemplate template = new FlinkTemplate();
         FlinkTemplateSpec spec = new FlinkTemplateSpec();
-        spec.setFlinkVersion(FlinkVersion.v1_18);
-        spec.setImage("flink:1.18");
+        cn.sliew.scaleph.common.dict.flink.FlinkVersion current = cn.sliew.scaleph.common.dict.flink.FlinkVersion.current();
+        FlinkVersionMapping flinkVersionMapping = FlinkVersionMapping.of(current);
+        spec.setFlinkVersion(EnumUtils.getEnum(FlinkVersion.class, flinkVersionMapping.getMajorVersion().getValue()));
+        FlinkImageMapping flinkImageMapping = FlinkImageMapping.of(FlinkJobType.JAR, flinkVersionMapping.getMajorVersion());
+        spec.setImage(flinkImageMapping.getImage());
         spec.setImagePullPolicy(ImagePullPolicy.IF_NOT_PRESENT.getValue());
         spec.setServiceAccount("flink");
         spec.setMode(KubernetesDeploymentMode.NATIVE);
@@ -101,9 +110,9 @@ public enum FlinkTemplateFactory {
 
     private static Map<String, String> createFlinkConfiguration() {
         Map<String, String> flinkConfiguration = new HashMap<>();
-        flinkConfiguration.put("web.cancel.enable", "true");
-        flinkConfiguration.put("akka.ask.timeout", "100s");
-        flinkConfiguration.put("taskmanager.slot.timeout", "100s");
+        flinkConfiguration.put(WebOptions.CANCEL_ENABLE.key(), "true");
+        flinkConfiguration.put(AkkaOptions.ASK_TIMEOUT_DURATION.key(), "100s");
+        flinkConfiguration.put(TaskManagerOptions.SLOT_TIMEOUT.key(), "100s");
         flinkConfiguration.putAll(createFailureTolerateConfiguration());
         flinkConfiguration.putAll(createCheckpointConfiguration());
         flinkConfiguration.putAll(createPeriodicSavepointConfiguration());
@@ -113,22 +122,22 @@ public enum FlinkTemplateFactory {
 
     private static Map<String, String> createFailureTolerateConfiguration() {
         Map<String, String> flinkConfiguration = new HashMap<>();
-        flinkConfiguration.put("restart-strategy", FlinkRestartStrategy.FAILURE_RATE.getValue());
-        flinkConfiguration.put("restart-strategy.failure-rate.failure-rate-interval", "10min");
-        flinkConfiguration.put("restart-strategy.failure-rate.max-failures-per-interval", "30");
-        flinkConfiguration.put("restart-strategy.failure-rate.delay", "10s");
+        flinkConfiguration.put(RestartStrategyOptions.RESTART_STRATEGY.key(), FlinkRestartStrategy.FAILURE_RATE.getValue());
+        flinkConfiguration.put(RestartStrategyOptions.RESTART_STRATEGY_FAILURE_RATE_FAILURE_RATE_INTERVAL.key(), "10min");
+        flinkConfiguration.put(RestartStrategyOptions.RESTART_STRATEGY_FAILURE_RATE_MAX_FAILURES_PER_INTERVAL.key(), "30");
+        flinkConfiguration.put(RestartStrategyOptions.RESTART_STRATEGY_FAILURE_RATE_DELAY.key(), "10s");
         return flinkConfiguration;
     }
 
     private static Map<String, String> createCheckpointConfiguration() {
         Map<String, String> flinkConfiguration = new HashMap<>();
-        flinkConfiguration.put("execution.checkpointing.mode", FlinkSemantic.EXACTLY_ONCE.getValue());
-        flinkConfiguration.put("execution.checkpointing.interval", "3min");
-        flinkConfiguration.put("execution.checkpointing.max-concurrent-checkpoints", "1");
-        flinkConfiguration.put("execution.checkpointing.min-pause", "3min");
-        flinkConfiguration.put("execution.checkpointing.timeout", "18min");
-        flinkConfiguration.put("execution.checkpointing.externalized-checkpoint-retention", FlinkCheckpointRetain.RETAIN_ON_CANCELLATION.getValue());
-        flinkConfiguration.put("state.checkpoints.num-retained", "10");
+        flinkConfiguration.put(ExecutionCheckpointingOptions.CHECKPOINTING_MODE.key(), FlinkSemantic.EXACTLY_ONCE.getValue());
+        flinkConfiguration.put(ExecutionCheckpointingOptions.CHECKPOINTING_INTERVAL.key(), "3min");
+        flinkConfiguration.put(ExecutionCheckpointingOptions.MAX_CONCURRENT_CHECKPOINTS.key(), "1");
+        flinkConfiguration.put(ExecutionCheckpointingOptions.MIN_PAUSE_BETWEEN_CHECKPOINTS.key(), "3min");
+        flinkConfiguration.put(ExecutionCheckpointingOptions.CHECKPOINTING_TIMEOUT.key(), "18min");
+        flinkConfiguration.put(ExecutionCheckpointingOptions.EXTERNALIZED_CHECKPOINT.key(), FlinkCheckpointRetain.RETAIN_ON_CANCELLATION.getValue());
+        flinkConfiguration.put(CheckpointingOptions.MAX_RETAINED_CHECKPOINTS.key(), "10");
         return flinkConfiguration;
     }
 
@@ -152,14 +161,14 @@ public enum FlinkTemplateFactory {
 
     public static Map<String, String> createDeploymentServiceConfiguration() {
         Map<String, String> serviceConfiguration = new HashMap<>();
-        serviceConfiguration.put("kubernetes.rest-service.exposed.type", ServiceExposedType.NODE_PORT.getValue());
-        serviceConfiguration.put("kubernetes.rest-service.exposed.node-port-address-type", NodePortAddressType.EXTERNAL_IP.getValue());
+        serviceConfiguration.put(KubernetesConfigOptions.REST_SERVICE_EXPOSED_TYPE.key(), ServiceExposedType.NODE_PORT.getValue());
+        serviceConfiguration.put(KubernetesConfigOptions.REST_SERVICE_EXPOSED_NODE_PORT_ADDRESS_TYPE.key(), NodePortAddressType.EXTERNAL_IP.getValue());
         return serviceConfiguration;
     }
 
     public static Map<String, String> createSessionClusterConfiguration() {
         Map<String, String> serviceConfiguration = new HashMap<>();
-        serviceConfiguration.put("kubernetes.rest-service.exposed.type", ServiceExposedType.LOAD_BALANCER.getValue());
+        serviceConfiguration.put(KubernetesConfigOptions.REST_SERVICE_EXPOSED_TYPE.key(), ServiceExposedType.LOAD_BALANCER.getValue());
         return serviceConfiguration;
     }
 
