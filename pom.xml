@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>cn.sliew</groupId>
     <artifactId>scaleph</artifactId>
-    <version>2.0.2-SNAPSHOT</version>
+    <version>2.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>scaleph</name>
     <description>Scaleph System</description>
@@ -127,7 +127,7 @@
 
         <spring.boot.version>2.7.17</spring.boot.version>
         <spring.cloud.version>2021.0.7</spring.cloud.version>
-        <mybatis.plus.version>3.5.4</mybatis.plus.version>
+        <mybatis.plus.version>3.5.4.1</mybatis.plus.version>
         <org.mapstruct.extensions.spring.version>0.1.1</org.mapstruct.extensions.spring.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <mapstruct.lombok.binding.version>0.2.0</mapstruct.lombok.binding.version>

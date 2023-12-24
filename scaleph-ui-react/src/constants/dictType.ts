@@ -33,6 +33,7 @@ export const DICT_TYPE = {
   flinkHA: 'flink_high_availability',
   flinkJobType: 'flink_job_type',
   flinkJobStatus: 'flink_job_status',
+  flinkServiceExposedType: 'flink_service_exposed_type',
   seatunnelVersion: 'seatunnel_version',
   seatunnelEngineType: 'seatunnel_engine_type',
   seatunnelPluginName: 'seatunnel_plugin_name',

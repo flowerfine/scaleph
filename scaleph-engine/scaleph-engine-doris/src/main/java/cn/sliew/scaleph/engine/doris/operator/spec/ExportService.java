@@ -23,6 +23,7 @@ import lombok.Data;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ExportService consisting of expose ports for user access to software service.
@@ -31,12 +32,18 @@ import java.util.List;
 public class ExportService {
 
     /**
+     * Annotations for using function on different cloud platform.
+     */
+    @Nullable
+    private Map<String, String> annotations;
+
+    /**
      * fixme k8s 的 type
      * https://github.com/selectdb/doris-operator/blob/master/doc/api.md#exportservice
      * type of service,the possible value for the service type are : ClusterIP, NodePort, LoadBalancer,ExternalName. More info: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
      */
     @Nullable
-    private ServiceExposedType type;
+    private String type;
 
     /**
      * ServicePort config service for NodePort access mode.

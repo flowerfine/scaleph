@@ -28,7 +28,8 @@ const DorisFeComponent: React.FC = () => {
         label={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.requests.cpu'})}
         colProps={{span: 10, offset: 1}}
         fieldProps={{
-          min: 1
+          min: 0,
+          precision: 2
         }}
       />
       <ProFormText
@@ -41,7 +42,8 @@ const DorisFeComponent: React.FC = () => {
         label={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.limits.cpu'})}
         colProps={{span: 10, offset: 1}}
         fieldProps={{
-          min: 1
+          min: 0,
+          precision: 2
         }}
       />
       <ProFormText

@@ -53,9 +53,9 @@ CREATE TABLE `ds_type`
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (1, 'MySQL', '/images/DataSource/MySQL.png', 10, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (2, 'Oracle', '/images/DataSource/Oracle.svg', 11, NULL, 'sys', 'sys');
+VALUES (2, 'Oracle', '/images/DataSource/Oracle.png', 11, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (3, 'PostgreSQL', '/images/DataSource/PostgreSQL.svg', 12, NULL, 'sys', 'sys');
+VALUES (3, 'PostgreSQL', '/images/DataSource/PostgreSQL.png', 12, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (4, 'SQLServer', '/images/DataSource/SQLServer.png', 13, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
@@ -67,19 +67,19 @@ VALUES (7, 'Greenplum', '/images/DataSource/Greenplum.png', 16, NULL, 'sys', 'sy
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (8, 'Phoenix', '/images/DataSource/Phoenix.png', 17, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (9, 'Redis', '/images/DataSource/Redis.svg', 18, NULL, 'sys', 'sys');
+VALUES (9, 'Redis', '/images/DataSource/Redis.png', 18, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (10, 'Elasticsearch', '/images/DataSource/Elasticsearch.png', 19, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (11, 'Solr', '/images/DataSource/Solr.png', 17, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (12, 'MongoDB', '/images/DataSource/MongoDB.svg', 18, NULL, 'sys', 'sys');
+VALUES (12, 'MongoDB', '/images/DataSource/MongoDB.png', 18, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (13, 'TiDB', '/images/DataSource/TiDB.png', 19, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (14, 'Kafka', '/images/DataSource/Kafka.png', 20, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (15, 'Pulsar', '/images/DataSource/Pulsar.svg', 21, NULL, 'sys', 'sys');
+VALUES (15, 'Pulsar', '/images/DataSource/Pulsar.png', 21, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (16, 'DataHub', '/images/DataSource/DataHub.png', 22, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
@@ -91,9 +91,9 @@ VALUES (19, 'OSS', '/images/DataSource/OSS.png', 25, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (20, 'S3', '/images/DataSource/S3.png', 26, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (21, 'HDFS', '/images/DataSource/HDFS.svg', 27, NULL, 'sys', 'sys');
+VALUES (21, 'HDFS', '/images/DataSource/HDFS.png', 27, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (22, 'Hive', '/images/DataSource/Hive.svg', 28, NULL, 'sys', 'sys');
+VALUES (22, 'Hive', '/images/DataSource/Hive.png', 28, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (23, 'HBase', '/images/DataSource/HBase.png', 29, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)

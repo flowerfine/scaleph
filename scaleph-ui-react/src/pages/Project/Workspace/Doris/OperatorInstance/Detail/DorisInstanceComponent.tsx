@@ -1,128 +1,132 @@
-import {useIntl} from "umi";
+import {connect, useIntl} from "umi";
 import React from "react";
-import {WsDorisOperatorInstance} from "@/services/project/typings";
 import {ProCard, StatisticCard} from "@ant-design/pro-components";
 import {Divider, Space, Statistic} from "antd";
 
-const DorisInstanceDetailComponent: React.FC<{ data: WsDorisOperatorInstance }> = ({data}) => {
+const DorisInstanceDetailComponent: React.FC = (props: any) => {
   const intl = useIntl();
 
   return (
     <ProCard.Group title={intl.formatMessage({id: 'pages.project.doris.instance.detail.component'})}
                    direction={'row'}>
       <ProCard bordered hoverable>
-        <StatisticCard title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.fe'})}
+        <StatisticCard title={intl.formatMessage({id: 'pages.project.doris.instance.detail.component.fe'})}
                        statistic={{
-                         value: data.feSpec?.replicas,
-                         prefix: intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.replicas'}) + ' x',
+                         prefix: intl.formatMessage({id: 'pages.project.doris.instance.detail.component.replicas'}) + ': ',
+                         value: props.dorisInstanceDetail.instance?.feSpec?.replicas,
                          description: (
                            <Space>
                              <Statistic
-                               title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.requests.cpu'})}
-                               value={data.feSpec?.requests?.cpu}/>
+                               title={intl.formatMessage({id: 'pages.project.doris.instance.detail.component.creating'})}
+                               value={props.dorisInstanceDetail.instance?.feStatus?.creatingInstances?.length}
+                               status={"processing"}/>
+
                              <Statistic
-                               title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.requests.memory'})}
-                               value={data.feSpec?.requests?.memory}/>
+                               title={intl.formatMessage({id: 'pages.project.doris.instance.detail.component.running'})}
+                               value={props.dorisInstanceDetail.instance?.feStatus?.runningInstances?.length}
+                               status={"success"}/>
+
                              <Statistic
-                               title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.limits.cpu'})}
-                               value={data.feSpec?.limits?.cpu}/>
-                             <Statistic
-                               title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.limits.memory'})}
-                               value={data.feSpec?.limits?.memory}/>
+                               title={intl.formatMessage({id: 'pages.project.doris.instance.detail.component.failed'})}
+                               value={props.dorisInstanceDetail.instance?.feStatus?.failedInstances?.length}
+                               status={"error"}/>
                            </Space>
-                         ),
+                         )
                        }}
                        footer={
-                         <div>{intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.image'}) + ": " + data.feSpec?.image ? data.feSpec?.image : '-'}</div>
-                       }
-        />
+                         <div>{intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.image'}) + ": " + props.dorisInstanceDetail.instance?.feSpec?.image ? props.dorisInstanceDetail.instance?.feSpec?.image : '-'}</div>
+                       }/>
       </ProCard>
       <Divider type={'vertical'}/>
       <ProCard bordered hoverable>
-        <StatisticCard title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.be'})}
+        <StatisticCard title={intl.formatMessage({id: 'pages.project.doris.instance.detail.component.be'})}
                        statistic={{
-                         value: data.beSpec?.replicas,
-                         prefix: intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.replicas'}) + ' x',
+                         prefix: intl.formatMessage({id: 'pages.project.doris.instance.detail.component.replicas'}) + ': ',
+                         value: props.dorisInstanceDetail.instance?.beSpec?.replicas,
                          description: (
                            <Space>
                              <Statistic
-                               title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.requests.cpu'})}
-                               value={data.beSpec?.requests?.cpu}/>
+                               title={intl.formatMessage({id: 'pages.project.doris.instance.detail.component.creating'})}
+                               value={props.dorisInstanceDetail.instance?.beStatus?.creatingInstances?.length}
+                               status={"processing"}/>
+
                              <Statistic
-                               title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.requests.memory'})}
-                               value={data.beSpec?.requests?.memory}/>
+                               title={intl.formatMessage({id: 'pages.project.doris.instance.detail.component.running'})}
+                               value={props.dorisInstanceDetail.instance?.beStatus?.runningInstances?.length}
+                               status={"success"}/>
+
                              <Statistic
-                               title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.limits.cpu'})}
-                               value={data.beSpec?.limits?.cpu}/>
-                             <Statistic
-                               title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.limits.memory'})}
-                               value={data.beSpec?.limits?.memory}/>
+                               title={intl.formatMessage({id: 'pages.project.doris.instance.detail.component.failed'})}
+                               value={props.dorisInstanceDetail.instance?.beStatus?.failedInstances?.length}
+                               status={"error"}/>
                            </Space>
-                         ),
+                         )
                        }}
                        footer={
-                         <div>{intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.image'}) + ": " + data.beSpec?.image ? data.beSpec?.image : '-'}</div>
-                       }
-        />
+                         <div>{intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.image'}) + ": " + props.dorisInstanceDetail.instance?.beSpec?.image ? props.dorisInstanceDetail.instance?.beSpec?.image : '-'}</div>
+                       }/>
       </ProCard>
       <Divider type={'vertical'}/>
       <ProCard bordered hoverable>
-        <StatisticCard title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.cn'})}
+        <StatisticCard title={intl.formatMessage({id: 'pages.project.doris.instance.detail.component.cn'})}
                        statistic={{
-                         value: data.cnSpec?.replicas,
-                         prefix: intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.replicas'}) + ' x',
+                         prefix: intl.formatMessage({id: 'pages.project.doris.instance.detail.component.replicas'}) + ': ',
+                         value: props.dorisInstanceDetail.instance?.cnSpec?.replicas,
                          description: (
                            <Space>
                              <Statistic
-                               title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.requests.cpu'})}
-                               value={data.cnSpec?.requests?.cpu}/>
+                               title={intl.formatMessage({id: 'pages.project.doris.instance.detail.component.creating'})}
+                               value={props.dorisInstanceDetail.instance?.cnStatus?.creatingInstances?.length}
+                               status={"processing"}/>
+
                              <Statistic
-                               title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.requests.memory'})}
-                               value={data.cnSpec?.requests?.memory}/>
+                               title={intl.formatMessage({id: 'pages.project.doris.instance.detail.component.running'})}
+                               value={props.dorisInstanceDetail.instance?.cnStatus?.runningInstances?.length}
+                               status={"success"}/>
+
                              <Statistic
-                               title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.limits.cpu'})}
-                               value={data.cnSpec?.limits?.cpu}/>
-                             <Statistic
-                               title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.limits.memory'})}
-                               value={data.cnSpec?.limits?.memory}/>
+                               title={intl.formatMessage({id: 'pages.project.doris.instance.detail.component.failed'})}
+                               value={props.dorisInstanceDetail.instance?.cnStatus?.failedInstances?.length}
+                               status={"error"}/>
                            </Space>
-                         ),
+                         )
                        }}
                        footer={
-                         <div>{intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.image'}) + ": " + data.cnSpec?.image ? data.cnSpec?.image : '-'}</div>
-                       }
-        />
+                         <div>{intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.image'}) + ": " + props.dorisInstanceDetail.instance?.cnSpec?.image ? props.dorisInstanceDetail.instance?.cnSpec?.image : '-'}</div>
+                       }/>
       </ProCard>
       <Divider type={'vertical'}/>
       <ProCard bordered hoverable>
-        <StatisticCard title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.broker'})}
+        <StatisticCard title={intl.formatMessage({id: 'pages.project.doris.instance.detail.component.broker'})}
                        statistic={{
-                         value: data.brokerSpec?.replicas,
-                         prefix: intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.replicas'}) + ' x',
+                         prefix: intl.formatMessage({id: 'pages.project.doris.instance.detail.component.replicas'}) + ': ',
+                         value: props.dorisInstanceDetail.instance?.brokerSpec?.replicas,
                          description: (
                            <Space>
                              <Statistic
-                               title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.requests.cpu'})}
-                               value={data.brokerSpec?.requests?.cpu}/>
+                               title={intl.formatMessage({id: 'pages.project.doris.instance.detail.component.creating'})}
+                               value={props.dorisInstanceDetail.instance?.brokerStatus?.creatingInstances?.length}
+                               status={"processing"}/>
+
                              <Statistic
-                               title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.requests.memory'})}
-                               value={data.brokerSpec?.requests?.memory}/>
+                               title={intl.formatMessage({id: 'pages.project.doris.instance.detail.component.running'})}
+                               value={props.dorisInstanceDetail.instance?.brokerStatus?.runningInstances?.length}
+                               status={"success"}/>
+
                              <Statistic
-                               title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.limits.cpu'})}
-                               value={data.brokerSpec?.limits?.cpu}/>
-                             <Statistic
-                               title={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.limits.memory'})}
-                               value={data.brokerSpec?.limits?.memory}/>
+                               title={intl.formatMessage({id: 'pages.project.doris.instance.detail.component.failed'})}
+                               value={props.dorisInstanceDetail.instance?.brokerStatus?.failedInstances?.length}
+                               status={"error"}/>
                            </Space>
-                         ),
+                         )
                        }}
                        footer={
-                         <div>{intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.image'}) + ": " + data.brokerSpec?.image ? data.brokerSpec?.image : '-'}</div>
-                       }
-        />
+                         <div>{intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.image'}) + ": " + props.dorisInstanceDetail.instance?.brokerSpec?.image ? props.dorisInstanceDetail.instance?.brokerSpec?.image : '-'}</div>
+                       }/>
       </ProCard>
     </ProCard.Group>
   );
 }
 
-export default DorisInstanceDetailComponent;
+const mapModelToProps = ({dorisInstanceDetail}: any) => ({dorisInstanceDetail})
+export default connect(mapModelToProps)(DorisInstanceDetailComponent);

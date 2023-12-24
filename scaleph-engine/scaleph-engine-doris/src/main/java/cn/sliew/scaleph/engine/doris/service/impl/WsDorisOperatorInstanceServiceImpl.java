@@ -18,12 +18,14 @@
 
 package cn.sliew.scaleph.engine.doris.service.impl;
 
+import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDorisOperatorInstance;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsDorisOperatorInstanceMapper;
 import cn.sliew.scaleph.engine.doris.operator.DorisCluster;
+import cn.sliew.scaleph.engine.doris.operator.status.DorisClusterStatus;
 import cn.sliew.scaleph.engine.doris.service.DorisOperatorService;
 import cn.sliew.scaleph.engine.doris.service.WsDorisOperatorInstanceService;
 import cn.sliew.scaleph.engine.doris.service.WsDorisOperatorTemplateService;
@@ -37,14 +39,20 @@ import cn.sliew.scaleph.engine.doris.service.resource.cluster.DorisClusterConver
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
+import io.fabric8.kubernetes.api.model.GenericKubernetesResourceBuilder;
+import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.client.utils.Serialization;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Predicates;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -71,6 +79,15 @@ public class WsDorisOperatorInstanceServiceImpl implements WsDorisOperatorInstan
         List<WsDorisOperatorInstanceDTO> dtoList = WsDorisOperatorInstanceConvert.INSTANCE.toDto(page.getRecords());
         result.setRecords(dtoList);
         return result;
+    }
+
+    @Override
+    public List<Long> listAll() {
+        LambdaQueryWrapper<WsDorisOperatorInstance> queryWrapper = Wrappers.lambdaQuery(WsDorisOperatorInstance.class)
+                .eq(WsDorisOperatorInstance::getDeployed, YesOrNo.YES)
+                .select(WsDorisOperatorInstance::getId);
+        List<WsDorisOperatorInstance> wsDorisOperatorInstances = wsDorisOperatorInstanceMapper.selectList(queryWrapper);
+        return wsDorisOperatorInstances.stream().map(WsDorisOperatorInstance::getId).collect(Collectors.toList());
     }
 
     @Override
@@ -146,12 +163,15 @@ public class WsDorisOperatorInstanceServiceImpl implements WsDorisOperatorInstan
 
     @Override
     public int deleteById(Long id) {
+        WsDorisOperatorInstanceDTO instanceDTO = selectOne(id);
+        checkState(instanceDTO.getDeployed() == YesOrNo.NO, () -> "doris instance already deployed! can't delete");
         return wsDorisOperatorInstanceMapper.deleteById(id);
     }
 
     @Override
     public int deleteBatch(List<Long> ids) {
-        return wsDorisOperatorInstanceMapper.deleteBatchIds(ids);
+        ids.forEach(this::deleteById);
+        return ids.size();
     }
 
     @Override
@@ -164,6 +184,10 @@ public class WsDorisOperatorInstanceServiceImpl implements WsDorisOperatorInstan
         }
         String yaml = Serialization.asYaml(dorisCluster);
         dorisOperatorService.deploy(instanceDTO.getClusterCredentialId(), yaml);
+        WsDorisOperatorInstance record = new WsDorisOperatorInstance();
+        record.setId(instanceDTO.getId());
+        record.setDeployed(YesOrNo.YES);
+        wsDorisOperatorInstanceMapper.updateById(record);
     }
 
     @Override
@@ -180,5 +204,70 @@ public class WsDorisOperatorInstanceServiceImpl implements WsDorisOperatorInstan
         DorisCluster dorisCluster = asYaml(instanceDTO);
         String yaml = Serialization.asYaml(dorisCluster);
         dorisOperatorService.shutdown(instanceDTO.getClusterCredentialId(), yaml);
+        WsDorisOperatorInstance record = new WsDorisOperatorInstance();
+        record.setId(instanceDTO.getId());
+        wsDorisOperatorInstanceMapper.updateById(record);
+    }
+
+    @Override
+    public Optional<GenericKubernetesResource> getStatus(Long id) {
+        try {
+            WsDorisOperatorInstanceDTO instanceDTO = selectOne(id);
+            if (instanceDTO.getDeployed() == YesOrNo.YES) {
+                return dorisOperatorService.get(instanceDTO);
+            }
+            return Optional.empty();
+        } catch (Exception e) {
+            Rethrower.throwAs(e);
+            return null;
+        }
+    }
+
+    @Override
+    public Optional<GenericKubernetesResource> getStatusWithoutManagedFields(Long id) {
+        Optional<GenericKubernetesResource> optional = getStatus(id);
+        if (optional.isEmpty()) {
+            return Optional.empty();
+        }
+        GenericKubernetesResource status = optional.get();
+        GenericKubernetesResourceBuilder builder = new GenericKubernetesResourceBuilder(status);
+        ObjectMetaBuilder objectMetaBuilder = new ObjectMetaBuilder(status.getMetadata());
+        objectMetaBuilder.removeMatchingFromManagedFields(Predicates.isTrue());
+        builder.withMetadata(objectMetaBuilder.build());
+        return Optional.of(builder.build());
+    }
+
+    @Override
+    public int updateStatus(Long id, DorisClusterStatus status) {
+        if (status == null) {
+            return -1;
+        }
+        WsDorisOperatorInstance record = new WsDorisOperatorInstance();
+        record.setId(id);
+        if (status.getFeStatus() != null) {
+            record.setFeStatus(JacksonUtil.toJsonString(status.getFeStatus()));
+        }
+        if (status.getBeStatus() != null) {
+            record.setBeStatus(JacksonUtil.toJsonString(status.getBeStatus()));
+        }
+        if (status.getCnStatus() != null) {
+            record.setCnStatus(JacksonUtil.toJsonString(status.getCnStatus()));
+        }
+        if (status.getBrokerStatus() != null) {
+            record.setBrokerStatus(JacksonUtil.toJsonString(status.getBrokerStatus()));
+        }
+        return wsDorisOperatorInstanceMapper.updateById(record);
+    }
+
+    @Override
+    public int clearStatus(Long id) {
+        WsDorisOperatorInstance record = new WsDorisOperatorInstance();
+        record.setId(id);
+        record.setDeployed(YesOrNo.NO);
+        record.setFeStatus(null);
+        record.setBeStatus(null);
+        record.setCnStatus(null);
+        record.setBrokerStatus(null);
+        return wsDorisOperatorInstanceMapper.updateById(record);
     }
 }

@@ -20,13 +20,16 @@ package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.engine.doris.operator.DorisCluster;
+import cn.sliew.scaleph.engine.doris.service.DorisClusterEndpointService;
 import cn.sliew.scaleph.engine.doris.service.WsDorisOperatorInstanceService;
+import cn.sliew.scaleph.engine.doris.service.dto.DorisClusterFeEndpoint;
 import cn.sliew.scaleph.engine.doris.service.dto.WsDorisOperatorInstanceDTO;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisOperatorInstanceAddParam;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisOperatorInstanceListParam;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisOperatorInstanceUpdateParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +39,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Tag(name = "Doris管理-Operator实例管理")
 @RestController
@@ -44,6 +48,8 @@ public class WsDorisOperatorInstanceController {
 
     @Autowired
     private WsDorisOperatorInstanceService wsDorisInstanceService;
+    @Autowired
+    private DorisClusterEndpointService dorisClusterEndpointService;
 
     @Logging
     @GetMapping
@@ -123,6 +129,22 @@ public class WsDorisOperatorInstanceController {
     public ResponseEntity<ResponseVO> shutdown(@PathVariable("id") Long id) {
         wsDorisInstanceService.shutdown(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("status/{id}")
+    @Operation(summary = "获取实例状态", description = "获取实例状态")
+    public ResponseEntity<ResponseVO<GenericKubernetesResource>> getStatus(@PathVariable("id") Long id) {
+        Optional<GenericKubernetesResource> sessionCluster = wsDorisInstanceService.getStatusWithoutManagedFields(id);
+        return new ResponseEntity<>(ResponseVO.success(sessionCluster.orElse(null)), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("endpoint/fe/{id}")
+    @Operation(summary = "获取 FE endpoint", description = "获取 FE endpoint")
+    public ResponseEntity<ResponseVO<DorisClusterFeEndpoint>> getFlinkUI(@PathVariable("id") Long id) {
+        DorisClusterFeEndpoint feEndpoint = dorisClusterEndpointService.getFEEndpoint(id);
+        return new ResponseEntity<>(ResponseVO.success(feEndpoint), HttpStatus.OK);
     }
 
 }

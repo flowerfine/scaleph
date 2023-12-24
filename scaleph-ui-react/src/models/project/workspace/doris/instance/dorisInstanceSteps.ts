@@ -1,7 +1,6 @@
-import {WsDorisOperatorInstance, WsDorisOperatorTemplate} from "@/services/project/typings";
+import {WsDorisOperatorInstance} from "@/services/project/typings";
 import {Effect, Reducer} from "umi";
 import YAML from "yaml";
-import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";
 import {WsDorisOperatorInstanceService} from "@/services/project/WsDorisOperatorInstanceService";
 
 export interface StateType {
@@ -16,11 +15,11 @@ export interface ModelType {
   state: StateType;
 
   effects: {
-    queryTemplate: Effect;
+    editInstance: Effect;
   };
 
   reducers: {
-    updateTemplate: Reducer<StateType>;
+    updateInstance: Reducer<StateType>;
   };
 }
 
@@ -37,7 +36,8 @@ const model: ModelType = {
     *editInstance({payload}, {call, put}) {
       const {data} = yield call(WsDorisOperatorInstanceService.asYaml, payload);
       const response = yield call(WsDorisOperatorInstanceService.asYaml, payload);
-      yield put({type: 'updateInstance',
+      yield put({
+        type: 'updateInstance',
         payload: {
           instance: payload,
           instanceYaml: YAML.stringify(data),

@@ -19,17 +19,22 @@
 package cn.sliew.scaleph.engine.doris.service;
 
 import cn.sliew.scaleph.engine.doris.operator.DorisCluster;
+import cn.sliew.scaleph.engine.doris.operator.status.DorisClusterStatus;
 import cn.sliew.scaleph.engine.doris.service.dto.WsDorisOperatorInstanceDTO;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisOperatorInstanceAddParam;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisOperatorInstanceListParam;
 import cn.sliew.scaleph.engine.doris.service.param.WsDorisOperatorInstanceUpdateParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface WsDorisOperatorInstanceService {
 
     Page<WsDorisOperatorInstanceDTO> list(WsDorisOperatorInstanceListParam param);
+
+    List<Long> listAll();
 
     WsDorisOperatorInstanceDTO selectOne(Long id);
 
@@ -50,4 +55,12 @@ public interface WsDorisOperatorInstanceService {
     void apply(Long id);
 
     void shutdown(Long id);
+
+    Optional<GenericKubernetesResource> getStatus(Long id);
+
+    Optional<GenericKubernetesResource> getStatusWithoutManagedFields(Long id);
+
+    int updateStatus(Long id, DorisClusterStatus status);
+
+    int clearStatus(Long id);
 }

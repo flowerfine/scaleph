@@ -1,5 +1,7 @@
 import {useIntl} from "umi";
-import {ProCard, ProFormDigit, ProFormGroup, ProFormText} from "@ant-design/pro-components";
+import {ProCard, ProFormDigit, ProFormGroup, ProFormSelect, ProFormText} from "@ant-design/pro-components";
+import {DictDataService} from "@/services/admin/dictData.service";
+import {DICT_TYPE} from "@/constants/dictType";
 
 const DorisFeComponent: React.FC = () => {
   const intl = useIntl();
@@ -30,7 +32,8 @@ const DorisFeComponent: React.FC = () => {
         colProps={{span: 10, offset: 1}}
         initialValue={8}
         fieldProps={{
-          min: 1
+          min: 0,
+          precision: 2
         }}
       />
       <ProFormText
@@ -45,7 +48,8 @@ const DorisFeComponent: React.FC = () => {
         colProps={{span: 10, offset: 1}}
         initialValue={16}
         fieldProps={{
-          min: 1
+          min: 0,
+          precision: 2
         }}
       />
       <ProFormText
@@ -53,6 +57,12 @@ const DorisFeComponent: React.FC = () => {
         label={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.limits.memory'})}
         colProps={{span: 10, offset: 1}}
         initialValue={"32Gi"}
+      />
+      <ProFormSelect
+        name="fe.service.type"
+        label={intl.formatMessage({id: 'pages.project.doris.template.steps.component.base.service.type'})}
+        colProps={{span: 10, offset: 1}}
+        request={() => DictDataService.listDictDataByType2(DICT_TYPE.flinkServiceExposedType)}
       />
     </ProFormGroup>
   </ProCard>);
