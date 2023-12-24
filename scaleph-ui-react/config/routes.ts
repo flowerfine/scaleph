@@ -109,8 +109,8 @@
             component: './Project/Workspace/Kubernetes/Template/Steps',
           },
           {
-            path: '/workspace/flink/kubernetes/template/detail',
-            component: './Project/Workspace/Kubernetes/Template/Detail',
+            path: '/workspace/flink/kubernetes/template/update',
+            component: './Project/Workspace/Kubernetes/Template/Update',
           },
           {
             name: 'session-cluster',

@@ -103,7 +103,7 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
                 type="link"
                 icon={<EditOutlined/>}
                 onClick={() => {
-                  history.push("/workspace/flink/kubernetes/template/detail", record)
+                  history.push("/workspace/flink/kubernetes/template/update", record)
                 }}
               />
             </Tooltip>

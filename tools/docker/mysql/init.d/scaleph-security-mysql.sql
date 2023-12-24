@@ -402,8 +402,8 @@ VALUES (23, '2', 21, 'template', '/workspace/flink/kubernetes/template', NULL, N
         './Project/Workspace/Kubernetes/Template', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
-VALUES (24, '2', 21, '', '/workspace/flink/kubernetes/template/detail', NULL, NULL, NULL,
-        './Project/Workspace/Kubernetes/Template/Detail', NULL, 'sys', 'sys');
+VALUES (24, '2', 21, '', '/workspace/flink/kubernetes/template/update', NULL, NULL, NULL,
+        './Project/Workspace/Kubernetes/Template/Update', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
 VALUES (25, '2', 21, 'session-cluster', '/workspace/flink/kubernetes/session-cluster', NULL, NULL, NULL,

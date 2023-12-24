@@ -2,20 +2,20 @@ import {connect} from "umi";
 import React, {useEffect} from "react";
 import {Form} from "antd";
 import {ProCard} from "@ant-design/pro-components";
-import AdvancedBasic from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedBasic";
-import AdvancedCheckpoint from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedCheckpoint";
+import AdvancedBasic from "@/pages/Project/Workspace/Kubernetes/Template/Update/Advanced/AdvancedBasic";
+import AdvancedCheckpoint from "@/pages/Project/Workspace/Kubernetes/Template/Update/Advanced/AdvancedCheckpoint";
 import AdvancedPeriodicSavepoint
-  from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedPeriodicSavepoint";
-import AdvancedRestart from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedRestart";
+  from "@/pages/Project/Workspace/Kubernetes/Template/Update/Advanced/AdvancedPeriodicSavepoint";
+import AdvancedRestart from "@/pages/Project/Workspace/Kubernetes/Template/Update/Advanced/AdvancedRestart";
 import AdvancedFaultTolerance
-  from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedFaultTolerance";
+  from "@/pages/Project/Workspace/Kubernetes/Template/Update/Advanced/AdvancedFaultTolerance";
 import AdvancedHighAvailability
-  from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedHighAvailability";
-import AdvancedResource from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedResource";
-import AdvancedAdditional from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedAdditional";
+  from "@/pages/Project/Workspace/Kubernetes/Template/Update/Advanced/AdvancedHighAvailability";
+import AdvancedResource from "@/pages/Project/Workspace/Kubernetes/Template/Update/Advanced/AdvancedResource";
+import AdvancedAdditional from "@/pages/Project/Workspace/Kubernetes/Template/Update/Advanced/AdvancedAdditional";
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
 import AdvancedAdditionalDependencies
-  from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedAdditionalDependencies";
+  from "@/pages/Project/Workspace/Kubernetes/Template/Update/Advanced/AdvancedAdditionalDependencies";
 
 const DeploymentOptionsStepForm: React.FC = (props: any) => {
   const form = Form.useFormInstance()

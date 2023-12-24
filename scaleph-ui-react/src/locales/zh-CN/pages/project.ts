@@ -824,6 +824,7 @@ export default {
   'pages.project.flink.kubernetes.template.namespace.tooltip': '填写 Kubernetes Namespace',
   'pages.project.flink.kubernetes.template.flinkVersion': 'Flink 版本',
   'pages.project.flink.kubernetes.template.image': '镜像',
+  'pages.project.flink.kubernetes.template.update': '修改模板',
   'pages.project.flink.kubernetes.template.detail': '模板详情',
   'pages.project.flink.kubernetes.template.step.base': '基础信息',
   'pages.project.flink.kubernetes.template.step.advanced': '高级配置',
