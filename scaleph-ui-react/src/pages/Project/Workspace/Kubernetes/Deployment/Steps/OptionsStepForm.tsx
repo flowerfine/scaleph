@@ -21,10 +21,10 @@ const DeploymentOptionsStepForm: React.FC = (props: any) => {
   const form = Form.useFormInstance()
 
   useEffect(() => {
-    if (props.deploymentStep.deployment) {
-      form.setFieldsValue(WsFlinkKubernetesTemplateService.parseData({...props.deploymentStep.deployment}))
+    if (props.flinkKubernetesDeploymentSteps.deployment) {
+      form.setFieldsValue(WsFlinkKubernetesTemplateService.parseData({...props.flinkKubernetesDeploymentSteps.deployment}))
     }
-  }, [props.deploymentStep.deployment]);
+  }, [props.flinkKubernetesDeploymentSteps.deployment]);
 
   return (
     <ProCard>
@@ -41,5 +41,5 @@ const DeploymentOptionsStepForm: React.FC = (props: any) => {
   )
 }
 
-const mapModelToProps = ({deploymentStep}: any) => ({deploymentStep})
+const mapModelToProps = ({flinkKubernetesDeploymentSteps}: any) => ({flinkKubernetesDeploymentSteps})
 export default connect(mapModelToProps)(DeploymentOptionsStepForm);
