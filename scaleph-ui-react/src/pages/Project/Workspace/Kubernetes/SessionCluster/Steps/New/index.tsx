@@ -9,7 +9,7 @@ import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlink
 import {WORKSPACE_CONF} from "@/constants/constant";
 import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
 
-const FlinkKubernetesSessionClusterSteps: React.FC = (props: any) => {
+const FlinkKubernetesSessionClusterNewSteps: React.FC = (props: any) => {
   const intl = useIntl();
   const formRef = useRef<ProFormInstance>();
   const localProjectId = localStorage.getItem(WORKSPACE_CONF.projectId);
@@ -100,4 +100,4 @@ const FlinkKubernetesSessionClusterSteps: React.FC = (props: any) => {
 }
 
 const mapModelToProps = ({flinkKubernetesSessionClusterSteps}: any) => ({flinkKubernetesSessionClusterSteps})
-export default connect(mapModelToProps)(FlinkKubernetesSessionClusterSteps);
+export default connect(mapModelToProps)(FlinkKubernetesSessionClusterNewSteps);

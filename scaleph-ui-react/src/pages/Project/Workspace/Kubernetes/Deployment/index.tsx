@@ -1,15 +1,14 @@
 import {history, useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
-import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined, EyeOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProFormSelect, ProTable} from "@ant-design/pro-components";
 import {WORKSPACE_CONF} from "@/constants/constant";
 import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
+import {DICT_TYPE} from "@/constants/dictType";
 import {WsFlinkKubernetesDeployment} from "@/services/project/typings";
 import {WsFlinkKubernetesDeploymentService} from "@/services/project/WsFlinkKubernetesDeploymentService";
-import DeploymentForm from "@/pages/Project/Workspace/Kubernetes/Deployment/DeploymentForm";
 import {DictDataService} from "@/services/admin/dictData.service";
-import {DICT_TYPE} from "@/constants/dictType";
 
 const FlinkKubernetesDeploymentWeb: React.FC = () => {
   const intl = useIntl();
@@ -17,10 +16,6 @@ const FlinkKubernetesDeploymentWeb: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<WsFlinkKubernetesDeployment[]>([]);
-  const [deploymentFormData, setDeploymentFormData] = useState<{
-    visiable: boolean;
-    data: WsFlinkKubernetesDeployment;
-  }>({visiable: false, data: {}});
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
   const tableColumns: ProColumns<WsFlinkKubernetesDeployment>[] = [
@@ -93,7 +88,7 @@ const FlinkKubernetesDeploymentWeb: React.FC = () => {
                 type="link"
                 icon={<EditOutlined/>}
                 onClick={() => {
-                  setDeploymentFormData({visiable: true, data: record});
+                  history.push("/workspace/flink/kubernetes/deployment/steps/update", record)
                 }}
               />
             </Tooltip>
@@ -103,7 +98,7 @@ const FlinkKubernetesDeploymentWeb: React.FC = () => {
               <Button
                 shape="default"
                 type="link"
-                icon={<NodeIndexOutlined/>}
+                icon={<EyeOutlined/>}
                 onClick={() => {
                   history.push("/workspace/flink/kubernetes/deployment/detail", record)
                 }}
@@ -163,7 +158,7 @@ const FlinkKubernetesDeploymentWeb: React.FC = () => {
               key="new"
               type="primary"
               onClick={() => {
-                history.push("/workspace/flink/kubernetes/deployment/steps")
+                history.push("/workspace/flink/kubernetes/deployment/steps/new")
               }}
             >
               {intl.formatMessage({id: 'app.common.operate.new.label'})}
@@ -207,19 +202,6 @@ const FlinkKubernetesDeploymentWeb: React.FC = () => {
       tableAlertRender={false}
       tableAlertOptionRender={false}
     />
-    {deploymentFormData.visiable && (
-      <DeploymentForm
-        visible={deploymentFormData.visiable}
-        onCancel={() => {
-          setDeploymentFormData({visiable: false, data: {}});
-        }}
-        onVisibleChange={(visiable) => {
-          setDeploymentFormData({visiable: visiable, data: {}});
-          actionRef.current?.reload();
-        }}
-        data={deploymentFormData.data}
-      />
-    )}
   </div>);
 }
 

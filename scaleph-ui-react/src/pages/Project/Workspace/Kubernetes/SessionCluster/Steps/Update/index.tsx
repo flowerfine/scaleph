@@ -8,7 +8,7 @@ import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubern
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
 import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
 
-const FlinkKubernetesSessionClusterSteps: React.FC = (props: any) => {
+const FlinkKubernetesSessionClusterUpdateSteps: React.FC = (props: any) => {
   const intl = useIntl();
   const formRef = useRef<ProFormInstance>();
   const data = useLocation().state as WsFlinkKubernetesSessionCluster
@@ -80,4 +80,4 @@ const FlinkKubernetesSessionClusterSteps: React.FC = (props: any) => {
 }
 
 const mapModelToProps = ({flinkKubernetesSessionClusterSteps}: any) => ({flinkKubernetesSessionClusterSteps})
-export default connect(mapModelToProps)(FlinkKubernetesSessionClusterSteps);
+export default connect(mapModelToProps)(FlinkKubernetesSessionClusterUpdateSteps);

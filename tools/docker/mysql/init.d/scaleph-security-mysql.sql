@@ -421,8 +421,8 @@ VALUES (28, '2', 21, 'deployment', '/workspace/flink/kubernetes/deployment', NUL
         './Project/Workspace/Kubernetes/Deployment', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
-VALUES (29, '2', 21, NULL, '/workspace/flink/kubernetes/deployment/steps', NULL, NULL, NULL,
-        './Project/Workspace/Kubernetes/Deployment/Steps', NULL, 'sys', 'sys');
+VALUES (29, '2', 21, NULL, '/workspace/flink/kubernetes/deployment/steps/new', NULL, NULL, NULL,
+        './Project/Workspace/Kubernetes/Deployment/Steps/New', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
 VALUES (30, '2', 21, NULL, '/workspace/flink/kubernetes/deployment/detail', NULL, NULL, NULL,
@@ -574,6 +574,10 @@ INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`,
                                 `remark`, `creator`, `editor`)
 VALUES (73, '2', 21, NULL, '/workspace/flink/kubernetes/session-cluster/steps/update', NULL, NULL, NULL,
         './Project/Workspace/Kubernetes/SessionCluster/Steps/Update', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (74, '2', 21, NULL, '/workspace/flink/kubernetes/deployment/steps/update', NULL, NULL, NULL,
+        './Project/Workspace/Kubernetes/Deployment/Steps/Update', NULL, 'sys', 'sys');
 
 drop table if exists sec_resource_web_role;
 create table sec_resource_web_role

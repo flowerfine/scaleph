@@ -3,14 +3,13 @@ import React, {useRef} from "react";
 import {ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
 import {WORKSPACE_CONF} from "@/constants/constant";
-import {FieldData} from "rc-field-form/lib/interface";
 import {WsFlinkKubernetesDeployment} from "@/services/project/typings";
-import DeploymentClusterStepForm from "@/pages/Project/Workspace/Kubernetes/Deployment/Steps/ClusterStepForm";
+import DeploymentClusterStepForm from "@/pages/Project/Workspace/Kubernetes/Deployment/Steps/New/ClusterStepForm";
 import {WsFlinkKubernetesDeploymentService} from "@/services/project/WsFlinkKubernetesDeploymentService";
-import DeploymentOptionsStepForm from "@/pages/Project/Workspace/Kubernetes/Deployment/Steps/OptionsStepForm";
-import DeploymentYAMLStepForm from "@/pages/Project/Workspace/Kubernetes/Deployment/Steps/YAMLStepForm";
+import DeploymentOptionsStepForm from "@/pages/Project/Workspace/Kubernetes/Deployment/Steps/New/OptionsStepForm";
+import DeploymentYAMLStepForm from "@/pages/Project/Workspace/Kubernetes/Deployment/Steps/New/YAMLStepForm";
 
-const FlinkKubernetesDeploymentSteps: React.FC = (props: any) => {
+const FlinkKubernetesDeploymentNewSteps: React.FC = (props: any) => {
   const intl = useIntl();
   const formRef = useRef<ProFormInstance>();
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
@@ -99,4 +98,4 @@ const FlinkKubernetesDeploymentSteps: React.FC = (props: any) => {
 }
 
 const mapModelToProps = ({flinkKubernetesDeploymentSteps}: any) => ({flinkKubernetesDeploymentSteps})
-export default connect(mapModelToProps)(FlinkKubernetesDeploymentSteps);
+export default connect(mapModelToProps)(FlinkKubernetesDeploymentNewSteps);
