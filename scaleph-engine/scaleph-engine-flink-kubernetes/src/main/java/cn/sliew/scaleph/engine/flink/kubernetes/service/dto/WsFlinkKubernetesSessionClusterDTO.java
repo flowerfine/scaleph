@@ -78,6 +78,9 @@ public class WsFlinkKubernetesSessionClusterDTO extends BaseDTO {
     @Schema(description = "additional dependencies")
     private List<Long> additionalDependencies;
 
+    @Schema(description = "是否部署")
+    private YesOrNo deployed;
+
     @Schema(description = "support sql gateway")
     private YesOrNo supportSqlGateway;
 

@@ -104,6 +104,7 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
     @Override
     public List<Long> listAll() {
         LambdaQueryWrapper<WsFlinkKubernetesSessionCluster> queryWrapper = Wrappers.lambdaQuery(WsFlinkKubernetesSessionCluster.class)
+                .eq(WsFlinkKubernetesSessionCluster::getDeployed, YesOrNo.YES)
                 .select(WsFlinkKubernetesSessionCluster::getId);
         List<WsFlinkKubernetesSessionCluster> wsFlinkKubernetesSessionClusters = wsFlinkKubernetesSessionClusterMapper.selectList(queryWrapper);
         return wsFlinkKubernetesSessionClusters.stream().map(WsFlinkKubernetesSessionCluster::getId).collect(Collectors.toList());
@@ -150,6 +151,7 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
     public int insert(WsFlinkKubernetesSessionClusterDTO dto) {
         WsFlinkKubernetesSessionCluster record = WsFlinkKubernetesSessionClusterConvert.INSTANCE.toDo(dto);
         record.setSessionClusterId(UUIDUtil.randomUUId());
+        record.setDeployed(YesOrNo.NO);
         record.setSupportSqlGateway(YesOrNo.NO);
         return wsFlinkKubernetesSessionClusterMapper.insert(record);
     }
@@ -238,6 +240,7 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
     public int clearStatus(Long id) {
         WsFlinkKubernetesSessionCluster record = new WsFlinkKubernetesSessionCluster();
         record.setId(id);
+        record.setDeployed(YesOrNo.NO);
         record.setState(null);
         record.setError(null);
         record.setClusterInfo(null);
@@ -259,19 +262,28 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
     public void deploy(Long id) throws Exception {
         WsFlinkKubernetesSessionClusterDTO sessionClusterDTO = selectOne(id);
         flinkKubernetesOperatorService.deploySessionCluster(sessionClusterDTO.getClusterCredentialId(), asYAML(sessionClusterDTO));
+        WsFlinkKubernetesSessionCluster record = new WsFlinkKubernetesSessionCluster();
+        record.setId(sessionClusterDTO.getId());
+        record.setDeployed(YesOrNo.YES);
+        wsFlinkKubernetesSessionClusterMapper.updateById(record);
     }
 
     @Override
     public void shutdown(Long id) throws Exception {
         WsFlinkKubernetesSessionClusterDTO sessionClusterDTO = selectOne(id);
-        flinkKubernetesOperatorService.shutdownSessionCluster(sessionClusterDTO.getClusterCredentialId(), asYAML(sessionClusterDTO));
+        if (sessionClusterDTO.getDeployed() == YesOrNo.YES) {
+            flinkKubernetesOperatorService.shutdownSessionCluster(sessionClusterDTO.getClusterCredentialId(), asYAML(sessionClusterDTO));
+        }
     }
 
     @Override
     public Optional<GenericKubernetesResource> getStatus(Long id) {
         try {
             WsFlinkKubernetesSessionClusterDTO sessionClusterDTO = selectOne(id);
-            return flinkKubernetesOperatorService.getSessionCluster(sessionClusterDTO);
+            if (sessionClusterDTO.getDeployed() == YesOrNo.YES) {
+                return flinkKubernetesOperatorService.getSessionCluster(sessionClusterDTO);
+            }
+            return Optional.empty();
         } catch (Exception e) {
             Rethrower.throwAs(e);
             return null;

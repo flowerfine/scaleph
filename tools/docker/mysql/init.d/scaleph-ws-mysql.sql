@@ -372,6 +372,7 @@ CREATE TABLE ws_flink_kubernetes_session_cluster
     log_configuration       text,
     ingress                 text,
     additional_dependencies text,
+    deployed                varchar(8) comment '是否部署',
     support_sql_gateway     varchar(16),
     state                   varchar(64),
     error                   text,
