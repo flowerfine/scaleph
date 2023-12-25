@@ -1,31 +1,22 @@
 import {connect, history, useIntl} from "umi";
-import React, {useRef} from "react";
+import React, {useEffect, useRef} from "react";
 import {ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
-import {WORKSPACE_CONF} from "@/constants/constant";
-import {WsFlinkKubernetesDeployment} from "@/services/project/typings";
-import DeploymentClusterStepForm from "@/pages/Project/Workspace/Kubernetes/Deployment/Steps/New/ClusterStepForm";
+import {WsFlinkKubernetesDeployment, WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
 import {WsFlinkKubernetesDeploymentService} from "@/services/project/WsFlinkKubernetesDeploymentService";
 import DeploymentOptionsStepForm from "@/pages/Project/Workspace/Kubernetes/Deployment/Steps/New/OptionsStepForm";
 import DeploymentYAMLStepForm from "@/pages/Project/Workspace/Kubernetes/Deployment/Steps/New/YAMLStepForm";
+import {useLocation} from "@@/exports";
 
 const FlinkKubernetesDeploymentUpdateSteps: React.FC = (props: any) => {
   const intl = useIntl();
   const formRef = useRef<ProFormInstance>();
-  const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
+  const data = useLocation().state as WsFlinkKubernetesSessionCluster
 
-  const onClusterStepFinish = (values: Record<string, any>) => {
-    return WsFlinkKubernetesDeploymentService.fromTemplate(values.templateId).then(response => {
-      const deployment: WsFlinkKubernetesDeployment = response.data
-      deployment.projectId = projectId
-      deployment.name = values.name
-      deployment.clusterCredentialId = values.clusterCredentialId
-      deployment.namespace = values.namespace
-      deployment.remark = values.remark
-      editDeployment(deployment)
-      return true
-    })
-  }
+  useEffect(() => {
+    editDeployment(data)
+    formRef.current?.setFieldsValue(WsFlinkKubernetesTemplateService.parseData(data))
+  }, []);
 
   const onOptionsStepFinish = (values: Record<string, any>) => {
     try {
@@ -52,7 +43,7 @@ const FlinkKubernetesDeploymentUpdateSteps: React.FC = (props: any) => {
   }
 
   const onAllFinish = (values: Record<string, any>) => {
-    return WsFlinkKubernetesDeploymentService.add(props.flinkKubernetesDeploymentSteps.deployment).then((response) => {
+    return WsFlinkKubernetesDeploymentService.update(props.flinkKubernetesDeploymentSteps.deployment).then((response) => {
       if (response.success) {
         history.back()
       }
@@ -68,15 +59,6 @@ const FlinkKubernetesDeploymentUpdateSteps: React.FC = (props: any) => {
           rowProps: {gutter: [16, 8]}
         }}
         onFinish={onAllFinish}>
-
-        <StepsForm.StepForm
-          name="cluster"
-          title={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.steps.cluster'})}
-          style={{width: 1000}}
-          onFinish={onClusterStepFinish}>
-          <DeploymentClusterStepForm/>
-        </StepsForm.StepForm>
-
         <StepsForm.StepForm
           name="options"
           title={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.steps.options'})}
