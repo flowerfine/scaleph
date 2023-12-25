@@ -409,8 +409,8 @@ VALUES (25, '2', 21, 'session-cluster', '/workspace/flink/kubernetes/session-clu
         './Project/Workspace/Kubernetes/SessionCluster', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
-VALUES (26, '2', 21, NULL, '/workspace/flink/kubernetes/session-cluster/steps', NULL, NULL, NULL,
-        './Project/Workspace/Kubernetes/SessionCluster/Steps', NULL, 'sys', 'sys');
+VALUES (26, '2', 21, NULL, '/workspace/flink/kubernetes/session-cluster/steps/new', NULL, NULL, NULL,
+        './Project/Workspace/Kubernetes/SessionCluster/Steps/new', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
 VALUES (27, '2', 21, NULL, '/workspace/flink/kubernetes/session-cluster/detail', NULL, NULL, NULL,
@@ -568,8 +568,12 @@ VALUES (71, '2', 64, '', '/workspace/doris/instance/detail', NULL, NULL, NULL,
         './Project/Workspace/Doris/OperatorInstance/Detail', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
-VALUES (72, '2', 21, NULL, '/workspace/flink/kubernetes/template/steps', NULL, NULL, NULL,
-        './Project/Workspace/Kubernetes/Template/Steps', NULL, 'sys', 'sys');
+VALUES (72, '2', 21, NULL, '/workspace/flink/kubernetes/template/steps/new', NULL, NULL, NULL,
+        './Project/Workspace/Kubernetes/Template/Steps/New', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (73, '2', 21, NULL, '/workspace/flink/kubernetes/session-cluster/steps/update', NULL, NULL, NULL,
+        './Project/Workspace/Kubernetes/SessionCluster/Steps/Update', NULL, 'sys', 'sys');
 
 drop table if exists sec_resource_web_role;
 create table sec_resource_web_role

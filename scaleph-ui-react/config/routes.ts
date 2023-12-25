@@ -118,8 +118,12 @@
             component: './Project/Workspace/Kubernetes/SessionCluster',
           },
           {
-            path: '/workspace/flink/kubernetes/session-cluster/steps',
-            component: './Project/Workspace/Kubernetes/SessionCluster/Steps',
+            path: '/workspace/flink/kubernetes/session-cluster/steps/new',
+            component: './Project/Workspace/Kubernetes/SessionCluster/Steps/New',
+          },
+          {
+            path: '/workspace/flink/kubernetes/session-cluster/steps/update',
+            component: './Project/Workspace/Kubernetes/SessionCluster/Steps/Update',
           },
           {
             path: '/workspace/flink/kubernetes/session-cluster/detail',

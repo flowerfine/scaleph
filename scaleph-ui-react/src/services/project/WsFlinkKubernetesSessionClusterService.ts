@@ -40,7 +40,7 @@ export const WsFlinkKubernetesSessionClusterService = {
   asYAML: async (row: WsFlinkKubernetesSessionCluster) => {
     return request<ResponseBody<any>>(`${WsFlinkKubernetesSessionClusterService.url}/asYAML`, {
       method: 'POST',
-      data: row,
+      data: {...row, deployed: row.deployed?.value, supportSqlGateway: row.supportSqlGateway?.value},
     });
   },
 
@@ -61,7 +61,7 @@ export const WsFlinkKubernetesSessionClusterService = {
   update: async (row: WsFlinkKubernetesSessionCluster) => {
     return request<ResponseBody<any>>(`${WsFlinkKubernetesSessionClusterService.url}`, {
       method: 'POST',
-      data: row,
+      data: {...row, deployed: row.deployed?.value, supportSqlGateway: row.supportSqlGateway?.value},
     });
   },
 
