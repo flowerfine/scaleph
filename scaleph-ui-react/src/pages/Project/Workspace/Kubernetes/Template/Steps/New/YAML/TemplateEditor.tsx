@@ -1,12 +1,15 @@
 import React, {useEffect, useRef} from "react";
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
+import {Props} from '@/app';
+import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
 import {connect} from "umi";
 
-const DefaultTemplateEditor: React.FC = (props: any) => {
+const FlinkKubernetesTemplateYAMLStepEditor: React.FC<Props<WsFlinkKubernetesTemplate>> = (props: any) => {
   const editorRef = useRef(null);
   const monaco = useMonaco();
 
   useEffect(() => {
+    // do conditional chaining
     monaco?.languages.typescript.javascriptDefaults.setEagerModelSync(true);
   }, [monaco]);
 
@@ -20,7 +23,7 @@ const DefaultTemplateEditor: React.FC = (props: any) => {
       height="600px"
       language="yaml"
       theme="vs-white"
-      value={props.templateDetail.templateYamlWithDefault}
+      value={props.flinkKubernetesTemplateSteps.templateYaml}
       options={{
         selectOnLineNumbers: true,
         readOnly: true,
@@ -33,5 +36,5 @@ const DefaultTemplateEditor: React.FC = (props: any) => {
   );
 }
 
-const mapModelToProps = ({templateDetail}: any) => ({templateDetail})
-export default connect(mapModelToProps)(DefaultTemplateEditor);
+const mapModelToProps = ({flinkKubernetesTemplateSteps}: any) => ({flinkKubernetesTemplateSteps})
+export default connect(mapModelToProps)(FlinkKubernetesTemplateYAMLStepEditor);

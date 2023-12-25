@@ -2,9 +2,9 @@ import React from "react";
 import {Col, Row} from "antd";
 import {ProCard} from "@ant-design/pro-components";
 import FlinkKubernetesTemplateYAMLStepEditor
-  from "@/pages/Project/Workspace/Kubernetes/Template/Steps/YAML/TemplateEditor";
+  from "@/pages/Project/Workspace/Kubernetes/Template/Steps/New/YAML/TemplateEditor";
 import FlinkKubernetesTemplateYAMLStepDefaultEditor
-  from "@/pages/Project/Workspace/Kubernetes/Template/Steps/YAML/DefaultTemplateEditor";
+  from "@/pages/Project/Workspace/Kubernetes/Template/Steps/New/YAML/DefaultTemplateEditor";
 
 const FlinkKubernetesTemplateYAMLStep: React.FC = () => {
   return (

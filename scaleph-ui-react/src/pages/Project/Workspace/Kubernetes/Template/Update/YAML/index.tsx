@@ -2,11 +2,11 @@ import React from "react";
 import {Col, Row} from "antd";
 import {ProCard} from "@ant-design/pro-components";
 import {Props} from '@/app.d';
-import TemplateEditor from "@/pages/Project/Workspace/Kubernetes/Template/Detail/YAML/TemplateEditor";
-import DefaultTemplateEditor from "@/pages/Project/Workspace/Kubernetes/Template/Detail/YAML/DefaultTemplateEditor";
+import TemplateEditor from "@/pages/Project/Workspace/Kubernetes/Template/Update/YAML/TemplateEditor";
+import DefaultTemplateEditor from "@/pages/Project/Workspace/Kubernetes/Template/Update/YAML/DefaultTemplateEditor";
 import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
 
-const DeploymentTemplateYAML: React.FC<Props<WsFlinkKubernetesTemplate>> = ({data}) => {
+const FlinkKubernetesDeploymentTemplateYAML: React.FC<Props<WsFlinkKubernetesTemplate>> = ({data}) => {
   return (
     <div>
       <Row>
@@ -25,4 +25,4 @@ const DeploymentTemplateYAML: React.FC<Props<WsFlinkKubernetesTemplate>> = ({dat
   );
 }
 
-export default DeploymentTemplateYAML;
+export default FlinkKubernetesDeploymentTemplateYAML;

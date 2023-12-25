@@ -24,7 +24,7 @@ import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesTemplate;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesTemplateMapper;
-import cn.sliew.scaleph.engine.flink.kubernetes.factory.FlinkTemplateFactory;
+import cn.sliew.scaleph.engine.flink.kubernetes.factory.FlinkDefaultTemplateFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.IngressSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.TaskManagerSpec;
@@ -126,7 +126,7 @@ public class WsFlinkKubernetesTemplateServiceImpl implements WsFlinkKubernetesTe
     @Override
     public WsFlinkKubernetesTemplateDTO mergeDefault(WsFlinkKubernetesTemplateDTO dto) {
         FlinkTemplate customTemplate = FlinkTemplateConverter.INSTANCE.convertTo(dto);
-        FlinkTemplate defaultTemplate = FlinkTemplateFactory.create("default", "default", customTemplate);
+        FlinkTemplate defaultTemplate = FlinkDefaultTemplateFactory.create("default", "default", customTemplate);
         switch (dto.getDeploymentKind()) {
             case FLINK_DEPLOYMENT:
             case FLINK_SESSION_JOB:
@@ -155,10 +155,10 @@ public class WsFlinkKubernetesTemplateServiceImpl implements WsFlinkKubernetesTe
     private WsFlinkKubernetesTemplateDTO getGlobalDefault(DeploymentKind deploymentKind) {
         switch (deploymentKind) {
             case FLINK_DEPLOYMENT:
-                FlinkTemplate deploymentDefaults = FlinkTemplateFactory.getDeploymentDefaults();
+                FlinkTemplate deploymentDefaults = FlinkDefaultTemplateFactory.getDeploymentDefaults();
                 return FlinkTemplateConverter.INSTANCE.convertFrom(deploymentDefaults);
             case FLINK_SESSION_JOB:
-                FlinkTemplate sessionClusterDefaults = FlinkTemplateFactory.getSessionClusterDefaults();
+                FlinkTemplate sessionClusterDefaults = FlinkDefaultTemplateFactory.getSessionClusterDefaults();
                 return FlinkTemplateConverter.INSTANCE.convertFrom(sessionClusterDefaults);
             default:
                 return null;

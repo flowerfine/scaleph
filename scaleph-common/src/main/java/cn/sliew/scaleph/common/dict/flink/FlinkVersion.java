@@ -53,6 +53,10 @@ public enum FlinkVersion implements DictInstance {
                 .findAny().orElseThrow(() -> new EnumConstantNotPresentException(FlinkVersion.class, value));
     }
 
+    public static FlinkVersion current() {
+        return values()[values().length - 1];
+    }
+
     @EnumValue
     private String value;
     private String label;

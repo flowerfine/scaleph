@@ -2,29 +2,29 @@ import {connect} from "umi";
 import React, {useEffect} from "react";
 import {Form} from "antd";
 import {ProCard} from "@ant-design/pro-components";
-import AdvancedBasic from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedBasic";
-import AdvancedCheckpoint from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedCheckpoint";
+import AdvancedBasic from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedBasic";
+import AdvancedCheckpoint from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedCheckpoint";
 import AdvancedPeriodicSavepoint
-  from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedPeriodicSavepoint";
-import AdvancedRestart from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedRestart";
+  from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedPeriodicSavepoint";
+import AdvancedRestart from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedRestart";
 import AdvancedFaultTolerance
-  from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedFaultTolerance";
+  from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedFaultTolerance";
 import AdvancedHighAvailability
-  from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedHighAvailability";
-import AdvancedResource from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedResource";
-import AdvancedAdditional from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedAdditional";
+  from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedHighAvailability";
+import AdvancedResource from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedResource";
+import AdvancedAdditional from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedAdditional";
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
 import AdvancedAdditionalDependencies
-  from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedAdditionalDependencies";
+  from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedAdditionalDependencies";
 
 const SessionClusterOptionsStepForm: React.FC = (props: any) => {
   const form = Form.useFormInstance()
 
   useEffect(() => {
-    if (props.sessionClusterStep2.sessionCluster) {
-      form.setFieldsValue(WsFlinkKubernetesTemplateService.parseData({...props.sessionClusterStep2.sessionCluster}))
+    if (props.flinkKubernetesSessionClusterSteps.sessionCluster) {
+      form.setFieldsValue(WsFlinkKubernetesTemplateService.parseData({...props.flinkKubernetesSessionClusterSteps.sessionCluster}))
     }
-  }, [props.sessionClusterStep2.sessionCluster]);
+  }, [props.flinkKubernetesSessionClusterSteps.sessionCluster]);
 
   return (
     <ProCard>
@@ -41,5 +41,5 @@ const SessionClusterOptionsStepForm: React.FC = (props: any) => {
   )
 }
 
-const mapModelToProps = ({sessionClusterStep2}: any) => ({sessionClusterStep2})
+const mapModelToProps = ({flinkKubernetesSessionClusterSteps}: any) => ({flinkKubernetesSessionClusterSteps})
 export default connect(mapModelToProps)(SessionClusterOptionsStepForm);

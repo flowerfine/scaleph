@@ -16,12 +16,12 @@ const FlinkKubernetesSessinClusterDetailYAMLWeb: React.FC = (props: any) => {
   }, [monaco]);
 
   useEffect(() => {
-    if (props.sessionClusterDetail.sessionCluster) {
-      const sessionCluster: WsFlinkKubernetesSessionCluster = {...props.sessionClusterDetail.sessionCluster}
+    if (props.flinkKubernetesSessionClusterDetail.sessionCluster) {
+      const sessionCluster: WsFlinkKubernetesSessionCluster = {...props.flinkKubernetesSessionClusterDetail.sessionCluster}
       sessionCluster.supportSqlGateway = null
       refreshYaml(sessionCluster)
     }
-  }, [props.sessionClusterDetail.sessionCluster]);
+  }, [props.flinkKubernetesSessionClusterDetail.sessionCluster]);
 
   const refreshYaml = (sessionCluster: WsFlinkKubernetesSessionCluster) => {
     if (sessionCluster.state) {
@@ -58,5 +58,5 @@ const FlinkKubernetesSessinClusterDetailYAMLWeb: React.FC = (props: any) => {
   );
 }
 
-const mapModelToProps = ({sessionClusterDetail}: any) => ({sessionClusterDetail})
+const mapModelToProps = ({flinkKubernetesSessionClusterDetail}: any) => ({flinkKubernetesSessionClusterDetail})
 export default connect(mapModelToProps)(FlinkKubernetesSessinClusterDetailYAMLWeb);

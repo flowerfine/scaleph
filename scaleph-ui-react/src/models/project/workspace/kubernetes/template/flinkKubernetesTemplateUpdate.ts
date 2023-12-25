@@ -24,6 +24,8 @@ export interface ModelType {
 }
 
 const model: ModelType = {
+  namespace: "flinkKubernetesTemplateUpdate",
+
   state: {
     template: null,
     templateYaml: null,

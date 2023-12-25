@@ -1,10 +1,11 @@
 import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
 import {Effect, Reducer} from "umi";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
+import YAML from "yaml";
 
 export interface StateType {
-  templateId: number,
   sessionCluster: WsFlinkKubernetesSessionCluster,
+  sessionClusterYaml: string
 }
 
 export interface ModelType {
@@ -22,19 +23,17 @@ export interface ModelType {
 }
 
 const model: ModelType = {
+  namespace: "flinkKubernetesSessionClusterSteps",
+
   state: {
-    templateId: null,
     sessionCluster: null,
+    sessionClusterYaml: null,
   },
 
   effects: {
-    *queryTemplate({payload}, {call, put}) {
-      const {data} = yield call(WsFlinkKubernetesSessionClusterService.fromTemplate, payload);
-      yield put({type: 'updateSessionCluster', payload: {templateId: payload, sessionCluster: data}});
-    },
-
     *editSessionCluster({payload}, {call, put}) {
-      yield put({type: 'updateSessionClusterOnly', payload: {sessionCluster: payload}});
+      const response = yield call(WsFlinkKubernetesSessionClusterService.asYAML, payload);
+      yield put({type: 'updateSessionCluster', payload: {sessionCluster: payload, sessionClusterYaml: YAML.stringify(response.data)}});
     },
   },
 
@@ -42,16 +41,10 @@ const model: ModelType = {
     updateSessionCluster(state, {payload}) {
       return {
         ...state,
-        templateId: payload.templateId,
-        sessionCluster: payload.sessionCluster
+        sessionCluster: payload.sessionCluster,
+        sessionClusterYaml: payload.sessionClusterYaml
       };
-    },
-    updateSessionClusterOnly(state, {payload}) {
-      return {
-        ...state,
-        sessionCluster: payload.sessionCluster
-      };
-    },
+    }
   },
 };
 
