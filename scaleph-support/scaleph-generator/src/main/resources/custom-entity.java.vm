@@ -54,8 +54,8 @@ public class ${entity} {
 #end
 #if("$!field.comment" != "")
     /**
-    * $!{field.comment}
-    */
+     * ${field.comment}
+     */
   #if(${springdoc})
     @Schema(description = "${field.comment}")
   #elseif(${swagger})
