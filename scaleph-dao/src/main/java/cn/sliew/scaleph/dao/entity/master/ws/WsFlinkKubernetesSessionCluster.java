@@ -78,6 +78,9 @@ public class WsFlinkKubernetesSessionCluster extends BaseDO {
     @TableField("additional_dependencies")
     private String additionalDependencies;
 
+    @TableField("deployed")
+    private YesOrNo deployed;
+
     @TableField("support_sql_gateway")
     private YesOrNo supportSqlGateway;
 

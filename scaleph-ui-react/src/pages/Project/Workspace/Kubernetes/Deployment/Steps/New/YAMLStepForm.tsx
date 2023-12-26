@@ -20,15 +20,15 @@ const DeploymentYAMLStepForm: React.FC = (props: any) => {
   }
 
   useEffect(() => {
-    if (props.deploymentStep.deployment) {
-      WsFlinkKubernetesDeploymentService.asYaml(props.deploymentStep.deployment).then(response => {
+    if (props.flinkKubernetesDeploymentSteps.deployment) {
+      WsFlinkKubernetesDeploymentService.asYaml(props.flinkKubernetesDeploymentSteps.deployment).then(response => {
         if (response.data) {
           setYaml(YAML.stringify(response.data))
         }
       })
     }
 
-  }, [props.deploymentStep.deployment]);
+  }, [props.flinkKubernetesDeploymentSteps.deployment]);
 
   return (
     <ProCard>
@@ -37,7 +37,7 @@ const DeploymentYAMLStepForm: React.FC = (props: any) => {
         height="600px"
         language="yaml"
         theme="vs-white"
-        value={yaml}
+        value={props.flinkKubernetesDeploymentSteps.deploymentYaml}
         options={{
           selectOnLineNumbers: true,
           readOnly: true,
@@ -51,5 +51,5 @@ const DeploymentYAMLStepForm: React.FC = (props: any) => {
 
   );
 }
-const mapModelToProps = ({deploymentStep}: any) => ({deploymentStep})
+const mapModelToProps = ({flinkKubernetesDeploymentSteps}: any) => ({flinkKubernetesDeploymentSteps})
 export default connect(mapModelToProps)(DeploymentYAMLStepForm);

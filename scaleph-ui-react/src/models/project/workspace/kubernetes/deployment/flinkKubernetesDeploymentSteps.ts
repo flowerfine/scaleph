@@ -1,10 +1,11 @@
 import {WsFlinkKubernetesDeployment} from "@/services/project/typings";
 import {Effect, Reducer} from "umi";
 import {WsFlinkKubernetesDeploymentService} from "@/services/project/WsFlinkKubernetesDeploymentService";
+import YAML from "yaml";
 
 export interface StateType {
-  templateId: number,
   deployment: WsFlinkKubernetesDeployment,
+  deploymentYaml: string,
 }
 
 export interface ModelType {
@@ -13,30 +14,29 @@ export interface ModelType {
   state: StateType;
 
   effects: {
-    queryTemplate: Effect;
     editDeployment: Effect;
   };
 
   reducers: {
     updateDeployment: Reducer<StateType>;
-    updateDeploymentOnly: Reducer<StateType>;
   };
 }
 
 const model: ModelType = {
+  namespace: "flinkKubernetesDeploymentSteps",
+
   state: {
-    templateId: null,
     deployment: null,
+    deploymentYaml: null,
   },
 
   effects: {
-    *queryTemplate({payload}, {call, put}) {
-      const {data} = yield call(WsFlinkKubernetesDeploymentService.fromTemplate, payload);
-      yield put({type: 'updateDeployment', payload: {templateId: payload, deployment: data}});
-    },
-
     *editDeployment({payload}, {call, put}) {
-      yield put({type: 'updateDeploymentOnly', payload: {deployment: payload}});
+      const response = yield call(WsFlinkKubernetesDeploymentService.asYaml, payload);
+      yield put({
+        type: 'updateDeployment',
+        payload: {deployment: payload, deploymentYaml: YAML.stringify(response.data)}
+      });
     },
   },
 
@@ -44,14 +44,8 @@ const model: ModelType = {
     updateDeployment(state, {payload}) {
       return {
         ...state,
-        templateId: payload.templateId,
-        deployment: payload.deployment
-      };
-    },
-    updateDeploymentOnly(state, {payload}) {
-      return {
-        ...state,
-        deployment: payload.deployment
+        deployment: payload.deployment,
+        deploymentYaml: payload.deploymentYaml
       };
     },
   },

@@ -275,6 +275,7 @@ export type WsFlinkKubernetesSessionCluster = {
   logConfiguration?: Record<string, any>;
   ingress?: Record<string, any>;
   additionalDependencies?: Array<number>;
+  deployed?: Dict;
   supportSqlGateway?: Dict;
   state?: Dict;
   error?: Dict;

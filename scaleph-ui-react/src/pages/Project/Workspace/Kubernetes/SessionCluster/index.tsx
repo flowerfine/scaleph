@@ -1,7 +1,7 @@
 import {history, useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
-import {Button, message, Modal, Popconfirm, Space, Tag, Tooltip} from "antd";
-import {CaretRightOutlined, CloseOutlined, DeleteOutlined, EyeOutlined} from "@ant-design/icons";
+import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
+import {DeleteOutlined, EditOutlined, EyeOutlined} from "@ant-design/icons";
 import {
   ActionType,
   ProColumns,
@@ -16,6 +16,7 @@ import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
 import {DictDataService} from "@/services/admin/dictData.service";
+import {YesOrNo} from "@/constants/enum";
 
 const FlinkKubernetesSessionClusterWeb: React.FC = () => {
   const intl = useIntl();
@@ -133,84 +134,55 @@ const FlinkKubernetesSessionClusterWeb: React.FC = () => {
       render: (_, record) => (
         <Space>
           {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
-            <Button
-              shape="default"
-              type="link"
-              icon={<EyeOutlined/>}
-              onClick={() => history.push("/workspace/flink/kubernetes/session-cluster/detail", record)}
-            >
-              {intl.formatMessage({id: 'app.common.operate.detail.label'})}
-            </Button>
-          )}
-          {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
-            <Popconfirm
-              title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
-              disabled={record.state}
-              onConfirm={() => {
-                WsFlinkKubernetesSessionClusterService.deploy(record).then(response => {
-                  message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
-                  actionRef.current?.reload()
-                })
-              }}
-            >
+            <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
               <Button
                 shape="default"
                 type="link"
-                disabled={record.state}
-                icon={<CaretRightOutlined/>}
-              >
-                {intl.formatMessage({id: 'app.common.operate.start.label'})}
-              </Button>
-            </Popconfirm>
+                icon={<EditOutlined/>}
+                disabled={record.deployed?.value == YesOrNo.YES}
+                onClick={() => {
+                  history.push("/workspace/flink/kubernetes/session-cluster/steps/update", record)
+                }}
+              />
+            </Tooltip>
           )}
-          {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
-            <Popconfirm
-              title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
-              disabled={!record.state}
-              onConfirm={() => {
-                WsFlinkKubernetesSessionClusterService.shutdown(record).then(response => {
-                  message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
-                  actionRef.current?.reload()
-                })
-              }}
-            >
+          {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
+            <Tooltip title={intl.formatMessage({id: 'app.common.operate.detail.label'})}>
               <Button
                 shape="default"
                 type="link"
-                icon={<CloseOutlined/>}
-                disabled={!record.state}
-              >
-                {intl.formatMessage({id: 'app.common.operate.stop.label'})}
-              </Button>
-            </Popconfirm>
+                icon={<EyeOutlined/>}
+                onClick={() => history.push("/workspace/flink/kubernetes/session-cluster/detail", record)}
+              />
+            </Tooltip>
           )}
           {access.canAccess(PRIVILEGE_CODE.datadevDatasourceDelete) && (
-            <Button
-              shape="default"
-              type="link"
-              danger
-              icon={<DeleteOutlined/>}
-              disabled={record.state}
-              onClick={() => {
-                Modal.confirm({
-                  title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
-                  content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
-                  okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
-                  okButtonProps: {danger: true},
-                  cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
-                  onOk() {
-                    WsFlinkKubernetesSessionClusterService.delete(record).then((d) => {
-                      if (d.success) {
-                        message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
-                        actionRef.current?.reload();
-                      }
-                    });
-                  },
-                });
-              }}
-            >
-              {intl.formatMessage({id: 'app.common.operate.delete.label'})}
-            </Button>
+            <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
+              <Button
+                shape="default"
+                type="link"
+                danger
+                icon={<DeleteOutlined/>}
+                disabled={record.deployed?.value == YesOrNo.YES}
+                onClick={() => {
+                  Modal.confirm({
+                    title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                    content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
+                    okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                    okButtonProps: {danger: true},
+                    cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+                    onOk() {
+                      WsFlinkKubernetesSessionClusterService.delete(record).then((d) => {
+                        if (d.success) {
+                          message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
+                          actionRef.current?.reload();
+                        }
+                      });
+                    },
+                  });
+                }}
+              />
+            </Tooltip>
           )}
         </Space>
       ),
@@ -238,7 +210,7 @@ const FlinkKubernetesSessionClusterWeb: React.FC = () => {
               key="new"
               type="primary"
               onClick={() => {
-                history.push("/workspace/flink/kubernetes/session-cluster/steps")
+                history.push("/workspace/flink/kubernetes/session-cluster/steps/new")
               }}
             >
               {intl.formatMessage({id: 'app.common.operate.new.label'})}
