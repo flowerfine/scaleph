@@ -90,7 +90,7 @@ public class MybatisPlusGenerator {
                 "/scaleph-support/scaleph-generator/src/main/java/")
             .author(AUTHOR)
             .fileOverride()
-            .enableSwagger()
+            .enableSpringdoc()
             .dateType(DateType.ONLY_DATE)
             .commentDate("yyyy-MM-dd");
     }

@@ -53,6 +53,9 @@ public class ${entity} {
 #set($keyPropertyName=${field.propertyName})
 #end
 #if("$!field.comment" != "")
+    /**
+    * $!{field.comment}
+    */
   #if(${springdoc})
     @Schema(description = "${field.comment}")
   #elseif(${swagger})
