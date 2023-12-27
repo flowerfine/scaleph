@@ -352,6 +352,11 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-plugin-flinkcdc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-plugin-seatunnel-native-flink</artifactId>
                 <version>${project.version}</version>
             </dependency>
