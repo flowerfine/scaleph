@@ -30,6 +30,7 @@ public enum FlinkJobType implements DictInstance {
     JAR("0", "Jar"),
     SQL("1", "SQL"),
     SEATUNNEL("2", "SeaTunnel"),
+    FLINK_CDC("3", "Flink CDC"),
 
     ;
 

@@ -18,11 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.handler;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.config.kubernetes.flink.FlinkImageType;
-import cn.sliew.scaleph.config.kubernetes.flink.FlinkVersionConfig;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instance.FlinkJobInstanceConverterFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
 import org.springframework.stereotype.Component;
 
@@ -30,22 +26,6 @@ import org.springframework.stereotype.Component;
 public class FlinkImageHandler {
 
     public void handle(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
-        FlinkVersion flinkVersion = FlinkJobInstanceConverterFactory.getFlinkVersion(jobInstanceDTO.getWsFlinkKubernetesJob());
-        String image;
-        switch (jobInstanceDTO.getWsFlinkKubernetesJob().getType()) {
-            case JAR:
-                image = FlinkVersionConfig.findImage(FlinkImageType.JAR, flinkVersion.getValue());
-                break;
-            case SQL:
-                image = FlinkVersionConfig.findImage(FlinkImageType.SQL, flinkVersion.getValue());
-                break;
-            case SEATUNNEL:
-                image = FlinkVersionConfig.findImage(FlinkImageType.SEATUNNEL, flinkVersion.getValue());
-                spec.setFlinkVersion(cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkVersion.v1_15);
-                break;
-            default:
-                image = FlinkVersionConfig.FLINK_JAR_1_17.getImage();
-        }
-        spec.setImage(image);
+
     }
 }
