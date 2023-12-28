@@ -6,7 +6,6 @@ create table dag_instance
 (
     id          bigint       not null auto_increment comment '自增主键',
     type        varchar(32)  not null comment '类型',
-    dag_id      varchar(64)  not null,
     dag_meta    varchar(128) not null comment 'DAG元信息',
     dag_attrs   mediumtext comment 'DAG属性',
     creator     varchar(32) comment '创建人',
@@ -32,7 +31,7 @@ create table dag_step
     editor      varchar(32) comment '修改人',
     update_time timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    unique key (job_id, step_id)
+    unique key uniq_step (dag_id, step_id)
 ) engine = innodb comment 'DAG 步骤';
 
 drop table if exists dag_link;
@@ -51,5 +50,5 @@ create table dag_link
     editor       varchar(32) comment '修改人',
     update_time  timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    unique key (job_id, link_id)
+    unique key uniq_link (dag_id, link_id)
 ) engine = innodb comment 'DAG 连线';
