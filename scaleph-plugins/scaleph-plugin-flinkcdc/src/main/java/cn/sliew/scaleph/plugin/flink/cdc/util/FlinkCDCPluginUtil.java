@@ -20,8 +20,6 @@ package cn.sliew.scaleph.plugin.flink.cdc.util;
 
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCPluginName;
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCPluginType;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 
 public enum FlinkCDCPluginUtil {
     ;

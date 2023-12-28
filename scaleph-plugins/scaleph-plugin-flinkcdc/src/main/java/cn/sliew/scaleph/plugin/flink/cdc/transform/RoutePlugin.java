@@ -19,7 +19,6 @@
 package cn.sliew.scaleph.plugin.flink.cdc.transform;
 
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCPluginMapping;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.flink.cdc.FlinkCDCPipilineConnectorPlugin;
 import cn.sliew.scaleph.plugin.flink.cdc.connectors.CommonProperties;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
