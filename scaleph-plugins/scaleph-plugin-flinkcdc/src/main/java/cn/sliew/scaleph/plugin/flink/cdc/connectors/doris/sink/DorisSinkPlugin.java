@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.flink.cdc.connectors.mysql.source;
+package cn.sliew.scaleph.plugin.flink.cdc.connectors.doris.sink;
 
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCPluginMapping;
 import cn.sliew.scaleph.plugin.flink.cdc.FlinkCDCPipilineConnectorPlugin;
@@ -29,47 +29,40 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.flink.cdc.connectors.mysql.source.MySQLSourceProperties.*;
+import static cn.sliew.scaleph.plugin.flink.cdc.connectors.doris.sink.DorisSinkProperties.*;
 
 @AutoService(FlinkCDCPipilineConnectorPlugin.class)
-public class MySQLSourcePlugin extends FlinkCDCPipilineConnectorPlugin {
+public class DorisSinkPlugin extends FlinkCDCPipilineConnectorPlugin {
 
-    public MySQLSourcePlugin() {
+    public DorisSinkPlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "mysql",
-                MySQLSourcePlugin.class.getName());
+                "doris",
+                DorisSinkPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(CommonProperties.NAME);
         props.add(CommonProperties.TYPE);
         props.add(CommonProperties.DESCRIPTION);
 
-        props.add(HOSTNAME);
-        props.add(PORT);
+
+        props.add(FENODES);
+        props.add(BENODES);
+        props.add(JDBC_URL);
         props.add(USERNAME);
         props.add(PASSWORD);
-        props.add(TABLES);
-        props.add(SCHEMA_CHANGE_ENABLED);
-        props.add(SERVER_ID);
-        props.add(SCAN_INCREMENTAL_CLOSE_IDLE_READER_ENABLED);
-        props.add(SCAN_INCREMENTAL_SNAPSHOT_CHUNK_SIZE);
-        props.add(SCAN_SNAPSHOT_FETCH_SIZE);
-        props.add(SCAN_STARTUP_MODE);
-        props.add(SCAN_STARTUP_SPECIFIC_OFFSET_FILE);
-        props.add(SCAN_STARTUP_SPECIFIC_OFFSET_POS);
-        props.add(SCAN_STARTUP_SPECIFIC_OFFSET_GTID_SET);
-        props.add(SCAN_STARTUP_SPECIFIC_OFFSET_SKIP_EVENTS);
-        props.add(SCAN_STARTUP_SPECIFIC_OFFSET_SKIP_ROWS);
-        props.add(CONNECT_TIMEOUT);
-        props.add(CONNECT_MAX_RETRIES);
-        props.add(CONNECT_POOL_SIZE);
-        props.add(HEARTBEAT_INTERVAL);
-        props.add(JDBC_PROPERTIES);
-        props.add(DEBEZIUM);
+        props.add(AUTO_REDIRECT);
+        props.add(SINK_ENABLE_BATCH_MODE);
+        props.add(SINK_FLUSH_QUEUE_SIZE);
+        props.add(SINK_BUFFER_FLUSH_MAX_ROWS);
+        props.add(SINK_BUFFER_FLUSH_MAX_BYTES);
+        props.add(SINK_BUFFER_FLUSH_INTERVAL);
+        props.add(SINK_PROPERTIES);
+        props.add(TABLE_CREATE_PROPERTIES);
+
         this.supportedProperties = Collections.unmodifiableList(props);
     }
 
     @Override
     protected FlinkCDCPluginMapping getPluginMapping() {
-        return FlinkCDCPluginMapping.SOURCE_MYSQL;
+        return FlinkCDCPluginMapping.SINK_DORIS;
     }
 }
