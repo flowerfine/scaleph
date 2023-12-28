@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.flink.cdc.connectors.doris.sink;
+package cn.sliew.scaleph.plugin.flink.cdc.connectors.starrocks.sink;
 
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCPluginMapping;
 import cn.sliew.scaleph.plugin.flink.cdc.FlinkCDCPipilineConnectorPlugin;
@@ -29,36 +29,39 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.flink.cdc.connectors.doris.sink.DorisSinkProperties.*;
+import static cn.sliew.scaleph.plugin.flink.cdc.connectors.starrocks.sink.StarRocksSinkProperties.*;
 
 @AutoService(FlinkCDCPipilineConnectorPlugin.class)
-public class DorisSinkPlugin extends FlinkCDCPipilineConnectorPlugin {
+public class StarRocksSinkPlugin extends FlinkCDCPipilineConnectorPlugin {
 
-    public DorisSinkPlugin() {
+    public StarRocksSinkPlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "doris",
-                DorisSinkPlugin.class.getName());
+                "starrocks",
+                StarRocksSinkPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(CommonProperties.NAME);
         props.add(CommonProperties.TYPE);
-        props.add(FENODES);
-        props.add(BENODES);
         props.add(JDBC_URL);
+        props.add(LOAD_URL);
         props.add(USERNAME);
         props.add(PASSWORD);
-        props.add(AUTO_REDIRECT);
-        props.add(SINK_ENABLE_BATCH_MODE);
-        props.add(SINK_FLUSH_QUEUE_SIZE);
-        props.add(SINK_BUFFER_FLUSH_MAX_ROWS);
+        props.add(SINK_LABEL_PREFIX);
+        props.add(SINK_CONNECT_TIMEOUT_MS);
+        props.add(SINK_WAIT_FOR_CONTINUE_TIMEOUT_MS);
         props.add(SINK_BUFFER_FLUSH_MAX_BYTES);
-        props.add(SINK_BUFFER_FLUSH_INTERVAL);
+        props.add(SINK_BUFFER_FLUSH_INTERVAL_MS);
+        props.add(SINK_SCAN_FREQUENCY_MS);
+        props.add(SINK_IO_THREAD_COUNT);
+        props.add(SINK_AT_LEAST_ONCE_USE_TRANSACTION_STREAM_LOAD);
         props.add(SINK_PROPERTIES);
+        props.add(TABLE_CREATE_NUM_BUCKETS);
+        props.add(TABLE_SCHEMA_CHANGE_TIMEOUT);
         props.add(TABLE_CREATE_PROPERTIES);
         this.supportedProperties = Collections.unmodifiableList(props);
     }
 
     @Override
     protected FlinkCDCPluginMapping getPluginMapping() {
-        return FlinkCDCPluginMapping.SINK_DORIS;
+        return FlinkCDCPluginMapping.SINK_STARROCKS;
     }
 }
