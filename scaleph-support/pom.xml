@@ -37,6 +37,7 @@
         <module>scaleph-log</module>
         <module>scaleph-system</module>
         <module>scaleph-generator</module>
+        <module>scaleph-dag</module>
     </modules>
 
 </project>

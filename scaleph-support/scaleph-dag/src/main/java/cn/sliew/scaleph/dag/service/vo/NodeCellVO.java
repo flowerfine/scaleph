@@ -16,40 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.dag;
+package cn.sliew.scaleph.dag.service.vo;
 
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-/**
- * DAG 连线
- */
+import java.util.Map;
+
 @Data
-@TableName("dag_link")
-public class DagLink extends BaseDO {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class NodeCellVO {
 
-    private static final long serialVersionUID = 1L;
-
-    @TableField("dag_id")
-    private Long dagId;
-
-    @TableField("link_id")
-    private String linkId;
-
-    @TableField("link_name")
-    private String linkName;
-
-    @TableField("from_step_id")
-    private String fromStepId;
-
-    @TableField("to_step_id")
-    private String toStepId;
-
-    @TableField("link_meta")
-    private String linkMeta;
-
-    @TableField("link_attrs")
-    private String linkAttrs;
+    private String id;
+    private String label;
+    private Map<String, Object> data;
+    private Integer x;
+    private Integer y;
 }

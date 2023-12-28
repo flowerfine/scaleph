@@ -16,40 +16,40 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.dag;
+package cn.sliew.scaleph.dag.service.dto;
 
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.sliew.scaleph.system.model.BaseDTO;
+import com.fasterxml.jackson.databind.JsonNode;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * DAG 连线
+ * DAG 步骤
  */
 @Data
-@TableName("dag_link")
-public class DagLink extends BaseDO {
+@Schema(name = "DagStep", description = "DAG 步骤")
+public class DagStepDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("dag_id")
+    @Schema(description = "DAG id")
     private Long dagId;
 
-    @TableField("link_id")
-    private String linkId;
+    @Schema(description = "步骤id")
+    private String stepId;
 
-    @TableField("link_name")
-    private String linkName;
+    @Schema(description = "步骤名称")
+    private String stepName;
 
-    @TableField("from_step_id")
-    private String fromStepId;
+    @Schema(description = "x坐标")
+    private Integer positionX;
 
-    @TableField("to_step_id")
-    private String toStepId;
+    @Schema(description = "y坐标")
+    private Integer positionY;
 
-    @TableField("link_meta")
-    private String linkMeta;
+    @Schema(description = "步骤元信息")
+    private JsonNode stepMeta;
 
-    @TableField("link_attrs")
-    private String linkAttrs;
+    @Schema(description = "步骤属性")
+    private JsonNode stepAttrs;
 }

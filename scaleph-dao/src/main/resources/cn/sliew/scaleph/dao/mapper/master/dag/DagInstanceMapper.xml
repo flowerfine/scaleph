@@ -26,7 +26,6 @@
         <result column="create_time" property="createTime" />
         <result column="editor" property="editor" />
         <result column="update_time" property="updateTime" />
-        <result column="type" property="type" />
         <result column="dag_meta" property="dagMeta" />
         <result column="dag_attrs" property="dagAttrs" />
     </resultMap>
@@ -38,7 +37,7 @@
         create_time,
         editor,
         update_time,
-        `type`, dag_meta, dag_attrs
+        dag_meta, dag_attrs
     </sql>
 
 </mapper>

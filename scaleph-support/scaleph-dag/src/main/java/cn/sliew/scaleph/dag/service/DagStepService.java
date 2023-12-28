@@ -16,40 +16,27 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.dag;
+package cn.sliew.scaleph.dag.service;
 
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
+import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
 
-/**
- * DAG 连线
- */
-@Data
-@TableName("dag_link")
-public class DagLink extends BaseDO {
+import java.util.List;
 
-    private static final long serialVersionUID = 1L;
+public interface DagStepService {
 
-    @TableField("dag_id")
-    private Long dagId;
+    List<DagStepDTO> listSteps(Long dagId);
 
-    @TableField("link_id")
-    private String linkId;
+    int insert(DagStepDTO stepDTO);
 
-    @TableField("link_name")
-    private String linkName;
+    int update(DagStepDTO stepDTO);
 
-    @TableField("from_step_id")
-    private String fromStepId;
+    int upsert(DagStepDTO stepDTO);
 
-    @TableField("to_step_id")
-    private String toStepId;
+    int deleteByDag(Long dagId);
 
-    @TableField("link_meta")
-    private String linkMeta;
+    int deleteByDag(List<Long> dagIds);
 
-    @TableField("link_attrs")
-    private String linkAttrs;
+    int deleteSurplusSteps(Long dagId, List<String> stepIds);
+
+    int clone(Long sourceDagId, Long targetDagId);
 }

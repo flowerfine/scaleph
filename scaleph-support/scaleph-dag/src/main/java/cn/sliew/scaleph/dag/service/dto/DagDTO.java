@@ -16,40 +16,31 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.dag;
+package cn.sliew.scaleph.dag.service.dto;
 
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.JsonNode;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.util.List;
+
 /**
- * DAG 连线
+ * DAG 实例
  */
 @Data
-@TableName("dag_link")
-public class DagLink extends BaseDO {
+@Schema(name = "Dag", description = "DAG")
+public class DagDTO extends DagInstanceDTO {
 
-    private static final long serialVersionUID = 1L;
+    @Schema(description = "元数据")
+    private JsonNode dagMeta;
 
-    @TableField("dag_id")
-    private Long dagId;
+    @Schema(description = "属性")
+    private JsonNode dagAttrs;
 
-    @TableField("link_id")
-    private String linkId;
+    @Schema(description = "连线")
+    private List<DagLinkDTO> links;
 
-    @TableField("link_name")
-    private String linkName;
+    @Schema(description = "步骤")
+    private List<DagStepDTO> steps;
 
-    @TableField("from_step_id")
-    private String fromStepId;
-
-    @TableField("to_step_id")
-    private String toStepId;
-
-    @TableField("link_meta")
-    private String linkMeta;
-
-    @TableField("link_attrs")
-    private String linkAttrs;
 }

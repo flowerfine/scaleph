@@ -21,7 +21,6 @@ package cn.sliew.scaleph.dao.entity.master.dag;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -29,20 +28,13 @@ import lombok.Data;
  */
 @Data
 @TableName("dag_instance")
-@Schema(name = "DagInstance", description = "DAG 实例")
 public class DagInstance extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "类型")
-    @TableField("`type`")
-    private String type;
-    
-    @Schema(description = "DAG元信息")
     @TableField("dag_meta")
     private String dagMeta;
 
-    @Schema(description = "DAG属性")
     @TableField("dag_attrs")
     private String dagAttrs;
 }
