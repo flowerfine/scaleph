@@ -28,6 +28,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -90,7 +91,7 @@ public class DagStepServiceImpl implements DagStepService {
     public int deleteSurplusSteps(Long dagId, List<String> stepIds) {
         LambdaUpdateWrapper<DagStep> updateWrapper = Wrappers.lambdaUpdate(DagStep.class)
                 .eq(DagStep::getDagId, dagId)
-                .notIn(DagStep::getStepId, stepIds);
+                .notIn(CollectionUtils.isEmpty(stepIds) == false, DagStep::getStepId, stepIds);
         return dagStepMapper.delete(updateWrapper);
     }
 

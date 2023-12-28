@@ -22,6 +22,9 @@ import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.common.util.BeanUtil;
+import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
+import cn.sliew.scaleph.dag.service.vo.EdgeCellVO;
+import cn.sliew.scaleph.dag.service.vo.NodeCellVO;
 import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobGraphService;
 import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobLinkService;
 import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobStepService;
@@ -29,9 +32,6 @@ import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobLinkDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobStepDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.param.WsDiJobStepParam;
-import cn.sliew.scaleph.engine.seatunnel.service.vo.EdgeCellVO;
-import cn.sliew.scaleph.engine.seatunnel.service.vo.JobGraphVO;
-import cn.sliew.scaleph.engine.seatunnel.service.vo.NodeCellVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,7 +54,7 @@ public class WsDiJobGraphServiceImpl implements WsDiJobGraphService {
     }
 
     @Override
-    public void saveJobGraph(Long jobId, JobGraphVO jobGraph) {
+    public void saveJobGraph(Long jobId, DagGraphVO jobGraph) {
         saveJobSteps(jobId, jobGraph.getNodes());
         saveJobLinks(jobId, jobGraph.getEdges());
     }

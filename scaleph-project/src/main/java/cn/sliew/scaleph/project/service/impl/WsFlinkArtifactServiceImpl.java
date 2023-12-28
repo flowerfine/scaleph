@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.project.service.impl;
 
-import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifact;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactMapper;
 import cn.sliew.scaleph.project.service.WsFlinkArtifactService;
@@ -75,7 +74,7 @@ public class WsFlinkArtifactServiceImpl implements WsFlinkArtifactService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int deleteById(Long id) throws ScalephException {
+    public int deleteById(Long id) {
         return flinkArtifactMapper.deleteById(id);
     }
 

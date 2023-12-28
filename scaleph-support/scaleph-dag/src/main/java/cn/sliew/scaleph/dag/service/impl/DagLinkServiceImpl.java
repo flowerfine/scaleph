@@ -28,6 +28,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -90,7 +91,7 @@ public class DagLinkServiceImpl implements DagLinkService {
     public int deleteSurplusLinks(Long dagId, List<String> linkIds) {
         LambdaUpdateWrapper<DagLink> updateWrapper = Wrappers.lambdaUpdate(DagLink.class)
                 .eq(DagLink::getDagId, dagId)
-                .notIn(DagLink::getLinkId, linkIds);
+                .notIn(CollectionUtils.isEmpty(linkIds) == false, DagLink::getLinkId, linkIds);
         return dagLinkMapper.delete(updateWrapper);
     }
 

@@ -25,6 +25,7 @@ import cn.sliew.scaleph.common.dict.job.JobAttrType;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dag.service.DagService;
 import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
+import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsDiJobMapper;
@@ -36,7 +37,6 @@ import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobAttrDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.param.*;
 import cn.sliew.scaleph.engine.seatunnel.service.vo.DiJobAttrVO;
-import cn.sliew.scaleph.engine.seatunnel.service.vo.JobGraphVO;
 import cn.sliew.scaleph.project.service.WsFlinkArtifactService;
 import cn.sliew.scaleph.project.service.dto.WsFlinkArtifactDTO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -84,7 +84,7 @@ public class WsDiJobServiceImpl implements WsDiJobService {
     @Override
     public WsDiJobDTO selectOne(Long id) {
         WsDiJob record = diJobMapper.selectOne(id);
-        checkState(record != null, () -> "job not exists for id: " + id);
+        checkState(record != null, () -> "di job not exists for id: " + id);
         return WsDiJobConvert.INSTANCE.toDto(record);
     }
 
@@ -131,6 +131,9 @@ public class WsDiJobServiceImpl implements WsDiJobService {
     public int delete(Long id) {
         WsDiJobDTO wsDiJobDTO = selectOne(id);
         dagService.delete(wsDiJobDTO.getDagId());
+        if (wsDiJobDTO.getCurrent() == YesOrNo.YES) {
+            wsFlinkArtifactService.deleteById(wsDiJobDTO.getWsFlinkArtifact().getId());
+        }
         //todo check if there is running job instance
         wsDiJobGraphService.deleteBatch(Collections.singletonList(id));
         wsDiJobAttrService.deleteByJobId(Collections.singletonList(id));
@@ -160,8 +163,10 @@ public class WsDiJobServiceImpl implements WsDiJobService {
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @Override
     public Long saveJobStep(WsDiJobStepParam param) {
-        JobGraphVO jobGraphVO = JacksonUtil.parseJsonString(param.getJobGraph(), JobGraphVO.class);
+        DagGraphVO jobGraphVO = JacksonUtil.parseJsonString(param.getJobGraph(), DagGraphVO.class);
         wsDiJobGraphService.saveJobGraph(param.getJobId(), jobGraphVO);
+        WsDiJobDTO wsDiJobDTO = selectOne(param.getJobId());
+        dagService.replace(wsDiJobDTO.getDagId(), jobGraphVO);
 
         WsDiJobStepParam copiedParam = BeanUtil.copy(param, new WsDiJobStepParam());
         copiedParam.setJobId(param.getJobId());
@@ -174,6 +179,8 @@ public class WsDiJobServiceImpl implements WsDiJobService {
     @Override
     public Long saveJobGraph(WsDiJobGraphParam param) {
         wsDiJobGraphService.saveJobGraph(param.getJobId(), param.getJobGraph());
+        WsDiJobDTO wsDiJobDTO = selectOne(param.getJobId());
+        dagService.replace(wsDiJobDTO.getDagId(), param.getJobGraph());
         return param.getJobId();
     }
 

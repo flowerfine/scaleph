@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.param;
 
-import cn.sliew.scaleph.engine.seatunnel.service.vo.JobGraphVO;
+import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,6 +35,6 @@ public class WsDiJobGraphParam {
 
     @NotNull
     @Schema(description = "job graph")
-    private JobGraphVO jobGraph;
+    private DagGraphVO jobGraph;
 
 }
