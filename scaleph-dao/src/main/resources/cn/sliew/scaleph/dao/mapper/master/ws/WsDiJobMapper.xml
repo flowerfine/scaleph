@@ -28,6 +28,7 @@
         <result column="flink_artifact_id" property="flinkArtifactId"/>
         <result column="job_engine" property="jobEngine"/>
         <result column="job_id" property="jobId"/>
+        <result column="dag_id" property="dagId"/>
         <result column="current" property="current"/>
         <association column="flink_artifact_id" property="wsFlinkArtifact"
                      select="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactMapper.selectById"/>
@@ -35,7 +36,7 @@
 
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        flink_artifact_id, job_engine, job_id, `current`
+        flink_artifact_id, job_engine, job_id, dag_id, `current`
     </sql>
 
     <select id="selectPage" resultMap="BaseResultMap">

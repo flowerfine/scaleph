@@ -51,6 +51,9 @@ public class WsDiJobDTO extends BaseDTO {
     @Schema(description = "作业编码")
     private String jobId;
 
+    @Schema(description = "dag id")
+    private Long dagId;
+
     @Schema(description = "current version")
     private YesOrNo current;
 

@@ -23,6 +23,8 @@ import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.job.JobAttrType;
 import cn.sliew.scaleph.common.util.BeanUtil;
+import cn.sliew.scaleph.dag.service.DagService;
+import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsDiJobMapper;
@@ -61,6 +63,8 @@ public class WsDiJobServiceImpl implements WsDiJobService {
     private WsDiJobGraphService wsDiJobGraphService;
     @Autowired
     private WsDiJobAttrService wsDiJobAttrService;
+    @Autowired
+    private DagService dagService;
 
     @Override
     public Page<WsDiJobDTO> listByPage(WsDiJobListParam param) {
@@ -93,9 +97,13 @@ public class WsDiJobServiceImpl implements WsDiJobService {
         flinkArtifact.setName(param.getName());
         flinkArtifact.setRemark(param.getRemark());
         flinkArtifact = wsFlinkArtifactService.insert(flinkArtifact);
+
+        DagInstanceDTO instanceDTO = new DagInstanceDTO();
+        Long dagId = dagService.insert(instanceDTO);
         WsDiJob record = new WsDiJob();
         record.setFlinkArtifactId(flinkArtifact.getId());
         record.setJobId(UUID.randomUUID().toString());
+        record.setDagId(dagId);
         record.setJobEngine(param.getJobEngine());
         record.setCurrent(YesOrNo.YES);
         diJobMapper.insert(record);
@@ -121,6 +129,8 @@ public class WsDiJobServiceImpl implements WsDiJobService {
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @Override
     public int delete(Long id) {
+        WsDiJobDTO wsDiJobDTO = selectOne(id);
+        dagService.delete(wsDiJobDTO.getDagId());
         //todo check if there is running job instance
         wsDiJobGraphService.deleteBatch(Collections.singletonList(id));
         wsDiJobAttrService.deleteByJobId(Collections.singletonList(id));
