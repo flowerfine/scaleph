@@ -27,5 +27,3 @@ RUN mkdir -p $FLINK_CDC_HOME
 RUN wget https://github.com/ververica/flink-cdc-connectors/releases/download/release-${FLINK_CDC_VERSION}/$TAR_FILE ; \
     tar -zxf $TAR_FILE --strip 1 -C $FLINK_CDC_HOME ; \
     rm $TAR_FILE
-
-
