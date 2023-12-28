@@ -4,7 +4,7 @@ use scaleph;
 drop table if exists dag_instance;
 create table dag_instance
 (
-    id          bigint      not null auto_increment comment '自增主键',
+    id          bigint not null auto_increment comment '自增主键',
     dag_meta    varchar(128) comment 'DAG元信息',
     dag_attrs   mediumtext comment 'DAG属性',
     creator     varchar(32) comment '创建人',
@@ -13,6 +13,11 @@ create table dag_instance
     update_time timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id)
 ) engine = innodb comment 'DAG 实例';
+
+INSERT INTO `dag_instance` (`id`, `dag_meta`, `dag_attrs`, `creator`, `editor`)
+VALUES (1, NULL, NULL, 'sys', 'sys');
+INSERT INTO `dag_instance` (`id`, `dag_meta`, `dag_attrs`, `creator`, `editor`)
+VALUES (2, NULL, NULL, 'sys', 'sys');
 
 drop table if exists dag_step;
 create table dag_step
@@ -33,6 +38,11 @@ create table dag_step
     unique key uniq_step (dag_id, step_id)
 ) engine = innodb comment 'DAG 步骤';
 
+INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `step_meta`, `step_attrs`, `creator`, `editor`) VALUES (1, 1, '68834928-2a32-427a-a864-83b6b5848e04', 'Jdbc Sink', -310, -120, NULL, '{\"jobId\":1,\"name\":\"Jdbc\",\"type\":\"sink\",\"displayName\":\"Jdbc Sink\",\"createTime\":\"2023-12-28 22:21:26\",\"updateTime\":\"2023-12-28 22:21:26\",\"attrs\":{\"stepTitle\":\"Jdbc Sink\",\"dataSourceType\":\"MySQL\",\"dataSource\":2,\"batch_size\":300,\"batch_interval_ms\":1000,\"max_retries\":3,\"is_exactly_once\":false,\"query\":\"insert into sample_data_e_commerce_duplicate ( id, invoice_no, stock_code, description, quantity, invoice_date, unit_price, customer_id, country )\\nvalues (?,?,?,?,?,?,?,?,?)\"}}', 'sys', 'sys');
+INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `step_meta`, `step_attrs`, `creator`, `editor`) VALUES (2, 1, 'f3e02087-91fa-494d-86f4-694970a49ebd', 'Jdbc Source', -400, -320, NULL, '{\"jobId\":1,\"name\":\"Jdbc\",\"type\":\"source\",\"displayName\":\"Jdbc Source\",\"createTime\":\"2023-12-28 22:21:26\",\"updateTime\":\"2023-12-28 22:21:26\",\"attrs\":{\"stepTitle\":\"Jdbc Source\",\"dataSourceType\":\"MySQL\",\"dataSource\":2,\"query\":\"select * from sample_data_e_commerce\"}}', 'sys', 'sys');
+INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `step_meta`, `step_attrs`, `creator`, `editor`) VALUES (3, 2, '6223c6c3-b552-4c69-adab-5300b7514fad', 'Fake Source', -400, -320, NULL, '{\"jobId\":2,\"name\":\"FakeSource\",\"type\":\"source\",\"displayName\":\"Fake Source\",\"createTime\":\"2023-12-28 22:21:26\",\"updateTime\":\"2023-12-28 22:21:26\",\"attrs\":{\"stepTitle\":\"Fake Source\",\"fields\":[{\"field\":\"c_string\",\"type\":\"string\"},{\"field\":\"c_boolean\",\"type\":\"boolean\"},{\"field\":\"c_tinyint\",\"type\":\"tinyint\"},{\"field\":\"c_smallint\",\"type\":\"smallint\"},{\"field\":\"c_int\",\"type\":\"int\"},{\"field\":\"c_bigint\",\"type\":\"bigint\"},{\"field\":\"c_float\",\"type\":\"float\"},{\"field\":\"c_double\",\"type\":\"double\"},{\"field\":\"c_decimal\",\"type\":\"decimal(30, 8)\"},{\"field\":\"c_bytes\",\"type\":\"bytes\"},{\"field\":\"c_map\",\"type\":\"map<string, string>\"},{\"field\":\"c_date\",\"type\":\"date\"},{\"field\":\"c_time\",\"type\":\"time\"},{\"field\":\"c_timestamp\",\"type\":\"timestamp\"}],\"schema\":\"{\\\"fields\\\":{\\\"c_string\\\":\\\"string\\\",\\\"c_boolean\\\":\\\"boolean\\\",\\\"c_tinyint\\\":\\\"tinyint\\\",\\\"c_smallint\\\":\\\"smallint\\\",\\\"c_int\\\":\\\"int\\\",\\\"c_bigint\\\":\\\"bigint\\\",\\\"c_float\\\":\\\"float\\\",\\\"c_double\\\":\\\"double\\\",\\\"c_decimal\\\":\\\"decimal(30, 8)\\\",\\\"c_bytes\\\":\\\"bytes\\\",\\\"c_map\\\":\\\"map<string, string>\\\",\\\"c_date\\\":\\\"date\\\",\\\"c_time\\\":\\\"time\\\",\\\"c_timestamp\\\":\\\"timestamp\\\"}}\"}}', 'sys', 'sys');
+INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `step_meta`, `step_attrs`, `creator`, `editor`) VALUES (4, 2, 'f08143b4-34dc-4190-8723-e8d8ce49738f', 'Console Sink', -320, -120, NULL, '{\"jobId\":2,\"name\":\"Console\",\"type\":\"sink\",\"displayName\":\"Console Sink\",\"createTime\":\"2023-12-28 22:21:26\",\"updateTime\":\"2023-12-28 22:21:26\",\"attrs\":{\"stepTitle\":\"Console Sink\"}}', 'sys', 'sys');
+
 drop table if exists dag_link;
 create table dag_link
 (
@@ -51,3 +61,12 @@ create table dag_link
     primary key (id),
     unique key uniq_link (dag_id, link_id)
 ) engine = innodb comment 'DAG 连线';
+
+INSERT INTO `dag_link` (`id`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`, `link_meta`, `link_attrs`,
+                        `creator`, `editor`)
+VALUES (1, 1, 'fabfda41-aacb-4a19-b5ef-9e84a75ed4e9', NULL, 'f3e02087-91fa-494d-86f4-694970a49ebd',
+        '68834928-2a32-427a-a864-83b6b5848e04', NULL, NULL, 'sys', 'sys');
+INSERT INTO `dag_link` (`id`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`, `link_meta`, `link_attrs`,
+                        `creator`, `editor`)
+VALUES (2, 2, 'd57021a1-65c7-4dfe-ae89-3b73d00fcf72', NULL, '6223c6c3-b552-4c69-adab-5300b7514fad',
+        'f08143b4-34dc-4190-8723-e8d8ce49738f', NULL, NULL, 'sys', 'sys');
