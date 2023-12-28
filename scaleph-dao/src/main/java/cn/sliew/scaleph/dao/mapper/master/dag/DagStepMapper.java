@@ -16,8 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.config.kubernetes.flink;
+package cn.sliew.scaleph.dao.mapper.master.dag;
 
-public enum FlinkImageType {
-    JAR, SQL, SEATUNNEL;
+import cn.sliew.scaleph.dao.entity.master.dag.DagStep;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
+
+/**
+ * DAG 步骤 Mapper 接口
+ */
+@Repository
+public interface DagStepMapper extends BaseMapper<DagStep> {
+
 }

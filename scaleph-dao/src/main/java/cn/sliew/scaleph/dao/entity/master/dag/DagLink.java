@@ -16,21 +16,40 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.config.kubernetes.flink;
+package cn.sliew.scaleph.dao.entity.master.dag;
 
-import lombok.AllArgsConstructor;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.util.List;
-
+/**
+ * DAG 连线
+ */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class FlinkVersionProperties {
+@TableName("dag_link")
+public class DagLink extends BaseDO {
 
-    private FlinkImageType type;
-    private String majorFlinkVersion;
-    private List<String> flinkVersions;
-    private String image;
+    private static final long serialVersionUID = 1L;
+
+    @TableField("dag_id")
+    private Long dagId;
+
+    @TableField("link_id")
+    private String linkId;
+
+    @TableField("link_name")
+    private String linkName;
+
+    @TableField("from_step_id")
+    private String fromStepId;
+
+    @TableField("to_step_id")
+    private String toStepId;
+
+    @TableField("link_meta")
+    private String linkMeta;
+
+    @TableField("link_attrs")
+    private String linkAttrs;
 }

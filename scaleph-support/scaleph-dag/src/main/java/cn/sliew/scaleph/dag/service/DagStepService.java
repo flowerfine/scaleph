@@ -16,16 +16,27 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.handler;
+package cn.sliew.scaleph.dag.service;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
-import org.springframework.stereotype.Component;
+import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
 
-@Component
-public class FlinkImageHandler {
+import java.util.List;
 
-    public void handle(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
+public interface DagStepService {
 
-    }
+    List<DagStepDTO> listSteps(Long dagId);
+
+    int insert(DagStepDTO stepDTO);
+
+    int update(DagStepDTO stepDTO);
+
+    int upsert(DagStepDTO stepDTO);
+
+    int deleteByDag(Long dagId);
+
+    int deleteByDag(List<Long> dagIds);
+
+    int deleteSurplusSteps(Long dagId, List<String> stepIds);
+
+    int clone(Long sourceDagId, Long targetDagId);
 }

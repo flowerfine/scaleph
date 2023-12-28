@@ -31,10 +31,6 @@ public enum ResourceNames {
     public static final String TASK_MANAGER_POD_TEMPLATE_NAME = "task-manager-pod-template";
 
     public static final String FILE_FETCHER_CONTAINER_IMAGE = "ghcr.io/flowerfine/scaleph/scaleph-file-fetcher:latest";
-    public static final String SQL_TEMPLATE_IMAGE_16 = "ghcr.io/flowerfine/scaleph-sql-template:1.16";
-    public static final String SQL_TEMPLATE_IMAGE_17 = "ghcr.io/flowerfine/scaleph-sql-template:1.17";
-    public static final String SQL_TEMPLATE_IMAGE_18 = "ghcr.io/flowerfine/scaleph-sql-template:1.18";
-    public static final String SCALEPH_SEATUNNEL_IMAGE = "ghcr.io/flowerfine/scaleph-seatunnel:2.3.3-flink-1.15";
 
     public static final String FILE_FETCHER_SCALEPH_VOLUME_NAME = "file-fetcher-scaleph-volume";
     public static final String SCALEPH_JAR_DIRECTORY = "/scaleph/jar/";
@@ -61,5 +57,10 @@ public enum ResourceNames {
     public static final String SEATUNNEL_CONF_FILE_PATH = SEATUNNEL_CONF_DIRECTORY + SEATUNNEL_CONF_FILE;
     public static final String SEATUNNEL_STARTER_PATH = LOCAL_SCHEMA + "/opt/seatunnel/starter/";
 
+    public static final String FLINK_CDC_YAML_VOLUME_NAME = "flink-cdc-yaml-volume";
+    public static final String FLINK_CDC_YAML_DIRECTORY = "/scaleph/flink-cdc/";
+    public static final String FLINK_CDC_YAML_FILE = "flink-cdc.yaml";
+    public static final String FLINK_CDC_YAML_FILE_PATH = FLINK_CDC_YAML_DIRECTORY + FLINK_CDC_YAML_FILE;
+    public static final String FLINK_CDC_JAR_PATH = LOCAL_SCHEMA + "/opt/flink-cdc/lib/";
 
 }

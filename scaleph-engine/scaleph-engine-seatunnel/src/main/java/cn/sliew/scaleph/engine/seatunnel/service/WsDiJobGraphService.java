@@ -18,9 +18,9 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service;
 
+import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.param.WsDiJobStepParam;
-import cn.sliew.scaleph.engine.seatunnel.service.vo.JobGraphVO;
 
 import java.util.Collection;
 import java.util.List;
@@ -29,7 +29,7 @@ public interface WsDiJobGraphService {
 
     void queryJobGraph(WsDiJobDTO job);
 
-    void saveJobGraph(Long jobId, JobGraphVO jobGraph);
+    void saveJobGraph(Long jobId, DagGraphVO jobGraph);
 
     void updateJobStep(WsDiJobStepParam param);
 

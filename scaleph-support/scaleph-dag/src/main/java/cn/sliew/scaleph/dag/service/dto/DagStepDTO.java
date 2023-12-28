@@ -16,25 +16,40 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service.param;
+package cn.sliew.scaleph.dag.service.dto;
 
-import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
+import cn.sliew.scaleph.system.model.BaseDTO;
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotNull;
-
+/**
+ * DAG 步骤
+ */
 @Data
-@EqualsAndHashCode
-public class WsDiJobGraphParam {
+@Schema(name = "DagStep", description = "DAG 步骤")
+public class DagStepDTO extends BaseDTO {
 
-    @NotNull
-    @Schema(description = "job id")
-    private Long jobId;
+    private static final long serialVersionUID = 1L;
 
-    @NotNull
-    @Schema(description = "job graph")
-    private DagGraphVO jobGraph;
+    @Schema(description = "DAG id")
+    private Long dagId;
 
+    @Schema(description = "步骤id")
+    private String stepId;
+
+    @Schema(description = "步骤名称")
+    private String stepName;
+
+    @Schema(description = "x坐标")
+    private Integer positionX;
+
+    @Schema(description = "y坐标")
+    private Integer positionY;
+
+    @Schema(description = "步骤元信息")
+    private JsonNode stepMeta;
+
+    @Schema(description = "步骤属性")
+    private JsonNode stepAttrs;
 }

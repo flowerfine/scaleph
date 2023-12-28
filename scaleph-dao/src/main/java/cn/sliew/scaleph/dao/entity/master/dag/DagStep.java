@@ -16,16 +16,40 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.handler;
+package cn.sliew.scaleph.dao.entity.master.dag;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
-import org.springframework.stereotype.Component;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
-@Component
-public class FlinkImageHandler {
+/**
+ * DAG 步骤
+ */
+@Data
+@TableName("dag_step")
+public class DagStep extends BaseDO {
 
-    public void handle(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
+    private static final long serialVersionUID = 1L;
 
-    }
+    @TableField("dag_id")
+    private Long dagId;
+
+    @TableField("step_id")
+    private String stepId;
+
+    @TableField("step_name")
+    private String stepName;
+
+    @TableField("position_x")
+    private Integer positionX;
+
+    @TableField("position_y")
+    private Integer positionY;
+
+    @TableField("step_meta")
+    private String stepMeta;
+
+    @TableField("step_attrs")
+    private String stepAttrs;
 }

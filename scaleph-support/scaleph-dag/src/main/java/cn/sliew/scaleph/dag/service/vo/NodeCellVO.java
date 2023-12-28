@@ -16,16 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.handler;
+package cn.sliew.scaleph.dag.service.vo;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
-import org.springframework.stereotype.Component;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 
-@Component
-public class FlinkImageHandler {
+import java.util.Map;
 
-    public void handle(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class NodeCellVO {
 
-    }
+    private String id;
+    private String label;
+    private Map<String, Object> data;
+    private Integer x;
+    private Integer y;
 }

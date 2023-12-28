@@ -16,16 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.handler;
+package cn.sliew.scaleph.dao.mapper.master.dag;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
-import org.springframework.stereotype.Component;
+import cn.sliew.scaleph.dao.entity.master.dag.DagLink;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-@Component
-public class FlinkImageHandler {
+/**
+ * DAG 连线 Mapper 接口
+ */
+@Repository
+public interface DagLinkMapper extends BaseMapper<DagLink> {
 
-    public void handle(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
-
-    }
 }

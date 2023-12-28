@@ -48,6 +48,9 @@ public class WsDiJob extends BaseDO {
     @TableField("job_id")
     private String jobId;
 
+    @TableField("dag_id")
+    private Long dagId;
+
     @TableField("`current`")
     private YesOrNo current;
 }

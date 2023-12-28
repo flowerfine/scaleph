@@ -132,6 +132,7 @@ create table ws_di_job
     flink_artifact_id bigint      not null comment '作业artifact id',
     job_engine        varchar(16) not null comment '作业引擎',
     job_id            varchar(64) not null,
+    dag_id            bigint      not null,
     current           varchar(16) not null comment 'current artifact',
     creator           varchar(32) comment '创建人',
     create_time       timestamp default current_timestamp comment '创建时间',
@@ -140,10 +141,10 @@ create table ws_di_job
     primary key (id),
     key               idx_flink_artifact (flink_artifact_id)
 ) engine = innodb comment '数据集成-作业信息';
-INSERT INTO ws_di_job (id, flink_artifact_id, job_engine, job_id, current, creator, editor)
-VALUES (1, 4, 'seatunnel', 'b8e16c94-258c-4487-a88c-8aad40a38b35', 1, 'sys', 'sys');
-INSERT INTO ws_di_job(id, flink_artifact_id, job_engine, job_id, current, creator, editor)
-VALUES (2, 5, 'seatunnel', '0a6d475e-ed50-46ee-82af-3ef90b7d8509', 1, 'sys', 'sys');
+INSERT INTO ws_di_job (id, flink_artifact_id, job_engine, job_id, dag_id, current, creator, editor)
+VALUES (1, 4, 'seatunnel', 'b8e16c94-258c-4487-a88c-8aad40a38b35', 1, 1, 'sys', 'sys');
+INSERT INTO ws_di_job(id, flink_artifact_id, job_engine, job_id, dag_id, current, creator, editor)
+VALUES (2, 5, 'seatunnel', '0a6d475e-ed50-46ee-82af-3ef90b7d8509', 2, 1, 'sys', 'sys');
 
 drop table if exists ws_di_job_attr;
 create table ws_di_job_attr

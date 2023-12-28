@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.project.service;
 
-import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.project.service.dto.WsFlinkArtifactDTO;
 import cn.sliew.scaleph.project.service.param.WsFlinkArtifactListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -33,6 +32,6 @@ public interface WsFlinkArtifactService {
 
     int update(WsFlinkArtifactDTO dto);
 
-    int deleteById(Long id) throws ScalephException;
+    int deleteById(Long id);
 
 }

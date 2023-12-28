@@ -16,16 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.handler;
+package cn.sliew.scaleph.dag.service.vo;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
-import org.springframework.stereotype.Component;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
-@Component
-public class FlinkImageHandler {
+import java.util.List;
 
-    public void handle(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
+@Data
+@Schema(name = "图对象", description = "图信息")
+public class DagGraphVO {
 
-    }
+    @Schema(description = "nodes")
+    private List<NodeCellVO> nodes;
+
+    @Schema(description = "edges")
+    private List<EdgeCellVO> edges;
 }

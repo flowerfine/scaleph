@@ -16,16 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.handler;
+package cn.sliew.scaleph.dag.service.dto;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
-import org.springframework.stereotype.Component;
+import cn.sliew.scaleph.system.model.BaseDTO;
+import com.fasterxml.jackson.databind.JsonNode;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
-@Component
-public class FlinkImageHandler {
+/**
+ * DAG 实例
+ */
+@Data
+@Schema(name = "DagInstance", description = "DAG 实例")
+public class DagInstanceDTO extends BaseDTO {
 
-    public void handle(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
+    private static final long serialVersionUID = 1L;
 
-    }
+    @Schema(description = "DAG元信息")
+    private JsonNode dagMeta;
+
+    @Schema(description = "DAG属性")
+    private JsonNode dagAttrs;
 }
