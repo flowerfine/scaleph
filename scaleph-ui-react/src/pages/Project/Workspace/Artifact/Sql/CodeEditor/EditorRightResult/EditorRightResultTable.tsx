@@ -114,7 +114,6 @@ const EditorRightResultTable: React.FC = ({ result, lastOneData, verticalSplitSi
         // handleActiveBackground: '#89bff7',
       }),
     );
-  console.log(verticalSplitSizes[1], 'verticalSplitSizes[1]123')
   return (
     <div className={styles.tableBox} >
       {/* <BaseTable {...pipeline.getProps()} /> */}
