@@ -6,6 +6,7 @@ import './index.less';
 
 export default function EditorLeft() {
   const [verticalSplitSizes, setVerticalSplitSizes] = useState<number[]>([70, 30]);
+  const [tableSize, setTableSize] = useState<number[]>([70, 30]);
   const editorRef = useRef<monaco.editor.IEditor>();
 
   const handleDrag = (sizes: number[]) => {
@@ -26,12 +27,15 @@ export default function EditorLeft() {
       maxSize={[Infinity, Infinity]}
       snapOffset={100}
       onDrag={handleDrag}
+      onDragEnd={(sizes: number[]) => {
+        setTableSize(sizes)
+      }}
     >
       <div>
         <Editor editorRef={editorRef} />
       </div>
       <div>
-        <EditorRightResult editorRef={editorRef} />
+        <EditorRightResult editorRef={editorRef} verticalSplitSizes={tableSize} />
       </div>
     </Split>
 
