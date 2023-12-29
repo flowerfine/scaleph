@@ -209,7 +209,7 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
   ]
   return (
     <div>
-      <PageContainer>
+      <PageContainer title={intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail'})}>
         <ProDescriptions
           column={3}
           dataSource={props.jobDetail.job}

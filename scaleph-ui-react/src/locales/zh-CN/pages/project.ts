@@ -898,7 +898,7 @@ export default {
   'pages.project.flink.kubernetes.job.state': 'Deploy State',
   'pages.project.flink.kubernetes.job.error': 'Error',
 
-  'pages.project.flink.kubernetes.job.detail': '详情',
+  'pages.project.flink.kubernetes.job.detail': '任务详情',
   'pages.project.flink.kubernetes.job.detail.deploy': 'Deploy',
   'pages.project.flink.kubernetes.job.detail.deploy.resource': 'Resource',
   'pages.project.flink.kubernetes.job.detail.deploy.resource.jobManagerCpu': 'JobManager CPU',
