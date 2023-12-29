@@ -1,7 +1,7 @@
 import { compareStrings } from '@/pages/Project/Workspace/Artifact/Sql/CodeEditor/components/sort';
 import { Editor } from '@monaco-editor/react';
 import { ArtColumn, BaseTable, features, useTablePipeline } from 'ali-react-table';
-import { Button, message, Modal, Typography } from 'antd';
+import { Button, message, Modal, Typography, Table } from 'antd';
 import React, { useEffect, useMemo, useState } from 'react';
 import styles from './index.less';
 
@@ -50,13 +50,13 @@ const EditorRightResultTable: React.FC = ({ result, lastOneData }: any) => {
     () =>
       (headerList || []).map((item, index) => {
         const { dataType, name } = item;
-        const isFirstLine = index === 0;
+        const isFirstLine = index === 0 ? 'left' : '';
         const isNumber = dataType === 'STRING';
         return {
-          code: name,
+          title: name,
           name: name,
           key: name,
-          lock: isFirstLine,
+          fixed: isFirstLine,
           width: 120,
           render: (value: any, row: any, rowIndex: number) => {
             return (
@@ -86,7 +86,7 @@ const EditorRightResultTable: React.FC = ({ result, lastOneData }: any) => {
               </div>
             );
           },
-          features: { sortable: isNumber ? compareStrings : true },
+          // features: { sortable: isNumber ? compareStrings : true },
         };
       }),
     [headerList],
@@ -116,7 +116,8 @@ const EditorRightResultTable: React.FC = ({ result, lastOneData }: any) => {
 
   return (
     <div className={styles.tableBox}>
-      <BaseTable {...pipeline.getProps()} />
+      {/* <BaseTable {...pipeline.getProps()} /> */}
+      <Table columns={columns} dataSource={dataList} scroll={{ x: 1300 }} />
       <Modal
         title={viewTableCellData?.name}
         open={!!viewTableCellData?.name}
