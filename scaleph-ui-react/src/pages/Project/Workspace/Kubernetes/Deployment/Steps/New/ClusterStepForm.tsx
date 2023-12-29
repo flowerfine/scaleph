@@ -1,12 +1,12 @@
-import {useIntl} from "umi";
+import {connect, useIntl} from "umi";
 import React from "react";
 import {ProCard, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
+import {InfoCircleOutlined} from "@ant-design/icons";
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
 import {WsFlinkKubernetesTemplateParam} from "@/services/project/typings";
 import {ClusterCredentialService} from "@/services/resource/clusterCredential.service";
 import {ClusterCredentialListParam} from "@/services/resource/typings";
 import {WORKSPACE_CONF} from "@/constants/constant";
-import {connect} from "umi";
 import {DeploymentKind} from "@/constants/enum";
 
 const DeploymentClusterStepForm: React.FC = (props: any) => {
@@ -23,6 +23,10 @@ const DeploymentClusterStepForm: React.FC = (props: any) => {
       <ProFormSelect
         name="clusterCredentialId"
         label={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.steps.cluster.cluster'})}
+        tooltip={{
+          title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.steps.cluster.cluster.tooltip'}),
+          icon: <InfoCircleOutlined/>,
+        }}
         rules={[{required: true}]}
         allowClear={false}
         request={((params, props) => {
@@ -39,6 +43,10 @@ const DeploymentClusterStepForm: React.FC = (props: any) => {
       <ProFormText
         name="namespace"
         label={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.namespace'})}
+        tooltip={{
+          title: intl.formatMessage({id: 'pages.project.flink.kubernetes.template.namespace.tooltip'}),
+          icon: <InfoCircleOutlined/>,
+        }}
         rules={[{required: true}]}
         initialValue={"default"}
       />

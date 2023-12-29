@@ -1,7 +1,7 @@
 import {history, useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
-import {DeleteOutlined, EditOutlined, EyeOutlined} from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProFormSelect, ProTable} from "@ant-design/pro-components";
 import {WORKSPACE_CONF} from "@/constants/constant";
 import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
@@ -22,7 +22,7 @@ const FlinkKubernetesDeploymentWeb: React.FC = () => {
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.name'}),
       dataIndex: 'name',
-      width: 200,
+      width: '10%',
     },
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.flinkVersion'}),
@@ -58,19 +58,18 @@ const FlinkKubernetesDeploymentWeb: React.FC = () => {
       title: intl.formatMessage({id: 'app.common.data.remark'}),
       dataIndex: 'remark',
       hideInSearch: true,
-      width: 180,
     },
     {
       title: intl.formatMessage({id: 'app.common.data.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
-      width: 180,
+      width: '8%',
     },
     {
       title: intl.formatMessage({id: 'app.common.data.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
-      width: 180,
+      width: '8%',
     },
     {
       title: intl.formatMessage({id: 'app.common.operate.label'}),
@@ -89,18 +88,6 @@ const FlinkKubernetesDeploymentWeb: React.FC = () => {
                 icon={<EditOutlined/>}
                 onClick={() => {
                   history.push("/workspace/flink/kubernetes/deployment/steps/update", record)
-                }}
-              />
-            </Tooltip>
-          )}
-          {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
-            <Tooltip title={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.detail'})}>
-              <Button
-                shape="default"
-                type="link"
-                icon={<EyeOutlined/>}
-                onClick={() => {
-                  history.push("/workspace/flink/kubernetes/deployment/detail", record)
                 }}
               />
             </Tooltip>

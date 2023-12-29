@@ -68,7 +68,6 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.template.namespace'}),
       dataIndex: 'namespace',
       hideInSearch: true,
-      width: 150
     },
     {
       title: intl.formatMessage({id: 'app.common.data.remark'}),
@@ -79,13 +78,13 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
       title: intl.formatMessage({id: 'app.common.data.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
-      width: 180,
+      width: '8%',
     },
     {
       title: intl.formatMessage({id: 'app.common.data.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
-      width: 180,
+      width: '8%',
     },
     {
       title: intl.formatMessage({id: 'app.common.operate.label'}),
