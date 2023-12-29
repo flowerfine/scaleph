@@ -2,7 +2,7 @@ import { compareStrings } from '@/pages/Project/Workspace/Artifact/Sql/CodeEdito
 import { Editor } from '@monaco-editor/react';
 import { ArtColumn, BaseTable, features, useTablePipeline } from 'ali-react-table';
 import { Button, message, Modal, Typography, Table } from 'antd';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import styles from './index.less';
 
 interface IViewTableCellData {
@@ -10,11 +10,12 @@ interface IViewTableCellData {
   value: any;
 }
 
-const EditorRightResultTable: React.FC = ({ result, lastOneData }: any) => {
+const EditorRightResultTable: React.FC = ({ result, lastOneData, verticalSplitSizes }: any) => {
   const { Paragraph, Text } = Typography;
   const [viewTableCellData, setViewTableCellData] = useState<IViewTableCellData | null>(null);
   const [headerList, setHeaderList] = useState([]);
   const [dataList, setDataList] = useState([]);
+  // const heightTable = useRef()
 
   useEffect(() => {
     const data = result?.columns?.map((item: any) => ({
@@ -46,7 +47,7 @@ const EditorRightResultTable: React.FC = ({ result, lastOneData }: any) => {
     setViewTableCellData(data);
   };
 
-  const columns: ArtColumn[] = useMemo(
+  const columns: any = useMemo(
     () =>
       (headerList || []).map((item, index) => {
         const { dataType, name } = item;
@@ -54,7 +55,7 @@ const EditorRightResultTable: React.FC = ({ result, lastOneData }: any) => {
         const isNumber = dataType === 'STRING';
         return {
           title: name,
-          name: name,
+          dataIndex: name,
           key: name,
           fixed: isFirstLine,
           width: 120,
@@ -113,11 +114,11 @@ const EditorRightResultTable: React.FC = ({ result, lastOneData }: any) => {
         // handleActiveBackground: '#89bff7',
       }),
     );
-
+  console.log(verticalSplitSizes[1], 'verticalSplitSizes[1]123')
   return (
-    <div className={styles.tableBox}>
+    <div className={styles.tableBox} >
       {/* <BaseTable {...pipeline.getProps()} /> */}
-      <Table columns={columns} dataSource={dataList} scroll={{ x: 1300 }} />
+      <Table columns={columns} dataSource={dataList} scroll={{ y: verticalSplitSizes[1] * 7, x: 1300 }} pagination={false} />
       <Modal
         title={viewTableCellData?.name}
         open={!!viewTableCellData?.name}

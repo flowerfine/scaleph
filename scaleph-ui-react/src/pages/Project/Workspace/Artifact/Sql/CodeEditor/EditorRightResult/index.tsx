@@ -15,7 +15,7 @@ interface TabItem {
   key: string | number | null | undefined;
 }
 
-const EditorRightResult: React.FC = () => {
+const EditorRightResult: React.FC = ({ verticalSplitSizes }) => {
   const [dataList, setDataList] = useState<any[]>([]); // 数据列表
   const urlParams = useLocation(); // 当前url参数
   const [sqlScript, setSqlScript] = useState<string>(''); // SQL脚本内容
@@ -108,6 +108,7 @@ const EditorRightResult: React.FC = () => {
           <EditorRightResultTable
             result={item}
             key={item?.key}
+            verticalSplitSizes={verticalSplitSizes}
             lastOneData={dataList?.length - 1 == index}
           />
         ),
@@ -117,7 +118,7 @@ const EditorRightResult: React.FC = () => {
 
     const tabs = handleTabs(dataList);
     setItems(tabs);
-  }, [dataList]);
+  }, [dataList, verticalSplitSizes]);
 
   const onEdit = (key: string | number | null | undefined) => {
     setDataList((prevList) => prevList.filter((item) => item?.jobID !== key));
