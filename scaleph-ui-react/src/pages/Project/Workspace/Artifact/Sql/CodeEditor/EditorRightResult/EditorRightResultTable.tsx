@@ -1,8 +1,8 @@
 import { compareStrings } from '@/pages/Project/Workspace/Artifact/Sql/CodeEditor/components/sort';
 import { Editor } from '@monaco-editor/react';
 import { ArtColumn, BaseTable, features, useTablePipeline } from 'ali-react-table';
-import { Button, message, Modal, Typography } from 'antd';
-import React, { useEffect, useMemo, useState } from 'react';
+import { Button, message, Modal, Typography, Table } from 'antd';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import styles from './index.less';
 
 interface IViewTableCellData {
@@ -10,11 +10,12 @@ interface IViewTableCellData {
   value: any;
 }
 
-const EditorRightResultTable: React.FC = ({ result, lastOneData }: any) => {
+const EditorRightResultTable: React.FC = ({ result, lastOneData, verticalSplitSizes }: any) => {
   const { Paragraph, Text } = Typography;
   const [viewTableCellData, setViewTableCellData] = useState<IViewTableCellData | null>(null);
   const [headerList, setHeaderList] = useState([]);
   const [dataList, setDataList] = useState([]);
+  // const heightTable = useRef()
 
   useEffect(() => {
     const data = result?.columns?.map((item: any) => ({
@@ -46,17 +47,17 @@ const EditorRightResultTable: React.FC = ({ result, lastOneData }: any) => {
     setViewTableCellData(data);
   };
 
-  const columns: ArtColumn[] = useMemo(
+  const columns: any = useMemo(
     () =>
       (headerList || []).map((item, index) => {
         const { dataType, name } = item;
-        const isFirstLine = index === 0;
+        const isFirstLine = index === 0 ? 'left' : '';
         const isNumber = dataType === 'STRING';
         return {
-          code: name,
-          name: name,
+          title: name,
+          dataIndex: name,
           key: name,
-          lock: isFirstLine,
+          fixed: isFirstLine,
           width: 120,
           render: (value: any, row: any, rowIndex: number) => {
             return (
@@ -86,7 +87,7 @@ const EditorRightResultTable: React.FC = ({ result, lastOneData }: any) => {
               </div>
             );
           },
-          features: { sortable: isNumber ? compareStrings : true },
+          // features: { sortable: isNumber ? compareStrings : true },
         };
       }),
     [headerList],
@@ -113,10 +114,10 @@ const EditorRightResultTable: React.FC = ({ result, lastOneData }: any) => {
         // handleActiveBackground: '#89bff7',
       }),
     );
-
   return (
-    <div className={styles.tableBox}>
-      <BaseTable {...pipeline.getProps()} />
+    <div className={styles.tableBox} >
+      {/* <BaseTable {...pipeline.getProps()} /> */}
+      <Table columns={columns} dataSource={dataList} scroll={{ y: verticalSplitSizes[1] * 7, x: 1300 }} pagination={false} />
       <Modal
         title={viewTableCellData?.name}
         open={!!viewTableCellData?.name}
