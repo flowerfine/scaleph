@@ -42,7 +42,7 @@ const FlinkKubernetesSessionClusterWeb: React.FC = () => {
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.name'}),
       dataIndex: 'name',
-      width: 200,
+      width: '10%',
     },
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.flinkVersion'}),
@@ -106,6 +106,7 @@ const FlinkKubernetesSessionClusterWeb: React.FC = () => {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.error'}),
       dataIndex: 'error',
       hideInSearch: true,
+      ellipsis: true
     },
     {
       title: intl.formatMessage({id: 'app.common.data.remark'}),
@@ -116,13 +117,13 @@ const FlinkKubernetesSessionClusterWeb: React.FC = () => {
       title: intl.formatMessage({id: 'app.common.data.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
-      width: 180,
+      width: '8%',
     },
     {
       title: intl.formatMessage({id: 'app.common.data.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
-      width: 180,
+      width: '8%',
     },
     {
       title: intl.formatMessage({id: 'app.common.operate.label'}),

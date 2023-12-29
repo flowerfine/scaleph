@@ -26,7 +26,8 @@ const FlinkKubernetesJobWeb: React.FC = () => {
   const tableColumns: ProColumns<WsFlinkKubernetesJob>[] = [
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.name'}),
-      dataIndex: 'name'
+      dataIndex: 'name',
+      width: '10%'
     },
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.executionMode'}),
@@ -87,7 +88,6 @@ const FlinkKubernetesJobWeb: React.FC = () => {
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.state'}),
       dataIndex: 'state',
-      width: 100,
       hideInSearch: true,
       render: (dom, record) => {
         return <Tooltip title={record.jobInstance?.state?.remark}>{record.jobInstance?.state?.label}</Tooltip>
@@ -99,7 +99,6 @@ const FlinkKubernetesJobWeb: React.FC = () => {
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.jobState'}),
       dataIndex: 'jobState',
-      width: 100,
       hideInSearch: true,
       render: (dom, record) => {
         return <Tooltip title={record.jobInstance?.jobState?.value}>{record.jobInstance?.jobState?.label}</Tooltip>
@@ -119,20 +118,19 @@ const FlinkKubernetesJobWeb: React.FC = () => {
     {
       title: intl.formatMessage({id: 'app.common.data.remark'}),
       dataIndex: 'remark',
-      hideInSearch: true,
-      width: 180,
+      hideInSearch: true
     },
     {
       title: intl.formatMessage({id: 'app.common.data.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
-      width: 180,
+      width: '8%',
     },
     {
       title: intl.formatMessage({id: 'app.common.data.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
-      width: 180,
+      width: '8%',
     },
     {
       title: intl.formatMessage({id: 'app.common.operate.label'}),

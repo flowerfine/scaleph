@@ -1,6 +1,6 @@
 import {connect, useAccess, useIntl, useLocation} from "umi";
 import React, {useEffect} from "react";
-import {PageContainer, ProDescriptions} from "@ant-design/pro-components";
+import {PageContainer, ProCard, ProDescriptions} from "@ant-design/pro-components";
 import {ProDescriptionsItemProps} from "@ant-design/pro-descriptions";
 import {Button, message, Popconfirm, Space, Tabs} from "antd";
 import {
@@ -14,7 +14,8 @@ import {
 } from "@ant-design/icons";
 import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
-import FlinkKubernetesSessinClusterDetailYAMLWeb from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Detail/YAML";
+import FlinkKubernetesSessionClusterDetailYAMLWeb
+  from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Detail/YAML";
 import FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb
   from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Detail/Configuration";
 import FlinkKubernetesSessinClusterDetailOptionsWeb
@@ -53,14 +54,22 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = (props: any) => {
       dataIndex: 'name',
     },
     {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.sessionClusterId'}),
+      key: `sessionClusterId`,
+      dataIndex: 'sessionClusterId',
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.image'}),
+      key: `image`,
+      dataIndex: 'image',
+      render: (dom, entity, index, action, schema) => {
+        return entity.kubernetesOptions?.image
+      }
+    },
+    {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.namespace'}),
       key: `namespace`,
       dataIndex: 'namespace'
-    },
-    {
-      title: intl.formatMessage({id: 'app.common.data.remark'}),
-      key: `remark`,
-      dataIndex: 'remark',
     },
     {
       title: intl.formatMessage({id: 'app.common.data.createTime'}),
@@ -182,22 +191,27 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = (props: any) => {
     {
       label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.yaml'}),
       key: 'yaml',
-      children: <FlinkKubernetesSessinClusterDetailYAMLWeb/>
+      children: <FlinkKubernetesSessionClusterDetailYAMLWeb/>
     },
   ]
 
   return (
-    <PageContainer title={false}>
-      <ProDescriptions
-        column={2}
-        dataSource={props.flinkKubernetesSessionClusterDetail.sessionCluster}
-        columns={descriptionColumns}
-        extra={buttons}
-      />
-      <Tabs
-        type="card"
-        items={items}
-      />
+    <PageContainer title={intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail'})}>
+      <ProCard.Group direction={'column'}>
+        <ProCard extra={buttons}>
+          <ProDescriptions
+            column={2}
+            dataSource={props.flinkKubernetesSessionClusterDetail.sessionCluster}
+            columns={descriptionColumns}
+          />
+        </ProCard>
+        <ProCard>
+          <Tabs
+            type="card"
+            items={items}
+          />
+        </ProCard>
+      </ProCard.Group>
     </PageContainer>
   );
 }

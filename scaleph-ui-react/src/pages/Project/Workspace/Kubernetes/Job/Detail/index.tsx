@@ -214,7 +214,6 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
           column={3}
           dataSource={props.jobDetail.job}
           columns={descriptionColumns}
-          // extra={buttons}
         />
         <Tabs
           type="card"

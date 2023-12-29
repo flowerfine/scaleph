@@ -8,7 +8,8 @@ import {
   ProFormGroup,
   ProFormRadio,
   ProFormSelect,
-  ProFormText
+  ProFormText,
+  ProFormTextArea
 } from "@ant-design/pro-components";
 import {ModalFormProps} from '@/app.d';
 import {
@@ -38,8 +39,6 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
   const intl = useIntl();
   const [form] = Form.useForm();
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
-
-  console.log('FlinkKubernetesJobForm', data)
 
   return (
     <Modal
@@ -270,7 +269,7 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
           }}
         </ProFormDependency>
 
-        <ProFormText
+        <ProFormTextArea
           name={"remark"}
           label={intl.formatMessage({id: 'app.common.data.remark'})}
         />

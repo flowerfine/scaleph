@@ -266,6 +266,7 @@ export type WsFlinkKubernetesSessionCluster = {
   projectId: number;
   clusterCredentialId: number;
   name: string;
+  sessionClusterId: string;
   namespace: string;
   kubernetesOptions?: KubernetesOptionsVO;
   jobManager?: Record<string, any>;
