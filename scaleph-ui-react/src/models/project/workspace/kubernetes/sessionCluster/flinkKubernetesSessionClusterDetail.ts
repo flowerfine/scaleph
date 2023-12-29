@@ -1,9 +1,12 @@
 import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
 import {Effect, Reducer} from "umi";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
+import YAML from "yaml";
 
 export interface StateType {
   sessionCluster: WsFlinkKubernetesSessionCluster,
+  sessionClusterYaml: string,
+  sessionClusterStatusYaml: string,
 }
 
 export interface ModelType {
@@ -12,11 +15,11 @@ export interface ModelType {
   state: StateType;
 
   effects: {
-    queryTemplate: Effect;
+    querySessionCluster: Effect;
   };
 
   reducers: {
-    updateTemplate: Reducer<StateType>;
+    updateSessionCluster: Reducer<StateType>;
   };
 }
 
@@ -25,12 +28,26 @@ const model: ModelType = {
 
   state: {
     sessionCluster: null,
+    sessionClusterYaml: null,
+    sessionClusterStatusYaml: null,
   },
 
   effects: {
-    *querySessionCluster({payload}, {call, put}) {
+    * querySessionCluster({payload}, {call, put}) {
       const {data} = yield call(WsFlinkKubernetesSessionClusterService.selectOne, payload);
-      yield put({type: 'updateSessionCluster', payload: {sessionCluster: data}});
+      const param = {...data}
+      param.deployed = undefined
+      param.state = undefined
+      const response = yield call(WsFlinkKubernetesSessionClusterService.asYAML, param);
+      const statusReponse = yield call(WsFlinkKubernetesSessionClusterService.status, param);
+      yield put({
+        type: 'updateSessionCluster',
+        payload: {
+          sessionCluster: data,
+          sessionClusterYaml: YAML.stringify(response.data),
+          sessionClusterStatusYaml: YAML.stringify(statusReponse.data)
+        }
+      });
     },
   },
 
@@ -38,7 +55,9 @@ const model: ModelType = {
     updateSessionCluster(state, {payload}) {
       return {
         ...state,
-        sessionCluster: payload.sessionCluster
+        sessionCluster: payload.sessionCluster,
+        sessionClusterYaml: payload.sessionClusterYaml,
+        sessionClusterStatusYaml: payload.sessionClusterStatusYaml
       };
     },
   },

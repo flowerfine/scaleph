@@ -3,7 +3,7 @@ import type { EventArgs } from '@antv/x6/lib/graph/events';
 import {
   createGraphConfig,
   createHookConfig,
-  DisposableCollection,
+  DisposableCollection, IEvent,
   NsGraph,
   NsNodeCmd,
   XFlowNodeCommands,
@@ -206,4 +206,34 @@ export const useGraphConfig = createGraphConfig((config) => {
       },
     },
   });
+
+  // 配置不同组件的 node 和 edge 组件
+  config.setNodeRender(DND_RENDER_ID, BaseNode)
+
+  // 节点事件
+  const edgeAdded: IEvent<'edge:added'> = {
+    eventName: 'edge:added',
+    callback: (eventArgs, command, modelService) => {
+      console.log('edge:added', eventArgs, e)
+    },
+  }
+  const edgeRemoved: IEvent<'edge:removed'> = {
+    eventName: 'edge:removed',
+    callback: (eventArgs, command, modelService) => {
+      console.log('edge:removed', eventArgs, e)
+    },
+  }
+  const nodeAdded: IEvent<'node:added'> = {
+    eventName: 'node:added',
+    callback: (eventArgs, command, modelService) => {
+      console.log('node:added', eventArgs, e)
+    },
+  }
+  const nodeRemoved: IEvent<'node:removed'> = {
+    eventName: 'node:removed',
+    callback: (eventArgs, command, modelService) => {
+      console.log('node:removed', eventArgs, e)
+    },
+  }
+  config.setEvents([edgeAdded, edgeRemoved, nodeAdded, nodeRemoved])
 });

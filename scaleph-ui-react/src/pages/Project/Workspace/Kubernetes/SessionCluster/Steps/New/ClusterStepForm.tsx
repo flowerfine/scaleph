@@ -7,6 +7,7 @@ import {ClusterCredentialService} from "@/services/resource/clusterCredential.se
 import {ClusterCredentialListParam} from "@/services/resource/typings";
 import {WORKSPACE_CONF} from "@/constants/constant";
 import {DeploymentKind} from "@/constants/enum";
+import {InfoCircleOutlined} from "@ant-design/icons";
 
 const SessionClusterClusterStepForm: React.FC = () => {
   const intl = useIntl();
@@ -22,6 +23,10 @@ const SessionClusterClusterStepForm: React.FC = () => {
       <ProFormSelect
         name="clusterCredentialId"
         label={intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.steps.cluster.cluster'})}
+        tooltip={{
+          title: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.steps.cluster.cluster.tooltip'}),
+          icon: <InfoCircleOutlined/>,
+        }}
         rules={[{required: true}]}
         allowClear={false}
         request={((params, props) => {
@@ -38,6 +43,10 @@ const SessionClusterClusterStepForm: React.FC = () => {
       <ProFormText
         name="namespace"
         label={intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.namespace'})}
+        tooltip={{
+          title: intl.formatMessage({id: 'pages.project.flink.kubernetes.template.namespace.tooltip'}),
+          icon: <InfoCircleOutlined/>,
+        }}
         rules={[{required: true}]}
         initialValue={"default"}
       />
