@@ -24,7 +24,9 @@ import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.job.JobAttrType;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dag.service.DagService;
-import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
+import cn.sliew.scaleph.dag.service.dto.DagDTO;
+import cn.sliew.scaleph.dag.service.param.DagSimpleAddParam;
+import cn.sliew.scaleph.dag.service.param.DagSimpleUpdateParam;
 import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
@@ -98,8 +100,7 @@ public class WsDiJobServiceImpl implements WsDiJobService {
         flinkArtifact.setRemark(param.getRemark());
         flinkArtifact = wsFlinkArtifactService.insert(flinkArtifact);
 
-        DagInstanceDTO instanceDTO = new DagInstanceDTO();
-        Long dagId = dagService.insert(instanceDTO);
+        Long dagId = dagService.insert(new DagSimpleAddParam());
         WsDiJob record = new WsDiJob();
         record.setFlinkArtifactId(flinkArtifact.getId());
         record.setJobId(UUID.randomUUID().toString());
@@ -155,6 +156,11 @@ public class WsDiJobServiceImpl implements WsDiJobService {
     @Override
     public WsDiJobDTO queryJobGraph(Long id) {
         WsDiJobDTO job = selectOne(id);
+
+        // 替换现有的 jobGraph
+        DagDTO dagDTO = dagService.selectOne(job.getDagId());
+
+
         wsDiJobGraphService.queryJobGraph(job);
         job.setJobAttrList(wsDiJobAttrService.listJobAttr(id));
         return job;
@@ -222,6 +228,12 @@ public class WsDiJobServiceImpl implements WsDiJobService {
         for (Map.Entry<String, WsDiJobAttrDTO> entry : map.entrySet()) {
             wsDiJobAttrService.upsert(entry.getValue());
         }
+
+        WsDiJobDTO wsDiJobDTO = selectOne(vo.getJobId());
+        DagSimpleUpdateParam param = new DagSimpleUpdateParam();
+        param.setId(wsDiJobDTO.getDagId());
+        param.setDagAttrs(JacksonUtil.toJsonNode(map));
+        dagService.update(param);
         return vo.getJobId();
     }
 
@@ -248,11 +260,4 @@ public class WsDiJobServiceImpl implements WsDiJobService {
         return diJobMapper.selectCount(queryWrapper);
     }
 
-    @Override
-    public int clone(Long sourceJobId, Long targetJobId) {
-        int result = 0;
-        wsDiJobGraphService.clone(sourceJobId, targetJobId);
-        result += wsDiJobAttrService.clone(sourceJobId, targetJobId);
-        return result;
-    }
 }

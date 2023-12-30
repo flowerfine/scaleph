@@ -27,6 +27,8 @@ import cn.sliew.scaleph.dag.service.dto.DagDTO;
 import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
 import cn.sliew.scaleph.dag.service.dto.DagLinkDTO;
 import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
+import cn.sliew.scaleph.dag.service.param.DagSimpleAddParam;
+import cn.sliew.scaleph.dag.service.param.DagSimpleUpdateParam;
 import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import cn.sliew.scaleph.dag.service.vo.EdgeCellVO;
 import cn.sliew.scaleph.dag.service.vo.NodeCellVO;
@@ -58,8 +60,22 @@ public class DagServiceImpl implements DagService {
     }
 
     @Override
-    public Long insert(DagInstanceDTO instanceDTO) {
+    public DagInstanceDTO selectSimpleOne(Long dagId) {
+        return dagInstanceService.selectOne(dagId);
+    }
+
+    @Override
+    public Long insert(DagSimpleAddParam param) {
+        DagInstanceDTO instanceDTO = new DagInstanceDTO();
+        BeanUtils.copyProperties(param, instanceDTO);
         return dagInstanceService.insert(instanceDTO);
+    }
+
+    @Override
+    public int update(DagSimpleUpdateParam param) {
+        DagInstanceDTO instanceDTO = new DagInstanceDTO();
+        BeanUtils.copyProperties(param, instanceDTO);
+        return dagInstanceService.update(instanceDTO);
     }
 
     @Override
