@@ -23,7 +23,6 @@ import cn.sliew.scaleph.engine.seatunnel.service.param.*;
 import cn.sliew.scaleph.engine.seatunnel.service.vo.DiJobAttrVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface WsDiJobService {
@@ -54,5 +53,4 @@ public interface WsDiJobService {
 
     Long totalCnt(String jobType);
 
-    int clone(Long sourceJobId, Long targetJobId);
 }

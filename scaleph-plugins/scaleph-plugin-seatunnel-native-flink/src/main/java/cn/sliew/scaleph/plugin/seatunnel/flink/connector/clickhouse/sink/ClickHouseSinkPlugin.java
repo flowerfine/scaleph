@@ -74,11 +74,10 @@ public class ClickHouseSinkPlugin extends SeaTunnelNativeFlinkPlugin {
         for (PropertyDescriptor descriptor : getSupportedProperties()) {
             if (properties.contains(descriptor)) {
                 if (CLICKHOUSE_CONF.getName().equals(descriptor.getName())) {
-                    Map<String, Object> map = PropertyUtil
-                            .formatPropFromStr(properties.getValue(descriptor), "\n", "=");
-                    for (Map.Entry<String, Object> entry : map.entrySet()) {
+                    Map<String, String> map = PropertyUtil.formatPropFromStr(properties.getValue(descriptor));
+                    for (Map.Entry<String, String> entry : map.entrySet()) {
                         objectNode
-                                .put("clickhouse." + entry.getKey(), String.valueOf(entry.getValue()));
+                                .put("clickhouse." + entry.getKey(), entry.getValue());
                     }
                 } else if (FIELDS.getName().equals(descriptor.getName())) {
                     String[] splitFields = properties.getValue(descriptor).split(",");

@@ -214,25 +214,25 @@ export const useGraphConfig = createGraphConfig((config) => {
   const edgeAdded: IEvent<'edge:added'> = {
     eventName: 'edge:added',
     callback: (eventArgs, command, modelService) => {
-      console.log('edge:added', eventArgs, e)
+      console.log('edge:added', eventArgs)
     },
   }
   const edgeRemoved: IEvent<'edge:removed'> = {
     eventName: 'edge:removed',
     callback: (eventArgs, command, modelService) => {
-      console.log('edge:removed', eventArgs, e)
+      console.log('edge:removed', eventArgs)
     },
   }
   const nodeAdded: IEvent<'node:added'> = {
     eventName: 'node:added',
     callback: (eventArgs, command, modelService) => {
-      console.log('node:added', eventArgs, e)
+      console.log('node:added', eventArgs)
     },
   }
   const nodeRemoved: IEvent<'node:removed'> = {
     eventName: 'node:removed',
     callback: (eventArgs, command, modelService) => {
-      console.log('node:removed', eventArgs, e)
+      console.log('node:removed', eventArgs)
     },
   }
   config.setEvents([edgeAdded, edgeRemoved, nodeAdded, nodeRemoved])

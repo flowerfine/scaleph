@@ -21,10 +21,11 @@ package cn.sliew.scaleph.engine.seatunnel.service.impl;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
-import cn.sliew.scaleph.common.dict.job.JobAttrType;
-import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dag.service.DagService;
+import cn.sliew.scaleph.dag.service.dto.DagDTO;
 import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
+import cn.sliew.scaleph.dag.service.param.DagSimpleAddParam;
+import cn.sliew.scaleph.dag.service.param.DagSimpleUpdateParam;
 import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
@@ -32,23 +33,28 @@ import cn.sliew.scaleph.dao.mapper.master.ws.WsDiJobMapper;
 import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobAttrService;
 import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobGraphService;
 import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
+import cn.sliew.scaleph.engine.seatunnel.service.convert.WsDiJobAttrVOConvert;
 import cn.sliew.scaleph.engine.seatunnel.service.convert.WsDiJobConvert;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobAttrDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.convert.WsDiJobLinkConvert2;
+import cn.sliew.scaleph.engine.seatunnel.service.convert.WsDiJobStepConvert2;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobLinkDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobStepDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.param.*;
 import cn.sliew.scaleph.engine.seatunnel.service.vo.DiJobAttrVO;
 import cn.sliew.scaleph.project.service.WsFlinkArtifactService;
 import cn.sliew.scaleph.project.service.dto.WsFlinkArtifactDTO;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -59,10 +65,6 @@ public class WsDiJobServiceImpl implements WsDiJobService {
     private WsFlinkArtifactService wsFlinkArtifactService;
     @Autowired
     private WsDiJobMapper diJobMapper;
-    @Autowired
-    private WsDiJobGraphService wsDiJobGraphService;
-    @Autowired
-    private WsDiJobAttrService wsDiJobAttrService;
     @Autowired
     private DagService dagService;
 
@@ -98,8 +100,7 @@ public class WsDiJobServiceImpl implements WsDiJobService {
         flinkArtifact.setRemark(param.getRemark());
         flinkArtifact = wsFlinkArtifactService.insert(flinkArtifact);
 
-        DagInstanceDTO instanceDTO = new DagInstanceDTO();
-        Long dagId = dagService.insert(instanceDTO);
+        Long dagId = dagService.insert(new DagSimpleAddParam());
         WsDiJob record = new WsDiJob();
         record.setFlinkArtifactId(flinkArtifact.getId());
         record.setJobId(UUID.randomUUID().toString());
@@ -134,9 +135,6 @@ public class WsDiJobServiceImpl implements WsDiJobService {
         if (wsDiJobDTO.getCurrent() == YesOrNo.YES) {
             wsFlinkArtifactService.deleteById(wsDiJobDTO.getWsFlinkArtifact().getId());
         }
-        //todo check if there is running job instance
-        wsDiJobGraphService.deleteBatch(Collections.singletonList(id));
-        wsDiJobAttrService.deleteByJobId(Collections.singletonList(id));
         return diJobMapper.deleteById(id);
     }
 
@@ -155,30 +153,42 @@ public class WsDiJobServiceImpl implements WsDiJobService {
     @Override
     public WsDiJobDTO queryJobGraph(Long id) {
         WsDiJobDTO job = selectOne(id);
-        wsDiJobGraphService.queryJobGraph(job);
-        job.setJobAttrList(wsDiJobAttrService.listJobAttr(id));
+        DagDTO dagDTO = dagService.selectOne(job.getDagId());
+        fillGraph(job, dagDTO);
         return job;
+    }
+
+    private void fillGraph(WsDiJobDTO job, DagDTO dagDTO) {
+        List<WsDiJobLinkDTO> jobLinkDTOS = dagDTO.getLinks().stream().map(link -> {
+            WsDiJobLinkDTO dto = WsDiJobLinkConvert2.INSTANCE.toDto(link);
+            dto.setJobId(job.getId());
+            return dto;
+        }).collect(Collectors.toList());
+        List<WsDiJobStepDTO> jobStepDTOS = dagDTO.getSteps().stream().map(step -> {
+            WsDiJobStepDTO dto = WsDiJobStepConvert2.INSTANCE.toDto(step);
+            dto.setJobId(job.getId());
+            return dto;
+        }).collect(Collectors.toList());
+        job.setJobLinkList(jobLinkDTOS);
+        job.setJobStepList(jobStepDTOS);
+        // 属性信息
+        DiJobAttrVO jobAttrVO = WsDiJobAttrVOConvert.INSTANCE.toDto(dagDTO.getDagAttrs());
+        jobAttrVO.setJobId(job.getId());
+        job.setJobAttrList(jobAttrVO);
     }
 
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @Override
     public Long saveJobStep(WsDiJobStepParam param) {
-        DagGraphVO jobGraphVO = JacksonUtil.parseJsonString(param.getJobGraph(), DagGraphVO.class);
-        wsDiJobGraphService.saveJobGraph(param.getJobId(), jobGraphVO);
         WsDiJobDTO wsDiJobDTO = selectOne(param.getJobId());
+        DagGraphVO jobGraphVO = JacksonUtil.parseJsonString(param.getJobGraph(), DagGraphVO.class);
         dagService.replace(wsDiJobDTO.getDagId(), jobGraphVO);
-
-        WsDiJobStepParam copiedParam = BeanUtil.copy(param, new WsDiJobStepParam());
-        copiedParam.setJobId(param.getJobId());
-        wsDiJobGraphService.updateJobStep(copiedParam);
-
         return param.getJobId();
     }
 
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @Override
     public Long saveJobGraph(WsDiJobGraphParam param) {
-        wsDiJobGraphService.saveJobGraph(param.getJobId(), param.getJobGraph());
         WsDiJobDTO wsDiJobDTO = selectOne(param.getJobId());
         dagService.replace(wsDiJobDTO.getDagId(), param.getJobGraph());
         return param.getJobId();
@@ -186,73 +196,27 @@ public class WsDiJobServiceImpl implements WsDiJobService {
 
     @Override
     public DiJobAttrVO listJobAttrs(Long id) {
-        DiJobAttrVO vo = new DiJobAttrVO();
+        WsDiJobDTO wsDiJobDTO = selectOne(id);
+        DagInstanceDTO instanceDTO = dagService.selectSimpleOne(wsDiJobDTO.getDagId());
+        DiJobAttrVO vo = WsDiJobAttrVOConvert.INSTANCE.toDto(instanceDTO.getDagAttrs());
         vo.setJobId(id);
-        List<WsDiJobAttrDTO> list = wsDiJobAttrService.listJobAttr(id);
-        for (WsDiJobAttrDTO jobAttr : list) {
-            String str = jobAttr.getJobAttrKey().concat("=").concat(jobAttr.getJobAttrValue());
-            String tempStr = null;
-            switch (jobAttr.getJobAttrType()) {
-                case VARIABLE:
-                    tempStr = StringUtils.hasText(vo.getJobAttr()) ? vo.getJobAttr() : "";
-                    vo.setJobAttr(tempStr + str + "\n");
-                    break;
-                case ENV:
-                    tempStr = StringUtils.hasText(vo.getJobProp()) ? vo.getJobProp() : "";
-                    vo.setJobProp(tempStr + str + "\n");
-                    break;
-                case PROPERTIES:
-                    tempStr = StringUtils.hasText(vo.getEngineProp()) ? vo.getEngineProp() : "";
-                    vo.setEngineProp(tempStr + str + "\n");
-                    break;
-                default:
-            }
-        }
         return vo;
     }
 
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @Override
     public Long saveJobAttrs(DiJobAttrVO vo) {
-        Map<String, WsDiJobAttrDTO> map = new HashMap<>();
-        parseJobAttr(map, vo.getJobAttr(), JobAttrType.VARIABLE, vo.getJobId());
-        parseJobAttr(map, vo.getJobProp(), JobAttrType.ENV, vo.getJobId());
-        parseJobAttr(map, vo.getEngineProp(), JobAttrType.PROPERTIES, vo.getJobId());
-        wsDiJobAttrService.deleteByJobId(Collections.singletonList(vo.getJobId()));
-        for (Map.Entry<String, WsDiJobAttrDTO> entry : map.entrySet()) {
-            wsDiJobAttrService.upsert(entry.getValue());
-        }
+        WsDiJobDTO wsDiJobDTO = selectOne(vo.getJobId());
+        DagSimpleUpdateParam param = new DagSimpleUpdateParam();
+        param.setId(wsDiJobDTO.getDagId());
+        param.setDagAttrs(WsDiJobAttrVOConvert.INSTANCE.toDo(vo));
+        dagService.update(param);
         return vo.getJobId();
-    }
-
-    private void parseJobAttr(Map<String, WsDiJobAttrDTO> map, String str, JobAttrType jobAttrType, Long jobId) {
-        if (StringUtils.hasText(str)) {
-            String[] lines = str.split("\n");
-            for (String line : lines) {
-                String[] kv = line.split("=");
-                if (kv.length == 2 && StringUtils.hasText(kv[0]) && StringUtils.hasText(kv[1])) {
-                    WsDiJobAttrDTO dto = new WsDiJobAttrDTO();
-                    dto.setJobId(jobId);
-                    dto.setJobAttrType(jobAttrType);
-                    dto.setJobAttrKey(kv[0]);
-                    dto.setJobAttrValue(kv[1]);
-                    map.put(jobId + jobAttrType.getValue() + kv[0], dto);
-                }
-            }
-        }
     }
 
     @Override
     public Long totalCnt(String jobType) {
-        LambdaQueryWrapper<WsDiJob> queryWrapper = Wrappers.lambdaQuery(WsDiJob.class);
-        return diJobMapper.selectCount(queryWrapper);
+        return diJobMapper.selectCount(Wrappers.emptyWrapper());
     }
 
-    @Override
-    public int clone(Long sourceJobId, Long targetJobId) {
-        int result = 0;
-        wsDiJobGraphService.clone(sourceJobId, targetJobId);
-        result += wsDiJobAttrService.clone(sourceJobId, targetJobId);
-        return result;
-    }
 }

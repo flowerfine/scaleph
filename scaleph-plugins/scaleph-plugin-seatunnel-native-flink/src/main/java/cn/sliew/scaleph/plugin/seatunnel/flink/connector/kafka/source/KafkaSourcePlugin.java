@@ -82,14 +82,14 @@ public class KafkaSourcePlugin extends SeaTunnelNativeFlinkPlugin {
                     String bootStrapServers = metaDatasource.getProps().get(KafkaProperties.BOOTSTRAP_SERVERS.getName()).toString();
                     objectNode.put(CONSUMER_BOOTSTRAP_SERVERS.getName().replace("_", "."), bootStrapServers);
                 } else if (CONSUMER_CONF.getName().equals(descriptor.getName())) {
-                    Map<String, Object> map = PropertyUtil.formatPropFromStr(properties.getValue(descriptor), "\n", "=");
-                    for (Map.Entry<String, Object> entry : map.entrySet()) {
-                        objectNode.put("consumer." + entry.getKey(), String.valueOf(entry.getValue()));
+                    Map<String, String> map = PropertyUtil.formatPropFromStr(properties.getValue(descriptor));
+                    for (Map.Entry<String, String> entry : map.entrySet()) {
+                        objectNode.put("consumer." + entry.getKey(), entry.getValue());
                     }
                 } else if (FORMAT_CONF.getName().equals(descriptor.getName())) {
-                    Map<String, Object> map = PropertyUtil.formatPropFromStr(properties.getValue(descriptor), "\n", "=");
-                    for (Map.Entry<String, Object> entry : map.entrySet()) {
-                        objectNode.put(entry.getKey(), String.valueOf(entry.getValue()));
+                    Map<String, String> map = PropertyUtil.formatPropFromStr(properties.getValue(descriptor));
+                    for (Map.Entry<String, String> entry : map.entrySet()) {
+                        objectNode.put(entry.getKey(), entry.getValue());
                     }
                 } else if (descriptor.getName().contains("_")) {
                     objectNode.put(descriptor.getName().replace("_", "."), properties.getValue(descriptor));

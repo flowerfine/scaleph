@@ -18,39 +18,38 @@
 
 package cn.sliew.scaleph.common.util;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
 
 public enum PropertyUtil {
     ;
 
-    public static Map<String, Object> formatPropFromStr(String str, String lineSeparator, String kvSeparator) {
-        Map<String, Object> map = new HashMap<>();
-        if (StringUtils.hasText(str)) {
-            String[] arr = str.split(lineSeparator);
-            for (int i = 0; i < arr.length; i++) {
-                String[] kv = arr[i].split(kvSeparator);
-                if (kv.length == 2) {
-                    map.put(kv[0], kv[1]);
-                }
-            }
-        }
-        return map;
+    public static Map<String, String> formatPropFromStr(String str) {
+        return formatPropFromStr(str, "\n", "=");
     }
 
-    public static String mapToFormatProp(Map<String, Object> map, String lineSeparator, String kvSeparator) {
+    public static String mapToFormatProp(Map<String, String> map) {
+        return mapToFormatProp(map, "\n", "=");
+    }
+
+    public static Map<String, String> formatPropFromStr(String str, String lineSeparator, String kvSeparator) {
+        if (StringUtils.hasText(str)) {
+            return Splitter.on(lineSeparator).withKeyValueSeparator(kvSeparator).split(str);
+        }
+        return Collections.emptyMap();
+    }
+
+    public static String mapToFormatProp(Map<String, String> map, String lineSeparator, String kvSeparator) {
         if (CollectionUtils.isEmpty(map)) {
             return null;
         }
-        StringBuffer buffer = new StringBuffer();
-        map.forEach((k, v) -> {
-            buffer.append(k).append(kvSeparator).append(v).append(lineSeparator);
-        });
-        return buffer.toString();
+        return Joiner.on(lineSeparator).withKeyValueSeparator(kvSeparator).join(map);
     }
 
     public static Properties mapToProperties(Map<String, Object> map) {

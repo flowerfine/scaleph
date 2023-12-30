@@ -16,31 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dag.service;
+package cn.sliew.scaleph.dag.service.param;
 
-import cn.sliew.scaleph.dag.service.dto.DagDTO;
-import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
-import cn.sliew.scaleph.dag.service.param.DagSimpleAddParam;
-import cn.sliew.scaleph.dag.service.param.DagSimpleUpdateParam;
-import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
+import com.fasterxml.jackson.databind.JsonNode;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
-public interface DagService {
+@Data
+public class DagSimpleUpdateParam {
 
-    DagDTO selectOne(Long dagId);
+    @NotNull
+    @Schema(description = "id")
+    private Long id;
 
-    DagInstanceDTO selectSimpleOne(Long dagId);
+    @Schema(description = "DAG元信息")
+    private JsonNode dagMeta;
 
-    Long insert(DagSimpleAddParam param);
-
-    int update(DagSimpleUpdateParam param);
-
-    void replace(Long dagId, DagGraphVO graph);
-
-    Long clone(Long dagId);
-
-    int delete(Long dagId);
-
-    int deleteBatch(List<Long> dagIds);
+    @Schema(description = "DAG属性")
+    private JsonNode dagAttrs;
 }
