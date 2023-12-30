@@ -66,10 +66,6 @@ public class WsDiJobServiceImpl implements WsDiJobService {
     @Autowired
     private WsDiJobMapper diJobMapper;
     @Autowired
-    private WsDiJobGraphService wsDiJobGraphService;
-    @Autowired
-    private WsDiJobAttrService wsDiJobAttrService;
-    @Autowired
     private DagService dagService;
 
     @Override
@@ -139,9 +135,6 @@ public class WsDiJobServiceImpl implements WsDiJobService {
         if (wsDiJobDTO.getCurrent() == YesOrNo.YES) {
             wsFlinkArtifactService.deleteById(wsDiJobDTO.getWsFlinkArtifact().getId());
         }
-        //todo check if there is running job instance
-        wsDiJobGraphService.deleteBatch(Collections.singletonList(id));
-        wsDiJobAttrService.deleteByJobId(Collections.singletonList(id));
         return diJobMapper.deleteById(id);
     }
 
