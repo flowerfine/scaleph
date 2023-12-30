@@ -20,6 +20,7 @@ package cn.sliew.scaleph.engine.seatunnel.service.dto;
 
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
+import cn.sliew.scaleph.engine.seatunnel.service.vo.DiJobAttrVO;
 import cn.sliew.scaleph.engine.seatunnel.service.vo.JobGraphVO;
 import cn.sliew.scaleph.project.service.dto.WsFlinkArtifactDTO;
 import cn.sliew.scaleph.system.model.BaseDTO;
@@ -58,7 +59,7 @@ public class WsDiJobDTO extends BaseDTO {
     private YesOrNo current;
 
     @Schema(description = "作业属性信息")
-    private List<WsDiJobAttrDTO> jobAttrList;
+    private DiJobAttrVO jobAttrList;
 
     @Schema(description = "作业连线信息")
     private List<WsDiJobLinkDTO> jobLinkList;

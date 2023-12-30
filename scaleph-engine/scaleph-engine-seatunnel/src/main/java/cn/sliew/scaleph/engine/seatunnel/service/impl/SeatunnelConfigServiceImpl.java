@@ -21,13 +21,14 @@ package cn.sliew.scaleph.engine.seatunnel.service.impl;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
+import cn.sliew.scaleph.common.util.PropertyUtil;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
 import cn.sliew.scaleph.engine.seatunnel.service.constant.SeaTunnelConstant;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobAttrDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobLinkDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobStepDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.vo.DiJobAttrVO;
 import cn.sliew.scaleph.plugin.framework.exception.PluginException;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.JobNameProperties;
@@ -73,27 +74,19 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
         return conf.toPrettyString();
     }
 
-    private void buildEnvs(ObjectNode conf, String jobName, List<WsDiJobAttrDTO> jobAttrList) {
+    private void buildEnvs(ObjectNode conf, String jobName, DiJobAttrVO jobAttrList) {
         conf.set(SeaTunnelConstant.ENV, buildEnv(jobName, jobAttrList));
     }
 
-    private ObjectNode buildEnv(String jobName, List<WsDiJobAttrDTO> jobAttrs) {
+    private ObjectNode buildEnv(String jobName, DiJobAttrVO jobAttrs) {
         ObjectNode env = JacksonUtil.createObjectNode();
         env.put(JobNameProperties.JOB_NAME.getName(), jobName);
-        if (CollectionUtils.isEmpty(jobAttrs)) {
+        if (jobAttrs == null || StringUtils.hasText(jobAttrs.getJobAttr()) == false) {
             return env;
         }
-        for (WsDiJobAttrDTO attr : jobAttrs) {
-            switch (attr.getJobAttrType()) {
-                case ENV:
-                    break;
-                case VARIABLE:
-                    env.put(attr.getJobAttrKey(), attr.getJobAttrValue());
-                    break;
-                case PROPERTIES:
-                    break;
-                default:
-            }
+        Map<String, String> jobAttrList = PropertyUtil.formatPropFromStr(jobAttrs.getJobAttr());
+        for (Map.Entry<String, String> entry : jobAttrList.entrySet()) {
+            env.put(entry.getKey(), entry.getValue());
         }
         return env;
     }
@@ -127,7 +120,7 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
     }
 
     private Properties mergeJobAttrs(WsDiJobStepDTO step) throws PluginException {
-        Properties properties = convertToProperties(step.getStepAttrs());
+        Properties properties = PropertyUtil.mapToProperties((Map<String, Object>) step.getStepAttrs().get("attrs"));
         SeaTunnelPluginType pluginType = SeaTunnelPluginType.of(step.getStepType().getValue());
         SeaTunnelConnectorPlugin connector = seatunnelConnectorService.getConnector(pluginType, step.getStepName());
         for (ResourceProperty resource : connector.getRequiredResources()) {
@@ -139,23 +132,6 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
                 properties.put(name, JacksonUtil.toJsonString(value));
             }
         }
-        return properties;
-    }
-
-    private Properties convertToProperties(Map<String, Object> stepAttrList) {
-        Properties properties = new Properties();
-        if (CollectionUtils.isEmpty(stepAttrList)) {
-            return properties;
-        }
-        stepAttrList.forEach((key, value) -> {
-            if (value instanceof String) {
-                if (StringUtils.hasText(String.valueOf(value))) {
-                    properties.put(key, value);
-                }
-            } else {
-                properties.put(key, value);
-            }
-        });
         return properties;
     }
 

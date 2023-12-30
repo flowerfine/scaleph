@@ -34,7 +34,7 @@ public enum PropertyUtil {
         return formatPropFromStr(str, "\n", "=");
     }
 
-    public static String mapToFormatProp(Map<String, Object> map) {
+    public static String mapToFormatProp(Map<String, String> map) {
         return mapToFormatProp(map, "\n", "=");
     }
 
@@ -45,7 +45,7 @@ public enum PropertyUtil {
         return Collections.emptyMap();
     }
 
-    public static String mapToFormatProp(Map<String, Object> map, String lineSeparator, String kvSeparator) {
+    public static String mapToFormatProp(Map<String, String> map, String lineSeparator, String kvSeparator) {
         if (CollectionUtils.isEmpty(map)) {
             return null;
         }
