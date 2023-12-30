@@ -75,9 +75,9 @@ public class KafkaSinkPlugin extends SeaTunnelNativeFlinkPlugin {
                     String bootStrapServers = metaDatasource.getProps().get(KafkaProperties.BOOTSTRAP_SERVERS.getName()).toString();
                     objectNode.put(PRODUCER_BOOTSTRAP_SERVERS.getName().replace('_', '.'), bootStrapServers);
                 } else if (PRODUCER_CONF.getName().equals(descriptor.getName())) {
-                    Map<String, Object> map = PropertyUtil.formatPropFromStr(properties.getValue(descriptor), "\n", "=");
-                    for (Map.Entry<String, Object> entry : map.entrySet()) {
-                        objectNode.put("producer." + entry.getKey(), String.valueOf(entry.getValue()));
+                    Map<String, String> map = PropertyUtil.formatPropFromStr(properties.getValue(descriptor));
+                    for (Map.Entry<String, String> entry : map.entrySet()) {
+                        objectNode.put("producer." + entry.getKey(), entry.getValue());
                     }
                 } else if (SEMANTIC.getName().equals(descriptor.getName())) {
                     DictVO dictVO = JacksonUtil.parseJsonString(properties.getValue(descriptor), DictVO.class);

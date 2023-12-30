@@ -20,7 +20,6 @@ package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.exception.ScalephException;
-import cn.sliew.scaleph.common.util.PropertyUtil;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkArtifactJarService;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
 import cn.sliew.scaleph.engine.flink.service.param.*;
@@ -32,7 +31,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,7 +40,6 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
-import java.util.Map;
 
 @Tag(name = "Flink管理-artifact-jar")
 @RestController
@@ -88,10 +85,6 @@ public class WsArtifactJarController {
     @PutMapping
     @Operation(summary = "上传 artifact jar", description = "上传 artifact jar")
     public ResponseEntity<ResponseVO> upload(@Valid WsFlinkArtifactJarUploadParam param, @RequestPart("file") MultipartFile file) throws IOException, UidGenerateException {
-        if (StringUtils.hasText(param.getJarParams())) {
-            Map<String, Object> map = PropertyUtil.formatPropFromStr(param.getJarParams(), "\n", ":");
-            param.setJarParams(PropertyUtil.mapToFormatProp(map, "\n", ":"));
-        }
         wsFlinkArtifactJarService.upload(param, file);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
@@ -100,10 +93,6 @@ public class WsArtifactJarController {
     @PostMapping("jar")
     @Operation(summary = "修改 artifact jar", description = "修改 artifact jar")
     public ResponseEntity<ResponseVO> updateJar(@Valid WsFlinkArtifactJarUpdateParam param, @RequestPart(value = "file", required = false) MultipartFile file) throws UidGenerateException, IOException {
-        if (StringUtils.hasText(param.getJarParams())) {
-            Map<String, Object> map = PropertyUtil.formatPropFromStr(param.getJarParams(), "\n", ":");
-            param.setJarParams(PropertyUtil.mapToFormatProp(map, "\n", ":"));
-        }
         this.wsFlinkArtifactJarService.update(param, file);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }

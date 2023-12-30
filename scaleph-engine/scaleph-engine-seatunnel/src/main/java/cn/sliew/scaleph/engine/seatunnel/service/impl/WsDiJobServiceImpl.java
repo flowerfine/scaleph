@@ -23,8 +23,10 @@ import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.job.JobAttrType;
 import cn.sliew.scaleph.common.util.BeanUtil;
+import cn.sliew.scaleph.common.util.PropertyUtil;
 import cn.sliew.scaleph.dag.service.DagService;
 import cn.sliew.scaleph.dag.service.dto.DagDTO;
+import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
 import cn.sliew.scaleph.dag.service.param.DagSimpleAddParam;
 import cn.sliew.scaleph.dag.service.param.DagSimpleUpdateParam;
 import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
@@ -41,9 +43,10 @@ import cn.sliew.scaleph.engine.seatunnel.service.param.*;
 import cn.sliew.scaleph.engine.seatunnel.service.vo.DiJobAttrVO;
 import cn.sliew.scaleph.project.service.WsFlinkArtifactService;
 import cn.sliew.scaleph.project.service.dto.WsFlinkArtifactDTO;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -214,6 +217,11 @@ public class WsDiJobServiceImpl implements WsDiJobService {
                 default:
             }
         }
+        WsDiJobDTO wsDiJobDTO = selectOne(id);
+        DagInstanceDTO instanceDTO = dagService.selectSimpleOne(wsDiJobDTO.getDagId());
+        if (instanceDTO.getDagAttrs() != null) {
+            ObjectNode dagAttrs = (ObjectNode) instanceDTO.getDagAttrs();
+        }
         return vo;
     }
 
@@ -232,23 +240,26 @@ public class WsDiJobServiceImpl implements WsDiJobService {
         WsDiJobDTO wsDiJobDTO = selectOne(vo.getJobId());
         DagSimpleUpdateParam param = new DagSimpleUpdateParam();
         param.setId(wsDiJobDTO.getDagId());
-        param.setDagAttrs(JacksonUtil.toJsonNode(map));
+        ObjectNode objectNode = JacksonUtil.createObjectNode();
+        objectNode.putPOJO(JobAttrType.VARIABLE.getValue(), PropertyUtil.formatPropFromStr(vo.getJobAttr()));
+        objectNode.putPOJO(JobAttrType.ENV.getValue(), PropertyUtil.formatPropFromStr(vo.getJobProp()));
+        objectNode.putPOJO(JobAttrType.PROPERTIES.getValue(), PropertyUtil.formatPropFromStr(vo.getEngineProp()));
+        param.setDagAttrs(objectNode);
         dagService.update(param);
         return vo.getJobId();
     }
 
     private void parseJobAttr(Map<String, WsDiJobAttrDTO> map, String str, JobAttrType jobAttrType, Long jobId) {
         if (StringUtils.hasText(str)) {
-            String[] lines = str.split("\n");
-            for (String line : lines) {
-                String[] kv = line.split("=");
-                if (kv.length == 2 && StringUtils.hasText(kv[0]) && StringUtils.hasText(kv[1])) {
+            Map<String, String> props = PropertyUtil.formatPropFromStr(str);
+            for (Map.Entry<String, String> prop : props.entrySet()) {
+                if (StringUtils.hasText(prop.getKey()) && StringUtils.hasText(prop.getValue())) {
                     WsDiJobAttrDTO dto = new WsDiJobAttrDTO();
                     dto.setJobId(jobId);
                     dto.setJobAttrType(jobAttrType);
-                    dto.setJobAttrKey(kv[0]);
-                    dto.setJobAttrValue(kv[1]);
-                    map.put(jobId + jobAttrType.getValue() + kv[0], dto);
+                    dto.setJobAttrKey(prop.getKey());
+                    dto.setJobAttrValue(prop.getValue());
+                    map.put(jobId + jobAttrType.getValue() + prop.getKey(), dto);
                 }
             }
         }
@@ -256,8 +267,7 @@ public class WsDiJobServiceImpl implements WsDiJobService {
 
     @Override
     public Long totalCnt(String jobType) {
-        LambdaQueryWrapper<WsDiJob> queryWrapper = Wrappers.lambdaQuery(WsDiJob.class);
-        return diJobMapper.selectCount(queryWrapper);
+        return diJobMapper.selectCount(Wrappers.emptyWrapper());
     }
 
 }

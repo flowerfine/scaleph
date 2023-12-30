@@ -69,9 +69,9 @@ public class DorisSinkPlugin extends SeaTunnelNativeFlinkPlugin {
         for (PropertyDescriptor descriptor : getSupportedProperties()) {
             if (properties.contains(descriptor)) {
                 if (DORIS_CONF.getName().equals(descriptor.getName())) {
-                    Map<String, Object> map = PropertyUtil.formatPropFromStr(properties.getValue(descriptor), "\n", "=");
-                    for (Map.Entry<String, Object> entry : map.entrySet()) {
-                        objectNode.put("doris." + entry.getKey(), String.valueOf(entry.getValue()));
+                    Map<String, String> map = PropertyUtil.formatPropFromStr(properties.getValue(descriptor));
+                    for (Map.Entry<String, String> entry : map.entrySet()) {
+                        objectNode.put("doris." + entry.getKey(), entry.getValue());
                     }
                 } else {
                     objectNode.put(descriptor.getName(), properties.getValue(descriptor));
