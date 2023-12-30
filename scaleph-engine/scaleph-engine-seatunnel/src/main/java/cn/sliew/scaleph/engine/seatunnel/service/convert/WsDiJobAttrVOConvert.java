@@ -48,6 +48,9 @@ public interface WsDiJobAttrVOConvert extends BaseConvert<JsonNode, DiJobAttrVO>
     @Override
     default DiJobAttrVO toDto(JsonNode entity) {
         DiJobAttrVO vo = new DiJobAttrVO();
+        if (entity == null) {
+            return vo;
+        }
         ObjectNode dagAttrs = (ObjectNode) entity;
         Map<String, String> variable = JacksonUtil.toObject(dagAttrs.get(JobAttrType.VARIABLE.getValue()), new TypeReference<Map<String, String>>() {});
         Map<String, String> env = JacksonUtil.toObject(dagAttrs.get(JobAttrType.ENV.getValue()), new TypeReference<Map<String, String>>() {});
