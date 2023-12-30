@@ -48,13 +48,22 @@ public interface WsDiJobAttrVOConvert extends BaseConvert<JsonNode, DiJobAttrVO>
     @Override
     default DiJobAttrVO toDto(JsonNode entity) {
         DiJobAttrVO vo = new DiJobAttrVO();
+        if (entity == null) {
+            return vo;
+        }
         ObjectNode dagAttrs = (ObjectNode) entity;
-        Map<String, String> variable = JacksonUtil.toObject(dagAttrs.get(JobAttrType.VARIABLE.getValue()), new TypeReference<Map<String, String>>() {});
-        Map<String, String> env = JacksonUtil.toObject(dagAttrs.get(JobAttrType.ENV.getValue()), new TypeReference<Map<String, String>>() {});
-        Map<String, String> properties = JacksonUtil.toObject(dagAttrs.get(JobAttrType.PROPERTIES.getValue()), new TypeReference<Map<String, String>>() {});
-        vo.setJobAttr(PropertyUtil.mapToFormatProp(variable));
-        vo.setJobProp(PropertyUtil.mapToFormatProp(env));
-        vo.setEngineProp(PropertyUtil.mapToFormatProp(properties));
+        if (dagAttrs.has(JobAttrType.VARIABLE.getValue())) {
+            Map<String, String> variable = JacksonUtil.toObject(dagAttrs.get(JobAttrType.VARIABLE.getValue()), new TypeReference<Map<String, String>>() {});
+            vo.setJobAttr(PropertyUtil.mapToFormatProp(variable));
+        }
+        if (dagAttrs.has(JobAttrType.ENV.getValue())) {
+            Map<String, String> env = JacksonUtil.toObject(dagAttrs.get(JobAttrType.ENV.getValue()), new TypeReference<Map<String, String>>() {});
+            vo.setJobProp(PropertyUtil.mapToFormatProp(env));
+        }
+        if (dagAttrs.has(JobAttrType.PROPERTIES.getValue())) {
+            Map<String, String> properties = JacksonUtil.toObject(dagAttrs.get(JobAttrType.PROPERTIES.getValue()), new TypeReference<Map<String, String>>() {});
+            vo.setEngineProp(PropertyUtil.mapToFormatProp(properties));
+        }
         return vo;
     }
 }
