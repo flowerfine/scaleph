@@ -30,8 +30,6 @@ import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsDiJobMapper;
-import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobAttrService;
-import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobGraphService;
 import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.convert.WsDiJobAttrVOConvert;
 import cn.sliew.scaleph.engine.seatunnel.service.convert.WsDiJobConvert;
@@ -51,7 +49,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
