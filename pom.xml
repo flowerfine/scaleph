@@ -85,6 +85,7 @@
 
     <modules>
         <module>scaleph-ui-react</module>
+        <module>scaleph-ui-react2</module>
 
         <module>scaleph-common</module>
         <module>scaleph-dao</module>
