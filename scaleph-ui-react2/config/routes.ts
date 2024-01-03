@@ -380,14 +380,30 @@ export default [
     path: '/xflow',
     icon: 'setting',
     routes: [
-      { path: '/xflow', redirect: '/xflow/basic' },
-      { path: '/xflow/basic', component: '@/pages/Xflow/basic' },
-      { path: '/xflow/dnd', component: '@/pages/Xflow/dnd' },
-      { path: '/xflow/dag', component: '@/pages/Xflow/dag' },
-      { path: '/xflow/diff', component: '@/pages/Xflow/diff' },
-      { path: '/xflow/flow', component: '@/pages/Xflow/flow' },
-      { path: '/xflow/group', component: '@/pages/Xflow/group' },
-      { path: '/xflow/drawing', component: '@/pages/Xflow/drawing' },
+      {
+        path: '/xflow',
+        redirect: '/xflow/basic'
+      },
+      {
+        name: 'basic',
+        path: '/xflow/basic',
+        component: '@/pages/Xflow/basic'
+      },
+      {
+        name: 'dnd',
+        path: '/xflow/dnd',
+        component: '@/pages/Xflow/dnd'
+      },
+      {
+        name: 'dag',
+        path: '/xflow/dag',
+        component: '@/pages/Xflow/dag'
+      },
+      {
+        name: 'diff',
+        path: '/xflow/diff',
+        component: '@/pages/Xflow/diff'
+      }
     ],
   },
   {
