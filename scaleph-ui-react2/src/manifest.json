@@ -1,0 +1,22 @@
+{
+  "name": "Scaleph",
+  "short_name": "Scaleph",
+  "display": "standalone",
+  "start_url": "./?utm_source=homescreen",
+  "theme_color": "#002140",
+  "background_color": "#001529",
+  "icons": [
+    {
+      "src": "icons/scaleph.png",
+      "sizes": "200x200"
+    },
+    {
+      "src": "icons/scaleph@0.5x.png",
+      "sizes": "100x100"
+    },
+    {
+      "src": "icons/scaleph@2x.png",
+      "sizes": "400x400"
+    }
+  ]
+}
