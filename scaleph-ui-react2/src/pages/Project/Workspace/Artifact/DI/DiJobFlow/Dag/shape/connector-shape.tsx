@@ -5,6 +5,7 @@ import type {Node} from '@antv/xflow';
 import {Graph, Path, register, XFlow} from '@antv/xflow';
 import {Dropdown, Menu} from '@antv/x6-react-components';
 import './node.less';
+import '@antv/x6-react-components/dist/index.css';
 
 const {Item: MenuItem, Divider} = Menu;
 

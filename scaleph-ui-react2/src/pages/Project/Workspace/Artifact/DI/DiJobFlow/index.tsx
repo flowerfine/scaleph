@@ -46,7 +46,7 @@ const DiJobFlow: React.FC = () => {
                     zIndex: -1,
                   }}
                 />
-                <InitShape/>
+                <InitShape data={props.data}/>
 
                 <Grid type="mesh" options={{color: '#ccc', thickness: 1}}/>
                 <Snapline/>
