@@ -7,6 +7,7 @@ import {DAG_CONNECTOR, DAG_EDGE} from "./Dag/shape/connector-shape";
 import {InitShape} from "./Dag/shape/node";
 import {Dnd} from "./Dag/dnd/dnd";
 import {WsDiJob} from "@/services/project/typings";
+import {Menubar, Toolbar} from '@antv/x6-react-components';
 
 interface DiJobFlowPorps {
   data: WsDiJob;
@@ -25,6 +26,12 @@ const DiJobFlow: React.FC = () => {
               <Dnd data={props.data}/>
             </div>
             <div className={styles.center}>
+              <div className={styles.toolbar}>
+                <Toolbar extra={<div>Toolbar按钮</div>}
+                />
+                <Menubar extra={<div>Menubar按钮</div>}/>
+              </div>
+              
               <div className={styles.graph}>
                 <XFlowGraph
                   pannable

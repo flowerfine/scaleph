@@ -51,9 +51,11 @@ const InitShape: React.FC<Props<WsDiJob>> = ({data}) => {
             shape: DAG_EDGE,
             source: {
               cell: link.fromStepCode,
+              port: link.fromStepCode + '-bottom'
             },
             target: {
-              cell: link.toStepCode
+              cell: link.toStepCode,
+              port: link.fromStepCode + '-top'
             },
             data: {
               foo: 'bar'
@@ -64,25 +66,25 @@ const InitShape: React.FC<Props<WsDiJob>> = ({data}) => {
       });
     }, []);
 
-    const createPorts = (type: string, name: string) => {
+    const createPorts = (type: string, stepCode: string) => {
       if (type === 'source') {
         return [{
-          id: name + '-bottom',
+          id: stepCode + '-bottom',
           group: 'bottom'
         }]
       } else if (type === 'sink') {
         return [{
-          id: name + '-top',
+          id: stepCode + '-top',
           group: 'top'
         }]
       } else if (type === 'transform') {
         [
           {
-            id: name + '-top',
+            id: stepCode + '-top',
             group: 'top'
           },
           {
-            id: name + '-bottom',
+            id: stepCode + '-bottom',
             group: 'bottom'
           }
         ]

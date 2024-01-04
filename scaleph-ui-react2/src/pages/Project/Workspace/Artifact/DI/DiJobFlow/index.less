@@ -71,5 +71,23 @@ body {
         }
       }
     }
+
+    .content {
+      display: flex;
+      height: calc(100% - 80px);
+      box-shadow: 0 12px 5px -10px rgba(0, 0, 0, 0.1), 0 0 4px 0 rgba(0, 0, 0, 0.1);
+
+      .json-code {
+        width: 400px;
+        flex-shrink: 0;
+        height: 100%;
+        overflow: auto;
+        border-left: 1px solid #ccc;
+
+        pre {
+          margin: 0;
+        }
+      }
+    }
   }
 }
