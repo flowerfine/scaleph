@@ -5,7 +5,7 @@ import {Props} from "@/typings";
 import {WsDiJob} from "@/services/project/typings";
 import {WsSeaTunnelService} from "@/services/project/SeaTunnelService";
 import styles from './dnd.less';
-import {BaseNode} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/node/base-node";
+import {BaseNode} from "../node/base-node";
 
 const {DirectoryTree} = Tree;
 

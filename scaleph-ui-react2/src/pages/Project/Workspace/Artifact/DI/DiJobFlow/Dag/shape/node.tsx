@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { useGraphStore } from '@antv/xflow';
 
-import { DAG_EDGE, DAG_NODE } from './shape';
+import { DAG_EDGE, DAG_NODE } from './connector-shape';
 
 const InitShape = () => {
   const addNodes = useGraphStore((state) => state.addNodes);

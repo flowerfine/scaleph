@@ -376,37 +376,6 @@ export default [
     ],
   },
   {
-    name: 'xflow',
-    path: '/xflow',
-    icon: 'setting',
-    routes: [
-      {
-        path: '/xflow',
-        redirect: '/xflow/basic'
-      },
-      {
-        name: 'basic',
-        path: '/xflow/basic',
-        component: '@/pages/Xflow/basic'
-      },
-      {
-        name: 'dnd',
-        path: '/xflow/dnd',
-        component: '@/pages/Xflow/dnd'
-      },
-      {
-        name: 'dag',
-        path: '/xflow/dag',
-        component: '@/pages/Xflow/dag'
-      },
-      {
-        name: 'diff',
-        path: '/xflow/diff',
-        component: '@/pages/Xflow/diff'
-      }
-    ],
-  },
-  {
     path: "/user/center",
     component: "./User",
     exact: true,

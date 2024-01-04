@@ -5,7 +5,6 @@ import type {Node} from '@antv/xflow';
 import {Graph, Path, register, XFlow} from '@antv/xflow';
 import {Dropdown, Menu} from '@antv/x6-react-components';
 import './node.less';
-import '@antv/x6-react-components/dist/index.css';
 
 const {Item: MenuItem, Divider} = Menu;
 
@@ -13,7 +12,7 @@ const DAG_NODE = 'seatunnel-dag-node';
 const DAG_EDGE = 'seatunnel-dag-edge';
 const DAG_CONNECTOR = 'seatunnel-dag-connector';
 
-const AlgoNode = ({node}: { node: Node }) => {
+const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState<string | undefined>();
 
@@ -73,13 +72,7 @@ const AlgoNode = ({node}: { node: Node }) => {
         overlayStyle={{overflowY: 'auto'}}
       >
         <div className={`node ${status}`}>
-          <img src={image.logo} alt="logo"/>
-          <span className="label">{label}</span>
-          <span className="status">
-            {status === 'success' && <img src={image.success} alt="success"/>}
-            {status === 'failed' && <img src={image.failed} alt="failed"/>}
-            {status === 'running' && <img src={image.running} alt="running"/>}
-          </span>
+          节点信息
         </div>
       </Dropdown>
     </XFlow>
@@ -90,7 +83,7 @@ register({
   shape: DAG_NODE,
   width: 180,
   height: 36,
-  component: AlgoNode,
+  component: SeaTunnelConnectorDagNode,
   effect: ['data'],
   ports: {
     groups: {

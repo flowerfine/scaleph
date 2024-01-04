@@ -6,7 +6,7 @@ import './base-node.less';
 import {Props} from "@/typings";
 import styles from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/dnd/dnd.less";
 import React from "react";
-import {DAG_NODE} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/shape/shape";
+import {DAG_NODE} from "../shape/connector-shape";
 
 export const BaseNode: React.FC<Props<Record<string, any>>> = ({data}) => {
   const intl = useIntl();
