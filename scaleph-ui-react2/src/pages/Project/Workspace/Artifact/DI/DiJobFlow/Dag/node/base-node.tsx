@@ -63,7 +63,7 @@ export const BaseNode: React.FC<Props<Record<string, any>>> = ({data}) => {
         <div>
           <Typography.Text>{data.title}</Typography.Text>
           <a href="https://flowerfine.github.io/scaleph-repress-site/" target="_blank">
-            <Button shape="default" type="link" icon={<InfoCircleOutlined/>}></Button>
+            <Button shape="default" type="link" icon={<InfoCircleOutlined/>}/>
           </a>
         </div>
       }
