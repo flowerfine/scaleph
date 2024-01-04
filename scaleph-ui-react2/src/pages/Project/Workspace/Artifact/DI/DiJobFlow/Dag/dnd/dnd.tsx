@@ -8,6 +8,7 @@ import {Props} from "@/typings";
 import {WsDiJob} from "@/services/project/typings";
 import {WsSeaTunnelService} from "@/services/project/SeaTunnelService";
 import styles from './dnd.less';
+import {BaseNode} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/node/base-node";
 
 const {DirectoryTree} = Tree;
 
@@ -74,46 +75,47 @@ const Dnd: React.FC<Props<WsDiJob>> = ({data}) => {
     const treeNodeRender = (treeNode: ComponentTreeItem) => {
         const {isLeaf, docString, title} = treeNode;
         if (isLeaf) {
-            return (
-                <Popover
-                    content={
-                        <div
-                            style={{
-                                width: 200,
-                                wordWrap: 'break-word',
-                                whiteSpace: 'pre-wrap',
-                                overflow: 'auto',
-                            }}
-                        >
-                            {docString}
-                            <Descriptions style={{ maxWidth: '240px' }} size="small" column={1}>
-                                <Descriptions.Item>{docString}</Descriptions.Item>
-                            </Descriptions>
-                            {treeNode?.health && <Tag color="red">{treeNode?.health?.label}</Tag>}
-                            {treeNode?.features &&
-                                treeNode.features.map((item) => {
-                                    return <Tag color="green">{item.label}</Tag>;
-                                })}
-                        </div>
-                    }
-                    placement="right"
-                >
-                    <div
-                        className={styles.node}
-                        onMouseDown={(e) => handleMouseDown(e, treeNode)}
-                    >
-                        <div className={styles.nodeTitle}>
-              <span className={styles.icon}>
-                <DatabaseFilled style={{color: '#A1AABC'}}/>
-              </span>
-                            <span>{title}</span>
-                        </div>
-                        <div className={styles.nodeDragHolder}>
-                            <HolderOutlined/>
-                        </div>
-                    </div>
-                </Popover>
-            );
+          return <BaseNode data={treeNode}/>
+            // return (
+            //     <Popover
+            //         content={
+            //             <div
+            //                 style={{
+            //                     width: 200,
+            //                     wordWrap: 'break-word',
+            //                     whiteSpace: 'pre-wrap',
+            //                     overflow: 'auto',
+            //                 }}
+            //             >
+            //                 {docString}
+            //                 <Descriptions style={{ maxWidth: '240px' }} size="small" column={1}>
+            //                     <Descriptions.Item>{docString}</Descriptions.Item>
+            //                 </Descriptions>
+            //                 {treeNode?.health && <Tag color="red">{treeNode?.health?.label}</Tag>}
+            //                 {treeNode?.features &&
+            //                     treeNode.features.map((item) => {
+            //                         return <Tag color="green">{item.label}</Tag>;
+            //                     })}
+            //             </div>
+            //         }
+            //         placement="right"
+            //     >
+            //         <div
+            //             className={styles.node}
+            //             onMouseDown={(e) => handleMouseDown(e, treeNode)}
+            //         >
+            //             <div className={styles.nodeTitle}>
+            //   <span className={styles.icon}>
+            //     <DatabaseFilled style={{color: '#A1AABC'}}/>
+            //   </span>
+            //                 <span>{title}</span>
+            //             </div>
+            //             <div className={styles.nodeDragHolder}>
+            //                 <HolderOutlined/>
+            //             </div>
+            //         </div>
+            //     </Popover>
+            // );
         } else {
             return <span className={styles.dir}>{title}</span>;
         }

@@ -14,9 +14,9 @@ import '@antv/x6-react-components/dist/index.css';
 
 const { Item: MenuItem, Divider } = Menu;
 
-const DAG_NODE = 'dag-node';
-const DAG_EDGE = 'dag-edge';
-const DAG_CONNECTOR = 'dag-connector';
+const DAG_NODE = 'seatunnel-dag-node';
+const DAG_EDGE = 'seatunnel-dag-edge';
+const DAG_CONNECTOR = 'seatunnel-dag-connector';
 interface NodeStatus {
   id: string;
   status: 'default' | 'success' | 'failed' | 'running';
