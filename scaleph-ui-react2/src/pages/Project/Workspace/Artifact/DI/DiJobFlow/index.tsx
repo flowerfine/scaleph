@@ -31,7 +31,7 @@ const DiJobFlow: React.FC = () => {
                 />
                 <Menubar extra={<div>Menubar按钮</div>}/>
               </div>
-              
+
               <div className={styles.graph}>
                 <XFlowGraph
                   pannable
