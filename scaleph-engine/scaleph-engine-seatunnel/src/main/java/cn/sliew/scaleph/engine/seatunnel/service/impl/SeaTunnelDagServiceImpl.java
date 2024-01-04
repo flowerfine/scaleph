@@ -95,7 +95,7 @@ public class SeaTunnelDagServiceImpl implements SeaTunnelDagService {
                     ports = Collections.emptyList();
             }
             child.setPorts(ports);
-            children.add(buildSeaTunnelConnector(category, plugin));
+            children.add(child);
         }
         category.setChildren(children);
         return category;
