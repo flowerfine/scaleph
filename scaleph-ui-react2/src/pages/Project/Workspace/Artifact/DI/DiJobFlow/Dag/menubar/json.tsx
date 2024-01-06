@@ -25,7 +25,7 @@ const JSONDebugModal: React.FC<ModalFormProps<null>> = ({visible, onVisibleChang
   }
   useEffect(() => {
     setConf(JSON.stringify({nodes, edges}, null, 2))
-  }, []);
+  }, [nodes, edges]);
 
   return (
     <Drawer
