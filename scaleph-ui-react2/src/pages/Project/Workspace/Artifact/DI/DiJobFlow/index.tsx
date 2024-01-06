@@ -30,7 +30,7 @@ const DiJobFlow: React.FC = () => {
             <div className={styles.center}>
               <div className={styles.toolbar}>
                 <CustomToolbar/>
-                <CustomMenubar/>
+                <CustomMenubar data={props.data}/>
               </div>
 
               <div className={styles.graph}>
