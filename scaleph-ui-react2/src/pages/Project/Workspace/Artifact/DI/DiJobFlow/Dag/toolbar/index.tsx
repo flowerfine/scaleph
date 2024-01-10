@@ -1,10 +1,20 @@
 import React from 'react';
-import {Button, Space} from 'antd';
-import {CopyOutlined, PlayCircleOutlined} from '@ant-design/icons';
+import {Button, Space, Tooltip} from 'antd';
+import {
+  CopyOutlined,
+  DeleteOutlined,
+  QuestionCircleOutlined,
+  RedoOutlined,
+  SnippetsOutlined,
+  UndoOutlined
+} from '@ant-design/icons';
+import {useIntl} from "@umijs/max";
 import type {Edge, Node, NodeOptions} from '@antv/xflow';
 import {useClipboard, useGraphEvent, useGraphInstance, useGraphStore, useKeyboard,} from '@antv/xflow';
+import {Toolbar} from "@antv/x6-react-components";
 
-const Toolbar: React.FC = () => {
+const CustomToolbar: React.FC = () => {
+  const intl = useIntl();
   const graph = useGraphInstance();
   const {copy, paste} = useClipboard();
   const nodes = useGraphStore((state) => state.nodes);
@@ -67,6 +77,14 @@ const Toolbar: React.FC = () => {
     }
   };
 
+  const onUndo = () => {
+    console.log('onUndo', graph)
+  };
+
+  const onRedo = () => {
+    console.log('onRedo', graph)
+  };
+
   const onCopy = () => {
     const selected = nodes.filter((node) => node.selected);
     const ids: string[] = selected.map((node) => node.id || '');
@@ -77,27 +95,61 @@ const Toolbar: React.FC = () => {
     paste();
   };
 
+  const onDelete = () => {
+    console.log('onDelete', graph)
+  };
+
+  const onHelp = () => {
+    console.log('onHelp', graph)
+  };
+
   return (
-    <Space>
-      <Button
-        type="primary"
-        size="small"
-        style={{fontSize: 12}}
-        onClick={handleExcute}
-      >
-        <PlayCircleOutlined/>
-        全部执行
-      </Button>
-      <Button type="primary" size="small" style={{fontSize: 12}} onClick={onCopy}>
-        <CopyOutlined/>
-        复制
-      </Button>
-      <Button type="primary" size="small" style={{fontSize: 12}} onClick={onPaste}>
-        <CopyOutlined/>
-        粘贴
-      </Button>
-    </Space>
+    <Toolbar extra={<Space>
+      <Tooltip title={intl.formatMessage({id: 'pages.project.di.flow.dag.undo'})}>
+        <Button
+          size="small"
+          icon={<UndoOutlined/>}
+          onClick={onUndo}
+        />
+      </Tooltip>
+      <Tooltip title={intl.formatMessage({id: 'pages.project.di.flow.dag.redo'})}>
+        <Button
+          size="small"
+          icon={<RedoOutlined/>}
+          onClick={onRedo}
+        />
+      </Tooltip>
+
+      <Tooltip title={intl.formatMessage({id: 'pages.project.di.flow.dag.copy'})}>
+        <Button
+          size="small"
+          icon={<CopyOutlined/>}
+          onClick={onCopy}
+        />
+      </Tooltip>
+      <Tooltip title={intl.formatMessage({id: 'pages.project.di.flow.dag.paste'})}>
+        <Button
+          size="small"
+          icon={<SnippetsOutlined />}
+          onClick={onPaste}
+        />
+      </Tooltip>
+      <Tooltip title={intl.formatMessage({id: 'pages.project.di.flow.dag.delete'})}>
+        <Button
+          size="small"
+          icon={<DeleteOutlined/>}
+          onClick={onDelete}
+        />
+      </Tooltip>
+      <Tooltip title={intl.formatMessage({id: 'pages.project.di.flow.dag.help'})}>
+        <Button
+          size="small"
+          icon={<QuestionCircleOutlined/>}
+          onClick={onHelp}
+        />
+      </Tooltip>
+    </Space>}/>
   );
 };
 
-export {Toolbar};
+export {CustomToolbar};

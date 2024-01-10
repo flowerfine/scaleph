@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useIntl} from '@umijs/max';
 import {useGraphStore} from '@antv/xflow';
 import {EdgeOptions, NodeOptions} from "@antv/xflow/src/types";
@@ -12,10 +12,6 @@ const InitShape: React.FC<Props<WsDiJob>> = ({data}) => {
     const intl = useIntl()
     const addNodes = useGraphStore((state) => state.addNodes);
     const addEdges = useGraphStore((state) => state.addEdges);
-    const updateNode = useGraphStore((state) => state.updateNode);
-    const updateEdge = useGraphStore((state) => state.updateEdge);
-
-    const [wsDiJob, setWsDiJob] = useState<WsDiJob>()
 
     useEffect(() => {
       WsDiJobService.selectJobById(data.id).then((response) => {

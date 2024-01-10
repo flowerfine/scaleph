@@ -11,20 +11,16 @@ import {DAG_NODE} from "../shape/connector-shape";
 export const BaseNode: React.FC<Props<Record<string, any>>> = ({data}) => {
   const intl = useIntl();
   const {startDrag} = useDnd();
-  let id = 0;
 
-  const handleMouseDown = (
-    e: React.MouseEvent<Element, MouseEvent>,
-  ) => {
-    id += 1;
+  const handleMouseDown = (e: React.MouseEvent<Element, MouseEvent>,) => {
+    console.log('handleMouseDown', data)
     startDrag(
       {
-        id: id.toString(),
         shape: DAG_NODE,
         data: {
-          id: id.toString(),
           label: data.title,
           status: 'default',
+          meta: data.meta,
         },
         ports: data.ports,
       },
