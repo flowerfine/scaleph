@@ -44,15 +44,21 @@ public class FlinkDeploymentSpecHandler {
     private FlinkJobServiceHandler flinkJobServiceHandler;
     @Autowired
     private FlinkImageHandler flinkImageHandler;
+    @Autowired
+    private LoggingHandler loggingHandler;
+    @Autowired
+    private PodTemplateHandler podTemplateHandler;
 
     public FlinkDeploymentSpec handle(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec flinkDeploymentSpec) {
         FlinkDeploymentSpec spec = Optional.ofNullable(flinkDeploymentSpec).orElse(new FlinkDeploymentSpec());
         setRuntimeMode(jobInstanceDTO, spec);
+        setPodTemplate(jobInstanceDTO, spec);
         addArtifact(jobInstanceDTO, spec);
         enableFileSystem(jobInstanceDTO, spec);
         enableFlinkStateStore(jobInstanceDTO, spec);
         addService(spec);
         addImage(jobInstanceDTO, spec);
+        addLogging(jobInstanceDTO, spec);
 
         mergeJobInstance(jobInstanceDTO, spec);
         return spec;
@@ -60,6 +66,10 @@ public class FlinkDeploymentSpecHandler {
 
     private void setRuntimeMode(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
         flinkRuntimeModeHandler.handle(jobInstanceDTO.getWsFlinkKubernetesJob(), spec);
+    }
+
+    private void setPodTemplate(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
+        podTemplateHandler.handle(jobInstanceDTO.getWsFlinkKubernetesJob(), spec);
     }
 
     private void addArtifact(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
@@ -80,6 +90,10 @@ public class FlinkDeploymentSpecHandler {
 
     private void addImage(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
         flinkImageHandler.handle(jobInstanceDTO, spec);
+    }
+
+    private void addLogging(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
+        loggingHandler.handle(jobInstanceDTO.getWsFlinkKubernetesJob().getFlinkDeployment().getLogConfiguration(), spec);
     }
 
     private void mergeJobInstance(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
