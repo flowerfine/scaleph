@@ -4,7 +4,7 @@ import {CopyOutlined, DeleteOutlined, EditOutlined,} from '@ant-design/icons';
 import type {Node} from '@antv/xflow';
 import {Graph, Path, register, XFlow} from '@antv/xflow';
 import {Dropdown, Menu} from '@antv/x6-react-components';
-import './node.less';
+import styles from './base-node.less';
 import '@antv/x6-react-components/dist/index.css';
 
 const {Item: MenuItem, Divider} = Menu;
@@ -72,8 +72,8 @@ const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
         trigger={['contextMenu']}
         overlayStyle={{overflowY: 'auto'}}
       >
-        <div className={`node ${status}`}>
-          节点信息
+        <div className={styles.baseNode}>
+          {node.data?.meta?.name}
         </div>
       </Dropdown>
     </XFlow>

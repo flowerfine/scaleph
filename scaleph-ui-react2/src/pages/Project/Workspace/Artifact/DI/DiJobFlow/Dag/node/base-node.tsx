@@ -1,19 +1,17 @@
+import React from "react";
 import {Button, Descriptions, Popover, Space, Tag, Typography} from 'antd';
 import {HolderOutlined, InfoCircleOutlined, MenuOutlined} from '@ant-design/icons';
 import {useIntl} from "@umijs/max";
 import {useDnd} from "@antv/xflow";
-import './base-node.less';
 import {Props} from "@/typings";
-import styles from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/dnd/dnd.less";
-import React from "react";
-import {DAG_NODE} from "../shape/connector-shape";
+import {DAG_NODE} from "./connector-shape";
+import './base-node.less';
 
 export const BaseNode: React.FC<Props<Record<string, any>>> = ({data}) => {
   const intl = useIntl();
   const {startDrag} = useDnd();
 
   const handleMouseDown = (e: React.MouseEvent<Element, MouseEvent>,) => {
-    console.log('handleMouseDown', data)
     startDrag(
       {
         shape: DAG_NODE,
@@ -67,14 +65,14 @@ export const BaseNode: React.FC<Props<Record<string, any>>> = ({data}) => {
     >
       <div className="base-node" style={{backgroundColor: nodeStyle()}} onMouseDown={(e) => handleMouseDown(e)}>
         <span className="icon">
-          <MenuOutlined style={{color: '#3057e3', fontSize: '16px'}}/>
+          <MenuOutlined style={{color: '#3057e3', fontSize: '12px'}}/>
         </span>
         <span className="label">
           <Space direction="vertical">
             <Typography.Text ellipsis={true}>{data.title}</Typography.Text>
           </Space>
         </span>
-        <div className={styles.nodeDragHolder}>
+        <div className="icon">
           <HolderOutlined/>
         </div>
       </div>
