@@ -7,7 +7,6 @@ import {DAG_CONNECTOR, DAG_EDGE} from "./Dag/shape/connector-shape";
 import {InitShape} from "./Dag/shape/node";
 import {Dnd} from "./Dag/dnd/dnd";
 import {WsDiJob} from "@/services/project/typings";
-import {Toolbar} from '@antv/x6-react-components';
 import {CustomMenubar} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/menubar";
 import {CustomToolbar} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/toolbar";
 

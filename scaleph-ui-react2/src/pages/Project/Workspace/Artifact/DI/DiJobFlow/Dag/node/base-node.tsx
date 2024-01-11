@@ -45,7 +45,7 @@ export const BaseNode: React.FC<Props<Record<string, any>>> = ({data}) => {
     <Popover
       content={
         <>
-        <Descriptions style={{ maxWidth: '240px' }} size="small" column={1}>
+        <Descriptions style={{ maxWidth: '380px' }} size="small" column={1}>
           <Descriptions.Item>{data.docString}</Descriptions.Item>
         </Descriptions>
           {data.health && <Tag color="red">{data.health?.label}</Tag>}
@@ -63,7 +63,7 @@ export const BaseNode: React.FC<Props<Record<string, any>>> = ({data}) => {
           </a>
         </div>
       }
-      placement="rightTop"
+      placement="right"
     >
       <div className="base-node" style={{backgroundColor: nodeStyle()}} onMouseDown={(e) => handleMouseDown(e)}>
         <span className="icon">
