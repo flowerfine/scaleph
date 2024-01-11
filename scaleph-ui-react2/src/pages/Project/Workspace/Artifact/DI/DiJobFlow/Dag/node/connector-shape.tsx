@@ -1,11 +1,11 @@
-import {useState} from 'react';
-import {Input, Modal} from 'antd';
-import {CopyOutlined, DeleteOutlined, EditOutlined,} from '@ant-design/icons';
+import React from 'react';
+import {Space, Typography} from 'antd';
+import {CopyOutlined, DeleteOutlined, HolderOutlined, MenuOutlined,} from '@ant-design/icons';
+import {useIntl} from "@umijs/max";
 import type {Node} from '@antv/xflow';
 import {Graph, Path, register, XFlow} from '@antv/xflow';
 import {Dropdown, Menu} from '@antv/x6-react-components';
-import styles from './base-node.less';
-import '@antv/x6-react-components/dist/index.css';
+import './base-node.less';
 
 const {Item: MenuItem, Divider} = Menu;
 
@@ -14,8 +14,7 @@ const DAG_EDGE = 'seatunnel-dag-edge';
 const DAG_CONNECTOR = 'seatunnel-dag-connector';
 
 const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState<string | undefined>();
+  const intl = useIntl()
 
   const onMenuItemClick = (key: string) => {
     const graph = node?.model?.graph;
@@ -23,17 +22,14 @@ const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
       return;
     }
     switch (key) {
-      case 'delete':
-        node.remove();
-        break;
       case 'copy':
         graph.copy([graph.getCellById(node.id)]);
         break;
       case 'paste':
         graph.paste();
         break;
-      case 'rename':
-        setOpen(true);
+      case 'delete':
+        node.remove();
         break;
       default:
         break;
@@ -42,7 +38,6 @@ const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
 
   const menu = (
     <Menu hasIcon={true} onClick={(key: string) => onMenuItemClick(key)}>
-      <MenuItem name="rename" icon={<EditOutlined/>} text="重命名"/>
       <MenuItem name="copy" icon={<CopyOutlined/>} text="复制"/>
       <MenuItem name="paste" icon={<CopyOutlined/>} text="粘贴"/>
       <MenuItem name="delete" icon={<DeleteOutlined/>} text="删除"/>
@@ -51,29 +46,23 @@ const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
 
   return (
     <XFlow>
-      <Modal
-        title="重命名"
-        open={open}
-        okText="确定"
-        cancelText="取消"
-        onCancel={() => setOpen(false)}
-        onOk={() => {
-          node.setData({
-            ...node.data,
-            label: value,
-          });
-          setOpen(false);
-        }}
-      >
-        <Input value={value} onChange={(e) => setValue(e.target.value)}/>
-      </Modal>
       <Dropdown
         overlay={menu}
         trigger={['contextMenu']}
         overlayStyle={{overflowY: 'auto'}}
       >
-        <div className={styles.baseNode}>
-          {node.data?.meta?.name}
+        <div className={"base-node"}>
+          <span className="icon">
+            <MenuOutlined style={{color: '#3057e3', fontSize: '12px'}}/>
+          </span>
+          <span className="label">
+            <Space direction="vertical">
+              <Typography.Text ellipsis={true}>{node.data?.meta?.name}</Typography.Text>
+            </Space>
+          </span>
+          <div className="icon">
+            <HolderOutlined/>
+          </div>
         </div>
       </Dropdown>
     </XFlow>
@@ -144,8 +133,7 @@ Graph.registerEdge(
     attrs: {
       line: {
         stroke: '#C2C8D5',
-        strokeWidth: 1,
-        targetMarker: null,
+        strokeWidth: 1
       },
     },
     zIndex: -1,
