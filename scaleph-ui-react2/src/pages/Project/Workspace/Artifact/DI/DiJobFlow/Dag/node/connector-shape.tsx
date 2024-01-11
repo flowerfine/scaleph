@@ -1,6 +1,6 @@
 import React from 'react';
-import {Space, Typography} from 'antd';
-import {CopyOutlined, DeleteOutlined, HolderOutlined, MenuOutlined,} from '@ant-design/icons';
+import {Button, Popover, Space, Typography} from 'antd';
+import {CopyOutlined, DeleteOutlined, HolderOutlined, InfoCircleOutlined, MenuOutlined,} from '@ant-design/icons';
 import type {Node} from '@antv/xflow';
 import {Graph, Path, register, XFlow} from '@antv/xflow';
 import {Dropdown, Menu} from '@antv/x6-react-components';
@@ -49,19 +49,30 @@ const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
         trigger={['contextMenu']}
         overlayStyle={{overflowY: 'auto'}}
       >
-        <div className={"base-node"}>
+        <Popover title={
+                   <div>
+                     <Typography.Text>{node.data.meta?.name}</Typography.Text>
+                     <a href="https://flowerfine.github.io/scaleph-repress-site/" target="_blank">
+                       <Button shape="default" type="link" icon={<InfoCircleOutlined/>}/>
+                     </a>
+                   </div>
+                 }
+                 content={"内容"}
+        >
+          <div className={"base-node"}>
           <span className="icon">
             <MenuOutlined style={{color: '#3057e3', fontSize: '12px'}}/>
           </span>
-          <span className="label">
+            <span className="label">
             <Space direction="vertical">
               <Typography.Text ellipsis={true}>{node.data.meta?.name}</Typography.Text>
             </Space>
           </span>
-          <div className="icon">
-            <HolderOutlined/>
+            <div className="icon">
+              <HolderOutlined/>
+            </div>
           </div>
-        </div>
+        </Popover>
       </Dropdown>
     </XFlow>
   );
