@@ -24,7 +24,6 @@ const InitShape: React.FC<Props<WsDiJob>> = ({data}) => {
             shape: DAG_NODE,
             x: step.positionX,
             y: step.positionY,
-            label: step.stepTitle,
             ports: createPorts(step.stepType.value as string, step.stepName.value as string),
             data: {
               meta: {
@@ -36,7 +35,7 @@ const InitShape: React.FC<Props<WsDiJob>> = ({data}) => {
                 updateTime: step.updateTime
               },
               attrs: step.stepAttrs
-            },
+            }
           });
         });
         addNodes(nodes)

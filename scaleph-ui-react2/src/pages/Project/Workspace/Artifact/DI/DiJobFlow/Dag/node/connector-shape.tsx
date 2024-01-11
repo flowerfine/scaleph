@@ -1,7 +1,6 @@
 import React from 'react';
 import {Space, Typography} from 'antd';
 import {CopyOutlined, DeleteOutlined, HolderOutlined, MenuOutlined,} from '@ant-design/icons';
-import {useIntl} from "@umijs/max";
 import type {Node} from '@antv/xflow';
 import {Graph, Path, register, XFlow} from '@antv/xflow';
 import {Dropdown, Menu} from '@antv/x6-react-components';
@@ -14,7 +13,6 @@ const DAG_EDGE = 'seatunnel-dag-edge';
 const DAG_CONNECTOR = 'seatunnel-dag-connector';
 
 const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
-  const intl = useIntl()
 
   const onMenuItemClick = (key: string) => {
     const graph = node?.model?.graph;
@@ -57,7 +55,7 @@ const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
           </span>
           <span className="label">
             <Space direction="vertical">
-              <Typography.Text ellipsis={true}>{node.data?.meta?.name}</Typography.Text>
+              <Typography.Text ellipsis={true}>{node.data.meta?.name}</Typography.Text>
             </Space>
           </span>
           <div className="icon">
@@ -102,7 +100,7 @@ register({
         },
       },
     },
-  },
+  }
 });
 
 Graph.registerConnector(
