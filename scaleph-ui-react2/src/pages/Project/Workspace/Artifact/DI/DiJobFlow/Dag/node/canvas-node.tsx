@@ -42,6 +42,10 @@ const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
     </Menu>
   );
 
+  const onDoubleClick = () => {
+    console.log('双击，弹出算子表单页面')
+  }
+
   return (
     <XFlow>
       <Dropdown
@@ -60,7 +64,7 @@ const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
                    <Descriptions.Item label={"Connector 类型"}>{node.data.meta?.type}</Descriptions.Item>
                  </Descriptions>}
         >
-          <div className={"base-node"}>
+          <div className={"base-node"} onDoubleClick={onDoubleClick}>
           <span className="icon">
             <MenuOutlined style={{color: '#3057e3', fontSize: '12px'}}/>
           </span>
