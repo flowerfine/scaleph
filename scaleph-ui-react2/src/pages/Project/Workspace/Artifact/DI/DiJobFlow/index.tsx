@@ -2,13 +2,13 @@ import React from 'react';
 import {PageContainer} from '@ant-design/pro-components';
 import {useLocation} from '@umijs/max';
 import {Background, Clipboard, Control, Grid, History, Minimap, Snapline, XFlow, XFlowGraph} from "@antv/xflow";
-import styles from './index.less';
 import {DAG_CONNECTOR, DAG_EDGE} from "./Dag/node/canvas-node";
 import {InitShape} from "./Dag/node/init-node";
 import {Dnd} from "./Dag/dnd/dnd";
 import {WsDiJob} from "@/services/project/typings";
 import {CustomMenubar} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/menubar";
 import {CustomToolbar} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/toolbar";
+import styles from './index.less';
 
 interface DiJobFlowPorps {
   data: WsDiJob;
@@ -49,7 +49,7 @@ const DiJobFlow: React.FC = () => {
                   }}
                   connectionEdgeOptions={{
                     shape: DAG_EDGE,
-                    animated: true,
+                    animated: false,
                     zIndex: -1,
                   }}
                 />

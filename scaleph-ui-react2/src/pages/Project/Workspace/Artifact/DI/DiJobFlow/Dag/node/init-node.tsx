@@ -5,7 +5,6 @@ import {EdgeOptions, NodeOptions} from "@antv/xflow/src/types";
 import {Props} from "@/typings";
 import {WsDiJob} from "@/services/project/typings";
 import {WsDiJobService} from "@/services/project/WsDiJobService";
-
 import {DAG_EDGE, DAG_NODE} from './canvas-node';
 
 const titleCase = (title: string) => {
@@ -60,6 +59,7 @@ const InitShape: React.FC<Props<WsDiJob>> = ({data}) => {
               cell: link.toStepCode,
               port: link.fromStepCode + '-top'
             },
+            zIndex: -1,
             data: {
               foo: 'bar'
             }
@@ -95,15 +95,6 @@ const InitShape: React.FC<Props<WsDiJob>> = ({data}) => {
         return []
       }
     }
-
-    const titleCase = (title: string) => {
-      let tmpStrArr: string[] = title.split(' ');
-      for (let i = 0; i < tmpStrArr.length; i++) {
-        tmpStrArr[i] = tmpStrArr[i].slice(0, 1).toUpperCase() + tmpStrArr[i].slice(1).toLowerCase();
-      }
-      return tmpStrArr.join(' ');
-    }
-
     return null;
   }
 ;
