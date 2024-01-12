@@ -4,7 +4,7 @@ import {useLocation} from '@umijs/max';
 import {Background, Clipboard, Control, Grid, History, Minimap, Snapline, XFlow, XFlowGraph} from "@antv/xflow";
 import styles from './index.less';
 import {DAG_CONNECTOR, DAG_EDGE} from "./Dag/node/connector-shape";
-import {InitShape} from "./Dag/node/node";
+import {InitShape} from "./Dag/node/init";
 import {Dnd} from "./Dag/dnd/dnd";
 import {WsDiJob} from "@/services/project/typings";
 import {CustomMenubar} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/menubar";

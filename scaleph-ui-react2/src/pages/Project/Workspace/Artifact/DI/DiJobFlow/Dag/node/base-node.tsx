@@ -6,6 +6,7 @@ import {useDnd} from "@antv/xflow";
 import {Props} from "@/typings";
 import {DAG_NODE} from "./connector-shape";
 import './base-node.less';
+import {titleCase} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/node/init";
 
 export const BaseNode: React.FC<Props<Record<string, any>>> = ({data}) => {
   const intl = useIntl();
@@ -16,9 +17,9 @@ export const BaseNode: React.FC<Props<Record<string, any>>> = ({data}) => {
       {
         shape: DAG_NODE,
         data: {
-          label: data.title,
-          status: 'default',
+          label: data.title + " " + titleCase(data.category),
           meta: data.meta,
+          attrs: {}
         },
         ports: data.ports,
       },

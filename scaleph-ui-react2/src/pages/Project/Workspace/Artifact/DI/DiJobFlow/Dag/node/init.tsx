@@ -8,6 +8,14 @@ import {WsDiJobService} from "@/services/project/WsDiJobService";
 
 import {DAG_EDGE, DAG_NODE} from './connector-shape';
 
+const titleCase = (title: string) => {
+  let tmpStrArr: string[] = title.split(' ');
+  for (let i = 0; i < tmpStrArr.length; i++) {
+    tmpStrArr[i] = tmpStrArr[i].slice(0, 1).toUpperCase() + tmpStrArr[i].slice(1).toLowerCase();
+  }
+  return tmpStrArr.join(' ');
+}
+
 const InitShape: React.FC<Props<WsDiJob>> = ({data}) => {
     const intl = useIntl()
     const addNodes = useGraphStore((state) => state.addNodes);
@@ -100,4 +108,4 @@ const InitShape: React.FC<Props<WsDiJob>> = ({data}) => {
   }
 ;
 
-export {InitShape};
+export {InitShape, titleCase};

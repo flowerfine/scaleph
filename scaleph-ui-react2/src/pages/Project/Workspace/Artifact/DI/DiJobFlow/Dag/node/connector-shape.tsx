@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Popover, Space, Typography} from 'antd';
+import {Button, Descriptions, Popover, Space, Typography} from 'antd';
 import {CopyOutlined, DeleteOutlined, HolderOutlined, InfoCircleOutlined, MenuOutlined,} from '@ant-design/icons';
 import type {Node} from '@antv/xflow';
 import {Graph, Path, register, XFlow} from '@antv/xflow';
@@ -49,15 +49,16 @@ const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
         trigger={['contextMenu']}
         overlayStyle={{overflowY: 'auto'}}
       >
-        <Popover title={
-                   <div>
-                     <Typography.Text>{node.data.meta?.name}</Typography.Text>
-                     <a href="https://flowerfine.github.io/scaleph-repress-site/" target="_blank">
-                       <Button shape="default" type="link" icon={<InfoCircleOutlined/>}/>
-                     </a>
-                   </div>
-                 }
-                 content={"内容"}
+        <Popover title={<div>
+          <Typography.Text>{node.data.label}</Typography.Text>
+          <a href="https://seatunnel.apache.org/docs/2.3.3/about/" target="_blank">
+            <Button shape="default" type="link" icon={<InfoCircleOutlined/>}/>
+          </a>
+        </div>}
+                 content={<Descriptions style={{maxWidth: '220px'}} size="small" column={1}>
+                   <Descriptions.Item label={"Connector 名称"}>{node.data.meta?.name}</Descriptions.Item>
+                   <Descriptions.Item label={"Connector 类型"}>{node.data.meta?.type}</Descriptions.Item>
+                 </Descriptions>}
         >
           <div className={"base-node"}>
           <span className="icon">
@@ -65,7 +66,7 @@ const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
           </span>
             <span className="label">
             <Space direction="vertical">
-              <Typography.Text ellipsis={true}>{node.data.meta?.name}</Typography.Text>
+              <Typography.Text ellipsis={true}>{node.data.label}</Typography.Text>
             </Space>
           </span>
             <div className="icon">
