@@ -6,7 +6,7 @@ import {Props} from "@/typings";
 import {WsDiJob} from "@/services/project/typings";
 import {WsDiJobService} from "@/services/project/WsDiJobService";
 
-import {DAG_EDGE, DAG_NODE} from './connector-shape';
+import {DAG_EDGE, DAG_NODE} from './canvas-node';
 
 const titleCase = (title: string) => {
   let tmpStrArr: string[] = title.split(' ');

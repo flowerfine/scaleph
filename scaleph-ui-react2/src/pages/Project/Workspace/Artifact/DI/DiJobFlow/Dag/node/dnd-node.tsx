@@ -4,11 +4,11 @@ import {HolderOutlined, InfoCircleOutlined, MenuOutlined} from '@ant-design/icon
 import {useIntl} from "@umijs/max";
 import {useDnd} from "@antv/xflow";
 import {Props} from "@/typings";
-import {DAG_NODE} from "./connector-shape";
+import {DAG_NODE} from "./canvas-node";
 import './base-node.less';
-import {titleCase} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/node/init";
+import {titleCase} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/node/init-node";
 
-export const BaseNode: React.FC<Props<Record<string, any>>> = ({data}) => {
+export const DndNode: React.FC<Props<Record<string, any>>> = ({data}) => {
   const intl = useIntl();
   const {startDrag} = useDnd();
 
