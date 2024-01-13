@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, Descriptions, Popover, Space, Typography} from 'antd';
 import {CopyOutlined, DeleteOutlined, HolderOutlined, InfoCircleOutlined, MenuOutlined,} from '@ant-design/icons';
+import {getIntl, getLocale} from "@umijs/max";
 import type {Node} from '@antv/xflow';
 import {Graph, Path, register, XFlow} from '@antv/xflow';
 import {Dropdown, Menu} from '@antv/x6-react-components';
 import './base-node.less';
+import SeaTunnnelConnectorForm from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/node/steps/step-form";
 
 const {Item: MenuItem, Divider} = Menu;
 
@@ -13,6 +15,11 @@ const DAG_EDGE = 'seatunnel-dag-edge';
 const DAG_CONNECTOR = 'seatunnel-dag-connector';
 
 const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
+  const intl = getIntl(getLocale())
+  const [drawerForm, setDrawerForm] = useState<{
+    visible: boolean,
+    data: Node
+  }>({visible: false, data: node})
 
   const onMenuItemClick = (key: string) => {
     const graph = node?.model?.graph;
@@ -43,7 +50,7 @@ const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
   );
 
   const onDoubleClick = () => {
-    console.log('双击，弹出算子表单页面')
+    setDrawerForm({visible: true, data: node})
   }
 
   return (
@@ -79,6 +86,17 @@ const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
           </div>
         </Popover>
       </Dropdown>
+      {drawerForm.visible && (
+        <SeaTunnnelConnectorForm
+          visible={drawerForm.visible}
+          onCancel={() => {
+            setDrawerForm({visible: false, data: node});
+          }}
+          onVisibleChange={(visible: boolean) => {
+            setDrawerForm({visible: visible, data: node});
+          }}
+          data={drawerForm.data}/>
+      )}
     </XFlow>
   );
 };
@@ -156,4 +174,4 @@ Graph.registerEdge(
   true,
 );
 
-export {DAG_NODE, DAG_EDGE, DAG_CONNECTOR};
+export {DAG_NODE, DAG_EDGE, DAG_CONNECTOR, SeaTunnelConnectorDagNode};
