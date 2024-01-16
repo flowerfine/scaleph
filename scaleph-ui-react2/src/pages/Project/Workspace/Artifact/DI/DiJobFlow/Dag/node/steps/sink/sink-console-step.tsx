@@ -29,9 +29,10 @@ const SinkConsoleStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onC
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                let map: Map<string, any> = new Map();
                 StepSchemaService.formatSchema(values);
-                map.set(STEP_ATTR_TYPE.stepAttrs, values);
+                if (onOK) {
+                  onOK(values);
+                }
               });
             }}
           >
