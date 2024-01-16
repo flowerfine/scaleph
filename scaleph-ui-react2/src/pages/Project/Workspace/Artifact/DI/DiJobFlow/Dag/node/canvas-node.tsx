@@ -7,6 +7,7 @@ import {Graph, Path, register, XFlow} from '@antv/xflow';
 import {Dropdown, Menu} from '@antv/x6-react-components';
 import './base-node.less';
 import SeaTunnnelConnectorForm from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/node/steps/step-form";
+import {STEP_ATTR_TYPE} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/node/steps/constant";
 
 const {Item: MenuItem, Divider} = Menu;
 
@@ -94,6 +95,14 @@ const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
           }}
           onVisibleChange={(visible: boolean) => {
             setDrawerForm({visible: visible, data: node});
+          }}
+          onOK={(values) => {
+            node.setData({
+              ...node.data,
+              label: values[STEP_ATTR_TYPE.stepTitle],
+              attrs: values
+            })
+            setDrawerForm({visible: false, data: node});
           }}
           data={drawerForm.data}/>
       )}

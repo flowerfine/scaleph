@@ -21,17 +21,16 @@ import {DICT_TYPE} from "@/constants/dictType";
 const SourceFakeStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCancel, onOK}) => {
   const intl = getIntl(getLocale());
   const [form] = Form.useForm();
-  const node = data
 
   useEffect(() => {
-    form.setFieldValue(STEP_ATTR_TYPE.stepTitle, node.data.label);
+    form.setFieldValue(STEP_ATTR_TYPE.stepTitle, data.data.label);
   }, []);
 
   return (
     <XFlow>
       <Drawer
         open={visible}
-        title={node.data.label}
+        title={data.data.label}
         width={780}
         bodyStyle={{overflowY: 'scroll'}}
         destroyOnClose={true}
@@ -44,6 +43,9 @@ const SourceFakeStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCa
                 let map: Map<string, any> = new Map();
                 StepSchemaService.formatSchema(values);
                 map.set(STEP_ATTR_TYPE.stepAttrs, values);
+                if (onOK) {
+                  onOK(values);
+                }
               });
             }}
           >
@@ -51,7 +53,7 @@ const SourceFakeStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCa
           </Button>
         }
       >
-        <ProForm form={form} initialValues={node.data.attrs} grid={true} submitter={false}>
+        <ProForm form={form} initialValues={data.data.attrs} grid={true} submitter={false}>
           <ProFormText
             name={STEP_ATTR_TYPE.stepTitle}
             label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
