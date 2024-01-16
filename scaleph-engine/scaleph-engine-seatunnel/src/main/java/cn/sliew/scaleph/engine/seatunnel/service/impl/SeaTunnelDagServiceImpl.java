@@ -32,10 +32,7 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType.SEATUNNEL;
 
@@ -76,7 +73,7 @@ public class SeaTunnelDagServiceImpl implements SeaTunnelDagService {
         category.setIsLeaf(false);
         List<DndDTO> children = new ArrayList();
         Set<SeaTunnelConnectorPlugin> plugins = seatunnelConnectorService.getAvailableConnectors(pluginType);
-        for (SeaTunnelConnectorPlugin plugin : plugins) {
+        plugins.stream().sorted(Comparator.comparing(plugin -> plugin.getPluginName().ordinal())).forEachOrdered(plugin -> {
             SeaTunnelDagDndDTO child = buildSeaTunnelConnector(category, plugin);
             SeaTunnelDagDndMeta meta = buildPluginInfo(plugin);
             child.setMeta(meta);
@@ -96,7 +93,7 @@ public class SeaTunnelDagServiceImpl implements SeaTunnelDagService {
             }
             child.setPorts(ports);
             children.add(child);
-        }
+        });
         category.setChildren(children);
         return category;
     }
