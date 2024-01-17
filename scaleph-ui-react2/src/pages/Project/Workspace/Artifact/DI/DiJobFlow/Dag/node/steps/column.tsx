@@ -1,11 +1,11 @@
 import React from 'react';
 import {InfoCircleOutlined} from "@ant-design/icons";
 import {ProFormGroup, ProFormList, ProFormText} from "@ant-design/pro-components";
-import {useIntl} from "@umijs/max";
+import {getIntl, getLocale} from "@umijs/max";
 import {ColumnParams} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/node/steps/constant";
 
 const ColumnItem: React.FC = () => {
-  const intl = useIntl();
+  const intl = getIntl(getLocale());
 
   return (
     <ProFormGroup

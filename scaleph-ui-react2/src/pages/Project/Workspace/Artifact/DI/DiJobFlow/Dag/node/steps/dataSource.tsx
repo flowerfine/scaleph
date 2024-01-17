@@ -1,6 +1,6 @@
 import React from 'react';
 import {ProFormGroup, ProFormSelect} from "@ant-design/pro-components";
-import {useIntl} from "@umijs/max";
+import {getIntl, getLocale} from "@umijs/max";
 import {DictDataService} from "@/services/admin/dictData.service";
 import {DICT_TYPE} from "@/constants/dictType";
 import {STEP_ATTR_TYPE} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/node/steps/constant";
@@ -8,7 +8,7 @@ import {DsInfoParam} from "@/services/datasource/typings";
 import {DsInfoService} from "@/services/datasource/info.service";
 
 const DataSourceItem: React.FC<{ dataSource: string }> = ({dataSource}) => {
-  const intl = useIntl();
+  const intl = getIntl(getLocale());
 
   return (
     <ProFormGroup>

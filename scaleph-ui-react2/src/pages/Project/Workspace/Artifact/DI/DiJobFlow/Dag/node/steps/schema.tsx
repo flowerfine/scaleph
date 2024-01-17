@@ -8,11 +8,11 @@ import {
   ProFormSelect,
   ProFormText
 } from "@ant-design/pro-components";
-import {useIntl} from "@umijs/max";
+import {getIntl, getLocale} from "@umijs/max";
 import {SchemaParams} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/node/steps/constant";
 
 const SchemaItem: React.FC = () => {
-  const intl = useIntl();
+  const intl = getIntl(getLocale());
 
   return (
     <ProFormGroup>
