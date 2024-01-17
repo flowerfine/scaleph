@@ -7,7 +7,7 @@ import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {FilterParams, STEP_ATTR_TYPE} from '../constant';
 
-const TransformFilterStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCancel, onOK}) => {
+const TransformReplaceStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCancel, onOK}) => {
   const intl = getIntl(getLocale());
   const [form] = Form.useForm();
 
@@ -73,4 +73,4 @@ const TransformFilterStepForm: React.FC<ModalFormProps<Node>> = ({data, visible,
   );
 };
 
-export default TransformFilterStepForm;
+export default TransformReplaceStepForm;
