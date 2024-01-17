@@ -5,7 +5,7 @@ import {Props} from "@/typings";
 import {WsDiJob} from "@/services/project/typings";
 import {WsSeaTunnelService} from "@/services/project/SeaTunnelService";
 import styles from './dnd.less';
-import {BaseNode} from "../node/base-node";
+import {DndNode} from "../node/dnd-node";
 
 const {DirectoryTree} = Tree;
 
@@ -50,7 +50,7 @@ const Dnd: React.FC<Props<WsDiJob>> = ({data}) => {
   const treeNodeRender = (treeNode: ComponentTreeItem) => {
     const {isLeaf, docString, title} = treeNode;
     if (isLeaf) {
-      return <BaseNode data={treeNode}/>
+      return <DndNode data={treeNode}/>
     } else {
       return <span className={styles.dir}>{title}</span>;
     }

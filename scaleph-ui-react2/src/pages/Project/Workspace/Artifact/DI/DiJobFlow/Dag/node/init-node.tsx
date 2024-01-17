@@ -5,8 +5,15 @@ import {EdgeOptions, NodeOptions} from "@antv/xflow/src/types";
 import {Props} from "@/typings";
 import {WsDiJob} from "@/services/project/typings";
 import {WsDiJobService} from "@/services/project/WsDiJobService";
+import {DAG_EDGE, DAG_NODE} from './canvas-node';
 
-import {DAG_EDGE, DAG_NODE} from './connector-shape';
+const titleCase = (title: string) => {
+  let tmpStrArr: string[] = title.split(' ');
+  for (let i = 0; i < tmpStrArr.length; i++) {
+    tmpStrArr[i] = tmpStrArr[i].slice(0, 1).toUpperCase() + tmpStrArr[i].slice(1).toLowerCase();
+  }
+  return tmpStrArr.join(' ');
+}
 
 const InitShape: React.FC<Props<WsDiJob>> = ({data}) => {
     const intl = useIntl()
@@ -24,7 +31,6 @@ const InitShape: React.FC<Props<WsDiJob>> = ({data}) => {
             shape: DAG_NODE,
             x: step.positionX,
             y: step.positionY,
-            label: step.stepTitle,
             ports: createPorts(step.stepType.value as string, step.stepName.value as string),
             data: {
               meta: {
@@ -36,7 +42,7 @@ const InitShape: React.FC<Props<WsDiJob>> = ({data}) => {
                 updateTime: step.updateTime
               },
               attrs: step.stepAttrs
-            },
+            }
           });
         });
         addNodes(nodes)
@@ -53,6 +59,7 @@ const InitShape: React.FC<Props<WsDiJob>> = ({data}) => {
               cell: link.toStepCode,
               port: link.fromStepCode + '-top'
             },
+            zIndex: -1,
             data: {
               foo: 'bar'
             }
@@ -88,17 +95,8 @@ const InitShape: React.FC<Props<WsDiJob>> = ({data}) => {
         return []
       }
     }
-
-    const titleCase = (title: string) => {
-      let tmpStrArr: string[] = title.split(' ');
-      for (let i = 0; i < tmpStrArr.length; i++) {
-        tmpStrArr[i] = tmpStrArr[i].slice(0, 1).toUpperCase() + tmpStrArr[i].slice(1).toLowerCase();
-      }
-      return tmpStrArr.join(' ');
-    }
-
     return null;
   }
 ;
 
-export {InitShape};
+export {InitShape, titleCase};

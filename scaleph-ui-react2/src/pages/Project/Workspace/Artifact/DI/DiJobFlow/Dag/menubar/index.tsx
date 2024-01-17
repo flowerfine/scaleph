@@ -8,12 +8,14 @@ import {Menubar} from "@antv/x6-react-components";
 import {JSONDebugModal} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/menubar/json";
 import {SeaTunnelConfModal} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/menubar/seatunnel";
 import {Props} from "@/typings";
-import {WsDiJob} from "@/services/project/typings";
+import {WsDiJob, WsDiJobGraphParam} from "@/services/project/typings";
+import {WsDiJobService} from "@/services/project/WsDiJobService";
 
 const CustomMenubar: React.FC<Props<WsDiJob>> = ({data}) => {
   const intl = useIntl();
   const graph = useGraphInstance();
   const nodes = useGraphStore((state) => state.nodes);
+  const edges = useGraphStore((state) => state.edges);
   const updateEdge = useGraphStore((state) => state.updateEdge);
   const removeNodes = useGraphStore((state) => state.removeNodes);
   const [jsonDebugDrawerSwitch, setJsonDebugDrawerSwitch] = useState<{ visible: boolean; data: null }>({
@@ -52,7 +54,14 @@ const CustomMenubar: React.FC<Props<WsDiJob>> = ({data}) => {
   };
 
   const onSave = () => {
-    console.log('onSave', graph)
+    let param: WsDiJobGraphParam = {
+      jobId: data.id,
+      jobGraph: {
+        nodes: nodes,
+        edges: edges,
+      }
+    }
+    WsDiJobService.saveJobDetail(param)
   };
 
   return (

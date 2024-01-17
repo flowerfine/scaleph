@@ -61,6 +61,7 @@ public enum SeaTunnelPluginName implements DictInstance {
     PULSAR("Pulsar", "Pulsar"),
     ROCKETMQ("Rocketmq", "RocketMQ"),
     DATAHUB("DataHub", "DataHub"),
+    AMAZON_SQS("AmazonSqs", "AmazonSQS"),
     RABBITMQ("RabbitMQ", "RabbitMQ"),
 
     JDBC("Jdbc", "Jdbc"),
@@ -74,6 +75,7 @@ public enum SeaTunnelPluginName implements DictInstance {
 
     MYSQL_CDC("MySQL-CDC", "MySQL-CDC"),
     SQLSERVER_CDC("SqlServer-CDC", "SqlServer-CDC"),
+    ORACLE_CDC("Oracle-CDC", "Oracle-CDC"),
     MONGODB_CDC("MongoDB-CDC", "MongoDB-CDC"),
 
     HIVE("Hive", "Hive"),
