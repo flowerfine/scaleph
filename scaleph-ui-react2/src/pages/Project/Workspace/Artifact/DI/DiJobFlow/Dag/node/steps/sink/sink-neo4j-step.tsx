@@ -38,7 +38,7 @@ const SinkNeo4jStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCan
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
+                StepSchemaService.formatPositionMapping(values);
                 if (onOK) {
                   onOK(values);
                 }

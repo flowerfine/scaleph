@@ -38,7 +38,8 @@ const SinkHbaseStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCan
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
+                StepSchemaService.formatRowKeyColumn(values)
+                StepSchemaService.formatHbaseExtraConfig(values)
                 if (onOK) {
                   onOK(values);
                 }

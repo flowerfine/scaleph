@@ -39,7 +39,7 @@ const SinkClickHouseStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, 
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
+                StepSchemaService.formatClickHouseConf(values);
                 if (onOK) {
                   onOK(values);
                 }

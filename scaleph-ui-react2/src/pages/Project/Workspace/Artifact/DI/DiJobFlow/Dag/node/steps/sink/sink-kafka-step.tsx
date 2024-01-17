@@ -40,6 +40,9 @@ const SinkKafkaStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCan
             onClick={() => {
               form.validateFields().then((values) => {
                 StepSchemaService.formatSchema(values);
+                StepSchemaService.formatKafkaConf(values);
+                StepSchemaService.formatPartitionKeyFields(values);
+                StepSchemaService.formatAssginPartitions(values);
                 if (onOK) {
                   onOK(values);
                 }

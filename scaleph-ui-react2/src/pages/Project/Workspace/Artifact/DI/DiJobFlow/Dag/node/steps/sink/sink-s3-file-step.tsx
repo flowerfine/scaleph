@@ -40,7 +40,7 @@ const SinkS3FileStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCa
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
+                StepSchemaService.formatHadoopS3Properties(values);
                 if (onOK) {
                   onOK(values);
                 }

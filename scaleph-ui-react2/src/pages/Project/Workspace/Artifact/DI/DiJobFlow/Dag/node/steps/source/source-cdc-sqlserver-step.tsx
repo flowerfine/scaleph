@@ -41,7 +41,7 @@ const SourceCDCSqlServerStepForm: React.FC<ModalFormProps<Node>> = ({data, visib
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
+                StepSchemaService.formatDebeziumProperties(values);
                 if (onOK) {
                   onOK(values);
                 }

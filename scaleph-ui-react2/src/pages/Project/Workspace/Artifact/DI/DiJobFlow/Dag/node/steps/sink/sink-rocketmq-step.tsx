@@ -37,7 +37,7 @@ const SinkRocketMQStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, on
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
+                values[RocketMQParams.aclEnabled] = values[RocketMQParams.aclEnabledField]
                 if (onOK) {
                   onOK(values);
                 }

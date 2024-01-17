@@ -5,7 +5,6 @@ import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {SentryParams, STEP_ATTR_TYPE} from '../constant';
-import {StepSchemaService} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/node/steps/helper";
 
 const SinkSentryStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCancel, onOK}) => {
   const intl = getIntl(getLocale());
@@ -29,7 +28,6 @@ const SinkSentryStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCa
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
                 if (onOK) {
                   onOK(values);
                 }

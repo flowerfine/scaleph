@@ -40,6 +40,8 @@ const SourcePulsarStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, on
             onClick={() => {
               form.validateFields().then((values) => {
                 StepSchemaService.formatSchema(values);
+                values[PulsarParams.cursorStartupMode] = values.startMode;
+                values[PulsarParams.cursorStopMode] = values.stopMode;
                 if (onOK) {
                   onOK(values);
                 }

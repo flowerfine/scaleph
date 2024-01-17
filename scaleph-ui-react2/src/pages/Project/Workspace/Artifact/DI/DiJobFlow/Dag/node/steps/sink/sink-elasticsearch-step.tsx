@@ -30,7 +30,7 @@ const SinkElasticsearchStepForm: React.FC<ModalFormProps<Node>> = ({data, visibl
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
+                StepSchemaService.formatEsPrimaryKeys(values);
                 if (onOK) {
                   onOK(values);
                 }

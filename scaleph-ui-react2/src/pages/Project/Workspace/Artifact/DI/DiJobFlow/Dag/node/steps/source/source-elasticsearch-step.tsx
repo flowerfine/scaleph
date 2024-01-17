@@ -38,6 +38,7 @@ const SourceElasticsearchStepForm: React.FC<ModalFormProps<Node>> = ({data, visi
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
+                StepSchemaService.formatEsSource(values)
                 StepSchemaService.formatSchema(values);
                 if (onOK) {
                   onOK(values);

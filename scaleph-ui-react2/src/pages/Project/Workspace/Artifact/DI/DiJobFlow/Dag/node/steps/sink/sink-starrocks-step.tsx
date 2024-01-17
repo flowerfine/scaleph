@@ -39,7 +39,7 @@ const SinkStarRocksStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, o
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
+                StepSchemaService.formatStarRocksConfig(values);
                 if (onOK) {
                   onOK(values);
                 }

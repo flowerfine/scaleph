@@ -6,7 +6,6 @@ import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {DatahubParams, STEP_ATTR_TYPE} from '../constant';
-import {StepSchemaService} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/node/steps/helper";
 import DataSourceItem from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/node/steps/dataSource";
 
 const SinkDatahubStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCancel, onOK}) => {
@@ -31,7 +30,6 @@ const SinkDatahubStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onC
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
                 if (onOK) {
                   onOK(values);
                 }

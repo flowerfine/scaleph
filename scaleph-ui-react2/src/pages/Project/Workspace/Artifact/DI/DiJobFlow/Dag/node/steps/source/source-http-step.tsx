@@ -42,6 +42,9 @@ const SourceHttpStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCa
             onClick={() => {
               form.validateFields().then((values) => {
                 StepSchemaService.formatSchema(values);
+                StepSchemaService.formatHeader(values);
+                StepSchemaService.formatParam(values);
+                StepSchemaService.formatJsonField(values);
                 if (onOK) {
                   onOK(values);
                 }

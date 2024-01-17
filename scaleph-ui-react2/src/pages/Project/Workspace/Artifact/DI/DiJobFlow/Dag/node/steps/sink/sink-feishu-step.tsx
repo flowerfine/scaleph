@@ -29,7 +29,7 @@ const SinkFeishuStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCa
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
+                StepSchemaService.formatHeader(values);
                 if (onOK) {
                   onOK(values);
                 }

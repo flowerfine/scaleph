@@ -31,7 +31,8 @@ const SourceHiveStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCa
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
+                StepSchemaService.formatColumns(values);
+                StepSchemaService.formatPartitions(values);
                 if (onOK) {
                   onOK(values);
                 }

@@ -6,7 +6,6 @@ import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {JdbcParams, STEP_ATTR_TYPE} from '../constant';
-import {StepSchemaService} from '../helper';
 import {DictDataService} from "@/services/admin/dictData.service";
 import {DICT_TYPE} from "@/constants/dictType";
 import {DsInfoParam} from "@/services/datasource/typings";
@@ -34,7 +33,6 @@ const SourceJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCa
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
                 if (onOK) {
                   onOK(values);
                 }

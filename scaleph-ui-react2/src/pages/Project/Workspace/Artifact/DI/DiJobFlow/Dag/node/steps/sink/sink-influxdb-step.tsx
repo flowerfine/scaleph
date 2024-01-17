@@ -30,7 +30,7 @@ const SinkInfluxDBStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, on
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
+                StepSchemaService.formatKeyTags(values);
                 if (onOK) {
                   onOK(values);
                 }

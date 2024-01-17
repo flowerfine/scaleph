@@ -5,7 +5,6 @@ import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {RedisParams, STEP_ATTR_TYPE} from '../constant';
-import {StepSchemaService} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/node/steps/helper";
 import DataSourceItem from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/node/steps/dataSource";
 
 const SinkRedisStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCancel, onOK}) => {
@@ -30,7 +29,6 @@ const SinkRedisStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCan
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
                 if (onOK) {
                   onOK(values);
                 }

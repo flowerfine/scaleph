@@ -5,7 +5,6 @@ import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {KuduParams, STEP_ATTR_TYPE} from '../constant';
-import {StepSchemaService} from '../helper';
 import DataSourceItem from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/node/steps/dataSource";
 
 const SourceKuduStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCancel, onOK}) => {
@@ -30,7 +29,6 @@ const SourceKuduStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCa
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
                 if (onOK) {
                   onOK(values);
                 }

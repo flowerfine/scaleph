@@ -38,7 +38,7 @@ const SinkCassandraStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, o
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
+                StepSchemaService.formatCassandraFields(values);
                 if (onOK) {
                   onOK(values);
                 }

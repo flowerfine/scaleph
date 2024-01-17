@@ -40,7 +40,10 @@ const SourceRocketMQStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, 
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
+                values[RocketMQParams.aclEnabled] = values[RocketMQParams.aclEnabledField]
+                values[RocketMQParams.startMode] = values[RocketMQParams.startModeField]
+                StepSchemaService.formatSchema(values)
+                StepSchemaService.formatRocketMQPartitionOffsets(values)
                 if (onOK) {
                   onOK(values);
                 }

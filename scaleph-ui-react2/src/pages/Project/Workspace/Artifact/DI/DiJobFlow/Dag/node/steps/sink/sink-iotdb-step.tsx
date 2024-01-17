@@ -30,7 +30,7 @@ const SinkIoTDBStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCan
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
+                StepSchemaService.formatMeasurementFields(values);
                 if (onOK) {
                   onOK(values);
                 }

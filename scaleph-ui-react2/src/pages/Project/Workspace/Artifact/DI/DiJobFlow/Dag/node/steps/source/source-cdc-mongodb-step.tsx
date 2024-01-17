@@ -6,7 +6,6 @@ import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {MongoDBCDCParams, STEP_ATTR_TYPE} from '../constant';
-import {StepSchemaService} from '../helper';
 
 const SourceCDCMongoDBStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCancel, onOK}) => {
   const intl = getIntl(getLocale());
@@ -30,7 +29,6 @@ const SourceCDCMongoDBStepForm: React.FC<ModalFormProps<Node>> = ({data, visible
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
                 if (onOK) {
                   onOK(values);
                 }

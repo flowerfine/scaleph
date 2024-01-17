@@ -30,7 +30,8 @@ const SinkWeChatStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCa
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
+                StepSchemaService.formatUserIds(values);
+                StepSchemaService.formatMobiles(values);
                 if (onOK) {
                   onOK(values);
                 }

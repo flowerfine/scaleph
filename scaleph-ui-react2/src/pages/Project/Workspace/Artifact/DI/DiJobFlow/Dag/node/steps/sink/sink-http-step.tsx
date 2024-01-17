@@ -30,7 +30,8 @@ const SinkHttpStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCanc
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
+                StepSchemaService.formatHeader(values);
+                StepSchemaService.formatParam(values);
                 if (onOK) {
                   onOK(values);
                 }

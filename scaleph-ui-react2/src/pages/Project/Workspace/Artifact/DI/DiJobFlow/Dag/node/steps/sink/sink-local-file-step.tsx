@@ -13,7 +13,6 @@ import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {BaseFileParams, STEP_ATTR_TYPE} from '../constant';
-import {StepSchemaService} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/node/steps/helper";
 
 const SinkLocalFileStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCancel, onOK}) => {
   const intl = getIntl(getLocale());
@@ -37,7 +36,6 @@ const SinkLocalFileStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, o
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
                 if (onOK) {
                   onOK(values);
                 }

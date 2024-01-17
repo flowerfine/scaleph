@@ -41,6 +41,7 @@ const SourceS3FileStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, on
             onClick={() => {
               form.validateFields().then((values) => {
                 StepSchemaService.formatSchema(values);
+                StepSchemaService.formatHadoopS3Properties(values)
                 if (onOK) {
                   onOK(values);
                 }

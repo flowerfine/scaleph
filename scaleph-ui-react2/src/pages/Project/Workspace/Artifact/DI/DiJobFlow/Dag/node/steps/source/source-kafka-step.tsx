@@ -41,7 +41,8 @@ const SourceKafkaStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onC
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
+                StepSchemaService.formatSchema(values)
+                StepSchemaService.formatKafkaConf(values)
                 if (onOK) {
                   onOK(values);
                 }
