@@ -1,11 +1,10 @@
 import React, {useEffect} from 'react';
 import {Button, Drawer, Form} from 'antd';
-import {InfoCircleOutlined} from "@ant-design/icons";
 import {ProForm, ProFormGroup, ProFormList, ProFormText} from '@ant-design/pro-components';
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
-import {FilterParams, SplitParams, STEP_ATTR_TYPE} from '../constant';
+import {SplitParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/node/steps/helper";
 
 const TransformSplitStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCancel, onOK}) => {
@@ -30,7 +29,7 @@ const TransformSplitStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, 
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
+                StepSchemaService.formatSplitOutputFields(values);
                 if (onOK) {
                   onOK(values);
                 }

@@ -30,7 +30,7 @@ const TransformFieldMapperStepForm: React.FC<ModalFormProps<Node>> = ({data, vis
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
-                StepSchemaService.formatSchema(values);
+                StepSchemaService.formatFieldMapper(values);
                 if (onOK) {
                   onOK(values);
                 }
