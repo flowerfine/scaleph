@@ -137,35 +137,35 @@ const SeaTunnnelConnectorForm: React.FC<ModalFormProps<Node>> = ({visible, onVis
     if (type === 'source' && name === 'LocalFile') {
       return (<SourceLocalFileStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'LocalFile') {
-      return (<SinkLocalFileStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkLocalFileStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'FtpFile') {
       return (<SourceFtpFileStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'FtpFile') {
-      return (<SinkFtpFileStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkFtpFileStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'SftpFile') {
       return (<SourceSftpFileStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'SftpFile') {
-      return (<SinkSftpFileStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkSftpFileStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'HdfsFile') {
       return (<SourceHdfsFileStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'HdfsFile') {
-      return (<SinkHdfsFileStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkHdfsFileStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'OssFile') {
       return (<SourceOssFileStep visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'OssFile') {
-      return (<SinkOSSFileStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkOSSFileStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'OssJindoFile') {
       return (<SourceOSSJindoFileStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'OssJindoFile') {
-      return (<SinkOSSJindoFileStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkOSSJindoFileStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'S3File') {
       return (<SourceS3FileStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'S3File') {
-      return (<SinkS3FileStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkS3FileStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'Jdbc') {
       return (<SourceJdbcStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'Jdbc') {
-      return (<SinkJdbcStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkJdbcStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'Hudi') {
       return (<SourceHudiStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'Iceberg') {
@@ -173,97 +173,97 @@ const SeaTunnnelConnectorForm: React.FC<ModalFormProps<Node>> = ({visible, onVis
     } else if (type === 'source' && name === 'Paimon') {
       return (<SourcePaimonStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'Paimon') {
-      return (<SinkPaimonStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkPaimonStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'FakeSource') {
       return (<SourceFakeStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'Console') {
-      return (<SinkConsoleStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkConsoleStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'Http') {
       return (<SourceHttpStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'Http') {
-      return (<SinkHttpStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkHttpStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'Feishu') {
-      return (<SinkFeishuStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkFeishuStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'WeChat') {
-      return (<SinkWeChatStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkWeChatStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'DingTalk') {
-      return (<SinkDingTalkStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkDingTalkStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'EmailSink') {
-      return (<SinkEmailStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkEmailStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'Socket') {
       return (<SourceSocketStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'Socket') {
-      return (<SinkSocketStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkSocketStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'Doris') {
-      return (<SinkDorisStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkDorisStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'StarRocks') {
       return (<SourceStarRocksStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'StarRocks') {
-      return (<SinkStarRocksStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkStarRocksStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'Clickhouse') {
       return (<SourceClickHouseStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'Clickhouse') {
-      return (<SinkClickHouseStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkClickHouseStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'Hive') {
       return (<SourceHiveStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'Hive') {
-      return (<SinkHiveStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkHiveStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'Kudu') {
       return (<SourceKuduStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'Kudu') {
-      return (<SinkKuduStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkKuduStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'Maxcompute') {
       return (<SourceMaxComputeStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'Maxcompute') {
-      return (<SinkMaxComputeStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkMaxComputeStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'Kafka') {
       return (<SourceKafkaStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'Kafka') {
-      return (<SinkKafkaStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkKafkaStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'Rocketmq') {
       return (<SourceRocketMQStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'Rocketmq') {
-      return (<SinkRocketMQStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkRocketMQStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'IoTDB') {
       return (<SourceIoTDBStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'IoTDB') {
-      return (<SinkIoTDBStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkIoTDBStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'MongoDB') {
       return (<SourceMongoDBStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'MongoDB') {
-      return (<SinkMongoDBStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkMongoDBStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'Cassandra') {
       return (<SourceCassandraStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'Cassandra') {
-      return (<SinkCassandraStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkCassandraStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'Redis') {
       return (<SourceRedisStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'Redis') {
-      return (<SinkRedisStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkRedisStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'Pulsar') {
       return (<SourcePulsarStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'DataHub') {
-      return (<SinkDatahubStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkDatahubStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'Elasticsearch') {
       return (<SourceElasticsearchStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'Elasticsearch') {
-      return (<SinkElasticsearchStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkElasticsearchStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'Neo4j') {
       return (<SourceNeo4jStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'Neo4j') {
-      return (<SinkNeo4jStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkNeo4jStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'Sentry') {
-      return (<SinkSentryStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkSentryStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'InfluxDB') {
       return (<SourceInfluxDBStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'InfluxDB') {
-      return (<SinkInfluxDBStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkInfluxDBStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'AmazonDynamodb') {
       return (<SourceAmazonDynamodbStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'AmazonDynamodb') {
-      return (<SinkAmazonDynamodbStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkAmazonDynamodbStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'S3Redshift') {
-      return (<SinkS3RedshiftStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onCancel}/>);
+      return (<SinkS3RedshiftStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'OpenMldb') {
       return (<SourceOpenMLDBStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'MySQL-CDC') {

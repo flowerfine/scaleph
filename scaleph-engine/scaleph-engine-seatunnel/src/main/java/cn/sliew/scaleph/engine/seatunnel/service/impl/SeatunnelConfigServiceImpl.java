@@ -121,7 +121,7 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
     }
 
     private Properties mergeJobAttrs(WsDiJobStepDTO step) throws PluginException {
-        Properties properties = PropertyUtil.mapToProperties((Map<String, Object>) step.getStepAttrs().get("attrs"));
+        Properties properties = PropertyUtil.mapToProperties(step.getStepAttrs());
         SeaTunnelPluginType pluginType = SeaTunnelPluginType.of((String) step.getStepMeta().get("type"));;
         SeaTunnelPluginName stepName = SeaTunnelPluginName.of((String) step.getStepMeta().get("name"));
         SeaTunnelConnectorPlugin connector = seatunnelConnectorService.getConnector(pluginType, stepName);

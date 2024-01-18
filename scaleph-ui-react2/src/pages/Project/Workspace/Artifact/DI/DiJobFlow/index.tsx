@@ -1,7 +1,18 @@
 import React from 'react';
 import {PageContainer} from '@ant-design/pro-components';
 import {useLocation} from '@umijs/max';
-import {Background, Clipboard, Control, Grid, History, Minimap, Snapline, XFlow, XFlowGraph} from "@antv/xflow";
+import {
+  Background,
+  Clipboard,
+  Control,
+  ControlEnum,
+  Grid,
+  History,
+  Minimap,
+  Snapline,
+  XFlow,
+  XFlowGraph
+} from "@antv/xflow";
 import {DAG_CONNECTOR, DAG_EDGE} from "./Dag/node/canvas-node";
 import {InitShape} from "./Dag/node/init-node";
 import {Dnd} from "./Dag/dnd/dnd";
@@ -61,8 +72,10 @@ const DiJobFlow: React.FC = () => {
                 <History/>
                 <Background/>
                 <div className={styles.scaleToolbar}>
+                  {/* 颜色样式不对，实际上是有数字的 */}
                   <Control
-                    items={['zoomOut', 'zoomTo', 'zoomIn', 'zoomToFit', 'zoomToOrigin']}
+                    items={[ControlEnum.ZoomToOrigin, ControlEnum.ZoomToFit, ControlEnum.ZoomIn, ControlEnum.ZoomTo, ControlEnum.ZoomOut]}
+                    direction={'vertical'}
                   />
                 </div>
                 <div className={styles.minimap}>

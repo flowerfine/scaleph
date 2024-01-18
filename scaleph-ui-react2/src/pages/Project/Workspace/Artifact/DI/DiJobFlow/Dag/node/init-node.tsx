@@ -33,7 +33,7 @@ const InitShape: React.FC<Props<WsDiJob>> = ({data}) => {
               x: step.positionX,
               y: step.positionY
             },
-            ports: createPorts(step.stepMeta.type as string, step.stepMeta.name as string),
+            ports: createPorts(step.stepMeta.type as string, step.stepCode),
             data: {
               label: step.stepTitle,
               meta: step.stepMeta,

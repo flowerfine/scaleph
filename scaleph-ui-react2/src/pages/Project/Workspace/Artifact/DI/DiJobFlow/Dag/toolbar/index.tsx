@@ -9,7 +9,6 @@ import {
   UndoOutlined
 } from '@ant-design/icons';
 import {useIntl} from "@umijs/max";
-import type {Edge, Node, NodeOptions} from '@antv/xflow';
 import {useClipboard, useGraphEvent, useGraphInstance, useGraphStore, useKeyboard,} from '@antv/xflow';
 import {Toolbar} from "@antv/x6-react-components";
 
@@ -23,9 +22,7 @@ const CustomToolbar: React.FC = () => {
   const removeNodes = useGraphStore((state) => state.removeNodes);
 
   useKeyboard('ctrl+c', () => onCopy());
-
   useKeyboard('ctrl+v', () => onPaste());
-
   useKeyboard('backspace', () => {
     const selected = nodes.filter((node) => node.selected);
     const ids: string[] = selected.map((node) => node.id || '');
@@ -35,54 +32,19 @@ const CustomToolbar: React.FC = () => {
   useGraphEvent('node:change:data', ({node}) => {
     if (graph) {
       const edges = graph.getIncomingEdges(node);
-      const {status} = node.data;
-      edges?.forEach((edge: Edge) => {
-        if (status === 'running') {
-          updateEdge(edge.id, {
-            animated: true,
-          });
-        } else {
-          updateEdge(edge.id, {
-            animated: false,
-          });
-        }
-      });
     }
   });
 
-  const handleExcute = () => {
-    if (graph) {
-      nodes.forEach((node: Node | NodeOptions, index: number) => {
-        const edges = graph.getOutgoingEdges(node as Node);
-        updateNode(node.id!, {
-          data: {
-            ...node.data,
-            status: 'running',
-          },
-        });
-
-        setTimeout(() => {
-          updateNode(node.id!, {
-            data: {
-              ...node.data,
-              status: edges
-                ? 'success'
-                : Number(node.id!.slice(-1)) % 2 !== 0
-                  ? 'success'
-                  : 'failed',
-            },
-          });
-        }, 1000 * index + 1);
-      });
+  const onUndo = () => {
+    if (graph?.canUndo) {
+      graph.undo()
     }
   };
 
-  const onUndo = () => {
-    console.log('onUndo', graph)
-  };
-
   const onRedo = () => {
-    console.log('onRedo', graph)
+    if (graph?.canRedo()) {
+      graph?.redo()
+    }
   };
 
   const onCopy = () => {
@@ -96,7 +58,9 @@ const CustomToolbar: React.FC = () => {
   };
 
   const onDelete = () => {
-    console.log('onDelete', graph)
+    const selected = nodes.filter((node) => node.selected);
+    const ids: string[] = selected.map((node) => node.id || '');
+    removeNodes(ids);
   };
 
   const onHelp = () => {
@@ -130,7 +94,7 @@ const CustomToolbar: React.FC = () => {
       <Tooltip title={intl.formatMessage({id: 'pages.project.di.flow.dag.paste'})}>
         <Button
           size="small"
-          icon={<SnippetsOutlined />}
+          icon={<SnippetsOutlined/>}
           onClick={onPaste}
         />
       </Tooltip>
