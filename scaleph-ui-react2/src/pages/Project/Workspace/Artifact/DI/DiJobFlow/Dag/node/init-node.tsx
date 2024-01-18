@@ -29,16 +29,19 @@ const InitShape: React.FC<Props<WsDiJob>> = ({data}) => {
           nodes.push({
             id: step.stepCode,
             shape: DAG_NODE,
+            view: "react-shape-view",
             position: {
               x: step.positionX,
               y: step.positionY
             },
-            ports: createPorts(step.stepMeta.type as string, step.stepCode),
+            ports: {
+              items: createItems(step.stepMeta.type as string, step.stepCode)
+            },
             data: {
               label: step.stepTitle,
               meta: step.stepMeta,
               attrs: step.stepAttrs
-            }
+            },
           });
         });
         addNodes(nodes)
@@ -62,7 +65,7 @@ const InitShape: React.FC<Props<WsDiJob>> = ({data}) => {
       });
     }, []);
 
-    const createPorts = (type: string, stepCode: string) => {
+    const createItems = (type: string, stepCode: string) => {
       if (type === 'source') {
         return [{
           id: stepCode + '-bottom',
@@ -88,6 +91,93 @@ const InitShape: React.FC<Props<WsDiJob>> = ({data}) => {
         return []
       }
     }
+
+    const createGroups = (type: string, name: string) => {
+    if (type === 'source') {
+      return {
+        top: {
+          position: "top",
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#C2C8D5',
+              strokeWidth: 1,
+              fill: "#fff"
+            }
+          }
+        },
+        bottom: {
+          position: "bottom",
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#C2C8D5',
+              strokeWidth: 1,
+              fill: "#fff"
+            }
+          }
+        }
+      }
+    } else if (type === 'sink') {
+      return {
+        top: {
+          position: "top",
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#C2C8D5',
+              strokeWidth: 1,
+              fill: "#fff"
+            }
+          }
+        },
+        bottom: {
+          position: "bottom",
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#C2C8D5',
+              strokeWidth: 1,
+              fill: "#fff"
+            }
+          }
+        }
+      }
+    } else if (type === 'transform') {
+      return {
+        top: {
+          position: "top",
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#C2C8D5',
+              strokeWidth: 1,
+              fill: "#fff"
+            }
+          }
+        },
+        bottom: {
+          position: "bottom",
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#C2C8D5',
+              strokeWidth: 1,
+              fill: "#fff"
+            }
+          }
+        }
+      }
+    } else {
+      return []
+    }
+  }
     return null;
   }
 ;

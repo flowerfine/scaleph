@@ -33,8 +33,11 @@ const SourceJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCa
             type="primary"
             onClick={() => {
               form.validateFields().then((values) => {
+                const attrs = Object.keys(values)
+                  .filter((key) => values[key] != null && values[key] != undefined)
+                  .reduce((acc, key) => ({...acc, [key]: values[key]}), {});
                 if (onOK) {
-                  onOK(values);
+                  onOK(attrs);
                 }
               });
             }}

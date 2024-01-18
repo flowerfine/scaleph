@@ -98,13 +98,11 @@ const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
             setDrawerForm({visible: visible, data: node});
           }}
           onOK={(values) => {
-            const graph = node?.model?.graph;
             node.setData({
               ...node.data,
               label: values[STEP_ATTR_TYPE.stepTitle],
               attrs: values
             })
-            graph?.updateCellId(node, node.id)
             setDrawerForm({visible: false, data: node});
           }}
           data={drawerForm.data}/>
