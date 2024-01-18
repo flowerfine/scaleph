@@ -92,10 +92,13 @@ public class DagServiceImpl implements DagService {
             DagStepDTO stepDTO = new DagStepDTO();
             stepDTO.setDagId(dagId);
             stepDTO.setStepId(node.getId());
-            stepDTO.setStepName(node.getLabel());
-            stepDTO.setStepAttrs(JacksonUtil.toJsonNode(node.getData()));
-            stepDTO.setPositionX(node.getX());
-            stepDTO.setPositionY(node.getY());
+            if (node.getData() != null) {
+                stepDTO.setStepName(node.getData().getLabel());
+                stepDTO.setStepMeta(JacksonUtil.toJsonNode(node.getData().getMeta()));
+                stepDTO.setStepAttrs(JacksonUtil.toJsonNode(node.getData().getAttrs()));
+            }
+            stepDTO.setPositionX(node.getPosition().getX());
+            stepDTO.setPositionY(node.getPosition().getY());
             dagStepService.upsert(stepDTO);
         }
     }
@@ -108,8 +111,13 @@ public class DagServiceImpl implements DagService {
             DagLinkDTO linkDTO = new DagLinkDTO();
             linkDTO.setDagId(jobId);
             linkDTO.setLinkId(edge.getId());
-            linkDTO.setFromStepId(edge.getSource());
-            linkDTO.setToStepId(edge.getTarget());
+            if (edge.getData() != null) {
+                linkDTO.setLinkName(edge.getData().getLabel());
+                linkDTO.setLinkMeta(JacksonUtil.toJsonNode(edge.getData().getMeta()));
+                linkDTO.setLinkAttrs(JacksonUtil.toJsonNode(edge.getData().getAttrs()));
+            }
+            linkDTO.setFromStepId(edge.getSource().getCell());
+            linkDTO.setToStepId(edge.getTarget().getCell());
             dagLinkService.upsert(linkDTO);
         }
     }

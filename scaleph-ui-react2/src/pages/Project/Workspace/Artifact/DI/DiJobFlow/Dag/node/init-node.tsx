@@ -29,18 +29,14 @@ const InitShape: React.FC<Props<WsDiJob>> = ({data}) => {
           nodes.push({
             id: step.stepCode,
             shape: DAG_NODE,
-            x: step.positionX,
-            y: step.positionY,
-            ports: createPorts(step.stepType.value as string, step.stepName.value as string),
+            position: {
+              x: step.positionX,
+              y: step.positionY
+            },
+            ports: createPorts(step.stepMeta.type as string, step.stepMeta.name as string),
             data: {
-              meta: {
-                jobId: step.jobId,
-                name: step.stepName.value,
-                type: step.stepType.value,
-                displayName: titleCase(step.stepName.label + ' ' + step.stepType.value),
-                createTime: step.createTime,
-                updateTime: step.updateTime
-              },
+              label: step.stepTitle,
+              meta: step.stepMeta,
               attrs: step.stepAttrs
             }
           });
@@ -57,12 +53,9 @@ const InitShape: React.FC<Props<WsDiJob>> = ({data}) => {
             },
             target: {
               cell: link.toStepCode,
-              port: link.fromStepCode + '-top'
+              port: link.fromStepCode + '-top',
             },
-            zIndex: -1,
-            data: {
-              foo: 'bar'
-            }
+            zIndex: -1
           });
         });
         addEdges(edges)

@@ -18,8 +18,6 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.dto;
 
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -58,15 +56,6 @@ public class WsDiJobStepDTO extends BaseDTO {
     @Schema(description = "步骤标题")
     private String stepTitle;
 
-    @NotNull
-    @Schema(description = "步骤类型")
-    private SeaTunnelPluginType stepType;
-
-    @NotNull
-    @Length(min = 1, max = 120)
-    @Schema(description = "步骤名称")
-    private SeaTunnelPluginName stepName;
-
     @Schema(description = "x坐标")
     private Integer positionX;
 
@@ -75,4 +64,7 @@ public class WsDiJobStepDTO extends BaseDTO {
 
     @Schema(description = "作业步骤属性")
     private Map<String, Object> stepAttrs;
+
+    @Schema(description = "作业步骤元数据")
+    private Map<String, Object> stepMeta;
 }

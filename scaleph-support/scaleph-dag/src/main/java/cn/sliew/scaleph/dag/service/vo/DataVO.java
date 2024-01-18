@@ -21,11 +21,13 @@ package cn.sliew.scaleph.dag.service.vo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
+import java.util.Map;
+
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class NodeCellVO {
+public class DataVO {
 
-    private String id;
-    private DataVO data;
-    private PositionVO position;
+    private String label;
+    private Map<String, Object> meta;
+    private Map<String, Object> attrs;
 }

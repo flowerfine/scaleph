@@ -90,11 +90,10 @@ export type WsDiJobStep = {
   jobId: number;
   stepCode: string;
   stepTitle: string;
-  stepType: Dict;
-  stepName: Dict;
   positionX: number;
   positionY: number;
   stepAttrs?: any;
+  stepMeta?: any;
   createTime?: Date;
   updateTime?: Date;
 };

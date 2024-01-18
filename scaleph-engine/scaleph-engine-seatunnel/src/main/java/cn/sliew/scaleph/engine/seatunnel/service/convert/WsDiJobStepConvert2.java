@@ -20,8 +20,6 @@ package cn.sliew.scaleph.engine.seatunnel.service.convert;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobStepDTO;
 import cn.sliew.scaleph.system.service.convert.DictVoConvert;
@@ -50,10 +48,12 @@ public interface WsDiJobStepConvert2 extends BaseConvert<DagStepDTO, WsDiJobStep
         dto.setStepTitle(entity.getStepName());
         dto.setPositionX(entity.getPositionX());
         dto.setPositionY(entity.getPositionY());
-        Map<String, Object> stepAttrs = JacksonUtil.toObject(entity.getStepAttrs(), new TypeReference<Map<String, Object>>() {});
+        Map<String, Object> stepAttrs = JacksonUtil.toObject(entity.getStepAttrs(), new TypeReference<Map<String, Object>>() {
+        });
         dto.setStepAttrs(stepAttrs);
-        dto.setStepType(SeaTunnelPluginType.of(stepAttrs.get("type").toString()));
-        dto.setStepName(SeaTunnelPluginName.of(stepAttrs.get("name").toString()));
+        Map<String, Object> stepMeta = JacksonUtil.toObject(entity.getStepMeta(), new TypeReference<Map<String, Object>>() {
+        });
+        dto.setStepMeta(stepMeta);
         return dto;
     }
 }

@@ -101,8 +101,9 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
         Map<String, ObjectNode> stepMap = new HashMap<>();
         for (WsDiJobStepDTO step : jobStepList) {
             Properties properties = mergeJobAttrs(step);
-            SeaTunnelPluginType stepType = step.getStepType();
-            SeaTunnelPluginName stepName = step.getStepName();
+
+            SeaTunnelPluginType stepType = SeaTunnelPluginType.of((String) step.getStepMeta().get("type"));
+            SeaTunnelPluginName stepName = SeaTunnelPluginName.of((String) step.getStepMeta().get("name"));
             SeaTunnelConnectorPlugin connector = seatunnelConnectorService.newConnector(SeaTunnelPluginUtil.getIdentity(stepType, stepName), properties);
             ObjectNode stepConf = connector.createConf();
             stepConf.put(NODE_ID, step.getId());
@@ -121,8 +122,9 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
 
     private Properties mergeJobAttrs(WsDiJobStepDTO step) throws PluginException {
         Properties properties = PropertyUtil.mapToProperties((Map<String, Object>) step.getStepAttrs().get("attrs"));
-        SeaTunnelPluginType pluginType = SeaTunnelPluginType.of(step.getStepType().getValue());
-        SeaTunnelConnectorPlugin connector = seatunnelConnectorService.getConnector(pluginType, step.getStepName());
+        SeaTunnelPluginType pluginType = SeaTunnelPluginType.of((String) step.getStepMeta().get("type"));;
+        SeaTunnelPluginName stepName = SeaTunnelPluginName.of((String) step.getStepMeta().get("name"));
+        SeaTunnelConnectorPlugin connector = seatunnelConnectorService.getConnector(pluginType, stepName);
         for (ResourceProperty resource : connector.getRequiredResources()) {
             String name = resource.getProperty().getName();
             if (properties.containsKey(name)) {
