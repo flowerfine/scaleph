@@ -23,9 +23,8 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class NodeCellVO {
+public class PositionVO {
 
-    private String id;
-    private DataVO data;
-    private PositionVO position;
+    private Integer x;
+    private Integer y;
 }

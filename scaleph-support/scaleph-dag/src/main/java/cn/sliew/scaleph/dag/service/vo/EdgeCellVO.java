@@ -26,6 +26,7 @@ import lombok.Data;
 public class EdgeCellVO {
 
     private String id;
-    private String source;
-    private String target;
+    private EdgeEndpointVO source;
+    private EdgeEndpointVO target;
+    private DataVO data;
 }

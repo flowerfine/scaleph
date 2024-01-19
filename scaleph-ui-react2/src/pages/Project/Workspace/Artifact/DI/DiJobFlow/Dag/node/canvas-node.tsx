@@ -31,9 +31,6 @@ const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
       case 'copy':
         graph.copy([graph.getCellById(node.id)]);
         break;
-      case 'paste':
-        graph.paste();
-        break;
       case 'delete':
         node.remove();
         break;
@@ -45,10 +42,14 @@ const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
   const menu = (
     <Menu hasIcon={true} onClick={(key: string) => onMenuItemClick(key)}>
       <MenuItem name="copy" icon={<CopyOutlined/>} text="复制"/>
-      <MenuItem name="paste" icon={<CopyOutlined/>} text="粘贴"/>
       <MenuItem name="delete" icon={<DeleteOutlined/>} text="删除"/>
     </Menu>
   );
+
+  const onClick = () => {
+    const graph = node?.model?.graph;
+    graph?.select(node)
+  }
 
   const onDoubleClick = () => {
     setDrawerForm({visible: true, data: node})
@@ -72,7 +73,7 @@ const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
                    <Descriptions.Item label={"Connector 类型"}>{node.data.meta?.type}</Descriptions.Item>
                  </Descriptions>}
         >
-          <div className={"base-node"} onDoubleClick={onDoubleClick}>
+          <div className={"base-node"} onClick={onClick} onDoubleClick={onDoubleClick}>
           <span className="icon">
             <MenuOutlined style={{color: '#3057e3', fontSize: '12px'}}/>
           </span>
