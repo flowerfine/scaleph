@@ -37,6 +37,7 @@ const SourcePulsarStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, on
         width={780}
         drawerProps={{
           styles: {body: {overflowY: 'scroll'}},
+          closeIcon: null,
           destroyOnClose: true
         }}
         onFinish={(values) => {

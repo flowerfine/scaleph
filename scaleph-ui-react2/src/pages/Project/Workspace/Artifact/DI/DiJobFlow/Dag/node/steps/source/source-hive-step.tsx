@@ -29,6 +29,7 @@ const SourceHiveStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
         width={780}
         drawerProps={{
           styles: {body: {overflowY: 'scroll'}},
+          closeIcon: null,
           destroyOnClose: true
         }}
         onFinish={(values) => {

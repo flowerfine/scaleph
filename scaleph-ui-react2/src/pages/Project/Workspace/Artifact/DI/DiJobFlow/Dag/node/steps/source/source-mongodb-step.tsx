@@ -29,6 +29,7 @@ const SourceMongoDBStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, o
         width={780}
         drawerProps={{
           styles: {body: {overflowY: 'scroll'}},
+          closeIcon: null,
           destroyOnClose: true
         }}
         onFinish={(values) => {

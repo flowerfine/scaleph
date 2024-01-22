@@ -28,6 +28,7 @@ const SinkElasticsearchStepForm: React.FC<ModalFormProps<Node>> = ({data, visibl
         width={780}
         drawerProps={{
           styles: {body: {overflowY: 'scroll'}},
+          closeIcon: null,
           destroyOnClose: true
         }}
         onFinish={(values) => {

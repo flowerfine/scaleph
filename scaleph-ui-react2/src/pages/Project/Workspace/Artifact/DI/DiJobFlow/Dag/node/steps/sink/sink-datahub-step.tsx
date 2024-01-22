@@ -28,6 +28,7 @@ const SinkDatahubStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onV
         width={780}
         drawerProps={{
           styles: {body: {overflowY: 'scroll'}},
+          closeIcon: null,
           destroyOnClose: true
         }}
         onFinish={(values) => {

@@ -28,6 +28,7 @@ const SourceAmazonDynamodbStepForm: React.FC<ModalFormProps<Node>> = ({data, vis
         width={780}
         drawerProps={{
           styles: {body: {overflowY: 'scroll'}},
+          closeIcon: null,
           destroyOnClose: true
         }}
         onFinish={(values) => {

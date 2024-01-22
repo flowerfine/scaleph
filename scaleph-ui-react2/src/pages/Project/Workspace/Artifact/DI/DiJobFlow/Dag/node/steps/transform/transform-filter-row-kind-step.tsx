@@ -29,6 +29,7 @@ const TransformFilterRowKindStepForm: React.FC<ModalFormProps<Node>> = ({data, v
         width={780}
         drawerProps={{
           styles: {body: {overflowY: 'scroll'}},
+          closeIcon: null,
           destroyOnClose: true
         }}
         onFinish={(values) => {

@@ -35,6 +35,7 @@ const SinkOSSJindoFileStepForm: React.FC<ModalFormProps<Node>> = ({data, visible
         width={780}
         drawerProps={{
           styles: {body: {overflowY: 'scroll'}},
+          closeIcon: null,
           destroyOnClose: true
         }}
         onFinish={(values) => {
