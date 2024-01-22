@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
-import {Button, Drawer, Form} from 'antd';
+import {Form} from 'antd';
 import {InfoCircleOutlined} from "@ant-design/icons";
-import {ProForm, ProFormSelect, ProFormText} from '@ant-design/pro-components';
+import {DrawerForm, ProForm, ProFormSelect, ProFormText} from '@ant-design/pro-components';
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
@@ -9,7 +9,7 @@ import {FilterRowKindParams, STEP_ATTR_TYPE} from '../constant';
 import {DictDataService} from "@/services/admin/dictData.service";
 import {DICT_TYPE} from "@/constants/dictType";
 
-const TransformFilterRowKindStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onCancel, onOK}) => {
+const TransformFilterRowKindStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
   const [form] = Form.useForm();
 
@@ -19,27 +19,25 @@ const TransformFilterRowKindStepForm: React.FC<ModalFormProps<Node>> = ({data, v
 
   return (
     <XFlow>
-      <Drawer
-        open={visible}
+      <DrawerForm
         title={data.data.label}
+        form={form}
+        initialValues={data.data.attrs}
+        open={visible}
+        onOpenChange={onVisibleChange}
+        grid={true}
         width={780}
-        bodyStyle={{overflowY: 'scroll'}}
-        destroyOnClose={true}
-        onClose={onCancel}
-        extra={
-          <Button
-            type="primary"
-            onClick={() => {
-              form.validateFields().then((values) => {
-                if (onOK) {
-                  onOK(values);
-                }
-              });
-            }}
-          >
-            {intl.formatMessage({id: 'app.common.operate.confirm.label'})}
-          </Button>
-        }
+        drawerProps={{
+          styles: {body: {overflowY: 'scroll'}},
+          destroyOnClose: true
+        }}
+        onFinish={(values) => {
+          if (onOK) {
+            onOK(values)
+            return Promise.resolve(true)
+          }
+          return Promise.resolve(false)
+        }}
       >
         <ProForm form={form} initialValues={data.data.attrs} grid={true} submitter={false}>
           <ProFormText
@@ -72,7 +70,7 @@ const TransformFilterRowKindStepForm: React.FC<ModalFormProps<Node>> = ({data, v
             }}
           />
         </ProForm>
-      </Drawer>
+      </DrawerForm>
     </XFlow>
   );
 };
