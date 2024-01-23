@@ -83,7 +83,7 @@
                     <nodeVersion>${build.node.version}</nodeVersion>
                     <npmVersion>${build.npm.version}</npmVersion>
                     <installDirectory>target</installDirectory>
-<!--                    <nodeDownloadRoot>https://registry.npmmirror.com/node/</nodeDownloadRoot>-->
+                    <nodeDownloadRoot>http://npm.taobao.org/mirrors/node/</nodeDownloadRoot>
                     <npmDownloadRoot>https://registry.npmmirror.com/npm/-/</npmDownloadRoot>
                 </configuration>
             </plugin>
