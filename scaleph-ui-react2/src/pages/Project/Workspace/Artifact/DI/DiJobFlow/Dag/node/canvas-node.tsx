@@ -98,10 +98,14 @@ const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
             setDrawerForm({visible: visible, data: node});
           }}
           onOK={(values) => {
+            // 移除 undefined 字段，否则会更新异常
+            const attrs: Record<string, any> = Object.keys(values)
+              .filter((key) => values[key] != null && values[key] != undefined)
+              .reduce((acc, key) => ({...acc, [key]: values[key]}), {});
             node.setData({
               ...node.data,
-              label: values[STEP_ATTR_TYPE.stepTitle],
-              attrs: values
+              label: attrs[STEP_ATTR_TYPE.stepTitle],
+              attrs: attrs
             })
             setDrawerForm({visible: false, data: node});
           }}
