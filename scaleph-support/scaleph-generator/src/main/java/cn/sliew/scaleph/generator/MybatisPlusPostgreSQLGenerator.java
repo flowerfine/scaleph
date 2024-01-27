@@ -43,7 +43,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MybatisPlusPostgreSQLGenerator {
 
-    private final static String URL = "jdbc:postgresql://localhost:5432/public";
+    private final static String AUTHOR = "wangqi";
+    private final static String URL = "jdbc:postgresql://localhost:5432/dw";
     private final static String USERNAME = "root";
     private final static String PASSWORD = "123456"; //NOSONAR
     private static final String BASE_PACKAGE = "cn.sliew";
@@ -53,7 +54,7 @@ public class MybatisPlusPostgreSQLGenerator {
     /**
      * just add table names here and run the {@link #main(String[])} method.
      */
-    private static final String[] TABLES = {"table_1"};
+    private static final String[] TABLES = {"dwd_ds_table_1"};
 
     public static void main(String[] args) {
         //自动生成配置
@@ -88,9 +89,11 @@ public class MybatisPlusPostgreSQLGenerator {
         builder.fileOverride()
                 .outputDir(System.getProperty("user.dir") +
                         "/scaleph-support/scaleph-generator/src/main/java/")
+                .author(AUTHOR)
                 .fileOverride()
                 .enableSpringdoc()
-                .dateType(DateType.ONLY_DATE);
+                .dateType(DateType.ONLY_DATE)
+                .commentDate("yyyy-MM-dd");
     }
 
     /**
