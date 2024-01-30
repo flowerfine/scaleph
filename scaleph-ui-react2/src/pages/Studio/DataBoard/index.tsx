@@ -19,7 +19,6 @@ const DataBoard: React.FC = () => {
     fetchJob({ jobType: 'r' }).then((d) => setRealtimeJobCnt(d));
     fetchProject();
     fetchTopBatch100();
-    console.log(topBatch100)
   }, []);
   // 集群数量
   const fetchCluster = useCallback(async () => {
