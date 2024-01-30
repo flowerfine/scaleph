@@ -34,12 +34,10 @@ export async function getInitialState(): Promise<{
         if (resp.success && resp.data) {
           user = resp.data;
         } else {
-          console.log('fetchUserInfo', resp)
           history.push("/user/login");
         }
       });
     } catch (error) {
-      console.log('fetchUserInfo', error)
       history.push("/user/login");
     }
     return user;
@@ -102,7 +100,7 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
       return (<>{defaultDom}</>);
     },
     rightContentRender: () => <RightContent/>,
-    // menuDataRender: () => defaultMenus,
+    menuDataRender: () => defaultMenus,
     menuItemRender: (menuItemProps: any, defaultDom: any) => {
       return (
         <Space align="end" size={5}>

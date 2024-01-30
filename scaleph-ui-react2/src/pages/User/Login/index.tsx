@@ -37,12 +37,12 @@ const Login: React.FC = () => {
   const {initialState, setInitialState} = useModel("@@initialState");
 
   useEffect(() => {
+    localStorage.clear();
     refreshAuthCode();
   }, []);
 
   const refreshAuthCode = async () => {
-    const data = await AuthService.refreshAuthImage();
-    setAuthCode(data);
+    AuthService.refreshAuthImage().then((data) => setAuthCode(data))
   };
 
   const handleSubmit = async () => {
@@ -54,15 +54,18 @@ const Login: React.FC = () => {
             localStorage.setItem(USER_AUTH.token, resp.data);
             message.success(intl.formatMessage({id: "pages.user.login.success"}));
             UserService.getOnlineUserInfo(resp.data).then(async (response) => {
-              await flushSync(() => {
-                setInitialState((state) => ({
-                  ...state,
-                  currentUser: response.data,
-                }));
-              });
-              setTimeout(() => {
-                navigate("/");
-              }, 500);
+              if (response.success && response.data) {
+                await flushSync(() => {
+                  setInitialState((state) => ({
+                    ...state,
+                    currentUser: response.data,
+                  }));
+                });
+                AuthService.setSession(response.data)
+                setTimeout(() => {
+                  navigate("/");
+                }, 500);
+              }
             })
           } else {
             refreshAuthCode();

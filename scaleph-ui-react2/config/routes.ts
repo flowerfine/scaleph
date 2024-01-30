@@ -376,23 +376,6 @@ export default [
     ],
   },
   {
-    name: 'xflow',
-    path: '/xflow',
-    icon: 'setting',
-    routes: [
-      {
-        path: '/xflow',
-        redirect: '/xflow/dag',
-      },
-      {
-        name: 'dag',
-        path: '/xflow/dag',
-        icon: 'apartment',
-        component: './XFlow/dag',
-      },
-    ],
-  },
-  {
     path: "/user/center",
     component: "./User",
     exact: true,

@@ -33,7 +33,9 @@ const SeaTunnelConfModal: React.FC<ModalFormProps<WsDiJob>> = ({visible, onVisib
     <Drawer
       open={visible}
       width={780}
-      bodyStyle={{overflowY: 'scroll'}}
+      styles={{
+        body: {overflowY: 'scroll'}
+      }}
       destroyOnClose={true}
       onClose={onCancel}
     >
