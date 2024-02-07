@@ -33,7 +33,7 @@ public interface DataserviceResultMapService {
 
     DataserviceResultMapDTO selectOne(Long id);
 
-    int insert(DataserviceResultMapAddParam param);
+    DataserviceResultMapDTO insert(DataserviceResultMapAddParam param);
 
     int update(DataserviceResultMapUpdateParam param);
 

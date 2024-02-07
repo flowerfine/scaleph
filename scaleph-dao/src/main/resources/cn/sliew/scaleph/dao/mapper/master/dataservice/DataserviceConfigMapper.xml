@@ -50,6 +50,8 @@
         <result column="status" property="status"/>
         <result column="parameter_map_id" property="parameterMapId"/>
         <result column="result_map_id" property="resultMapId"/>
+        <result column="type" property="type"/>
+        <result column="query" property="query"/>
         <result column="remark" property="remark"/>
         <association column="parameter_map_id" property="parameterMap"
                      select="cn.sliew.scaleph.dao.mapper.master.dataservice.DataserviceParameterMapMapper.selectById"/>
@@ -64,8 +66,8 @@
         create_time,
         editor,
         update_time,
-        project_id, `name`, path, method, content_type, `status`,
-        parameter_map_id, result_map_id, remark
+        project_id, `name`, `path`, `method`, content_type, `status`,
+        parameter_map_id, result_map_id, `type`, query, remark
     </sql>
 
     <select id="getById" resultMap="DataserviceConfigMap">

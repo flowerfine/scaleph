@@ -82,9 +82,10 @@ public class DataserviceParameterMapServiceImpl implements DataserviceParameterM
     }
 
     @Override
-    public int insert(DataserviceParameterMapAddParam param) {
+    public DataserviceParameterMapDTO insert(DataserviceParameterMapAddParam param) {
         DataserviceParameterMap record = BeanUtil.copy(param, new DataserviceParameterMap());
-        return dataserviceParameterMapMapper.insert(record);
+        dataserviceParameterMapMapper.insert(record);
+        return selectOne(record.getId());
     }
 
     @Override

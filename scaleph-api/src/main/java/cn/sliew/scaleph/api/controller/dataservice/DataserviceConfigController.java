@@ -21,9 +21,8 @@ package cn.sliew.scaleph.api.controller.dataservice;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.dataservice.service.DataserviceConfigService;
 import cn.sliew.scaleph.dataservice.service.dto.DataserviceConfigDTO;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceConfigAddParam;
 import cn.sliew.scaleph.dataservice.service.param.DataserviceConfigListParam;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceConfigUpdateParam;
+import cn.sliew.scaleph.dataservice.service.param.DataserviceConfigSaveParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,23 +47,24 @@ public class DataserviceConfigController {
     @Logging
     @GetMapping
     @Operation(summary = "查询 config 列表", description = "查询 config 列表")
-    public ResponseEntity<ResponseVO<Page<DataserviceConfigDTO>>> get(@Valid DataserviceConfigListParam param) throws ParseException {
+    public ResponseEntity<Page<DataserviceConfigDTO>> get(@Valid DataserviceConfigListParam param) throws ParseException {
         Page<DataserviceConfigDTO> result = dataserviceConfigService.list(param);
-        return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Logging
     @PutMapping
     @Operation(summary = "新增 config", description = "新增 config")
-    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody DataserviceConfigAddParam param) throws ParseException {
+    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody DataserviceConfigSaveParam param) throws ParseException {
         dataserviceConfigService.insert(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
-    @PostMapping
+    @PostMapping("{id}")
     @Operation(summary = "修改 config", description = "修改 config")
-    public ResponseEntity<ResponseVO> update(@Valid @RequestBody DataserviceConfigUpdateParam param) throws ParseException {
+    public ResponseEntity<ResponseVO> update(@PathVariable("id") Long id, @Valid @RequestBody DataserviceConfigSaveParam param) throws ParseException {
+        param.setId(id);
         dataserviceConfigService.update(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }

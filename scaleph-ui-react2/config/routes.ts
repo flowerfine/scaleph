@@ -212,6 +212,26 @@ export default [
           },
         ]
       },
+      {
+        name: 'project.dataservice',
+        path: '/workspace/dataservice',
+        icon: 'solution',
+        routes: [
+          {
+            path: '/workspace/dataservice',
+            redirect: '/workspace/dataservice/config',
+          },
+          {
+            name: 'config',
+            path: '/workspace/dataservice/config',
+            component: './Project/Workspace/DataService/Config',
+          },
+          {
+            path: '/workspace/dataservice/config/steps',
+            component: './Project/Workspace/DataService/Config/Steps',
+          },
+        ]
+      },
     ]
   },
   {

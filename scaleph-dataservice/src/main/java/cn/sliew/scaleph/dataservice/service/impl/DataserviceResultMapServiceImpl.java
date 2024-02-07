@@ -80,9 +80,10 @@ public class DataserviceResultMapServiceImpl implements DataserviceResultMapServ
     }
 
     @Override
-    public int insert(DataserviceResultMapAddParam param) {
+    public DataserviceResultMapDTO insert(DataserviceResultMapAddParam param) {
         DataserviceResultMap record = BeanUtil.copy(param, new DataserviceResultMap());
-        return dataserviceResultMapMapper.insert(record);
+        dataserviceResultMapMapper.insert(record);
+        return selectOne(record.getId());
     }
 
     @Override

@@ -23,6 +23,8 @@ import cn.sliew.scaleph.common.dict.catalog.CatalogConstraintType;
 import cn.sliew.scaleph.common.dict.catalog.CatalogFunctionLanguage;
 import cn.sliew.scaleph.common.dict.catalog.CatalogTableKind;
 import cn.sliew.scaleph.common.dict.common.*;
+import cn.sliew.scaleph.common.dict.dataservice.HttpMethod;
+import cn.sliew.scaleph.common.dict.dataservice.QueryType;
 import cn.sliew.scaleph.common.dict.ds.RedisMode;
 import cn.sliew.scaleph.common.dict.flink.*;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.*;
@@ -116,6 +118,9 @@ public enum DictType implements DictDefinition {
     SCHEDULE_STATUS("schedule_status", "Schedule Status", ScheduleStatus.class),
 
     REDIS_MODE("redis_mode", "Redis Mode", RedisMode.class),
+
+    HTTP_METHOD("http_method", "Http Method", HttpMethod.class),
+    QUERY_TYPE("query_type", "Query Type", QueryType.class),
     ;
 
     @JsonCreator

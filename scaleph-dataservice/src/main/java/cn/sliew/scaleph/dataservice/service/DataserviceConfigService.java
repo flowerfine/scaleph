@@ -19,9 +19,8 @@
 package cn.sliew.scaleph.dataservice.service;
 
 import cn.sliew.scaleph.dataservice.service.dto.DataserviceConfigDTO;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceConfigAddParam;
 import cn.sliew.scaleph.dataservice.service.param.DataserviceConfigListParam;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceConfigUpdateParam;
+import cn.sliew.scaleph.dataservice.service.param.DataserviceConfigSaveParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
@@ -32,9 +31,9 @@ public interface DataserviceConfigService {
 
     DataserviceConfigDTO selectOne(Long id);
 
-    int insert(DataserviceConfigAddParam param);
+    int insert(DataserviceConfigSaveParam param);
 
-    int update(DataserviceConfigUpdateParam param);
+    int update(DataserviceConfigSaveParam param);
 
     int deleteById(Long id);
 

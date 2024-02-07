@@ -9,7 +9,7 @@ const FieldItem: React.FC = () => {
 
   return (
     <ProFormGroup
-      label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
+      title={intl.formatMessage({id: 'pages.project.di.step.schema'})}
       tooltip={{
         title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
         icon: <InfoCircleOutlined/>,

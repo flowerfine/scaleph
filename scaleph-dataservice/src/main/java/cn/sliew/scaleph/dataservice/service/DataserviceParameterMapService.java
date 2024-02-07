@@ -36,7 +36,7 @@ public interface DataserviceParameterMapService {
 
     DataserviceParameterMapDTO selectOne(Long id);
 
-    int insert(DataserviceParameterMapAddParam param);
+    DataserviceParameterMapDTO insert(DataserviceParameterMapAddParam param);
 
     int update(DataserviceParameterMapUpdateParam param);
 

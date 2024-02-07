@@ -13,14 +13,16 @@ create table dataservice_config
     status           varchar(4)  not null comment 'status, disabled or enabled',
     parameter_map_id bigint comment 'paramter map id',
     result_map_id    bigint comment 'result map id',
+    type             varchar(8) comment 'query type',
+    query            text comment 'query',
     remark           varchar(256) comment '备注',
     creator          varchar(32) comment '创建人',
     create_time      timestamp default current_timestamp comment '创建时间',
     editor           varchar(32) comment '修改人',
     update_time      timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    unique key uniq_name (project_id, name),
-    unique key uniq_path (project_id, path)
+    unique key uniq_name (project_id, `name`),
+    unique key uniq_path (project_id, `path`, `method`)
 ) engine = innodb comment = '数据服务 配置';
 
 drop table if exists dataservice_parameter_map;

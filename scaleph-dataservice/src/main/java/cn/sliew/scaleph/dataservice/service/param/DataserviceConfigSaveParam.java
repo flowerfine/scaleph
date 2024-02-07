@@ -21,30 +21,50 @@ package cn.sliew.scaleph.dataservice.service.param;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
-public class DataserviceConfigUpdateParam {
+public class DataserviceConfigSaveParam {
 
-    @NotNull
     @Schema(description = "id")
     private Long id;
 
+    @NotNull
+    @Schema(description = "project id")
+    private Long projectId;
+
+    @NotBlank
     @Schema(description = "name")
     private String name;
 
+    @NotBlank
     @Schema(description = "uri path")
     private String path;
 
+    @NotBlank
     @Schema(description = "http method")
     private String method;
 
+    @NotBlank
     @Schema(description = "http content type")
     private String contentType;
 
-    @Schema(description = "status, disabled or enabled")
-    private String status;
-
     @Schema(description = "备注")
     private String remark;
+
+    @Schema(description = "参数映射")
+    private List<DataserviceParameterMappingParam> parameterMappings;
+
+    @Schema(description = "结果映射")
+    private List<DataserviceResultMappingParam> resultMappings;
+
+    @NotBlank
+    @Schema(description = "类型")
+    private String type;
+
+    @NotBlank
+    @Schema(description = "sql")
+    private String query;
 }

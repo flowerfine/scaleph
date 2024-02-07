@@ -57,6 +57,12 @@ public class DataserviceConfigDTO extends BaseDTO {
     @Schema(description = "result map")
     private DataserviceResultMapDTO resultMap;
 
+    @Schema(description = "type")
+    private String type;
+
+    @Schema(description = "query")
+    private String query;
+
     @Schema(description = "备注")
     private String remark;
 
