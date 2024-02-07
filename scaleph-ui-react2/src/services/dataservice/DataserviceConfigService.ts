@@ -1,6 +1,6 @@
 import {PageResponse, ResponseBody} from '@/typings';
 import {request} from '@umijs/max';
-import {DataserviceConfig, DataserviceConfigParam} from './typings';
+import {DataserviceConfig, DataserviceConfigParam, DataserviceConfigSaveParam} from './typings';
 
 export const DataserviceConfigService = {
   url: '/api/dataservice/config',
@@ -20,15 +20,15 @@ export const DataserviceConfigService = {
     });
   },
 
-  add: async (param: DataserviceConfig) => {
+  add: async (param: DataserviceConfigSaveParam) => {
     return request<ResponseBody<any>>(`${DataserviceConfigService.url}`, {
       method: 'PUT',
       data: param,
     });
   },
 
-  update: async (id: number, param: DataserviceConfig) => {
-    return request<ResponseBody<any>>(`${DataserviceConfigService.url}/${id}`, {
+  update: async (param: DataserviceConfigSaveParam) => {
+    return request<ResponseBody<any>>(`${DataserviceConfigService.url}/${param.id}`, {
       method: 'POST',
       data: param,
     });
