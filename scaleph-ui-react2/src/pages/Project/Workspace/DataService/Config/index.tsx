@@ -84,13 +84,13 @@ const DataServiceConfigWeb: React.FC = () => {
             </Tooltip>
           )}
           {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
-            <Tooltip title={intl.formatMessage({id: 'pages.project.doris.template.detail'})}>
+            <Tooltip title={intl.formatMessage({id: 'pages.project.dataservice.config.detail'})}>
               <Button
                 shape="default"
                 type="link"
                 icon={<NodeIndexOutlined/>}
                 onClick={() => {
-                  history.push("/workspace/doris/template/detail", record)
+                  // history.push("/workspace/doris/template/detail", record)
                 }}
               />
             </Tooltip>

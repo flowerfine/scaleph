@@ -47,9 +47,9 @@ public class DataserviceConfigController {
     @Logging
     @GetMapping
     @Operation(summary = "查询 config 列表", description = "查询 config 列表")
-    public ResponseEntity<ResponseVO<Page<DataserviceConfigDTO>>> get(@Valid DataserviceConfigListParam param) throws ParseException {
+    public ResponseEntity<Page<DataserviceConfigDTO>> get(@Valid DataserviceConfigListParam param) throws ParseException {
         Page<DataserviceConfigDTO> result = dataserviceConfigService.list(param);
-        return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Logging

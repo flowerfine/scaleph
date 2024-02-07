@@ -19,10 +19,8 @@
 package cn.sliew.scaleph.dataservice.service;
 
 import cn.sliew.scaleph.dataservice.service.dto.DataserviceConfigDTO;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceConfigAddParam;
 import cn.sliew.scaleph.dataservice.service.param.DataserviceConfigListParam;
 import cn.sliew.scaleph.dataservice.service.param.DataserviceConfigSaveParam;
-import cn.sliew.scaleph.dataservice.service.param.DataserviceConfigUpdateParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;

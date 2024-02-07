@@ -1022,6 +1022,7 @@ export default {
   'pages.project.dataservice.config.steps.config.sql': 'SQL',
   'pages.project.dataservice.config.steps.config.sql.type': '类型',
   'pages.project.dataservice.config.steps.config.sql.query': '语句',
+  'pages.project.dataservice.config.detail': '配置详情',
 
   'Run': '运行',
   'Save': '保存',

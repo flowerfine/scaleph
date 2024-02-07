@@ -64,6 +64,12 @@ public class DataserviceConfig extends BaseDO {
     @TableField(exist = false)
     private DataserviceResultMap resultMap;
 
+    @TableField("`type`")
+    private String type;
+
+    @TableField("query")
+    private String query;
+
     @TableField("remark")
     private String remark;
 
