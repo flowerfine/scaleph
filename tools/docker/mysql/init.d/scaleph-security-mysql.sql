@@ -544,7 +544,8 @@ INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`,
 VALUES (65, '2', 64, NULL, '/workspace/doris', '/workspace/doris/template', NULL, NULL, NULL, NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
-VALUES (66, '2', 64, 'template', '/workspace/doris/template', NULL, NULL, NULL, './Project/Workspace/Doris/OperatorTemplate',
+VALUES (66, '2', 64, 'template', '/workspace/doris/template', NULL, NULL, NULL,
+        './Project/Workspace/Doris/OperatorTemplate',
         NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
@@ -556,7 +557,8 @@ VALUES (68, '2', 64, NULL, '/workspace/doris/template/detail', NULL, NULL, NULL,
         './Project/Workspace/Doris/OperatorTemplate/Detail', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
-VALUES (69, '2', 64, 'instance', '/workspace/doris/instance', NULL, NULL, NULL, './Project/Workspace/Doris/OperatorInstance',
+VALUES (69, '2', 64, 'instance', '/workspace/doris/instance', NULL, NULL, NULL,
+        './Project/Workspace/Doris/OperatorInstance',
         NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
                                 `remark`, `creator`, `editor`)
@@ -578,6 +580,18 @@ INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`,
                                 `remark`, `creator`, `editor`)
 VALUES (74, '2', 21, NULL, '/workspace/flink/kubernetes/deployment/steps/update', NULL, NULL, NULL,
         './Project/Workspace/Kubernetes/Deployment/Steps/Update', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (75, '1', 11, 'project.dataservice', '/workspace/dataservice', NULL, NULL, 'FunctionOutlined', NULL, NULL, 'sys',
+        'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (76, '2', 75, NULL, '/workspace/dataservice', '/workspace/dataservice/config', NULL, NULL, NULL, NULL, 'sys',
+        'sys');
+INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`,
+                                `remark`, `creator`, `editor`)
+VALUES (77, '2', 75, 'config', '/workspace/dataservice/config', NULL, NULL, NULL,
+        './Project/Workspace/DataService/Config', NULL, 'sys', 'sys');
 
 drop table if exists sec_resource_web_role;
 create table sec_resource_web_role

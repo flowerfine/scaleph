@@ -15,6 +15,8 @@ export default {
   'menu.project.doris': 'Doris',
   'menu.project.doris.template': 'Template',
   'menu.project.doris.instance': 'Instance',
+  'menu.project.dataservice': '数据服务',
+  'menu.project.dataservice.config': '接口配置',
 
   'menu.resource': '资源',
   'menu.resource.jar': '公共 Jar',
