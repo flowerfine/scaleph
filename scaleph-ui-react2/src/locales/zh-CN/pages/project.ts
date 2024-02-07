@@ -998,6 +998,13 @@ export default {
   'pages.project.doris.instance.detail.metrics': 'Metrics',
   'pages.project.doris.instance.detail.logs': 'Logs',
 
+  'pages.project.dataservice.config': '服务配置',
+  'pages.project.dataservice.config.name': '名称',
+  'pages.project.dataservice.config.path': '路径',
+  'pages.project.dataservice.config.method': '方法',
+  'pages.project.dataservice.config.contentType': 'Content Type',
+  'pages.project.dataservice.config.status': '状态',
+
   'Run': '运行',
   'Save': '保存',
   'Format': '格式化',

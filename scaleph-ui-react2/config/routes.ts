@@ -225,7 +225,11 @@ export default [
             name: 'config',
             path: '/workspace/dataservice/config',
             component: './Project/Workspace/DataService/Config',
-          }
+          },
+          {
+            path: '/workspace/dataservice/config/steps',
+            component: './Project/Workspace/DataService/Config/Steps',
+          },
         ]
       },
     ]
