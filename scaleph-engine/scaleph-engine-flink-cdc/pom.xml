@@ -22,31 +22,28 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>scaleph-workflow</artifactId>
+        <artifactId>scaleph-engine</artifactId>
         <version>2.0.3-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>scaleph-workflow-quartz</artifactId>
+    <artifactId>scaleph-engine-flink-cdc</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-workflow-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-quartz</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kie.kogito</groupId>
-            <artifactId>kogito-spring-boot-starter</artifactId>
+            <artifactId>scaleph-privilege</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.kie.kogito</groupId>
-            <artifactId>kogito-serverless-workflow-runtime</artifactId>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-dag</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-project</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-plugin-flinkcdc</artifactId>
         </dependency>
     </dependencies>
-
 </project>

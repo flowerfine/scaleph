@@ -169,6 +169,7 @@
         <kubernetes.client.version>6.2.0</kubernetes.client.version>
         <spring-cloud-openfeign.version>3.1.7</spring-cloud-openfeign.version>
         <zjsonpatch.version>0.4.14</zjsonpatch.version>
+        <kogito.version>2.44.0.Alpha</kogito.version>
     </properties>
 
     <dependencyManagement>
@@ -711,6 +712,17 @@
                 <groupId>com.flipkart.zjsonpatch</groupId>
                 <artifactId>zjsonpatch</artifactId>
                 <version>${zjsonpatch.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kie.kogito</groupId>
+                <artifactId>kogito-spring-boot-starter</artifactId>
+                <version>${kogito.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.kie.kogito</groupId>
+                <artifactId>kogito-serverless-workflow-runtime</artifactId>
+                <version>${kogito.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

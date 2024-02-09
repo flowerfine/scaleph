@@ -18,20 +18,37 @@
 
 package cn.sliew.scaleph.plugin.flink.cdc;
 
+import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCPluginName;
+import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCPluginType;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.core.PluginSPILoader;
 import cn.sliew.scaleph.plugin.framework.exception.PluginException;
 
 import java.util.Optional;
 import java.util.Properties;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class FlinkCDCPipelineConnectorManager {
 
     private PluginSPILoader<FlinkCDCPipilineConnectorPlugin> pluginPluginSPILoader = new PluginSPILoader<>(FlinkCDCPipilineConnectorPlugin.class, FlinkCDCPipilineConnectorPlugin.class.getClassLoader());
 
+    public Set<FlinkCDCPipilineConnectorPlugin> getAvailableConnectors(FlinkCDCPluginType pluginType) {
+        return pluginPluginSPILoader.getServices().values().stream()
+                .filter(connector -> connector.getPluginType() == pluginType)
+                .collect(Collectors.toSet());
+    }
+
     public FlinkCDCPipilineConnectorPlugin getConnector(PluginInfo pluginInfo) throws PluginException {
         final Optional<FlinkCDCPipilineConnectorPlugin> optional = pluginPluginSPILoader.getPlugin(pluginInfo);
         return optional.orElseThrow(() -> new PluginException("FlinkCDCPipilineConnectorPlugin", "unknown plugin info for " + pluginInfo));
+    }
+
+    public FlinkCDCPipilineConnectorPlugin getConnector(FlinkCDCPluginType pluginType, FlinkCDCPluginName pluginName) throws PluginException {
+        return pluginPluginSPILoader.getServices().values().stream()
+                .filter(connector -> connector.getPluginType() == pluginType)
+                .filter(connector -> connector.getPluginName() == pluginName)
+                .findAny().orElseThrow(() -> new PluginException("FlinkCDCPipilineConnectorPlugin"));
     }
 
     public FlinkCDCPipilineConnectorPlugin newConnector(String name, Properties props) {

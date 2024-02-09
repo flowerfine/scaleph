@@ -39,6 +39,7 @@
         <module>scaleph-sql-template</module>
         <module>scaleph-engine-flink-kubernetes</module>
         <module>scaleph-engine-sql-gateway</module>
+        <module>scaleph-engine-flink-cdc</module>
     </modules>
 
 </project>
