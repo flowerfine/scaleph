@@ -56,4 +56,9 @@ public enum FlinkCDCVersion implements DictInstance {
     public String getLabel() {
         return label;
     }
+
+    public static FlinkCDCVersion current() {
+        return values()[values().length - 1];
+    }
+
 }

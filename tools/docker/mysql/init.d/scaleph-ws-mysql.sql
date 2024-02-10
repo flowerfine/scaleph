@@ -53,6 +53,8 @@ INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `
 VALUES (8, 1, '0', 'jdbc&paimon-example', 'jdbc 和 paimon catalog example', 'sys', 'sys');
 INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (9, 1, '0', 'sakura-example', 'sakura catalog example', 'sys', 'sys');
+INSERT INTO `ws_flink_artifact`(`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+VALUES (10, 1, '3', 'flink-cdc-example', NULL, 'sys', 'sys');
 
 drop table if exists ws_flink_artifact_jar;
 create table ws_flink_artifact_jar
@@ -141,6 +143,9 @@ create table ws_flink_artifact_cdc
     primary key (id),
     key               idx_flink_artifact (flink_artifact_id)
 ) engine = innodb comment 'flink artifact cdc';
+INSERT INTO `ws_flink_artifact_cdc`(`id`, `flink_artifact_id`, `flink_version`, `flink_cdc_version`, `dag_id`,
+                                    `current`, `creator`, `editor`)
+VALUES (1, 10, '1.18.0', '3.0.0', 3, '1', 'sys', 'sys');
 
 drop table if exists ws_di_job;
 create table ws_di_job

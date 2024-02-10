@@ -34,6 +34,7 @@ export const DICT_TYPE = {
   flinkJobType: 'flink_job_type',
   flinkJobStatus: 'flink_job_status',
   flinkServiceExposedType: 'flink_service_exposed_type',
+
   seatunnelVersion: 'seatunnel_version',
   seatunnelEngineType: 'seatunnel_engine_type',
   seatunnelPluginName: 'seatunnel_plugin_name',
@@ -41,6 +42,8 @@ export const DICT_TYPE = {
   seatunnelFakeMode: 'seatunnel_fake_mode',
   seatunnelCDCFormat: 'seatunnel_cdc_format',
   imagePullPolicy: 'image_pull_policy',
+
+  flinkCDCVersion: 'flink_cdc_version',
 
   deploymentKind: 'deployment_kind',
   resourceLifecycleState: 'resource_lifecycle_state',

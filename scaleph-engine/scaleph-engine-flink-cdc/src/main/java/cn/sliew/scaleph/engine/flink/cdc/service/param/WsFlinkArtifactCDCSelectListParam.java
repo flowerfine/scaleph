@@ -16,22 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.cdc.service;
+package cn.sliew.scaleph.engine.flink.cdc.service.param;
 
-import cn.sliew.scaleph.dag.service.DagDndService;
-import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
-public interface FlinkCDCDagService extends DagDndService {
+@Data
+public class WsFlinkArtifactCDCSelectListParam {
 
-    Long initialize();
+    @NotNull
+    @Schema(description = "项目id")
+    private Long projectId;
 
-    void destroy(Long dagId);
-
-    Object getDag(Long dagId);
-
-    void update(Object param);
-
-    List<DndDTO> getDnds();
+    @Schema(description = "名称。支持模糊搜索")
+    private String name;
 }

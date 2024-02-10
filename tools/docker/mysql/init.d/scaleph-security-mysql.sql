@@ -600,6 +600,10 @@ INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, 
                                `creator`, `editor`)
 VALUES (79, '2', 13, 'cdc', '/workspace/artifact/cdc', NULL, NULL, NULL, './Project/Workspace/Artifact/CDC', NULL,
         'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (80, '2', 13, NULL, '/workspace/artifact/cdc/dag', NULL, NULL, NULL, './Project/Workspace/Artifact/CDC/Dag',
+        NULL, 'sys', 'sys');
 
 drop table if exists sec_resource_web_role;
 create table sec_resource_web_role

@@ -37,6 +37,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static cn.sliew.milky.common.check.Ensures.checkState;
+
 @Service
 public class WsFlinkArtifactSqlServiceImpl implements WsFlinkArtifactSqlService {
 
@@ -86,8 +88,9 @@ public class WsFlinkArtifactSqlServiceImpl implements WsFlinkArtifactSqlService 
 
     @Override
     public WsFlinkArtifactSqlDTO selectOne(Long id) {
-        WsFlinkArtifactSql wsFlinkArtifactSql = wsFlinkArtifactSqlMapper.selectOne(id);
-        return WsFlinkArtifactSqlConvert.INSTANCE.toDto(wsFlinkArtifactSql);
+        WsFlinkArtifactSql record = wsFlinkArtifactSqlMapper.selectOne(id);
+        checkState(record != null, () -> "flink artifact sql not exists for id: " + id);
+        return WsFlinkArtifactSqlConvert.INSTANCE.toDto(record);
     }
 
     @Override

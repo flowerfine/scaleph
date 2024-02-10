@@ -16,22 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.cdc.service;
+package cn.sliew.scaleph.engine.flink.cdc.service.param;
 
-import cn.sliew.scaleph.dag.service.DagDndService;
-import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
+import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCVersion;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
+import cn.sliew.scaleph.project.service.param.WsFlinkArtifactListParam;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class WsFlinkArtifactCDCListParam extends WsFlinkArtifactListParam {
 
-public interface FlinkCDCDagService extends DagDndService {
+    @Schema(description = "flink version")
+    private FlinkVersion flinkVersion;
 
-    Long initialize();
-
-    void destroy(Long dagId);
-
-    Object getDag(Long dagId);
-
-    void update(Object param);
-
-    List<DndDTO> getDnds();
+    @Schema(description = "flink cdc version")
+    private FlinkCDCVersion flinkCDCVersion;
 }

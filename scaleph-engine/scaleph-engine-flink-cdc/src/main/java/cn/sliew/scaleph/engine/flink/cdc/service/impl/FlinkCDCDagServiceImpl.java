@@ -19,6 +19,8 @@
 package cn.sliew.scaleph.engine.flink.cdc.service.impl;
 
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCPluginType;
+import cn.sliew.scaleph.dag.service.DagService;
+import cn.sliew.scaleph.dag.service.param.DagSimpleAddParam;
 import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndPortDTO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndPortGroupEnum;
@@ -37,7 +39,29 @@ import java.util.*;
 public class FlinkCDCDagServiceImpl implements FlinkCDCDagService {
 
     @Autowired
+    private DagService dagService;
+    @Autowired
     private FlinkCDCConnectorService flinkCDCConnectorService;
+
+    @Override
+    public Long initialize() {
+        return dagService.insert(new DagSimpleAddParam());
+    }
+
+    @Override
+    public void destroy(Long dagId) {
+        dagService.delete(dagId);
+    }
+
+    @Override
+    public Object getDag(Long dagId) {
+        return null;
+    }
+
+    @Override
+    public void update(Object param) {
+
+    }
 
     @Override
     public List<DndDTO> getDnds() {

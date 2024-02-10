@@ -4,11 +4,11 @@ import {useIntl} from '@umijs/max';
 import {ModalFormProps} from '@/typings';
 import {WORKSPACE_CONF} from '@/constants/constant';
 import {DICT_TYPE} from '@/constants/dictType';
-import {WsFlinkArtifactSql, WsFlinkArtifactSqlAddParam} from '@/services/project/typings';
+import {WsFlinkArtifactCDC} from '@/services/project/typings';
 import {DictDataService} from "@/services/admin/dictData.service";
-import {FlinkArtifactSqlService} from "@/services/project/WsFlinkArtifactSqlService";
+import {WsFlinkCDCService} from "@/services/project/WsFlinkCDCService";
 
-const FlinkArtifactSqlForm: React.FC<ModalFormProps<WsFlinkArtifactSql>> = ({
+const FlinkArtifactCDCForm: React.FC<ModalFormProps<WsFlinkArtifactCDC>> = ({
                                                                               data,
                                                                               visible,
                                                                               onVisibleChange,
@@ -23,22 +23,22 @@ const FlinkArtifactSqlForm: React.FC<ModalFormProps<WsFlinkArtifactSql>> = ({
       open={visible}
       title={
         intl.formatMessage({id: 'app.common.operate.new.label'}) +
-        intl.formatMessage({id: 'pages.project.artifact.sql'})
+        intl.formatMessage({id: 'pages.project.artifact.cdc'})
       }
       width={580}
       destroyOnClose={true}
       onCancel={onCancel}
       onOk={() => {
         form.validateFields().then((values) => {
-          const param: WsFlinkArtifactSqlAddParam = {
+          const param = {
             id: values.id,
-            projectId: projectId + '',
+            projectId: projectId,
             name: values.name,
             remark: values.remark,
             flinkVersion: values.flinkVersion,
           };
           data?.id
-            ? FlinkArtifactSqlService.update(param).then((response) => {
+            ? WsFlinkCDCService.update(param).then((response) => {
               if (response.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}));
                 if (onVisibleChange) {
@@ -46,7 +46,7 @@ const FlinkArtifactSqlForm: React.FC<ModalFormProps<WsFlinkArtifactSql>> = ({
                 }
               }
             })
-            : FlinkArtifactSqlService.add(param).then((response) => {
+            : WsFlinkCDCService.add(param).then((response) => {
               if (response.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
                 if (onVisibleChange) {
@@ -95,4 +95,4 @@ const FlinkArtifactSqlForm: React.FC<ModalFormProps<WsFlinkArtifactSql>> = ({
   );
 };
 
-export default FlinkArtifactSqlForm;
+export default FlinkArtifactCDCForm;

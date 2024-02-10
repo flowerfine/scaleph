@@ -16,22 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.cdc.service;
+package cn.sliew.scaleph.engine.flink.cdc.service.param;
 
-import cn.sliew.scaleph.dag.service.DagDndService;
-import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
+import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
-public interface FlinkCDCDagService extends DagDndService {
+@Data
+@EqualsAndHashCode
+public class WsFlinkArtifactCDCGraphParam {
 
-    Long initialize();
+    @NotNull
+    @Schema(description = "id")
+    private Long id;
 
-    void destroy(Long dagId);
+    @NotNull
+    @Schema(description = "job graph")
+    private DagGraphVO jobGraph;
 
-    Object getDag(Long dagId);
-
-    void update(Object param);
-
-    List<DndDTO> getDnds();
 }
