@@ -125,6 +125,23 @@ VALUES (7, 9, '1.18.0',
         'CREATE CATALOG sakura WITH(\n  \'type\' = \'sakura\',\n  \'jdbcUrl\' = \'jdbc:mysql://localhost:3306/sakura\',\n  \'username\' = \'root\',\n  \'password\' = \'123456\',\n  \'driver\' = \'com.mysql.cj.jdbc.Driver\'\n);\n\nCREATE DATABASE sakura.dev;\n\nCREATE TABLE sakura.dev.orders (\n  order_number BIGINT,\n  price        DECIMAL(32,2),\n  buyer        ROW<first_name STRING, last_name STRING>,\n  order_time   TIMESTAMP(3)\n) WITH (\n  \'connector\' = \'datagen\'\n);\n\nCREATE TABLE sakura.dev.print_table WITH (\'connector\' = \'print\')\n  LIKE sakura.dev.orders;\n\nINSERT INTO sakura.dev.print_table \nSELECT * FROM sakura.dev.orders;',
         '1', 'sysc', 'sys');
 
+drop table if exists ws_flink_artifact_cdc;
+create table ws_flink_artifact_cdc
+(
+    id                bigint      not null auto_increment comment '自增主键',
+    flink_artifact_id bigint      not null comment '作业 artifact id',
+    flink_version     varchar(32) not null comment 'flink 版本',
+    flink_cdc_version varchar(32) not null comment 'flink cdc 版本',
+    dag_id            bigint      not null,
+    current           varchar(16) not null comment 'current artifact',
+    creator           varchar(32) comment '创建人',
+    create_time       timestamp default current_timestamp comment '创建时间',
+    editor            varchar(32) comment '修改人',
+    update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
+    primary key (id),
+    key               idx_flink_artifact (flink_artifact_id)
+) engine = innodb comment 'flink artifact cdc';
+
 drop table if exists ws_di_job;
 create table ws_di_job
 (

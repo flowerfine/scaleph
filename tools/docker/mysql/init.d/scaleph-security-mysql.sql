@@ -596,6 +596,10 @@ INSERT INTO `sec_resource_web` (`id`, `type`, `pid`, `name`, `path`, `redirect`,
                                 `remark`, `creator`, `editor`)
 VALUES (78, '2', 75, NULL, '/workspace/dataservice/config/steps', NULL, NULL, NULL,
         './Project/Workspace/DataService/Config/Steps', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`,
+                               `creator`, `editor`)
+VALUES (79, '2', 13, 'cdc', '/workspace/artifact/cdc', NULL, NULL, NULL, './Project/Workspace/Artifact/CDC', NULL,
+        'sys', 'sys');
 
 drop table if exists sec_resource_web_role;
 create table sec_resource_web_role
