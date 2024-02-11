@@ -98,6 +98,42 @@ export type WsDiJobStep = {
   updateTime?: Date;
 };
 
+export type WsFlinkArtifactCDC = {
+  id?: number;
+  wsFlinkArtifact?: WsFlinkArtifact;
+  flinkVersion?: Dict;
+  flinkCDCVersion?: Dict;
+  current?: Dict;
+  createTime?: Date;
+  updateTime?: Date;
+};
+
+export type WsFlinkArtifactCDCParam = QueryParam & {
+  projectId: number;
+  flinkVersion?: string;
+  flinkCDCVersion?: string;
+  name?: string;
+};
+
+export type WsFlinkArtifactCDCSelectListParam = {
+  projectId: number;
+  name?: string;
+};
+
+export type WsFlinkArtifactCDCAddParam = {
+  projectId: number;
+  name?: string;
+  flinkVersion?: string;
+  remark?: string;
+};
+
+export type WsFlinkArtifactCDCUpdateParam = {
+  id: number;
+  name?: string;
+  flinkVersion?: string;
+  remark?: string;
+};
+
 export type WsFlinkArtifactJar = {
   id?: number;
   wsFlinkArtifact?: WsFlinkArtifact;

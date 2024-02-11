@@ -106,6 +106,15 @@ export default [
             path: '/workspace/artifact/seatunnel/dag',
             component: './Project/Workspace/Artifact/DI/DiJobFlow',
           },
+          {
+            name: 'cdc',
+            path: '/workspace/artifact/cdc',
+            component: './Project/Workspace/Artifact/CDC',
+          },
+          {
+            path: '/workspace/artifact/cdc/dag',
+            component: './Project/Workspace/Artifact/CDC/Dag',
+          },
         ]
       },
       {

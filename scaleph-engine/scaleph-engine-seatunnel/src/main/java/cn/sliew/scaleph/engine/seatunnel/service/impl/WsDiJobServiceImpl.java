@@ -21,6 +21,7 @@ package cn.sliew.scaleph.engine.seatunnel.service.impl;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
+import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dag.service.DagService;
 import cn.sliew.scaleph.dag.service.dto.DagDTO;
 import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
@@ -100,7 +101,7 @@ public class WsDiJobServiceImpl implements WsDiJobService {
         Long dagId = dagService.insert(new DagSimpleAddParam());
         WsDiJob record = new WsDiJob();
         record.setFlinkArtifactId(flinkArtifact.getId());
-        record.setJobId(UUID.randomUUID().toString());
+        record.setJobId(UUIDUtil.randomUUId());
         record.setDagId(dagId);
         record.setJobEngine(param.getJobEngine());
         record.setCurrent(YesOrNo.YES);

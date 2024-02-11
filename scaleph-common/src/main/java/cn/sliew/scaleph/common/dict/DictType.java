@@ -27,6 +27,7 @@ import cn.sliew.scaleph.common.dict.dataservice.HttpMethod;
 import cn.sliew.scaleph.common.dict.dataservice.QueryType;
 import cn.sliew.scaleph.common.dict.ds.RedisMode;
 import cn.sliew.scaleph.common.dict.flink.*;
+import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCVersion;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.*;
 import cn.sliew.scaleph.common.dict.image.ImagePullPolicy;
 import cn.sliew.scaleph.common.dict.job.*;
@@ -109,6 +110,8 @@ public enum DictType implements DictDefinition {
     SEATUNNEL_CDC_FORMAT("seatunnel_cdc_format", "SeaTunnel CDC Format", SeaTunnelCDCFormat.class),
 
     IMAGE_PULL_POLICY("image_pull_policy", "Image Pull Policy", ImagePullPolicy.class),
+
+    FLINK_CDC_VERSION("flink_cdc_version", "Flink CDC Version", FlinkCDCVersion.class),
 
     WORKFLOW_TYPE("workflow_type", "Workflow Type", WorkflowType.class),
     WORKFLOW_EXECUTE_TYPE("workflow_execute_type", "Workflow Execute Type", WorkflowExecuteType.class),

@@ -7,6 +7,7 @@ export default {
   'menu.project.artifact.jar': 'Jar',
   'menu.project.artifact.sql': 'SQL',
   'menu.project.artifact.seatunnel': 'SeaTunnel',
+  'menu.project.artifact.cdc': 'Flink CDC',
   'menu.project.flink.kubernetes': 'Flink Kuberentes',
   'menu.project.flink.kubernetes.template': 'Template',
   'menu.project.flink.kubernetes.session-cluster': 'SessionCluster',
