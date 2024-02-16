@@ -20,7 +20,7 @@ package cn.sliew.scaleph.workspace.flink.service;
 
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.workspace.flink.resource.JarArtifact;
-import cn.sliew.scaleph.workspace.flink.service.dto.WsFlinkArtifactJarDTO;
+import cn.sliew.scaleph.workspace.flink.service.dto.WsArtifactFlinkJarDTO;
 import cn.sliew.scaleph.workspace.flink.service.param.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,28 +29,28 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
-public interface WsFlinkArtifactJarService {
+public interface WsArtifactFlinkJarService {
 
-    Page<WsFlinkArtifactJarDTO> list(WsFlinkArtifactJarListParam param);
+    Page<WsArtifactFlinkJarDTO> list(WsArtifactFlinkJarListParam param);
 
-    Page<WsFlinkArtifactJarDTO> listByArtifact(WsFlinkArtifactJarHistoryParam param);
+    Page<WsArtifactFlinkJarDTO> listByArtifact(WsArtifactFlinkJarArtifactParam param);
 
-    List<WsFlinkArtifactJarDTO> listAll(WsFlinkArtifactJarSelectListParam param);
+    List<WsArtifactFlinkJarDTO> listAll(WsArtifactFlinkJarSelectListParam param);
 
-    WsFlinkArtifactJarDTO selectOne(Long id);
+    WsArtifactFlinkJarDTO selectOne(Long id);
 
-    WsFlinkArtifactJarDTO selectCurrent(Long artifactId);
+    WsArtifactFlinkJarDTO selectCurrent(Long artifactId);
 
     JarArtifact asYaml(Long id);
 
-    int deleteOne(Long id) throws ScalephException, IOException;
+    void upload(WsArtifactFlinkJarUploadParam param, MultipartFile file) throws IOException;
 
-    int deleteAll(Long flinkArtifactId) throws IOException, ScalephException;
-
-    void upload(WsFlinkArtifactJarUploadParam param, MultipartFile file) throws IOException;
-
-    int update(WsFlinkArtifactJarUpdateParam param, MultipartFile file) throws IOException;
+    int update(WsArtifactFlinkJarUpdateParam param, MultipartFile file) throws IOException;
 
     String download(Long id, OutputStream outputStream) throws IOException;
+
+    int deleteOne(Long id) throws ScalephException, IOException;
+
+    int deleteArtifact(Long artifactId) throws IOException;
 
 }

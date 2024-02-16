@@ -27,7 +27,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class WsFlinkArtifactJarUploadParam extends AbstractWsArtifactAddParam {
+public class WsArtifactFlinkJarUploadParam extends AbstractWsArtifactAddParam {
 
     @NotNull
     @Schema(description = "flink 版本")

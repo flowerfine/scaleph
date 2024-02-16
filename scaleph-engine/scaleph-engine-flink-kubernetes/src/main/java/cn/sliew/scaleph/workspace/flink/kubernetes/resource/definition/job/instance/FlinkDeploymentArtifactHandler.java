@@ -3,7 +3,7 @@ package cn.sliew.scaleph.workspace.flink.kubernetes.resource.definition.job.inst
 import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.common.util.SeaTunnelReleaseUtil;
 import cn.sliew.scaleph.config.kubernetes.resource.ResourceNames;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
+import cn.sliew.scaleph.dao.entity.master.ws.WsArtifactFlinkJar;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactSql;
 import cn.sliew.scaleph.workspace.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.workspace.flink.kubernetes.operator.spec.JobSpec;
@@ -47,7 +47,7 @@ public class FlinkDeploymentArtifactHandler implements ArtifactHandler {
     }
 
     private void addJarArtifact(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
-        WsFlinkArtifactJar flinkArtifactJar = jobInstanceDTO.getWsFlinkKubernetesJob().getFlinkArtifactJar();
+        WsArtifactFlinkJar flinkArtifactJar = jobInstanceDTO.getWsFlinkKubernetesJob().getFlinkArtifactJar();
         JobSpec jobSpec = new JobSpec();
         jobSpec.setJarURI(ResourceNames.JAR_LOCAL_PATH + flinkArtifactJar.getFileName());
         jobSpec.setEntryClass(flinkArtifactJar.getEntryClass());

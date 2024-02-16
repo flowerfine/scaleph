@@ -9,15 +9,15 @@ create table ws_project
     project_name varchar(64) comment '项目名称',
     remark       varchar(256) comment '备注',
     creator      varchar(32) comment '创建人',
-    create_time  datetime    not null default current_timestamp comment '创建时间',
+    create_time  timestamp   not null default current_timestamp comment '创建时间',
     editor       varchar(32) comment '修改人',
-    update_time  datetime    not null default current_timestamp on update current_timestamp comment '修改时间',
+    update_time  timestamp   not null default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique key uniq_project (project_code)
 ) engine = innodb comment '项目信息';
 
 insert into ws_project(id, project_code, project_name, remark, creator, editor)
-VALUES (1, 'seatunnel', 'seatunnel-examples', NULL, 'sys', 'sys');
+values (1, 'seatunnel', 'seatunnel-examples', null, 'sys', 'sys');
 
 drop table if exists ws_artifact;
 create table ws_artifact
@@ -56,27 +56,27 @@ VALUES (9, 1, '0', 'sakura-example', 'sakura catalog example', 'sys', 'sys');
 INSERT INTO `ws_artifact`(`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (10, 1, '3', 'flink-cdc-example', NULL, 'sys', 'sys');
 
-drop table if exists ws_flink_artifact_jar;
-create table ws_flink_artifact_jar
+drop table if exists ws_artifact_flink_jar;
+create table ws_artifact_flink_jar
 (
-    id                bigint       not null auto_increment comment '自增主键',
-    flink_artifact_id bigint       not null comment '作业artifact id',
-    flink_version     varchar(32)  not null comment 'flink版本',
-    entry_class       varchar(255) not null comment 'main class',
-    file_name         varchar(255) not null comment '文件名称',
-    path              varchar(255) not null comment '文件路径',
-    jar_params        text comment 'jar 运行参数',
-    current           varchar(16)  not null comment 'current artifact',
-    creator           varchar(32) comment '创建人',
-    create_time       timestamp default current_timestamp comment '创建时间',
-    editor            varchar(32) comment '修改人',
-    update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
+    id            bigint       not null auto_increment comment '自增主键',
+    artifact_id   bigint       not null comment '作业artifact id',
+    flink_version varchar(32)  not null comment 'flink版本',
+    entry_class   varchar(255) not null comment 'main class',
+    file_name     varchar(255) not null comment '文件名称',
+    path          varchar(255) not null comment '文件路径',
+    jar_params    text comment 'jar 运行参数',
+    current       varchar(16)  not null comment 'current artifact',
+    creator       varchar(32) comment '创建人',
+    create_time   timestamp default current_timestamp comment '创建时间',
+    editor        varchar(32) comment '修改人',
+    update_time   timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key               idx_flink_artifact (flink_artifact_id)
-) engine = innodb comment = 'flink artifact jar';
+    key           idx_artifact (artifact_id)
+) engine = innodb comment = 'artifact flink-jar';
 
-DROP TABLE IF EXISTS ws_flink_artifact_sql;
-CREATE TABLE ws_flink_artifact_sql
+drop table if exists ws_flink_artifact_sql;
+create table ws_flink_artifact_sql
 (
     id                bigint      not null auto_increment,
     flink_artifact_id bigint      not null comment '作业artifact id',

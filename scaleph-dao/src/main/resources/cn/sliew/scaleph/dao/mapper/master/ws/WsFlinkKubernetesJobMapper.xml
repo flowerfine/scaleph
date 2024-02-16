@@ -42,7 +42,7 @@
         <association column="flink_session_cluster_id" property="flinkSessionCluster"
                      select="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesSessionClusterMapper.selectById"/>
         <association column="flink_artifact_jar_id" property="flinkArtifactJar"
-                     select="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactJarMapper.selectOne"/>
+                     select="cn.sliew.scaleph.dao.mapper.master.ws.WsArtifactFlinkJarMapper.selectOne"/>
         <association column="flink_artifact_sql_id" property="flinkArtifactSql"
                      select="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactSqlMapper.selectOne"/>
         <association column="ws_di_job_id" property="wsDiJob"

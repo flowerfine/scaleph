@@ -27,22 +27,20 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * <p>
- * flink artifact jar
- * </p>
+ * artifact flink-jar
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("ws_flink_artifact_jar")
-public class WsFlinkArtifactJar extends BaseDO {
+@TableName("ws_artifact_flink_jar")
+public class WsArtifactFlinkJar extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("flink_artifact_id")
-    private Long flinkArtifactId;
+    @TableField("artifact_id")
+    private Long artifactId;
 
     @TableField(exist = false)
-    private WsArtifact wsArtifact;
+    private WsArtifact artifact;
 
     @TableField("flink_version")
     private FlinkVersion flinkVersion;

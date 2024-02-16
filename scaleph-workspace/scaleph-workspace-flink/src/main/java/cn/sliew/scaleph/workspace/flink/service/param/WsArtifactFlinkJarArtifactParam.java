@@ -25,9 +25,9 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class WsFlinkArtifactJarHistoryParam extends PaginationParam {
+public class WsArtifactFlinkJarArtifactParam extends PaginationParam {
 
     @NotNull
-    @Schema(description = "flink artifact id")
-    private Long flinkArtifactId;
+    @Schema(description = "artifact id")
+    private Long artifactId;
 }

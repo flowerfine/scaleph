@@ -30,16 +30,16 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
- * flink artifact jar
+ * artifact flink-jar
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Schema(name = "FlinkArtifactJar对象", description = "flink artifact jar")
-public class WsFlinkArtifactJarDTO extends BaseDTO {
+@Schema(name = "ArtifactFlinkJar对象", description = "artifact flink-jar")
+public class WsArtifactFlinkJarDTO extends BaseDTO {
 
     @NotNull
-    @Schema(description = "Flink Artifact")
-    private WsArtifactDTO wsFlinkArtifact;
+    @Schema(description = "Artifact")
+    private WsArtifactDTO artifact;
 
     @NotNull
     @Schema(description = "flink 版本")

@@ -19,8 +19,8 @@
 package cn.sliew.scaleph.workspace.flink.service.convert;
 
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
-import cn.sliew.scaleph.workspace.flink.service.dto.WsFlinkArtifactJarDTO;
+import cn.sliew.scaleph.dao.entity.master.ws.WsArtifactFlinkJar;
+import cn.sliew.scaleph.workspace.flink.service.dto.WsArtifactFlinkJarDTO;
 import cn.sliew.scaleph.workspace.project.service.convert.WsArtifactConvert;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -28,10 +28,10 @@ import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(uses = {WsArtifactConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface WsFlinkArtifactJarConvert extends BaseConvert<WsFlinkArtifactJar, WsFlinkArtifactJarDTO> {
-    WsFlinkArtifactJarConvert INSTANCE = Mappers.getMapper(WsFlinkArtifactJarConvert.class);
+public interface WsArtifactFlinkJarConvert extends BaseConvert<WsArtifactFlinkJar, WsArtifactFlinkJarDTO> {
+    WsArtifactFlinkJarConvert INSTANCE = Mappers.getMapper(WsArtifactFlinkJarConvert.class);
 
     @Override
-    @Mapping(source = "wsFlinkArtifact.id", target = "flinkArtifactId")
-    WsFlinkArtifactJar toDo(WsFlinkArtifactJarDTO dto);
+    @Mapping(source = "artifact.id", target = "artifactId")
+    WsArtifactFlinkJar toDo(WsArtifactFlinkJarDTO dto);
 }

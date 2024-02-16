@@ -18,18 +18,18 @@
 
 package cn.sliew.scaleph.workspace.flink.resource;
 
-import cn.sliew.scaleph.workspace.flink.service.dto.WsFlinkArtifactJarDTO;
+import cn.sliew.scaleph.workspace.flink.service.dto.WsArtifactFlinkJarDTO;
 import cn.sliew.scaleph.kubernetes.resource.ResourceConverter;
 
-public enum JarArtifactConverter implements ResourceConverter<WsFlinkArtifactJarDTO, JarArtifact> {
+public enum JarArtifactConverter implements ResourceConverter<WsArtifactFlinkJarDTO, JarArtifact> {
     INSTANCE;
 
     @Override
-    public JarArtifact convertTo(WsFlinkArtifactJarDTO source) {
+    public JarArtifact convertTo(WsArtifactFlinkJarDTO source) {
         JarArtifact artifact = new JarArtifact();
         JarArtifact.JarArtifactSpec spec = new JarArtifact.JarArtifactSpec();
         spec.setFlinkVersion(source.getFlinkVersion().getValue());
-        spec.setName(source.getWsFlinkArtifact().getName());
+        spec.setName(source.getArtifact().getName());
         spec.setJarUri(source.getPath());
         spec.setEntryClass(source.getEntryClass());
         spec.setMainArgs(source.getJarParams());
@@ -38,7 +38,7 @@ public enum JarArtifactConverter implements ResourceConverter<WsFlinkArtifactJar
     }
 
     @Override
-    public WsFlinkArtifactJarDTO convertFrom(JarArtifact target) {
+    public WsArtifactFlinkJarDTO convertFrom(JarArtifact target) {
        throw new UnsupportedOperationException();
     }
 }

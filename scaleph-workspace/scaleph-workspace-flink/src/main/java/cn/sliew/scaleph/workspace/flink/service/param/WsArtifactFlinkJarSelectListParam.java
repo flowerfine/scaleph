@@ -24,7 +24,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class WsFlinkArtifactJarSelectListParam {
+public class WsArtifactFlinkJarSelectListParam {
 
     @NotNull
     @Schema(description = "Project ID")
