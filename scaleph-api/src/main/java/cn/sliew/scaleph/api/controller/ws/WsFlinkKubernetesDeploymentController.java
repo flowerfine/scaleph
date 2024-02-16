@@ -19,12 +19,12 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.deployment.FlinkDeployment;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.sessioncluster.FlinkSessionCluster;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesDeploymentService;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentDTO;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesDeploymentListParam;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesDeploymentSelectListParam;
+import cn.sliew.scaleph.workspace.flink.kubernetes.resource.definition.deployment.FlinkDeployment;
+import cn.sliew.scaleph.workspace.flink.kubernetes.resource.definition.sessioncluster.FlinkSessionCluster;
+import cn.sliew.scaleph.workspace.flink.kubernetes.service.WsFlinkKubernetesDeploymentService;
+import cn.sliew.scaleph.workspace.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentDTO;
+import cn.sliew.scaleph.workspace.flink.kubernetes.service.param.WsFlinkKubernetesDeploymentListParam;
+import cn.sliew.scaleph.workspace.flink.kubernetes.service.param.WsFlinkKubernetesDeploymentSelectListParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

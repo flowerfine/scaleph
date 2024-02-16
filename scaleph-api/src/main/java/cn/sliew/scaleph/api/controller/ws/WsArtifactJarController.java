@@ -20,11 +20,11 @@ package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.exception.ScalephException;
-import cn.sliew.scaleph.engine.flink.service.WsFlinkArtifactJarService;
-import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
-import cn.sliew.scaleph.engine.flink.service.param.*;
+import cn.sliew.scaleph.workspace.flink.service.WsFlinkArtifactJarService;
+import cn.sliew.scaleph.workspace.flink.service.dto.WsFlinkArtifactJarDTO;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
+import cn.sliew.scaleph.workspace.flink.service.param.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -20,9 +20,9 @@ package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.exception.ScalephException;
-import cn.sliew.scaleph.project.service.WsFlinkArtifactService;
-import cn.sliew.scaleph.project.service.dto.WsFlinkArtifactDTO;
-import cn.sliew.scaleph.project.service.param.WsFlinkArtifactListParam;
+import cn.sliew.scaleph.workspace.project.service.WsFlinkArtifactService;
+import cn.sliew.scaleph.workspace.project.service.dto.WsFlinkArtifactDTO;
+import cn.sliew.scaleph.workspace.project.service.param.WsFlinkArtifactListParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;

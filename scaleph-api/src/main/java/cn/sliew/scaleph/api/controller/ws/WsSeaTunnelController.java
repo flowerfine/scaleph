@@ -21,7 +21,7 @@ package cn.sliew.scaleph.api.controller.ws;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.SeaTunnelDagService;
+import cn.sliew.scaleph.workspace.seatunnel.service.SeaTunnelDagService;
 import cn.sliew.scaleph.plugin.framework.exception.PluginException;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import io.swagger.v3.oas.annotations.Operation;

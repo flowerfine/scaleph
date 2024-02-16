@@ -31,7 +31,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-project</artifactId>
+            <artifactId>scaleph-workspace-project</artifactId>
         </dependency>
 
         <dependency>

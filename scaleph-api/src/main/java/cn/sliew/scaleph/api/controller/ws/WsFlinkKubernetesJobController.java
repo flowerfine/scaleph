@@ -19,14 +19,14 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkJobManagerEndpointService;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobInstanceService;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobService;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceSavepointDTO;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.param.*;
+import cn.sliew.scaleph.workspace.flink.kubernetes.service.FlinkJobManagerEndpointService;
+import cn.sliew.scaleph.workspace.flink.kubernetes.service.WsFlinkKubernetesJobInstanceService;
+import cn.sliew.scaleph.workspace.flink.kubernetes.service.WsFlinkKubernetesJobService;
+import cn.sliew.scaleph.workspace.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
+import cn.sliew.scaleph.workspace.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
+import cn.sliew.scaleph.workspace.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceSavepointDTO;
 import cn.sliew.scaleph.system.model.ResponseVO;
+import cn.sliew.scaleph.workspace.flink.kubernetes.service.param.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

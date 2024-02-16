@@ -93,11 +93,11 @@
         <module>scaleph-resource</module>
         <module>scaleph-support</module>
         <module>scaleph-config</module>
-
         <module>scaleph-api</module>
         <module>scaleph-meta</module>
-        <module>scaleph-project</module>
+
         <module>scaleph-engine</module>
+        <module>scaleph-workspace</module>
         <module>scaleph-plugins</module>
         <module>scaleph-workflow</module>
         <module>scaleph-datasource</module>
@@ -262,47 +262,43 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-project</artifactId>
+                <artifactId>scaleph-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-api</artifactId>
+                <artifactId>scaleph-workspace-project</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-workspace-flink</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-workspace-flink-sql</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-workspace-flink-cdc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-workspace-seatunnel</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-engine-doris</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>cn.sliew</groupId>
-                <artifactId>scaleph-engine-doris-sql</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-engine-flink-client</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-engine-flink</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-engine-sql</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-engine-seatunnel</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-engine-flink-cdc</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

@@ -20,8 +20,8 @@ package cn.sliew.scaleph.api.controller.studio;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.TransferVO;
-import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
-import cn.sliew.scaleph.project.service.WsProjectService;
+import cn.sliew.scaleph.workspace.seatunnel.service.WsDiJobService;
+import cn.sliew.scaleph.workspace.project.service.WsProjectService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
