@@ -18,10 +18,8 @@
 
 package cn.sliew.scaleph.workspace.flink.kubernetes.resource.definition.job.instance;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.*;
 import cn.sliew.scaleph.workspace.flink.kubernetes.operator.spec.*;
 import cn.sliew.scaleph.workspace.flink.kubernetes.operator.util.TemplateMerger;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.*;
 import cn.sliew.scaleph.workspace.flink.kubernetes.resource.handler.*;
 import cn.sliew.scaleph.workspace.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
 import org.apache.commons.lang3.EnumUtils;

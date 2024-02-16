@@ -16,37 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.ws;
+package cn.sliew.scaleph.workspace.project.service.param;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-/**
- * <p>
- * flink artifact
- * </p>
- */
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @Data
-@EqualsAndHashCode(callSuper = true)
-@TableName("ws_flink_artifact")
-public class WsFlinkArtifact extends BaseDO {
+public abstract class AbstractWsArtifactUpdateParam {
 
-    private static final long serialVersionUID = 1L;
+    @NotNull
+    @Schema(description = "id")
+    private Long id;
 
-    @TableField("project_id")
-    private Long projectId;
-
-    @TableField("`type`")
-    private FlinkJobType type;
-
-    @TableField("name")
+    @NotBlank
+    @Schema(description = "name")
     private String name;
 
-    @TableField("remark")
+    @Schema(description = "remark")
     private String remark;
-
 }

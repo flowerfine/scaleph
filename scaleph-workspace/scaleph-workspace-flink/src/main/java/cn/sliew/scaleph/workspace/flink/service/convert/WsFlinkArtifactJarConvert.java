@@ -21,13 +21,13 @@ package cn.sliew.scaleph.workspace.flink.service.convert;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
 import cn.sliew.scaleph.workspace.flink.service.dto.WsFlinkArtifactJarDTO;
-import cn.sliew.scaleph.workspace.project.service.convert.WsFlinkArtifactConvert;
+import cn.sliew.scaleph.workspace.project.service.convert.WsArtifactConvert;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = {WsFlinkArtifactConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(uses = {WsArtifactConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface WsFlinkArtifactJarConvert extends BaseConvert<WsFlinkArtifactJar, WsFlinkArtifactJarDTO> {
     WsFlinkArtifactJarConvert INSTANCE = Mappers.getMapper(WsFlinkArtifactJarConvert.class);
 

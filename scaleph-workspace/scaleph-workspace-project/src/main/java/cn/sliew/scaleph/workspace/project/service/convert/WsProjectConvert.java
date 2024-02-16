@@ -28,5 +28,4 @@ import org.mapstruct.factory.Mappers;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface WsProjectConvert extends BaseConvert<WsProject, WsProjectDTO> {
     WsProjectConvert INSTANCE = Mappers.getMapper(WsProjectConvert.class);
-
 }

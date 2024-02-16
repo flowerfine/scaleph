@@ -20,9 +20,9 @@ package cn.sliew.scaleph.workspace.seatunnel.service.dto;
 
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
+import cn.sliew.scaleph.workspace.project.service.dto.WsArtifactDTO;
 import cn.sliew.scaleph.workspace.seatunnel.service.vo.DiJobAttrVO;
 import cn.sliew.scaleph.workspace.seatunnel.service.vo.JobGraphVO;
-import cn.sliew.scaleph.workspace.project.service.dto.WsFlinkArtifactDTO;
 import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -43,7 +43,7 @@ public class WsDiJobDTO extends BaseDTO {
 
     @NotNull
     @Schema(description = "Flink Artifact")
-    private WsFlinkArtifactDTO wsFlinkArtifact;
+    private WsArtifactDTO wsFlinkArtifact;
 
     @NotNull
     @Schema(description = "作业引擎")

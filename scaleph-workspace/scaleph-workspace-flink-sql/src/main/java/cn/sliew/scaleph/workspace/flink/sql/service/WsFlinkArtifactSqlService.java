@@ -20,7 +20,6 @@ package cn.sliew.scaleph.workspace.flink.sql.service;
 
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.workspace.flink.sql.service.dto.WsFlinkArtifactSqlDTO;
-import cn.sliew.scaleph.engine.sql.service.param.*;
 import cn.sliew.scaleph.workspace.flink.sql.service.param.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
@@ -48,5 +47,5 @@ public interface WsFlinkArtifactSqlService {
 
     int deleteOne(Long id) throws ScalephException;
 
-    int deleteAll(Long flinkArtifactId) throws ScalephException;
+    int deleteAll(Long flinkArtifactId);
 }

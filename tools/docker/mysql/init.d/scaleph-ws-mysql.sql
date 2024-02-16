@@ -19,8 +19,8 @@ create table ws_project
 insert into ws_project(id, project_code, project_name, remark, creator, editor)
 VALUES (1, 'seatunnel', 'seatunnel-examples', NULL, 'sys', 'sys');
 
-drop table if exists ws_flink_artifact;
-create table ws_flink_artifact
+drop table if exists ws_artifact;
+create table ws_artifact
 (
     id          bigint       not null auto_increment comment '自增主键',
     project_id  bigint       not null comment '项目id',
@@ -35,25 +35,25 @@ create table ws_flink_artifact
     unique uniq_name (project_id, `type`, name)
 ) engine = innodb comment = 'flink artifact';
 
-INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+INSERT INTO `ws_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (1, 1, '0', 'simple sql', NULL, 'sys', 'sys');
-INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+INSERT INTO `ws_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (2, 1, '0', 'sql-runner1', NULL, 'sys', 'sys');
-INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+INSERT INTO `ws_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (3, 1, '0', 'sql-runner2', NULL, 'sys', 'sys');
-INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+INSERT INTO `ws_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (4, 1, '2', 'e_commerce', NULL, 'sys', 'sys');
-INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+INSERT INTO `ws_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (5, 1, '2', 'fake', NULL, 'sys', 'sys');
-INSERT INTO `ws_flink_artifact`(`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+INSERT INTO `ws_artifact`(`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (6, 1, '0', 'catalog-example', NULL, 'sys', 'sys');
-INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+INSERT INTO `ws_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (7, 1, '0', 'select-example', NULL, 'sys', 'sys');
-INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+INSERT INTO `ws_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (8, 1, '0', 'jdbc&paimon-example', 'jdbc 和 paimon catalog example', 'sys', 'sys');
-INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+INSERT INTO `ws_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (9, 1, '0', 'sakura-example', 'sakura catalog example', 'sys', 'sys');
-INSERT INTO `ws_flink_artifact`(`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+INSERT INTO `ws_artifact`(`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (10, 1, '3', 'flink-cdc-example', NULL, 'sys', 'sys');
 
 drop table if exists ws_flink_artifact_jar;

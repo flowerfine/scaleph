@@ -21,9 +21,12 @@ package cn.sliew.scaleph.workspace.flink.service.param;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 public class WsFlinkArtifactJarSelectListParam {
 
+    @NotNull
     @Schema(description = "Project ID")
     private Long projectId;
 

@@ -26,10 +26,9 @@ import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactSqlMapper;
 import cn.sliew.scaleph.workspace.flink.sql.service.WsFlinkArtifactSqlService;
 import cn.sliew.scaleph.workspace.flink.sql.service.convert.WsFlinkArtifactSqlConvert;
 import cn.sliew.scaleph.workspace.flink.sql.service.dto.WsFlinkArtifactSqlDTO;
-import cn.sliew.scaleph.engine.sql.service.param.*;
 import cn.sliew.scaleph.workspace.flink.sql.service.param.*;
-import cn.sliew.scaleph.workspace.project.service.WsFlinkArtifactService;
-import cn.sliew.scaleph.workspace.project.service.dto.WsFlinkArtifactDTO;
+import cn.sliew.scaleph.workspace.project.service.WsArtifactService;
+import cn.sliew.scaleph.workspace.project.service.dto.WsArtifactDTO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -44,7 +43,7 @@ import static cn.sliew.milky.common.check.Ensures.checkState;
 public class WsFlinkArtifactSqlServiceImpl implements WsFlinkArtifactSqlService {
 
     @Autowired
-    private WsFlinkArtifactService wsFlinkArtifactService;
+    private WsArtifactService wsArtifactService;
     @Autowired
     private WsFlinkArtifactSqlMapper wsFlinkArtifactSqlMapper;
 
@@ -102,12 +101,12 @@ public class WsFlinkArtifactSqlServiceImpl implements WsFlinkArtifactSqlService 
 
     @Override
     public void insert(WsFlinkArtifactSqlInsertParam param) {
-        WsFlinkArtifactDTO flinkArtifact = new WsFlinkArtifactDTO();
+        WsArtifactDTO flinkArtifact = new WsArtifactDTO();
         flinkArtifact.setProjectId(param.getProjectId());
         flinkArtifact.setType(FlinkJobType.JAR);
         flinkArtifact.setName(param.getName());
         flinkArtifact.setRemark(param.getRemark());
-        flinkArtifact = wsFlinkArtifactService.insert(flinkArtifact);
+        flinkArtifact = wsArtifactService.insert(flinkArtifact);
         WsFlinkArtifactSql record = new WsFlinkArtifactSql();
         record.setFlinkArtifactId(flinkArtifact.getId());
         record.setFlinkVersion(param.getFlinkVersion());
@@ -118,11 +117,11 @@ public class WsFlinkArtifactSqlServiceImpl implements WsFlinkArtifactSqlService 
     @Override
     public int update(WsFlinkArtifactSqlUpdateParam param) {
         WsFlinkArtifactSqlDTO wsFlinkArtifactSqlDTO = selectOne(param.getId());
-        WsFlinkArtifactDTO flinkArtifact = new WsFlinkArtifactDTO();
+        WsArtifactDTO flinkArtifact = new WsArtifactDTO();
         flinkArtifact.setId(wsFlinkArtifactSqlDTO.getWsFlinkArtifact().getId());
         flinkArtifact.setName(param.getName());
         flinkArtifact.setRemark(param.getRemark());
-        wsFlinkArtifactService.update(flinkArtifact);
+        wsArtifactService.update(flinkArtifact);
 
         WsFlinkArtifactSql record = new WsFlinkArtifactSql();
         record.setId(param.getId());
@@ -149,11 +148,11 @@ public class WsFlinkArtifactSqlServiceImpl implements WsFlinkArtifactSqlService 
     }
 
     @Override
-    public int deleteAll(Long flinkArtifactId) throws ScalephException {
+    public int deleteAll(Long flinkArtifactId) {
         List<WsFlinkArtifactSqlDTO> wsFlinkArtifactSqlDTOS = listAllByArtifact(flinkArtifactId);
         for (WsFlinkArtifactSqlDTO sql : wsFlinkArtifactSqlDTOS) {
             wsFlinkArtifactSqlMapper.deleteById(sql.getId());
         }
-        return wsFlinkArtifactService.deleteById(flinkArtifactId);
+        return wsArtifactService.deleteById(flinkArtifactId);
     }
 }

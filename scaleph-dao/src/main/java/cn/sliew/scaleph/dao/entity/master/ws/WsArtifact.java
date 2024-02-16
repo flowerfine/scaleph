@@ -16,22 +16,35 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workspace.project.service;
+package cn.sliew.scaleph.dao.entity.master.ws;
 
-import cn.sliew.scaleph.workspace.project.service.dto.WsFlinkArtifactDTO;
-import cn.sliew.scaleph.workspace.project.service.param.WsFlinkArtifactListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-public interface WsFlinkArtifactService {
+/**
+ * artifact
+ */
+@Data
+@EqualsAndHashCode(callSuper = true)
+@TableName("ws_artifact")
+public class WsArtifact extends BaseDO {
 
-    Page<WsFlinkArtifactDTO> list(WsFlinkArtifactListParam param);
+    private static final long serialVersionUID = 1L;
 
-    WsFlinkArtifactDTO selectOne(Long id);
+    @TableField("project_id")
+    private Long projectId;
 
-    WsFlinkArtifactDTO insert(WsFlinkArtifactDTO dto);
+    @TableField("`type`")
+    private FlinkJobType type;
 
-    int update(WsFlinkArtifactDTO dto);
+    @TableField("name")
+    private String name;
 
-    int deleteById(Long id);
+    @TableField("remark")
+    private String remark;
 
 }

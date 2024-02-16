@@ -16,16 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workspace.project.service.convert;
+package cn.sliew.scaleph.workspace.project.service.param;
 
-import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifact;
-import cn.sliew.scaleph.workspace.project.service.dto.WsFlinkArtifactDTO;
-import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
-import org.mapstruct.factory.Mappers;
+import cn.sliew.scaleph.system.model.PaginationParam;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@Mapper(uses = {WsProjectConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface WsFlinkArtifactConvert extends BaseConvert<WsFlinkArtifact, WsFlinkArtifactDTO> {
-    WsFlinkArtifactConvert INSTANCE = Mappers.getMapper(WsFlinkArtifactConvert.class);
+import javax.validation.constraints.NotNull;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class WsArtifactListParam extends PaginationParam {
+
+    @NotNull
+    @Schema(description = "项目id")
+    private Long projectId;
+
+    @Schema(description = "名称。支持模糊搜索")
+    private String name;
 }

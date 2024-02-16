@@ -16,25 +16,35 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workspace.project.service.param;
+package cn.sliew.scaleph.workspace.project.service.dto;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
+import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public abstract class AbstractWsFlinkArtifactUpdateParam {
+@EqualsAndHashCode(callSuper = true)
+@Schema(name = "Artifact对象", description = "artifact")
+public class WsArtifactDTO extends BaseDTO {
 
     @NotNull
-    @Schema(description = "id")
-    private Long id;
+    @Schema(description = "项目id")
+    private Long projectId;
+
+    @Schema(description = "任务类型")
+    private FlinkJobType type;
 
     @NotBlank
-    @Schema(description = "name")
+    @Length(max = 200)
+    @Schema(description = "名称")
     private String name;
 
-    @Schema(description = "remark")
+    @Schema(description = "备注")
     private String remark;
 }

@@ -17,7 +17,6 @@
 
 package cn.sliew.scaleph.workspace.flink.kubernetes.resource.definition.template;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.*;
 import cn.sliew.scaleph.workspace.flink.kubernetes.operator.spec.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.fabric8.kubernetes.api.model.Pod;

@@ -29,10 +29,9 @@ import cn.sliew.scaleph.workspace.flink.resource.JarArtifactConverter;
 import cn.sliew.scaleph.workspace.flink.service.WsFlinkArtifactJarService;
 import cn.sliew.scaleph.workspace.flink.service.convert.WsFlinkArtifactJarConvert;
 import cn.sliew.scaleph.workspace.flink.service.dto.WsFlinkArtifactJarDTO;
-import cn.sliew.scaleph.engine.flink.service.param.*;
 import cn.sliew.scaleph.workspace.flink.service.param.*;
-import cn.sliew.scaleph.workspace.project.service.WsFlinkArtifactService;
-import cn.sliew.scaleph.workspace.project.service.dto.WsFlinkArtifactDTO;
+import cn.sliew.scaleph.workspace.project.service.WsArtifactService;
+import cn.sliew.scaleph.workspace.project.service.dto.WsArtifactDTO;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -52,7 +51,7 @@ import java.util.List;
 public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService {
 
     @Autowired
-    private WsFlinkArtifactService wsFlinkArtifactService;
+    private WsArtifactService wsArtifactService;
     @Autowired
     private FileSystemService fileSystemService;
     @Autowired
@@ -126,7 +125,7 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
             fileSystemService.delete(jar.getPath());
             flinkArtifactJarMapper.deleteById(jar.getId());
         }
-        return wsFlinkArtifactService.deleteById(flinkArtifactId);
+        return wsArtifactService.deleteById(flinkArtifactId);
     }
 
     @Override
@@ -135,12 +134,12 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
         try (InputStream inputStream = file.getInputStream()) {
             path = fileSystemService.upload(inputStream, getFlinkArtifactPath(param.getName(), file.getOriginalFilename()));
         }
-        WsFlinkArtifactDTO flinkArtifact = new WsFlinkArtifactDTO();
+        WsArtifactDTO flinkArtifact = new WsArtifactDTO();
         flinkArtifact.setProjectId(param.getProjectId());
         flinkArtifact.setType(FlinkJobType.JAR);
         flinkArtifact.setName(param.getName());
         flinkArtifact.setRemark(param.getRemark());
-        flinkArtifact = wsFlinkArtifactService.insert(flinkArtifact);
+        flinkArtifact = wsArtifactService.insert(flinkArtifact);
         WsFlinkArtifactJar record = new WsFlinkArtifactJar();
         record.setFlinkArtifactId(flinkArtifact.getId());
         record.setFlinkVersion(param.getFlinkVersion());
@@ -155,7 +154,7 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
     @Override
     public int update(WsFlinkArtifactJarUpdateParam param, MultipartFile file) throws IOException {
         WsFlinkArtifactJarDTO wsFlinkArtifactJarDTO = selectOne(param.getId());
-        WsFlinkArtifactDTO flinkArtifact = new WsFlinkArtifactDTO();
+        WsArtifactDTO flinkArtifact = new WsArtifactDTO();
         flinkArtifact.setId(wsFlinkArtifactJarDTO.getWsFlinkArtifact().getId());
         flinkArtifact.setName(param.getName());
         flinkArtifact.setRemark(param.getRemark());
@@ -189,7 +188,7 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
             record.setJarParams(param.getJarParams());
             upsert = flinkArtifactJarMapper.updateById(record);
         }
-        wsFlinkArtifactService.update(flinkArtifact);
+        wsArtifactService.update(flinkArtifact);
         return upsert;
     }
 

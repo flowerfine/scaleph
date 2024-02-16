@@ -21,7 +21,7 @@ package cn.sliew.scaleph.workspace.flink.cdc.service.dto;
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCVersion;
-import cn.sliew.scaleph.workspace.project.service.dto.WsFlinkArtifactDTO;
+import cn.sliew.scaleph.workspace.project.service.dto.WsArtifactDTO;
 import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -31,7 +31,7 @@ import lombok.Data;
 public class WsFlinkArtifactCDCDTO extends BaseDTO {
 
     @Schema(description = "作业artifact")
-    private WsFlinkArtifactDTO wsFlinkArtifact;
+    private WsArtifactDTO wsFlinkArtifact;
 
     @Schema(description = "flink版本")
     private FlinkVersion flinkVersion;

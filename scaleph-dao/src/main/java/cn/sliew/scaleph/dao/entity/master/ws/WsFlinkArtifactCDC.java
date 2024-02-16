@@ -42,7 +42,7 @@ public class WsFlinkArtifactCDC extends BaseDO {
     private Long flinkArtifactId;
 
     @TableField(exist = false)
-    private WsFlinkArtifact wsFlinkArtifact;
+    private WsArtifact wsArtifact;
 
     @Schema(description = "flink版本")
     @TableField("flink_version")

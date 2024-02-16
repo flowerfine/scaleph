@@ -42,7 +42,7 @@ public class WsFlinkArtifactJar extends BaseDO {
     private Long flinkArtifactId;
 
     @TableField(exist = false)
-    private WsFlinkArtifact wsFlinkArtifact;
+    private WsArtifact wsArtifact;
 
     @TableField("flink_version")
     private FlinkVersion flinkVersion;

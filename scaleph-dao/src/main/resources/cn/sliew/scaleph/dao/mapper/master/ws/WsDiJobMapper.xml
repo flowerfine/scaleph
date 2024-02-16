@@ -30,8 +30,8 @@
         <result column="job_id" property="jobId"/>
         <result column="dag_id" property="dagId"/>
         <result column="current" property="current"/>
-        <association column="flink_artifact_id" property="wsFlinkArtifact"
-                     select="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactMapper.selectById"/>
+        <association column="flink_artifact_id" property="wsArtifact"
+                     select="cn.sliew.scaleph.dao.mapper.master.ws.WsArtifactMapper.selectById"/>
     </resultMap>
 
     <sql id="Base_Column_List">

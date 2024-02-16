@@ -29,7 +29,7 @@ import javax.validation.constraints.Pattern;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Schema(name = "项目信息", description = "数据集成-项目信息")
+@Schema(name = "项目信息", description = "项目信息")
 public class WsProjectDTO extends BaseDTO {
 
     private static final long serialVersionUID = -4981655449048129521L;

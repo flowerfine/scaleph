@@ -20,7 +20,7 @@ package cn.sliew.scaleph.workspace.flink.service.dto;
 
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.workspace.project.service.dto.WsFlinkArtifactDTO;
+import cn.sliew.scaleph.workspace.project.service.dto.WsArtifactDTO;
 import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -30,9 +30,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
- * <p>
  * flink artifact jar
- * </p>
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -41,7 +39,7 @@ public class WsFlinkArtifactJarDTO extends BaseDTO {
 
     @NotNull
     @Schema(description = "Flink Artifact")
-    private WsFlinkArtifactDTO wsFlinkArtifact;
+    private WsArtifactDTO wsFlinkArtifact;
 
     @NotNull
     @Schema(description = "flink 版本")

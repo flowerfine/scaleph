@@ -21,7 +21,7 @@ package cn.sliew.scaleph.workspace.flink.cdc.service.convert;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactCDC;
 import cn.sliew.scaleph.workspace.flink.cdc.service.dto.WsFlinkArtifactCDCDTO;
-import cn.sliew.scaleph.workspace.project.service.convert.WsFlinkArtifactConvert;
+import cn.sliew.scaleph.workspace.project.service.convert.WsArtifactConvert;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
@@ -35,7 +35,7 @@ public interface WsFlinkArtifactCDCConvert extends BaseConvert<WsFlinkArtifactCD
     default WsFlinkArtifactCDC toDo(WsFlinkArtifactCDCDTO dto) {
         WsFlinkArtifactCDC entity = new WsFlinkArtifactCDC();
         BeanUtils.copyProperties(dto, entity);
-        entity.setWsFlinkArtifact(WsFlinkArtifactConvert.INSTANCE.toDo(dto.getWsFlinkArtifact()));
+        entity.setWsArtifact(WsArtifactConvert.INSTANCE.toDo(dto.getWsFlinkArtifact()));
         entity.setFlinkArtifactId(dto.getWsFlinkArtifact().getId());
         return entity;
     }
@@ -44,7 +44,7 @@ public interface WsFlinkArtifactCDCConvert extends BaseConvert<WsFlinkArtifactCD
     default WsFlinkArtifactCDCDTO toDto(WsFlinkArtifactCDC entity) {
         WsFlinkArtifactCDCDTO dto = new WsFlinkArtifactCDCDTO();
         BeanUtils.copyProperties(entity, dto);
-        dto.setWsFlinkArtifact(WsFlinkArtifactConvert.INSTANCE.toDto(entity.getWsFlinkArtifact()));
+        dto.setWsFlinkArtifact(WsArtifactConvert.INSTANCE.toDto(entity.getWsArtifact()));
         return dto;
     }
 }

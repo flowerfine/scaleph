@@ -19,12 +19,12 @@
 package cn.sliew.scaleph.workspace.seatunnel.service.param;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
-import cn.sliew.scaleph.workspace.project.service.param.AbstractWsFlinkArtifactAddParam;
+import cn.sliew.scaleph.workspace.project.service.param.AbstractWsArtifactAddParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-public class WsDiJobAddParam extends AbstractWsFlinkArtifactAddParam {
+public class WsDiJobAddParam extends AbstractWsArtifactAddParam {
 
     @Schema(description = "job engine")
     private SeaTunnelEngineType jobEngine;

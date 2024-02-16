@@ -16,23 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workspace.project.service.param;
+package cn.sliew.scaleph.dao.mapper.master.ws;
 
-import cn.sliew.scaleph.system.model.PaginationParam;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import cn.sliew.scaleph.dao.entity.master.ws.WsArtifact;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-import javax.validation.constraints.NotNull;
+/**
+ * artifact Mapper 接口
+ */
+@Repository
+public interface WsArtifactMapper extends BaseMapper<WsArtifact> {
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class WsFlinkArtifactListParam extends PaginationParam {
-
-    @NotNull
-    @Schema(description = "项目id")
-    private Long projectId;
-
-    @Schema(description = "名称。支持模糊搜索")
-    private String name;
 }

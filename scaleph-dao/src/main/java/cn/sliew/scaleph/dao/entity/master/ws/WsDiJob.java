@@ -40,7 +40,7 @@ public class WsDiJob extends BaseDO {
     private Long flinkArtifactId;
 
     @TableField(exist = false)
-    private WsFlinkArtifact wsFlinkArtifact;
+    private WsArtifact wsArtifact;
 
     @TableField(value = "job_engine")
     private SeaTunnelEngineType jobEngine;

@@ -16,18 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.mapper.master.ws;
+package cn.sliew.scaleph.workspace.project.service;
 
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifact;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.stereotype.Repository;
+import cn.sliew.scaleph.workspace.project.service.dto.WsArtifactDTO;
+import cn.sliew.scaleph.workspace.project.service.param.WsArtifactListParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-/**
- * <p>
- * flink artifact Mapper 接口
- * </p>
- */
-@Repository
-public interface WsFlinkArtifactMapper extends BaseMapper<WsFlinkArtifact> {
+public interface WsArtifactService {
+
+    Page<WsArtifactDTO> list(WsArtifactListParam param);
+
+    WsArtifactDTO selectOne(Long id);
+
+    WsArtifactDTO insert(WsArtifactDTO dto);
+
+    int update(WsArtifactDTO dto);
+
+    int deleteById(Long id);
 
 }

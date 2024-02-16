@@ -31,6 +31,7 @@ import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsDiJobMapper;
+import cn.sliew.scaleph.workspace.project.service.dto.WsArtifactDTO;
 import cn.sliew.scaleph.workspace.seatunnel.service.WsDiJobService;
 import cn.sliew.scaleph.workspace.seatunnel.service.convert.WsDiJobAttrVOConvert;
 import cn.sliew.scaleph.workspace.seatunnel.service.convert.WsDiJobConvert;
@@ -39,10 +40,8 @@ import cn.sliew.scaleph.workspace.seatunnel.service.convert.WsDiJobStepConvert2;
 import cn.sliew.scaleph.workspace.seatunnel.service.dto.WsDiJobDTO;
 import cn.sliew.scaleph.workspace.seatunnel.service.dto.WsDiJobLinkDTO;
 import cn.sliew.scaleph.workspace.seatunnel.service.dto.WsDiJobStepDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.param.*;
 import cn.sliew.scaleph.workspace.seatunnel.service.vo.DiJobAttrVO;
-import cn.sliew.scaleph.workspace.project.service.WsFlinkArtifactService;
-import cn.sliew.scaleph.workspace.project.service.dto.WsFlinkArtifactDTO;
+import cn.sliew.scaleph.workspace.project.service.WsArtifactService;
 import cn.sliew.scaleph.workspace.seatunnel.service.param.*;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -60,7 +59,7 @@ import static cn.sliew.milky.common.check.Ensures.checkState;
 public class WsDiJobServiceImpl implements WsDiJobService {
 
     @Autowired
-    private WsFlinkArtifactService wsFlinkArtifactService;
+    private WsArtifactService wsArtifactService;
     @Autowired
     private WsDiJobMapper diJobMapper;
     @Autowired
@@ -91,12 +90,12 @@ public class WsDiJobServiceImpl implements WsDiJobService {
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @Override
     public WsDiJobDTO insert(WsDiJobAddParam param) {
-        WsFlinkArtifactDTO flinkArtifact = new WsFlinkArtifactDTO();
+        WsArtifactDTO flinkArtifact = new WsArtifactDTO();
         flinkArtifact.setProjectId(param.getProjectId());
         flinkArtifact.setType(FlinkJobType.JAR);
         flinkArtifact.setName(param.getName());
         flinkArtifact.setRemark(param.getRemark());
-        flinkArtifact = wsFlinkArtifactService.insert(flinkArtifact);
+        flinkArtifact = wsArtifactService.insert(flinkArtifact);
 
         Long dagId = dagService.insert(new DagSimpleAddParam());
         WsDiJob record = new WsDiJob();
@@ -113,11 +112,11 @@ public class WsDiJobServiceImpl implements WsDiJobService {
     @Override
     public int update(WsDiJobUpdateParam param) {
         WsDiJobDTO jobDTO = selectOne(param.getId());
-        WsFlinkArtifactDTO flinkArtifact = new WsFlinkArtifactDTO();
+        WsArtifactDTO flinkArtifact = new WsArtifactDTO();
         flinkArtifact.setId(jobDTO.getWsFlinkArtifact().getId());
         flinkArtifact.setName(param.getName());
         flinkArtifact.setRemark(param.getRemark());
-        wsFlinkArtifactService.update(flinkArtifact);
+        wsArtifactService.update(flinkArtifact);
 
         WsDiJob record = new WsDiJob();
         record.setId(param.getId());
@@ -131,7 +130,7 @@ public class WsDiJobServiceImpl implements WsDiJobService {
         WsDiJobDTO wsDiJobDTO = selectOne(id);
         dagService.delete(wsDiJobDTO.getDagId());
         if (wsDiJobDTO.getCurrent() == YesOrNo.YES) {
-            wsFlinkArtifactService.deleteById(wsDiJobDTO.getWsFlinkArtifact().getId());
+            wsArtifactService.deleteById(wsDiJobDTO.getWsFlinkArtifact().getId());
         }
         return diJobMapper.deleteById(id);
     }

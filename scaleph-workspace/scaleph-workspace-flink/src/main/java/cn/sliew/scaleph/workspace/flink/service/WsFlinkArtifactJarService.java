@@ -21,7 +21,6 @@ package cn.sliew.scaleph.workspace.flink.service;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.workspace.flink.resource.JarArtifact;
 import cn.sliew.scaleph.workspace.flink.service.dto.WsFlinkArtifactJarDTO;
-import cn.sliew.scaleph.engine.flink.service.param.*;
 import cn.sliew.scaleph.workspace.flink.service.param.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.multipart.MultipartFile;

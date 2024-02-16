@@ -18,10 +18,10 @@
 
 package cn.sliew.scaleph.workspace.seatunnel.service.param;
 
-import cn.sliew.scaleph.workspace.project.service.param.AbstractWsFlinkArtifactUpdateParam;
+import cn.sliew.scaleph.workspace.project.service.param.AbstractWsArtifactUpdateParam;
 import lombok.Data;
 
 @Data
-public class WsDiJobUpdateParam extends AbstractWsFlinkArtifactUpdateParam {
+public class WsDiJobUpdateParam extends AbstractWsArtifactUpdateParam {
 
 }

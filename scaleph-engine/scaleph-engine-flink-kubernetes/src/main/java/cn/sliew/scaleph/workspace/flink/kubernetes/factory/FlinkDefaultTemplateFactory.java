@@ -20,7 +20,6 @@ package cn.sliew.scaleph.workspace.flink.kubernetes.factory;
 
 import cn.sliew.scaleph.common.dict.flink.*;
 import cn.sliew.scaleph.common.dict.image.ImagePullPolicy;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.*;
 import cn.sliew.scaleph.workspace.flink.kubernetes.resource.definition.template.FlinkTemplate;
 import cn.sliew.scaleph.workspace.flink.kubernetes.resource.definition.template.FlinkTemplateSpec;
 import cn.sliew.scaleph.workspace.flink.kubernetes.resource.handler.FlinkImageMapping;

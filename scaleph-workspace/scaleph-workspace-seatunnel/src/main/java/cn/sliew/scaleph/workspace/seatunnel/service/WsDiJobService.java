@@ -19,7 +19,6 @@
 package cn.sliew.scaleph.workspace.seatunnel.service;
 
 import cn.sliew.scaleph.workspace.seatunnel.service.dto.WsDiJobDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.param.*;
 import cn.sliew.scaleph.workspace.seatunnel.service.vo.DiJobAttrVO;
 import cn.sliew.scaleph.workspace.seatunnel.service.param.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

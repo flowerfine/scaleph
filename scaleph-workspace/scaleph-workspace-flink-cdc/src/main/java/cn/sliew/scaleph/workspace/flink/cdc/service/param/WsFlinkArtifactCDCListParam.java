@@ -20,14 +20,14 @@ package cn.sliew.scaleph.workspace.flink.cdc.service.param;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCVersion;
-import cn.sliew.scaleph.workspace.project.service.param.WsFlinkArtifactListParam;
+import cn.sliew.scaleph.workspace.project.service.param.WsArtifactListParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class WsFlinkArtifactCDCListParam extends WsFlinkArtifactListParam {
+public class WsFlinkArtifactCDCListParam extends WsArtifactListParam {
 
     @Schema(description = "flink version")
     private FlinkVersion flinkVersion;

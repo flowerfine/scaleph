@@ -18,12 +18,11 @@
 
 package cn.sliew.scaleph.workspace.project.service;
 
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.workspace.project.service.dto.WsProjectDTO;
 import cn.sliew.scaleph.workspace.project.service.param.WsProjectParam;
-import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-import java.io.Serializable;
 import java.util.List;
 
 public interface WsProjectService {
@@ -32,7 +31,7 @@ public interface WsProjectService {
 
     List<DictVO> listAll();
 
-    WsProjectDTO selectOne(Serializable id);
+    WsProjectDTO selectOne(Long id);
 
     int insert(WsProjectDTO dto);
 

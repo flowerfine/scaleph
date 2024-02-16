@@ -32,8 +32,8 @@
         <result column="jar_params" property="jarParams"/>
         <result column="current" property="current"/>
         <result column="flink_artifact_id" property="flinkArtifactId"/>
-        <association property="wsFlinkArtifact"
-                     javaType="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifact">
+        <association property="wsArtifact"
+                     javaType="cn.sliew.scaleph.dao.entity.master.ws.WsArtifact">
             <result column="flink_artifact_id" property="id"/>
             <result column="project_id" property="projectId"/>
             <result column="flink_artifact_type" property="type"/>

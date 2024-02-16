@@ -32,8 +32,8 @@ import cn.sliew.scaleph.workspace.flink.cdc.service.param.WsFlinkArtifactCDCAddP
 import cn.sliew.scaleph.workspace.flink.cdc.service.param.WsFlinkArtifactCDCListParam;
 import cn.sliew.scaleph.workspace.flink.cdc.service.param.WsFlinkArtifactCDCSelectListParam;
 import cn.sliew.scaleph.workspace.flink.cdc.service.param.WsFlinkArtifactCDCUpdateParam;
-import cn.sliew.scaleph.workspace.project.service.WsFlinkArtifactService;
-import cn.sliew.scaleph.workspace.project.service.dto.WsFlinkArtifactDTO;
+import cn.sliew.scaleph.workspace.project.service.WsArtifactService;
+import cn.sliew.scaleph.workspace.project.service.dto.WsArtifactDTO;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +49,7 @@ public class FlinkCDCJobServiceImpl implements FlinkCDCJobService {
     @Autowired
     private WsFlinkArtifactCDCMapper wsFlinkArtifactCDCMapper;
     @Autowired
-    private WsFlinkArtifactService wsFlinkArtifactService;
+    private WsArtifactService wsArtifactService;
     @Autowired
     private FlinkCDCDagService flinkCDCDagService;
 
@@ -99,12 +99,12 @@ public class FlinkCDCJobServiceImpl implements FlinkCDCJobService {
 
     @Override
     public WsFlinkArtifactCDCDTO insert(WsFlinkArtifactCDCAddParam param) {
-        WsFlinkArtifactDTO flinkArtifact = new WsFlinkArtifactDTO();
+        WsArtifactDTO flinkArtifact = new WsArtifactDTO();
         flinkArtifact.setProjectId(param.getProjectId());
         flinkArtifact.setType(FlinkJobType.FLINK_CDC);
         flinkArtifact.setName(param.getName());
         flinkArtifact.setRemark(param.getRemark());
-        flinkArtifact = wsFlinkArtifactService.insert(flinkArtifact);
+        flinkArtifact = wsArtifactService.insert(flinkArtifact);
         WsFlinkArtifactCDC record = new WsFlinkArtifactCDC();
         record.setFlinkArtifactId(flinkArtifact.getId());
         record.setFlinkVersion(param.getFlinkVersion());
@@ -118,11 +118,11 @@ public class FlinkCDCJobServiceImpl implements FlinkCDCJobService {
     @Override
     public int update(WsFlinkArtifactCDCUpdateParam param) {
         WsFlinkArtifactCDCDTO wsFlinkArtifactCDCDTO = selectOne(param.getId());
-        WsFlinkArtifactDTO flinkArtifact = new WsFlinkArtifactDTO();
+        WsArtifactDTO flinkArtifact = new WsArtifactDTO();
         flinkArtifact.setId(wsFlinkArtifactCDCDTO.getWsFlinkArtifact().getId());
         flinkArtifact.setName(param.getName());
         flinkArtifact.setRemark(param.getRemark());
-        wsFlinkArtifactService.update(flinkArtifact);
+        wsArtifactService.update(flinkArtifact);
 
         WsFlinkArtifactCDC record = new WsFlinkArtifactCDC();
         record.setId(param.getId());
@@ -155,6 +155,6 @@ public class FlinkCDCJobServiceImpl implements FlinkCDCJobService {
         for (WsFlinkArtifactCDCDTO cdc : dtos) {
             wsFlinkArtifactCDCMapper.deleteById(cdc.getId());
         }
-        return wsFlinkArtifactService.deleteById(flinkArtifactId);
+        return wsArtifactService.deleteById(flinkArtifactId);
     }
 }

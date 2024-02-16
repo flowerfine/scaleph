@@ -16,25 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workspace.project.service.param;
+package cn.sliew.scaleph.workspace.project.service.convert;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.dao.entity.master.ws.WsArtifact;
+import cn.sliew.scaleph.workspace.project.service.dto.WsArtifactDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
-@Data
-public abstract class AbstractWsFlinkArtifactAddParam {
-
-    @NotNull
-    @Schema(description = "project id")
-    private Long projectId;
-
-    @NotBlank
-    @Schema(description = "name")
-    private String name;
-
-    @Schema(description = "remark")
-    private String remark;
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface WsArtifactConvert extends BaseConvert<WsArtifact, WsArtifactDTO> {
+    WsArtifactConvert INSTANCE = Mappers.getMapper(WsArtifactConvert.class);
 }
