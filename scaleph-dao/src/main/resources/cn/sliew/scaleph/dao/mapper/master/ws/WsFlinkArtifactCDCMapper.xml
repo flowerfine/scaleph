@@ -44,7 +44,7 @@
         t2.remark as flink_artifact_remark
         from
         ws_flink_artifact_cdc t1
-        join ws_flink_artifact t2 on t1.flink_artifact_id = t2.id
+        join ws_artifact t2 on t1.flink_artifact_id = t2.id
         where
         t2.project_id = #{projectId}
         and t1.current = '1'
@@ -67,7 +67,7 @@
         t2.remark as flink_artifact_remark
         from
         ws_flink_artifact_cdc t1
-        join ws_flink_artifact t2 on t1.flink_artifact_id = t2.id
+        join ws_artifact t2 on t1.flink_artifact_id = t2.id
         where
         t2.project_id = #{projectId}
         and t1.current = '1'
@@ -85,7 +85,7 @@
         t2.`name` as flink_artifact_name,
         t2.remark     as flink_artifact_remark
         from ws_flink_artifact_cdc t1
-        join ws_flink_artifact t2 on t1.flink_artifact_id = t2.id
+        join ws_artifact t2 on t1.flink_artifact_id = t2.id
         where t1.id = #{id}
     </select>
 
@@ -97,7 +97,7 @@
         t2.`name` as flink_artifact_name,
         t2.remark     as flink_artifact_remark
         from ws_flink_artifact_cdc t1
-        join ws_flink_artifact t2 on t1.flink_artifact_id = t2.id
+        join ws_artifact t2 on t1.flink_artifact_id = t2.id
         where t2.id = #{artifactId}
         and t1.current = '1'
     </select>

@@ -42,7 +42,7 @@
     <select id="selectPage" resultMap="BaseResultMap">
         select t1.*
         from ws_di_job t1
-                 join ws_flink_artifact t2 on t1.flink_artifact_id = t2.id
+                 join ws_artifact t2 on t1.flink_artifact_id = t2.id
         <where>
             t2.project_id = #{projectId}
               and t1.current = '1'
@@ -59,7 +59,7 @@
     <select id="listAll" resultMap="BaseResultMap">
         select t1.*
         from ws_di_job t1
-                 join ws_flink_artifact t2 on t1.flink_artifact_id = t2.id
+                 join ws_artifact t2 on t1.flink_artifact_id = t2.id
         <where>
             t2.project_id = #{projectId}
               and t1.current = '1'
@@ -73,14 +73,14 @@
     <select id="selectOne" resultMap="BaseResultMap">
         select t1.*
         from ws_di_job t1
-                 join ws_flink_artifact t2 on t1.flink_artifact_id = t2.id
+                 join ws_artifact t2 on t1.flink_artifact_id = t2.id
         where t1.id = #{id}
     </select>
 
     <select id="selectCurrent" resultMap="BaseResultMap">
         select t1.*
         from ws_di_job t1
-                 join ws_flink_artifact t2 on t1.flink_artifact_id = t2.id
+                 join ws_artifact t2 on t1.flink_artifact_id = t2.id
         where t2.id = #{artifactId}
           and t1.current = '1'
     </select>

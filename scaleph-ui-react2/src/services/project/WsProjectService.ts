@@ -21,7 +21,7 @@ export const WsProjectService = {
   },
 
   selectOne: async (id: number) => {
-    return request<WsProject>(`${WsProjectService.url}/` + id, {
+    return request<WsProject>(`${WsProjectService.url}/${id}`, {
       method: 'GET',
     });
   },
@@ -41,7 +41,7 @@ export const WsProjectService = {
   },
 
   deleteProjectRow: async (row: WsProject) => {
-    return request<ResponseBody<any>>(`${WsProjectService.url}/` + row.id, {
+    return request<ResponseBody<any>>(`${WsProjectService.url}/${row.id}`, {
       method: 'DELETE',
     });
   },
