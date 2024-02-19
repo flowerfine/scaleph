@@ -95,10 +95,10 @@ const FlinkArtifactJarUpdateForm: React.FC<ModalFormProps<WsFlinkArtifactJar>> =
         wrapperCol={{span: 16}}
         initialValues={{
           id: data.id,
-          flinkArtifactId: data.wsFlinkArtifact.id,
-          name: data.wsFlinkArtifact.name,
-          remark: data.wsFlinkArtifact.remark,
-          flinkVersion: data.flinkVersion.value,
+          flinkArtifactId: data.artifact?.id,
+          name: data.artifact?.name,
+          remark: data.artifact?.remark,
+          flinkVersion: data.flinkVersion?.value,
           entryClass: data.entryClass,
           jarParams: data.jarParams
         }}
@@ -138,7 +138,7 @@ const FlinkArtifactJarUpdateForm: React.FC<ModalFormProps<WsFlinkArtifactJar>> =
             rows: 3
           }}
         />
-        <ProFormText
+        <ProFormTextArea
           name="remark"
           label={intl.formatMessage({id: 'app.common.data.remark'})}
           rules={[{max: 200}]}

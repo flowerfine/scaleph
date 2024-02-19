@@ -45,6 +45,4 @@ public interface WsArtifactFlinkJarMapper extends BaseMapper<WsArtifactFlinkJar>
 
     WsArtifactFlinkJar selectCurrent(@Param("artifactId") Long artifactId);
 
-    WsArtifactFlinkJar isUsed(@Param("id") Long id);
-
 }

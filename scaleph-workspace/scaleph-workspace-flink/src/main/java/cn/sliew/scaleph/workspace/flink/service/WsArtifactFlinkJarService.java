@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.workspace.flink.service;
 
-import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.workspace.flink.resource.JarArtifact;
 import cn.sliew.scaleph.workspace.flink.service.dto.WsArtifactFlinkJarDTO;
 import cn.sliew.scaleph.workspace.flink.service.param.*;
@@ -49,7 +48,7 @@ public interface WsArtifactFlinkJarService {
 
     String download(Long id, OutputStream outputStream) throws IOException;
 
-    int deleteOne(Long id) throws ScalephException, IOException;
+    int deleteOne(Long id) throws IOException;
 
     int deleteArtifact(Long artifactId) throws IOException;
 

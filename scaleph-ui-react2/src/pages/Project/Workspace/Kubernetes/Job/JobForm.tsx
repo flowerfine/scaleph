@@ -201,7 +201,7 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
                     return FlinkArtifactJarService.listAll(listParam).then((response) => {
                       return response.map((item) => {
                         return {
-                          label: item.wsFlinkArtifact.name,
+                          label: item.artifact?.name,
                           value: item.id,
                           item: item
                         };

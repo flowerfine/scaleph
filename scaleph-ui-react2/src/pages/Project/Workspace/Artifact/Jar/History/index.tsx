@@ -2,7 +2,7 @@ import {useEffect, useRef, useState} from 'react';
 import {Button, Descriptions, message, Modal, Space, Tooltip} from 'antd';
 import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
 import {ActionType, PageHeader, ProColumns, ProFormInstance, ProTable,} from '@ant-design/pro-components';
-import {useAccess, useIntl, useLocation} from '@umijs/max';
+import {history, useAccess, useIntl, useLocation} from '@umijs/max';
 import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
 import {FlinkArtifactJarService} from '@/services/project/flinkArtifactJar.service';
 import {WsProjectService} from '@/services/project/WsProjectService';
@@ -122,7 +122,7 @@ const FlinkArtifactJarHistoryWeb: React.FC = () => {
         <PageHeader
           title={intl.formatMessage({id: 'pages.project.artifact.jar'})}
           onBack={() => {
-            window.history.back();
+            history.back();
           }}
         >
           <Descriptions size="small" column={3} style={{marginLeft: 48}}>

@@ -20,8 +20,6 @@ package cn.sliew.scaleph.workspace.flink.service.impl;
 
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
-import cn.sliew.scaleph.common.exception.ScalephException;
-import cn.sliew.scaleph.common.util.I18nUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsArtifactFlinkJar;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsArtifactFlinkJarMapper;
 import cn.sliew.scaleph.storage.service.FileSystemService;
@@ -185,10 +183,7 @@ public class WsArtifactFlinkJarServiceImpl implements WsArtifactFlinkJarService 
 
 
     @Override
-    public int deleteOne(Long id) throws ScalephException, IOException {
-        WsArtifactFlinkJar jar = wsArtifactFlinkJarMapper.isUsed(id);
-        checkState(jar != null, () -> I18nUtil.get("response.error.job.artifact.jar"));
-
+    public int deleteOne(Long id) throws IOException {
         WsArtifactFlinkJarDTO wsFlinkArtifactJarDTO = selectOne(id);
         checkState(wsFlinkArtifactJarDTO.getCurrent() != YesOrNo.YES, () -> "Unsupport delete current jar");
 

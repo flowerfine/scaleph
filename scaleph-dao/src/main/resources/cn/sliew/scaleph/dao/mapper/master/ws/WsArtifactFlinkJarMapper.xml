@@ -77,13 +77,4 @@
         where t2.id = #{artifactId}
         and t1.current = '1'
     </select>
-
-    <select id="isUsed" resultMap="FlinkArtifactJarMap">
-        select t1.*
-        from ws_artifact_flink_jar t1
-                     join ws_flink_job t2 on t1.id = t2.flink_artifact_id
-        where t2.type = '0'
-          and t1.id = #{id}
-        limit 1
-    </select>
 </mapper>

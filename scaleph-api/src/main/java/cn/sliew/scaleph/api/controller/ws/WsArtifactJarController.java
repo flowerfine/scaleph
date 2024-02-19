@@ -19,7 +19,6 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.workspace.flink.service.WsArtifactFlinkJarService;
 import cn.sliew.scaleph.workspace.flink.service.dto.WsArtifactFlinkJarDTO;
@@ -111,7 +110,7 @@ public class WsArtifactJarController {
     @Logging
     @DeleteMapping("/{id}")
     @Operation(summary = "删除 flink jar", description = "删除 flink jar")
-    public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) throws ScalephException, IOException {
+    public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) throws IOException {
         wsArtifactFlinkJarService.deleteOne(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }

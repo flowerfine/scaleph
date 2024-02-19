@@ -115,7 +115,7 @@ const FlinkArtifactJarAddForm: React.FC<ModalFormProps<WsFlinkArtifactJar>> = ({
             rows: 3
           }}
         />
-        <ProFormText
+        <ProFormTextArea
           name="remark"
           label={intl.formatMessage({id: 'app.common.data.remark'})}
           rules={[{max: 200}]}
