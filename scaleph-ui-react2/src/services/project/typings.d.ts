@@ -15,12 +15,11 @@ export type WsProjectParam = QueryParam & {
   projectName?: string;
 };
 
-export type WsFlinkArtifact = {
+export type WsArtifact = {
   id?: number;
   projectId?: number | string;
   type?: Dict;
   name?: string;
-  current?: number;
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
@@ -33,7 +32,7 @@ export type WsFlinkArtifactListParam = QueryParam & {
 
 export type WsDiJob = {
   id?: number;
-  wsFlinkArtifact?: WsFlinkArtifact;
+  wsFlinkArtifact?: WsArtifact;
   jobEngine?: Dict;
   jobId?: string;
   current?: Dict;
@@ -100,7 +99,7 @@ export type WsDiJobStep = {
 
 export type WsFlinkArtifactCDC = {
   id?: number;
-  wsFlinkArtifact?: WsFlinkArtifact;
+  wsFlinkArtifact?: WsArtifact;
   flinkVersion?: Dict;
   flinkCDCVersion?: Dict;
   current?: Dict;
@@ -136,7 +135,7 @@ export type WsFlinkArtifactCDCUpdateParam = {
 
 export type WsFlinkArtifactJar = {
   id?: number;
-  wsFlinkArtifact?: WsFlinkArtifact;
+  artifact?: WsArtifact;
   flinkVersion?: Dict;
   entryClass?: string;
   fileName?: string;
@@ -168,14 +167,13 @@ export type WsFlinkArtifactJarUpdateParam = {
 };
 
 export type WsFlinkArtifactJarParam = QueryParam & {
-  id?: number | string;
-  flinkArtifactId: number;
-  version?: string;
+  projectId?: number | string;
+  name?: string;
   flinkVersion: string;
 };
 
 export type WsFlinkArtifactJarHistoryParam = QueryParam & {
-  flinkArtifactId: number;
+  artifactId: number;
 };
 
 export type WsFlinkArtifactJarSelectListParam = {
@@ -185,7 +183,7 @@ export type WsFlinkArtifactJarSelectListParam = {
 
 export type WsFlinkArtifactSql = {
   id?: number;
-  wsFlinkArtifact?: WsFlinkArtifact;
+  wsFlinkArtifact?: WsArtifact;
   flinkVersion?: Dict;
   script?: string;
   current?: Dict;

@@ -6,7 +6,7 @@ import {useAccess, useIntl, useLocation} from '@umijs/max';
 import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
 import {FlinkArtifactJarService} from '@/services/project/flinkArtifactJar.service';
 import {WsProjectService} from '@/services/project/WsProjectService';
-import {WsFlinkArtifact, WsFlinkArtifactJar, WsProject} from '@/services/project/typings';
+import {WsArtifact, WsFlinkArtifactJar, WsProject} from '@/services/project/typings';
 
 const FlinkArtifactJarHistoryWeb: React.FC = () => {
   const urlParams = useLocation();
@@ -15,7 +15,7 @@ const FlinkArtifactJarHistoryWeb: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const [project, setProject] = useState<WsProject>({});
-  const flinkArtifact = urlParams.state as WsFlinkArtifact;
+  const flinkArtifact = urlParams.state as WsArtifact;
 
   useEffect(() => {
     WsProjectService.selectOne(flinkArtifact.projectId as number).then((d) => {
@@ -147,7 +147,7 @@ const FlinkArtifactJarHistoryWeb: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return FlinkArtifactJarService.listPageByArtifact({...params, flinkArtifactId: flinkArtifact.id});
+          return FlinkArtifactJarService.listByArtifact({...params, artifactId: flinkArtifact.id});
         }}
         pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
         tableAlertRender={false}

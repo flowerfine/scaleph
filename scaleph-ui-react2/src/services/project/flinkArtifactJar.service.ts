@@ -11,7 +11,7 @@ import {
 import {request} from '@umijs/max';
 
 export const FlinkArtifactJarService = {
-  url: '/api/flink/artifact/jar',
+  url: '/api/artifact/flink/jar',
 
   list: async (queryParam: WsFlinkArtifactJarParam) => {
     return request<PageResponse<WsFlinkArtifactJar>>(`${FlinkArtifactJarService.url}`, {
@@ -28,8 +28,8 @@ export const FlinkArtifactJarService = {
     });
   },
 
-  listPageByArtifact: async (queryParam: WsFlinkArtifactJarHistoryParam) => {
-    return request<PageResponse<WsFlinkArtifactJar>>(`${FlinkArtifactJarService.url}/page`, {
+  listByArtifact: async (queryParam: WsFlinkArtifactJarHistoryParam) => {
+    return request<PageResponse<WsFlinkArtifactJar>>(`${FlinkArtifactJarService.url}/history`, {
       method: 'GET',
       params: queryParam,
     }).then((res) => {
@@ -51,19 +51,19 @@ export const FlinkArtifactJarService = {
   },
 
   selectOne: async (id: number | string) => {
-    return request<WsFlinkArtifactJar>(`${FlinkArtifactJarService.url}/` + id, {
+    return request<WsFlinkArtifactJar>(`${FlinkArtifactJarService.url}/${id}`, {
       method: 'GET',
     });
   },
 
   deleteOne: async (row: WsFlinkArtifactJar) => {
-    return request<ResponseBody<any>>(`${FlinkArtifactJarService.url}/` + row.id, {
+    return request<ResponseBody<any>>(`${FlinkArtifactJarService.url}/${row.id}`, {
       method: 'DELETE',
     });
   },
 
-  deleteAll: async (flinkArtifactId: number) => {
-    return request<ResponseBody<any>>(`${FlinkArtifactJarService.url}/all/` + flinkArtifactId, {
+  deleteArtifact: async (artifactId: number) => {
+    return request<ResponseBody<any>>(`${FlinkArtifactJarService.url}/artifact/${artifactId}`, {
       method: 'DELETE',
     });
   },
@@ -74,6 +74,7 @@ export const FlinkArtifactJarService = {
       data: row,
     });
   },
+
   upload: async (uploadParam: WsFlinkArtifactJarUploadParam) => {
     return request<ResponseBody<any>>(`${FlinkArtifactJarService.url}`, {
       method: 'PUT',
@@ -92,13 +93,7 @@ export const FlinkArtifactJarService = {
 
   download: async (row: WsFlinkArtifactJar) => {
     const a = document.createElement('a');
-    a.href =
-      `${FlinkArtifactJarService.url}/download/` +
-      row.id +
-      '?' +
-      USER_AUTH.token +
-      '=' +
-      localStorage.getItem(USER_AUTH.token);
+    a.href = `${FlinkArtifactJarService.url}/download/${row.id}?${USER_AUTH.token}=${localStorage.getItem(USER_AUTH.token)}`;
     a.download = row.fileName + '';
     a.click();
     window.URL.revokeObjectURL(FlinkArtifactJarService.url);

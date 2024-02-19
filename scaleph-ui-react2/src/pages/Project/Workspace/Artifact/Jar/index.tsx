@@ -32,7 +32,7 @@ const ArtifactJarView: React.FC = () => {
       dataIndex: 'name',
       width: 240,
       render: (dom, entity, index, action, schema) => {
-        return entity.wsFlinkArtifact?.name
+        return entity.artifact?.name
       }
     },
     {
@@ -70,7 +70,7 @@ const ArtifactJarView: React.FC = () => {
       width: 240,
       hideInSearch: true,
       render: (dom, entity, index, action, schema) => {
-        return entity.wsFlinkArtifact?.remark
+        return entity.artifact?.remark
       }
     },
     {
@@ -126,7 +126,7 @@ const ArtifactJarView: React.FC = () => {
                   type="link"
                   icon={<FolderOpenOutlined/>}
                   onClick={() => {
-                    history.push('/workspace/artifact/history', record.wsFlinkArtifact);
+                    history.push('/workspace/artifact/history', record.artifact);
                   }}
                 />
               </Tooltip>
@@ -145,7 +145,7 @@ const ArtifactJarView: React.FC = () => {
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
-                        FlinkArtifactJarService.deleteAll(record.wsFlinkArtifact.id).then((d) => {
+                        FlinkArtifactJarService.deleteArtifact(record.artifact?.id).then((d) => {
                           if (d.success) {
                             message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();
