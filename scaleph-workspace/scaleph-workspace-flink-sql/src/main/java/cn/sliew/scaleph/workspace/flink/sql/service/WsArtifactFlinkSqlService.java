@@ -18,34 +18,33 @@
 
 package cn.sliew.scaleph.workspace.flink.sql.service;
 
-import cn.sliew.scaleph.common.exception.ScalephException;
-import cn.sliew.scaleph.workspace.flink.sql.service.dto.WsFlinkArtifactSqlDTO;
+import cn.sliew.scaleph.workspace.flink.sql.service.dto.WsArtifactFlinkSqlDTO;
 import cn.sliew.scaleph.workspace.flink.sql.service.param.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
 
-public interface WsFlinkArtifactSqlService {
+public interface WsArtifactFlinkSqlService {
 
-    Page<WsFlinkArtifactSqlDTO> list(WsFlinkArtifactSqlListParam param);
+    Page<WsArtifactFlinkSqlDTO> list(WsArtifactFlinkSqlListParam param);
 
-    Page<WsFlinkArtifactSqlDTO> listByArtifact(WsFlinkArtifactSqlHistoryParam param);
+    Page<WsArtifactFlinkSqlDTO> listByArtifact(WsArtifactFlinkSqlArtifactParam param);
 
-    List<WsFlinkArtifactSqlDTO> listAll(WsFlinkArtifactSqlSelectListParam param);
+    List<WsArtifactFlinkSqlDTO> listAll(WsArtifactFlinkSqlSelectListParam param);
 
-    List<WsFlinkArtifactSqlDTO> listAllByArtifact(Long artifactId);
+    List<WsArtifactFlinkSqlDTO> listAllByArtifact(Long artifactId);
 
-    WsFlinkArtifactSqlDTO selectOne(Long id);
+    WsArtifactFlinkSqlDTO selectOne(Long id);
 
-    WsFlinkArtifactSqlDTO selectCurrent(Long artifactId);
+    WsArtifactFlinkSqlDTO selectCurrent(Long artifactId);
 
-    void insert(WsFlinkArtifactSqlInsertParam param);
+    void insert(WsArtifactFlinkSqlInsertParam param);
 
-    int update(WsFlinkArtifactSqlUpdateParam params);
+    int update(WsArtifactFlinkSqlUpdateParam params);
 
-    int updateScript(WsFlinkArtifactSqlScriptUpdateParam param);
+    int updateScript(WsArtifactFlinkSqlScriptUpdateParam param);
 
-    int deleteOne(Long id) throws ScalephException;
+    int deleteOne(Long id);
 
-    int deleteAll(Long flinkArtifactId);
+    int deleteArtifact(Long artifactId);
 }

@@ -16,38 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.ws;
+package cn.sliew.scaleph.workspace.flink.sql.service.param;
 
-import cn.sliew.scaleph.common.dict.common.YesOrNo;
-import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-/**
- * <p>
- * flink artifact sql
- * </p>
- */
+import javax.validation.constraints.NotNull;
+
 @Data
-@TableName("ws_flink_artifact_sql")
-public class WsFlinkArtifactSql extends BaseDO {
+public class WsArtifactFlinkSqlScriptUpdateParam {
 
-    private static final long serialVersionUID = 1L;
+    @NotNull
+    @Schema(description = "id")
+    private Long id;
 
-    @TableField("flink_artifact_id")
-    private Long flinkArtifactId;
-
-    @TableField(exist = false)
-    private WsArtifact wsArtifact;
-
-    @TableField("flink_version")
-    private FlinkVersion flinkVersion;
-
-    @TableField("script")
+    @Schema(description = "script")
     private String script;
-
-    @TableField("`current`")
-    private YesOrNo current;
 }

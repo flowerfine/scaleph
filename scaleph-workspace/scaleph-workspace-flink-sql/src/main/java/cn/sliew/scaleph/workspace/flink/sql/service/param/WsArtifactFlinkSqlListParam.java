@@ -19,13 +19,14 @@
 package cn.sliew.scaleph.workspace.flink.sql.service.param;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.workspace.project.service.param.AbstractWsArtifactUpdateParam;
+import cn.sliew.scaleph.workspace.project.service.param.WsArtifactListParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-public class WsFlinkArtifactSqlUpdateParam extends AbstractWsArtifactUpdateParam {
+public class WsArtifactFlinkSqlListParam extends WsArtifactListParam {
 
     @Schema(description = "flink 版本")
     private FlinkVersion flinkVersion;
+
 }

@@ -19,7 +19,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.sliew.scaleph.dao.mapper.master.ws.WsArtifactFlinkJarMapper">
 
-    <resultMap id="FlinkArtifactJarMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsArtifactFlinkJar">
+    <resultMap id="ArtifactFlinkJarMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsArtifactFlinkJar">
         <result column="id" property="id"/>
         <result column="creator" property="creator"/>
         <result column="create_time" property="createTime"/>
@@ -36,7 +36,7 @@
                      select="cn.sliew.scaleph.dao.mapper.master.ws.WsArtifactMapper.selectById"/>
     </resultMap>
 
-    <select id="list" resultMap="FlinkArtifactJarMap">
+    <select id="list" resultMap="ArtifactFlinkJarMap">
         select t1.*
         from ws_artifact_flink_jar t1
                  join ws_artifact t2 on t1.artifact_id = t2.id
@@ -51,7 +51,7 @@
         order by t2.id desc
     </select>
 
-    <select id="listAll" resultMap="FlinkArtifactJarMap">
+    <select id="listAll" resultMap="ArtifactFlinkJarMap">
         select t1.*
         from ws_artifact_flink_jar t1
                  join ws_artifact t2 on t1.artifact_id = t2.id
@@ -63,14 +63,14 @@
         order by t2.id desc
     </select>
 
-    <select id="selectOne" resultMap="FlinkArtifactJarMap">
+    <select id="selectOne" resultMap="ArtifactFlinkJarMap">
         select t1.*
         from ws_artifact_flink_jar t1
                  join ws_artifact t2 on t1.artifact_id = t2.id
         where t1.id = #{id}
     </select>
 
-    <select id="selectCurrent" resultMap="FlinkArtifactJarMap">
+    <select id="selectCurrent" resultMap="ArtifactFlinkJarMap">
         select t1.*
         from ws_artifact_flink_jar t1
                  join ws_artifact t2 on t1.artifact_id = t2.id

@@ -18,15 +18,16 @@
 
 package cn.sliew.scaleph.workspace.flink.sql.service.param;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.workspace.project.service.param.WsArtifactListParam;
+import cn.sliew.scaleph.system.model.PaginationParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 @Data
-public class WsFlinkArtifactSqlListParam extends WsArtifactListParam {
+public class WsArtifactFlinkSqlArtifactParam extends PaginationParam {
 
-    @Schema(description = "flink 版本")
-    private FlinkVersion flinkVersion;
-
+    @NotNull
+    @Schema(description = "artifact id")
+    private Long artifactId;
 }

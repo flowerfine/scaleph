@@ -19,8 +19,8 @@
 package cn.sliew.scaleph.workspace.flink.sql.service.convert;
 
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactSql;
-import cn.sliew.scaleph.workspace.flink.sql.service.dto.WsFlinkArtifactSqlDTO;
+import cn.sliew.scaleph.dao.entity.master.ws.WsArtifactFlinkSql;
+import cn.sliew.scaleph.workspace.flink.sql.service.dto.WsArtifactFlinkSqlDTO;
 import cn.sliew.scaleph.workspace.project.service.convert.WsArtifactConvert;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -28,23 +28,23 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.BeanUtils;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface WsFlinkArtifactSqlConvert extends BaseConvert<WsFlinkArtifactSql, WsFlinkArtifactSqlDTO> {
+public interface WsFlinkArtifactSqlConvert extends BaseConvert<WsArtifactFlinkSql, WsArtifactFlinkSqlDTO> {
     WsFlinkArtifactSqlConvert INSTANCE = Mappers.getMapper(WsFlinkArtifactSqlConvert.class);
 
     @Override
-    default WsFlinkArtifactSql toDo(WsFlinkArtifactSqlDTO dto) {
-        WsFlinkArtifactSql entity = new WsFlinkArtifactSql();
+    default WsArtifactFlinkSql toDo(WsArtifactFlinkSqlDTO dto) {
+        WsArtifactFlinkSql entity = new WsArtifactFlinkSql();
         BeanUtils.copyProperties(dto, entity);
-        entity.setWsArtifact(WsArtifactConvert.INSTANCE.toDo(dto.getWsFlinkArtifact()));
-        entity.setFlinkArtifactId(dto.getWsFlinkArtifact().getId());
+        entity.setArtifact(WsArtifactConvert.INSTANCE.toDo(dto.getArtifact()));
+        entity.setArtifactId(dto.getArtifact().getId());
         return entity;
     }
 
     @Override
-    default WsFlinkArtifactSqlDTO toDto(WsFlinkArtifactSql entity) {
-        WsFlinkArtifactSqlDTO dto = new WsFlinkArtifactSqlDTO();
+    default WsArtifactFlinkSqlDTO toDto(WsArtifactFlinkSql entity) {
+        WsArtifactFlinkSqlDTO dto = new WsArtifactFlinkSqlDTO();
         BeanUtils.copyProperties(entity, dto);
-        dto.setWsFlinkArtifact(WsArtifactConvert.INSTANCE.toDto(entity.getWsArtifact()));
+        dto.setArtifact(WsArtifactConvert.INSTANCE.toDto(entity.getArtifact()));
         return dto;
     }
 }

@@ -16,28 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workspace.flink.sql.service.dto;
+package cn.sliew.scaleph.workspace.flink.sql.service.param;
 
-import cn.sliew.scaleph.common.dict.common.YesOrNo;
-import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.workspace.project.service.dto.WsArtifactDTO;
-import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 @Data
-@Schema(name = "WsFlinkArtifactSql对象", description = "flink artifact sql")
-public class WsFlinkArtifactSqlDTO extends BaseDTO {
+public class WsArtifactFlinkSqlSelectListParam {
 
-    @Schema(description = "作业artifact")
-    private WsArtifactDTO wsFlinkArtifact;
+    @NotNull
+    @Schema(description = "Project ID")
+    private Long projectId;
 
-    @Schema(description = "flink版本")
-    private FlinkVersion flinkVersion;
+    @Schema(description = "name")
+    private String name;
 
-    @Schema(description = "script")
-    private String script;
-
-    @Schema(description = "`current`")
-    private YesOrNo current;
 }

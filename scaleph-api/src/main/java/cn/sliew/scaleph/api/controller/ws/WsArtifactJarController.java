@@ -39,7 +39,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
 
-@Tag(name = "Artifact管理-flink-jar")
+@Tag(name = "Artifact管理-Flink-Jar")
 @RestController
 @RequestMapping(path = "/api/artifact/flink/jar")
 public class WsArtifactJarController {
@@ -116,10 +116,10 @@ public class WsArtifactJarController {
     }
 
     @Logging
-    @DeleteMapping("/artifact/{id}")
+    @DeleteMapping("/artifact/{artifactId}")
     @Operation(summary = "删除 artifact 下所有 flink jar", description = "删除 artifact 下所有 flink jar")
-    public ResponseEntity<ResponseVO> deleteArtifact(@PathVariable("id") Long id) throws IOException {
-        wsArtifactFlinkJarService.deleteArtifact(id);
+    public ResponseEntity<ResponseVO> deleteArtifact(@PathVariable("artifactId") Long artifactId) throws IOException {
+        wsArtifactFlinkJarService.deleteArtifact(artifactId);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 }

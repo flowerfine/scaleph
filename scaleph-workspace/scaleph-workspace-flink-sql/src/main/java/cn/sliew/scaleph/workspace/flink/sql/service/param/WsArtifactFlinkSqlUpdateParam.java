@@ -18,19 +18,10 @@
 
 package cn.sliew.scaleph.workspace.flink.sql.service.param;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.sliew.scaleph.workspace.project.service.param.AbstractWsArtifactUpdateParam;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
-
 @Data
-public class WsFlinkArtifactSqlSelectListParam {
-
-    @NotNull
-    @Schema(description = "Project ID")
-    private Long projectId;
-
-    @Schema(description = "name")
-    private String name;
+public class WsArtifactFlinkSqlUpdateParam extends AbstractWsArtifactUpdateParam {
 
 }

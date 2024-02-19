@@ -21,9 +21,9 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.dto;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
+import cn.sliew.scaleph.dao.entity.master.ws.WsArtifactFlinkSql;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
 import cn.sliew.scaleph.dao.entity.master.ws.WsArtifactFlinkJar;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactSql;
 import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -65,7 +65,7 @@ public class WsFlinkKubernetesJobDTO extends BaseDTO {
     private WsArtifactFlinkJar flinkArtifactJar;
 
     @Schema(description = "flink artifact sql")
-    private WsFlinkArtifactSql flinkArtifactSql;
+    private WsArtifactFlinkSql flinkArtifactSql;
 
     @Schema(description = "ws di job")
     private WsDiJob wsDiJob;
