@@ -29,6 +29,8 @@ const ProjectForm: React.FC<ModalFormProps<WsProject>> = ({
       onOpenChange={onVisibleChange}
       width={580}
       layout={"horizontal"}
+      labelCol={{span: 6}}
+      wrapperCol={{span: 16}}
       modalProps={{
         destroyOnClose: true,
         closeIcon: false

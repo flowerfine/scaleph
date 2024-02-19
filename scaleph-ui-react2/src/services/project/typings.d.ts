@@ -25,7 +25,7 @@ export type WsArtifact = {
   updateTime?: Date;
 };
 
-export type WsFlinkArtifactListParam = QueryParam & {
+export type WsArtifactListParam = QueryParam & {
   projectId?: number | string;
   name?: string;
 };
@@ -133,7 +133,7 @@ export type WsFlinkArtifactCDCUpdateParam = {
   remark?: string;
 };
 
-export type WsFlinkArtifactJar = {
+export type WsArtifactFlinkJar = {
   id?: number;
   artifact?: WsArtifact;
   flinkVersion?: Dict;
@@ -146,7 +146,7 @@ export type WsFlinkArtifactJar = {
   updateTime?: Date;
 };
 
-export type WsFlinkArtifactJarUploadParam = {
+export type WsArtifactFlinkJarUploadParam = {
   projectId: number | string;
   name: string;
   remark?: string;
@@ -156,7 +156,7 @@ export type WsFlinkArtifactJarUploadParam = {
   file?: UploadFile<any>;
 };
 
-export type WsFlinkArtifactJarUpdateParam = {
+export type WsArtifactFlinkJarUpdateParam = {
   id: number;
   name?: string;
   remark?: string;
@@ -166,24 +166,24 @@ export type WsFlinkArtifactJarUpdateParam = {
   file?: UploadFile<any>;
 };
 
-export type WsFlinkArtifactJarParam = QueryParam & {
+export type WsArtifactFlinkJarParam = QueryParam & {
   projectId?: number | string;
   name?: string;
   flinkVersion: string;
 };
 
-export type WsFlinkArtifactJarHistoryParam = QueryParam & {
+export type WsArtifactFlinkJarHistoryParam = QueryParam & {
   artifactId: number;
 };
 
-export type WsFlinkArtifactJarSelectListParam = {
+export type WsArtifactFlinkJarSelectListParam = {
   projectId: number;
   name?: string;
 };
 
-export type WsFlinkArtifactSql = {
+export type WsArtifactFlinkSql = {
   id?: number;
-  wsFlinkArtifact?: WsArtifact;
+  artifact?: WsArtifact;
   flinkVersion?: Dict;
   script?: string;
   current?: Dict;
@@ -191,25 +191,29 @@ export type WsFlinkArtifactSql = {
   updateTime?: Date;
 };
 
-export type WsFlinkArtifactSqlParam = QueryParam & {
-  flinkArtifactId: number;
-  version?: string;
+export type WsArtifactFlinkSqlParam = QueryParam & {
+  projectId?: number | string;
+  name?: string;
   flinkVersion: string;
 };
 
-export type WsFlinkArtifactSqlSelectListParam = {
+export type WsArtifactFlinkSqlHistoryParam = QueryParam & {
+  artifactId: number;
+};
+
+export type WsArtifactFlinkSqlSelectListParam = {
   projectId: number;
   name?: string;
 };
 
-export type WsFlinkArtifactSqlAddParam = {
+export type WsArtifactFlinkSqlSaveParam = {
+  id?: number;
   projectId: number | string;
   name: string;
   remark?: string;
-  flinkVersion: string;
 };
 
-export type WsFlinkArtifactSqlScriptUpdateParam = {
+export type WsArtifactFlinkSqlScriptUpdateParam = {
   id: number;
   script?: string;
 };
@@ -371,8 +375,8 @@ export type WsFlinkKubernetesJob = {
   flinkDeployment?: WsFlinkKubernetesDeployment;
   flinkSessionCluster?: WsFlinkKubernetesSessionCluster;
   type: Dict;
-  flinkArtifactJar?: WsFlinkArtifactJar;
-  flinkArtifactSql?: WsFlinkArtifactSql;
+  flinkArtifactJar?: WsArtifactFlinkJar;
+  flinkArtifactSql?: WsArtifactFlinkSql;
   wsDiJob?: WsDiJob;
   jobInstance?: WsFlinkKubernetesJobInstance;
   remark?: string;

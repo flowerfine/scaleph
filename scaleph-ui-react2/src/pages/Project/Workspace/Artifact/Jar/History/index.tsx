@@ -6,7 +6,7 @@ import {history, useAccess, useIntl, useLocation} from '@umijs/max';
 import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
 import {FlinkArtifactJarService} from '@/services/project/flinkArtifactJar.service';
 import {WsProjectService} from '@/services/project/WsProjectService';
-import {WsArtifact, WsFlinkArtifactJar, WsProject} from '@/services/project/typings';
+import {WsArtifact, WsArtifactFlinkJar, WsProject} from '@/services/project/typings';
 
 const FlinkArtifactJarHistoryWeb: React.FC = () => {
   const urlParams = useLocation();
@@ -23,7 +23,7 @@ const FlinkArtifactJarHistoryWeb: React.FC = () => {
     });
   }, []);
 
-  const tableColumns: ProColumns<WsFlinkArtifactJar>[] = [
+  const tableColumns: ProColumns<WsArtifactFlinkJar>[] = [
     {
       title: intl.formatMessage({id: 'pages.project.artifact.jar.fileName'}),
       dataIndex: 'fileName',
@@ -138,7 +138,7 @@ const FlinkArtifactJarHistoryWeb: React.FC = () => {
           </Descriptions>
         </PageHeader>
       </div>
-      <ProTable<WsFlinkArtifactJar>
+      <ProTable<WsArtifactFlinkJar>
         rowKey="id"
         actionRef={actionRef}
         formRef={formRef}

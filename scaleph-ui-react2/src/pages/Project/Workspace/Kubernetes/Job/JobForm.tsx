@@ -14,8 +14,8 @@ import {useIntl} from "@umijs/max";
 import {ModalFormProps} from '@/typings';
 import {
   WsDiJobSelectListParam,
-  WsFlinkArtifactJarSelectListParam,
-  WsFlinkArtifactSqlSelectListParam,
+  WsArtifactFlinkJarSelectListParam,
+  WsArtifactFlinkSqlSelectListParam,
   WsFlinkKubernetesDeploymentSelectListParam,
   WsFlinkKubernetesJob,
   WsFlinkKubernetesSessionClusterSelectListParam
@@ -194,7 +194,7 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
                   allowClear={false}
                   showSearch={true}
                   request={(params, props) => {
-                    const listParam: WsFlinkArtifactJarSelectListParam = {
+                    const listParam: WsArtifactFlinkJarSelectListParam = {
                       projectId: projectId,
                       name: params.keyWords
                     };
@@ -221,7 +221,7 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
                   allowClear={false}
                   showSearch={true}
                   request={(params, props) => {
-                    const listParam: WsFlinkArtifactSqlSelectListParam = {
+                    const listParam: WsArtifactFlinkSqlSelectListParam = {
                       projectId: projectId,
                       name: params.keyWords,
                     };
