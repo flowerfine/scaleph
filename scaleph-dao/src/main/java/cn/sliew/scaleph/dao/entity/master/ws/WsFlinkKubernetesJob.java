@@ -71,13 +71,13 @@ public class WsFlinkKubernetesJob extends BaseDO {
     private Long flinkArtifactJarId;
 
     @TableField(exist = false)
-    private WsFlinkArtifactJar flinkArtifactJar;
+    private WsArtifactFlinkJar flinkArtifactJar;
 
     @TableField("flink_artifact_sql_id")
     private Long flinkArtifactSqlId;
 
     @TableField(exist = false)
-    private WsFlinkArtifactSql flinkArtifactSql;
+    private WsArtifactFlinkSql flinkArtifactSql;
 
     @TableField("ws_di_job_id")
     private Long wsDiJobId;

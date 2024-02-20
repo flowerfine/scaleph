@@ -20,7 +20,6 @@ package cn.sliew.scaleph.engine.flink.kubernetes.factory;
 
 import cn.sliew.scaleph.common.dict.flink.*;
 import cn.sliew.scaleph.common.dict.image.ImagePullPolicy;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkVersion;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.*;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.template.FlinkTemplate;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.template.FlinkTemplateSpec;
@@ -79,7 +78,7 @@ public enum FlinkDefaultTemplateFactory {
         FlinkTemplateSpec spec = new FlinkTemplateSpec();
         cn.sliew.scaleph.common.dict.flink.FlinkVersion current = cn.sliew.scaleph.common.dict.flink.FlinkVersion.current();
         FlinkVersionMapping flinkVersionMapping = FlinkVersionMapping.of(current);
-        spec.setFlinkVersion(EnumUtils.getEnum(FlinkVersion.class, flinkVersionMapping.getMajorVersion().getValue()));
+        spec.setFlinkVersion(EnumUtils.getEnum(cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkVersion.class, flinkVersionMapping.getMajorVersion().getValue()));
         FlinkImageMapping flinkImageMapping = FlinkImageMapping.of(FlinkJobType.JAR, flinkVersionMapping.getMajorVersion());
         spec.setImage(flinkImageMapping.getImage());
         spec.setImagePullPolicy(ImagePullPolicy.IF_NOT_PRESENT.getValue());

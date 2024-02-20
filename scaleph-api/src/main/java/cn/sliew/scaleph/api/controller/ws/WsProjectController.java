@@ -19,9 +19,9 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.project.service.WsProjectService;
-import cn.sliew.scaleph.project.service.dto.WsProjectDTO;
-import cn.sliew.scaleph.project.service.param.WsProjectParam;
+import cn.sliew.scaleph.workspace.project.service.WsProjectService;
+import cn.sliew.scaleph.workspace.project.service.dto.WsProjectDTO;
+import cn.sliew.scaleph.workspace.project.service.param.WsProjectParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;

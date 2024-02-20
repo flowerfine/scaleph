@@ -6,29 +6,29 @@ import {history, useAccess, useIntl} from '@umijs/max';
 import {WORKSPACE_CONF} from '@/constants/constant';
 import {DICT_TYPE} from '@/constants/dictType';
 import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
-import {WsFlinkArtifactSql} from '@/services/project/typings';
+import {WsArtifactFlinkSql} from '@/services/project/typings';
 import FlinkArtifactSqlForm from '@/pages/Project/Workspace/Artifact/Sql/FlinkArtifactSqlForm';
 import {DictDataService} from "@/services/admin/dictData.service";
 import {FlinkArtifactSqlService} from "@/services/project/WsFlinkArtifactSqlService";
 
-const JobArtifactSqlView: React.FC = () => {
+const ArtifactFlinkSqlWeb: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
-  const [flinkArtifactSqlFormData, setFlinkArtifactSqlFormData] = useState<{
+  const [artifactFlinkSqlFormData, setArtifactFlinkSqlFormData] = useState<{
     visiable: boolean;
-    data: WsFlinkArtifactSql;
+    data: WsArtifactFlinkSql;
   }>({visiable: false, data: {}});
 
-  const tableColumns: ProColumns<WsFlinkArtifactSql>[] = [
+  const tableColumns: ProColumns<WsArtifactFlinkSql>[] = [
     {
       title: intl.formatMessage({id: 'pages.project.artifact.name'}),
       dataIndex: 'name',
       width: 240,
       render: (dom, entity, index, action, schema) => {
-        return entity.wsFlinkArtifact?.name
+        return entity.artifact?.name
       }
     },
     {
@@ -48,7 +48,7 @@ const JobArtifactSqlView: React.FC = () => {
       width: 240,
       hideInSearch: true,
       render: (dom, entity, index, action, schema) => {
-        return entity.wsFlinkArtifact?.remark
+        return entity.artifact?.remark
       }
     },
     {
@@ -80,7 +80,7 @@ const JobArtifactSqlView: React.FC = () => {
                   type="link"
                   icon={<EditOutlined/>}
                   onClick={() => {
-                    setFlinkArtifactSqlFormData({visiable: true, data: record});
+                    setArtifactFlinkSqlFormData({visiable: true, data: record});
                   }}
                 />
               </Tooltip>
@@ -111,7 +111,7 @@ const JobArtifactSqlView: React.FC = () => {
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
-                        FlinkArtifactSqlService.deleteAll(record.wsFlinkArtifact.id).then((d) => {
+                        FlinkArtifactSqlService.deleteArtifact(record.artifact?.id).then((d) => {
                           if (d.success) {
                             message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();
@@ -131,7 +131,7 @@ const JobArtifactSqlView: React.FC = () => {
 
   return (
     <div>
-      <ProTable<WsFlinkArtifactSql>
+      <ProTable<WsArtifactFlinkSql>
         search={{
           labelWidth: 'auto',
           span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -151,7 +151,7 @@ const JobArtifactSqlView: React.FC = () => {
                 key="new"
                 type="primary"
                 onClick={() => {
-                  setFlinkArtifactSqlFormData({visiable: true, data: {}});
+                  setArtifactFlinkSqlFormData({visiable: true, data: {}});
                 }}
               >
                 {intl.formatMessage({id: 'app.common.operate.new.label'})}
@@ -163,15 +163,15 @@ const JobArtifactSqlView: React.FC = () => {
         tableAlertRender={false}
         tableAlertOptionRender={false}
       />
-      {flinkArtifactSqlFormData.visiable && (
+      {artifactFlinkSqlFormData.visiable && (
         <FlinkArtifactSqlForm
-          data={flinkArtifactSqlFormData.data}
-          visible={flinkArtifactSqlFormData.visiable}
+          data={artifactFlinkSqlFormData.data}
+          visible={artifactFlinkSqlFormData.visiable}
           onCancel={() => {
-            setFlinkArtifactSqlFormData({visiable: false, data: {}});
+            setArtifactFlinkSqlFormData({visiable: false, data: {}});
           }}
           onVisibleChange={(visiable) => {
-            setFlinkArtifactSqlFormData({visiable: visiable, data: {}});
+            setArtifactFlinkSqlFormData({visiable: visiable, data: {}});
             actionRef.current?.reload();
           }}
         />
@@ -179,4 +179,4 @@ const JobArtifactSqlView: React.FC = () => {
     </div>
   );
 };
-export default JobArtifactSqlView;
+export default ArtifactFlinkSqlWeb;

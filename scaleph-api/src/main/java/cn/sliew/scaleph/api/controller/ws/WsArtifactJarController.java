@@ -19,12 +19,10 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.common.exception.ScalephException;
-import cn.sliew.scaleph.engine.flink.service.WsFlinkArtifactJarService;
-import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
-import cn.sliew.scaleph.engine.flink.service.param.*;
 import cn.sliew.scaleph.system.model.ResponseVO;
-import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
+import cn.sliew.scaleph.workspace.flink.service.WsArtifactFlinkJarService;
+import cn.sliew.scaleph.workspace.flink.service.dto.WsArtifactFlinkJarDTO;
+import cn.sliew.scaleph.workspace.flink.service.param.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -41,59 +39,59 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
 
-@Tag(name = "Flink管理-artifact-jar")
+@Tag(name = "Artifact管理-Flink-Jar")
 @RestController
-@RequestMapping(path = "/api/flink/artifact/jar")
+@RequestMapping(path = "/api/artifact/flink/jar")
 public class WsArtifactJarController {
 
     @Autowired
-    private WsFlinkArtifactJarService wsFlinkArtifactJarService;
+    private WsArtifactFlinkJarService wsArtifactFlinkJarService;
 
     @Logging
     @GetMapping
-    @Operation(summary = "查询 artifact jar 列表", description = "查询 artifact jar 列表")
-    public ResponseEntity<Page<WsFlinkArtifactJarDTO>> list(@Valid WsFlinkArtifactJarListParam param) {
-        Page<WsFlinkArtifactJarDTO> result = wsFlinkArtifactJarService.list(param);
+    @Operation(summary = "查询 flink jar 列表", description = "查询 flink jar 列表")
+    public ResponseEntity<Page<WsArtifactFlinkJarDTO>> list(@Valid WsArtifactFlinkJarListParam param) {
+        Page<WsArtifactFlinkJarDTO> result = wsArtifactFlinkJarService.list(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Logging
-    @GetMapping("/page")
-    @Operation(summary = "根据 id 分页查询 artifact jar 列表", description = "根据 id 分页查询 artifact jar 列表")
-    public ResponseEntity<Page<WsFlinkArtifactJarDTO>> listByArtifact(@Valid WsFlinkArtifactJarHistoryParam param) {
-        final Page<WsFlinkArtifactJarDTO> result = wsFlinkArtifactJarService.listByArtifact(param);
+    @GetMapping("/history")
+    @Operation(summary = "根据 artifact 分页查询 flink jar 列表", description = "根据 artifact 分页查询 flink jar 列表")
+    public ResponseEntity<Page<WsArtifactFlinkJarDTO>> listByArtifact(@Valid WsArtifactFlinkJarArtifactParam param) {
+        Page<WsArtifactFlinkJarDTO> result = wsArtifactFlinkJarService.listByArtifact(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Logging
     @GetMapping("/all")
-    @Operation(summary = "查询 artifact jar 列表", description = "查询 artifact jar 列表")
-    public ResponseEntity<List<WsFlinkArtifactJarDTO>> listAll(@Valid WsFlinkArtifactJarSelectListParam param) {
-        final List<WsFlinkArtifactJarDTO> result = wsFlinkArtifactJarService.listAll(param);
+    @Operation(summary = "查询 flink jar 列表", description = "查询 flink jar 列表")
+    public ResponseEntity<List<WsArtifactFlinkJarDTO>> listAll(@Valid WsArtifactFlinkJarSelectListParam param) {
+        List<WsArtifactFlinkJarDTO> result = wsArtifactFlinkJarService.listAll(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Logging
     @GetMapping("/{id}")
-    @Operation(summary = "查询 artifact jar 详情", description = "查询 artifact jar 详情")
-    public ResponseEntity<WsFlinkArtifactJarDTO> selectOne(@PathVariable("id") Long id) {
-        WsFlinkArtifactJarDTO result = wsFlinkArtifactJarService.selectOne(id);
+    @Operation(summary = "查询 flink jar 详情", description = "查询 flink jar 详情")
+    public ResponseEntity<WsArtifactFlinkJarDTO> selectOne(@PathVariable("id") Long id) {
+        WsArtifactFlinkJarDTO result = wsArtifactFlinkJarService.selectOne(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Logging
     @PutMapping
-    @Operation(summary = "上传 artifact jar", description = "上传 artifact jar")
-    public ResponseEntity<ResponseVO> upload(@Valid WsFlinkArtifactJarUploadParam param, @RequestPart("file") MultipartFile file) throws IOException, UidGenerateException {
-        wsFlinkArtifactJarService.upload(param, file);
+    @Operation(summary = "上传 flink jar", description = "上传 flink jar")
+    public ResponseEntity<ResponseVO> upload(@Valid WsArtifactFlinkJarUploadParam param, @RequestPart("file") MultipartFile file) throws IOException {
+        wsArtifactFlinkJarService.upload(param, file);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
     @PostMapping("jar")
-    @Operation(summary = "修改 artifact jar", description = "修改 artifact jar")
-    public ResponseEntity<ResponseVO> updateJar(@Valid WsFlinkArtifactJarUpdateParam param, @RequestPart(value = "file", required = false) MultipartFile file) throws UidGenerateException, IOException {
-        this.wsFlinkArtifactJarService.update(param, file);
+    @Operation(summary = "修改 flink jar", description = "修改 flink jar")
+    public ResponseEntity<ResponseVO> updateJar(@Valid WsArtifactFlinkJarUpdateParam param, @RequestPart(value = "file", required = false) MultipartFile file) throws IOException {
+        wsArtifactFlinkJarService.update(param, file);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
@@ -102,7 +100,7 @@ public class WsArtifactJarController {
     @Operation(summary = "下载 artifact jar", description = "下载 artifact jar")
     public ResponseEntity<ResponseVO> download(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
         try (ServletOutputStream outputStream = response.getOutputStream()) {
-            String fileName = wsFlinkArtifactJarService.download(id, outputStream);
+            String fileName = wsArtifactFlinkJarService.download(id, outputStream);
             response.setCharacterEncoding("utf-8");// 设置字符编码
             response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8")); // 设置响应头
         }
@@ -111,17 +109,17 @@ public class WsArtifactJarController {
 
     @Logging
     @DeleteMapping("/{id}")
-    @Operation(summary = "删除 artifact jar", description = "删除 artifact jar")
-    public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) throws ScalephException, IOException {
-        wsFlinkArtifactJarService.deleteOne(id);
+    @Operation(summary = "删除 flink jar", description = "删除 flink jar")
+    public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) throws IOException {
+        wsArtifactFlinkJarService.deleteOne(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
-    @DeleteMapping("/all/{id}")
-    @Operation(summary = "删除所有 artifact jar", description = "删除所有 artifact jar")
-    public ResponseEntity<ResponseVO> deleteAll(@PathVariable("id") Long id) throws IOException, ScalephException {
-        wsFlinkArtifactJarService.deleteAll(id);
+    @DeleteMapping("/artifact/{artifactId}")
+    @Operation(summary = "删除 artifact 下所有 flink jar", description = "删除 artifact 下所有 flink jar")
+    public ResponseEntity<ResponseVO> deleteArtifact(@PathVariable("artifactId") Long artifactId) throws IOException {
+        wsArtifactFlinkJarService.deleteArtifact(artifactId);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 }

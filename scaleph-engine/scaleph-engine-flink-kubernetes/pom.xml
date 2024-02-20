@@ -35,19 +35,19 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-engine-flink</artifactId>
+            <artifactId>scaleph-workspace-flink</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-engine-seatunnel</artifactId>
+            <artifactId>scaleph-workspace-seatunnel</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-engine-flink-cdc</artifactId>
+            <artifactId>scaleph-workspace-flink-cdc</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-engine-sql</artifactId>
+            <artifactId>scaleph-workspace-flink-sql</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>

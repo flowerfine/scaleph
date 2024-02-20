@@ -3,13 +3,13 @@ package cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.job.instanc
 import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.common.util.SeaTunnelReleaseUtil;
 import cn.sliew.scaleph.config.kubernetes.resource.ResourceNames;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactSql;
+import cn.sliew.scaleph.dao.entity.master.ws.WsArtifactFlinkJar;
+import cn.sliew.scaleph.dao.entity.master.ws.WsArtifactFlinkSql;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.FileFetcherHandler;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.handler.SeaTunnelConfHandler;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -47,7 +47,7 @@ public class FlinkDeploymentArtifactHandler implements ArtifactHandler {
     }
 
     private void addJarArtifact(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
-        WsFlinkArtifactJar flinkArtifactJar = jobInstanceDTO.getWsFlinkKubernetesJob().getFlinkArtifactJar();
+        WsArtifactFlinkJar flinkArtifactJar = jobInstanceDTO.getWsFlinkKubernetesJob().getFlinkArtifactJar();
         JobSpec jobSpec = new JobSpec();
         jobSpec.setJarURI(ResourceNames.JAR_LOCAL_PATH + flinkArtifactJar.getFileName());
         jobSpec.setEntryClass(flinkArtifactJar.getEntryClass());
@@ -57,7 +57,7 @@ public class FlinkDeploymentArtifactHandler implements ArtifactHandler {
     }
 
     private void addSQLArtifact(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
-        WsFlinkArtifactSql flinkArtifactSql = jobInstanceDTO.getWsFlinkKubernetesJob().getFlinkArtifactSql();
+        WsArtifactFlinkSql flinkArtifactSql = jobInstanceDTO.getWsFlinkKubernetesJob().getFlinkArtifactSql();
         JobSpec jobSpec = new JobSpec();
         jobSpec.setJarURI(ResourceNames.SQL_RUNNER_LOCAL_PATH);
         jobSpec.setEntryClass(ResourceNames.SQL_RUNNER_ENTRY_CLASS);

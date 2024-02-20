@@ -6,13 +6,13 @@ import {history, useAccess, useIntl} from '@umijs/max';
 import {WORKSPACE_CONF} from '@/constants/constant';
 import {DICT_TYPE} from '@/constants/dictType';
 import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
-import {WsFlinkArtifactJar} from '@/services/project/typings';
+import {WsArtifactFlinkJar} from '@/services/project/typings';
 import FlinkArtifactJarAddForm from './FlinkArtifactJarAddForm';
 import {FlinkArtifactJarService} from "@/services/project/flinkArtifactJar.service";
 import {DictDataService} from "@/services/admin/dictData.service";
 import FlinkArtifactJarUpdateForm from "@/pages/Project/Workspace/Artifact/Jar/FlinkArtifactJarUpdateForm";
 
-const ArtifactJarView: React.FC = () => {
+const ArtifactFlinkJarWeb: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
@@ -23,16 +23,16 @@ const ArtifactJarView: React.FC = () => {
   }>({visiable: false});
   const [flinkArtifactJarUpdateFormData, setFlinkArtifactJarUpdateFormData] = useState<{
     visiable: boolean;
-    data: WsFlinkArtifactJar;
+    data: WsArtifactFlinkJar;
   }>({visiable: false, data: {}});
 
-  const tableColumns: ProColumns<WsFlinkArtifactJar>[] = [
+  const tableColumns: ProColumns<WsArtifactFlinkJar>[] = [
     {
       title: intl.formatMessage({id: 'pages.project.artifact.name'}),
       dataIndex: 'name',
       width: 240,
       render: (dom, entity, index, action, schema) => {
-        return entity.wsFlinkArtifact?.name
+        return entity.artifact?.name
       }
     },
     {
@@ -70,7 +70,7 @@ const ArtifactJarView: React.FC = () => {
       width: 240,
       hideInSearch: true,
       render: (dom, entity, index, action, schema) => {
-        return entity.wsFlinkArtifact?.remark
+        return entity.artifact?.remark
       }
     },
     {
@@ -126,7 +126,7 @@ const ArtifactJarView: React.FC = () => {
                   type="link"
                   icon={<FolderOpenOutlined/>}
                   onClick={() => {
-                    history.push('/workspace/artifact/history', record.wsFlinkArtifact);
+                    history.push('/workspace/artifact/history', record.artifact);
                   }}
                 />
               </Tooltip>
@@ -145,7 +145,7 @@ const ArtifactJarView: React.FC = () => {
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
-                        FlinkArtifactJarService.deleteAll(record.wsFlinkArtifact.id).then((d) => {
+                        FlinkArtifactJarService.deleteArtifact(record.artifact?.id).then((d) => {
                           if (d.success) {
                             message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();
@@ -165,7 +165,7 @@ const ArtifactJarView: React.FC = () => {
 
   return (
     <div>
-      <ProTable<WsFlinkArtifactJar>
+      <ProTable<WsArtifactFlinkJar>
         search={{
           labelWidth: 'auto',
           span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -225,4 +225,4 @@ const ArtifactJarView: React.FC = () => {
     </div>
   );
 };
-export default ArtifactJarView;
+export default ArtifactFlinkJarWeb;

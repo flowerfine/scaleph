@@ -9,18 +9,18 @@ create table ws_project
     project_name varchar(64) comment '项目名称',
     remark       varchar(256) comment '备注',
     creator      varchar(32) comment '创建人',
-    create_time  datetime    not null default current_timestamp comment '创建时间',
+    create_time  timestamp   not null default current_timestamp comment '创建时间',
     editor       varchar(32) comment '修改人',
-    update_time  datetime    not null default current_timestamp on update current_timestamp comment '修改时间',
+    update_time  timestamp   not null default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique key uniq_project (project_code)
 ) engine = innodb comment '项目信息';
 
 insert into ws_project(id, project_code, project_name, remark, creator, editor)
-VALUES (1, 'seatunnel', 'seatunnel-examples', NULL, 'sys', 'sys');
+values (1, 'seatunnel', 'seatunnel-examples', null, 'sys', 'sys');
 
-drop table if exists ws_flink_artifact;
-create table ws_flink_artifact
+drop table if exists ws_artifact;
+create table ws_artifact
 (
     id          bigint       not null auto_increment comment '自增主键',
     project_id  bigint       not null comment '项目id',
@@ -35,97 +35,90 @@ create table ws_flink_artifact
     unique uniq_name (project_id, `type`, name)
 ) engine = innodb comment = 'flink artifact';
 
-INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+INSERT INTO `ws_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (1, 1, '0', 'simple sql', NULL, 'sys', 'sys');
-INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+INSERT INTO `ws_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (2, 1, '0', 'sql-runner1', NULL, 'sys', 'sys');
-INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+INSERT INTO `ws_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (3, 1, '0', 'sql-runner2', NULL, 'sys', 'sys');
-INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+INSERT INTO `ws_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (4, 1, '2', 'e_commerce', NULL, 'sys', 'sys');
-INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+INSERT INTO `ws_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (5, 1, '2', 'fake', NULL, 'sys', 'sys');
-INSERT INTO `ws_flink_artifact`(`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+INSERT INTO `ws_artifact`(`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (6, 1, '0', 'catalog-example', NULL, 'sys', 'sys');
-INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+INSERT INTO `ws_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (7, 1, '0', 'select-example', NULL, 'sys', 'sys');
-INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+INSERT INTO `ws_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (8, 1, '0', 'jdbc&paimon-example', 'jdbc 和 paimon catalog example', 'sys', 'sys');
-INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+INSERT INTO `ws_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (9, 1, '0', 'sakura-example', 'sakura catalog example', 'sys', 'sys');
-INSERT INTO `ws_flink_artifact`(`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+INSERT INTO `ws_artifact`(`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (10, 1, '3', 'flink-cdc-example', NULL, 'sys', 'sys');
 
-drop table if exists ws_flink_artifact_jar;
-create table ws_flink_artifact_jar
+drop table if exists ws_artifact_flink_jar;
+create table ws_artifact_flink_jar
 (
-    id                bigint       not null auto_increment comment '自增主键',
-    flink_artifact_id bigint       not null comment '作业artifact id',
-    flink_version     varchar(32)  not null comment 'flink版本',
-    entry_class       varchar(255) not null comment 'main class',
-    file_name         varchar(255) not null comment '文件名称',
-    path              varchar(255) not null comment '文件路径',
-    jar_params        text comment 'jar 运行参数',
-    current           varchar(16)  not null comment 'current artifact',
-    creator           varchar(32) comment '创建人',
-    create_time       timestamp default current_timestamp comment '创建时间',
-    editor            varchar(32) comment '修改人',
-    update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
+    id            bigint       not null auto_increment comment '自增主键',
+    artifact_id   bigint       not null comment '作业artifact id',
+    flink_version varchar(32)  not null comment 'flink版本',
+    entry_class   varchar(255) not null comment 'main class',
+    file_name     varchar(255) not null comment '文件名称',
+    path          varchar(255) not null comment '文件路径',
+    jar_params    text comment 'jar 运行参数',
+    current       varchar(16)  not null comment 'current artifact',
+    creator       varchar(32) comment '创建人',
+    create_time   timestamp default current_timestamp comment '创建时间',
+    editor        varchar(32) comment '修改人',
+    update_time   timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key               idx_flink_artifact (flink_artifact_id)
-) engine = innodb comment = 'flink artifact jar';
+    key           idx_artifact (artifact_id)
+) engine = innodb comment = 'artifact flink-jar';
 
-DROP TABLE IF EXISTS ws_flink_artifact_sql;
-CREATE TABLE ws_flink_artifact_sql
+drop table if exists ws_artifact_flink_sql;
+create table ws_artifact_flink_sql
 (
-    id                bigint      not null auto_increment,
-    flink_artifact_id bigint      not null comment '作业artifact id',
-    flink_version     varchar(32) not null comment 'flink版本',
-    script            mediumtext comment 'sql script',
-    current           varchar(16) not null comment 'current artifact',
-    creator           varchar(32),
-    create_time       datetime    not null default current_timestamp,
-    editor            varchar(32),
-    update_time       datetime    not null default current_timestamp on update current_timestamp,
+    id            bigint      not null auto_increment,
+    artifact_id   bigint      not null comment '作业artifact id',
+    flink_version varchar(32) not null comment 'flink版本',
+    script        mediumtext comment 'sql script',
+    current       varchar(16) not null comment 'current artifact',
+    creator       varchar(32),
+    create_time   datetime    not null default current_timestamp,
+    editor        varchar(32),
+    update_time   datetime    not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
-    key               idx_flink_artifact (flink_artifact_id)
+    key           idx_flink_artifact (artifact_id)
 ) ENGINE = INNODB COMMENT = 'flink artifact sql';
 
-INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
-                                     `editor`)
+INSERT INTO `ws_artifact_flink_sql` (`id`, `artifact_id`, `flink_version`, `script`, `current`, `creator`, `editor`)
 VALUES (1, 1, '1.18.0',
         'CREATE TEMPORARY TABLE source_table (\n  `id` bigint,\n  `name` string,\n  `age` int,\n  `address` string,\n  `create_time`TIMESTAMP(3),\n  `update_time`TIMESTAMP(3),\n  WATERMARK FOR `update_time` AS update_time - INTERVAL \'1\' MINUTE -- sql editor 这里直接运行正确，在 flink kubernetes -> job 部署的时候异常\n)\nCOMMENT \'\'\nWITH (\n  \' connector\' = \'datagen\',\n  \'number-of-rows\' = \'100\'\n);\n\nCREATE TEMPORARY TABLE `sink_table` (\n  `id` BIGINT,\n  `name` VARCHAR(2147483647),\n  `age` INT,\n  `address` VARCHAR(2147483647),\n  `create_time` TIMESTAMP(3),\n  `update_time` TIMESTAMP(3)\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'print\'\n);\n\ninsert into sink_table\nselect id, name, age, address, create_time, update_time from source_table;',
         '1', 'sys', 'sys');
-INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
-                                     `editor`)
+INSERT INTO `ws_artifact_flink_sql` (`id`, `artifact_id`, `flink_version`, `script`, `current`, `creator`, `editor`)
 VALUES (2, 2, '1.18.0',
         'CREATE TABLE orders (\n  order_number BIGINT,\n  price        DECIMAL(32,2),\n  buyer        ROW<first_name STRING, last_name STRING>,\n  order_time   TIMESTAMP(3)\n) WITH (\n  \'connector\' = \'datagen\'\n);\n\nCREATE TABLE print_table WITH (\'connector\' = \'print\')\n  LIKE orders;\n\nINSERT INTO print_table SELECT * FROM orders;',
         '1', 'sys', 'sys');
-INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
-                                     `editor`)
+INSERT INTO `ws_artifact_flink_sql` (`id`, `artifact_id`, `flink_version`, `script`, `current`, `creator`, `editor`)
 VALUES (3, 3, '1.18.0',
         'CREATE TABLE orders (\n  order_number BIGINT,\n  price        DECIMAL(32,2),\n  buyer        ROW<first_name STRING, last_name STRING>,\n  order_time   TIMESTAMP(3)\n) WITH (\n  \'connector\' = \'datagen\'\n);\n\nCREATE TABLE print_table WITH (\'connector\' = \'print\')\n    LIKE orders;\nCREATE TABLE blackhole_table WITH (\'connector\' = \'blackhole\')\n    LIKE orders;\n\nEXECUTE STATEMENT SET\nBEGIN\nINSERT INTO print_table SELECT * FROM orders;\nINSERT INTO blackhole_table SELECT * FROM orders;\nEND;',
         '1', 'sys', 'sys');
-INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
-                                     `editor`)
+INSERT INTO `ws_artifact_flink_sql` (`id`, `artifact_id`, `flink_version`, `script`, `current`, `creator`, `editor`)
 VALUES (4, 6, '1.18.0',
         'CREATE CATALOG my_catalog WITH (\n    \'type\' = \'generic_in_memory\'\n);\n\nCREATE DATABASE my_catalog.my_database;\n\n\nCREATE TABLE my_catalog.my_database.source_table (\n  `id` bigint,\n  `name` string,\n  `age` int,\n  `address` string,\n  `create_time`TIMESTAMP(3),\n  `update_time`TIMESTAMP(3),\n  WATERMARK FOR `update_time` AS update_time - INTERVAL \'1\' MINUTE -- sql editor 这里直接运行正确，在 flink kubernetes -> job 部署的时候异常\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'datagen\',\n  \'number-of-rows\' = \'100\'\n);\n\nCREATE TABLE my_catalog.my_database.sink_table (\n  `id` BIGINT,\n  `name` VARCHAR(2147483647),\n  `age` INT,\n  `address` VARCHAR(2147483647),\n  `create_time` TIMESTAMP(3),\n  `update_time` TIMESTAMP(3)\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'print\'\n);\n\nINSERT INTO my_catalog.my_database.sink_table\nSELECT id, name, age, address, create_time, update_time FROM my_catalog.my_database.source_table;',
         '1', 'sys', 'sys');
-INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
-                                     `editor`)
+INSERT INTO `ws_artifact_flink_sql` (`id`, `artifact_id`, `flink_version`, `script`, `current`, `creator`, `editor`)
 VALUES (5, 7, '1.18.0',
         'CREATE CATALOG my_catalog WITH (\n    \'type\' = \'generic_in_memory\'\n);\n\nCREATE DATABASE my_catalog.my_database;\n\n\nCREATE TABLE my_catalog.my_database.source_table (\n  `id` bigint,\n  `name` string,\n  `age` int,\n  `address` string,\n  `money` decimal(64, 4),\n  `create_time`TIMESTAMP(3),\n  `update_time`TIMESTAMP(3),\n  WATERMARK FOR `update_time` AS update_time - INTERVAL \'1\' MINUTE -- sql editor 这里直接运行正确，在 flink kubernetes -> job 部署的时候异常\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'datagen\',\n  \'number-of-rows\' = \'200\'\n);\n\nSELECT * FROM my_catalog.my_database.source_table;',
         '1', 'sys', 'sys');
-INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
-                                     `editor`)
+INSERT INTO `ws_artifact_flink_sql` (`id`, `artifact_id`, `flink_version`, `script`, `current`, `creator`, `editor`)
 VALUES (6, 8, '1.18.0',
         'CREATE CATALOG jdbc_scaleph WITH(\n  \'type\' = \'jdbc\',\n  \'base-url\' = \'jdbc:mysql://localhost:3306\',\n  \'username\' = \'root\',\n  \'password\' = \'123456\',\n  \'default-database\' = \'data_service\'\n);\n\nCREATE CATALOG paimon_minio WITH (\n    \'type\'=\'paimon\',\n    \'warehouse\'=\'s3a://scaleph/paimon\',\n    \'s3.endpoint\' = \'http://localhost:9000\',\n    \'s3.access-key\' = \'admin\',\n    \'s3.secret-key\' = \'password\',\n    \'s3.path.style.access\' = \'true\'\n);\n\nCREATE DATABASE paimon_minio.jdbc_data_service;\n\nCREATE TABLE paimon_minio.jdbc_data_service.sample_data_e_commerce (\n  `id` BIGINT COMMENT \'自增主键\',\n  `invoice_no` STRING COMMENT \'发票号码，每笔交易分配唯一的6位整数，而退货订单的代码以字母\'\'c\'\'开头\',\n  `stock_code` STRING COMMENT \'产品代码，每个不同的产品分配唯一的5位整数\',\n  `description` STRING COMMENT \'产品描述，对每件产品的简略描述\',\n  `quantity` INT COMMENT \'产品数量，每笔交易的每件产品的数量\',\n  `invoice_date` STRING COMMENT \'发票日期和时间，每笔交易发生的日期和时间\',\n  `unit_price` DECIMAL(20, 2) COMMENT \'单价（英镑），单位产品价格\',\n  `customer_id`STRING COMMENT \'顾客号码，每个客户分配唯一的5位整数\',\n  `country`STRING COMMENT \'国家的名字，每个客户所在国家/地区的名称\',\n  PRIMARY KEY(`invoice_no`) NOT ENFORCED\n)\nCOMMENT \'E-Commerce 数据集\'\n;\n\nINSERT INTO paimon_minio.jdbc_data_service.sample_data_e_commerce\nSELECT * FROM jdbc_scaleph.data_service.sample_data_e_commerce;',
         '1', 'sys', 'sys');
-INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
-                                     `editor`)
+INSERT INTO `ws_artifact_flink_sql` (`id`, `artifact_id`, `flink_version`, `script`, `current`, `creator`, `editor`)
 VALUES (7, 9, '1.18.0',
         'CREATE CATALOG sakura WITH(\n  \'type\' = \'sakura\',\n  \'jdbcUrl\' = \'jdbc:mysql://localhost:3306/sakura\',\n  \'username\' = \'root\',\n  \'password\' = \'123456\',\n  \'driver\' = \'com.mysql.cj.jdbc.Driver\'\n);\n\nCREATE DATABASE sakura.dev;\n\nCREATE TABLE sakura.dev.orders (\n  order_number BIGINT,\n  price        DECIMAL(32,2),\n  buyer        ROW<first_name STRING, last_name STRING>,\n  order_time   TIMESTAMP(3)\n) WITH (\n  \'connector\' = \'datagen\'\n);\n\nCREATE TABLE sakura.dev.print_table WITH (\'connector\' = \'print\')\n  LIKE sakura.dev.orders;\n\nINSERT INTO sakura.dev.print_table \nSELECT * FROM sakura.dev.orders;',
-        '1', 'sysc', 'sys');
+        '1', 'sys', 'sys');
 
 drop table if exists ws_flink_artifact_cdc;
 create table ws_flink_artifact_cdc

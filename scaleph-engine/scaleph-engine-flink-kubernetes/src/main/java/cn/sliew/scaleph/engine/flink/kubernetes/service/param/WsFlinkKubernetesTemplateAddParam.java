@@ -20,9 +20,9 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.param;
 
 import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.IngressSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.TaskManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
 import io.fabric8.kubernetes.api.model.Pod;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
