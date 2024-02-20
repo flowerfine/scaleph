@@ -22,7 +22,6 @@ import cn.sliew.scaleph.engine.flink.client.v1.model.job.*;
 import cn.sliew.scaleph.engine.flink.client.v1.model.job.checkpoint.CheckpointConfigInfo;
 import cn.sliew.scaleph.engine.flink.client.v1.model.job.checkpoint.CheckpointStatistics;
 import cn.sliew.scaleph.engine.flink.client.v1.model.job.checkpoint.CheckpointingStatistics;
-import cn.sliew.scaleph.workspace.flink.client.v1.model.job.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
