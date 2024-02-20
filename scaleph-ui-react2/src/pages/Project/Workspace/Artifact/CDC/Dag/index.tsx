@@ -12,7 +12,7 @@ const FlinkArtifactCDCDagWeb: React.FC = () => {
 
   return (
     <PageContainer title={false}>
-      Flink CDC Dag Web: {data.wsFlinkArtifact?.name}
+      Flink CDC Dag Web: {data.artifact?.name}
     </PageContainer>
   );
 };
