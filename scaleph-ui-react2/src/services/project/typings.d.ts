@@ -97,9 +97,9 @@ export type WsDiJobStep = {
   updateTime?: Date;
 };
 
-export type WsFlinkArtifactCDC = {
+export type WsArtifactFlinkCDC = {
   id?: number;
-  wsFlinkArtifact?: WsArtifact;
+  artifact?: WsArtifact;
   flinkVersion?: Dict;
   flinkCDCVersion?: Dict;
   current?: Dict;
@@ -107,29 +107,31 @@ export type WsFlinkArtifactCDC = {
   updateTime?: Date;
 };
 
-export type WsFlinkArtifactCDCParam = QueryParam & {
+export type WsArtifactFlinkCDCParam = QueryParam & {
   projectId: number;
   flinkVersion?: string;
   flinkCDCVersion?: string;
   name?: string;
 };
 
-export type WsFlinkArtifactCDCSelectListParam = {
+export type WsArtifactFlinkCDCHistoryParam = QueryParam & {
+  artifactId: number;
+};
+
+export type WsArtifactFlinkCDCSelectListParam = {
   projectId: number;
   name?: string;
 };
 
-export type WsFlinkArtifactCDCAddParam = {
+export type WsArtifactFlinkCDCAddParam = {
   projectId: number;
   name?: string;
-  flinkVersion?: string;
   remark?: string;
 };
 
-export type WsFlinkArtifactCDCUpdateParam = {
+export type WsArtifactFlinkCDCUpdateParam = {
   id: number;
   name?: string;
-  flinkVersion?: string;
   remark?: string;
 };
 

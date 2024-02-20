@@ -89,7 +89,7 @@ create table ws_artifact_flink_sql
     update_time   datetime    not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
     key           idx_flink_artifact (artifact_id)
-) ENGINE = INNODB COMMENT = 'flink artifact sql';
+) ENGINE = INNODB COMMENT = 'artifact flink-sql';
 
 INSERT INTO `ws_artifact_flink_sql` (`id`, `artifact_id`, `flink_version`, `script`, `current`, `creator`, `editor`)
 VALUES (1, 1, '1.18.0',
@@ -120,11 +120,11 @@ VALUES (7, 9, '1.18.0',
         'CREATE CATALOG sakura WITH(\n  \'type\' = \'sakura\',\n  \'jdbcUrl\' = \'jdbc:mysql://localhost:3306/sakura\',\n  \'username\' = \'root\',\n  \'password\' = \'123456\',\n  \'driver\' = \'com.mysql.cj.jdbc.Driver\'\n);\n\nCREATE DATABASE sakura.dev;\n\nCREATE TABLE sakura.dev.orders (\n  order_number BIGINT,\n  price        DECIMAL(32,2),\n  buyer        ROW<first_name STRING, last_name STRING>,\n  order_time   TIMESTAMP(3)\n) WITH (\n  \'connector\' = \'datagen\'\n);\n\nCREATE TABLE sakura.dev.print_table WITH (\'connector\' = \'print\')\n  LIKE sakura.dev.orders;\n\nINSERT INTO sakura.dev.print_table \nSELECT * FROM sakura.dev.orders;',
         '1', 'sys', 'sys');
 
-drop table if exists ws_flink_artifact_cdc;
-create table ws_flink_artifact_cdc
+drop table if exists ws_artifact_flink_cdc;
+create table ws_artifact_flink_cdc
 (
     id                bigint      not null auto_increment comment '自增主键',
-    flink_artifact_id bigint      not null comment '作业 artifact id',
+    artifact_id       bigint      not null comment '作业 artifact id',
     flink_version     varchar(32) not null comment 'flink 版本',
     flink_cdc_version varchar(32) not null comment 'flink cdc 版本',
     dag_id            bigint      not null,
@@ -134,9 +134,9 @@ create table ws_flink_artifact_cdc
     editor            varchar(32) comment '修改人',
     update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key               idx_flink_artifact (flink_artifact_id)
-) engine = innodb comment 'flink artifact cdc';
-INSERT INTO `ws_flink_artifact_cdc`(`id`, `flink_artifact_id`, `flink_version`, `flink_cdc_version`, `dag_id`,
+    key               idx_artifact (artifact_id)
+) engine = innodb comment 'artifact flink-cdc';
+INSERT INTO `ws_artifact_flink_cdc`(`id`, `artifact_id`, `flink_version`, `flink_cdc_version`, `dag_id`,
                                     `current`, `creator`, `editor`)
 VALUES (1, 10, '1.18.0', '3.0.0', 3, '1', 'sys', 'sys');
 

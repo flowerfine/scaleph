@@ -42,7 +42,7 @@ import java.util.List;
 @Tag(name = "Artifact管理-Flink-Jar")
 @RestController
 @RequestMapping(path = "/api/artifact/flink/jar")
-public class WsArtifactJarController {
+public class WsArtifactFlinkJarController {
 
     @Autowired
     private WsArtifactFlinkJarService wsArtifactFlinkJarService;

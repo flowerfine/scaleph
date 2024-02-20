@@ -18,14 +18,10 @@
 
 package cn.sliew.scaleph.workspace.flink.cdc.service.param;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.workspace.project.service.param.AbstractWsArtifactUpdateParam;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-public class WsFlinkArtifactCDCUpdateParam extends AbstractWsArtifactUpdateParam {
+public class WsArtifactFlinkCDCUpdateParam extends AbstractWsArtifactUpdateParam {
 
-    @Schema(description = "flink version")
-    private FlinkVersion flinkVersion;
 }

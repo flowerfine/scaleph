@@ -9,7 +9,7 @@ import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
 import {WsArtifactFlinkSql} from '@/services/project/typings';
 import FlinkArtifactSqlForm from '@/pages/Project/Workspace/Artifact/Sql/FlinkArtifactSqlForm';
 import {DictDataService} from "@/services/admin/dictData.service";
-import {FlinkArtifactSqlService} from "@/services/project/WsFlinkArtifactSqlService";
+import {FlinkArtifactSqlService} from "@/services/project/WsArtifactFlinkSqlService";
 
 const ArtifactFlinkSqlWeb: React.FC = () => {
   const intl = useIntl();

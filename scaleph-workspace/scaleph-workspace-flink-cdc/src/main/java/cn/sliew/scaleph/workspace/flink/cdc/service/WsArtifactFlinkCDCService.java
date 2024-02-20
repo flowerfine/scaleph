@@ -19,36 +19,33 @@
 package cn.sliew.scaleph.workspace.flink.cdc.service;
 
 import cn.sliew.scaleph.common.exception.ScalephException;
-import cn.sliew.scaleph.workspace.flink.cdc.service.dto.WsFlinkArtifactCDCDTO;
-import cn.sliew.scaleph.workspace.flink.cdc.service.param.WsFlinkArtifactCDCAddParam;
-import cn.sliew.scaleph.workspace.flink.cdc.service.param.WsFlinkArtifactCDCListParam;
-import cn.sliew.scaleph.workspace.flink.cdc.service.param.WsFlinkArtifactCDCSelectListParam;
-import cn.sliew.scaleph.workspace.flink.cdc.service.param.WsFlinkArtifactCDCUpdateParam;
+import cn.sliew.scaleph.workspace.flink.cdc.service.dto.WsArtifactFlinkCDCDTO;
+import cn.sliew.scaleph.workspace.flink.cdc.service.param.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
 
-public interface FlinkCDCJobService {
+public interface WsArtifactFlinkCDCService {
 
-    Page<WsFlinkArtifactCDCDTO> listByPage(WsFlinkArtifactCDCListParam param);
+    Page<WsArtifactFlinkCDCDTO> list(WsArtifactFlinkCDCListParam param);
 
-    List<WsFlinkArtifactCDCDTO> listAll(WsFlinkArtifactCDCSelectListParam param);
+    Page<WsArtifactFlinkCDCDTO> listByArtifact(WsArtifactFlinkCDCArtifactParam param);
 
-    List<WsFlinkArtifactCDCDTO> listAllByArtifact(Long artifactId);
+    List<WsArtifactFlinkCDCDTO> listAll(WsArtifactFlinkCDCSelectListParam param);
 
-    WsFlinkArtifactCDCDTO selectOne(Long id);
+    List<WsArtifactFlinkCDCDTO> listAllByArtifact(Long artifactId);
 
-    WsFlinkArtifactCDCDTO selectCurrent(Long artifactId);
+    WsArtifactFlinkCDCDTO selectOne(Long id);
 
-    String preview(Long id) throws Exception;
+    WsArtifactFlinkCDCDTO selectCurrent(Long artifactId);
 
-    WsFlinkArtifactCDCDTO insert(WsFlinkArtifactCDCAddParam param);
+    WsArtifactFlinkCDCDTO insert(WsArtifactFlinkCDCAddParam param);
 
-    int update(WsFlinkArtifactCDCUpdateParam param);
+    int update(WsArtifactFlinkCDCUpdateParam param);
 
     int delete(Long id) throws ScalephException;
 
     int deleteBatch(List<Long> ids) throws ScalephException;
 
-    int deleteAll(Long flinkArtifactId) throws ScalephException;
+    int deleteArtifact(Long artifactId) throws ScalephException;
 }

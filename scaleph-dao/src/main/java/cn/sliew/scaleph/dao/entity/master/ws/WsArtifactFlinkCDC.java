@@ -28,27 +28,27 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * flink artifact cdc
+ * artifact flink-cdc
  */
 @Data
-@TableName("ws_flink_artifact_cdc")
-@Schema(name = "WsFlinkArtifactCDC", description = "flink artifact cdc")
-public class WsFlinkArtifactCDC extends BaseDO {
+@TableName("ws_artifact_flink_cdc")
+@Schema(name = "WsArtifactFlinkCDC", description = "artifact flink-cdc")
+public class WsArtifactFlinkCDC extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "作业artifact id")
-    @TableField("flink_artifact_id")
-    private Long flinkArtifactId;
+    @Schema(description = "作业 artifact id")
+    @TableField("artifact_id")
+    private Long artifactId;
 
     @TableField(exist = false)
-    private WsArtifact wsArtifact;
+    private WsArtifact artifact;
 
-    @Schema(description = "flink版本")
+    @Schema(description = "flink 版本")
     @TableField("flink_version")
     private FlinkVersion flinkVersion;
 
-    @Schema(description = "作业引擎")
+    @Schema(description = "flink cdc 版本")
     @TableField("flink_cdc_version")
     private FlinkCDCVersion flinkCDCVersion;
 

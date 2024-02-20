@@ -27,11 +27,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@Schema(name = "WsFlinkArtifactCDC对象", description = "flink artifact cdc")
-public class WsFlinkArtifactCDCDTO extends BaseDTO {
+@Schema(name = "WsArtifactFlinkCDC对象", description = "artifact flink-cdc")
+public class WsArtifactFlinkCDCDTO extends BaseDTO {
 
     @Schema(description = "作业artifact")
-    private WsArtifactDTO wsFlinkArtifact;
+    private WsArtifactDTO artifact;
 
     @Schema(description = "flink版本")
     private FlinkVersion flinkVersion;

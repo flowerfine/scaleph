@@ -18,20 +18,23 @@
 
 package cn.sliew.scaleph.workspace.flink.cdc.service.param;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCVersion;
-import cn.sliew.scaleph.workspace.project.service.param.WsArtifactListParam;
+import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
+
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class WsFlinkArtifactCDCListParam extends WsArtifactListParam {
+@EqualsAndHashCode
+public class WsArtifactFlinkCDCGraphParam {
 
-    @Schema(description = "flink version")
-    private FlinkVersion flinkVersion;
+    @NotNull
+    @Schema(description = "id")
+    private Long id;
 
-    @Schema(description = "flink cdc version")
-    private FlinkCDCVersion flinkCDCVersion;
+    @NotNull
+    @Schema(description = "job graph")
+    private DagGraphVO jobGraph;
+
 }

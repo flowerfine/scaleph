@@ -4,11 +4,11 @@ import {useIntl} from '@umijs/max';
 import {ModalFormProps} from '@/typings';
 import {WORKSPACE_CONF} from '@/constants/constant';
 import {DICT_TYPE} from '@/constants/dictType';
-import {WsFlinkArtifactCDC} from '@/services/project/typings';
+import {WsArtifactFlinkCDC} from '@/services/project/typings';
 import {DictDataService} from "@/services/admin/dictData.service";
-import {WsFlinkCDCService} from "@/services/project/WsFlinkCDCService";
+import {WsArtifactFlinkCDCService} from "@/services/project/WsArtifactFlinkCDCService";
 
-const FlinkArtifactCDCForm: React.FC<ModalFormProps<WsFlinkArtifactCDC>> = ({
+const FlinkArtifactCDCForm: React.FC<ModalFormProps<WsArtifactFlinkCDC>> = ({
                                                                               data,
                                                                               visible,
                                                                               onVisibleChange,
@@ -38,7 +38,7 @@ const FlinkArtifactCDCForm: React.FC<ModalFormProps<WsFlinkArtifactCDC>> = ({
             flinkVersion: values.flinkVersion,
           };
           data?.id
-            ? WsFlinkCDCService.update(param).then((response) => {
+            ? WsArtifactFlinkCDCService.update(param).then((response) => {
               if (response.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}));
                 if (onVisibleChange) {
@@ -46,7 +46,7 @@ const FlinkArtifactCDCForm: React.FC<ModalFormProps<WsFlinkArtifactCDC>> = ({
                 }
               }
             })
-            : WsFlinkCDCService.add(param).then((response) => {
+            : WsArtifactFlinkCDCService.add(param).then((response) => {
               if (response.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
                 if (onVisibleChange) {

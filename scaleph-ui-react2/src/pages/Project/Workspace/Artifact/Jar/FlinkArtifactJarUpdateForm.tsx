@@ -13,7 +13,7 @@ import {ModalFormProps} from '@/typings';
 import {WORKSPACE_CONF} from '@/constants/constant';
 import {DICT_TYPE} from '@/constants/dictType';
 import {WsArtifactFlinkJar, WsArtifactFlinkJarUpdateParam} from '@/services/project/typings';
-import {FlinkArtifactJarService} from "@/services/project/flinkArtifactJar.service";
+import {WsArtifactFlinkJarService} from "@/services/project/WsArtifactFlinkJarService";
 import {DictDataService} from "@/services/admin/dictData.service";
 
 const FlinkArtifactJarUpdateForm: React.FC<ModalFormProps<WsArtifactFlinkJar>> = ({
@@ -87,7 +87,7 @@ const FlinkArtifactJarUpdateForm: React.FC<ModalFormProps<WsArtifactFlinkJar>> =
         };
 
         setUploading(true);
-        return FlinkArtifactJarService.updateJar(param).then((response) => {
+        return WsArtifactFlinkJarService.updateJar(param).then((response) => {
           if (response.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
             setFileList([]);

@@ -18,23 +18,18 @@
 
 package cn.sliew.scaleph.workspace.flink.cdc.service.param;
 
-import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotNull;
 
 @Data
-@EqualsAndHashCode
-public class WsFlinkArtifactCDCGraphParam {
+public class WsArtifactFlinkCDCSelectListParam {
 
     @NotNull
-    @Schema(description = "id")
-    private Long id;
+    @Schema(description = "项目id")
+    private Long projectId;
 
-    @NotNull
-    @Schema(description = "job graph")
-    private DagGraphVO jobGraph;
-
+    @Schema(description = "名称。支持模糊搜索")
+    private String name;
 }

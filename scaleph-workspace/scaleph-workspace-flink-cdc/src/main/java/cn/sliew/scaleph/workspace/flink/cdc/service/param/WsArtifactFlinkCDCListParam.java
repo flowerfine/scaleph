@@ -18,18 +18,20 @@
 
 package cn.sliew.scaleph.workspace.flink.cdc.service.param;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
+import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCVersion;
+import cn.sliew.scaleph.workspace.project.service.param.WsArtifactListParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-
-import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class WsFlinkArtifactCDCSelectListParam {
+@EqualsAndHashCode(callSuper = true)
+public class WsArtifactFlinkCDCListParam extends WsArtifactListParam {
 
-    @NotNull
-    @Schema(description = "项目id")
-    private Long projectId;
+    @Schema(description = "flink version")
+    private FlinkVersion flinkVersion;
 
-    @Schema(description = "名称。支持模糊搜索")
-    private String name;
+    @Schema(description = "flink cdc version")
+    private FlinkCDCVersion flinkCDCVersion;
 }

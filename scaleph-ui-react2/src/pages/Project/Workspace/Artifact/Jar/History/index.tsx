@@ -4,7 +4,7 @@ import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
 import {ActionType, PageHeader, ProColumns, ProFormInstance, ProTable,} from '@ant-design/pro-components';
 import {history, useAccess, useIntl, useLocation} from '@umijs/max';
 import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
-import {FlinkArtifactJarService} from '@/services/project/flinkArtifactJar.service';
+import {WsArtifactFlinkJarService} from '@/services/project/WsArtifactFlinkJarService';
 import {WsProjectService} from '@/services/project/WsProjectService';
 import {WsArtifact, WsArtifactFlinkJar, WsProject} from '@/services/project/typings';
 
@@ -80,7 +80,7 @@ const FlinkArtifactJarHistoryWeb: React.FC = () => {
                   type="link"
                   icon={<DownloadOutlined/>}
                   onClick={() => {
-                    FlinkArtifactJarService.download(record);
+                    WsArtifactFlinkJarService.download(record);
                   }}
                 />
               </Tooltip>
@@ -99,7 +99,7 @@ const FlinkArtifactJarHistoryWeb: React.FC = () => {
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
-                        FlinkArtifactJarService.deleteOne(record).then((d) => {
+                        WsArtifactFlinkJarService.deleteOne(record).then((d) => {
                           if (d.success) {
                             message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();
@@ -147,7 +147,7 @@ const FlinkArtifactJarHistoryWeb: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return FlinkArtifactJarService.listByArtifact({...params, artifactId: flinkArtifact.id});
+          return WsArtifactFlinkJarService.listByArtifact({...params, artifactId: flinkArtifact.id});
         }}
         pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
         tableAlertRender={false}
