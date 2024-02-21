@@ -1,53 +1,76 @@
 import React, {useRef, useState} from 'react';
-import {Button, Col, message, Modal, Row, Space, Tooltip} from 'antd';
+import {Button, message, Modal, Space, Tooltip} from 'antd';
 import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {history, useAccess, useIntl} from '@umijs/max';
 import {WORKSPACE_CONF} from '@/constants/constant';
 import {DICT_TYPE} from '@/constants/dictType';
-import {DictDataService} from '@/services/admin/dictData.service';
-import {WsDiJobService} from '@/services/project/WsDiJobService';
-import {WsDiJob} from '@/services/project/typings';
-import DiJobForm from './components/DiJobForm';
 import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
+import {DictDataService} from '@/services/admin/dictData.service';
+import {WsArtifactSeaTunnel} from '@/services/project/typings';
+import ArtifactSeaTunnelForm from './ArtifactSeaTunnelForm';
+import {WsArtifactSeaTunnelService} from "@/services/project/WsArtifactSeaTunnelService";
 
-const DiJobView: React.FC = () => {
+const ArtifactSeaTunnelWeb: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [jobFormData, setJobFormData] = useState<{ visible: boolean; data: WsDiJob }>({
-    visible: false,
+  const [artifactSeaTunnelFormData, setArtifactSeaTunnelFormData] = useState<{
+    visiable: boolean;
+    data: WsArtifactSeaTunnel
+  }>({
+    visiable: false,
     data: {},
   });
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
-  const onJobFlow = (record: WsDiJob) => {
-    history.push("/workspace/artifact/seatunnel/dag", {
-      data: record,
-      meta: {flowId: 'flow_' + record.jobCode, origin: record}
-    })
+  const onDag = (record: WsArtifactSeaTunnel) => {
+    history.push("/workspace/artifact/seatunnel/dag", record)
   }
 
-  const tableColumns: ProColumns<WsDiJob>[] = [
+  const tableColumns: ProColumns<WsArtifactSeaTunnel>[] = [
     {
       title: intl.formatMessage({id: 'pages.project.artifact.name'}),
       dataIndex: 'name',
       width: 240,
       render: (dom, record) => {
-        return record.wsFlinkArtifact?.name
+        return record.artifact?.name
       }
     },
     {
-      title: intl.formatMessage({id: 'pages.project.artifact.seatunnel.jobEngine'}),
-      dataIndex: 'jobEngine',
+      title: intl.formatMessage({id: 'pages.project.artifact.seatunnel.seaTunnelEngine'}),
+      dataIndex: 'seaTunnelEngine',
       align: 'center',
       width: 100,
       render: (_, record) => {
-        return record.jobEngine?.label;
+        return record.seaTunnelEngine?.label;
       },
       request: (params, props) => {
         return DictDataService.listDictDataByType2(DICT_TYPE.seatunnelEngineType)
+      }
+    },
+    {
+      title: intl.formatMessage({id: 'pages.resource.flinkRelease.version'}),
+      dataIndex: 'flinkVersion',
+      width: 120,
+      render: (dom, record) => {
+        return record.flinkVersion?.label;
+      },
+      request: (params, props) => {
+        return DictDataService.listDictDataByType2(DICT_TYPE.flinkVersion)
+      }
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.artifact.seatunnel.seaTunnelVersion'}),
+      dataIndex: 'seaTunnelVersion',
+      align: 'center',
+      width: 100,
+      render: (_, record) => {
+        return record.seaTunnelVersion?.label;
+      },
+      request: (params, props) => {
+        return DictDataService.listDictDataByType2(DICT_TYPE.seatunnelVersion)
       }
     },
     {
@@ -55,6 +78,9 @@ const DiJobView: React.FC = () => {
       dataIndex: 'remark',
       hideInSearch: true,
       width: 150,
+      render: (dom, record) => {
+        return record.artifact?.remark
+      }
     },
     {
       title: intl.formatMessage({id: 'app.common.data.createTime'}),
@@ -85,7 +111,7 @@ const DiJobView: React.FC = () => {
                   type="link"
                   icon={<EditOutlined/>}
                   onClick={() => {
-                    setJobFormData({visible: true, data: record});
+                    setArtifactSeaTunnelFormData({visiable: true, data: record});
                   }}
                 />
               </Tooltip>
@@ -96,7 +122,7 @@ const DiJobView: React.FC = () => {
                   shape="default"
                   type="link"
                   icon={<NodeIndexOutlined/>}
-                  onClick={() => onJobFlow(record)}
+                  onClick={() => onDag(record)}
                 />
               </Tooltip>
             )}
@@ -114,7 +140,7 @@ const DiJobView: React.FC = () => {
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
-                        WsDiJobService.deleteJobRow(record).then((d) => {
+                        WsArtifactSeaTunnelService.deleteArtifact(record.artifact?.id).then((d) => {
                           if (d.success) {
                             message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();
@@ -133,65 +159,58 @@ const DiJobView: React.FC = () => {
   ];
 
   return (
-    <>
-      <Row gutter={[12, 12]}>
-        <Col span={24}>
-          <ProTable<WsDiJob>
-            search={{
-              labelWidth: 'auto',
-              span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
-            }}
-            scroll={{x: 1200, y: 480}}
-            rowKey="id"
-            actionRef={actionRef}
-            formRef={formRef}
-            options={false}
-            columns={tableColumns}
-            request={(params, sorter, filter) => {
-              return WsDiJobService.list({...params, projectId: projectId});
-            }}
-            toolbar={{
-              actions: [
-                access.canAccess(PRIVILEGE_CODE.datadevJobAdd) && (
-                  <Button
-                    key="new"
-                    type="primary"
-                    onClick={() => {
-                      setJobFormData({
-                        visible: true,
-                        data: {projectId: projectId, jobType: {value: 'STREAMING'}},
-                      });
-                    }}
-                  >
-                    {intl.formatMessage({id: 'app.common.operate.new.label'})}
-                  </Button>
-                ),
-              ],
-            }}
-            pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
-            tableAlertRender={false}
-            tableAlertOptionRender={false}
-          />
-        </Col>
-        {jobFormData.visible && (
-          <DiJobForm
-            visible={jobFormData.visible}
-            onCancel={() => {
-              setJobFormData({visible: false, data: {}});
-            }}
-            onVisibleChange={(visible, data) => {
-              setJobFormData({visible: visible, data: {}});
-              if (data?.id) {
-                onJobFlow(data)
-              }
-              actionRef.current?.reload();
-            }}
-            data={jobFormData.data}
-          />
-        )}
-      </Row>
-    </>
+    <div>
+      <ProTable<WsArtifactSeaTunnel>
+        search={{
+          labelWidth: 'auto',
+          span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
+        }}
+        rowKey="id"
+        actionRef={actionRef}
+        formRef={formRef}
+        options={false}
+        columns={tableColumns}
+        request={(params, sorter, filter) =>
+          WsArtifactSeaTunnelService.list({...params, projectId: projectId})
+        }
+        toolbar={{
+          actions: [
+            access.canAccess(PRIVILEGE_CODE.datadevResourceAdd) && (
+              <Button
+                key="new"
+                type="primary"
+                onClick={() => {
+                  setArtifactSeaTunnelFormData({visiable: true, data: {}});
+                }}
+              >
+                {intl.formatMessage({id: 'app.common.operate.new.label'})}
+              </Button>
+            ),
+          ],
+        }}
+        pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
+        tableAlertRender={false}
+        tableAlertOptionRender={false}
+      />
+      {artifactSeaTunnelFormData.visiable && (
+        <ArtifactSeaTunnelForm
+          visible={artifactSeaTunnelFormData.visiable}
+          data={artifactSeaTunnelFormData.data}
+          onCancel={() => {
+            setArtifactSeaTunnelFormData({visiable: false, data: {}});
+          }}
+          onVisibleChange={(visible) => {
+            setArtifactSeaTunnelFormData({visiable: visible, data: {}});
+          }}
+          onOK={(data) => {
+            if (data?.id) {
+              onDag(data)
+            }
+          }}
+        />
+      )}
+    </div>
   );
 };
 
-export default DiJobView;
+export default ArtifactSeaTunnelWeb;

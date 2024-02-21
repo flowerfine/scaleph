@@ -83,9 +83,9 @@ public class WsArtifactSeaTunnelController {
     @Logging
     @PutMapping
     @Operation(summary = "新增 seatunnel", description = "新增 seatunnel")
-    public ResponseEntity<ResponseVO> insert(@RequestBody @Valid WsArtifactSeaTunnelAddParam param) {
-        wsArtifactSeaTunnelService.insert(param);
-        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    public ResponseEntity<ResponseVO<WsArtifactSeaTunnelDTO>> insert(@RequestBody @Valid WsArtifactSeaTunnelAddParam param) {
+        WsArtifactSeaTunnelDTO dto = wsArtifactSeaTunnelService.insert(param);
+        return new ResponseEntity<>(ResponseVO.success(dto), HttpStatus.OK);
     }
 
     @Logging

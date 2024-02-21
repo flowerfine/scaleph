@@ -8,10 +8,11 @@ import {Menubar} from "@antv/x6-react-components";
 import {JSONDebugModal} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/menubar/json";
 import {SeaTunnelConfModal} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/menubar/seatunnel";
 import {Props} from "@/typings";
-import {WsDiJob, WsDiJobGraphParam} from "@/services/project/typings";
+import {WsArtifactSeaTunnel, WsArtifactSeaTunnelGraphParam, WsDiJob} from "@/services/project/typings";
 import {WsDiJobService} from "@/services/project/WsDiJobService";
+import {WsArtifactSeaTunnelService} from "@/services/project/WsArtifactSeaTunnelService";
 
-const CustomMenubar: React.FC<Props<WsDiJob>> = ({data}) => {
+const CustomMenubar: React.FC<Props<WsArtifactSeaTunnel>> = ({data}) => {
   const intl = useIntl();
   const graph = useGraphInstance();
   const nodes = useGraphStore((state) => state.nodes);
@@ -54,14 +55,14 @@ const CustomMenubar: React.FC<Props<WsDiJob>> = ({data}) => {
   };
 
   const onSave = () => {
-    let param: WsDiJobGraphParam = {
-      jobId: data.id,
+    let param: WsArtifactSeaTunnelGraphParam = {
+      id: data.id,
       jobGraph: {
         nodes: nodes,
         edges: edges,
       }
     }
-    WsDiJobService.saveJobDetail(param)
+    WsArtifactSeaTunnelService.updateGraph(param)
   };
 
   return (

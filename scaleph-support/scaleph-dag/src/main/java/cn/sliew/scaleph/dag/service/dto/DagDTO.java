@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.dag.service.dto;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -30,12 +29,6 @@ import java.util.List;
 @Data
 @Schema(name = "Dag", description = "DAG")
 public class DagDTO extends DagInstanceDTO {
-
-    @Schema(description = "元数据")
-    private JsonNode dagMeta;
-
-    @Schema(description = "属性")
-    private JsonNode dagAttrs;
 
     @Schema(description = "连线")
     private List<DagLinkDTO> links;

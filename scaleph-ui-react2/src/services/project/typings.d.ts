@@ -25,9 +25,81 @@ export type WsArtifact = {
   updateTime?: Date;
 };
 
-export type WsArtifactListParam = QueryParam & {
-  projectId?: number | string;
+export type WsArtifactSeaTunnel = {
+  id?: number;
+  artifact?: WsArtifact;
+  seaTunnelEngine?: Dict;
+  flinkVersion?: Dict;
+  seaTunnelVersion?: Dict;
+  dagId?: number;
+  dag?: Dag;
+  current?: Dict;
+  createTime?: Date;
+  updateTime?: Date;
+};
+
+export type Dag = {
+  id?: number;
+  dagMeta?: Record<string, any>;
+  dagAttrs?: Record<string, any>;
+  links?: Array<DagLink>;
+  steps?: Array<DagStep>;
+  createTime?: Date;
+  updateTime?: Date;
+};
+
+export type DagLink = {
+  id?: number;
+  dagId?: number;
+  linkId?: string;
+  linkName?: string;
+  fromStepId?: string;
+  toStepId?: string;
+  linkMeta?: Record<string, any>;
+  linkAttrs?: Record<string, any>;
+  createTime?: Date;
+  updateTime?: Date;
+};
+
+export type DagStep = {
+  id?: number;
+  dagId?: number;
+  stepId?: string;
+  stepName?: string;
+  positionX?: number;
+  positionY?: string;
+  stepMeta?: Record<string, any>;
+  stepAttrs?: Record<string, any>;
+  createTime?: Date;
+  updateTime?: Date;
+};
+
+export type WsArtifactSeaTunnelParam = QueryParam & {
+  projectId: number;
+  flinkVersion?: string;
+  seaTunnelVersion?: string;
   name?: string;
+};
+
+export type WsArtifactSeaTunnelHistoryParam = QueryParam & {
+  artifactId: number;
+};
+
+export type WsArtifactSeaTunnelSelectListParam = {
+  projectId: number;
+  name?: string;
+};
+
+export type WsArtifactSeaTunnelSaveParam = {
+  id?: number;
+  projectId?: number;
+  name?: string;
+  remark?: string;
+};
+
+export type WsArtifactSeaTunnelGraphParam = {
+  id?: number;
+  jobGraph?: any;
 };
 
 export type WsDiJob = {
@@ -49,7 +121,6 @@ export type WsDiJobParam = QueryParam & {
   jobEngine?: string;
   name?: string;
 };
-
 
 export type WsDiJobSelectListParam = {
   projectId: number;
