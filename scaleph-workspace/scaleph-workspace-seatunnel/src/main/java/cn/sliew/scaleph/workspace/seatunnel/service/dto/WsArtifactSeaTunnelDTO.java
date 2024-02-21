@@ -22,6 +22,7 @@ import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelVersion;
+import cn.sliew.scaleph.dag.service.dto.DagDTO;
 import cn.sliew.scaleph.system.model.BaseDTO;
 import cn.sliew.scaleph.workspace.project.service.dto.WsArtifactDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -47,6 +48,9 @@ public class WsArtifactSeaTunnelDTO extends BaseDTO {
 
     @Schema(description = "dag id")
     private Long dagId;
+
+    @Schema(description = "dag")
+    private DagDTO dag;
 
     @Schema(description = "current artifact")
     private YesOrNo current;

@@ -21,6 +21,7 @@ package cn.sliew.scaleph.workspace.seatunnel.service.impl;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.dag.service.DagService;
+import cn.sliew.scaleph.dag.service.dto.DagDTO;
 import cn.sliew.scaleph.dag.service.param.DagSimpleAddParam;
 import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
@@ -58,8 +59,8 @@ public class SeaTunnelDagServiceImpl implements SeaTunnelDagService {
     }
 
     @Override
-    public Object getDag(Long dagId) {
-        return null;
+    public DagDTO getDag(Long dagId) {
+        return dagService.selectOne(dagId);
     }
 
     @Override

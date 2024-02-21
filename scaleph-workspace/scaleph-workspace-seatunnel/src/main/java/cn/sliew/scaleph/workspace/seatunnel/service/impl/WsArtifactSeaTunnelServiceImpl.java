@@ -23,7 +23,6 @@ import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelVersion;
-import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.dao.entity.master.ws.WsArtifactSeaTunnel;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsArtifactSeaTunnelMapper;
 import cn.sliew.scaleph.workspace.project.service.WsArtifactService;
@@ -99,7 +98,9 @@ public class WsArtifactSeaTunnelServiceImpl implements WsArtifactSeaTunnelServic
     public WsArtifactSeaTunnelDTO selectOne(Long id) {
         WsArtifactSeaTunnel record = wsArtifactSeaTunnelMapper.selectOne(id);
         checkState(record != null, () -> "artifact seatunnel not exists for id: " + id);
-        return WsArtifactSeaTunnelConvert.INSTANCE.toDto(record);
+        WsArtifactSeaTunnelDTO dto = WsArtifactSeaTunnelConvert.INSTANCE.toDto(record);
+        dto.setDag(seaTunnelDagService.getDag(dto.getDagId()));
+        return dto;
     }
 
     @Override
@@ -154,14 +155,14 @@ public class WsArtifactSeaTunnelServiceImpl implements WsArtifactSeaTunnelServic
     }
 
     @Override
-    public int delete(Long id) throws ScalephException {
+    public int delete(Long id) {
         WsArtifactSeaTunnelDTO wsArtifactSeaTunnelDTO = selectOne(id);
         checkState(wsArtifactSeaTunnelDTO.getCurrent() != YesOrNo.YES, () -> "Unsupport delete current seatunnel");
         return doDelete(wsArtifactSeaTunnelDTO);
     }
 
     @Override
-    public int deleteBatch(List<Long> ids) throws ScalephException {
+    public int deleteBatch(List<Long> ids) {
         for (Long id : ids) {
             delete(id);
         }
@@ -169,7 +170,7 @@ public class WsArtifactSeaTunnelServiceImpl implements WsArtifactSeaTunnelServic
     }
 
     @Override
-    public int deleteArtifact(Long artifactId) throws ScalephException {
+    public int deleteArtifact(Long artifactId) {
         List<WsArtifactSeaTunnelDTO> dtos = listAllByArtifact(artifactId);
         for (WsArtifactSeaTunnelDTO seaTunnelDTO : dtos) {
             doDelete(seaTunnelDTO);

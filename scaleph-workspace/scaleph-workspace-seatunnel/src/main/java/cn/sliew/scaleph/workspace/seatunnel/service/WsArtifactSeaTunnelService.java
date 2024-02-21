@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.workspace.seatunnel.service;
 
-import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.workspace.seatunnel.service.dto.WsArtifactSeaTunnelDTO;
 import cn.sliew.scaleph.workspace.seatunnel.service.param.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -47,10 +46,10 @@ public interface WsArtifactSeaTunnelService {
 
     void updateGraph(WsArtifactSeaTunnelGraphParam param);
 
-    int delete(Long id) throws ScalephException;
+    int delete(Long id);
 
-    int deleteBatch(List<Long> ids) throws ScalephException;
+    int deleteBatch(List<Long> ids);
 
-    int deleteArtifact(Long artifactId) throws ScalephException;
+    int deleteArtifact(Long artifactId);
 
 }

@@ -109,7 +109,7 @@ public class WsArtifactFlinkSqlController {
     @Logging
     @DeleteMapping("/artifact/{artifactId}")
     @Operation(summary = "删除 artifact", description = "删除 artifactl")
-    public ResponseEntity<ResponseVO> deleteAll(@PathVariable("artifactId") Long artifactId) {
+    public ResponseEntity<ResponseVO> deleteArtifact(@PathVariable("artifactId") Long artifactId) {
         wsArtifactFlinkSqlService.deleteArtifact(artifactId);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
