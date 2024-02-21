@@ -16,25 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workspace.seatunnel.service;
+package cn.sliew.scaleph.workspace.seatunnel.service.param;
 
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
-import cn.sliew.scaleph.dag.service.DagDndService;
 import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
-import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
-import cn.sliew.scaleph.workspace.seatunnel.service.param.WsArtifactSeaTunnelGraphParam;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
-public interface SeaTunnelDagService extends DagDndService {
+@Data
+@EqualsAndHashCode
+public class WsArtifactSeaTunnelGraphParam {
 
-    Long initialize();
+    @NotNull
+    @Schema(description = "id")
+    private Long id;
 
-    void destroy(Long dagId);
+    @NotNull
+    @Schema(description = "job graph")
+    private DagGraphVO jobGraph;
 
-    Object getDag(Long dagId);
-
-    void update(Long dagId, DagGraphVO graph);
-
-    List<DndDTO> getDnds(SeaTunnelEngineType engineType);
 }

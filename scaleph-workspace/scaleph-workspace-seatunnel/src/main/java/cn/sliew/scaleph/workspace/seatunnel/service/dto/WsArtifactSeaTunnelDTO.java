@@ -16,40 +16,38 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.ws;
+package cn.sliew.scaleph.workspace.seatunnel.service.dto;
 
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCVersion;
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelVersion;
+import cn.sliew.scaleph.system.model.BaseDTO;
+import cn.sliew.scaleph.workspace.project.service.dto.WsArtifactDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-/**
- * artifact flink-cdc
- */
 @Data
-@TableName("ws_artifact_flink_cdc")
-public class WsArtifactFlinkCDC extends BaseDO {
+@Schema(name = "WsArtifactSeaTunnel", description = "artifact seatunnel")
+public class WsArtifactSeaTunnelDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("artifact_id")
-    private Long artifactId;
+    @Schema(description = "作业artifact")
+    private WsArtifactDTO artifact;
 
-    @TableField(exist = false)
-    private WsArtifact artifact;
+    @Schema(description = "seatunnel 引擎")
+    private SeaTunnelEngineType seaTunnelEngine;
 
-    @TableField("flink_version")
+    @Schema(description = "flink 版本")
     private FlinkVersion flinkVersion;
 
-    @TableField("flink_cdc_version")
-    private FlinkCDCVersion flinkCDCVersion;
+    @Schema(description = "seatunnel 版本")
+    private SeaTunnelVersion seaTunnelVersion;
 
-    @TableField("dag_id")
+    @Schema(description = "dag id")
     private Long dagId;
 
-    @TableField("`current`")
+    @Schema(description = "current artifact")
     private YesOrNo current;
 }

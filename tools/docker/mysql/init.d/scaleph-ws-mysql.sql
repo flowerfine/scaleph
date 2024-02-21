@@ -140,6 +140,24 @@ INSERT INTO `ws_artifact_flink_cdc`(`id`, `artifact_id`, `flink_version`, `flink
                                     `current`, `creator`, `editor`)
 VALUES (1, 10, '1.18.0', '3.0.0', 3, '1', 'sys', 'sys');
 
+drop table if exists ws_artifact_seatunnel;
+create table ws_artifact_seatunnel
+(
+    id                bigint      not null auto_increment comment '自增主键',
+    artifact_id       bigint      not null comment '作业artifact id',
+    seatunnel_engine  varchar(16) not null comment 'seatunnel 引擎',
+    flink_version     varchar(16) not null comment 'flink 版本',
+    seatunnel_version varchar(16) not null comment 'seatunnel 版本',
+    dag_id            bigint      not null,
+    current           varchar(16) not null comment 'current artifact',
+    creator           varchar(32) comment '创建人',
+    create_time       timestamp default current_timestamp comment '创建时间',
+    editor            varchar(32) comment '修改人',
+    update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
+    primary key (id),
+    key               idx_artifact (artifact_id)
+) engine = innodb comment 'artifact seatunnel';
+
 drop table if exists ws_di_job;
 create table ws_di_job
 (

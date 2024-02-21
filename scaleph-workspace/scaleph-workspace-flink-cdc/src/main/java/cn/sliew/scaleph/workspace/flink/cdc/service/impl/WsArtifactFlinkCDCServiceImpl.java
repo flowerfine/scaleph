@@ -153,12 +153,12 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
     }
 
     @Override
-    public int deleteArtifact(Long flinkArtifactId) {
-        List<WsArtifactFlinkCDCDTO> dtos = listAllByArtifact(flinkArtifactId);
+    public int deleteArtifact(Long artifactId) {
+        List<WsArtifactFlinkCDCDTO> dtos = listAllByArtifact(artifactId);
         for (WsArtifactFlinkCDCDTO cdc : dtos) {
             doDelete(cdc);
         }
-        return wsArtifactService.deleteById(flinkArtifactId);
+        return wsArtifactService.deleteById(artifactId);
     }
 
     private int doDelete(WsArtifactFlinkCDCDTO cdc) {

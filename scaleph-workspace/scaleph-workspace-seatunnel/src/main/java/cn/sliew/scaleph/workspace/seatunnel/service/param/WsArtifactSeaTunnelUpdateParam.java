@@ -16,34 +16,12 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workspace.seatunnel.service.vo;
+package cn.sliew.scaleph.workspace.seatunnel.service.param;
 
-import cn.sliew.scaleph.workspace.seatunnel.service.dto.WsDiJobDTO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.sliew.scaleph.workspace.project.service.param.AbstractWsArtifactUpdateParam;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
-import java.util.List;
-
 @Data
-@Schema(name = "作业启动参数", description = "作业启动参数")
-public class DiJobRunVO {
+public class WsArtifactSeaTunnelUpdateParam extends AbstractWsArtifactUpdateParam {
 
-    @NotNull
-    @Schema(description = "job id")
-    private Long jobId;
-
-    @NotNull
-    @Schema(description = "cluster id")
-    private Long clusterId;
-
-    @Schema(description = "resources")
-    private List<DictVO> resources;
-
-    public WsDiJobDTO toDto() {
-        WsDiJobDTO dto = new WsDiJobDTO();
-        dto.setId(this.jobId);
-        return dto;
-    }
 }

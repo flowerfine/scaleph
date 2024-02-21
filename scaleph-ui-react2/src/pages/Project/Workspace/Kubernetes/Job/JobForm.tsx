@@ -26,7 +26,7 @@ import {DICT_TYPE} from "@/constants/dictType";
 import {WsFlinkKubernetesDeploymentService} from "@/services/project/WsFlinkKubernetesDeploymentService";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
 import {WsArtifactFlinkJarService} from "@/services/project/WsArtifactFlinkJarService";
-import {FlinkArtifactSqlService} from "@/services/project/WsFlinkArtifactSqlService";
+import {FlinkArtifactSqlService} from "@/services/project/WsArtifactFlinkSqlService";
 import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJobService";
 import {WsDiJobService} from "@/services/project/WsDiJobService";
 

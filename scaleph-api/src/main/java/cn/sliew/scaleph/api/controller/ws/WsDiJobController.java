@@ -19,16 +19,13 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.common.exception.ScalephException;
+import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.workspace.seatunnel.service.SeatunnelJobService;
 import cn.sliew.scaleph.workspace.seatunnel.service.WsDiJobService;
-import cn.sliew.scaleph.workspace.seatunnel.service.dto.DagPanelDTO;
 import cn.sliew.scaleph.workspace.seatunnel.service.dto.WsDiJobDTO;
 import cn.sliew.scaleph.workspace.seatunnel.service.param.*;
 import cn.sliew.scaleph.workspace.seatunnel.service.vo.DiJobAttrVO;
-import cn.sliew.scaleph.plugin.framework.exception.PluginException;
-import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -158,14 +155,5 @@ public class WsDiJobController {
     public ResponseEntity<ResponseVO> previewJob(@PathVariable("id") Long id) throws Exception {
         String conf = seatunnelJobService.preview(id);
         return new ResponseEntity<>(ResponseVO.success(conf), HttpStatus.OK);
-    }
-
-    @Logging
-    @GetMapping("/node/meta/{type}")
-    @Operation(summary = "查询DAG节点元信息", description = "后端统一返回节点信息")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_SELECT)")
-    public ResponseEntity<List<DagPanelDTO>> loadNodeMeta(@PathVariable("type") SeaTunnelEngineType type) throws PluginException {
-        List<DagPanelDTO> list = seatunnelJobService.loadDndPanelInfo(type);
-        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

@@ -16,20 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workspace.seatunnel.service.dto;
+package cn.sliew.scaleph.workspace.seatunnel.service.param;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 @Data
-@Schema(name = "Dnd Panel", description = "XFlow nodes with collapse panel")
-public class DagPanelDTO {
+public class WsArtifactSeaTunnelSelectListParam {
 
-    private String id;
+    @NotNull
+    @Schema(description = "项目id")
+    private Long projectId;
 
-    private String header;
-
-    private List<DagNodeDTO> children;
+    @Schema(description = "名称。支持模糊搜索")
+    private String name;
 }
