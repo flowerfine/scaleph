@@ -19,7 +19,8 @@
 package cn.sliew.scaleph.dao.mapper.master.ws;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactCDC;
+import cn.sliew.scaleph.dao.entity.master.ws.WsArtifactFlinkCDC;
+import cn.sliew.scaleph.dao.entity.master.ws.WsArtifactSeaTunnel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
@@ -28,20 +29,20 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * flink artifact cdc Mapper 接口
+ * artifact seatunnel Mapper 接口
  */
 @Repository
-public interface WsFlinkArtifactCDCMapper extends BaseMapper<WsFlinkArtifactCDC> {
+public interface WsArtifactSeaTunnelMapper extends BaseMapper<WsArtifactSeaTunnel> {
 
-    Page<WsFlinkArtifactCDC> list(Page<WsFlinkArtifactCDC> page,
+    Page<WsArtifactSeaTunnel> list(Page<WsArtifactSeaTunnel> page,
                                   @Param("projectId") Long projectId,
                                   @Param("name") String name,
                                   @Param("flinkVersion") FlinkVersion flinkVersion);
 
-    List<WsFlinkArtifactCDC> listAll(@Param("projectId") Long projectId,
+    List<WsArtifactSeaTunnel> listAll(@Param("projectId") Long projectId,
                                      @Param("name") String name);
 
-    WsFlinkArtifactCDC selectOne(@Param("id") Long id);
+    WsArtifactSeaTunnel selectOne(@Param("id") Long id);
 
-    WsFlinkArtifactCDC selectCurrent(@Param("artifactId") Long artifactId);
+    WsArtifactSeaTunnel selectCurrent(@Param("artifactId") Long artifactId);
 }

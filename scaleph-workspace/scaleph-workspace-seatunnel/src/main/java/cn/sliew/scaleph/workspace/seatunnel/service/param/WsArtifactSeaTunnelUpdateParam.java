@@ -16,20 +16,12 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workspace.flink.cdc.service.param;
+package cn.sliew.scaleph.workspace.seatunnel.service.param;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.sliew.scaleph.workspace.project.service.param.AbstractWsArtifactUpdateParam;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
-
 @Data
-public class WsFlinkArtifactCDCSelectListParam {
+public class WsArtifactSeaTunnelUpdateParam extends AbstractWsArtifactUpdateParam {
 
-    @NotNull
-    @Schema(description = "项目id")
-    private Long projectId;
-
-    @Schema(description = "名称。支持模糊搜索")
-    private String name;
 }

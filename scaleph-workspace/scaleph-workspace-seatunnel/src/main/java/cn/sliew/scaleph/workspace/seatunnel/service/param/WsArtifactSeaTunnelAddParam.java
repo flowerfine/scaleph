@@ -16,25 +16,12 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workspace.flink.cdc.service.param;
+package cn.sliew.scaleph.workspace.seatunnel.service.param;
 
-import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.sliew.scaleph.workspace.project.service.param.AbstractWsArtifactAddParam;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-import javax.validation.constraints.NotNull;
 
 @Data
-@EqualsAndHashCode
-public class WsFlinkArtifactCDCGraphParam {
-
-    @NotNull
-    @Schema(description = "id")
-    private Long id;
-
-    @NotNull
-    @Schema(description = "job graph")
-    private DagGraphVO jobGraph;
+public class WsArtifactSeaTunnelAddParam extends AbstractWsArtifactAddParam {
 
 }

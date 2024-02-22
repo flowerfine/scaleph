@@ -20,15 +20,19 @@ package cn.sliew.scaleph.workspace.seatunnel.service.impl;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
+import cn.sliew.scaleph.dag.service.DagService;
+import cn.sliew.scaleph.dag.service.dto.DagDTO;
+import cn.sliew.scaleph.dag.service.param.DagSimpleAddParam;
+import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndPortDTO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndPortGroupEnum;
+import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.workspace.seatunnel.dag.dnd.SeaTunnelDagDndDTO;
 import cn.sliew.scaleph.workspace.seatunnel.dag.dnd.SeaTunnelDagDndMeta;
 import cn.sliew.scaleph.workspace.seatunnel.service.SeaTunnelDagService;
 import cn.sliew.scaleph.workspace.seatunnel.service.SeatunnelConnectorService;
-import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +44,29 @@ import static cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType.SEATUNN
 public class SeaTunnelDagServiceImpl implements SeaTunnelDagService {
 
     @Autowired
+    private DagService dagService;
+    @Autowired
     private SeatunnelConnectorService seatunnelConnectorService;
+
+    @Override
+    public Long initialize() {
+        return dagService.insert(new DagSimpleAddParam());
+    }
+
+    @Override
+    public void destroy(Long dagId) {
+        dagService.delete(dagId);
+    }
+
+    @Override
+    public DagDTO getDag(Long dagId) {
+        return dagService.selectOne(dagId);
+    }
+
+    @Override
+    public void update(Long dagId, DagGraphVO graph) {
+        dagService.replace(dagId, graph);
+    }
 
     @Override
     public List<DndDTO> getDnds() {

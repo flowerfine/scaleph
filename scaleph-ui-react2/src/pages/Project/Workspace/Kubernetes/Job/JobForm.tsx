@@ -25,8 +25,8 @@ import {WORKSPACE_CONF} from "@/constants/constant";
 import {DICT_TYPE} from "@/constants/dictType";
 import {WsFlinkKubernetesDeploymentService} from "@/services/project/WsFlinkKubernetesDeploymentService";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
-import {FlinkArtifactJarService} from "@/services/project/flinkArtifactJar.service";
-import {FlinkArtifactSqlService} from "@/services/project/WsFlinkArtifactSqlService";
+import {WsArtifactFlinkJarService} from "@/services/project/WsArtifactFlinkJarService";
+import {FlinkArtifactSqlService} from "@/services/project/WsArtifactFlinkSqlService";
 import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJobService";
 import {WsDiJobService} from "@/services/project/WsDiJobService";
 
@@ -198,7 +198,7 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
                       projectId: projectId,
                       name: params.keyWords
                     };
-                    return FlinkArtifactJarService.listAll(listParam).then((response) => {
+                    return WsArtifactFlinkJarService.listAll(listParam).then((response) => {
                       return response.map((item) => {
                         return {
                           label: item.artifact?.name,

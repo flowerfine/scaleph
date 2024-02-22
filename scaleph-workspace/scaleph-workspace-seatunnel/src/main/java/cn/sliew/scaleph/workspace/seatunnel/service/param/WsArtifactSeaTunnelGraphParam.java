@@ -16,24 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dag.service.dto;
+package cn.sliew.scaleph.workspace.seatunnel.service.param;
 
+import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
-/**
- * DAG 实例
- */
 @Data
-@Schema(name = "Dag", description = "DAG")
-public class DagDTO extends DagInstanceDTO {
+@EqualsAndHashCode
+public class WsArtifactSeaTunnelGraphParam {
 
-    @Schema(description = "连线")
-    private List<DagLinkDTO> links;
+    @NotNull
+    @Schema(description = "id")
+    private Long id;
 
-    @Schema(description = "步骤")
-    private List<DagStepDTO> steps;
+    @NotNull
+    @Schema(description = "job graph")
+    private DagGraphVO jobGraph;
 
 }

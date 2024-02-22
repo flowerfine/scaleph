@@ -16,34 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workspace.seatunnel.service.vo;
+package cn.sliew.scaleph.workspace.flink.cdc.service.param;
 
-import cn.sliew.scaleph.workspace.seatunnel.service.dto.WsDiJobDTO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
+import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCVersion;
+import cn.sliew.scaleph.workspace.project.service.param.WsArtifactListParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-
-import javax.validation.constraints.NotNull;
-import java.util.List;
+import lombok.EqualsAndHashCode;
 
 @Data
-@Schema(name = "作业启动参数", description = "作业启动参数")
-public class DiJobRunVO {
+@EqualsAndHashCode(callSuper = true)
+public class WsArtifactFlinkCDCListParam extends WsArtifactListParam {
 
-    @NotNull
-    @Schema(description = "job id")
-    private Long jobId;
+    @Schema(description = "flink version")
+    private FlinkVersion flinkVersion;
 
-    @NotNull
-    @Schema(description = "cluster id")
-    private Long clusterId;
-
-    @Schema(description = "resources")
-    private List<DictVO> resources;
-
-    public WsDiJobDTO toDto() {
-        WsDiJobDTO dto = new WsDiJobDTO();
-        dto.setId(this.jobId);
-        return dto;
-    }
+    @Schema(description = "flink cdc version")
+    private FlinkCDCVersion flinkCDCVersion;
 }

@@ -23,9 +23,10 @@ export default {
   'pages.project.artifact.sql': 'SQL',
 
   'pages.project.artifact.seatunnel': 'SeaTunnel',
-  'pages.project.artifact.seatunnel.jobEngine': 'Engine',
+  'pages.project.artifact.seatunnel.seaTunnelEngine': 'Engine',
+  'pages.project.artifact.seatunnel.seaTunnelVersion': 'SeaTunnel 版本',
   'pages.project.artifact.cdc': 'CDC',
-  'pages.project.artifact.cdc.flinkCDCVersion': 'Flink CDC Version',
+  'pages.project.artifact.cdc.flinkCDCVersion': 'Flink CDC 版本',
 
   'pages.project.job.jar': 'Jar',
   'pages.project.job.jar.args': 'Main Args',

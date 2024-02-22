@@ -16,24 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dag.service.dto;
+package cn.sliew.scaleph.workspace.seatunnel.service.param;
 
+import cn.sliew.scaleph.system.model.PaginationParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
-/**
- * DAG 实例
- */
 @Data
-@Schema(name = "Dag", description = "DAG")
-public class DagDTO extends DagInstanceDTO {
+public class WsArtifactSeaTunnelArtifactParam extends PaginationParam {
 
-    @Schema(description = "连线")
-    private List<DagLinkDTO> links;
-
-    @Schema(description = "步骤")
-    private List<DagStepDTO> steps;
-
+    @NotNull
+    @Schema(description = "artifact id")
+    private Long artifactId;
 }

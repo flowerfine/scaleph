@@ -17,29 +17,42 @@
   -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.sliew.scaleph.dao.mapper.master.ws.WsArtifactFlinkSqlMapper">
-    <resultMap id="ArtifactFlinkSqlMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsArtifactFlinkSql">
+<mapper namespace="cn.sliew.scaleph.dao.mapper.master.ws.WsArtifactSeaTunnelMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ArtifactSeaTunnelMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsArtifactSeaTunnel">
         <result column="id" property="id"/>
         <result column="creator" property="creator"/>
         <result column="create_time" property="createTime"/>
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
         <result column="artifact_id" property="artifactId"/>
+        <result column="seatunnel_engine" property="seaTunnelEngine"/>
         <result column="flink_version" property="flinkVersion"/>
-        <result column="script" property="script"/>
+        <result column="seatunnel_version" property="seaTunnelVersion"/>
+        <result column="dag_id" property="dagId"/>
         <result column="current" property="current"/>
         <association column="artifact_id" property="artifact"
                      select="cn.sliew.scaleph.dao.mapper.master.ws.WsArtifactMapper.selectById"/>
     </resultMap>
 
+    <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, creator, create_time, editor, update_time,
-        artifact_id, flink_version, script, `current`
+        id,
+        creator,
+        create_time,
+        editor,
+        update_time,
+        artifact_id,
+        seatunnel_engine,
+        flink_version,
+        seatunnel_version,
+        dag_id,
+        `current`
     </sql>
 
-    <select id="list" resultMap="ArtifactFlinkSqlMap">
+    <select id="list" resultMap="ArtifactSeaTunnelMap">
         select t1.*
-        from ws_artifact_flink_sql t1
+        from ws_artifact_seatunnel t1
                  join ws_artifact t2 on t1.artifact_id = t2.id
         where t2.project_id = #{projectId}
           and t1.current = '1'
@@ -52,31 +65,28 @@
         order by t2.id desc
     </select>
 
-    <select id="listAll" resultMap="ArtifactFlinkSqlMap">
-        select
-        t1.*
-        from
-        ws_artifact_flink_sql t1
-        join ws_artifact t2 on t1.artifact_id = t2.id
-        where
-        t2.project_id = #{projectId}
-        and t1.current = '1'
+    <select id="listAll" resultMap="ArtifactSeaTunnelMap">
+        select t1.*
+        from ws_artifact_seatunnel t1
+                 join ws_artifact t2 on t1.artifact_id = t2.id
+        where t2.project_id = #{projectId}
+          and t1.current = '1'
         <if test="name != null and name != ''">
             and t2.`name` like concat('%', #{name}, '%')
         </if>
         order by t2.id desc
     </select>
 
-    <select id="selectOne" resultMap="ArtifactFlinkSqlMap">
+    <select id="selectOne" resultMap="ArtifactSeaTunnelMap">
         select t1.*
-        from ws_artifact_flink_sql t1
+        from ws_artifact_seatunnel t1
                  join ws_artifact t2 on t1.artifact_id = t2.id
         where t1.id = #{id}
     </select>
 
-    <select id="selectCurrent" resultMap="ArtifactFlinkSqlMap">
+    <select id="selectCurrent" resultMap="ArtifactSeaTunnelMap">
         select t1.*
-        from ws_artifact_flink_sql t1
+        from ws_artifact_seatunnel t1
                  join ws_artifact t2 on t1.artifact_id = t2.id
         where t2.id = #{artifactId}
           and t1.current = '1'

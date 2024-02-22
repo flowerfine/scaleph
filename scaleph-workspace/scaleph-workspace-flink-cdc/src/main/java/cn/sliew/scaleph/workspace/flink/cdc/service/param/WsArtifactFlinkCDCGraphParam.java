@@ -16,20 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workspace.seatunnel.service.dto;
+package cn.sliew.scaleph.workspace.flink.cdc.service.param;
 
+import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 @Data
-@Schema(name = "Dnd Panel", description = "XFlow nodes with collapse panel")
-public class DagPanelDTO {
+@EqualsAndHashCode
+public class WsArtifactFlinkCDCGraphParam {
 
-    private String id;
+    @NotNull
+    @Schema(description = "id")
+    private Long id;
 
-    private String header;
+    @NotNull
+    @Schema(description = "job graph")
+    private DagGraphVO jobGraph;
 
-    private List<DagNodeDTO> children;
 }

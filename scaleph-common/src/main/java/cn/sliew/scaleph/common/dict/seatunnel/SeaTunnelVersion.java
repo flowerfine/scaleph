@@ -38,6 +38,10 @@ public enum SeaTunnelVersion implements DictInstance {
                 .findAny().orElseThrow(() -> new EnumConstantNotPresentException(SeaTunnelVersion.class, value));
     }
 
+    public static SeaTunnelVersion current() {
+        return values()[values().length - 1];
+    }
+
     @EnumValue
     private String value;
     private String label;

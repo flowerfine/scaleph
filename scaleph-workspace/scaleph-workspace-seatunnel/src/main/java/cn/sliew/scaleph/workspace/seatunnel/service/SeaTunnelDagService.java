@@ -20,11 +20,22 @@ package cn.sliew.scaleph.workspace.seatunnel.service;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.dag.service.DagDndService;
+import cn.sliew.scaleph.dag.service.dto.DagDTO;
+import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
+import cn.sliew.scaleph.workspace.seatunnel.service.param.WsArtifactSeaTunnelGraphParam;
 
 import java.util.List;
 
 public interface SeaTunnelDagService extends DagDndService {
+
+    Long initialize();
+
+    void destroy(Long dagId);
+
+    DagDTO getDag(Long dagId);
+
+    void update(Long dagId, DagGraphVO graph);
 
     List<DndDTO> getDnds(SeaTunnelEngineType engineType);
 }

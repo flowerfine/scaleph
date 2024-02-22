@@ -16,32 +16,42 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workspace.flink.cdc.service.dto;
+package cn.sliew.scaleph.workspace.seatunnel.service.dto;
 
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCVersion;
-import cn.sliew.scaleph.workspace.project.service.dto.WsArtifactDTO;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelVersion;
+import cn.sliew.scaleph.dag.service.dto.DagDTO;
 import cn.sliew.scaleph.system.model.BaseDTO;
+import cn.sliew.scaleph.workspace.project.service.dto.WsArtifactDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@Schema(name = "WsFlinkArtifactCDC对象", description = "flink artifact cdc")
-public class WsFlinkArtifactCDCDTO extends BaseDTO {
+@Schema(name = "WsArtifactSeaTunnel", description = "artifact seatunnel")
+public class WsArtifactSeaTunnelDTO extends BaseDTO {
+
+    private static final long serialVersionUID = 1L;
 
     @Schema(description = "作业artifact")
-    private WsArtifactDTO wsFlinkArtifact;
+    private WsArtifactDTO artifact;
 
-    @Schema(description = "flink版本")
+    @Schema(description = "seatunnel 引擎")
+    private SeaTunnelEngineType seaTunnelEngine;
+
+    @Schema(description = "flink 版本")
     private FlinkVersion flinkVersion;
 
-    @Schema(description = "flink cdc 版本")
-    private FlinkCDCVersion flinkCDCVersion;
+    @Schema(description = "seatunnel 版本")
+    private SeaTunnelVersion seaTunnelVersion;
 
     @Schema(description = "dag id")
     private Long dagId;
 
-    @Schema(description = "`current`")
+    @Schema(description = "dag")
+    private DagDTO dag;
+
+    @Schema(description = "current artifact")
     private YesOrNo current;
 }

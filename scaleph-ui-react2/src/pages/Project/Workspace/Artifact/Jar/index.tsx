@@ -8,7 +8,7 @@ import {DICT_TYPE} from '@/constants/dictType';
 import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
 import {WsArtifactFlinkJar} from '@/services/project/typings';
 import FlinkArtifactJarAddForm from './FlinkArtifactJarAddForm';
-import {FlinkArtifactJarService} from "@/services/project/flinkArtifactJar.service";
+import {WsArtifactFlinkJarService} from "@/services/project/WsArtifactFlinkJarService";
 import {DictDataService} from "@/services/admin/dictData.service";
 import FlinkArtifactJarUpdateForm from "@/pages/Project/Workspace/Artifact/Jar/FlinkArtifactJarUpdateForm";
 
@@ -114,7 +114,7 @@ const ArtifactFlinkJarWeb: React.FC = () => {
                   type="link"
                   icon={<DownloadOutlined/>}
                   onClick={() => {
-                    FlinkArtifactJarService.download(record);
+                    WsArtifactFlinkJarService.download(record);
                   }}
                 />
               </Tooltip>
@@ -145,7 +145,7 @@ const ArtifactFlinkJarWeb: React.FC = () => {
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
-                        FlinkArtifactJarService.deleteArtifact(record.artifact?.id).then((d) => {
+                        WsArtifactFlinkJarService.deleteArtifact(record.artifact?.id).then((d) => {
                           if (d.success) {
                             message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();
@@ -176,7 +176,7 @@ const ArtifactFlinkJarWeb: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) =>
-          FlinkArtifactJarService.list({...params, projectId: projectId + ''})
+          WsArtifactFlinkJarService.list({...params, projectId: projectId + ''})
         }
         toolbar={{
           actions: [

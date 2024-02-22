@@ -7,31 +7,31 @@ import {WORKSPACE_CONF} from '@/constants/constant';
 import {DICT_TYPE} from '@/constants/dictType';
 import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {DictDataService} from '@/services/admin/dictData.service';
-import {WsFlinkArtifactCDC} from '@/services/project/typings';
-import {WsFlinkCDCService} from "@/services/project/WsFlinkCDCService";
+import {WsArtifactFlinkCDC} from '@/services/project/typings';
+import {WsArtifactFlinkCDCService} from "@/services/project/WsArtifactFlinkCDCService";
 import FlinkArtifactCDCForm from "@/pages/Project/Workspace/Artifact/CDC/FlinkArtifactCDCForm";
 
-const FlinkArtifactCDCWeb: React.FC = () => {
+const ArtifactFlinkCDCWeb: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [flinkArtifactCDCFormData, setFlinkArtifactCDCFormData] = useState<{
-    visible: boolean;
-    data: WsFlinkArtifactCDC
+  const [artifactFlinkCDCFormData, setArtifactFlinkCDCFormData] = useState<{
+    visiable: boolean;
+    data: WsArtifactFlinkCDC
   }>({
-    visible: false,
+    visiable: false,
     data: {},
   });
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
-  const tableColumns: ProColumns<WsFlinkArtifactCDC>[] = [
+  const tableColumns: ProColumns<WsArtifactFlinkCDC>[] = [
     {
       title: intl.formatMessage({id: 'pages.project.artifact.name'}),
       dataIndex: 'name',
       width: 240,
       render: (dom, entity, index, action, schema) => {
-        return entity.wsFlinkArtifact?.name
+        return entity.artifact?.name
       }
     },
     {
@@ -62,7 +62,7 @@ const FlinkArtifactCDCWeb: React.FC = () => {
       hideInSearch: true,
       width: 150,
       render: (dom, entity, index, action, schema) => {
-        return entity.wsFlinkArtifact?.remark
+        return entity.artifact?.remark
       }
     },
     {
@@ -94,7 +94,7 @@ const FlinkArtifactCDCWeb: React.FC = () => {
                   type="link"
                   icon={<EditOutlined/>}
                   onClick={() => {
-                    setFlinkArtifactCDCFormData({visiable: true, data: record});
+                    setArtifactFlinkCDCFormData({visiable: true, data: record});
                   }}
                 />
               </Tooltip>
@@ -125,7 +125,7 @@ const FlinkArtifactCDCWeb: React.FC = () => {
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
-                        WsFlinkCDCService.deleteOne(record).then((d) => {
+                        WsArtifactFlinkCDCService.deleteArtifact(record.artifact?.id).then((d) => {
                           if (d.success) {
                             message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();
@@ -145,7 +145,7 @@ const FlinkArtifactCDCWeb: React.FC = () => {
 
   return (
     <div>
-      <ProTable<WsFlinkArtifactCDC>
+      <ProTable<WsArtifactFlinkCDC>
         search={{
           labelWidth: 'auto',
           span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -156,7 +156,7 @@ const FlinkArtifactCDCWeb: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) =>
-          WsFlinkCDCService.list({...params, projectId: projectId})
+          WsArtifactFlinkCDCService.list({...params, projectId: projectId})
         }
         toolbar={{
           actions: [
@@ -165,7 +165,7 @@ const FlinkArtifactCDCWeb: React.FC = () => {
                 key="new"
                 type="primary"
                 onClick={() => {
-                  setFlinkArtifactCDCFormData({visiable: true, data: {}});
+                  setArtifactFlinkCDCFormData({visiable: true, data: {}});
                 }}
               >
                 {intl.formatMessage({id: 'app.common.operate.new.label'})}
@@ -177,15 +177,15 @@ const FlinkArtifactCDCWeb: React.FC = () => {
         tableAlertRender={false}
         tableAlertOptionRender={false}
       />
-      {flinkArtifactCDCFormData.visiable && (
+      {artifactFlinkCDCFormData.visiable && (
         <FlinkArtifactCDCForm
-          data={flinkArtifactCDCFormData.data}
-          visible={flinkArtifactCDCFormData.visiable}
+          data={artifactFlinkCDCFormData.data}
+          visible={artifactFlinkCDCFormData.visiable}
           onCancel={() => {
-            setFlinkArtifactCDCFormData({visiable: false, data: {}});
+            setArtifactFlinkCDCFormData({visiable: false, data: {}});
           }}
           onVisibleChange={(visiable) => {
-            setFlinkArtifactCDCFormData({visiable: visiable, data: {}});
+            setArtifactFlinkCDCFormData({visiable: visiable, data: {}});
             actionRef.current?.reload();
           }}
         />
@@ -194,4 +194,4 @@ const FlinkArtifactCDCWeb: React.FC = () => {
   );
 };
 
-export default FlinkArtifactCDCWeb;
+export default ArtifactFlinkCDCWeb;

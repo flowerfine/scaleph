@@ -18,14 +18,18 @@
 
 package cn.sliew.scaleph.workspace.flink.cdc.service.param;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.workspace.project.service.param.AbstractWsArtifactUpdateParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Data
-public class WsFlinkArtifactCDCUpdateParam extends AbstractWsArtifactUpdateParam {
+import javax.validation.constraints.NotNull;
 
-    @Schema(description = "flink version")
-    private FlinkVersion flinkVersion;
+@Data
+public class WsArtifactFlinkCDCSelectListParam {
+
+    @NotNull
+    @Schema(description = "项目id")
+    private Long projectId;
+
+    @Schema(description = "名称。支持模糊搜索")
+    private String name;
 }

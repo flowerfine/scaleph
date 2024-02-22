@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {Tree} from 'antd';
 import SearchInput from './search';
 import {Props} from "@/typings";
-import {WsDiJob} from "@/services/project/typings";
-import {WsSeaTunnelService} from "@/services/project/SeaTunnelService";
+import {WsArtifactSeaTunnel, WsDiJob} from "@/services/project/typings";
+import {WsArtifactSeaTunnelService} from "@/services/project/WsArtifactSeaTunnelService";
 import styles from './dnd.less';
 import {DndNode} from "../node/dnd-node";
 
@@ -22,12 +22,12 @@ type ComponentTreeItem = {
   }[];
 };
 
-const Dnd: React.FC<Props<WsDiJob>> = ({data}) => {
+const Dnd: React.FC<Props<WsArtifactSeaTunnel>> = ({data}) => {
   const [treeItems, setTreeItems] = useState<ComponentTreeItem[]>([]);
   const [searchComponents, setSearchComponents] = useState<ComponentTreeItem[]>([]);
 
   useEffect(() => {
-    WsSeaTunnelService.getDnds(data.jobEngine?.value).then((response) => {
+    WsArtifactSeaTunnelService.getDnds(data.seaTunnelEngine?.value).then((response) => {
       if (response.success) {
         setTreeItems(response.data)
       }

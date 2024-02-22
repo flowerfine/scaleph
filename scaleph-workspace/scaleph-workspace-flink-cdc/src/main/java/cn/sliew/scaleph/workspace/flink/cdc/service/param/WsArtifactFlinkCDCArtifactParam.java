@@ -18,14 +18,16 @@
 
 package cn.sliew.scaleph.workspace.flink.cdc.service.param;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.workspace.project.service.param.AbstractWsArtifactAddParam;
+import cn.sliew.scaleph.system.model.PaginationParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Data
-public class WsFlinkArtifactCDCAddParam extends AbstractWsArtifactAddParam {
+import javax.validation.constraints.NotNull;
 
-    @Schema(description = "flink version")
-    private FlinkVersion flinkVersion;
+@Data
+public class WsArtifactFlinkCDCArtifactParam extends PaginationParam {
+
+    @NotNull
+    @Schema(description = "artifact id")
+    private Long artifactId;
 }

@@ -16,24 +16,12 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dag.service.dto;
+package cn.sliew.scaleph.workspace.flink.cdc.service.param;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.sliew.scaleph.workspace.project.service.param.AbstractWsArtifactAddParam;
 import lombok.Data;
 
-import java.util.List;
-
-/**
- * DAG 实例
- */
 @Data
-@Schema(name = "Dag", description = "DAG")
-public class DagDTO extends DagInstanceDTO {
-
-    @Schema(description = "连线")
-    private List<DagLinkDTO> links;
-
-    @Schema(description = "步骤")
-    private List<DagStepDTO> steps;
+public class WsArtifactFlinkCDCAddParam extends AbstractWsArtifactAddParam {
 
 }

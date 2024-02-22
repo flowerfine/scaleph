@@ -16,32 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workspace.seatunnel.service.dto;
+package cn.sliew.scaleph.workspace.seatunnel.service.param;
 
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelConnectorFeature;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelConnectorHealth;
-import cn.sliew.scaleph.workspace.seatunnel.service.vo.DagPanalVO;
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
+import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCVersion;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelVersion;
+import cn.sliew.scaleph.workspace.project.service.param.WsArtifactListParam;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * keep same with xflow dag panal properties
- */
 @Data
-@EqualsAndHashCode
-public class DagNodeDTO {
+@EqualsAndHashCode(callSuper = true)
+public class WsArtifactSeaTunnelListParam extends WsArtifactListParam {
 
-    private String id;
+    @Schema(description = "flink version")
+    private FlinkVersion flinkVersion;
 
-    private String label;
-
-    private String renderKey;
-
-    private String description;
-
-    private SeaTunnelConnectorHealth health;
-
-    private SeaTunnelConnectorFeature[] features;
-
-    private DagPanalVO data;
+    @Schema(description = "seatunnel version")
+    private SeaTunnelVersion seaTunnelVersion;
 }

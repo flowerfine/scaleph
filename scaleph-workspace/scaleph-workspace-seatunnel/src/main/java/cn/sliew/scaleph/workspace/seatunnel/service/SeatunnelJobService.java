@@ -18,15 +18,7 @@
 
 package cn.sliew.scaleph.workspace.seatunnel.service;
 
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
-import cn.sliew.scaleph.workspace.seatunnel.service.dto.DagPanelDTO;
-import cn.sliew.scaleph.plugin.framework.exception.PluginException;
-
-import java.util.List;
-
 public interface SeatunnelJobService {
 
     String preview(Long jobId) throws Exception;
-
-    List<DagPanelDTO> loadDndPanelInfo(SeaTunnelEngineType type) throws PluginException;
 }

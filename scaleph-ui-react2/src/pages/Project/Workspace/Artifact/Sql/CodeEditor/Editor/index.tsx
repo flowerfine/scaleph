@@ -7,7 +7,7 @@ import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import * as sqlFormatter from 'sql-formatter';
 import { WORKSPACE_CONF } from '@/constants/constant';
 import { WsArtifactFlinkSql } from '@/services/project/typings';
-import { FlinkArtifactSqlService } from '@/services/project/WsFlinkArtifactSqlService';
+import { FlinkArtifactSqlService } from '@/services/project/WsArtifactFlinkSqlService';
 import { WsFlinkKubernetesSessionClusterService } from '@/services/project/WsFlinkKubernetesSessionClusterService';
 import { WsFlinkSqlGatewayService } from '@/services/project/WsFlinkSqlGatewayService';
 import styles from './index.less';

@@ -2,10 +2,15 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Drawer} from "antd";
 import Editor, {useMonaco} from "@monaco-editor/react";
 import {ModalFormProps} from "@/typings";
-import {WsDiJob} from "@/services/project/typings";
+import {WsArtifactSeaTunnel} from "@/services/project/typings";
 import {WsDiJobService} from "@/services/project/WsDiJobService";
 
-const SeaTunnelConfModal: React.FC<ModalFormProps<WsDiJob>> = ({visible, onVisibleChange, onCancel, data}) => {
+const SeaTunnelConfModal: React.FC<ModalFormProps<WsArtifactSeaTunnel>> = ({
+                                                                             visible,
+                                                                             onVisibleChange,
+                                                                             onCancel,
+                                                                             data
+                                                                           }) => {
   const editorRef = useRef(null);
   const monaco = useMonaco();
   const [conf, setConf] = useState<string>();

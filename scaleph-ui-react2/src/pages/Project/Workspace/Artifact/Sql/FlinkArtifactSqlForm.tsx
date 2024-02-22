@@ -4,7 +4,7 @@ import {useIntl} from '@umijs/max';
 import {ModalFormProps} from '@/typings';
 import {WORKSPACE_CONF} from '@/constants/constant';
 import {WsArtifactFlinkSql, WsArtifactFlinkSqlSaveParam} from '@/services/project/typings';
-import {FlinkArtifactSqlService} from "@/services/project/WsFlinkArtifactSqlService";
+import {FlinkArtifactSqlService} from "@/services/project/WsArtifactFlinkSqlService";
 
 const FlinkArtifactSqlForm: React.FC<ModalFormProps<WsArtifactFlinkSql>> = ({
                                                                               data,

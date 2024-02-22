@@ -16,35 +16,35 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workspace.flink.cdc.service.convert;
+package cn.sliew.scaleph.workspace.seatunnel.service.convert;
 
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactCDC;
-import cn.sliew.scaleph.workspace.flink.cdc.service.dto.WsFlinkArtifactCDCDTO;
+import cn.sliew.scaleph.dao.entity.master.ws.WsArtifactSeaTunnel;
 import cn.sliew.scaleph.workspace.project.service.convert.WsArtifactConvert;
+import cn.sliew.scaleph.workspace.seatunnel.service.dto.WsArtifactSeaTunnelDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.BeanUtils;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface WsFlinkArtifactCDCConvert extends BaseConvert<WsFlinkArtifactCDC, WsFlinkArtifactCDCDTO> {
-    WsFlinkArtifactCDCConvert INSTANCE = Mappers.getMapper(WsFlinkArtifactCDCConvert.class);
+public interface WsArtifactSeaTunnelConvert extends BaseConvert<WsArtifactSeaTunnel, WsArtifactSeaTunnelDTO> {
+    WsArtifactSeaTunnelConvert INSTANCE = Mappers.getMapper(WsArtifactSeaTunnelConvert.class);
 
     @Override
-    default WsFlinkArtifactCDC toDo(WsFlinkArtifactCDCDTO dto) {
-        WsFlinkArtifactCDC entity = new WsFlinkArtifactCDC();
+    default WsArtifactSeaTunnel toDo(WsArtifactSeaTunnelDTO dto) {
+        WsArtifactSeaTunnel entity = new WsArtifactSeaTunnel();
         BeanUtils.copyProperties(dto, entity);
-        entity.setWsArtifact(WsArtifactConvert.INSTANCE.toDo(dto.getWsFlinkArtifact()));
-        entity.setFlinkArtifactId(dto.getWsFlinkArtifact().getId());
+        entity.setArtifact(WsArtifactConvert.INSTANCE.toDo(dto.getArtifact()));
+        entity.setArtifactId(dto.getArtifact().getId());
         return entity;
     }
 
     @Override
-    default WsFlinkArtifactCDCDTO toDto(WsFlinkArtifactCDC entity) {
-        WsFlinkArtifactCDCDTO dto = new WsFlinkArtifactCDCDTO();
+    default WsArtifactSeaTunnelDTO toDto(WsArtifactSeaTunnel entity) {
+        WsArtifactSeaTunnelDTO dto = new WsArtifactSeaTunnelDTO();
         BeanUtils.copyProperties(entity, dto);
-        dto.setWsFlinkArtifact(WsArtifactConvert.INSTANCE.toDto(entity.getWsArtifact()));
+        dto.setArtifact(WsArtifactConvert.INSTANCE.toDto(entity.getArtifact()));
         return dto;
     }
 }

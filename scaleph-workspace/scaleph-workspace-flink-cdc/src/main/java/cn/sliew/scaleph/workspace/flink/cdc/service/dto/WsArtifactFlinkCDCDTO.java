@@ -16,24 +16,32 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dag.service.dto;
+package cn.sliew.scaleph.workspace.flink.cdc.service.dto;
 
+import cn.sliew.scaleph.common.dict.common.YesOrNo;
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
+import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCVersion;
+import cn.sliew.scaleph.workspace.project.service.dto.WsArtifactDTO;
+import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.util.List;
-
-/**
- * DAG 实例
- */
 @Data
-@Schema(name = "Dag", description = "DAG")
-public class DagDTO extends DagInstanceDTO {
+@Schema(name = "WsArtifactFlinkCDC对象", description = "artifact flink-cdc")
+public class WsArtifactFlinkCDCDTO extends BaseDTO {
 
-    @Schema(description = "连线")
-    private List<DagLinkDTO> links;
+    @Schema(description = "作业artifact")
+    private WsArtifactDTO artifact;
 
-    @Schema(description = "步骤")
-    private List<DagStepDTO> steps;
+    @Schema(description = "flink版本")
+    private FlinkVersion flinkVersion;
 
+    @Schema(description = "flink cdc 版本")
+    private FlinkCDCVersion flinkCDCVersion;
+
+    @Schema(description = "dag id")
+    private Long dagId;
+
+    @Schema(description = "`current`")
+    private YesOrNo current;
 }

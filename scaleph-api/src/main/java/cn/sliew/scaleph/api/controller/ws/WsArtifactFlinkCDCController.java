@@ -21,15 +21,11 @@ package cn.sliew.scaleph.api.controller.ws;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
-import cn.sliew.scaleph.workspace.flink.cdc.service.FlinkCDCDagService;
-import cn.sliew.scaleph.workspace.flink.cdc.service.FlinkCDCJobService;
-import cn.sliew.scaleph.workspace.flink.cdc.service.dto.WsFlinkArtifactCDCDTO;
-import cn.sliew.scaleph.workspace.flink.cdc.service.param.WsFlinkArtifactCDCAddParam;
-import cn.sliew.scaleph.workspace.flink.cdc.service.param.WsFlinkArtifactCDCListParam;
-import cn.sliew.scaleph.workspace.flink.cdc.service.param.WsFlinkArtifactCDCSelectListParam;
-import cn.sliew.scaleph.workspace.flink.cdc.service.param.WsFlinkArtifactCDCUpdateParam;
-import cn.sliew.scaleph.plugin.framework.exception.PluginException;
 import cn.sliew.scaleph.system.model.ResponseVO;
+import cn.sliew.scaleph.workspace.flink.cdc.service.FlinkCDCDagService;
+import cn.sliew.scaleph.workspace.flink.cdc.service.WsArtifactFlinkCDCService;
+import cn.sliew.scaleph.workspace.flink.cdc.service.dto.WsArtifactFlinkCDCDTO;
+import cn.sliew.scaleph.workspace.flink.cdc.service.param.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -42,53 +38,61 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Tag(name = "Flink CDC")
+@Tag(name = "Artifact管理-Flink-CDC")
 @RestController
-@RequestMapping(path = "/api/flink-cdc")
-public class WsFlinkCDCController {
+@RequestMapping(path = "/api/artifact/flink/cdc")
+public class WsArtifactFlinkCDCController {
 
     @Autowired
     private FlinkCDCDagService flinkCDCDagService;
     @Autowired
-    private FlinkCDCJobService flinkCDCJobService;
-
-    @Logging
-    @GetMapping("/dag/dnd")
-    @Operation(summary = "查询DAG节点元信息", description = "后端统一返回节点信息")
-    public ResponseEntity<ResponseVO<List<DndDTO>>> loadNodeMeta() throws PluginException {
-        List<DndDTO> dnds = flinkCDCDagService.getDnds();
-        return new ResponseEntity<>(ResponseVO.success(dnds), HttpStatus.OK);
-    }
+    private WsArtifactFlinkCDCService wsArtifactFlinkCDCService;
 
     @Logging
     @GetMapping
     @Operation(summary = "查询 fink cdc 列表", description = "分页查询 fink cdc 列表")
-    public ResponseEntity<Page<WsFlinkArtifactCDCDTO>> listJob(@Valid WsFlinkArtifactCDCListParam param) {
-        Page<WsFlinkArtifactCDCDTO> page = flinkCDCJobService.listByPage(param);
+    public ResponseEntity<Page<WsArtifactFlinkCDCDTO>> list(@Valid WsArtifactFlinkCDCListParam param) {
+        Page<WsArtifactFlinkCDCDTO> page = wsArtifactFlinkCDCService.list(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("/history")
+    @Operation(summary = "根据 artifact 分页查询 fink cdc 列表", description = "根据 artifact 分页查询 fink cdc 列表")
+    public ResponseEntity<Page<WsArtifactFlinkCDCDTO>> listByArtifact(@Valid WsArtifactFlinkCDCArtifactParam param) {
+        Page<WsArtifactFlinkCDCDTO> result = wsArtifactFlinkCDCService.listByArtifact(param);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Logging
     @GetMapping("/all")
     @Operation(summary = "查询 fink cdc 列表", description = "查询 fink cdc 列表")
-    public ResponseEntity<List<WsFlinkArtifactCDCDTO>> listAll(@Valid WsFlinkArtifactCDCSelectListParam param) {
-        List<WsFlinkArtifactCDCDTO> result = flinkCDCJobService.listAll(param);
+    public ResponseEntity<List<WsArtifactFlinkCDCDTO>> listAll(@Valid WsArtifactFlinkCDCSelectListParam param) {
+        List<WsArtifactFlinkCDCDTO> result = wsArtifactFlinkCDCService.listAll(param);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("/{id}")
+    @Operation(summary = "查询 flink cdc 详情", description = "查询 flink cdc 详情")
+    public ResponseEntity<WsArtifactFlinkCDCDTO> selectOne(@PathVariable("id") Long id) {
+        WsArtifactFlinkCDCDTO result = wsArtifactFlinkCDCService.selectOne(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Logging
     @PutMapping
     @Operation(summary = "新增 fink cdc", description = "新增 fink cdc，不涉及 DAG")
-    public ResponseEntity<ResponseVO<WsFlinkArtifactCDCDTO>> simpleAddJob(@Validated @RequestBody WsFlinkArtifactCDCAddParam param) {
-        WsFlinkArtifactCDCDTO wsFlinkArtifactCDCDTO = flinkCDCJobService.insert(param);
+    public ResponseEntity<ResponseVO<WsArtifactFlinkCDCDTO>> insert(@Validated @RequestBody WsArtifactFlinkCDCAddParam param) {
+        WsArtifactFlinkCDCDTO wsFlinkArtifactCDCDTO = wsArtifactFlinkCDCService.insert(param);
         return new ResponseEntity<>(ResponseVO.success(wsFlinkArtifactCDCDTO), HttpStatus.CREATED);
     }
 
     @Logging
     @PostMapping
     @Operation(summary = "修改 fink cdc", description = "只修改 fink cdc 属性，不涉及 DAG")
-    public ResponseEntity<ResponseVO> simpleEditJob(@Validated @RequestBody WsFlinkArtifactCDCUpdateParam param) {
-        flinkCDCJobService.update(param);
+    public ResponseEntity<ResponseVO> update(@Validated @RequestBody WsArtifactFlinkCDCUpdateParam param) {
+        wsArtifactFlinkCDCService.update(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
@@ -96,7 +100,7 @@ public class WsFlinkCDCController {
     @DeleteMapping("{id}")
     @Operation(summary = "删除 fink cdc", description = "删除 fink cdc")
     public ResponseEntity<ResponseVO> deleteJob(@PathVariable("id") Long id) throws ScalephException {
-        flinkCDCJobService.delete(id);
+        wsArtifactFlinkCDCService.delete(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
@@ -104,15 +108,23 @@ public class WsFlinkCDCController {
     @DeleteMapping("batch")
     @Operation(summary = "批量删除 fink cdc", description = "批量删除 fink cdc")
     public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) throws ScalephException {
-        flinkCDCJobService.deleteBatch(ids);
+        wsArtifactFlinkCDCService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
-    @DeleteMapping("all")
-    @Operation(summary = "批量删除 fink cdc", description = "批量删除 fink cdc")
-    public ResponseEntity<ResponseVO> deleteAll(@RequestParam("flinkArtifactId") Long flinkArtifactId) throws ScalephException {
-        flinkCDCJobService.deleteAll(flinkArtifactId);
+    @DeleteMapping("artifact/{artifactId}")
+    @Operation(summary = "删除 artifact", description = "删除 artifact")
+    public ResponseEntity<ResponseVO> deleteArtifact(@PathVariable("artifactId") Long artifactId) throws ScalephException {
+        wsArtifactFlinkCDCService.deleteArtifact(artifactId);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("/dag/dnd")
+    @Operation(summary = "查询DAG节点元信息", description = "后端统一返回节点信息")
+    public ResponseEntity<ResponseVO<List<DndDTO>>> loadNodeMeta() {
+        List<DndDTO> dnds = flinkCDCDagService.getDnds();
+        return new ResponseEntity<>(ResponseVO.success(dnds), HttpStatus.OK);
     }
 }

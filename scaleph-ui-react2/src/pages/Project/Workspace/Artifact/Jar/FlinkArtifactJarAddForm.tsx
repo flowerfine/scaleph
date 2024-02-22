@@ -5,7 +5,7 @@ import {useIntl} from '@umijs/max';
 import {WORKSPACE_CONF} from '@/constants/constant';
 import {DICT_TYPE} from '@/constants/dictType';
 import {WsArtifactFlinkJar, WsArtifactFlinkJarUploadParam} from '@/services/project/typings';
-import {FlinkArtifactJarService} from "@/services/project/flinkArtifactJar.service";
+import {WsArtifactFlinkJarService} from "@/services/project/WsArtifactFlinkJarService";
 import {DictDataService} from "@/services/admin/dictData.service";
 import {ModalFormProps} from "@/typings";
 
@@ -70,7 +70,7 @@ const FlinkArtifactJarAddForm: React.FC<ModalFormProps<WsArtifactFlinkJar>> = ({
         };
 
         setUploading(true);
-        return FlinkArtifactJarService.upload(param).then((response) => {
+        return WsArtifactFlinkJarService.upload(param).then((response) => {
           if (response.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
             setFileList([]);

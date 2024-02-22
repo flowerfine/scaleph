@@ -89,7 +89,7 @@ public class WsArtifactFlinkSqlServiceImpl implements WsArtifactFlinkSqlService 
     @Override
     public WsArtifactFlinkSqlDTO selectOne(Long id) {
         WsArtifactFlinkSql record = wsArtifactFlinkSqlMapper.selectOne(id);
-        checkState(record != null, () -> "flink artifact sql not exists for id: " + id);
+        checkState(record != null, () -> "artifact flink-sql not exists for id: " + id);
         return WsFlinkArtifactSqlConvert.INSTANCE.toDto(record);
     }
 

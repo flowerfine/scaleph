@@ -16,34 +16,12 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workspace.seatunnel.service.vo;
+package cn.sliew.scaleph.workspace.flink.cdc.service.param;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.sliew.scaleph.workspace.project.service.param.AbstractWsArtifactUpdateParam;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode
-public class DagPanalVO {
+public class WsArtifactFlinkCDCUpdateParam extends AbstractWsArtifactUpdateParam {
 
-    /**
-     * @see cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName
-     */
-    @Schema(description = "connector name")
-    private String name;
-
-    /**
-     * @see cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType
-     */
-    @Schema(description = "connector type")
-    private String type;
-
-    /**
-     * @see cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType
-     */
-    @Schema(description = "engine type")
-    private String engine;
-
-    @Schema(description = "connector display name")
-    private String displayName;
 }

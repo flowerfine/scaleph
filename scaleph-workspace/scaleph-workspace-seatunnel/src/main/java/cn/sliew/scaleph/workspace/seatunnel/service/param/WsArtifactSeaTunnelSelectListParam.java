@@ -16,22 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workspace.flink.cdc.service.param;
+package cn.sliew.scaleph.workspace.seatunnel.service.param;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCVersion;
-import cn.sliew.scaleph.workspace.project.service.param.WsArtifactListParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+
+import javax.validation.constraints.NotNull;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class WsFlinkArtifactCDCListParam extends WsArtifactListParam {
+public class WsArtifactSeaTunnelSelectListParam {
 
-    @Schema(description = "flink version")
-    private FlinkVersion flinkVersion;
+    @NotNull
+    @Schema(description = "项目id")
+    private Long projectId;
 
-    @Schema(description = "flink cdc version")
-    private FlinkCDCVersion flinkCDCVersion;
+    @Schema(description = "名称。支持模糊搜索")
+    private String name;
 }
