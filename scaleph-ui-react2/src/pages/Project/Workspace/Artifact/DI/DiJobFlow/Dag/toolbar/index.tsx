@@ -17,16 +17,15 @@ const CustomToolbar: React.FC = () => {
   const graph = useGraphInstance();
   const {copy, paste} = useClipboard();
   const nodes = useGraphStore((state) => state.nodes);
-  const updateNode = useGraphStore((state) => state.updateNode);
-  const updateEdge = useGraphStore((state) => state.updateEdge);
   const removeNodes = useGraphStore((state) => state.removeNodes);
+  const removeEdges = useGraphStore((state) => state.removeEdges);
 
   useKeyboard('ctrl+c', () => onCopy());
   useKeyboard('ctrl+v', () => onPaste());
   useKeyboard('backspace', () => {
     const selected = nodes.filter((node) => node.selected);
-    const ids: string[] = selected.map((node) => node.id || '');
-    removeNodes(ids);
+    const nodeIds: string[] = selected.map((node) => node.id || '');
+    removeNodes(nodeIds);
   });
 
   useGraphEvent('node:change:data', ({node}) => {

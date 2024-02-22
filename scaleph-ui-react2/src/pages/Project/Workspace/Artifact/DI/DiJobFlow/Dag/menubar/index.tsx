@@ -9,14 +9,12 @@ import {JSONDebugModal} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Da
 import {SeaTunnelConfModal} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/menubar/seatunnel";
 import {Props} from "@/typings";
 import {WsArtifactSeaTunnel, WsArtifactSeaTunnelGraphParam, WsDiJob} from "@/services/project/typings";
-import {WsDiJobService} from "@/services/project/WsDiJobService";
 import {WsArtifactSeaTunnelService} from "@/services/project/WsArtifactSeaTunnelService";
 
 const CustomMenubar: React.FC<Props<WsArtifactSeaTunnel>> = ({data}) => {
   const intl = useIntl();
   const graph = useGraphInstance();
   const nodes = useGraphStore((state) => state.nodes);
-  const edges = useGraphStore((state) => state.edges);
   const updateEdge = useGraphStore((state) => state.updateEdge);
   const removeNodes = useGraphStore((state) => state.removeNodes);
   const [jsonDebugDrawerSwitch, setJsonDebugDrawerSwitch] = useState<{ visible: boolean; data: null }>({
@@ -55,6 +53,19 @@ const CustomMenubar: React.FC<Props<WsArtifactSeaTunnel>> = ({data}) => {
   };
 
   const onSave = () => {
+    const edges: Edge[] = nodes.flatMap((node) => {
+      const result: Edge[] = []
+      const incomingEdges = graph?.getIncomingEdges(node.id || '');
+      if (incomingEdges) {
+        result.concat(incomingEdges)
+      }
+      const outgoingEdges = graph?.getOutgoingEdges(node.id || '');
+      if (outgoingEdges) {
+        result.concat(outgoingEdges)
+      }
+      return result
+    });
+
     let param: WsArtifactSeaTunnelGraphParam = {
       id: data.id,
       jobGraph: {

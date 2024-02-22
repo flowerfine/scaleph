@@ -3,7 +3,7 @@ import {Drawer} from "antd";
 import Editor, {useMonaco} from "@monaco-editor/react";
 import {ModalFormProps} from "@/typings";
 import {WsArtifactSeaTunnel} from "@/services/project/typings";
-import {WsDiJobService} from "@/services/project/WsDiJobService";
+import {WsArtifactSeaTunnelService} from "@/services/project/WsArtifactSeaTunnelService";
 
 const SeaTunnelConfModal: React.FC<ModalFormProps<WsArtifactSeaTunnel>> = ({
                                                                              visible,
@@ -29,7 +29,7 @@ const SeaTunnelConfModal: React.FC<ModalFormProps<WsArtifactSeaTunnel>> = ({
   }
 
   useEffect(() => {
-    WsDiJobService.previewJob(data.id).then((reponse) => {
+    WsArtifactSeaTunnelService.preview(data.id).then((reponse) => {
       setConf(reponse.data)
     })
   }, []);

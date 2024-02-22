@@ -55,6 +55,12 @@ export const WsArtifactSeaTunnelService = {
     });
   },
 
+  preview: async (id: number) => {
+    return request<ResponseBody<string>>(`${WsArtifactSeaTunnelService.url}/${id}/preview`, {
+      method: 'GET',
+    });
+  },
+
   add: async (row: WsArtifactSeaTunnelSaveParam) => {
     return request<ResponseBody<any>>(`${WsArtifactSeaTunnelService.url}`, {
       method: 'PUT',

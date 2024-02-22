@@ -21,7 +21,7 @@ package cn.sliew.scaleph.api.controller.ws;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.system.model.ResponseVO;
-import cn.sliew.scaleph.workspace.seatunnel.service.SeatunnelJobService;
+import cn.sliew.scaleph.workspace.seatunnel.service.SeaTunnelJobService;
 import cn.sliew.scaleph.workspace.seatunnel.service.WsDiJobService;
 import cn.sliew.scaleph.workspace.seatunnel.service.dto.WsDiJobDTO;
 import cn.sliew.scaleph.workspace.seatunnel.service.param.*;
@@ -47,7 +47,7 @@ public class WsDiJobController {
     @Autowired
     private WsDiJobService wsDiJobService;
     @Autowired
-    private SeatunnelJobService seatunnelJobService;
+    private SeaTunnelJobService seatunnelJobService;
 
     @Logging
     @GetMapping

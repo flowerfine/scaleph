@@ -22,7 +22,7 @@ import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.config.kubernetes.resource.ResourceNames;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
-import cn.sliew.scaleph.workspace.seatunnel.service.SeatunnelConfigService;
+import cn.sliew.scaleph.workspace.seatunnel.service.SeaTunnelConfigService;
 import cn.sliew.scaleph.workspace.seatunnel.service.WsDiJobService;
 import cn.sliew.scaleph.workspace.seatunnel.service.dto.WsDiJobDTO;
 import io.fabric8.kubernetes.api.model.*;
@@ -38,7 +38,7 @@ import java.util.Optional;
 public class SeaTunnelConfHandler {
 
     @Autowired
-    private SeatunnelConfigService seatunnelConfigService;
+    private SeaTunnelConfigService seatunnelConfigService;
     @Autowired
     private WsDiJobService wsDiJobService;
 
