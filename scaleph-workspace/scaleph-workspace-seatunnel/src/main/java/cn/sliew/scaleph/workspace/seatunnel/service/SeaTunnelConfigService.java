@@ -16,26 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workspace.seatunnel.service.impl;
+package cn.sliew.scaleph.workspace.seatunnel.service;
 
-import cn.sliew.scaleph.workspace.seatunnel.service.SeatunnelConfigService;
-import cn.sliew.scaleph.workspace.seatunnel.service.SeatunnelJobService;
-import cn.sliew.scaleph.workspace.seatunnel.service.WsDiJobService;
 import cn.sliew.scaleph.workspace.seatunnel.service.dto.WsDiJobDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service
-public class SeatunnelJobServiceImpl implements SeatunnelJobService {
+public interface SeaTunnelConfigService {
 
-    @Autowired
-    private WsDiJobService wsDiJobService;
-    @Autowired
-    private SeatunnelConfigService seatunnelConfigService;
-
-    @Override
-    public String preview(Long jobId) throws Exception {
-        WsDiJobDTO job = wsDiJobService.queryJobGraph(jobId);
-        return seatunnelConfigService.buildConfig(job);
-    }
+    String buildConfig(WsDiJobDTO wsDiJobDTO) throws Exception;
 }

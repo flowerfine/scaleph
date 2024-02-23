@@ -42,15 +42,15 @@ create table dag_step
 
 INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `step_meta`, `step_attrs`,
                         `creator`, `editor`)
-VALUES (1, 1, '68834928-2a32-427a-a864-83b6b5848e04', 'Jdbc Sink', 360, 290,
-        '{"name":"Jdbc","type":"sink","engine":"seatunnel"}',
-        '{"stepTitle":"Jdbc Sink","dataSourceType":"MySQL","dataSource":2,"batch_size":300,"batch_interval_ms":1000,"max_retries":3,"is_exactly_once":false,"query":"insert into sample_data_e_commerce_duplicate ( id, invoice_no, stock_code, description, quantity, invoice_date, unit_price, customer_id, country )\nvalues (?,?,?,?,?,?,?,?,?)"}',
+VALUES (1, 1, '68834928-2a32-427a-a864-83b6b5848e04', 'Jdbc Source', 360, 140,
+        '{\"name\":\"Jdbc\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
+        '{\"stepTitle\":\"Jdbc Source\",\"dataSourceType\":\"MySQL\",\"dataSource\":2,\"fetch_size\":0,\"query\":\"select * from sample_data_e_commerce\"}',
         'sys', 'sys');
 INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `step_meta`, `step_attrs`,
                         `creator`, `editor`)
-VALUES (2, 1, 'f3e02087-91fa-494d-86f4-694970a49ebd', 'Jdbc Source', 380, 140,
-        '{"name":"Jdbc","type":"source","engine":"seatunnel"}',
-        '{"stepTitle":"Jdbc Source","dataSourceType":"MySQL","dataSource":2,"query":"select * from sample_data_e_commerce"}',
+VALUES (2, 1, 'f3e02087-91fa-494d-86f4-694970a49ebd', 'Jdbc Sink', 380, 290,
+        '{\"name\":\"Jdbc\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
+        '{\"stepTitle\":\"Jdbc Sink\",\"dataSourceType\":\"MySQL\",\"dataSource\":2,\"generate_sink_sql\":false,\"batch_size\":300,\"max_retries\":3,\"is_exactly_once\":false,\"query\":\"insert into sample_data_e_commerce_duplicate \\n( id, invoice_no, stock_code, description, quantity, invoice_date, unit_price, customer_id, country )\\nvalues (?,?,?,?,?,?,?,?,?)\",\"primary_keys\":\"[]\"}',
         'sys', 'sys');
 INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `step_meta`, `step_attrs`,
                         `creator`, `editor`)

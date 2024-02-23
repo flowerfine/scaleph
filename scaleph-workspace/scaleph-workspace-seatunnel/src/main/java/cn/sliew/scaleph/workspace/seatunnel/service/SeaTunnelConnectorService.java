@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-public interface SeatunnelConnectorService {
+public interface SeaTunnelConnectorService {
 
     List<PropertyDescriptor> getSupportedEnvProperties();
 

@@ -127,4 +127,12 @@ public class WsArtifactSeaTunnelController {
         List<DndDTO> dnds = seaTunnelDagService.getDnds(type);
         return new ResponseEntity<>(ResponseVO.success(dnds), HttpStatus.OK);
     }
+
+    @Logging
+    @GetMapping("{id}/preview")
+    @Operation(summary = "预览 seatunnel 配置", description = "预览 seatunnel 配置")
+    public ResponseEntity<ResponseVO<String>> previewJob(@PathVariable("id") Long id) throws Exception {
+        String conf = wsArtifactSeaTunnelService.buildConfig(id);
+        return new ResponseEntity<>(ResponseVO.success(conf), HttpStatus.OK);
+    }
 }

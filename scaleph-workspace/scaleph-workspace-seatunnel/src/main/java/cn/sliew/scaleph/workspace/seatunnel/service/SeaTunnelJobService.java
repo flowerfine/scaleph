@@ -18,9 +18,7 @@
 
 package cn.sliew.scaleph.workspace.seatunnel.service;
 
-import cn.sliew.scaleph.workspace.seatunnel.service.dto.WsDiJobDTO;
+public interface SeaTunnelJobService {
 
-public interface SeatunnelConfigService {
-
-    String buildConfig(WsDiJobDTO wsDiJobDTO) throws Exception;
+    String preview(Long jobId) throws Exception;
 }

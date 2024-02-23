@@ -32,7 +32,7 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.workspace.seatunnel.dag.dnd.SeaTunnelDagDndDTO;
 import cn.sliew.scaleph.workspace.seatunnel.dag.dnd.SeaTunnelDagDndMeta;
 import cn.sliew.scaleph.workspace.seatunnel.service.SeaTunnelDagService;
-import cn.sliew.scaleph.workspace.seatunnel.service.SeatunnelConnectorService;
+import cn.sliew.scaleph.workspace.seatunnel.service.SeaTunnelConnectorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +46,7 @@ public class SeaTunnelDagServiceImpl implements SeaTunnelDagService {
     @Autowired
     private DagService dagService;
     @Autowired
-    private SeatunnelConnectorService seatunnelConnectorService;
+    private SeaTunnelConnectorService seatunnelConnectorService;
 
     @Override
     public Long initialize() {

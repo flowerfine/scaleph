@@ -20,7 +20,7 @@ package cn.sliew.scaleph.workspace.seatunnel.service.impl;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
-import cn.sliew.scaleph.workspace.seatunnel.service.SeatunnelConnectorService;
+import cn.sliew.scaleph.workspace.seatunnel.service.SeaTunnelConnectorService;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.exception.PluginException;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
@@ -33,7 +33,7 @@ import java.util.Properties;
 import java.util.Set;
 
 @Service
-public class SeatunnelConnectorServiceImpl implements SeatunnelConnectorService {
+public class SeaTunnelConnectorServiceImpl implements SeaTunnelConnectorService {
 
     private final SeaTunnelConnectorManager connectorManager = new SeaTunnelConnectorManager();
 

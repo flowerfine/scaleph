@@ -22,8 +22,8 @@ import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.common.util.PropertyUtil;
-import cn.sliew.scaleph.workspace.seatunnel.service.SeatunnelConfigService;
-import cn.sliew.scaleph.workspace.seatunnel.service.SeatunnelConnectorService;
+import cn.sliew.scaleph.workspace.seatunnel.service.SeaTunnelConfigService;
+import cn.sliew.scaleph.workspace.seatunnel.service.SeaTunnelConnectorService;
 import cn.sliew.scaleph.workspace.seatunnel.service.constant.SeaTunnelConstant;
 import cn.sliew.scaleph.workspace.seatunnel.service.dto.WsDiJobDTO;
 import cn.sliew.scaleph.workspace.seatunnel.service.dto.WsDiJobLinkDTO;
@@ -52,10 +52,10 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties.RESUL
 import static cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties.SOURCE_TABLE_NAME;
 
 @Service
-public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
+public class SeaTunnelConfigServiceImpl implements SeaTunnelConfigService {
 
     @Autowired
-    private SeatunnelConnectorService seatunnelConnectorService;
+    private SeaTunnelConnectorService seatunnelConnectorService;
     @Autowired
     private ResourceService resourceService;
 
@@ -122,7 +122,7 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
 
     private Properties mergeJobAttrs(WsDiJobStepDTO step) throws PluginException {
         Properties properties = PropertyUtil.mapToProperties(step.getStepAttrs());
-        SeaTunnelPluginType pluginType = SeaTunnelPluginType.of((String) step.getStepMeta().get("type"));;
+        SeaTunnelPluginType pluginType = SeaTunnelPluginType.of((String) step.getStepMeta().get("type"));
         SeaTunnelPluginName stepName = SeaTunnelPluginName.of((String) step.getStepMeta().get("name"));
         SeaTunnelConnectorPlugin connector = seatunnelConnectorService.getConnector(pluginType, stepName);
         for (ResourceProperty resource : connector.getRequiredResources()) {
