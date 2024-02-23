@@ -54,15 +54,16 @@ const CustomMenubar: React.FC<Props<WsArtifactSeaTunnel>> = ({data}) => {
 
   const onSave = () => {
     const edges: Edge[] = nodes.flatMap((node) => {
-      const result: Edge[] = []
+      let result: Edge[] = []
       const incomingEdges = graph?.getIncomingEdges(node.id || '');
       if (incomingEdges) {
-        result.concat(incomingEdges)
+        result = result.concat(incomingEdges)
       }
       const outgoingEdges = graph?.getOutgoingEdges(node.id || '');
       if (outgoingEdges) {
-        result.concat(outgoingEdges)
+        result = result.concat(outgoingEdges)
       }
+      // 去重
       return result
     });
 
@@ -70,11 +71,18 @@ const CustomMenubar: React.FC<Props<WsArtifactSeaTunnel>> = ({data}) => {
       id: data.id,
       jobGraph: {
         nodes: nodes,
-        edges: edges,
+        edges: unique(edges),
       }
     }
     WsArtifactSeaTunnelService.updateGraph(param)
   };
+
+  function unique(arr: any[]) {
+    return arr.filter(function(item, index, arr) {
+      //当前元素，在原始数组中的第一个索引==当前索引值，否则返回当前元素
+      return arr.indexOf(item, 0) === index;
+    });
+  }
 
   return (
     <>
