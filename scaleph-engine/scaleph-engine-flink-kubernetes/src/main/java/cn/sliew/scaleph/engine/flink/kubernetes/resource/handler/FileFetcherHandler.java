@@ -103,13 +103,13 @@ public class FileFetcherHandler {
     }
 
     private void addArtifactJar(WsFlinkKubernetesJobDTO jobDTO, List<FileFetcherParam> result) {
-        if (jobDTO.getFlinkArtifactJar() == null) {
+        if (jobDTO.getArtifactFlinkJar() == null) {
             return;
         }
 
         switch (jobDTO.getDeploymentKind()) {
             case FLINK_DEPLOYMENT:
-                result.add(new FileFetcherParam(jobDTO.getFlinkArtifactJar().getPath(), ResourceNames.SCALEPH_JAR_DIRECTORY + jobDTO.getFlinkArtifactJar().getFileName()));
+                result.add(new FileFetcherParam(jobDTO.getArtifactFlinkJar().getPath(), ResourceNames.SCALEPH_JAR_DIRECTORY + jobDTO.getArtifactFlinkJar().getFileName()));
                 break;
             case FLINK_SESSION_JOB:
                 break;

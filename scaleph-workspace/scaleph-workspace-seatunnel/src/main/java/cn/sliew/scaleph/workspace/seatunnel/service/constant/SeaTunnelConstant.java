@@ -22,9 +22,6 @@ public enum SeaTunnelConstant {
     ;
 
     public static final String ENV = "env";
-    public static final String SOURCE = "source";
-    public static final String SINK = "sink";
-    public static final String TRANSFORM = "transform";
 
     public static final String PLUGIN_NAME = "plugin_name";
 }

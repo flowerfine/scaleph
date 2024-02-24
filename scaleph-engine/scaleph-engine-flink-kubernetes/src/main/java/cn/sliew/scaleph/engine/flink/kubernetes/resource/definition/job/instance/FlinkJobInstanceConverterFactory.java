@@ -50,9 +50,11 @@ public class FlinkJobInstanceConverterFactory {
     public static FlinkVersion getFlinkVersion(WsFlinkKubernetesJobDTO jobDTO) {
         switch (jobDTO.getType()) {
             case JAR:
-                return jobDTO.getFlinkArtifactJar().getFlinkVersion();
+                return jobDTO.getArtifactFlinkJar().getFlinkVersion();
             case SQL:
-                return jobDTO.getFlinkArtifactSql().getFlinkVersion();
+                return jobDTO.getArtifactFlinkSql().getFlinkVersion();
+            case FLINK_CDC:
+                return jobDTO.getArtifactFlinkCDC().getFlinkVersion();
             case SEATUNNEL:
                 return FlinkVersion.V_1_15_4;
             default:

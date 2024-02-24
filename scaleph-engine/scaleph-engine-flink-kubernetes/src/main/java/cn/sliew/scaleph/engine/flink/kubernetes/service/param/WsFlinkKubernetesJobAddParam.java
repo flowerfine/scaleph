@@ -56,14 +56,17 @@ public class WsFlinkKubernetesJobAddParam {
     @Schema(description = "flink job type")
     private FlinkJobType type;
 
-    @Schema(description = "flink artifact jar id")
-    private Long flinkArtifactJarId;
+    @Schema(description = "artifact flink-jar id")
+    private Long artifactFlinkJarId;
 
-    @Schema(description = "flink artifact sql id")
-    private Long flinkArtifactSqlId;
+    @Schema(description = "artifact flink-sql id")
+    private Long artifactFlinkSqlId;
 
-    @Schema(description = "ws di job id")
-    private Long wsDiJobId;
+    @Schema(description = "artifact flink-cdc id")
+    private Long artifactFlinkCDCId;
+
+    @Schema(description = "artifact flink-seatunnel id")
+    private Long artifactSeaTunnelId;
 
     @Schema(description = "remark")
     private String remark;

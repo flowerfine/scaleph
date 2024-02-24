@@ -137,12 +137,12 @@ public class WsArtifactSeaTunnelServiceImpl implements WsArtifactSeaTunnelServic
     }
 
     @Override
-    public String buildConfig(Long id) throws Exception {
+    public String buildConfig(Long id, Optional<String> jobName) throws Exception {
         WsArtifactSeaTunnelDTO dto = selectOne(id);
         ObjectNode conf = JacksonUtil.createObjectNode();
         DagDTO dag = dto.getDag();
         // env
-        buildEnvs(conf, dto.getArtifact().getName(), dag.getDagAttrs());
+        buildEnvs(conf, jobName.isPresent() ? jobName.get() : dto.getArtifact().getName(), dag.getDagAttrs());
         // source, sink, transform
         MutableGraph<ObjectNode> graph = buildGraph(dag);
         buildNodes(conf, graph.nodes());
@@ -305,9 +305,9 @@ public class WsArtifactSeaTunnelServiceImpl implements WsArtifactSeaTunnelServic
             }
         });
 
-        conf.set(SeaTunnelConstant.SOURCE, sourceConf);
-        conf.set(SeaTunnelConstant.TRANSFORM, transformConf);
-        conf.set(SeaTunnelConstant.SINK, sinkConf);
+        conf.set(SeaTunnelPluginType.SOURCE.getValue(), sourceConf);
+        conf.set(SeaTunnelPluginType.TRANSFORM.getValue(), transformConf);
+        conf.set(SeaTunnelPluginType.SINK.getValue(), sinkConf);
     }
 
     private void buildEdges(Set<EndpointPair<ObjectNode>> edges) {

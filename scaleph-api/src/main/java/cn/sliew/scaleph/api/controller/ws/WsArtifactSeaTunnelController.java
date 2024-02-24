@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Tag(name = "Artifact管理-SeaTunnel")
 @RestController
@@ -132,7 +133,7 @@ public class WsArtifactSeaTunnelController {
     @GetMapping("{id}/preview")
     @Operation(summary = "预览 seatunnel 配置", description = "预览 seatunnel 配置")
     public ResponseEntity<ResponseVO<String>> previewJob(@PathVariable("id") Long id) throws Exception {
-        String conf = wsArtifactSeaTunnelService.buildConfig(id);
+        String conf = wsArtifactSeaTunnelService.buildConfig(id, Optional.empty());
         return new ResponseEntity<>(ResponseVO.success(conf), HttpStatus.OK);
     }
 }

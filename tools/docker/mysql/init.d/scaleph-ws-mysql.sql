@@ -157,31 +157,12 @@ create table ws_artifact_seatunnel
     primary key (id),
     key               idx_artifact (artifact_id)
 ) engine = innodb comment 'artifact seatunnel';
-INSERT INTO ws_artifact_seatunnel (id, artifact_id, seatunnel_engine, flink_version, seatunnel_version, dag_id, current, creator, editor)
+INSERT INTO ws_artifact_seatunnel (id, artifact_id, seatunnel_engine, flink_version, seatunnel_version, dag_id, current,
+                                   creator, editor)
 VALUES (1, 4, 'seatunnel', '1.15.4', '2.3.3', 1, 1, 'sys', 'sys');
-INSERT INTO ws_artifact_seatunnel(id, artifact_id, seatunnel_engine, flink_version, seatunnel_version, dag_id, current, creator, editor)
+INSERT INTO ws_artifact_seatunnel(id, artifact_id, seatunnel_engine, flink_version, seatunnel_version, dag_id, current,
+                                  creator, editor)
 VALUES (2, 5, 'seatunnel', '1.15.4', '2.3.3', 2, 1, 'sys', 'sys');
-
-drop table if exists ws_di_job;
-create table ws_di_job
-(
-    id                bigint      not null auto_increment comment '自增主键',
-    flink_artifact_id bigint      not null comment '作业artifact id',
-    job_engine        varchar(16) not null comment '作业引擎',
-    job_id            varchar(64) not null,
-    dag_id            bigint      not null,
-    current           varchar(16) not null comment 'current artifact',
-    creator           varchar(32) comment '创建人',
-    create_time       timestamp default current_timestamp comment '创建时间',
-    editor            varchar(32) comment '修改人',
-    update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
-    primary key (id),
-    key               idx_flink_artifact (flink_artifact_id)
-) engine = innodb comment '数据集成-作业信息';
-INSERT INTO ws_di_job (id, flink_artifact_id, job_engine, job_id, dag_id, current, creator, editor)
-VALUES (1, 4, 'seatunnel', 'b8e16c94-258c-4487-a88c-8aad40a38b35', 1, 1, 'sys', 'sys');
-INSERT INTO ws_di_job(id, flink_artifact_id, job_engine, job_id, dag_id, current, creator, editor)
-VALUES (2, 5, 'seatunnel', '0a6d475e-ed50-46ee-82af-3ef90b7d8509', 2, 1, 'sys', 'sys');
 
 DROP TABLE IF EXISTS ws_flink_kubernetes_template;
 CREATE TABLE ws_flink_kubernetes_template
@@ -358,9 +339,10 @@ CREATE TABLE ws_flink_kubernetes_job
     flink_deployment_id      bigint,
     flink_session_cluster_id bigint,
     `type`                   varchar(4)   not null comment '作业artifact类型',
-    flink_artifact_jar_id    bigint,
-    flink_artifact_sql_id    bigint,
-    ws_di_job_id             bigint,
+    artifact_flink_jar_id    bigint,
+    artifact_flink_sql_id    bigint,
+    artifact_flink_cdc_id    bigint,
+    artifact_seatunnel_id    bigint,
     additional_dependencies  text,
     remark                   varchar(255),
     creator                  varchar(32),

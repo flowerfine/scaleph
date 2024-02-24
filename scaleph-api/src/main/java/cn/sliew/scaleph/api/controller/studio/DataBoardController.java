@@ -20,7 +20,6 @@ package cn.sliew.scaleph.api.controller.studio;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.TransferVO;
-import cn.sliew.scaleph.workspace.seatunnel.service.WsDiJobService;
 import cn.sliew.scaleph.workspace.project.service.WsProjectService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,8 +42,6 @@ public class DataBoardController {
 
     @Autowired
     private WsProjectService wsProjectService;
-    @Autowired
-    private WsDiJobService wsDiJobService;
 
     @Logging
     @GetMapping(path = "/project")
@@ -68,8 +65,7 @@ public class DataBoardController {
     @Operation(summary = "查询作业数量", description = "查询作业数量")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STUDIO_DATA_BOARD_SHOW)")
     public ResponseEntity<Long> countJob(@RequestParam(value = "jobType") String jobType) {
-        Long result = this.wsDiJobService.totalCnt(jobType);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(1L, HttpStatus.OK);
     }
 
     @Logging

@@ -29,9 +29,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
- * <p>
  * flink kubernetes job Mapper 接口
- * </p>
  */
 @Repository
 public interface WsFlinkKubernetesJobMapper extends BaseMapper<WsFlinkKubernetesJob> {

@@ -22,9 +22,7 @@ import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.config.kubernetes.resource.ResourceNames;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobInstanceDTO;
-import cn.sliew.scaleph.workspace.seatunnel.service.SeaTunnelConfigService;
-import cn.sliew.scaleph.workspace.seatunnel.service.WsDiJobService;
-import cn.sliew.scaleph.workspace.seatunnel.service.dto.WsDiJobDTO;
+import cn.sliew.scaleph.workspace.seatunnel.service.WsArtifactSeaTunnelService;
 import io.fabric8.kubernetes.api.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -38,9 +36,7 @@ import java.util.Optional;
 public class SeaTunnelConfHandler {
 
     @Autowired
-    private SeaTunnelConfigService seatunnelConfigService;
-    @Autowired
-    private WsDiJobService wsDiJobService;
+    private WsArtifactSeaTunnelService wsArtifactSeaTunnelService;
 
     public void handle(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
         PodBuilder podBuilder = Optional.ofNullable(spec.getPodTemplate()).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
@@ -48,10 +44,8 @@ public class SeaTunnelConfHandler {
         spec.setPodTemplate(podBuilder.build());
     }
 
-    public ConfigMap buildSeaTunnelConf(String instanceId, Long wsDiJobId, ObjectMeta objectMeta) throws Exception {
-        WsDiJobDTO wsDiJobDTO = wsDiJobService.queryJobGraph(wsDiJobId);
-        wsDiJobDTO.getWsFlinkArtifact().setName(instanceId);
-        String prettyJson = seatunnelConfigService.buildConfig(wsDiJobDTO);
+    public ConfigMap buildSeaTunnelConf(String instanceId, Long artifactSeaTunnelId, ObjectMeta objectMeta) throws Exception {
+        String prettyJson = wsArtifactSeaTunnelService.buildConfig(artifactSeaTunnelId, Optional.of(instanceId));
         String plainJson = JacksonUtil.toJsonNode(prettyJson).toString();
 
         ConfigMapBuilder builder = new ConfigMapBuilder();
