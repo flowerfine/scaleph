@@ -1,5 +1,5 @@
 import {WsFlinkKubernetesJob} from "@/services/project/typings";
-import {Effect, Reducer} from "umi";
+import {Effect, Reducer} from "@umijs/max";
 import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJobService";
 
 export interface StateType {
@@ -21,6 +21,8 @@ export interface ModelType {
 }
 
 const model: ModelType = {
+  namespace: "flinkKubernetesJobDetail",
+
   state: {
     job: null
   },

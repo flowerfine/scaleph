@@ -61,7 +61,7 @@ const FlinkKubernetesJobDetailInstanceListWeb: React.FC<Props<WsFlinkKubernetesJ
       options={false}
       columns={tableColumns}
       request={(params, sorter, filter) =>
-        WsFlinkKubernetesJobService.listInstances({...params, wsFlinkKubernetesJobId: props.jobDetail.job?.id})
+        WsFlinkKubernetesJobService.listInstances({...params, wsFlinkKubernetesJobId: props.flinkKubernetesJobDetail.job?.id})
       }
       pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
       rowSelection={false}
@@ -72,5 +72,5 @@ const FlinkKubernetesJobDetailInstanceListWeb: React.FC<Props<WsFlinkKubernetesJ
 }
 
 
-const mapModelToProps = ({jobDetail}: any) => ({jobDetail})
+const mapModelToProps = ({flinkKubernetesJobDetail}: any) => ({flinkKubernetesJobDetail})
 export default connect(mapModelToProps)(FlinkKubernetesJobDetailInstanceListWeb);

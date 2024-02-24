@@ -18,14 +18,14 @@ const FlinkKubernetesJobDetailYAMLWeb: React.FC<Props<WsFlinkKubernetesJob>> = (
   }, [monaco]);
 
   useEffect(() => {
-    if (props.jobDetail.job) {
-      WsFlinkKubernetesJobService.asYaml(props.jobDetail.job?.id).then((response) => {
+    if (props.flinkKubernetesJobDetail.job) {
+      WsFlinkKubernetesJobService.asYaml(props.flinkKubernetesJobDetail.job?.id).then((response) => {
         if (response.success) {
           setJob(response.data)
         }
       })
     }
-  }, [props.jobDetail.job]);
+  }, [props.flinkKubernetesJobDetail.job]);
 
   const handleEditorDidMount = (editor, monaco: Monaco) => {
     editorRef.current = editor;
@@ -51,5 +51,5 @@ const FlinkKubernetesJobDetailYAMLWeb: React.FC<Props<WsFlinkKubernetesJob>> = (
 }
 
 
-const mapModelToProps = ({jobDetail}: any) => ({jobDetail})
+const mapModelToProps = ({flinkKubernetesJobDetail}: any) => ({flinkKubernetesJobDetail})
 export default connect(mapModelToProps)(FlinkKubernetesJobDetailYAMLWeb);

@@ -29,9 +29,9 @@ import {WsFlinkKubernetesDeploymentService} from "@/services/project/WsFlinkKube
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
 import {WsArtifactFlinkJarService} from "@/services/project/WsArtifactFlinkJarService";
 import {WsArtifactFlinkSqlService} from "@/services/project/WsArtifactFlinkSqlService";
-import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJobService";
 import {WsArtifactSeaTunnelService} from "@/services/project/WsArtifactSeaTunnelService";
 import {WsArtifactFlinkCDCService} from "@/services/project/WsArtifactFlinkCDCService";
+import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJobService";
 
 const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = ({
                                                                                   data,

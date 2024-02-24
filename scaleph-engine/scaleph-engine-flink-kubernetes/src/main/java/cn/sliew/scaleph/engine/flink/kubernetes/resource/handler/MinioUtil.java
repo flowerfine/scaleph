@@ -92,7 +92,7 @@ public enum MinioUtil {
                 log.error(ex.getLocalizedMessage(), ex);
             }
         }
-        log.info("Final endpoint is {}", result);
+        log.debug("Final endpoint is {}", result);
         return result;
     }
 

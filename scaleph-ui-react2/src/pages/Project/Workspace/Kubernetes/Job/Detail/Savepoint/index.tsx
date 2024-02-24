@@ -50,13 +50,13 @@ const FlinkKubernetesJobDetailSavepointWeb: React.FC<Props<WsFlinkKubernetesJob>
       options={false}
       columns={tableColumns}
       request={(params, sorter, filter) => {
-        if (props.jobDetail.job?.jobInstance?.id) {
+        if (props.flinkKubernetesJobDetail.job?.jobInstance?.id) {
           return WsFlinkKubernetesJobService.listSavepoints({
             ...params,
-            wsFlinkKubernetesJobInstanceId: props.jobDetail.job?.jobInstance?.id
+            wsFlinkKubernetesJobInstanceId: props.flinkKubernetesJobDetail.job?.jobInstance?.id
           })
         }
-        return {}
+        return Promise.reject()
       }}
       pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
       rowSelection={false}
@@ -67,5 +67,5 @@ const FlinkKubernetesJobDetailSavepointWeb: React.FC<Props<WsFlinkKubernetesJob>
 }
 
 
-const mapModelToProps = ({jobDetail}: any) => ({jobDetail})
+const mapModelToProps = ({flinkKubernetesJobDetail}: any) => ({flinkKubernetesJobDetail})
 export default connect(mapModelToProps)(FlinkKubernetesJobDetailSavepointWeb);
