@@ -59,11 +59,11 @@ public enum MinioUtil {
             String host = uri.getHost();
             InetAddress inetAddress = InetAddress.getByName(host);
             if (inetAddress.isLoopbackAddress() || inetAddress.isAnyLocalAddress()) {
-                log.info("Host {}, address = {} is a local address", host, inetAddress);
+                log.debug("Host {}, address = {} is a local address", host, inetAddress);
                 InetAddress publicAddress = NetUtils.getLocalInetAddress();
-                log.info("Public address is {}", publicAddress);
+                log.debug("Public address is {}", publicAddress);
                 if (validateInetAddress(publicAddress)) {
-                    log.info("Public address {} is valid!", publicAddress);
+                    log.debug("Public address {} is valid!", publicAddress);
                     URI res = new URI(uri.getScheme(),
                             uri.getUserInfo(),
                             publicAddress.getHostAddress(),
@@ -78,12 +78,12 @@ public enum MinioUtil {
             log.error(e.getLocalizedMessage(), e);
             try {
                 InetAddress publicAddress = NetUtils.getLocalInetAddress();
-                log.info("Public address is {}", publicAddress);
+                log.debug("Public address is {}", publicAddress);
                 if (validateInetAddress(publicAddress)) {
-                    log.info("Public address {} is valid!", publicAddress);
+                    log.debug("Public address {} is valid!", publicAddress);
                     for (String localIp : LOCAL_IPS) {
                         if (result.contains(localIp)) {
-                            log.info("Endpoint {} contains local ip {}", result, localIp);
+                            log.debug("Endpoint {} contains local ip {}", result, localIp);
                             result = result.replace(localIp, publicAddress.getHostAddress());
                         }
                     }

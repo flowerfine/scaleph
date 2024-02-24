@@ -57,9 +57,9 @@ public class WsFlinkKubernetesDeploymentController {
     @Logging
     @GetMapping("all")
     @Operation(summary = "查询 Deployment 列表", description = "查询 Deployment 列表")
-    public ResponseEntity<List<WsFlinkKubernetesDeploymentDTO>> listAll(@Valid WsFlinkKubernetesDeploymentSelectListParam param) {
-        List<WsFlinkKubernetesDeploymentDTO> page = wsFlinkKubernetesDeploymentService.listAll(param);
-        return new ResponseEntity<>(page, HttpStatus.OK);
+    public ResponseEntity<ResponseVO<List<WsFlinkKubernetesDeploymentDTO>>> listAll(@Valid WsFlinkKubernetesDeploymentSelectListParam param) {
+        List<WsFlinkKubernetesDeploymentDTO> list = wsFlinkKubernetesDeploymentService.listAll(param);
+        return new ResponseEntity<>(ResponseVO.success(list), HttpStatus.OK);
     }
 
     @Logging

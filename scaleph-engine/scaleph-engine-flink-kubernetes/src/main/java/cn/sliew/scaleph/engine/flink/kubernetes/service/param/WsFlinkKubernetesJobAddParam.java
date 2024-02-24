@@ -65,7 +65,7 @@ public class WsFlinkKubernetesJobAddParam {
     @Schema(description = "artifact flink-cdc id")
     private Long artifactFlinkCDCId;
 
-    @Schema(description = "artifact flink-seatunnel id")
+    @Schema(description = "artifact seatunnel id")
     private Long artifactSeaTunnelId;
 
     @Schema(description = "remark")

@@ -9,7 +9,7 @@ import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
 import {WsArtifactFlinkSql} from '@/services/project/typings';
 import FlinkArtifactSqlForm from '@/pages/Project/Workspace/Artifact/Sql/FlinkArtifactSqlForm';
 import {DictDataService} from "@/services/admin/dictData.service";
-import {FlinkArtifactSqlService} from "@/services/project/WsArtifactFlinkSqlService";
+import {WsArtifactFlinkSqlService} from "@/services/project/WsArtifactFlinkSqlService";
 
 const ArtifactFlinkSqlWeb: React.FC = () => {
   const intl = useIntl();
@@ -111,7 +111,7 @@ const ArtifactFlinkSqlWeb: React.FC = () => {
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
-                        FlinkArtifactSqlService.deleteArtifact(record.artifact?.id).then((d) => {
+                        WsArtifactFlinkSqlService.deleteArtifact(record.artifact?.id).then((d) => {
                           if (d.success) {
                             message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();
@@ -142,7 +142,7 @@ const ArtifactFlinkSqlWeb: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) =>
-          FlinkArtifactSqlService.list({...params, projectId: projectId + ''})
+          WsArtifactFlinkSqlService.list({...params, projectId: projectId + ''})
         }
         toolbar={{
           actions: [

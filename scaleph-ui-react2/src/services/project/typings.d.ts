@@ -448,9 +448,10 @@ export type WsFlinkKubernetesJob = {
   flinkDeployment?: WsFlinkKubernetesDeployment;
   flinkSessionCluster?: WsFlinkKubernetesSessionCluster;
   type: Dict;
-  flinkArtifactJar?: WsArtifactFlinkJar;
-  flinkArtifactSql?: WsArtifactFlinkSql;
-  wsDiJob?: WsDiJob;
+  artifactFlinkJar?: WsArtifactFlinkJar;
+  artifactFlinkSql?: WsArtifactFlinkSql;
+  artifactFlinkCDC?: WsArtifactFlinkCDC;
+  artifactSeaTunnel?: WsArtifactSeaTunnel;
   jobInstance?: WsFlinkKubernetesJobInstance;
   remark?: string;
   createTime?: Date;
@@ -474,8 +475,10 @@ export type WsFlinkKubernetesJobAddParam = {
   flinkDeploymentId?: number;
   flinkSessionClusterId?: number;
   type: string;
-  flinkArtifactJarId?: number;
-  flinkArtifactSqlId?: number;
+  artifactFlinkJarId?: number;
+  artifactFlinkSqlId?: number;
+  artifactFlinkCDCId?: number;
+  artifactSeaTunnelId?: number;
   remark?: string;
 };
 

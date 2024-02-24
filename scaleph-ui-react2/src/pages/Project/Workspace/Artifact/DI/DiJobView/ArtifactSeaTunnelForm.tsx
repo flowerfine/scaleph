@@ -22,9 +22,9 @@ const ArtifactSeaTunnelForm: React.FC<ModalFormProps<WsArtifactSeaTunnel>> = ({
       title={
         data.id
           ? intl.formatMessage({id: 'app.common.operate.edit.label'}) +
-          intl.formatMessage({id: 'pages.project.di.job'})
+          intl.formatMessage({id: 'pages.project.artifact.seatunnel'})
           : intl.formatMessage({id: 'app.common.operate.new.label'}) +
-          intl.formatMessage({id: 'pages.project.di.job'})
+          intl.formatMessage({id: 'pages.project.artifact.seatunnel'})
       }
       form={form}
       initialValues={{

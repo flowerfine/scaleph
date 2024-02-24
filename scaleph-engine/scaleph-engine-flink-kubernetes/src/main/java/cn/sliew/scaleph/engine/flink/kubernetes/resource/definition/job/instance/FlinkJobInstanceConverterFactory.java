@@ -56,7 +56,7 @@ public class FlinkJobInstanceConverterFactory {
             case FLINK_CDC:
                 return jobDTO.getArtifactFlinkCDC().getFlinkVersion();
             case SEATUNNEL:
-                return FlinkVersion.V_1_15_4;
+                return jobDTO.getArtifactSeaTunnel().getFlinkVersion();
             default:
                 return FlinkVersion.V_1_17_1;
         }

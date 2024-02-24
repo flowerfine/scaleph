@@ -4,7 +4,7 @@ import {useIntl} from '@umijs/max';
 import {ModalFormProps} from '@/typings';
 import {WORKSPACE_CONF} from '@/constants/constant';
 import {WsArtifactFlinkSql, WsArtifactFlinkSqlSaveParam} from '@/services/project/typings';
-import {FlinkArtifactSqlService} from "@/services/project/WsArtifactFlinkSqlService";
+import {WsArtifactFlinkSqlService} from "@/services/project/WsArtifactFlinkSqlService";
 
 const FlinkArtifactSqlForm: React.FC<ModalFormProps<WsArtifactFlinkSql>> = ({
                                                                               data,
@@ -45,7 +45,7 @@ const FlinkArtifactSqlForm: React.FC<ModalFormProps<WsArtifactFlinkSql>> = ({
           remark: values.remark
         };
         return values.id
-          ? FlinkArtifactSqlService.update(param).then((response) => {
+          ? WsArtifactFlinkSqlService.update(param).then((response) => {
             if (response.success) {
               message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}));
               if (onVisibleChange) {
@@ -53,7 +53,7 @@ const FlinkArtifactSqlForm: React.FC<ModalFormProps<WsArtifactFlinkSql>> = ({
               }
             }
           })
-          : FlinkArtifactSqlService.add(param).then((response) => {
+          : WsArtifactFlinkSqlService.add(param).then((response) => {
             if (response.success) {
               message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
               if (onVisibleChange) {
