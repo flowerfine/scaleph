@@ -22,10 +22,10 @@ on:
       seatunnelVersion:
         description: 'seatunnel version'
         required: true
-        default: '2.3.3'
+        default: '2.3.4'
         type: choice
         options:
-          - 2.3.3
+          - 2.3.4
       flinkVersion:
         description: 'flink version'
         required: true

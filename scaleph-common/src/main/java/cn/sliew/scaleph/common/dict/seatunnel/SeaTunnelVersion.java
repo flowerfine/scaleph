@@ -29,6 +29,7 @@ import java.util.Arrays;
 public enum SeaTunnelVersion implements DictInstance {
 
     V_2_3_3("2.3.3", "2.3.3"),
+    V_2_3_4("2.3.4", "2.3.4"),
     ;
 
     @JsonCreator
