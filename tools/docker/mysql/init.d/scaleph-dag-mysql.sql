@@ -42,15 +42,15 @@ create table dag_step
 
 INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `step_meta`, `step_attrs`,
                         `creator`, `editor`)
-VALUES (1, 1, '68834928-2a32-427a-a864-83b6b5848e04', 'Jdbc Source', 360, 140,
+VALUES (1, 1, '157f118c-9b6c-4d18-a919-fce824676696', 'Jdbc Source', 520, 150,
         '{\"name\":\"Jdbc\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
-        '{\"stepTitle\":\"Jdbc Source\",\"dataSourceType\":\"MySQL\",\"dataSource\":2,\"fetch_size\":0,\"query\":\"select * from sample_data_e_commerce\"}',
+        '{\"stepTitle\":\"Jdbc Source\",\"dataSourceType\":\"MySQL\",\"dataSource\":1,\"fetch_size\":0,\"query\":\"select * from sample_data_e_commerce\"}',
         'sys', 'sys');
 INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `step_meta`, `step_attrs`,
                         `creator`, `editor`)
-VALUES (2, 1, 'f3e02087-91fa-494d-86f4-694970a49ebd', 'Jdbc Sink', 380, 290,
+VALUES (2, 1, 'e69dbf5a-76ad-47be-aa16-175b733a7df2', 'Jdbc Sink', 460, 400,
         '{\"name\":\"Jdbc\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
-        '{\"stepTitle\":\"Jdbc Sink\",\"dataSourceType\":\"MySQL\",\"dataSource\":2,\"generate_sink_sql\":false,\"batch_size\":300,\"max_retries\":3,\"is_exactly_once\":false,\"query\":\"insert into sample_data_e_commerce_duplicate \\n( id, invoice_no, stock_code, description, quantity, invoice_date, unit_price, customer_id, country )\\nvalues (?,?,?,?,?,?,?,?,?)\",\"primary_keys\":\"[]\"}',
+        '{\"stepTitle\":\"Jdbc Sink\",\"dataSourceType\":\"MySQL\",\"dataSource\":1,\"generate_sink_sql\":false,\"batch_size\":300,\"max_retries\":3,\"is_exactly_once\":false,\"query\":\"insert into sample_data_e_commerce_duplicate \\\\n( id, invoice_no, stock_code, description, quantity, invoice_date, unit_price, customer_id, country )\\\\nvalues (?,?,?,?,?,?,?,?,?)\",\"primary_keys\":\"[]\"}',
         'sys', 'sys');
 INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `step_meta`, `step_attrs`,
                         `creator`, `editor`)
@@ -84,8 +84,8 @@ create table dag_link
 
 INSERT INTO `dag_link` (`id`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`, `link_meta`, `link_attrs`,
                         `creator`, `editor`)
-VALUES (1, 1, 'fabfda41-aacb-4a19-b5ef-9e84a75ed4e9', NULL, 'f3e02087-91fa-494d-86f4-694970a49ebd',
-        '68834928-2a32-427a-a864-83b6b5848e04', NULL, NULL, 'sys', 'sys');
+VALUES (1, 1, '78ca5c31-0eaa-4d43-8f30-0d8f7d0ec317', NULL, '157f118c-9b6c-4d18-a919-fce824676696',
+        'e69dbf5a-76ad-47be-aa16-175b733a7df2', NULL, NULL, 'sys', 'sys');
 INSERT INTO `dag_link` (`id`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`, `link_meta`, `link_attrs`,
                         `creator`, `editor`)
 VALUES (2, 2, 'd57021a1-65c7-4dfe-ae89-3b73d00fcf72', NULL, '6223c6c3-b552-4c69-adab-5300b7514fad',

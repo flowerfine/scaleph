@@ -33,20 +33,23 @@
         <result column="flink_deployment_id" property="flinkDeploymentId"/>
         <result column="flink_session_cluster_id" property="flinkSessionClusterId"/>
         <result column="type" property="type"/>
-        <result column="flink_artifact_jar_id" property="flinkArtifactJarId"/>
-        <result column="flink_artifact_sql_id" property="flinkArtifactSqlId"/>
-        <result column="ws_di_job_id" property="wsDiJobId"/>
+        <result column="artifact_flink_jar_id" property="artifactFlinkJarId"/>
+        <result column="artifact_flink_sql_id" property="artifactFlinkSqlId"/>
+        <result column="artifact_flink_cdc_id" property="artifactFlinkCDCId"/>
+        <result column="artifact_seatunnel_id" property="artifactSeaTunnelId"/>
         <result column="remark" property="remark"/>
         <association column="flink_deployment_id" property="flinkDeployment"
                      select="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesDeploymentMapper.selectById"/>
         <association column="flink_session_cluster_id" property="flinkSessionCluster"
                      select="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesSessionClusterMapper.selectById"/>
-        <association column="flink_artifact_jar_id" property="flinkArtifactJar"
+        <association column="artifact_flink_jar_id" property="artifactFlinkJar"
                      select="cn.sliew.scaleph.dao.mapper.master.ws.WsArtifactFlinkJarMapper.selectOne"/>
-        <association column="flink_artifact_sql_id" property="flinkArtifactSql"
+        <association column="artifact_flink_sql_id" property="artifactFlinkSql"
                      select="cn.sliew.scaleph.dao.mapper.master.ws.WsArtifactFlinkSqlMapper.selectOne"/>
-        <association column="ws_di_job_id" property="wsDiJob"
-                     select="cn.sliew.scaleph.dao.mapper.master.ws.WsDiJobMapper.selectOne"/>
+        <association column="artifact_flink_cdc_id" property="artifactFlinkCDC"
+                     select="cn.sliew.scaleph.dao.mapper.master.ws.WsArtifactFlinkCDCMapper.selectOne"/>
+        <association column="artifact_seatunnel_id" property="artifactSeaTunnel"
+                     select="cn.sliew.scaleph.dao.mapper.master.ws.WsArtifactSeaTunnelMapper.selectOne"/>
         <association column="id" property="jobInstance" javaType="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstance"
                      select="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobInstanceMapper.selectCurrent"/>
     </resultMap>
@@ -56,7 +59,8 @@
         id, creator, create_time, editor, update_time,
         project_id, `name`, job_id, execution_mode,
         deployment_kind, flink_deployment_id, flink_session_cluster_id,
-        `type`, flink_artifact_jar_id, flink_artifact_sql_id, ws_di_job_id, remark
+        `type`, artifact_flink_jar_id, artifact_flink_sql_id, artifact_flink_cdc_id,
+        artifact_seatunnel_id, additional_dependencies, remark
     </sql>
 
     <select id="list" resultMap="BaseResultMap">
@@ -69,13 +73,13 @@
                 AND execution_mode = #{executionMode}
             </if>
             <if test="flinkJobType != null">
-                AND type = #{flinkJobType}
+                AND `type` = #{flinkJobType}
             </if>
             <if test="deploymentKind != null">
                 AND deployment_kind = #{deploymentKind}
             </if>
             <if test="name != null and name != ''">
-                AND name like concat('%', #{name}, '%')
+                AND `name` like concat('%', #{name}, '%')
             </if>
         </where>
     </select>

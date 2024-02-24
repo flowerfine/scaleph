@@ -42,14 +42,17 @@ public interface WsFlinkKubernetesJobConvert extends BaseConvert<WsFlinkKubernet
             entity.setFlinkSessionClusterId(dto.getFlinkSessionCluster().getId());
             entity.setFlinkSessionCluster(WsFlinkKubernetesSessionClusterConvert.INSTANCE.toDo(dto.getFlinkSessionCluster()));
         }
-        if (dto.getFlinkArtifactJar() != null) {
-            entity.setFlinkArtifactJarId(dto.getFlinkArtifactJar().getId());
+        if (dto.getArtifactFlinkJar() != null) {
+            entity.setArtifactFlinkJarId(dto.getArtifactFlinkJar().getId());
         }
-        if (dto.getFlinkArtifactSql() != null) {
-            entity.setFlinkArtifactSqlId(dto.getFlinkArtifactSql().getId());
+        if (dto.getArtifactFlinkSql() != null) {
+            entity.setArtifactFlinkSqlId(dto.getArtifactFlinkSql().getId());
         }
-        if (dto.getWsDiJob() != null) {
-            entity.setWsDiJobId(dto.getWsDiJob().getId());
+        if (dto.getArtifactFlinkCDC() != null) {
+            entity.setArtifactFlinkCDCId(dto.getArtifactFlinkCDC().getId());
+        }
+        if (dto.getArtifactSeaTunnel() != null) {
+            entity.setArtifactSeaTunnelId(dto.getArtifactSeaTunnel().getId());
         }
         if (dto.getJobInstance() != null) {
             entity.setJobInstance(WsFlinkKubernetesJobInstanceConvert.INSTANCE.toDo(dto.getJobInstance()));

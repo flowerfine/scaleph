@@ -66,9 +66,9 @@ public class WsArtifactFlinkJarController {
     @Logging
     @GetMapping("/all")
     @Operation(summary = "查询 flink jar 列表", description = "查询 flink jar 列表")
-    public ResponseEntity<List<WsArtifactFlinkJarDTO>> listAll(@Valid WsArtifactFlinkJarSelectListParam param) {
+    public ResponseEntity<ResponseVO<List<WsArtifactFlinkJarDTO>>> listAll(@Valid WsArtifactFlinkJarSelectListParam param) {
         List<WsArtifactFlinkJarDTO> result = wsArtifactFlinkJarService.listAll(param);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
     }
 
     @Logging

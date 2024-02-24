@@ -21,17 +21,13 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.dto;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
-import cn.sliew.scaleph.dao.entity.master.ws.WsArtifactFlinkSql;
-import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
-import cn.sliew.scaleph.dao.entity.master.ws.WsArtifactFlinkJar;
+import cn.sliew.scaleph.dao.entity.master.ws.*;
 import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * <p>
  * flink kubernetes job
- * </p>
  */
 @Data
 @Schema(name = "WsFlinkKubernetesJob对象", description = "flink kubernetes job")
@@ -61,14 +57,17 @@ public class WsFlinkKubernetesJobDTO extends BaseDTO {
     @Schema(description = "type")
     private FlinkJobType type;
 
-    @Schema(description = "flink artifact jar")
-    private WsArtifactFlinkJar flinkArtifactJar;
+    @Schema(description = "artifact flink-jar")
+    private WsArtifactFlinkJar artifactFlinkJar;
 
-    @Schema(description = "flink artifact sql")
-    private WsArtifactFlinkSql flinkArtifactSql;
+    @Schema(description = "artifact flink-sql")
+    private WsArtifactFlinkSql artifactFlinkSql;
 
-    @Schema(description = "ws di job")
-    private WsDiJob wsDiJob;
+    @Schema(description = "artifact flink-cdc")
+    private WsArtifactFlinkCDC artifactFlinkCDC;
+
+    @Schema(description = "artifact seatunnel")
+    private WsArtifactSeaTunnel artifactSeaTunnel;
 
     @Schema(description = "current job instance")
     private WsFlinkKubernetesJobInstanceDTO jobInstance;

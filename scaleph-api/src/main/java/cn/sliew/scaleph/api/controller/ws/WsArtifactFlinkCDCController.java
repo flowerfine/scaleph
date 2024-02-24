@@ -67,9 +67,9 @@ public class WsArtifactFlinkCDCController {
     @Logging
     @GetMapping("/all")
     @Operation(summary = "查询 fink cdc 列表", description = "查询 fink cdc 列表")
-    public ResponseEntity<List<WsArtifactFlinkCDCDTO>> listAll(@Valid WsArtifactFlinkCDCSelectListParam param) {
+    public ResponseEntity<ResponseVO<List<WsArtifactFlinkCDCDTO>>> listAll(@Valid WsArtifactFlinkCDCSelectListParam param) {
         List<WsArtifactFlinkCDCDTO> result = wsArtifactFlinkCDCService.listAll(param);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
     }
 
     @Logging

@@ -82,7 +82,7 @@ const FlinkKubernetesJobWeb: React.FC = () => {
       dataIndex: 'artifact',
       hideInSearch: true,
       render: (dom, entity) => {
-        return entity.flinkArtifactJar ? entity.flinkArtifactJar.wsFlinkArtifact?.name : (entity.flinkArtifactSql ? entity.flinkArtifactSql?.wsFlinkArtifact?.name : entity.wsDiJob?.wsFlinkArtifact?.name)
+        return entity.artifactFlinkJar ? entity.artifactFlinkJar.artifact?.name : (entity.artifactFlinkSql ? entity.artifactFlinkSql?.artifact?.name : (entity.artifactFlinkCDC ? entity.artifactFlinkCDC?.artifact?.name : entity.artifactSeaTunnel?.artifact?.name))
       },
     },
     {

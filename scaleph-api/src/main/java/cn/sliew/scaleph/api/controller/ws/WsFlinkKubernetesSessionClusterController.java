@@ -62,9 +62,9 @@ public class WsFlinkKubernetesSessionClusterController {
     @Logging
     @GetMapping("all")
     @Operation(summary = "查询 SessionCluster 列表", description = "查询 SessionCluster 列表")
-    public ResponseEntity<List<WsFlinkKubernetesSessionClusterDTO>> listAll(@Valid WsFlinkKubernetesSessionClusterSelectListParam param) {
-        List<WsFlinkKubernetesSessionClusterDTO> page = wsFlinkKubernetesSessionClusterService.listAll(param);
-        return new ResponseEntity<>(page, HttpStatus.OK);
+    public ResponseEntity<ResponseVO<List<WsFlinkKubernetesSessionClusterDTO>>> listAll(@Valid WsFlinkKubernetesSessionClusterSelectListParam param) {
+        List<WsFlinkKubernetesSessionClusterDTO> list = wsFlinkKubernetesSessionClusterService.listAll(param);
+        return new ResponseEntity<>(ResponseVO.success(list), HttpStatus.OK);
     }
 
     @Logging

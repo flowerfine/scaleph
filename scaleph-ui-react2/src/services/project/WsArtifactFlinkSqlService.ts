@@ -9,11 +9,11 @@ import {
 } from './typings';
 import {request} from '@umijs/max';
 
-export const FlinkArtifactSqlService = {
+export const WsArtifactFlinkSqlService = {
   url: '/api/artifact/flink/sql',
 
   list: async (queryParam: WsArtifactFlinkSqlParam) => {
-    return request<PageResponse<WsArtifactFlinkSql>>(`${FlinkArtifactSqlService.url}`, {
+    return request<PageResponse<WsArtifactFlinkSql>>(`${WsArtifactFlinkSqlService.url}`, {
       method: 'GET',
       params: queryParam,
     }).then((res) => {
@@ -28,7 +28,7 @@ export const FlinkArtifactSqlService = {
   },
 
   listByArtifact: async (queryParam: WsArtifactFlinkSqlHistoryParam) => {
-    return request<PageResponse<WsArtifactFlinkSql>>(`${FlinkArtifactSqlService.url}/history`, {
+    return request<PageResponse<WsArtifactFlinkSql>>(`${WsArtifactFlinkSqlService.url}/history`, {
       method: 'GET',
       params: queryParam,
     }).then((res) => {
@@ -43,47 +43,47 @@ export const FlinkArtifactSqlService = {
   },
 
   listAll: async (queryParam: WsArtifactFlinkSqlSelectListParam) => {
-    return request<ResponseBody<Array<WsArtifactFlinkSql>>>(`${FlinkArtifactSqlService.url}/all`, {
+    return request<ResponseBody<Array<WsArtifactFlinkSql>>>(`${WsArtifactFlinkSqlService.url}/all`, {
       method: 'GET',
       params: queryParam,
     });
   },
 
   selectOne: async (id: number | string) => {
-    return request<WsArtifactFlinkSql>(`${FlinkArtifactSqlService.url}/${id}`, {
+    return request<WsArtifactFlinkSql>(`${WsArtifactFlinkSqlService.url}/${id}`, {
       method: 'GET',
     });
   },
 
   add: async (row: WsArtifactFlinkSqlSaveParam) => {
-    return request<ResponseBody<any>>(`${FlinkArtifactSqlService.url}`, {
+    return request<ResponseBody<any>>(`${WsArtifactFlinkSqlService.url}`, {
       method: 'PUT',
       data: row,
     });
   },
 
   update: async (row: WsArtifactFlinkSqlSaveParam) => {
-    return request<ResponseBody<any>>(`${FlinkArtifactSqlService.url}`, {
+    return request<ResponseBody<any>>(`${WsArtifactFlinkSqlService.url}`, {
       method: 'POST',
       data: row,
     });
   },
 
   updateScript: async (param: WsArtifactFlinkSqlScriptUpdateParam) => {
-    return request<ResponseBody<any>>(`${FlinkArtifactSqlService.url}/script`, {
+    return request<ResponseBody<any>>(`${WsArtifactFlinkSqlService.url}/script`, {
       method: 'POST',
       data: param,
     });
   },
 
   deleteOne: async (row: WsArtifactFlinkSql) => {
-    return request<ResponseBody<any>>(`${FlinkArtifactSqlService.url}/${row.id}`, {
+    return request<ResponseBody<any>>(`${WsArtifactFlinkSqlService.url}/${row.id}`, {
       method: 'DELETE',
     });
   },
 
   deleteArtifact: async (artifactId: number) => {
-    return request<ResponseBody<any>>(`${FlinkArtifactSqlService.url}/artifact/${artifactId}`, {
+    return request<ResponseBody<any>>(`${WsArtifactFlinkSqlService.url}/artifact/${artifactId}`, {
       method: 'DELETE',
     });
   },

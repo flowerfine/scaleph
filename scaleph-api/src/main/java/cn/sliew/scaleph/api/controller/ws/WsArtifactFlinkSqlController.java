@@ -61,9 +61,9 @@ public class WsArtifactFlinkSqlController {
     @Logging
     @GetMapping("/all")
     @Operation(summary = "查询 flink sql 列表", description = "查询 flink sql 列表")
-    public ResponseEntity<List<WsArtifactFlinkSqlDTO>> listAll(@Valid WsArtifactFlinkSqlSelectListParam param) {
+    public ResponseEntity<ResponseVO<List<WsArtifactFlinkSqlDTO>>> listAll(@Valid WsArtifactFlinkSqlSelectListParam param) {
         List<WsArtifactFlinkSqlDTO> result = wsArtifactFlinkSqlService.listAll(param);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
     }
 
     @Logging

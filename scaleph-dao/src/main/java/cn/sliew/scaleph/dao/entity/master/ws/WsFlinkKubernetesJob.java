@@ -27,9 +27,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
- * <p>
  * flink kubernetes job
- * </p>
  */
 @Data
 @TableName("ws_flink_kubernetes_job")
@@ -67,23 +65,29 @@ public class WsFlinkKubernetesJob extends BaseDO {
     @TableField("`type`")
     private FlinkJobType type;
 
-    @TableField("flink_artifact_jar_id")
-    private Long flinkArtifactJarId;
+    @TableField("artifact_flink_jar_id")
+    private Long artifactFlinkJarId;
 
     @TableField(exist = false)
-    private WsArtifactFlinkJar flinkArtifactJar;
+    private WsArtifactFlinkJar artifactFlinkJar;
 
-    @TableField("flink_artifact_sql_id")
-    private Long flinkArtifactSqlId;
-
-    @TableField(exist = false)
-    private WsArtifactFlinkSql flinkArtifactSql;
-
-    @TableField("ws_di_job_id")
-    private Long wsDiJobId;
+    @TableField("artifact_flink_sql_id")
+    private Long artifactFlinkSqlId;
 
     @TableField(exist = false)
-    private WsDiJob wsDiJob;
+    private WsArtifactFlinkSql artifactFlinkSql;
+
+    @TableField("artifact_flink_cdc_id")
+    private Long artifactFlinkCDCId;
+
+    @TableField(exist = false)
+    private WsArtifactFlinkCDC artifactFlinkCDC;
+
+    @TableField("artifact_seatunnel_id")
+    private Long artifactSeaTunnelId;
+
+    @TableField(exist = false)
+    private WsArtifactSeaTunnel artifactSeaTunnel;
 
     @TableField(exist = false)
     private WsFlinkKubernetesJobInstance jobInstance;
