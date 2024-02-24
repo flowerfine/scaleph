@@ -162,10 +162,10 @@
         <akka.version>2.6.21</akka.version>
         <protobuf.version>3.21.5</protobuf.version>
         <netty.version>4.1.82.Final</netty.version>
-        <flink.version>1.18.0</flink.version>
-        <flink.base.version>1.17</flink.base.version>
-        <flink-jdbc.version>3.1.1</flink-jdbc.version>
-        <paimon.version>0.5.0-incubating</paimon.version>
+        <flink.version>1.18.1</flink.version>
+        <flink.base.version>1.18</flink.base.version>
+        <flink-jdbc.version>3.1.2</flink-jdbc.version>
+        <paimon.version>0.7.0-incubating</paimon.version>
         <kubernetes.client.version>6.2.0</kubernetes.client.version>
         <spring-cloud-openfeign.version>3.1.7</spring-cloud-openfeign.version>
         <zjsonpatch.version>0.4.14</zjsonpatch.version>
