@@ -7,7 +7,6 @@ export default {
   'menu.project.artifact.jar': 'Jar',
   'menu.project.artifact.sql': 'SQL',
   'menu.project.artifact.seatunnel': 'SeaTunnel',
-  'menu.project.artifact.cdc': 'Flink CDC',
   'menu.project.flink.kubernetes': 'Flink Kuberentes',
   'menu.project.flink.kubernetes.template': 'Template',
   'menu.project.flink.kubernetes.session-cluster': 'SessionCluster',
@@ -16,8 +15,6 @@ export default {
   'menu.project.doris': 'Doris',
   'menu.project.doris.template': 'Template',
   'menu.project.doris.instance': 'Instance',
-  'menu.project.dataservice': '数据服务',
-  'menu.project.dataservice.config': '接口配置',
 
   'menu.resource': '资源',
   'menu.resource.jar': '公共 Jar',
@@ -48,7 +45,6 @@ export default {
   'menu.admin.dict': '数据字典',
   'menu.admin.setting': '系统设置',
 
-  'menu.login': '登陆',
   'menu.user.center': '个人中心',
   'menu.user.logout': '退出登录',
 };

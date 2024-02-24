@@ -1,8 +1,8 @@
-import {useIntl} from "umi";
 import React from "react";
 import {Form, message, Modal} from "antd";
 import {ProForm, ProFormDigit, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
-import {ModalFormProps} from '@/app.d';
+import {useIntl} from "@umijs/max";
+import {ModalFormProps} from '@/typings';
 import {WsDorisOperatorTemplate} from "@/services/project/typings";
 import {WORKSPACE_CONF} from "@/constants/constant";
 import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";

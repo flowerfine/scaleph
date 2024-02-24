@@ -1,13 +1,13 @@
+import {useIntl} from "umi";
 import React from "react";
-import {InfoCircleOutlined} from "@ant-design/icons";
 import {ProCard, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
-import {useIntl} from "@umijs/max";
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
 import {WsFlinkKubernetesTemplateParam} from "@/services/project/typings";
 import {ClusterCredentialService} from "@/services/resource/clusterCredential.service";
 import {ClusterCredentialListParam} from "@/services/resource/typings";
 import {WORKSPACE_CONF} from "@/constants/constant";
 import {DeploymentKind} from "@/constants/enum";
+import {InfoCircleOutlined} from "@ant-design/icons";
 
 const SessionClusterClusterStepForm: React.FC = () => {
   const intl = useIntl();

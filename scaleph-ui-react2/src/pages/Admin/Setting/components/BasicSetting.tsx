@@ -1,7 +1,7 @@
 import { SysConfigService } from '@/services/admin/sysConfig.service';
 import { Button, Col, Form, Input, message, Row } from 'antd';
 import { useEffect } from 'react';
-import { useIntl } from '@umijs/max';
+import { useIntl } from 'umi';
 
 const BasicSetting: React.FC = () => {
   const intl = useIntl();

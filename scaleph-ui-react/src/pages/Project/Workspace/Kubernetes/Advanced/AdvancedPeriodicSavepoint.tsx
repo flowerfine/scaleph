@@ -1,3 +1,4 @@
+import React from "react";
 import {ProCard, ProFormDigit, ProFormGroup, ProFormSelect, ProFormText} from "@ant-design/pro-components";
 
 const AdvancedPeriodicSavepoint: React.FC = () => {

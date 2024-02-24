@@ -1,6 +1,6 @@
-import {connect, history, useIntl} from "umi";
 import React, {useRef} from "react";
 import {ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
+import {connect, history, useIntl} from "@umijs/max";
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
 import {WORKSPACE_CONF} from "@/constants/constant";
 import {WsFlinkKubernetesDeployment} from "@/services/project/typings";

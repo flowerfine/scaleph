@@ -3,7 +3,7 @@ import {DsType} from "@/services/datasource/typings";
 import {useEffect, useRef, useState} from "react";
 import {DsCategoryService} from "@/services/datasource/category.service";
 import {Image} from "antd";
-import {useModel} from "@umijs/max";
+import {useModel} from "umi";
 
 const DataSourceTypeWeb: React.FC<{ categoryId?: number, onTypeSelect: () => void }> = ({
                                                                                                     categoryId,

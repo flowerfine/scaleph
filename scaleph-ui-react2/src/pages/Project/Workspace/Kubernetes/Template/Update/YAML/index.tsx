@@ -1,7 +1,7 @@
 import React from "react";
 import {Col, Row} from "antd";
 import {ProCard} from "@ant-design/pro-components";
-import {Props} from '@/typings';
+import {Props} from '@/app.d';
 import TemplateEditor from "@/pages/Project/Workspace/Kubernetes/Template/Update/YAML/TemplateEditor";
 import DefaultTemplateEditor from "@/pages/Project/Workspace/Kubernetes/Template/Update/YAML/DefaultTemplateEditor";
 import {WsFlinkKubernetesTemplate} from "@/services/project/typings";

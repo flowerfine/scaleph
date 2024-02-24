@@ -1,6 +1,6 @@
-import {connect, history, useIntl} from "umi";
 import React, {useRef} from "react";
 import {PageContainer, ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
+import {connect, history, useIntl} from "@umijs/max";
 import {WORKSPACE_CONF} from "@/constants/constant";
 import {WsDorisOperatorInstance, WsDorisOperatorTemplate} from "@/services/project/typings";
 import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";

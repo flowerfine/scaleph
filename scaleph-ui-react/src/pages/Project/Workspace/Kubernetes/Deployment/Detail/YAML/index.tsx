@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
 import YAML from "yaml";
-import {Props} from '@/app.d';
+import {Props} from '@/typings';
 import {WsFlinkKubernetesDeployment} from "@/services/project/typings";
 import {WsFlinkKubernetesDeploymentService} from "@/services/project/WsFlinkKubernetesDeploymentService";
 

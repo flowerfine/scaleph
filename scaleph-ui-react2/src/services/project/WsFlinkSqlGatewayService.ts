@@ -1,5 +1,5 @@
 import { CatalogFunctionInfo } from '@/services/project/typings';
-import { request } from '@umijs/max';
+import { request } from 'umi';
 
 const url = '/api/flink/sql-gateway';
 

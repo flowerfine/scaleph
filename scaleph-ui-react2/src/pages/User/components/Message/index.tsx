@@ -3,7 +3,7 @@ import { LogMessage } from '@/services/admin/typings';
 import { Card, Collapse, Pagination, Space, Tag, Tooltip, Typography } from 'antd';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import { useIntl } from '@umijs/max';
+import { useIntl } from 'umi';
 
 const Message: React.FC = () => {
   const intl = useIntl();

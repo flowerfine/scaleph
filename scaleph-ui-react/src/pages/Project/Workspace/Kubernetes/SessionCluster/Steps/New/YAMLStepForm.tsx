@@ -1,6 +1,6 @@
-import {connect} from "umi";
 import React, {useEffect, useRef, useState} from "react";
 import {ProCard} from "@ant-design/pro-components";
+import {connect} from "@umijs/max";
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
 
 const SessionClusterYAMLStepForm: React.FC = (props: any) => {

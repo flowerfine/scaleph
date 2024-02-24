@@ -1,5 +1,5 @@
 import {ProCard, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
-import {useIntl, useModel} from "umi";
+import {useIntl, useModel} from "@umijs/max";
 import {DsCategoryService} from "@/services/datasource/category.service";
 import {useEffect} from "react";
 import {Form} from "antd";

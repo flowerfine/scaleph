@@ -1,12 +1,12 @@
 import React from "react";
+import {InfoCircleOutlined} from "@ant-design/icons";
 import {ProCard, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
-import {useIntl} from "umi";
+import {useIntl} from "@umijs/max";
 import {ClusterCredentialListParam} from "@/services/resource/typings";
 import {ClusterCredentialService} from "@/services/resource/clusterCredential.service";
 import {WsDorisOperatorTemplate} from "@/services/project/typings";
 import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";
 import {WORKSPACE_CONF} from "@/constants/constant";
-import {InfoCircleOutlined} from "@ant-design/icons";
 
 const DorisInstanceBase: React.FC = () => {
   const intl = useIntl();

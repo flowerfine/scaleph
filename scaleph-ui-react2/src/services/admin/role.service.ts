@@ -1,5 +1,5 @@
-import {PageResponse, ResponseBody} from '@/typings';
-import {request} from '@umijs/max';
+import {PageResponse, ResponseBody} from '@/app.d';
+import {request} from 'umi';
 import {SecRole, SecRoleParam} from './typings';
 
 export const RoleService = {

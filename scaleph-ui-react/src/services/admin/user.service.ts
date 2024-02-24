@@ -1,6 +1,6 @@
-import { OnlineUserInfo, PageResponse, ResponseBody, TransferData } from '@/app.d';
-import { request } from 'umi';
-import { SecUser, SecUserParam } from './typings';
+import {OnlineUserInfo, PageResponse, ResponseBody, TransferData} from '@/typings';
+import {request} from '@umijs/max';
+import {SecUser, SecUserParam} from './typings';
 
 export const UserService = {
   url: '/api/admin/user',
@@ -29,7 +29,7 @@ export const UserService = {
     const params = rows.map((row) => row.id);
     return request<ResponseBody<any>>(`${UserService.url}/` + 'batch', {
       method: 'POST',
-      data: { ...params },
+      data: {...params},
     });
   },
   addUser: async (row: SecUser) => {
@@ -49,28 +49,28 @@ export const UserService = {
   isUserExists: async (userName: string) => {
     return request<boolean>('/api/user/validation/userName', {
       method: 'GET',
-      params: { userName: userName },
+      params: {userName: userName},
     });
   },
   isEmailExists: async (email: string) => {
     return request<boolean>('/api/user/validation/email', {
       method: 'GET',
-      params: { email: email },
+      params: {email: email},
     });
   },
   listByUserNameAndDept: async (userName: string, deptId: string, direction: string) => {
     return request<TransferData[]>('/api/user/dept', {
       method: 'POST',
-      data: { userName: userName, deptId: deptId, direction: direction },
-      headers: { 'Content-Type': 'multipart/form-data' },
+      data: {userName: userName, deptId: deptId, direction: direction},
+      headers: {'Content-Type': 'multipart/form-data'},
     });
   },
 
   listByUserNameAndRole: async (userName: string, roleId: string, direction: string) => {
     return request<TransferData[]>('/api/user/role', {
       method: 'POST',
-      data: { userName: userName, roleId: roleId, direction: direction },
-      headers: { 'Content-Type': 'multipart/form-data' },
+      data: {userName: userName, roleId: roleId, direction: direction},
+      headers: {'Content-Type': 'multipart/form-data'},
     });
   },
 
@@ -89,22 +89,22 @@ export const UserService = {
   editPassword: async (oldPassword: string, password: string, confirmPassword: string) => {
     return request<ResponseBody<any>>('/api/user/passwd/edit', {
       method: 'POST',
-      data: { oldPassword: oldPassword, password: password, confirmPassword: confirmPassword },
-      headers: { 'Content-Type': 'multipart/form-data' },
+      data: {oldPassword: oldPassword, password: password, confirmPassword: confirmPassword},
+      headers: {'Content-Type': 'multipart/form-data'},
     });
   },
 
   getAuthCode: async (email: string) => {
     return request<ResponseBody<any>>('/api/user/email/getAuth', {
       method: 'GET',
-      params: { email: email },
+      params: {email: email},
     });
   },
 
   bindEmail: async (email: string, authCode: string) => {
     return request<ResponseBody<any>>('/api/user/email/auth', {
       method: 'GET',
-      params: { email: email, authCode: authCode },
+      params: {email: email, authCode: authCode},
     });
   },
 };

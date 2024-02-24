@@ -1,7 +1,4 @@
-import {connect, useAccess, useIntl, useLocation} from "umi";
 import React, {useEffect} from "react";
-import {PageContainer, ProCard, ProDescriptions} from "@ant-design/pro-components";
-import {ProDescriptionsItemProps} from "@ant-design/pro-descriptions";
 import {Button, message, Popconfirm, Space, Tabs} from "antd";
 import {
   AreaChartOutlined,
@@ -12,6 +9,9 @@ import {
   OrderedListOutlined,
   PauseOutlined
 } from "@ant-design/icons";
+import {ProDescriptionsItemProps} from "@ant-design/pro-descriptions";
+import {PageContainer, ProCard, ProDescriptions} from "@ant-design/pro-components";
+import {connect, useAccess, useIntl, useLocation} from "@umijs/max";
 import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
 import FlinkKubernetesSessionClusterDetailYAMLWeb

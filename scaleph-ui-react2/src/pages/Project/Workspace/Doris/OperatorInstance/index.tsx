@@ -1,8 +1,8 @@
+import {history, useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {history, useAccess, useIntl} from "@umijs/max";
 import {WORKSPACE_CONF} from "@/constants/constant";
 import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {WsDorisOperatorInstance, WsDorisOperatorTemplate} from "@/services/project/typings";

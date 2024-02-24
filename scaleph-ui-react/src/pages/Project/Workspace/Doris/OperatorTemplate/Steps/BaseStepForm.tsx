@@ -1,6 +1,6 @@
 import React from "react";
 import {ProCard, ProFormDigit, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
-import {useIntl} from "umi";
+import {useIntl} from "@umijs/max";
 
 const DorisTemplateBase: React.FC = () => {
   const intl = useIntl();

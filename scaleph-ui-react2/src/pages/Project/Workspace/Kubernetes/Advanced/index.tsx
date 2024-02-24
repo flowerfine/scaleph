@@ -1,9 +1,9 @@
+import {connect} from "umi";
 import React, {useEffect} from "react";
 import {Form} from "antd";
 import {ProForm} from "@ant-design/pro-components";
-import {connect} from "@umijs/max";
 import {FieldData} from "rc-field-form/lib/interface";
-import {Props} from '@/typings';
+import {Props} from '@/app';
 import AdvancedCheckpoint from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedCheckpoint";
 import AdvancedBasic from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedBasic";
 import AdvancedResource from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedResource";

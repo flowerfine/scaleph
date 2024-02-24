@@ -1,11 +1,11 @@
-import {useIntl} from 'umi';
+import {useIntl} from '@umijs/max';
 import {Form, message, Modal} from 'antd';
 import {ProForm, ProFormDigit, ProFormSelect, ProFormText} from "@ant-design/pro-components";
-import {ModalFormProps} from '@/app.d';
 import {DICT_TYPE} from "@/constants/dictType";
 import {SecRole} from "@/services/admin/typings";
 import {DictDataService} from "@/services/admin/dictData.service";
 import {RoleService} from "@/services/admin/role.service";
+import { ModalFormProps } from '@/typings';
 
 const RoleForm: React.FC<ModalFormProps<SecRole>> = ({data, visible, onVisibleChange, onCancel}) => {
   const intl = useIntl();

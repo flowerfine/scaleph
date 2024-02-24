@@ -8,7 +8,7 @@ import {DeleteOutlined, EditOutlined, FormOutlined, SelectOutlined} from '@ant-d
 import {ActionType, ProColumns, ProFormInstance, ProFormSelect, ProTable,} from '@ant-design/pro-components';
 import {Button, message, Modal, Space, Tag, Tooltip} from 'antd';
 import React, {useRef, useState} from 'react';
-import {useAccess, useIntl} from '@umijs/max';
+import {useAccess, useIntl} from 'umi';
 import WebAssugnRoles from './components/WebAssugnRoles';
 import ResourceWebs from './components/ResourceWebs';
 

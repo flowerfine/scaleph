@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {connect, useAccess, useIntl} from "@umijs/max";
+import {connect, useAccess, useIntl} from "umi";
 
 const FlinkKubernetesSessinClusterDetailPodTemplateWeb: React.FC = (props: any) => {
   const intl = useIntl();

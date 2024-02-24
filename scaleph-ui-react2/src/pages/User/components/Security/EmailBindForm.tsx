@@ -1,8 +1,8 @@
-import { ModalFormProps } from '@/typings';
+import { ModalFormProps } from '@/app.d';
 import { UserService } from '@/services/admin/user.service';
 import { Button, Col, Form, Input, message, Modal, Row } from 'antd';
 import { useState } from 'react';
-import { useIntl } from '@umijs/max';
+import { useIntl } from 'umi';
 
 const EmailBindForm: React.FC<ModalFormProps<any>> = ({
   data,

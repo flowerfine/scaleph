@@ -1,7 +1,4 @@
-import {connect, useIntl} from "umi";
 import React from "react";
-import {ProCard, ProDescriptions} from "@ant-design/pro-components";
-import {WsDorisOperatorInstanceService} from "@/services/project/WsDorisOperatorInstanceService";
 import {Button, message, Popconfirm, Space} from "antd";
 import {
   AreaChartOutlined,
@@ -10,10 +7,12 @@ import {
   DashboardOutlined,
   OrderedListOutlined
 } from "@ant-design/icons";
+import {ProCard, ProDescriptions} from "@ant-design/pro-components";
+import {connect, useIntl} from "@umijs/max";
+import {WsDorisOperatorInstanceService} from "@/services/project/WsDorisOperatorInstanceService";
 import {YesOrNo} from "@/constants/enum";
 import {ProDescriptionsItemProps} from "@ant-design/pro-descriptions";
 import {WsFlinkKubernetesJob} from "@/services/project/typings";
-import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJobService";
 
 const DorisInstanceDetailAction: React.FC = (props: any) => {
   const intl = useIntl();

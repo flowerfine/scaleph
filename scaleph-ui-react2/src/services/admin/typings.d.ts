@@ -1,3 +1,5 @@
+import {Dict, QueryParam} from '@/app.d';
+
 export type SysDictType = {
   code: string;
   name: string;

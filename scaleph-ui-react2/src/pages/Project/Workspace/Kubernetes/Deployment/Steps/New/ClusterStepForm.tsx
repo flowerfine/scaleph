@@ -1,7 +1,7 @@
+import {connect, useIntl} from "umi";
 import React from "react";
-import {InfoCircleOutlined} from "@ant-design/icons";
 import {ProCard, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
-import {connect, useIntl} from "@umijs/max";
+import {InfoCircleOutlined} from "@ant-design/icons";
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
 import {WsFlinkKubernetesTemplateParam} from "@/services/project/typings";
 import {ClusterCredentialService} from "@/services/resource/clusterCredential.service";

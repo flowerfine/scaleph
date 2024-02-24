@@ -1,7 +1,7 @@
-import { GridContent } from "@ant-design/pro-components";
-import { Menu } from "antd";
 import { useRef, useState } from "react";
-import { useIntl } from 'umi';
+import { Menu } from "antd";
+import { GridContent } from "@ant-design/pro-components";
+import { useIntl } from '@umijs/max';
 import BasicSetting from "./components/BasicSetting";
 import EmailSetting from "./components/EmailSetting";
 import styles from './index.less';

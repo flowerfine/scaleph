@@ -1,4 +1,3 @@
-import React from "react";
 import {ProCard, ProFormDigit, ProFormGroup, ProFormText} from "@ant-design/pro-components";
 
 const AdvancedBasic: React.FC = () => {

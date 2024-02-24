@@ -1,8 +1,8 @@
-import {useIntl} from "umi";
 import React, {useRef} from "react";
 import {message, Modal} from "antd";
 import {ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
-import {ModalFormProps} from '@/app.d';
+import {useIntl} from "@umijs/max";
+import {ModalFormProps} from '@/typings';
 import {WsFlinkKubernetesJob, WsFlinkKubernetesJobInstanceDeployParam} from "@/services/project/typings";
 import FlinkKubernetesJobDeployResourceStepForm
   from "@/pages/Project/Workspace/Kubernetes/Job/Detail/DeployResourceStepForm";

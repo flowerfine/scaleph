@@ -3,7 +3,7 @@ import { topBatch100 } from '@/services/studio/typings'
 import { Card, Col, Row, Statistic, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useCallback, useEffect, useState } from 'react';
-import { useIntl } from 'umi';
+import { useIntl } from '@umijs/max';
 
 const DataBoard: React.FC = () => {
   const intl = useIntl();
@@ -19,7 +19,6 @@ const DataBoard: React.FC = () => {
     fetchJob({ jobType: 'r' }).then((d) => setRealtimeJobCnt(d));
     fetchProject();
     fetchTopBatch100();
-    console.log(topBatch100)
   }, []);
   // 集群数量
   const fetchCluster = useCallback(async () => {

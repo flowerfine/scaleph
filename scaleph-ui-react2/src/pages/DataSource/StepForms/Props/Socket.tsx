@@ -1,4 +1,4 @@
-import {useIntl, useModel} from "@umijs/max";
+import {useIntl, useModel} from "umi";
 import {Form} from "antd";
 import {useEffect} from "react";
 import {ProCard, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";

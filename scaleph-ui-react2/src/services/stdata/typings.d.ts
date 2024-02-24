@@ -1,4 +1,4 @@
-import {Dict, QueryParam} from "@/typings";
+import {Dict, QueryParam} from "@/app";
 
 export type MetaSystem = {
   id?: number;

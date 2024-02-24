@@ -4,7 +4,7 @@ import { SecResourceWeb } from '@/services/admin/typings';
 import { AuthService } from '@/services/auth';
 import { Button, Card, Form, message, Modal, Space } from 'antd';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useIntl } from '@umijs/max';
+import { useIntl } from 'umi';
 
 // 定义组件 Props 类型
 interface ModalFormParentProps<T> {

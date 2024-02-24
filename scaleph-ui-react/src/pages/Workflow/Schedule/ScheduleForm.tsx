@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {Form, message, Modal} from "antd";
 import {ProForm, ProFormDateTimeRangePicker, ProFormSelect, ProFormText} from "@ant-design/pro-components";
-import {useIntl} from "umi";
-import {ModalFormProps} from '@/app.d';
+import {useIntl} from "@umijs/max";
+import {ModalFormProps} from '@/typings';
 import {WorkflowDefinition, WorkflowSchedule} from "@/services/workflow/typings";
 import CrontabSetting from "@/pages/Workflow/Schedule/CrontabSetting";
 import {SchedulerService} from "@/services/workflow/scheduler.service";

@@ -1,7 +1,7 @@
 import { SysConfigService } from '@/services/admin/sysConfig.service';
 import { Button, Col, Form, Input, InputNumber, message, Row } from 'antd';
 import { useEffect } from 'react';
-import { useIntl } from 'umi';
+import { useIntl } from '@umijs/max';
 
 const EmailSetting: React.FC = () => {
   const intl = useIntl();

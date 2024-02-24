@@ -1,8 +1,6 @@
-import { compareStrings } from '@/pages/Project/Workspace/Artifact/Sql/CodeEditor/components/sort';
-import { Editor } from '@monaco-editor/react';
-import { ArtColumn, BaseTable, features, useTablePipeline } from 'ali-react-table';
-import { Button, message, Modal, Typography, Table } from 'antd';
-import React, { useEffect, useMemo, useState, useRef } from 'react';
+import {Editor} from '@monaco-editor/react';
+import {Button, message, Modal, Table, Typography} from 'antd';
+import React, {useEffect, useMemo, useState} from 'react';
 import styles from './index.less';
 
 interface IViewTableCellData {
@@ -10,8 +8,8 @@ interface IViewTableCellData {
   value: any;
 }
 
-const EditorRightResultTable: React.FC = ({ result, lastOneData, verticalSplitSizes }: any) => {
-  const { Paragraph, Text } = Typography;
+const EditorRightResultTable: React.FC = ({result, lastOneData, verticalSplitSizes}: any) => {
+  const {Paragraph, Text} = Typography;
   const [viewTableCellData, setViewTableCellData] = useState<IViewTableCellData | null>(null);
   const [headerList, setHeaderList] = useState([]);
   const [dataList, setDataList] = useState([]);
@@ -50,7 +48,7 @@ const EditorRightResultTable: React.FC = ({ result, lastOneData, verticalSplitSi
   const columns: any = useMemo(
     () =>
       (headerList || []).map((item, index) => {
-        const { dataType, name } = item;
+        const {dataType, name} = item;
         const isFirstLine = index === 0 ? 'left' : '';
         const isNumber = dataType === 'STRING';
         return {
@@ -62,7 +60,7 @@ const EditorRightResultTable: React.FC = ({ result, lastOneData, verticalSplitSi
           render: (value: any, row: any, rowIndex: number) => {
             return (
               <div className={styles.tableItem}>
-                <Paragraph ellipsis={{ rows: 1 }}>
+                <Paragraph ellipsis={{rows: 1}}>
                   {/* 将数组或者对象类型转换成字符串类型 */}
                   {Array.isArray(value) || typeof value === 'object'
                     ? JSON.stringify(value)
@@ -73,14 +71,14 @@ const EditorRightResultTable: React.FC = ({ result, lastOneData, verticalSplitSi
                     src="/images/EditorResult/查看.svg"
                     alt="查看"
                     onClick={() => {
-                      viewTableCell({ name, value });
+                      viewTableCell({name, value});
                     }}
                   />
                   <img
                     src="/images/EditorResult/复制.svg"
                     alt="复制"
                     onClick={() => {
-                      copyTableCell({ name, value });
+                      copyTableCell({name, value});
                     }}
                   />
                 </div>
@@ -93,31 +91,11 @@ const EditorRightResultTable: React.FC = ({ result, lastOneData, verticalSplitSi
     [headerList],
   );
 
-  const pipeline = useTablePipeline()
-    .input({ dataSource: dataList, columns })
-    .use(
-      features.sort({
-        mode: 'single',
-        // defaultSorts,
-        highlightColumnWhenActive: true,
-        // sorts,
-        // onChangeSorts,
-      }),
-    )
-    .use(
-      features.columnResize({
-        fallbackSize: 120,
-        minSize: 80,
-        maxSize: 1080,
-        // handleBackground: '#ddd',
-        // handleHoverBackground: '#aaa',
-        // handleActiveBackground: '#89bff7',
-      }),
-    );
   return (
-    <div className={styles.tableBox} >
+    <div className={styles.tableBox}>
       {/* <BaseTable {...pipeline.getProps()} /> */}
-      <Table columns={columns} dataSource={dataList} scroll={{ y: verticalSplitSizes[1] * 7, x: 1300 }} pagination={false} />
+      <Table columns={columns} dataSource={dataList} scroll={{y: verticalSplitSizes[1] * 7, x: 1300}}
+             pagination={false}/>
       <Modal
         title={viewTableCellData?.name}
         open={!!viewTableCellData?.name}

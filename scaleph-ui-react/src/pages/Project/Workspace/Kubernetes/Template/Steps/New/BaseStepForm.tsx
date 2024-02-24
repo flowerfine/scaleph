@@ -1,9 +1,9 @@
 import React from "react";
+import {InfoCircleOutlined} from "@ant-design/icons";
 import {ProCard, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
-import {useIntl} from "umi";
+import {useIntl} from "@umijs/max";
 import {DICT_TYPE} from "@/constants/dictType";
 import {DictDataService} from "@/services/admin/dictData.service";
-import {InfoCircleOutlined} from "@ant-design/icons";
 
 const FlinkKubernetesTemplateBase: React.FC = () => {
   const intl = useIntl();

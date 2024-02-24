@@ -1,8 +1,8 @@
-import {useIntl} from 'umi';
+import {useIntl} from '@umijs/max';
 import {useState} from 'react';
 import {Form, message, Modal, UploadFile, UploadProps} from 'antd';
 import {ProForm, ProFormDigit, ProFormTextArea, ProFormUploadButton} from '@ant-design/pro-components';
-import {ModalFormProps} from '@/app.d';
+import {ModalFormProps} from '@/typings';
 import {ResourceJarService} from '@/services/resource/jar.service';
 import {Jar, JarUploadParam} from '@/services/resource/typings';
 

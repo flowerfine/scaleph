@@ -1,7 +1,7 @@
 import React from "react";
-import {useIntl} from "umi";
-import {ProCard} from "@ant-design/pro-components";
 import {Divider} from "antd";
+import {ProCard} from "@ant-design/pro-components";
+import {useIntl} from "@umijs/max";
 import FlinkKubernetesSessionClusterDetailYaml
   from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Detail/YAML/FlinkKubernetesSessionClusterYaml";
 import FlinkKubernetesSessionClusterDetailStatusYaml

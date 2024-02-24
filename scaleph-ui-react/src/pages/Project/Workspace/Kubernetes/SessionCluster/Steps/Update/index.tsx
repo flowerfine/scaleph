@@ -1,6 +1,6 @@
-import {connect, history, useIntl, useLocation} from "umi";
 import React, {useEffect, useRef} from "react";
 import {PageContainer, ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
+import {connect, history, useIntl, useLocation} from "@umijs/max";
 import SessionClusterOptionsStepForm
   from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Steps/New/OptionsStepForm";
 import SessionClusterYAMLStepForm from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Steps/New/YAMLStepForm";

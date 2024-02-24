@@ -1,4 +1,4 @@
-import {useModel} from "@umijs/max";
+import {useModel} from "umi";
 import {DsType} from "@/services/datasource/typings";
 import JdbcForm from "@/pages/DataSource/StepForms/Props/Jdbc";
 import FtpForm from "@/pages/DataSource/StepForms/Props/Ftp";

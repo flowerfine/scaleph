@@ -1,5 +1,4 @@
 import lodash from 'lodash';
-
 // 模糊匹配树并且高亮
 export function approximateTreeNode(treeData: any, target: string) {
   if (target) {

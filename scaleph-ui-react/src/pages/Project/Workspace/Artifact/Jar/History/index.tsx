@@ -1,12 +1,12 @@
-import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
-import {FlinkArtifactJarService} from '@/services/project/flinkArtifactJar.service';
-import {WsProjectService} from '@/services/project/WsProjectService';
-import {WsFlinkArtifact, WsFlinkArtifactJar, WsProject} from '@/services/project/typings';
+import {useEffect, useRef, useState} from 'react';
+import {Button, Descriptions, message, Modal, Space, Tooltip} from 'antd';
 import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
 import {ActionType, PageHeader, ProColumns, ProFormInstance, ProTable,} from '@ant-design/pro-components';
-import {Button, Descriptions, message, Modal, Space, Tooltip} from 'antd';
-import {useEffect, useRef, useState} from 'react';
-import {useAccess, useIntl, useLocation} from 'umi';
+import {history, useAccess, useIntl, useLocation} from '@umijs/max';
+import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
+import {WsArtifactFlinkJarService} from '@/services/project/WsArtifactFlinkJarService';
+import {WsProjectService} from '@/services/project/WsProjectService';
+import {WsArtifact, WsArtifactFlinkJar, WsProject} from '@/services/project/typings';
 
 const FlinkArtifactJarHistoryWeb: React.FC = () => {
   const urlParams = useLocation();
@@ -15,7 +15,7 @@ const FlinkArtifactJarHistoryWeb: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const [project, setProject] = useState<WsProject>({});
-  const flinkArtifact = urlParams.state as WsFlinkArtifact;
+  const flinkArtifact = urlParams.state as WsArtifact;
 
   useEffect(() => {
     WsProjectService.selectOne(flinkArtifact.projectId as number).then((d) => {
@@ -23,7 +23,7 @@ const FlinkArtifactJarHistoryWeb: React.FC = () => {
     });
   }, []);
 
-  const tableColumns: ProColumns<WsFlinkArtifactJar>[] = [
+  const tableColumns: ProColumns<WsArtifactFlinkJar>[] = [
     {
       title: intl.formatMessage({id: 'pages.project.artifact.jar.fileName'}),
       dataIndex: 'fileName',
@@ -80,7 +80,7 @@ const FlinkArtifactJarHistoryWeb: React.FC = () => {
                   type="link"
                   icon={<DownloadOutlined/>}
                   onClick={() => {
-                    FlinkArtifactJarService.download(record);
+                    WsArtifactFlinkJarService.download(record);
                   }}
                 />
               </Tooltip>
@@ -99,7 +99,7 @@ const FlinkArtifactJarHistoryWeb: React.FC = () => {
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
-                        FlinkArtifactJarService.deleteOne(record).then((d) => {
+                        WsArtifactFlinkJarService.deleteOne(record).then((d) => {
                           if (d.success) {
                             message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();
@@ -122,7 +122,7 @@ const FlinkArtifactJarHistoryWeb: React.FC = () => {
         <PageHeader
           title={intl.formatMessage({id: 'pages.project.artifact.jar'})}
           onBack={() => {
-            window.history.back();
+            history.back();
           }}
         >
           <Descriptions size="small" column={3} style={{marginLeft: 48}}>
@@ -138,7 +138,7 @@ const FlinkArtifactJarHistoryWeb: React.FC = () => {
           </Descriptions>
         </PageHeader>
       </div>
-      <ProTable<WsFlinkArtifactJar>
+      <ProTable<WsArtifactFlinkJar>
         rowKey="id"
         actionRef={actionRef}
         formRef={formRef}
@@ -147,7 +147,7 @@ const FlinkArtifactJarHistoryWeb: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return FlinkArtifactJarService.listPageByArtifact({...params, flinkArtifactId: flinkArtifact.id});
+          return WsArtifactFlinkJarService.listByArtifact({...params, artifactId: flinkArtifact.id});
         }}
         pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
         tableAlertRender={false}

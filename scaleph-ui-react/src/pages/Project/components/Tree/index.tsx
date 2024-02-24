@@ -1,7 +1,7 @@
-import { TreeNodeType } from '@/pages/Project/components/utils';
+import { useEffect, useState } from 'react';
 import { Col, Popover, Row } from 'antd';
 import classnames from 'classnames';
-import { useEffect, useState } from 'react';
+import { TreeNodeType } from '@/pages/Project/components/utils';
 import styles from './index.less';
 
 // 定义 Tree 组件的属性类型

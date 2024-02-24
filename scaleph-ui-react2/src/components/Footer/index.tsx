@@ -1,8 +1,7 @@
-import {GithubOutlined} from "@ant-design/icons";
-import React from "react";
-import {DefaultFooter} from "@ant-design/pro-layout";
-
+import { GithubOutlined } from '@ant-design/icons';
+import { DefaultFooter } from '@ant-design/pro-components';
 const Footer: React.FC = () => {
+  // const currentYear = new Date().getFullYear();
   return (
     <DefaultFooter
       style={{
@@ -18,7 +17,7 @@ const Footer: React.FC = () => {
         },
         {
           key: 'github',
-          title: <GithubOutlined/>,
+          title: <GithubOutlined />,
           href: 'https://github.com/flowerfine/scaleph',
           blankTarget: true,
         },
@@ -29,6 +28,7 @@ const Footer: React.FC = () => {
           blankTarget: true,
         },
       ]}
+      // copyright={`${currentYear} Scaleph`}
       copyright={false}
     />
   );

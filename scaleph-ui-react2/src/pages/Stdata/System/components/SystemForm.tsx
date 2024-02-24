@@ -1,15 +1,15 @@
-import {useIntl} from '@umijs/max';
+import {useIntl} from 'umi';
 import {Form, message, Modal} from 'antd';
 import {ProForm, ProFormDigit, ProFormText} from '@ant-design/pro-components';
+import {ModalFormProps} from '@/app.d';
 import {MetaSystem} from "@/services/stdata/typings";
 import {MetaSystemService} from "@/services/stdata/system.service";
-import { ModalFormProps } from '@/typings';
 
 const MetaSystemForm: React.FC<ModalFormProps<MetaSystem>> = ({
                                                                 data,
                                                                 visible,
                                                                 onVisibleChange,
-                                                                onCancel
+                                                                onCancel,
                                                               }) => {
   const intl = useIntl();
   const [form] = Form.useForm();

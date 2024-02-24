@@ -1,5 +1,5 @@
-import {request} from 'umi';
-import {PageResponse, ResponseBody} from '@/app.d';
+import {request} from '@umijs/max';
+import {PageResponse, ResponseBody} from '@/typings';
 import {WorkflowDefinition, WorkflowDefinitionListParam, WorkflowTaskDefinition} from "@/services/workflow/typings";
 
 export const WorkflowService = {

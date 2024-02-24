@@ -1,5 +1,5 @@
-import { PageResponse, QueryParam } from '@/typings';
-import { request } from '@umijs/max';
+import { PageResponse, QueryParam } from '@/app.d';
+import { request } from 'umi';
 import { LogLogin } from './typings';
 
 export const LogService = {

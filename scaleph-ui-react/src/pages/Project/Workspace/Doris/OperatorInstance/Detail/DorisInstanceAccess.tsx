@@ -1,6 +1,6 @@
-import {connect, useIntl} from "umi";
 import React, {useState} from "react";
 import {ProCard, ProList} from "@ant-design/pro-components";
+import {connect, useIntl} from "@umijs/max";
 
 const defaultData = [
   {

@@ -1,7 +1,7 @@
+import {connect, useIntl} from "umi";
 import React from "react";
-import {Divider, Space, Statistic} from "antd";
 import {ProCard, StatisticCard} from "@ant-design/pro-components";
-import {connect, useIntl} from "@umijs/max";
+import {Divider, Space, Statistic} from "antd";
 
 const DorisInstanceDetailComponent: React.FC = (props: any) => {
   const intl = useIntl();

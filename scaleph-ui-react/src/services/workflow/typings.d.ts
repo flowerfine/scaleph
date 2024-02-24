@@ -1,4 +1,4 @@
-import {Dict, QueryParam} from "@/app";
+import {Dict, QueryParam} from "@/typings";
 
 export type WorkflowDefinition = {
   id: number;

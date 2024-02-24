@@ -1,9 +1,9 @@
 import React, {useRef} from "react";
-import {Tooltip} from "antd";
-import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {connect, useAccess, useIntl} from "@umijs/max";
-import {Props} from '@/typings';
+import {Props} from '@/app.d';
 import {WsFlinkKubernetesJob, WsFlinkKubernetesJobInstance} from "@/services/project/typings";
+import {connect, useAccess, useIntl} from "umi";
+import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
+import {Tooltip} from "antd";
 import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJobService";
 
 const FlinkKubernetesJobDetailInstanceListWeb: React.FC<Props<WsFlinkKubernetesJob>> = (props: any) => {
@@ -61,7 +61,7 @@ const FlinkKubernetesJobDetailInstanceListWeb: React.FC<Props<WsFlinkKubernetesJ
       options={false}
       columns={tableColumns}
       request={(params, sorter, filter) =>
-        WsFlinkKubernetesJobService.listInstances({...params, wsFlinkKubernetesJobId: props.flinkKubernetesJobDetail.job?.id})
+        WsFlinkKubernetesJobService.listInstances({...params, wsFlinkKubernetesJobId: props.jobDetail.job?.id})
       }
       pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
       rowSelection={false}
@@ -72,5 +72,5 @@ const FlinkKubernetesJobDetailInstanceListWeb: React.FC<Props<WsFlinkKubernetesJ
 }
 
 
-const mapModelToProps = ({flinkKubernetesJobDetail}: any) => ({flinkKubernetesJobDetail})
+const mapModelToProps = ({jobDetail}: any) => ({jobDetail})
 export default connect(mapModelToProps)(FlinkKubernetesJobDetailInstanceListWeb);

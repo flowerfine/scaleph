@@ -1,8 +1,8 @@
-import {useIntl} from "umi";
 import React from "react";
 import {message} from "antd";
 import {ModalForm, ProFormSwitch} from "@ant-design/pro-components";
-import {ModalFormProps} from '@/app.d';
+import {useIntl} from "@umijs/max";
+import {ModalFormProps} from '@/typings';
 import {WsFlinkKubernetesJob, WsFlinkKubernetesJobInstanceShutdownParam} from "@/services/project/typings";
 import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJobService";
 

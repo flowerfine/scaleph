@@ -1,10 +1,10 @@
-import { ModalFormProps } from '@/app.d';
 import { DeptService } from '@/services/admin/dept.service';
 import { SecDept, SecUser } from '@/services/admin/typings';
 import { UserService } from '@/services/admin/user.service';
 import { message, Modal, Transfer } from 'antd';
 import { useEffect, useState } from 'react';
-import { useIntl } from 'umi';
+import { useIntl } from '@umijs/max';
+import {ModalFormProps} from '@/typings';
 
 const DeptGrant: React.FC<ModalFormProps<SecDept>> = ({
   data,

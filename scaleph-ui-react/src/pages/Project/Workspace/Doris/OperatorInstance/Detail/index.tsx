@@ -1,8 +1,8 @@
-import {connect, useIntl, useLocation} from "umi";
 import React, {useEffect} from "react";
-import {WsDorisOperatorInstance} from "@/services/project/typings";
-import {PageContainer} from "@ant-design/pro-components";
 import {Divider} from "antd";
+import {PageContainer} from "@ant-design/pro-components";
+import {connect, useIntl, useLocation} from "@umijs/max";
+import {WsDorisOperatorInstance} from "@/services/project/typings";
 import DorisInstanceDetailComponent
   from "@/pages/Project/Workspace/Doris/OperatorInstance/Detail/DorisInstanceComponent";
 import DorisInstanceDetailYAML from "@/pages/Project/Workspace/Doris/OperatorInstance/Detail/YAML";

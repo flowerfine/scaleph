@@ -1,4 +1,4 @@
-import {useIntl} from 'umi';
+import {useIntl} from '@umijs/max';
 import {useRef} from 'react';
 import {Col, Row} from 'antd';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';

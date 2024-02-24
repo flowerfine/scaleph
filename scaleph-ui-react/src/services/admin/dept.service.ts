@@ -1,5 +1,5 @@
-import {PageResponse, ResponseBody, TreeNode} from '@/app.d';
-import {request} from 'umi';
+import {PageResponse, ResponseBody, TreeNode} from '@/typings';
+import {request} from '@umijs/max';
 import {SecDept, SecDeptParam, SecDeptTree, SecDeptTreeNode} from './typings';
 
 export const DeptService = {

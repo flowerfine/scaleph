@@ -1,6 +1,6 @@
-import {connect} from "umi";
 import React, {useEffect, useRef} from "react";
 import {ProForm, ProFormInstance} from "@ant-design/pro-components";
+import {connect} from "@umijs/max";
 import AdvancedBasic from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedBasic";
 import AdvancedResource from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedResource";
 import AdvancedCheckpoint from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedCheckpoint";

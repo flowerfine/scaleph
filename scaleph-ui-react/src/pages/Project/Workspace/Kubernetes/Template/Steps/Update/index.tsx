@@ -1,6 +1,6 @@
-import {connect, history, useIntl, useLocation} from "umi";
 import React, {useEffect, useRef} from "react";
 import {PageContainer, ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
+import {connect, history, useIntl, useLocation} from "@umijs/max";
 import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
 import FlinkKubernetesTemplateAdvancedStep
   from "@/pages/Project/Workspace/Kubernetes/Template/Steps/New/AdvancedStepForm";

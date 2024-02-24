@@ -1,11 +1,11 @@
 import React from "react";
+import {Divider} from "antd";
 import {ProCard} from "@ant-design/pro-components";
+import {useIntl} from "@umijs/max";
 import DorisInstanceDetailYAMLInstance
   from "@/pages/Project/Workspace/Doris/OperatorInstance/Detail/YAML/DorisInstanceYaml";
 import DorisInstanceDetailYAMLStatus
   from "@/pages/Project/Workspace/Doris/OperatorInstance/Detail/YAML/DorisInstanceStatusYaml";
-import {useIntl} from "umi";
-import {Divider} from "antd";
 
 const DorisInstanceDetailYAML: React.FC = () => {
   const intl = useIntl();

@@ -1,3 +1,4 @@
+import {useIntl} from "umi";
 import React from "react";
 import {Form, message, Modal} from "antd";
 import {
@@ -10,13 +11,11 @@ import {
   ProFormText,
   ProFormTextArea
 } from "@ant-design/pro-components";
-import {useIntl} from "@umijs/max";
-import {ModalFormProps} from '@/typings';
+import {ModalFormProps} from '@/app.d';
 import {
-  WsArtifactFlinkCDCSelectListParam,
-  WsArtifactFlinkJarSelectListParam,
-  WsArtifactFlinkSqlSelectListParam,
-  WsArtifactSeaTunnelSelectListParam,
+  WsDiJobSelectListParam,
+  WsFlinkArtifactJarSelectListParam,
+  WsFlinkArtifactSqlSelectListParam,
   WsFlinkKubernetesDeploymentSelectListParam,
   WsFlinkKubernetesJob,
   WsFlinkKubernetesSessionClusterSelectListParam
@@ -24,14 +23,12 @@ import {
 import {DictDataService} from "@/services/admin/dictData.service";
 import {WORKSPACE_CONF} from "@/constants/constant";
 import {DICT_TYPE} from "@/constants/dictType";
-import {DeploymentKind, FlinkJobType} from "@/constants/enum";
 import {WsFlinkKubernetesDeploymentService} from "@/services/project/WsFlinkKubernetesDeploymentService";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
-import {WsArtifactFlinkJarService} from "@/services/project/WsArtifactFlinkJarService";
-import {WsArtifactFlinkSqlService} from "@/services/project/WsArtifactFlinkSqlService";
-import {WsArtifactSeaTunnelService} from "@/services/project/WsArtifactSeaTunnelService";
-import {WsArtifactFlinkCDCService} from "@/services/project/WsArtifactFlinkCDCService";
+import {FlinkArtifactJarService} from "@/services/project/flinkArtifactJar.service";
+import {FlinkArtifactSqlService} from "@/services/project/WsFlinkArtifactSqlService";
 import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJobService";
+import {WsDiJobService} from "@/services/project/WsDiJobService";
 
 const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = ({
                                                                                   data,
@@ -92,10 +89,9 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
           flinkDeploymentId: data?.flinkDeployment?.id,
           flinkSessionClusterId: data?.flinkSessionCluster?.id,
           type: data?.type?.value,
-          artifactFlinkJarId: data?.artifactFlinkJar?.id,
-          artifactFlinkSqlId: data?.artifactFlinkSql?.id,
-          artifactFlinkCDCId: data?.artifactFlinkCDC?.id,
-          artifactSeaTunnelId: data?.artifactSeaTunnel?.id,
+          flinkArtifactJarId: data?.flinkArtifactJar?.id,
+          flinkArtifactSqlId: data?.flinkArtifactSql?.id,
+          wsDiJobId: data?.wsDiJob?.id,
           remark: data?.remark
         }}
       >
@@ -116,18 +112,18 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
           name={"deploymentKind"}
           label={intl.formatMessage({id: 'pages.project.flink.kubernetes.job.deploymentKind'})}
           rules={[{required: true}]}
-          disabled={data?.id ? true : false}
+          disabled={data?.id}
           request={() => DictDataService.listDictDataByType2(DICT_TYPE.deploymentKind)}
         />
         <ProFormDependency name={['deploymentKind']}>
           {({deploymentKind}) => {
-            if (deploymentKind == DeploymentKind.Deployment) {
+            if (deploymentKind == 'FlinkDeployment') {
               return (
                 <ProFormSelect
                   name={"flinkDeploymentId"}
                   label={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment'})}
                   rules={[{required: true}]}
-                  disabled={data?.id ? true : false}
+                  disabled={data?.id}
                   allowClear={false}
                   showSearch={true}
                   request={(params, props) => {
@@ -136,28 +132,25 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
                       name: params.keyWords
                     };
                     return WsFlinkKubernetesDeploymentService.listAll(listParam).then((response) => {
-                      if (response.success && response.data) {
-                        return response.data.map((item) => {
-                          return {
-                            label: item.name,
-                            value: item.id,
-                            item: item
-                          };
-                        });
-                      }
-                      return Promise.reject()
+                      return response.map((item) => {
+                        return {
+                          label: item.name,
+                          value: item.id,
+                          item: item
+                        };
+                      });
                     });
                   }}
                 />
               );
             }
-            if (deploymentKind == DeploymentKind.SessionCluster) {
+            if (deploymentKind == 'FlinkSessionJob') {
               return (
                 <ProFormSelect
                   name={"flinkSessionClusterId"}
                   label={intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster'})}
                   rules={[{required: true}]}
-                  disabled={data?.id ? true : false}
+                  disabled={data?.id}
                   allowClear={false}
                   showSearch={true}
                   request={(params, props) => {
@@ -166,16 +159,13 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
                       name: params.keyWords,
                     };
                     return WsFlinkKubernetesSessionClusterService.listAll(listParam).then((response) => {
-                      if (response.success && response.data) {
-                        return response.data.map((item) => {
-                          return {
-                            label: item.name,
-                            value: item.id,
-                            item: item
-                          };
-                        });
-                      }
-                      return Promise.reject()
+                      return response.map((item) => {
+                        return {
+                          label: item.name,
+                          value: item.id,
+                          item: item
+                        };
+                      });
                     });
                   }}
                 />
@@ -189,126 +179,87 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
           name={"type"}
           label={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.type'})}
           rules={[{required: true}]}
-          disabled={data?.id ? true : false}
+          disabled={data?.id}
           request={() => DictDataService.listDictDataByType2(DICT_TYPE.flinkJobType)}
         />
         <ProFormDependency name={['type']}>
           {({type}) => {
-            if (type == FlinkJobType.JAR) {
+            if (type == '0') {
               return (
                 <ProFormSelect
-                  name={"artifactFlinkJarId"}
-                  label={intl.formatMessage({id: 'pages.project.artifact.jar'})}
+                  name={"flinkArtifactJarId"}
+                  label={intl.formatMessage({id: 'pages.project.job.jar'})}
                   rules={[{required: true}]}
-                  disabled={data?.id ? true : false}
+                  disabled={data?.id}
                   allowClear={false}
                   showSearch={true}
                   request={(params, props) => {
-                    const listParam: WsArtifactFlinkJarSelectListParam = {
+                    const listParam: WsFlinkArtifactJarSelectListParam = {
                       projectId: projectId,
                       name: params.keyWords
                     };
-                    return WsArtifactFlinkJarService.listAll(listParam).then((response) => {
-                      if (response.success && response.data) {
-                        return response.data.map((item) => {
-                          return {
-                            label: item.artifact?.name,
-                            value: item.id,
-                            item: item
-                          };
-                        });
-                      }
-                      return Promise.reject()
+                    return FlinkArtifactJarService.listAll(listParam).then((response) => {
+                      return response.map((item) => {
+                        return {
+                          label: item.wsFlinkArtifact.name,
+                          value: item.id,
+                          item: item
+                        };
+                      });
                     });
                   }}
                 />
               );
             }
-            if (type == FlinkJobType.SQL) {
+            if (type == '1') {
               return (
                 <ProFormSelect
-                  name={"artifactFlinkSqlId"}
-                  label={intl.formatMessage({id: 'pages.project.artifact.sql'})}
+                  name={"flinkArtifactSqlId"}
+                  label={intl.formatMessage({id: 'pages.project.job.sql'})}
                   rules={[{required: true}]}
-                  disabled={data?.id ? true : false}
+                  disabled={data?.id}
                   allowClear={false}
                   showSearch={true}
                   request={(params, props) => {
-                    const listParam: WsArtifactFlinkSqlSelectListParam = {
+                    const listParam: WsFlinkArtifactSqlSelectListParam = {
                       projectId: projectId,
                       name: params.keyWords,
                     };
-                    return WsArtifactFlinkSqlService.listAll(listParam).then((response) => {
-                      if (response.success && response.data) {
-                        return response.data.map((item) => {
-                          return {
-                            label: item.artifact?.name,
-                            value: item.id,
-                            item: item
-                          };
-                        });
-                      }
-                      return Promise.reject()
+                    return FlinkArtifactSqlService.listAll(listParam).then((response) => {
+                      return response.map((item) => {
+                        return {
+                          label: item.wsFlinkArtifact.name,
+                          value: item.id,
+                          item: item
+                        };
+                      });
                     });
                   }}
                 />
               );
             }
-            if (type == FlinkJobType.FLINK_CDC) {
+            if (type == '2') {
               return (
                 <ProFormSelect
-                  name={"artifactFlinkCDCId"}
-                  label={intl.formatMessage({id: 'pages.project.artifact.cdc'})}
+                  name={"wsDiJobId"}
+                  label={intl.formatMessage({id: 'pages.project.job.seatunnel'})}
                   rules={[{required: true}]}
-                  disabled={data?.id ? true : false}
+                  disabled={data?.id}
                   allowClear={false}
                   showSearch={true}
                   request={(params, props) => {
-                    const listParam: WsArtifactFlinkCDCSelectListParam = {
+                    const listParam: WsDiJobSelectListParam = {
                       projectId: projectId,
                       name: params.keyWords,
                     };
-                    return WsArtifactFlinkCDCService.listAll(listParam).then((response) => {
-                      if (response.success && response.data) {
-                        return response.data.map((item) => {
-                          return {
-                            label: item.artifact?.name,
-                            value: item.id,
-                            item: item
-                          };
-                        });
-                      }
-                      return Promise.reject()
-                    });
-                  }}
-                />
-              );
-            }
-            if (type == FlinkJobType.SEATUNNEL) {
-              return (
-                <ProFormSelect
-                  name={"artifactSeaTunnelId"}
-                  label={intl.formatMessage({id: 'pages.project.artifact.seatunnel'})}
-                  rules={[{required: true}]}
-                  disabled={data?.id ? true : false}
-                  allowClear={false}
-                  showSearch={true}
-                  request={(params, props) => {
-                    const listParam: WsArtifactSeaTunnelSelectListParam = {
-                      projectId: projectId,
-                      name: params.keyWords,
-                    };
-                    return WsArtifactSeaTunnelService.listAll(listParam).then((response) => {
-                      if (response.success && response.data) {
-                        return response.data.map((item) => {
-                          return {
-                            label: item.artifact?.name,
-                            value: item.id,
-                            item: item
-                          };
-                        });
-                      }
-                      return Promise.reject()
+                    return WsDiJobService.listAll(listParam).then((response) => {
+                      return response.map((item) => {
+                        return {
+                          label: item.wsFlinkArtifact.name,
+                          value: item.id,
+                          item: item
+                        };
+                      });
                     });
                   }}
                 />

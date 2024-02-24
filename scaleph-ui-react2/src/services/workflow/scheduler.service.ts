@@ -1,5 +1,5 @@
-import {ResponseBody} from '@/typings';
-import {request} from '@umijs/max';
+import {ResponseBody} from '@/app.d';
+import {request} from 'umi';
 import {
   WorkflowSchedule,
   WorkflowScheduleAddParam,

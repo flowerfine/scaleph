@@ -1,85 +1,147 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {useLocation} from 'umi';
 import {PageContainer} from '@ant-design/pro-components';
-import {useLocation} from '@umijs/max';
 import {
-  Background,
-  Clipboard,
-  Control,
-  ControlEnum,
-  Grid,
-  History,
-  Minimap,
-  Snapline,
+  CompressOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  EyeOutlined,
+  FullscreenExitOutlined,
+  FullscreenOutlined,
+  FundProjectionScreenOutlined,
+  InfoCircleOutlined,
+  PlaySquareOutlined,
+  ProfileOutlined,
+  SaveOutlined,
+  SendOutlined,
+  StopOutlined,
+  ZoomInOutlined,
+  ZoomOutOutlined,
+} from '@ant-design/icons';
+import {
+  CanvasContextMenu,
+  CanvasMiniMap,
+  CanvasNodePortTooltip,
+  CanvasScaleToolbar,
+  CanvasSnapline,
+  CanvasToolbar,
+  IApplication,
+  IAppLoad,
+  IconStore,
+  KeyBindings,
+  NodeCollapsePanel,
+  NsGraph,
   XFlow,
-  XFlowGraph
-} from "@antv/xflow";
-import {DAG_CONNECTOR, DAG_EDGE} from "./Dag/node/canvas-node";
-import {InitShape} from "./Dag/node/init-node";
-import {Dnd} from "./Dag/dnd/dnd";
-import {WsArtifactSeaTunnel} from "@/services/project/typings";
-import {CustomMenubar} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/menubar";
-import {CustomToolbar} from "@/pages/Project/Workspace/Artifact/DI/DiJobFlow/Dag/toolbar";
-import styles from './index.less';
+  XFlowCanvas,
+} from '@antv/xflow';
+/** config graph */
+import {useGraphConfig, useGraphHookConfig} from './Dag/config-graph';
+/** config command */
+import {initGraphCmds, useCmdConfig} from './Dag/config-cmd';
+/** config key bind */
+import {useKeybindingConfig} from './Dag/config-keybinding';
+/** config menu */
+import {useMenuConfig} from './Dag/config-menu';
+/** config toolbar */
+import {useScaleToolbarConfig, useToolbarConfig} from './Dag/config-toolbar';
+/** config dnd panel */
+import '@antv/xflow/dist/index.css';
+import './index.less';
+import * as dndPanelConfig from './Dag/config-dnd-panel';
+import {WsDiJob} from '@/services/project/typings';
+import {DagService} from './Dag/service';
 
-const DiJobFlow: React.FC = () => {
-  const data = useLocation().state as WsArtifactSeaTunnel;
+interface DiJobFlowPorps {
+  data: WsDiJob;
+  meta: { flowId?: string; origin?: WsDiJob };
+}
+
+const DiJobFlow: React.FC<DiJobFlowPorps> = () => {
+  const props = useLocation().state as DiJobFlowPorps;
+  const graphConfig = useGraphConfig(props);
+  const graphHookConfig = useGraphHookConfig(props);
+  const commandConfig = useCmdConfig();
+  const toolbarConfig = useToolbarConfig();
+  const scaleToolbarConfig = useScaleToolbarConfig();
+  const menuConfig = useMenuConfig();
+  const keybindingConfig = useKeybindingConfig();
+  const [graphData, setGraphData] = useState<NsGraph.IGraphData>({nodes: [], edges: []});
+  const {data, meta} = props;
+
+  /**register icons */
+  IconStore.set('DeleteOutlined', DeleteOutlined);
+  IconStore.set('EditOutlined', EditOutlined);
+  IconStore.set('PlaySquareOutlined', PlaySquareOutlined);
+  IconStore.set('StopOutlined', StopOutlined);
+  IconStore.set('SaveOutlined', SaveOutlined);
+  IconStore.set('SendOutlined', SendOutlined);
+  IconStore.set('EyeOutlined', EyeOutlined);
+  IconStore.set('FundProjectionScreenOutlined', FundProjectionScreenOutlined);
+  IconStore.set('ProfileOutlined', ProfileOutlined);
+  IconStore.set('FullscreenOutlined', FullscreenOutlined);
+  IconStore.set('FullscreenExitOutlined', FullscreenExitOutlined);
+  IconStore.set('ZoomInOutlined', ZoomInOutlined);
+  IconStore.set('ZoomOutOutlined', ZoomOutOutlined);
+  IconStore.set('CompressOutlined', CompressOutlined);
+  IconStore.set('InfoCircleOutlined', InfoCircleOutlined);
+
+  const cache = React.useMemo<{ app: IApplication | null }>(
+    () => ({
+      app: null,
+    }),
+    [],
+  );
+  const onLoad: IAppLoad = async (app) => {
+    cache.app = app;
+    initGraphCmds(cache.app, meta.origin || {id: data.id});
+  };
+
+  React.useEffect(() => {
+    if (cache.app) {
+      initGraphCmds(cache.app, meta.origin || {id: data.id});
+    }
+    refreshJobGraph();
+  }, [meta]);
+
+  const refreshJobGraph = async () => {
+    DagService.loadJobInfo(meta.origin?.id as number).then((resp) => {
+      setGraphData(resp);
+    });
+  };
 
   return (
     <PageContainer title={false}>
-      <XFlow>
-        <div className={styles.page}>
-          <div className={styles.container}>
-            <div className={styles.left}>
-              <Dnd data={data}/>
-            </div>
-            <div className={styles.center}>
-              <div className={styles.toolbar}>
-                <CustomToolbar/>
-                <CustomMenubar data={data}/>
-              </div>
-
-              <div className={styles.graph}>
-                <XFlowGraph
-                  pannable
-                  connectionOptions={{
-                    snap: true,
-                    allowBlank: false,
-                    allowLoop: false,
-                    highlight: true,
-                    connectionPoint: 'anchor',
-                    anchor: 'center',
-                    connector: DAG_CONNECTOR,
-                    validateMagnet({magnet}) {
-                      return magnet.getAttribute('port-group') !== 'top';
-                    },
-                  }}
-                  connectionEdgeOptions={{
-                    shape: DAG_EDGE,
-                    animated: false,
-                    zIndex: -1,
-                  }}
-                />
-                <InitShape data={data}/>
-
-                <Grid type="mesh" options={{color: '#ccc', thickness: 1}}/>
-                <Snapline/>
-                <Clipboard/>
-                <History/>
-                <Background/>
-                <div className={styles.scaleToolbar}>
-                  {/* 颜色样式不对，实际上是有数字的 */}
-                  <Control
-                    items={[ControlEnum.ZoomToOrigin, ControlEnum.ZoomToFit, ControlEnum.ZoomIn, ControlEnum.ZoomTo, ControlEnum.ZoomOut]}
-                    direction={'vertical'}
-                  />
-                </div>
-                <div className={styles.minimap}>
-                  <Minimap/>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <XFlow
+        className="dag-user-custom-clz"
+        hookConfig={graphHookConfig}
+        commandConfig={commandConfig}
+        onLoad={onLoad}
+        graphData={graphData}
+        meta={meta}
+      >
+        <NodeCollapsePanel
+          className="xflow-node-panel"
+          position={{width: 240, top: 0, bottom: 0, left: 0}}
+          bodyPosition={{top: 40, bottom: 0, left: 0}}
+          footerPosition={{height: 0}}
+          nodeDataService={dndPanelConfig.nodeDataService}
+          onNodeDrop={dndPanelConfig.onNodeDrop}
+          searchService={dndPanelConfig.searchService}
+        />
+        <CanvasToolbar
+          className="xflow-workspace-toolbar-top"
+          layout="horizontal"
+          config={toolbarConfig}
+          position={{top: 0, left: 240, right: 0, bottom: 0}}
+        />
+        <XFlowCanvas config={graphConfig} position={{top: 40, left: 240, right: 0, bottom: 0}}>
+          <CanvasScaleToolbar layout="vertical" position={{top: 12, right: 12}}/>
+          <CanvasContextMenu config={menuConfig}/>
+          <CanvasSnapline color="#faad14"/>
+          <CanvasMiniMap minimapOptions={{width: 200, height: 120}}/>
+          <CanvasNodePortTooltip/>
+        </XFlowCanvas>
+        <KeyBindings config={keybindingConfig}/>
       </XFlow>
     </PageContainer>
   );

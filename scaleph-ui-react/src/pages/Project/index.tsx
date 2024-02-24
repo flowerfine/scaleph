@@ -1,12 +1,12 @@
+import {useEffect, useRef, useState} from 'react';
+import {Button, Input, message, Modal, Space, Tooltip} from 'antd';
+import {DeleteOutlined, EditOutlined, FolderOpenOutlined} from '@ant-design/icons';
+import {ActionType, PageHeader, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
+import {history, useAccess, useIntl} from '@umijs/max';
 import {WORKSPACE_CONF} from '@/constants/constant';
 import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
 import {WsProjectService} from '@/services/project/WsProjectService';
 import {WsProject, WsProjectParam} from '@/services/project/typings';
-import {DeleteOutlined, EditOutlined, FolderOpenOutlined} from '@ant-design/icons';
-import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {Button, Input, message, Modal, PageHeader, Space, Tooltip} from 'antd';
-import {useEffect, useRef, useState} from 'react';
-import {history, useAccess, useIntl} from 'umi';
 import ProjectForm from './components/ProjectForm';
 
 const Project: React.FC = () => {

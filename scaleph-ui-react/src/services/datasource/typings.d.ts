@@ -1,4 +1,4 @@
-import {Dict, QueryParam} from "@/app.d";
+import {Dict, QueryParam} from "@/typings";
 
 export type DsCategory = {
   id: number;

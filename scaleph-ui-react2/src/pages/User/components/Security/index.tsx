@@ -2,7 +2,7 @@ import { SecUser } from '@/services/admin/typings';
 import { UserService } from '@/services/admin/user.service';
 import { Button, List, Typography } from 'antd';
 import { useEffect, useState } from 'react';
-import { useIntl } from '@umijs/max';
+import { useIntl } from 'umi';
 import EmailBindForm from './EmailBindForm';
 import PasswordEditForm from './PasswordEditForm';
 

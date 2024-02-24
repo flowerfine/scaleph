@@ -1,8 +1,8 @@
-import {useIntl} from "umi";
 import React from "react";
 import {Form, Modal} from "antd";
 import {ProForm, ProFormDigit, ProFormRadio, ProFormText} from "@ant-design/pro-components";
-import {ModalFormProps} from '@/app.d';
+import {useIntl} from "@umijs/max";
+import {ModalFormProps} from '@/typings';
 import {WsFlinkKubernetesDeployment} from "@/services/project/typings";
 import {DictDataService} from "@/services/admin/dictData.service";
 import {WORKSPACE_CONF} from "@/constants/constant";

@@ -1,5 +1,6 @@
-import {useIntl} from "umi";
+import React from "react";
 import {ProCard, ProFormGroup, ProFormList, ProFormText} from "@ant-design/pro-components";
+import {useIntl} from "@umijs/max";
 
 const AdvancedAdditional: React.FC = () => {
   const intl = useIntl();

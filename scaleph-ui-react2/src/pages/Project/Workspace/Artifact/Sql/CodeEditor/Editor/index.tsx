@@ -1,15 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Button, message } from 'antd';
-import { useIntl, useModel, useLocation } from '@umijs/max';
 import { Editor } from '@monaco-editor/react';
+import { Button, message } from 'antd';
 import { language } from 'monaco-editor/esm/vs/basic-languages/sql/sql';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
+import React, { useEffect, useRef, useState } from 'react';
 import * as sqlFormatter from 'sql-formatter';
+import { useIntl, useModel } from 'umi';
+
 import { WORKSPACE_CONF } from '@/constants/constant';
-import { WsArtifactFlinkSql } from '@/services/project/typings';
-import { WsArtifactFlinkSqlService } from '@/services/project/WsArtifactFlinkSqlService';
+import { WsFlinkArtifactSql } from '@/services/project/typings';
+import { FlinkArtifactSqlService } from '@/services/project/WsFlinkArtifactSqlService';
 import { WsFlinkKubernetesSessionClusterService } from '@/services/project/WsFlinkKubernetesSessionClusterService';
 import { WsFlinkSqlGatewayService } from '@/services/project/WsFlinkSqlGatewayService';
+import { useLocation } from 'react-router-dom';
 import styles from './index.less';
 
 // 定义 SQL 语法提示关键字列表
@@ -18,7 +20,7 @@ const { keywords: SQLKeys } = language;
 const CodeEditor: React.FC = () => {
   const urlParams = useLocation();
   const [sqlScript, setSqlScript] = useState<any>(''); // 内容
-  const flinkArtifactSql = urlParams.state as WsArtifactFlinkSql;
+  const flinkArtifactSql = urlParams.state as WsFlinkArtifactSql;
   const intl = useIntl(); //语言切换
   const [sessionClusterId, setSessionClusterId] = useState<string>();
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
@@ -61,7 +63,7 @@ const CodeEditor: React.FC = () => {
 
   // 保存数据
   const onSave = async (): Promise<void> => {
-    const resultData = await WsArtifactFlinkSqlService.updateScript({
+    const resultData = await FlinkArtifactSqlService.updateScript({
       id: flinkArtifactSql.id,
       script: sqlScript,
     });

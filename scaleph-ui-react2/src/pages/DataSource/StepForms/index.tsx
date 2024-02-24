@@ -1,5 +1,5 @@
 import {ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
-import {history, useIntl, useModel} from "@umijs/max";
+import {history, useIntl, useModel} from "umi";
 import {useRef} from "react";
 import {Button} from "antd";
 import DataSourceCategoryAndTypeWeb from "@/pages/DataSource/StepForms/CategoryAndType";

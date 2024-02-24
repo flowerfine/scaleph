@@ -1,4 +1,4 @@
-import {QueryParam} from "@/typings";
+import {QueryParam} from "@/app";
 
 export type Kerberos = {
   id?: number;

@@ -1,16 +1,19 @@
+import { AuthService } from "./services/admin/auth.service";
+
 /**
  * @see https://umijs.org/zh-CN/plugins/plugin-access
  * */
+export default function access(
+  initialState: { currentUser?: Scaleph.SysUser } | undefined
+) {
+  const { currentUser } = initialState ?? {};
 
-import { AuthService } from './services/auth';
-
-export default function access() {
   return {
     canAccess: (code: string) => {
-      return AuthService.hasPrivilege(code);
+      return Promise.resolve(true);
     },
     normalRouteFilter: (route: any) => {
-      return AuthService.hasPrivilege(route?.pCode);
+      return Promise.resolve(true);
     },
   };
 }

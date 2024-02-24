@@ -1,10 +1,9 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { Spin, Tabs } from 'antd';
+import { useModel, useLocation } from '@umijs/max';
 import { WORKSPACE_CONF } from '@/constants/constant';
 import { WsFlinkKubernetesSessionClusterService } from '@/services/project/WsFlinkKubernetesSessionClusterService';
 import { WsFlinkSqlGatewayService } from '@/services/project/WsFlinkSqlGatewayService';
-import { Spin, Tabs } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useModel } from 'umi';
 import EditorRightResultTable from './EditorRightResultTable';
 import styles from './index.less';
 

@@ -1,3 +1,4 @@
+import {history, useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined, EyeOutlined} from "@ant-design/icons";
@@ -9,7 +10,6 @@ import {
   ProFormSwitch,
   ProTable
 } from "@ant-design/pro-components";
-import {history, useAccess, useIntl} from "@umijs/max";
 import {WORKSPACE_CONF} from "@/constants/constant";
 import {DICT_TYPE} from "@/constants/dictType";
 import {PRIVILEGE_CODE} from "@/constants/privilegeCode";

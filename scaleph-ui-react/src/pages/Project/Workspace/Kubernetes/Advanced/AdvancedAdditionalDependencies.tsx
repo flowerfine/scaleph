@@ -1,5 +1,6 @@
-import {useIntl} from "umi";
+import React from "react";
 import {ProCard, ProFormSelect} from "@ant-design/pro-components";
+import {useIntl} from "@umijs/max";
 import {ResourceListParam} from "@/services/resource/typings";
 import {ResourceService} from "@/services/resource/resource.service";
 

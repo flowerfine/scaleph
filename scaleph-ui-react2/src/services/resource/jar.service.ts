@@ -1,7 +1,7 @@
-import { PageResponse, ResponseBody } from '@/typings';
+import { PageResponse, ResponseBody } from '@/app.d';
 import { USER_AUTH } from '@/constants/constant';
 import { Jar, JarListParam, JarUploadParam } from '@/services/resource/typings';
-import { request } from '@umijs/max';
+import { request } from 'umi';
 
 export const ResourceJarService = {
   url: '/api/resource/jar',

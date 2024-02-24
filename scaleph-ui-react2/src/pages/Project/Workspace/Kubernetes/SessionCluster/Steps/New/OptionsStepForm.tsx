@@ -1,7 +1,7 @@
+import {connect} from "umi";
 import React, {useEffect} from "react";
 import {Form} from "antd";
 import {ProCard} from "@ant-design/pro-components";
-import {connect} from "@umijs/max";
 import AdvancedBasic from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedBasic";
 import AdvancedCheckpoint from "@/pages/Project/Workspace/Kubernetes/Advanced/AdvancedCheckpoint";
 import AdvancedPeriodicSavepoint

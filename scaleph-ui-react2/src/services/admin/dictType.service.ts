@@ -1,5 +1,5 @@
-import {Dict, PageResponse} from '@/typings';
-import {request} from '@umijs/max';
+import {Dict, PageResponse} from '@/app.d';
+import {request} from 'umi';
 import {SysDictType, SysDictTypeParam} from './typings';
 
 export const DictTypeService = {

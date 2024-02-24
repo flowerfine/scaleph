@@ -1,10 +1,10 @@
-import {PageResponse, ResponseBody} from '@/typings';
+import {PageResponse, ResponseBody} from '@/app.d';
 import {
   ClusterCredential,
   ClusterCredentialListParam,
   ClusterCredentialUploadParam,
 } from '@/services/resource/typings';
-import {request} from '@umijs/max';
+import {request} from 'umi';
 import {USER_AUTH} from "@/constants/constant";
 
 export const ClusterCredentialService = {

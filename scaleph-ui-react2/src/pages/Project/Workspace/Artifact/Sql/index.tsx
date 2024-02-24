@@ -1,34 +1,34 @@
-import {useRef, useState} from 'react';
-import {Button, message, Modal, Space, Tooltip} from 'antd';
-import {DeleteOutlined, EditOutlined, FolderOpenOutlined} from '@ant-design/icons';
-import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {history, useAccess, useIntl} from '@umijs/max';
 import {WORKSPACE_CONF} from '@/constants/constant';
 import {DICT_TYPE} from '@/constants/dictType';
 import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
-import {WsArtifactFlinkSql} from '@/services/project/typings';
+import {WsFlinkArtifactSql} from '@/services/project/typings';
+import {DeleteOutlined, EditOutlined, FolderOpenOutlined} from '@ant-design/icons';
+import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
+import {Button, message, Modal, Space, Tooltip} from 'antd';
+import {useRef, useState} from 'react';
+import {history, useAccess, useIntl} from 'umi';
 import FlinkArtifactSqlForm from '@/pages/Project/Workspace/Artifact/Sql/FlinkArtifactSqlForm';
 import {DictDataService} from "@/services/admin/dictData.service";
-import {WsArtifactFlinkSqlService} from "@/services/project/WsArtifactFlinkSqlService";
+import {FlinkArtifactSqlService} from "@/services/project/WsFlinkArtifactSqlService";
 
-const ArtifactFlinkSqlWeb: React.FC = () => {
+const JobArtifactSqlView: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
-  const [artifactFlinkSqlFormData, setArtifactFlinkSqlFormData] = useState<{
+  const [flinkArtifactSqlFormData, setFlinkArtifactSqlFormData] = useState<{
     visiable: boolean;
-    data: WsArtifactFlinkSql;
+    data: WsFlinkArtifactSql;
   }>({visiable: false, data: {}});
 
-  const tableColumns: ProColumns<WsArtifactFlinkSql>[] = [
+  const tableColumns: ProColumns<WsFlinkArtifactSql>[] = [
     {
       title: intl.formatMessage({id: 'pages.project.artifact.name'}),
       dataIndex: 'name',
       width: 240,
       render: (dom, entity, index, action, schema) => {
-        return entity.artifact?.name
+        return entity.wsFlinkArtifact?.name
       }
     },
     {
@@ -48,7 +48,7 @@ const ArtifactFlinkSqlWeb: React.FC = () => {
       width: 240,
       hideInSearch: true,
       render: (dom, entity, index, action, schema) => {
-        return entity.artifact?.remark
+        return entity.wsFlinkArtifact?.remark
       }
     },
     {
@@ -80,7 +80,7 @@ const ArtifactFlinkSqlWeb: React.FC = () => {
                   type="link"
                   icon={<EditOutlined/>}
                   onClick={() => {
-                    setArtifactFlinkSqlFormData({visiable: true, data: record});
+                    setFlinkArtifactSqlFormData({visiable: true, data: record});
                   }}
                 />
               </Tooltip>
@@ -111,7 +111,7 @@ const ArtifactFlinkSqlWeb: React.FC = () => {
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
-                        WsArtifactFlinkSqlService.deleteArtifact(record.artifact?.id).then((d) => {
+                        FlinkArtifactSqlService.deleteAll(record.wsFlinkArtifact.id).then((d) => {
                           if (d.success) {
                             message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();
@@ -131,7 +131,7 @@ const ArtifactFlinkSqlWeb: React.FC = () => {
 
   return (
     <div>
-      <ProTable<WsArtifactFlinkSql>
+      <ProTable<WsFlinkArtifactSql>
         search={{
           labelWidth: 'auto',
           span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -142,7 +142,7 @@ const ArtifactFlinkSqlWeb: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) =>
-          WsArtifactFlinkSqlService.list({...params, projectId: projectId + ''})
+          FlinkArtifactSqlService.list({...params, projectId: projectId + ''})
         }
         toolbar={{
           actions: [
@@ -151,7 +151,7 @@ const ArtifactFlinkSqlWeb: React.FC = () => {
                 key="new"
                 type="primary"
                 onClick={() => {
-                  setArtifactFlinkSqlFormData({visiable: true, data: {}});
+                  setFlinkArtifactSqlFormData({visiable: true, data: {}});
                 }}
               >
                 {intl.formatMessage({id: 'app.common.operate.new.label'})}
@@ -163,15 +163,15 @@ const ArtifactFlinkSqlWeb: React.FC = () => {
         tableAlertRender={false}
         tableAlertOptionRender={false}
       />
-      {artifactFlinkSqlFormData.visiable && (
+      {flinkArtifactSqlFormData.visiable && (
         <FlinkArtifactSqlForm
-          data={artifactFlinkSqlFormData.data}
-          visible={artifactFlinkSqlFormData.visiable}
+          data={flinkArtifactSqlFormData.data}
+          visible={flinkArtifactSqlFormData.visiable}
           onCancel={() => {
-            setArtifactFlinkSqlFormData({visiable: false, data: {}});
+            setFlinkArtifactSqlFormData({visiable: false, data: {}});
           }}
           onVisibleChange={(visiable) => {
-            setArtifactFlinkSqlFormData({visiable: visiable, data: {}});
+            setFlinkArtifactSqlFormData({visiable: visiable, data: {}});
             actionRef.current?.reload();
           }}
         />
@@ -179,4 +179,4 @@ const ArtifactFlinkSqlWeb: React.FC = () => {
     </div>
   );
 };
-export default ArtifactFlinkSqlWeb;
+export default JobArtifactSqlView;

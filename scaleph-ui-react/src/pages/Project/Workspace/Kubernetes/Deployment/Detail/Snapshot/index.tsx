@@ -1,5 +1,5 @@
 import React from "react";
-import {Props} from '@/app.d';
+import {Props} from '@/typings';
 import {WsFlinkKubernetesDeployment} from "@/services/project/typings";
 
 const FlinkKubernetesDeploymentDetailSnapshotWeb: React.FC<Props<WsFlinkKubernetesDeployment>> = ({data}) => {
