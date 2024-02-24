@@ -53,9 +53,9 @@ jobs:
     timeout-minutes: 360
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
