@@ -100,7 +100,7 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
       return (<>{defaultDom}</>);
     },
     rightContentRender: () => <RightContent/>,
-    menuDataRender: () => defaultMenus,
+    // menuDataRender: () => defaultMenus,
     menuItemRender: (menuItemProps: any, defaultDom: any) => {
       return (
         <Space align="end" size={5}>

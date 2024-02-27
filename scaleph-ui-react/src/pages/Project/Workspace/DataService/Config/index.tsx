@@ -148,7 +148,7 @@ const DataServiceConfigWeb: React.FC = () => {
               key="new"
               type="primary"
               onClick={() => {
-                history.push("/workspace/dataservice/config/steps")
+                history.push("/workspace/data-service/config/steps")
               }}
             >
               {intl.formatMessage({id: 'app.common.operate.new.label'})}

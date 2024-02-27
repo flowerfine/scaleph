@@ -222,21 +222,118 @@ export default [
         ]
       },
       {
-        name: 'project.dataservice',
-        path: '/workspace/dataservice',
+        name: 'project.engine',
+        path: '/workspace/engine',
+        icon: 'deploymentUnit',
+        routes: [
+          {
+            name: 'lake',
+            path: '/workspace/engine/lake',
+            icon: 'apartment',
+            routes: [
+              {
+                name: 'iceberg',
+                path: '/workspace/engine/lake/iceberg',
+                icon: 'apartment',
+                component: './Project/Workspace/Engine/Lake/Iceberg',
+              },
+              {
+                name: 'paimon',
+                path: '/workspace/engine/lake/paimon',
+                icon: 'apartment',
+                component: './Project/Workspace/Engine/Lake/Paimon',
+              }
+            ]
+          },
+          {
+            name: 'olap',
+            path: '/workspace/engine/olap',
+            icon: 'apartment',
+            routes: [
+              {
+                name: 'doris',
+                path: '/workspace/engine/olap/doris',
+                icon: 'apartment',
+                component: './Project/Workspace/Engine/OLAP/Doris',
+              },
+              {
+                name: 'starrocks',
+                path: '/workspace/engine/olap/starrocks',
+                icon: 'apartment',
+                component: './Project/Workspace/Engine/OLAP/StarRocks',
+              }
+            ]
+          },
+          {
+            name: 'compute',
+            path: '/workspace/engine/compute',
+            icon: 'apartment',
+            routes: [
+              {
+                name: 'flink',
+                path: '/workspace/engine/compute/flink',
+                icon: 'apartment',
+                component: './Project/Workspace/Engine/Compute/Flink',
+              }
+            ]
+          },
+        ]
+      },
+      {
+        name: 'project.data-integration',
+        path: '/workspace/data-integration',
+        icon: 'deploymentUnit',
+        routes: [
+          {
+            name: 'seatunnel',
+            path: '/workspace/data-integration/seatunnel',
+            icon: 'apartment',
+            component: './Project/Workspace/DataIntegration/SeaTunnel',
+          },
+          {
+            name: 'flink-cdc',
+            path: '/workspace/data-integration/flink-cdc',
+            icon: 'apartment',
+            component: './Project/Workspace/DataIntegration/FlinkCDC',
+          }
+        ]
+      },
+      {
+        name: 'project.data-develop',
+        path: '/workspace/data-develop',
+        icon: 'deploymentUnit',
+        routes: [
+          {
+            name: 'flink-jar',
+            path: '/workspace/data-develop/flink/jar',
+            icon: 'apartment',
+            component: './Project/Workspace/DataDevelop/Flink/Jar',
+          },
+          {
+            name: 'flink-sql',
+            path: '/workspace/data-develop/flink/sql',
+            icon: 'apartment',
+            component: './Project/Workspace/DataDevelop/Flink/SQL',
+          }
+        ]
+      },
+      {
+        name: 'project.dag-scheduler',
+        path: '/workspace/dag-scheduler',
+        icon: 'deploymentUnit',
+      },
+      {
+        name: 'project.data-service',
+        path: '/workspace/data-service',
         icon: 'solution',
         routes: [
           {
-            path: '/workspace/dataservice',
-            redirect: '/workspace/dataservice/config',
-          },
-          {
             name: 'config',
-            path: '/workspace/dataservice/config',
+            path: '/workspace/data-service/config',
             component: './Project/Workspace/DataService/Config',
           },
           {
-            path: '/workspace/dataservice/config/steps',
+            path: '/workspace/data-service/config/steps',
             component: './Project/Workspace/DataService/Config/Steps',
           },
         ]

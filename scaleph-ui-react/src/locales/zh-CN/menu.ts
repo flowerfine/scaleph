@@ -16,8 +16,25 @@ export default {
   'menu.project.doris': 'Doris',
   'menu.project.doris.template': 'Template',
   'menu.project.doris.instance': 'Instance',
-  'menu.project.dataservice': '数据服务',
-  'menu.project.dataservice.config': '接口配置',
+
+  'menu.project.engine': '引擎管理',
+  'menu.project.engine.lake': '数据湖',
+  'menu.project.engine.lake.iceberg': 'Iceberg',
+  'menu.project.engine.lake.paimon': 'Paimon',
+  'menu.project.engine.olap': 'OLAP引擎',
+  'menu.project.engine.olap.doris': 'Doris',
+  'menu.project.engine.olap.starrocks': 'StarRocks',
+  'menu.project.engine.compute': '计算引擎',
+  'menu.project.engine.compute.flink': 'Flink',
+  'menu.project.data-integration': '数据集成',
+  'menu.project.data-integration.seatunnel': 'SeaTunnel',
+  'menu.project.data-integration.flink-cdc': 'Flink CDC',
+  'menu.project.data-develop': '数据开发',
+  'menu.project.data-develop.flink-jar': 'Flink Jar',
+  'menu.project.data-develop.flink-sql': 'Flink SQL',
+  'menu.project.dag-scheduler': 'DAG 调度',
+  'menu.project.data-service': '数据服务',
+  'menu.project.data-service.config': '接口配置',
 
   'menu.resource': '资源',
   'menu.resource.jar': '公共 Jar',
@@ -28,9 +45,6 @@ export default {
   'menu.resource.clusterCredential.file': 'Credential File',
 
   'menu.dataSource': '数据源',
-
-  'menu.dataService': '数据服务',
-  'menu.dataService.schema': 'Schema',
 
   'menu.stdata': '数据标准',
   'menu.stdata.system': '业务系统',
