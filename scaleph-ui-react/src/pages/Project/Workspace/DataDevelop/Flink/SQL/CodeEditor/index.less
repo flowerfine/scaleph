@@ -1,0 +1,41 @@
+.split-horizontal {
+  height: calc(100vh - 110px);
+  // overflow-x: hidden;
+  // overflow-y: auto;
+}
+
+.split-horizontal>div {
+  float: left;
+  height: 100%;
+}
+
+.split-vertical {
+  height: calc(100vh - 56px);
+  // overflow-x: hidden;
+  // overflow-y: auto;
+}
+
+.gutter {
+  background-color: rgba(5, 5, 5, 0.06);
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
+.gutter.gutter-horizontal {
+  //   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==");
+  cursor: col-resize;
+}
+
+.gutter.gutter-vertical {
+  //   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=");
+  cursor: row-resize;
+}
+
+.container-left {
+  margin: 6px;
+}
+
+.container-right {
+  margin-left: 6px;
+  margin-right: 6px;
+}

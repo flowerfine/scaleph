@@ -8,7 +8,7 @@ import {WsArtifactFlinkJarService} from '@/services/project/WsArtifactFlinkJarSe
 import {WsProjectService} from '@/services/project/WsProjectService';
 import {WsArtifact, WsArtifactFlinkJar, WsProject} from '@/services/project/typings';
 
-const FlinkArtifactJarHistoryWeb: React.FC = () => {
+const DataDevelopFlinkJarHistoryWeb: React.FC = () => {
   const urlParams = useLocation();
   const intl = useIntl();
   const access = useAccess();
@@ -157,4 +157,4 @@ const FlinkArtifactJarHistoryWeb: React.FC = () => {
   );
 };
 
-export default FlinkArtifactJarHistoryWeb;
+export default DataDevelopFlinkJarHistoryWeb;

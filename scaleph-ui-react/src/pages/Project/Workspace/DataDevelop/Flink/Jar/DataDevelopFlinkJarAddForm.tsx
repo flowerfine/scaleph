@@ -9,7 +9,7 @@ import {WsArtifactFlinkJarService} from "@/services/project/WsArtifactFlinkJarSe
 import {DictDataService} from "@/services/admin/dictData.service";
 import {ModalFormProps} from "@/typings";
 
-const FlinkArtifactJarAddForm: React.FC<ModalFormProps<WsArtifactFlinkJar>> = ({
+const DataDevelopFlinkJarAddForm: React.FC<ModalFormProps<WsArtifactFlinkJar>> = ({
                                                                                  visible,
                                                                                  onVisibleChange,
                                                                                  onCancel
@@ -126,4 +126,4 @@ const FlinkArtifactJarAddForm: React.FC<ModalFormProps<WsArtifactFlinkJar>> = ({
   );
 };
 
-export default FlinkArtifactJarAddForm;
+export default DataDevelopFlinkJarAddForm;

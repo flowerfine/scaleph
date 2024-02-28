@@ -68,36 +68,7 @@ export default [
     routes: [
       {
         path: '/workspace',
-        redirect: '/workspace/artifact',
-      },
-      {
-        name: 'project.artifact',
-        path: '/workspace/artifact',
-        icon: 'code',
-        routes: [
-          {
-            path: '/workspace/artifact',
-            redirect: '/workspace/artifact/jar',
-          },
-          {
-            name: 'jar',
-            path: '/workspace/artifact/jar',
-            component: './Project/Workspace/Artifact/Jar',
-          },
-          {
-            path: '/workspace/artifact/history',
-            component: './Project/Workspace/Artifact/Jar/History',
-          },
-          {
-            name: 'sql',
-            path: '/workspace/artifact/sql',
-            component: './Project/Workspace/Artifact/Sql',
-          },
-          {
-            path: '/workspace/artifact/editor',
-            component: './Project/Workspace/Artifact/Sql/CodeEditor',
-          }
-        ]
+        redirect: '/workspace/flink/kubernetes',
       },
       {
         name: 'project.flink.kubernetes',
@@ -300,10 +271,18 @@ export default [
             component: './Project/Workspace/DataDevelop/Flink/Jar',
           },
           {
+            path: '/workspace/data-develop/flink/jar/history',
+            component: './Project/Workspace/DataDevelop/Flink/Jar/History',
+          },
+          {
             name: 'flink-sql',
             path: '/workspace/data-develop/flink/sql',
             icon: 'apartment',
             component: './Project/Workspace/DataDevelop/Flink/SQL',
+          },
+          {
+            path: '/workspace/data-develop/flink/sql/editor',
+            component: './Project/Workspace/DataDevelop/Flink/SQL/CodeEditor',
           }
         ]
       },

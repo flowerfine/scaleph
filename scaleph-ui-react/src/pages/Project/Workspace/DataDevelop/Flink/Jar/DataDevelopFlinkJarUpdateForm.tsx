@@ -16,7 +16,7 @@ import {WsArtifactFlinkJar, WsArtifactFlinkJarUpdateParam} from '@/services/proj
 import {WsArtifactFlinkJarService} from "@/services/project/WsArtifactFlinkJarService";
 import {DictDataService} from "@/services/admin/dictData.service";
 
-const FlinkArtifactJarUpdateForm: React.FC<ModalFormProps<WsArtifactFlinkJar>> = ({
+const DataDevelopFlinkJarUpdateForm: React.FC<ModalFormProps<WsArtifactFlinkJar>> = ({
                                                                                     data,
                                                                                     visible,
                                                                                     onVisibleChange,
@@ -143,4 +143,4 @@ const FlinkArtifactJarUpdateForm: React.FC<ModalFormProps<WsArtifactFlinkJar>> =
   );
 };
 
-export default FlinkArtifactJarUpdateForm;
+export default DataDevelopFlinkJarUpdateForm;
