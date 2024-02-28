@@ -1,15 +1,15 @@
 import React, {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
-import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
+import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {history, useAccess, useIntl} from "@umijs/max";
 import {WORKSPACE_CONF} from "@/constants/constant";
 import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {WsDorisOperatorTemplate} from "@/services/project/typings";
 import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";
-import DorisTemplateForm from "@/pages/Project/Workspace/Doris/OperatorTemplate/DorisTemplateForm";
+import EngineOLAPDorisTemplateForm from "./EngineOLAPDorisTemplateForm";
 
-const DorisTemplateWeb: React.FC = () => {
+const EngineOLAPDorisTemplateWeb: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
@@ -108,7 +108,7 @@ const DorisTemplateWeb: React.FC = () => {
     },
   ];
 
-  return (<div>
+  return (<PageContainer title={false}>
     <ProTable<WsDorisOperatorTemplate>
       search={{
         labelWidth: 'auto',
@@ -174,7 +174,7 @@ const DorisTemplateWeb: React.FC = () => {
       tableAlertOptionRender={false}
     />
     {dorisTemplateFormData.visiable && (
-      <DorisTemplateForm
+      <EngineOLAPDorisTemplateForm
         visible={dorisTemplateFormData.visiable}
         onCancel={() => {
           setDorisTemplateFormData({visiable: false, data: {}});
@@ -186,7 +186,7 @@ const DorisTemplateWeb: React.FC = () => {
         data={dorisTemplateFormData.data}
       />
     )}
-  </div>);
+  </PageContainer>);
 }
 
-export default DorisTemplateWeb;
+export default EngineOLAPDorisTemplateWeb;

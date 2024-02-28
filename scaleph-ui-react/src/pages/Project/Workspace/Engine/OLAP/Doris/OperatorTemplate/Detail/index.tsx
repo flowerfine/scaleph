@@ -2,13 +2,13 @@ import React, {useEffect, useRef, useState} from "react";
 import {Divider, Space, Statistic} from "antd";
 import {PageContainer, ProCard, StatisticCard} from "@ant-design/pro-components";
 import {useIntl, useLocation} from "@umijs/max";
-import {WsDorisOperatorTemplate} from "@/services/project/typings";
 import RcResizeObserver from 'rc-resize-observer';
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
-import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";
 import YAML from "yaml";
+import {WsDorisOperatorTemplate} from "@/services/project/typings";
+import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";
 
-const DorisTemplateDetailWeb: React.FC = () => {
+const EngineOLAPDorisTemplateDetailWeb: React.FC = () => {
   const intl = useIntl();
   const data = useLocation().state as WsDorisOperatorTemplate
   const editorRef = useRef(null);
@@ -181,4 +181,4 @@ const DorisTemplateDetailWeb: React.FC = () => {
   );
 }
 
-export default DorisTemplateDetailWeb;
+export default EngineOLAPDorisTemplateDetailWeb;

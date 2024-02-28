@@ -138,43 +138,6 @@ export default [
         ]
       },
       {
-        name: 'project.doris',
-        path: '/workspace/doris',
-        icon: 'solution',
-        routes: [
-          {
-            path: '/workspace/doris',
-            redirect: '/workspace/doris/template',
-          },
-          {
-            name: 'template',
-            path: '/workspace/doris/template',
-            component: './Project/Workspace/Doris/OperatorTemplate',
-          },
-          {
-            path: '/workspace/doris/template/steps',
-            component: './Project/Workspace/Doris/OperatorTemplate/Steps',
-          },
-          {
-            path: '/workspace/doris/template/detail',
-            component: './Project/Workspace/Doris/OperatorTemplate/Detail',
-          },
-          {
-            name: 'instance',
-            path: '/workspace/doris/instance',
-            component: './Project/Workspace/Doris/OperatorInstance',
-          },
-          {
-            path: '/workspace/doris/instance/steps',
-            component: './Project/Workspace/Doris/OperatorInstance/Steps',
-          },
-          {
-            path: '/workspace/doris/instance/detail',
-            component: './Project/Workspace/Doris/OperatorInstance/Detail',
-          },
-        ]
-      },
-      {
         name: 'project.engine',
         path: '/workspace/engine',
         icon: 'deploymentUnit',
@@ -207,7 +170,34 @@ export default [
                 name: 'doris',
                 path: '/workspace/engine/olap/doris',
                 icon: 'apartment',
-                component: './Project/Workspace/Engine/OLAP/Doris',
+                routes: [
+                  {
+                    name: 'template',
+                    path: '/workspace/engine/olap/doris/template',
+                    component: './Project/Workspace/Engine/OLAP/Doris/OperatorTemplate',
+                  },
+                  {
+                    path: '/workspace/engine/olap/doris/template/steps',
+                    component: './Project/Workspace/Engine/OLAP/Doris/OperatorTemplate/Steps',
+                  },
+                  {
+                    path: '/workspace/engine/olap/doris/template/detail',
+                    component: './Project/Workspace/Engine/OLAP/Doris/OperatorTemplate/Detail',
+                  },
+                  {
+                    name: 'instance',
+                    path: '/workspace/engine/olap/doris/instance',
+                    component: './Project/Workspace/Engine/OLAP/Doris/OperatorInstance',
+                  },
+                  {
+                    path: '/workspace/engine/olap/doris/instance/steps',
+                    component: './Project/Workspace/Engine/OLAP/Doris/OperatorInstance/Steps',
+                  },
+                  {
+                    path: '/workspace/engine/olap/doris/instance/detail',
+                    component: './Project/Workspace/Engine/OLAP/Doris/OperatorInstance/Detail',
+                  },
+                ]
               },
               {
                 name: 'starrocks',

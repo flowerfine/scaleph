@@ -7,7 +7,7 @@ import {WsDorisOperatorTemplate} from "@/services/project/typings";
 import {WORKSPACE_CONF} from "@/constants/constant";
 import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";
 
-const DorisTemplateForm: React.FC<ModalFormProps<WsDorisOperatorTemplate>> = ({
+const EngineOLAPDorisTemplateForm: React.FC<ModalFormProps<WsDorisOperatorTemplate>> = ({
                                                                         data,
                                                                         visible,
                                                                         onVisibleChange,
@@ -80,4 +80,4 @@ const DorisTemplateForm: React.FC<ModalFormProps<WsDorisOperatorTemplate>> = ({
   );
 }
 
-export default DorisTemplateForm;
+export default EngineOLAPDorisTemplateForm;

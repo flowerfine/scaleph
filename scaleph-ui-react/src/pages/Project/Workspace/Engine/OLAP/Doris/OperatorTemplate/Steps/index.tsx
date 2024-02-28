@@ -2,13 +2,13 @@ import React, {useRef} from "react";
 import {ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
 import {connect, history, useIntl} from "@umijs/max";
 import {WORKSPACE_CONF} from "@/constants/constant";
-import DorisTemplateComponent from "@/pages/Project/Workspace/Doris/OperatorTemplate/Steps/ComponentStepForm";
-import DorisTemplateBase from "@/pages/Project/Workspace/Doris/OperatorTemplate/Steps/BaseStepForm";
-import DorisTemplateYAML from "@/pages/Project/Workspace/Doris/OperatorTemplate/Steps/YAMLStepForm";
 import {WsDorisOperatorTemplate} from "@/services/project/typings";
 import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";
+import DorisTemplateBase from "./BaseStepForm";
+import DorisTemplateComponent from "./ComponentStepForm";
+import DorisTemplateYAML from "./YAMLStepForm";
 
-const DorisTemplateSteps: React.FC = (props: any) => {
+const EngineOLAPDorisTemplateSteps: React.FC = (props: any) => {
   const intl = useIntl();
   const formRef = useRef<ProFormInstance>();
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
@@ -83,4 +83,4 @@ const DorisTemplateSteps: React.FC = (props: any) => {
 }
 
 const mapModelToProps = ({dorisTemplateSteps}: any) => ({dorisTemplateSteps})
-export default connect(mapModelToProps)(DorisTemplateSteps);
+export default connect(mapModelToProps)(EngineOLAPDorisTemplateSteps);

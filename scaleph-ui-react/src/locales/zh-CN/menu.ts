@@ -23,6 +23,8 @@ export default {
   'menu.project.engine.lake.paimon': 'Paimon',
   'menu.project.engine.olap': 'OLAP引擎',
   'menu.project.engine.olap.doris': 'Doris',
+  'menu.project.engine.olap.doris.template': '部署模板',
+  'menu.project.engine.olap.doris.instance': '部署实例',
   'menu.project.engine.olap.starrocks': 'StarRocks',
   'menu.project.engine.compute': '计算引擎',
   'menu.project.engine.compute.flink': 'Flink',

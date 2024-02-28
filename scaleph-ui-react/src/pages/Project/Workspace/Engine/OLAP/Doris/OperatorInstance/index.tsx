@@ -1,15 +1,15 @@
 import React, {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
-import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
+import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {history, useAccess, useIntl} from "@umijs/max";
 import {WORKSPACE_CONF} from "@/constants/constant";
 import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {WsDorisOperatorInstance, WsDorisOperatorTemplate} from "@/services/project/typings";
 import {WsDorisOperatorInstanceService} from "@/services/project/WsDorisOperatorInstanceService";
-import DorisInstanceSimpleForm from "@/pages/Project/Workspace/Doris/OperatorInstance/DorisInstanceSimpleForm";
+import EngineOLAPDorisInstanceSimpleForm from "./EngineOLAPDorisInstanceSimpleForm";
 
-const DorisInstanceWeb: React.FC = () => {
+const EngineOLAPDorisInstanceWeb: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
@@ -122,7 +122,7 @@ const DorisInstanceWeb: React.FC = () => {
     },
   ];
 
-  return (<div>
+  return (<PageContainer title={false}>
     <ProTable<WsDorisOperatorInstance>
       search={{
         labelWidth: 'auto',
@@ -188,7 +188,7 @@ const DorisInstanceWeb: React.FC = () => {
       tableAlertOptionRender={false}
     />
     {dorisInstanceFormData.visiable && (
-      <DorisInstanceSimpleForm
+      <EngineOLAPDorisInstanceSimpleForm
         visible={dorisInstanceFormData.visiable}
         onCancel={() => {
           setDorisInstanceFormData({visiable: false, data: {}});
@@ -200,7 +200,7 @@ const DorisInstanceWeb: React.FC = () => {
         data={dorisInstanceFormData.data}
       />
     )}
-  </div>);
+  </PageContainer>);
 }
 
-export default DorisInstanceWeb;
+export default EngineOLAPDorisInstanceWeb;

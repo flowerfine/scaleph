@@ -4,10 +4,10 @@ import {connect, history, useIntl} from "@umijs/max";
 import {WORKSPACE_CONF} from "@/constants/constant";
 import {WsDorisOperatorInstance, WsDorisOperatorTemplate} from "@/services/project/typings";
 import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";
-import DorisInstanceBase from "@/pages/Project/Workspace/Doris/OperatorInstance/Steps/BaseStepForm";
 import {WsDorisOperatorInstanceService} from "@/services/project/WsDorisOperatorInstanceService";
-import DorisInstanceComponent from "@/pages/Project/Workspace/Doris/OperatorInstance/Steps/ComponentStepForm";
-import DorisInstanceYAML from "@/pages/Project/Workspace/Doris/OperatorInstance/Steps/YAMLStepForm";
+import DorisInstanceBase from "./BaseStepForm";
+import DorisInstanceYAML from "./YAMLStepForm";
+import DorisInstanceComponent from "./ComponentStepForm";
 
 const DorisInstanceSteps: React.FC = (props: any) => {
   const intl = useIntl();

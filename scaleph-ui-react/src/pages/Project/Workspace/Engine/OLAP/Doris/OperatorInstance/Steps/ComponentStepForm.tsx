@@ -2,10 +2,10 @@ import React, {useEffect} from "react";
 import {Form} from "antd";
 import {ProCard} from "@ant-design/pro-components";
 import {connect} from "@umijs/max";
-import DorisFeComponent from "@/pages/Project/Workspace/Doris/OperatorTemplate/Steps/Component/DorisFeComponent";
-import DorisBeComponent from "@/pages/Project/Workspace/Doris/OperatorTemplate/Steps/Component/DorisBeComponent";
-import DorisCnComponent from "@/pages/Project/Workspace/Doris/OperatorTemplate/Steps/Component/DorisCnComponent";
 import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";
+import DorisFeComponent from "../../OperatorTemplate/Steps/Component/DorisFeComponent";
+import DorisBeComponent from "../../OperatorTemplate/Steps/Component/DorisBeComponent";
+import DorisCnComponent from "../../OperatorTemplate/Steps/Component/DorisCnComponent";
 
 const DorisInstanceComponent: React.FC = (props: any) => {
   const form = Form.useFormInstance()

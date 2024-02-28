@@ -4,10 +4,10 @@ import {PageContainer} from "@ant-design/pro-components";
 import {connect, useIntl, useLocation} from "@umijs/max";
 import {WsDorisOperatorInstance} from "@/services/project/typings";
 import DorisInstanceDetailComponent
-  from "@/pages/Project/Workspace/Doris/OperatorInstance/Detail/DorisInstanceComponent";
-import DorisInstanceDetailYAML from "@/pages/Project/Workspace/Doris/OperatorInstance/Detail/YAML";
-import DorisInstanceDetailAction from "@/pages/Project/Workspace/Doris/OperatorInstance/Detail/DorisInstanceAction";
-import DorisInstanceDetailAccess from "@/pages/Project/Workspace/Doris/OperatorInstance/Detail/DorisInstanceAccess";
+  from "./DorisInstanceComponent";
+import DorisInstanceDetailYAML from "./YAML";
+import DorisInstanceDetailAction from "./DorisInstanceAction";
+import DorisInstanceDetailAccess from "./DorisInstanceAccess";
 
 const DorisInstanceDetailWeb: React.FC = (props: any) => {
   const intl = useIntl();
