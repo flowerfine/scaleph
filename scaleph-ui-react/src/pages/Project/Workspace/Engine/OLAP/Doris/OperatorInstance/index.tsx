@@ -85,7 +85,7 @@ const EngineOLAPDorisInstanceWeb: React.FC = () => {
                 type="link"
                 icon={<NodeIndexOutlined/>}
                 onClick={() => {
-                  history.push("/workspace/doris/instance/detail", record)
+                  history.push("/workspace/engine/olap/doris/instance/detail", record)
                 }}
               />
             </Tooltip>
@@ -143,7 +143,7 @@ const EngineOLAPDorisInstanceWeb: React.FC = () => {
               key="new"
               type="primary"
               onClick={() => {
-                history.push("/workspace/doris/instance/steps")
+                history.push("/workspace/engine/olap/doris/instance/steps")
               }}
             >
               {intl.formatMessage({id: 'app.common.operate.new.label'})}

@@ -1,47 +1,143 @@
 import React, {useRef, useState} from "react";
-import {Button, message, Modal, Space, Tooltip} from "antd";
+import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
-import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
+import {
+  ActionType,
+  PageContainer,
+  ProColumns,
+  ProFormInstance,
+  ProFormSelect,
+  ProTable
+} from "@ant-design/pro-components";
 import {history, useAccess, useIntl} from "@umijs/max";
 import {WORKSPACE_CONF} from "@/constants/constant";
+import {DICT_TYPE} from "@/constants/dictType";
 import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
-import {WsDorisOperatorTemplate} from "@/services/project/typings";
-import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";
-import EngineOLAPDorisTemplateForm from "./EngineOLAPDorisTemplateForm";
+import {WsFlinkKubernetesJob} from "@/services/project/typings";
+import {DictDataService} from "@/services/admin/dictData.service";
+import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJobService";
+import FlinkKubernetesJobForm from "@/pages/Project/Workspace/Engine/Compute/Flink/Job/JobForm";
 
-const EngineOLAPDorisTemplateWeb: React.FC = () => {
+const FlinkKubernetesJobWeb: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<WsDorisOperatorTemplate[]>([]);
-  const [dorisTemplateFormData, setDorisTemplateFormData] = useState<{
+  const [selectedRows, setSelectedRows] = useState<WsFlinkKubernetesJob[]>([]);
+  const [jobFormData, setJobFormData] = useState<{
     visiable: boolean;
-    data: WsDorisOperatorTemplate;
+    data: WsFlinkKubernetesJob;
   }>({visiable: false, data: {}});
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
-  const tableColumns: ProColumns<WsDorisOperatorTemplate>[] = [
+  const tableColumns: ProColumns<WsFlinkKubernetesJob>[] = [
     {
-      title: intl.formatMessage({id: 'pages.project.doris.template.name'}),
-      dataIndex: 'name'
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.name'}),
+      dataIndex: 'name',
+      width: '10%'
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.executionMode'}),
+      dataIndex: 'executionMode',
+      render: (dom, entity) => {
+        return (<Tag>{entity.executionMode?.label}</Tag>)
+      },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <ProFormSelect
+            showSearch={false}
+            allowClear={true}
+            request={() => DictDataService.listDictDataByType2(DICT_TYPE.flinkRuntimeExecutionMode)}
+          />
+        );
+      }
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.deploymentKind'}),
+      dataIndex: 'deploymentKind',
+      render: (dom, entity) => {
+        return (<Tag>{entity.deploymentKind?.label}</Tag>)
+      },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <ProFormSelect
+            showSearch={false}
+            allowClear={true}
+            request={() => DictDataService.listDictDataByType2(DICT_TYPE.deploymentKind)}
+          />
+        );
+      }
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.type'}),
+      dataIndex: 'type',
+      render: (dom, entity) => {
+        return (<Tag>{entity.type?.label}</Tag>)
+      },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <ProFormSelect
+            showSearch={false}
+            allowClear={true}
+            request={() => DictDataService.listDictDataByType2(DICT_TYPE.flinkJobType)}
+          />
+        );
+      }
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.artifact'}),
+      dataIndex: 'artifact',
+      hideInSearch: true,
+      render: (dom, entity) => {
+        return entity.artifactFlinkJar ? entity.artifactFlinkJar.artifact?.name : (entity.artifactFlinkSql ? entity.artifactFlinkSql?.artifact?.name : (entity.artifactFlinkCDC ? entity.artifactFlinkCDC?.artifact?.name : entity.artifactSeaTunnel?.artifact?.name))
+      },
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.state'}),
+      dataIndex: 'state',
+      hideInSearch: true,
+      render: (dom, record) => {
+        return <Tooltip title={record.jobInstance?.state?.remark}>{record.jobInstance?.state?.label}</Tooltip>
+      },
+      request: (params, props) => {
+        return DictDataService.listDictDataByType2(DICT_TYPE.resourceLifecycleState)
+      },
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.jobState'}),
+      dataIndex: 'jobState',
+      hideInSearch: true,
+      render: (dom, record) => {
+        return <Tooltip title={record.jobInstance?.jobState?.value}>{record.jobInstance?.jobState?.label}</Tooltip>
+      },
+      request: (params, props) => {
+        return DictDataService.listDictDataByType2(DICT_TYPE.flinkJobStatus)
+      },
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.error'}),
+      dataIndex: 'error',
+      hideInSearch: true,
+      render: (dom, record) => {
+        return record.jobInstance?.error
+      },
     },
     {
       title: intl.formatMessage({id: 'app.common.data.remark'}),
       dataIndex: 'remark',
-      hideInSearch: true,
+      hideInSearch: true
     },
     {
       title: intl.formatMessage({id: 'app.common.data.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
-      width: 180,
+      width: '8%',
     },
     {
       title: intl.formatMessage({id: 'app.common.data.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
-      width: 180,
+      width: '8%',
     },
     {
       title: intl.formatMessage({id: 'app.common.operate.label'}),
@@ -59,23 +155,24 @@ const EngineOLAPDorisTemplateWeb: React.FC = () => {
                 type="link"
                 icon={<EditOutlined/>}
                 onClick={() => {
-                  setDorisTemplateFormData({visiable: true, data: record});
+                  setJobFormData({visiable: true, data: record});
                 }}
               />
             </Tooltip>
           )}
           {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
-            <Tooltip title={intl.formatMessage({id: 'pages.project.doris.template.detail'})}>
+            <Tooltip title={intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail'})}>
               <Button
                 shape="default"
                 type="link"
                 icon={<NodeIndexOutlined/>}
                 onClick={() => {
-                  history.push("/workspace/engine/olap/doris/template/detail", record)
+                  history.push("/workspace/engine/compute/flink/job/detail", record)
                 }}
               />
             </Tooltip>
           )}
+
           {access.canAccess(PRIVILEGE_CODE.datadevDatasourceDelete) && (
             <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
               <Button
@@ -91,7 +188,7 @@ const EngineOLAPDorisTemplateWeb: React.FC = () => {
                     okButtonProps: {danger: true},
                     cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                     onOk() {
-                      WsDorisOperatorTemplateService.delete(record).then((d) => {
+                      WsFlinkKubernetesJobService.deleteOne(record).then((d) => {
                         if (d.success) {
                           message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                           actionRef.current?.reload();
@@ -109,7 +206,7 @@ const EngineOLAPDorisTemplateWeb: React.FC = () => {
   ];
 
   return (<PageContainer title={false}>
-    <ProTable<WsDorisOperatorTemplate>
+    <ProTable<WsFlinkKubernetesJob>
       search={{
         labelWidth: 'auto',
         span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -120,7 +217,7 @@ const EngineOLAPDorisTemplateWeb: React.FC = () => {
       options={false}
       columns={tableColumns}
       request={(params, sorter, filter) =>
-        WsDorisOperatorTemplateService.list({...params, projectId: projectId})
+        WsFlinkKubernetesJobService.list({...params, projectId: projectId})
       }
       toolbar={{
         actions: [
@@ -129,7 +226,7 @@ const EngineOLAPDorisTemplateWeb: React.FC = () => {
               key="new"
               type="primary"
               onClick={() => {
-                history.push("/workspace/engine/olap/doris/template/steps")
+                setJobFormData({visiable: true, data: {}});
               }}
             >
               {intl.formatMessage({id: 'app.common.operate.new.label'})}
@@ -148,8 +245,8 @@ const EngineOLAPDorisTemplateWeb: React.FC = () => {
                   okButtonProps: {danger: true},
                   cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                   onOk() {
-                    WsDorisOperatorTemplateService.deleteBatch(selectedRows).then((d) => {
-                      if (d.success) {
+                    WsFlinkKubernetesJobService.deleteBatch(selectedRows).then((response) => {
+                      if (response.success) {
                         message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                         actionRef.current?.reload();
                       }
@@ -173,20 +270,20 @@ const EngineOLAPDorisTemplateWeb: React.FC = () => {
       tableAlertRender={false}
       tableAlertOptionRender={false}
     />
-    {dorisTemplateFormData.visiable && (
-      <EngineOLAPDorisTemplateForm
-        visible={dorisTemplateFormData.visiable}
+    {jobFormData.visiable && (
+      <FlinkKubernetesJobForm
+        visible={jobFormData.visiable}
         onCancel={() => {
-          setDorisTemplateFormData({visiable: false, data: {}});
+          setJobFormData({visiable: false, data: {}});
         }}
         onVisibleChange={(visiable) => {
-          setDorisTemplateFormData({visiable: visiable, data: {}});
+          setJobFormData({visiable: visiable, data: {}});
           actionRef.current?.reload();
         }}
-        data={dorisTemplateFormData.data}
+        data={jobFormData.data}
       />
     )}
   </PageContainer>);
 }
 
-export default EngineOLAPDorisTemplateWeb;
+export default FlinkKubernetesJobWeb;

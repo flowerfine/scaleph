@@ -1,30 +1,80 @@
 import React, {useRef, useState} from "react";
-import {Button, message, Modal, Space, Tooltip} from "antd";
-import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
-import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
+import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
+import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
+import {
+  ActionType,
+  PageContainer,
+  ProColumns,
+  ProFormInstance,
+  ProFormSelect,
+  ProTable
+} from "@ant-design/pro-components";
 import {history, useAccess, useIntl} from "@umijs/max";
 import {WORKSPACE_CONF} from "@/constants/constant";
+import {DICT_TYPE} from "@/constants/dictType";
 import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
-import {WsDorisOperatorTemplate} from "@/services/project/typings";
-import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";
-import EngineOLAPDorisTemplateForm from "./EngineOLAPDorisTemplateForm";
+import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
+import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
+import {DictDataService} from "@/services/admin/dictData.service";
 
-const EngineOLAPDorisTemplateWeb: React.FC = () => {
+const EngineComputeFlinkTemplateWeb: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<WsDorisOperatorTemplate[]>([]);
-  const [dorisTemplateFormData, setDorisTemplateFormData] = useState<{
-    visiable: boolean;
-    data: WsDorisOperatorTemplate;
-  }>({visiable: false, data: {}});
+  const [selectedRows, setSelectedRows] = useState<WsFlinkKubernetesTemplate[]>([]);
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
-  const tableColumns: ProColumns<WsDorisOperatorTemplate>[] = [
+  const tableColumns: ProColumns<WsFlinkKubernetesTemplate>[] = [
     {
-      title: intl.formatMessage({id: 'pages.project.doris.template.name'}),
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.template.name'}),
       dataIndex: 'name'
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.template.deploymentKind'}),
+      dataIndex: 'deploymentKind',
+      render: (dom, entity) => {
+        return (<Tag>{entity.deploymentKind?.label}</Tag>)
+      },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <ProFormSelect
+            showSearch={false}
+            allowClear={true}
+            request={() => DictDataService.listDictDataByType2(DICT_TYPE.deploymentKind)}
+          />
+        );
+      }
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.template.flinkVersion'}),
+      dataIndex: 'flinkVersion',
+      hideInSearch: true,
+      render: (dom, entity) => {
+        return (<Tag>{entity.kubernetesOptions?.flinkVersion}</Tag>)
+      },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <ProFormSelect
+            showSearch={false}
+            allowClear={true}
+            request={() => DictDataService.listDictDataByType2(DICT_TYPE.flinkVersion)}
+          />
+        );
+      }
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.template.image'}),
+      dataIndex: 'image',
+      hideInSearch: true,
+      render: (dom, entity) => {
+        return entity.kubernetesOptions?.image
+      },
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.template.namespace'}),
+      dataIndex: 'namespace',
+      hideInSearch: true,
     },
     {
       title: intl.formatMessage({id: 'app.common.data.remark'}),
@@ -35,13 +85,13 @@ const EngineOLAPDorisTemplateWeb: React.FC = () => {
       title: intl.formatMessage({id: 'app.common.data.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
-      width: 180,
+      width: '8%',
     },
     {
       title: intl.formatMessage({id: 'app.common.data.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
-      width: 180,
+      width: '8%',
     },
     {
       title: intl.formatMessage({id: 'app.common.operate.label'}),
@@ -59,19 +109,7 @@ const EngineOLAPDorisTemplateWeb: React.FC = () => {
                 type="link"
                 icon={<EditOutlined/>}
                 onClick={() => {
-                  setDorisTemplateFormData({visiable: true, data: record});
-                }}
-              />
-            </Tooltip>
-          )}
-          {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
-            <Tooltip title={intl.formatMessage({id: 'pages.project.doris.template.detail'})}>
-              <Button
-                shape="default"
-                type="link"
-                icon={<NodeIndexOutlined/>}
-                onClick={() => {
-                  history.push("/workspace/engine/olap/doris/template/detail", record)
+                  history.push("/workspace/engine/compute/flink/template/steps/update", record)
                 }}
               />
             </Tooltip>
@@ -91,7 +129,7 @@ const EngineOLAPDorisTemplateWeb: React.FC = () => {
                     okButtonProps: {danger: true},
                     cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                     onOk() {
-                      WsDorisOperatorTemplateService.delete(record).then((d) => {
+                      WsFlinkKubernetesTemplateService.delete(record).then((d) => {
                         if (d.success) {
                           message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                           actionRef.current?.reload();
@@ -109,7 +147,7 @@ const EngineOLAPDorisTemplateWeb: React.FC = () => {
   ];
 
   return (<PageContainer title={false}>
-    <ProTable<WsDorisOperatorTemplate>
+    <ProTable<WsFlinkKubernetesTemplate>
       search={{
         labelWidth: 'auto',
         span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -120,7 +158,7 @@ const EngineOLAPDorisTemplateWeb: React.FC = () => {
       options={false}
       columns={tableColumns}
       request={(params, sorter, filter) =>
-        WsDorisOperatorTemplateService.list({...params, projectId: projectId})
+        WsFlinkKubernetesTemplateService.list({...params, projectId: projectId})
       }
       toolbar={{
         actions: [
@@ -129,7 +167,7 @@ const EngineOLAPDorisTemplateWeb: React.FC = () => {
               key="new"
               type="primary"
               onClick={() => {
-                history.push("/workspace/engine/olap/doris/template/steps")
+                history.push("/workspace/engine/compute/flink/template/steps/new")
               }}
             >
               {intl.formatMessage({id: 'app.common.operate.new.label'})}
@@ -148,7 +186,7 @@ const EngineOLAPDorisTemplateWeb: React.FC = () => {
                   okButtonProps: {danger: true},
                   cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                   onOk() {
-                    WsDorisOperatorTemplateService.deleteBatch(selectedRows).then((d) => {
+                    WsFlinkKubernetesTemplateService.deleteBatch(selectedRows).then((d) => {
                       if (d.success) {
                         message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                         actionRef.current?.reload();
@@ -173,20 +211,7 @@ const EngineOLAPDorisTemplateWeb: React.FC = () => {
       tableAlertRender={false}
       tableAlertOptionRender={false}
     />
-    {dorisTemplateFormData.visiable && (
-      <EngineOLAPDorisTemplateForm
-        visible={dorisTemplateFormData.visiable}
-        onCancel={() => {
-          setDorisTemplateFormData({visiable: false, data: {}});
-        }}
-        onVisibleChange={(visiable) => {
-          setDorisTemplateFormData({visiable: visiable, data: {}});
-          actionRef.current?.reload();
-        }}
-        data={dorisTemplateFormData.data}
-      />
-    )}
   </PageContainer>);
 }
 
-export default EngineOLAPDorisTemplateWeb;
+export default EngineComputeFlinkTemplateWeb;

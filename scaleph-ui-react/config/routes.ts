@@ -67,77 +67,6 @@ export default [
     path: '/workspace',
     routes: [
       {
-        path: '/workspace',
-        redirect: '/workspace/flink/kubernetes',
-      },
-      {
-        name: 'project.flink.kubernetes',
-        path: '/workspace/flink/kubernetes',
-        icon: 'deploymentUnit',
-        routes: [
-          {
-            path: '/workspace/flink/kubernetes',
-            redirect: '/workspace/flink/kubernetes/template',
-          },
-          {
-            name: 'template',
-            path: '/workspace/flink/kubernetes/template',
-            component: './Project/Workspace/Kubernetes/Template',
-          },
-          {
-            path: '/workspace/flink/kubernetes/template/steps/new',
-            component: './Project/Workspace/Kubernetes/Template/Steps/New',
-          },
-          {
-            path: '/workspace/flink/kubernetes/template/steps/update',
-            component: './Project/Workspace/Kubernetes/Template/Steps/Update',
-          },
-          {
-            name: 'session-cluster',
-            path: '/workspace/flink/kubernetes/session-cluster',
-            component: './Project/Workspace/Kubernetes/SessionCluster',
-          },
-          {
-            path: '/workspace/flink/kubernetes/session-cluster/steps/new',
-            component: './Project/Workspace/Kubernetes/SessionCluster/Steps/New',
-          },
-          {
-            path: '/workspace/flink/kubernetes/session-cluster/steps/update',
-            component: './Project/Workspace/Kubernetes/SessionCluster/Steps/Update',
-          },
-          {
-            path: '/workspace/flink/kubernetes/session-cluster/detail',
-            component: './Project/Workspace/Kubernetes/SessionCluster/Detail',
-          },
-          {
-            name: 'deployment',
-            path: '/workspace/flink/kubernetes/deployment',
-            component: './Project/Workspace/Kubernetes/Deployment',
-          },
-          {
-            path: '/workspace/flink/kubernetes/deployment/steps/new',
-            component: './Project/Workspace/Kubernetes/Deployment/Steps/New',
-          },
-          {
-            path: '/workspace/flink/kubernetes/deployment/steps/update',
-            component: './Project/Workspace/Kubernetes/Deployment/Steps/Update',
-          },
-          {
-            path: '/workspace/flink/kubernetes/deployment/detail',
-            component: './Project/Workspace/Kubernetes/Deployment/Detail',
-          },
-          {
-            name: 'job',
-            path: '/workspace/flink/kubernetes/job',
-            component: './Project/Workspace/Kubernetes/Job',
-          },
-          {
-            path: '/workspace/flink/kubernetes/job/detail',
-            component: './Project/Workspace/Kubernetes/Job/Detail',
-          },
-        ]
-      },
-      {
         name: 'project.engine',
         path: '/workspace/engine',
         icon: 'deploymentUnit',
@@ -216,7 +145,64 @@ export default [
                 name: 'flink',
                 path: '/workspace/engine/compute/flink',
                 icon: 'apartment',
-                component: './Project/Workspace/Engine/Compute/Flink',
+                routes: [
+                  {
+                    name: 'template',
+                    path: '/workspace/engine/compute/flink/template',
+                    component: './Project/Workspace/Engine/Compute/Flink/Template',
+                  },
+                  {
+                    path: '/workspace/engine/compute/flink/template/steps/new',
+                    component: './Project/Workspace/Engine/Compute/Flink/Template/Steps/New',
+                  },
+                  {
+                    path: '/workspace/engine/compute/flink/template/steps/update',
+                    component: './Project/Workspace/Engine/Compute/Flink/Template/Steps/Update',
+                  },
+                  {
+                    name: 'session-cluster',
+                    path: '/workspace/engine/compute/flink/session-cluster',
+                    component: './Project/Workspace/Engine/Compute/Flink/SessionCluster',
+                  },
+                  {
+                    path: '/workspace/engine/compute/flink/session-cluster/steps/new',
+                    component: './Project/Workspace/Engine/Compute/Flink/SessionCluster/Steps/New',
+                  },
+                  {
+                    path: '/workspace/engine/compute/flink/session-cluster/steps/update',
+                    component: './Project/Workspace/Engine/Compute/Flink/SessionCluster/Steps/Update',
+                  },
+                  {
+                    path: '/workspace/engine/compute/flink/session-cluster/detail',
+                    component: './Project/Workspace/Engine/Compute/Flink/SessionCluster/Detail',
+                  },
+                  {
+                    name: 'deployment',
+                    path: '/workspace/engine/compute/flink/deployment',
+                    component: './Project/Workspace/Engine/Compute/Flink/Deployment',
+                  },
+                  {
+                    path: '/workspace/engine/compute/flink/deployment/steps/new',
+                    component: './Project/Workspace/Engine/Compute/Flink/Deployment/Steps/New',
+                  },
+                  {
+                    path: '/workspace/engine/compute/flink/deployment/steps/update',
+                    component: './Project/Workspace/Engine/Compute/Flink/Deployment/Steps/Update',
+                  },
+                  {
+                    path: '/workspace/engine/compute/flink/deployment/detail',
+                    component: './Project/Workspace/Engine/Compute/Flink/Deployment/Detail',
+                  },
+                  {
+                    name: 'job',
+                    path: '/workspace/engine/compute/flink/job',
+                    component: './Project/Workspace/Engine/Compute/Flink/Job',
+                  },
+                  {
+                    path: '/workspace/engine/compute/flink/job/detail',
+                    component: './Project/Workspace/Engine/Compute/Flink/Job/Detail',
+                  },
+                ]
               }
             ]
           },
