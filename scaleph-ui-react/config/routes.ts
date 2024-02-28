@@ -96,25 +96,7 @@ export default [
           {
             path: '/workspace/artifact/editor',
             component: './Project/Workspace/Artifact/Sql/CodeEditor',
-          },
-          {
-            name: 'seatunnel',
-            path: '/workspace/artifact/seatunnel',
-            component: './Project/Workspace/Artifact/DI/DiJobView',
-          },
-          {
-            path: '/workspace/artifact/seatunnel/dag',
-            component: './Project/Workspace/Artifact/DI/DiJobFlow',
-          },
-          {
-            name: 'cdc',
-            path: '/workspace/artifact/cdc',
-            component: './Project/Workspace/Artifact/CDC',
-          },
-          {
-            path: '/workspace/artifact/cdc/dag',
-            component: './Project/Workspace/Artifact/CDC/Dag',
-          },
+          }
         ]
       },
       {
@@ -291,10 +273,18 @@ export default [
             component: './Project/Workspace/DataIntegration/SeaTunnel',
           },
           {
+            path: '/workspace/data-integration/seatunnel/dag',
+            component: './Project/Workspace/DataIntegration/SeaTunnel/Dag',
+          },
+          {
             name: 'flink-cdc',
             path: '/workspace/data-integration/flink-cdc',
             icon: 'apartment',
             component: './Project/Workspace/DataIntegration/FlinkCDC',
+          },
+          {
+            path: '/workspace/data-integration/flink-cdc/dag',
+            component: './Project/Workspace/DataIntegration/FlinkCDC/Dag',
           }
         ]
       },
