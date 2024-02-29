@@ -76,6 +76,7 @@ public enum SeaTunnelPluginName implements DictInstance {
     MYSQL_CDC("MySQL-CDC", "MySQL-CDC"),
     SQLSERVER_CDC("SqlServer-CDC", "SqlServer-CDC"),
     ORACLE_CDC("Oracle-CDC", "Oracle-CDC"),
+    POSTGRESQL_CDC("Postgres-CDC", "PostgreSQL-CDC"),
     MONGODB_CDC("MongoDB-CDC", "MongoDB-CDC"),
 
     HIVE("Hive", "Hive"),

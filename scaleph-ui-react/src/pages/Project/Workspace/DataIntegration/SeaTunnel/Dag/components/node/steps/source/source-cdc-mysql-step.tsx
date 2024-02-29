@@ -9,7 +9,7 @@ import {
   ProFormList,
   ProFormSelect,
   ProFormSwitch,
-  ProFormText,
+  ProFormText, ProFormTextArea,
 } from '@ant-design/pro-components';
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
@@ -86,6 +86,11 @@ const SourceCDCMySQLStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, 
           placeholder={intl.formatMessage({id: 'pages.project.di.step.cdc.tables.placeholder'})}
           rules={[{required: true}]}
           colProps={{span: 12}}
+        />
+        <ProFormTextArea
+          name={CDCParams.tableConfig}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdc.tableConfig'})}
+          placeholder={intl.formatMessage({id: 'pages.project.di.step.cdc.tableConfig.placeholder'})}
         />
         <ProFormSelect
           name={'startupMode'}

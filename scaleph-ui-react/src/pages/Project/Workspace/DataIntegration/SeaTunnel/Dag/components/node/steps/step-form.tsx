@@ -68,6 +68,8 @@ import SinkS3RedshiftStepForm from "./sink/sink-s3redshift-step";
 import SourceOpenMLDBStepForm from "./source/source-openmldb-step";
 import SourceCDCMySQLStepForm from "./source/source-cdc-mysql-step";
 import SourceCDCSqlServerStepForm from "./source/source-cdc-sqlserver-step";
+import SourceCDCOracleStepForm from "./source/source-cdc-oracle-step";
+import SourceCDCPostgreSQLStepForm from "./source/source-cdc-postgresql-step";
 import SourceCDCMongoDBStepForm from "./source/source-cdc-mongodb-step";
 import SinkHbaseStepForm from "./sink/sink-hbase-step";
 import TransformCopyStepForm from "./transform/transform-copy-step";
@@ -287,6 +289,12 @@ const SeaTunnnelConnectorForm: React.FC<ModalFormProps<Node>> = ({visible, onVis
     } else if (type === 'source' && name === 'SqlServer-CDC') {
       return (<SourceCDCSqlServerStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel}
                                           onOK={onOK}/>);
+    } else if (type === 'source' && name === 'Oracle-CDC') {
+      return (<SourceCDCOracleStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel}
+                                          onOK={onOK}/>);
+    } else if (type === 'source' && name === 'Postgres-CDC') {
+      return (<SourceCDCPostgreSQLStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel}
+                                       onOK={onOK}/>);
     } else if (type === 'source' && name === 'MongoDB-CDC') {
       return (<SourceCDCMongoDBStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel}
                                         onOK={onOK}/>);
