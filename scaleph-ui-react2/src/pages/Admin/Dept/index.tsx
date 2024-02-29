@@ -1,10 +1,10 @@
-import {useAccess, useIntl} from "@umijs/max";
+import {useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
-import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
-import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {SecDeptTree} from "@/services/admin/typings";
+import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
+import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
+import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {DeptService} from "@/services/admin/dept.service";
 import DeptForm from "@/pages/Admin/Dept/components/DeptForm";
 

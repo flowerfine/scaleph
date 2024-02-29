@@ -1,7 +1,7 @@
-import {useIntl} from "@umijs/max";
+import {useIntl} from "umi";
 import {Form, message, Modal} from "antd";
 import {ProForm, ProFormDigit, ProFormSelect, ProFormText} from "@ant-design/pro-components";
-import {ModalFormProps} from '@/typings';
+import {ModalFormProps} from '@/app.d';
 import {DICT_TYPE} from "@/constants/dictType";
 import {MetaDataElement} from "@/services/stdata/typings";
 import {MetaDataElementService} from "@/services/stdata/data-element.service";

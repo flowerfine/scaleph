@@ -1,5 +1,5 @@
-import {ResponseBody} from '@/app.d';
-import {request} from 'umi';
+import {ResponseBody} from '@/typings';
+import {request} from '@umijs/max';
 import {Namespace} from './typings';
 
 export const KubernetesNamespaceService = {

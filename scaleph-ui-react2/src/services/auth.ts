@@ -1,6 +1,6 @@
-import {USER_AUTH} from '@/constants/constant';
-import {AuthCode, LoginInfo, OnlineUserInfo, RegisterInfo, ResponseBody} from '@/typings';
-import {request} from '@umijs/max';
+import { USER_AUTH } from '@/constants/constant';
+import { request } from 'umi';
+import { AuthCode, LoginInfo, OnlineUserInfo, RegisterInfo, ResponseBody } from '../app.d';
 
 export const AuthService = {
   login: async (loginInfo: LoginInfo) => {
@@ -9,20 +9,17 @@ export const AuthService = {
       data: loginInfo,
     });
   },
-
   menuRoutes: async () => {
     return request<ResponseBody<any>>('/api/admin/authorize/routes', {
       method: 'GET',
     });
   },
-
   refreshAuthImage: async () => {
     return request<AuthCode>('/api/authCode', {
       method: 'GET',
-      params: {d: new Date().getTime()},
+      params: { d: new Date().getTime() },
     });
   },
-
   setSession: async (userInfo: OnlineUserInfo) => {
     localStorage.setItem(USER_AUTH.userInfo, JSON.stringify(userInfo));
     let pCodes: string[] = [];
@@ -43,7 +40,6 @@ export const AuthService = {
   isUserLoggedIn: async () => {
     return localStorage.getItem(USER_AUTH.token) ? true : false;
   },
-
   hasPrivilege: async (code: string) => {
     let pCodes: string[] = JSON.parse(localStorage.getItem(USER_AUTH.pCodes) + '');
     if (pCodes != null && pCodes != undefined) {
@@ -64,7 +60,7 @@ export const AuthService = {
     let token: string = localStorage.getItem(USER_AUTH.token) || '';
     request<ResponseBody<any>>('/api/user/logout', {
       method: 'POST',
-      params: {token: token},
+      params: { token: token },
     });
   },
 

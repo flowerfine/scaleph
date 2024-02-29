@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
+import {connect, useAccess, useIntl} from "umi";
 import {ProColumns, ProTable} from "@ant-design/pro-components";
-import {connect, useAccess, useIntl} from "@umijs/max";
 
 type Config = {
   key: string;

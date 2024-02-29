@@ -1,5 +1,10 @@
+import {connect, useAccess, useIntl, useLocation} from "umi";
 import React, {useEffect, useState} from "react";
 import {Button, message, Popconfirm, Tabs} from "antd";
+import FlinkKubernetesJobDetailYAMLWeb from "@/pages/Project/Workspace/Kubernetes/Job/Detail/YAML";
+import {ProDescriptionsItemProps} from "@ant-design/pro-descriptions";
+import {WsFlinkKubernetesJob} from "@/services/project/typings";
+import {PageContainer, ProDescriptions} from "@ant-design/pro-components";
 import {ProCoreActionType} from "@ant-design/pro-utils/es/typing";
 import {
   AreaChartOutlined,
@@ -10,11 +15,6 @@ import {
   OrderedListOutlined,
   RedoOutlined
 } from "@ant-design/icons";
-import {ProDescriptionsItemProps} from "@ant-design/pro-descriptions";
-import {PageContainer, ProDescriptions} from "@ant-design/pro-components";
-import {connect, useAccess, useIntl, useLocation} from "@umijs/max";
-import {WsFlinkKubernetesJob} from "@/services/project/typings";
-import FlinkKubernetesJobDetailYAMLWeb from "@/pages/Project/Workspace/Kubernetes/Job/Detail/YAML";
 import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJobService";
 import FlinkKubernetesJobDeployForm from "@/pages/Project/Workspace/Kubernetes/Job/Detail/JobDeployForm";
 import FlinkKubernetesJobShutdownForm from "@/pages/Project/Workspace/Kubernetes/Job/Detail/JobShutdownForm";
@@ -45,9 +45,9 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
     };
   }, []);
 
-  const refreshJob = (id: number | undefined) => {
+  const refreshJob = (id: number) => {
     props.dispatch({
-      type: 'flinkKubernetesJobDetail/queryJob',
+      type: 'jobDetail/queryJob',
       payload: id
     })
   }
@@ -99,17 +99,17 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
       valueType: 'option',
       render: () => [
         <div>
-          <Button type="text">
-            {props.flinkKubernetesJobDetail.job?.jobInstance?.jobState?.label}
+          <Button type="default">
+            {props.jobDetail.job?.jobInstance?.jobState?.label}
           </Button>
-        </div>,
 
+        </div>,
         <div>
           <Button
             type="default"
             icon={<CaretRightOutlined/>}
             onClick={() => {
-              setJobDeployFormData({visiable: true, data: props.flinkKubernetesJobDetail.job})
+              setJobDeployFormData({visiable: true, data: props.jobDetail.job})
             }}
           >
             {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.deploy'})}
@@ -118,7 +118,7 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
           <Popconfirm
             title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
             onConfirm={() => {
-              WsFlinkKubernetesJobService.restart(props.flinkKubernetesJobDetail.job.jobInstance.id).then(response => {
+              WsFlinkKubernetesJobService.restart(props.jobDetail.job.jobInstance.id).then(response => {
                 if (response.success) {
                   message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
                 }
@@ -136,7 +136,7 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
           <Button
             icon={<CloseOutlined/>}
             onClick={() => {
-              setJobShutdownFormData({visiable: true, data: props.flinkKubernetesJobDetail.job})
+              setJobShutdownFormData({visiable: true, data: props.jobDetail.job})
             }}
           >
             {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.shutdown'})}
@@ -147,7 +147,7 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
           <Popconfirm
             title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
             onConfirm={() => {
-              WsFlinkKubernetesJobService.triggerSavepoint(props.flinkKubernetesJobDetail.job.jobInstance.id).then(response => {
+              WsFlinkKubernetesJobService.triggerSavepoint(props.jobDetail.job.jobInstance.id).then(response => {
                 if (response.success) {
                   message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
                 }
@@ -167,7 +167,7 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
           <Button
             type="default"
             icon={<DashboardOutlined/>}
-            onClick={() => WsFlinkKubernetesJobService.flinkui(props.flinkKubernetesJobDetail.job.jobInstance.id)}
+            onClick={() => WsFlinkKubernetesJobService.flinkui(props.jobDetail.job.jobInstance.id)}
           >
             {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.flinkui'})}
           </Button>
@@ -194,17 +194,17 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
     {
       label: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.yaml'}),
       key: 'yaml',
-      children: <FlinkKubernetesJobDetailYAMLWeb data={props.flinkKubernetesJobDetail.job}/>
+      children: <FlinkKubernetesJobDetailYAMLWeb data={props.jobDetail.job}/>
     },
     {
       label: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.instanceList'}),
       key: 'instanceList',
-      children: <FlinkKubernetesJobDetailInstanceListWeb data={props.flinkKubernetesJobDetail.job}/>
+      children: <FlinkKubernetesJobDetailInstanceListWeb data={props.jobDetail.job}/>
     },
     {
       label: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.savepoint'}),
       key: 'savepoint',
-      children: <FlinkKubernetesJobDetailSavepointWeb data={props.flinkKubernetesJobDetail.job}/>
+      children: <FlinkKubernetesJobDetailSavepointWeb data={props.jobDetail.job}/>
     },
   ]
   return (
@@ -212,7 +212,7 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
       <PageContainer title={intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail'})}>
         <ProDescriptions
           column={3}
-          dataSource={props.flinkKubernetesJobDetail.job}
+          dataSource={props.jobDetail.job}
           columns={descriptionColumns}
         />
         <Tabs
@@ -249,5 +249,5 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
   );
 }
 
-const mapModelToProps = ({flinkKubernetesJobDetail}: any) => ({flinkKubernetesJobDetail})
+const mapModelToProps = ({jobDetail}: any) => ({jobDetail})
 export default connect(mapModelToProps)(FlinkKubernetesJobDetailWeb);

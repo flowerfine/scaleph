@@ -1,5 +1,5 @@
-import {PageResponse, ResponseBody, SelectOption} from '@/typings';
-import {request} from '@umijs/max';
+import {PageResponse, ResponseBody, SelectOption} from '@/app.d';
+import {request} from 'umi';
 import {
   KubernetesOptionsVO,
   WsFlinkKubernetesTemplate,

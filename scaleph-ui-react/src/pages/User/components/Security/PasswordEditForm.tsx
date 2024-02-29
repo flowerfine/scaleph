@@ -1,7 +1,7 @@
-import { ModalFormProps } from '@/app.d';
+import { ModalFormProps } from '@/typings';
 import { UserService } from '@/services/admin/user.service';
 import { Form, Input, message, Modal } from 'antd';
-import { useIntl } from 'umi';
+import { useIntl } from '@umijs/max';
 
 const PasswordEditForm: React.FC<
   ModalFormProps<{

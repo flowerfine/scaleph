@@ -1,4 +1,4 @@
-import {useIntl} from '@umijs/max';
+import {useIntl} from 'umi';
 import {Form, message, Modal} from 'antd';
 import {ProForm, ProFormDigit, ProFormSelect, ProFormText, ProFormTreeSelect} from "@ant-design/pro-components";
 import {SecDeptTree} from "@/services/admin/typings";

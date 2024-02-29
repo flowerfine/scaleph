@@ -1,4 +1,4 @@
-import {history, useAccess, useIntl} from "@umijs/max";
+import {history, useAccess, useIntl} from "umi";
 import {useEffect, useRef, useState} from "react";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {DsInfo, DsType} from "@/services/datasource/typings";

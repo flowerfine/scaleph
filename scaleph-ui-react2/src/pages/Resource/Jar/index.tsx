@@ -1,4 +1,4 @@
-import {useAccess, useIntl} from '@umijs/max';
+import {useAccess, useIntl} from 'umi';
 import {useRef, useState} from 'react';
 import {Button, message, Modal, Space, Tooltip} from 'antd';
 import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';

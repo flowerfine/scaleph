@@ -1,6 +1,5 @@
-import React from "react";
+import {useIntl} from "umi";
 import {ProCard, ProFormDigit, ProFormGroup, ProFormSelect, ProFormText} from "@ant-design/pro-components";
-import {useIntl} from "@umijs/max";
 import {DictDataService} from "@/services/admin/dictData.service";
 import {DICT_TYPE} from "@/constants/dictType";
 

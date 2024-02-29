@@ -1,11 +1,11 @@
-import { PageResponse, ResponseBody } from '@/app.d';
+import { PageResponse, ResponseBody } from '@/typings';
 import { USER_AUTH } from '@/constants/constant';
 import {
   FlinkRelease,
   FlinkReleaseListParam,
   FlinkReleaseUploadParam,
 } from '@/services/resource/typings';
-import { request } from 'umi';
+import { request } from '@umijs/max';
 
 export const FlinkReleaseService = {
   url: '/api/resource/flink-release',

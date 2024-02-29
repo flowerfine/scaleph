@@ -1,5 +1,5 @@
-import {request} from '@umijs/max';
-import {PageResponse, ResponseBody} from '@/typings';
+import {request} from 'umi';
+import {PageResponse, ResponseBody} from '@/app.d';
 import {
   MetaDataMap,
   MetaDataMapParam,

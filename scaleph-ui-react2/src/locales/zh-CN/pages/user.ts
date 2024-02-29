@@ -5,7 +5,7 @@ export default {
   'pages.user.login.password.placeholder': '请输入密码：123456',
   'pages.user.login.authCode': '验证码',
   'pages.user.login.authCode.placeholder': '请输入验证码',
-  'pages.user.login.autoLogin': '自动登陆',
+  'pages.user.login.remember': '记住我',
   'pages.user.login.forget': '忘记密码？',
   'pages.user.login.login': '登录',
   'pages.user.login.register': '没有账号？立即注册',

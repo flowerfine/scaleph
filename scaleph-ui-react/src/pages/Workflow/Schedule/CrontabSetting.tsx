@@ -1,6 +1,6 @@
-import {ModalFormProps} from '@/app.d';
+import {ModalFormProps} from '@/typings';
 import {Alert, Col, Input, InputNumber, Modal, Radio, Row, Select, Space, Tabs, Typography,} from 'antd';
-import {useIntl} from 'umi';
+import {useIntl} from '@umijs/max';
 import React, {useEffect, useRef, useState} from 'react';
 import moment from 'moment';
 import {SchedulerService} from "@/services/workflow/scheduler.service";

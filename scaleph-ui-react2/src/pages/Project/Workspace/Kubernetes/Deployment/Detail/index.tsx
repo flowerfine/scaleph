@@ -1,6 +1,6 @@
+import {useIntl, useLocation} from "umi";
 import React from "react";
 import {Tabs} from "antd";
-import {useIntl, useLocation} from "@umijs/max";
 import {WsFlinkKubernetesDeployment} from "@/services/project/typings";
 import FlinkKubernetesDeploymentDetailYAMLWeb from "@/pages/Project/Workspace/Kubernetes/Deployment/Detail/YAML";
 import FlinkKubernetesDeploymentDetailConfigWeb from "@/pages/Project/Workspace/Kubernetes/Deployment/Detail/Config";

@@ -3,7 +3,7 @@ import { LogLogin } from '@/services/admin/typings';
 import { List, Pagination, Tooltip, Typography } from 'antd';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import { useIntl } from '@umijs/max';
+import { useIntl } from 'umi';
 
 const Log: React.FC = () => {
   const intl = useIntl();

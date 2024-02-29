@@ -1,8 +1,8 @@
+import {useIntl, useLocation} from "umi";
 import React, {useEffect, useRef, useState} from "react";
-import {Divider, Space, Statistic} from "antd";
-import {PageContainer, ProCard, StatisticCard} from "@ant-design/pro-components";
-import {useIntl, useLocation} from "@umijs/max";
 import {WsDorisOperatorTemplate} from "@/services/project/typings";
+import {PageContainer, ProCard, StatisticCard} from "@ant-design/pro-components";
+import {Divider, Space, Statistic} from "antd";
 import RcResizeObserver from 'rc-resize-observer';
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
 import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";

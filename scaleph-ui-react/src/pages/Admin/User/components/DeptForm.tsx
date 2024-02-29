@@ -1,8 +1,8 @@
-import { TreeNode } from '@/app.d';
 import { DeptService } from '@/services/admin/dept.service';
 import { SecDept } from '@/services/admin/typings';
 import { Form, Input, message, Modal, TreeSelect } from 'antd';
-import { useIntl } from 'umi';
+import { useIntl } from '@umijs/max';
+import {TreeNode} from '@/typings';
 
 interface DeptFormProps<SecDept> {
   data: SecDept;

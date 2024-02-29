@@ -1,4 +1,4 @@
-import {PageResponse, ResponseBody} from '@/app.d';
+import {PageResponse, ResponseBody} from '@/typings';
 import {USER_AUTH} from '@/constants/constant';
 import {
   SeaTunnelConnectorFile, SeaTunnelConnectorUploadParam,
@@ -6,7 +6,7 @@ import {
   SeaTunnelReleaseListParam,
   SeaTunnelReleaseUploadParam,
 } from '@/services/resource/typings';
-import {request} from 'umi';
+import {request} from '@umijs/max';
 
 export const SeatunnelReleaseService = {
   url: '/api/resource/seatunnel-release',

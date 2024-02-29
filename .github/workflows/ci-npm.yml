@@ -34,9 +34,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
       - name: Build scaleph-ui-react-dist
         run: mvn -B -U package -pl scaleph-ui-react -am -DskipTests
       - name: Build with NPM

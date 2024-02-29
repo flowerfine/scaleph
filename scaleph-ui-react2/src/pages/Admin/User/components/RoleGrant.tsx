@@ -1,17 +1,17 @@
-import {useEffect, useState} from 'react';
-import {message, Modal, Transfer} from 'antd';
-import {useIntl} from '@umijs/max';
-import {RoleService} from '@/services/admin/role.service';
-import {SecRole, SecUser} from '@/services/admin/typings';
-import {UserService} from '@/services/admin/user.service';
-import {ModalFormProps} from '@/typings';
+import { ModalFormProps } from '@/app.d';
+import { RoleService } from '@/services/admin/role.service';
+import { SecRole, SecUser } from '@/services/admin/typings';
+import { UserService } from '@/services/admin/user.service';
+import { message, Modal, Transfer } from 'antd';
+import { useEffect, useState } from 'react';
+import { useIntl } from 'umi';
 
 const RoleGrant: React.FC<ModalFormProps<SecRole>> = ({
-                                                        data,
-                                                        visible,
-                                                        onVisibleChange,
-                                                        onCancel
-                                                      }) => {
+  data,
+  visible,
+  onVisibleChange,
+  onCancel,
+}) => {
   const intl = useIntl();
   const [targetKeys, setTargetKeys] = useState<string[]>([]);
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
@@ -19,7 +19,7 @@ const RoleGrant: React.FC<ModalFormProps<SecRole>> = ({
 
   useEffect(() => {
     //all user list limit 100000
-    UserService.listUserByPage({current: 1, pageSize: 100000}).then((resp) => {
+    UserService.listUserByPage({ current: 1, pageSize: 100000 }).then((resp) => {
       setUserList(resp.data);
     });
     //user granted with role id
@@ -42,8 +42,8 @@ const RoleGrant: React.FC<ModalFormProps<SecRole>> = ({
       destroyOnClose={true}
       title={
         intl.formatMessage(
-          {id: 'app.common.operate.grant.title'},
-          {name: intl.formatMessage({id: 'pages.admin.user.role'})},
+          { id: 'app.common.operate.grant.title' },
+          { name: intl.formatMessage({ id: 'pages.admin.user.role' }) },
         ) +
         ' - ' +
         data.roleName
@@ -53,7 +53,7 @@ const RoleGrant: React.FC<ModalFormProps<SecRole>> = ({
       onOk={() => {
         RoleService.grantRoleToUsers(data.id + '', targetKeys).then((d) => {
           if (d.success) {
-            message.success(intl.formatMessage({id: 'app.common.operate.success'}));
+            message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
           }
         });
         onVisibleChange(false);
@@ -62,10 +62,10 @@ const RoleGrant: React.FC<ModalFormProps<SecRole>> = ({
       <Transfer
         dataSource={userList}
         titles={[
-          intl.formatMessage({id: 'pages.admin.user.awaitGrant'}),
-          intl.formatMessage({id: 'pages.admin.user.granted'}),
+          intl.formatMessage({ id: 'pages.admin.user.awaitGrant' }),
+          intl.formatMessage({ id: 'pages.admin.user.granted' }),
         ]}
-        listStyle={{width: '100%', minHeight: 420}}
+        listStyle={{ width: '100%', minHeight: 420 }}
         showSearch={true}
         pagination={true}
         showSelectAll={true}

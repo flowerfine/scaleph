@@ -1,18 +1,18 @@
-import {useRef, useState} from 'react';
-import {Button, message, Modal, Space, Tooltip} from 'antd';
-import {DeleteOutlined, DownloadOutlined, EditOutlined, FolderOpenOutlined} from '@ant-design/icons';
-import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {history, useAccess, useIntl} from '@umijs/max';
 import {WORKSPACE_CONF} from '@/constants/constant';
 import {DICT_TYPE} from '@/constants/dictType';
 import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
-import {WsArtifactFlinkJar} from '@/services/project/typings';
+import {WsFlinkArtifactJar} from '@/services/project/typings';
+import {DeleteOutlined, DownloadOutlined, EditOutlined, FolderOpenOutlined} from '@ant-design/icons';
+import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
+import {Button, message, Modal, Space, Tooltip} from 'antd';
+import {useRef, useState} from 'react';
+import {history, useAccess, useIntl} from 'umi';
 import FlinkArtifactJarAddForm from './FlinkArtifactJarAddForm';
-import {WsArtifactFlinkJarService} from "@/services/project/WsArtifactFlinkJarService";
+import {FlinkArtifactJarService} from "@/services/project/flinkArtifactJar.service";
 import {DictDataService} from "@/services/admin/dictData.service";
 import FlinkArtifactJarUpdateForm from "@/pages/Project/Workspace/Artifact/Jar/FlinkArtifactJarUpdateForm";
 
-const ArtifactFlinkJarWeb: React.FC = () => {
+const ArtifactJarView: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
@@ -23,16 +23,16 @@ const ArtifactFlinkJarWeb: React.FC = () => {
   }>({visiable: false});
   const [flinkArtifactJarUpdateFormData, setFlinkArtifactJarUpdateFormData] = useState<{
     visiable: boolean;
-    data: WsArtifactFlinkJar;
+    data: WsFlinkArtifactJar;
   }>({visiable: false, data: {}});
 
-  const tableColumns: ProColumns<WsArtifactFlinkJar>[] = [
+  const tableColumns: ProColumns<WsFlinkArtifactJar>[] = [
     {
       title: intl.formatMessage({id: 'pages.project.artifact.name'}),
       dataIndex: 'name',
       width: 240,
       render: (dom, entity, index, action, schema) => {
-        return entity.artifact?.name
+        return entity.wsFlinkArtifact?.name
       }
     },
     {
@@ -70,7 +70,7 @@ const ArtifactFlinkJarWeb: React.FC = () => {
       width: 240,
       hideInSearch: true,
       render: (dom, entity, index, action, schema) => {
-        return entity.artifact?.remark
+        return entity.wsFlinkArtifact?.remark
       }
     },
     {
@@ -114,7 +114,7 @@ const ArtifactFlinkJarWeb: React.FC = () => {
                   type="link"
                   icon={<DownloadOutlined/>}
                   onClick={() => {
-                    WsArtifactFlinkJarService.download(record);
+                    FlinkArtifactJarService.download(record);
                   }}
                 />
               </Tooltip>
@@ -126,7 +126,7 @@ const ArtifactFlinkJarWeb: React.FC = () => {
                   type="link"
                   icon={<FolderOpenOutlined/>}
                   onClick={() => {
-                    history.push('/workspace/artifact/history', record.artifact);
+                    history.push('/workspace/artifact/history', record.wsFlinkArtifact);
                   }}
                 />
               </Tooltip>
@@ -145,7 +145,7 @@ const ArtifactFlinkJarWeb: React.FC = () => {
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
-                        WsArtifactFlinkJarService.deleteArtifact(record.artifact?.id).then((d) => {
+                        FlinkArtifactJarService.deleteAll(record.wsFlinkArtifact.id).then((d) => {
                           if (d.success) {
                             message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();
@@ -165,7 +165,7 @@ const ArtifactFlinkJarWeb: React.FC = () => {
 
   return (
     <div>
-      <ProTable<WsArtifactFlinkJar>
+      <ProTable<WsFlinkArtifactJar>
         search={{
           labelWidth: 'auto',
           span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -176,7 +176,7 @@ const ArtifactFlinkJarWeb: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) =>
-          WsArtifactFlinkJarService.list({...params, projectId: projectId + ''})
+          FlinkArtifactJarService.list({...params, projectId: projectId + ''})
         }
         toolbar={{
           actions: [
@@ -225,4 +225,4 @@ const ArtifactFlinkJarWeb: React.FC = () => {
     </div>
   );
 };
-export default ArtifactFlinkJarWeb;
+export default ArtifactJarView;

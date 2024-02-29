@@ -1,5 +1,5 @@
-import {PageResponse, ResponseBody} from '@/typings';
-import {request} from '@umijs/max';
+import {PageResponse, ResponseBody} from '@/app.d';
+import {request} from 'umi';
 import {WsProject, WsProjectParam} from './typings';
 
 export const WsProjectService = {
@@ -21,7 +21,7 @@ export const WsProjectService = {
   },
 
   selectOne: async (id: number) => {
-    return request<WsProject>(`${WsProjectService.url}/${id}`, {
+    return request<WsProject>(`${WsProjectService.url}/` + id, {
       method: 'GET',
     });
   },
@@ -41,7 +41,7 @@ export const WsProjectService = {
   },
 
   deleteProjectRow: async (row: WsProject) => {
-    return request<ResponseBody<any>>(`${WsProjectService.url}/${row.id}`, {
+    return request<ResponseBody<any>>(`${WsProjectService.url}/` + row.id, {
       method: 'DELETE',
     });
   },

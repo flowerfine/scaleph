@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from "react";
-import {connect} from "@umijs/max";
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
+import {connect} from "umi";
 
 const FlinkKubernetesSessionClusterDetailStatusYaml: React.FC = (props: any) => {
   const editorRef = useRef(null);

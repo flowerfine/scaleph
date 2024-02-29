@@ -1,4 +1,3 @@
-import React from "react";
 import {ProCard, ProFormGroup, ProFormSelect, ProFormText} from "@ant-design/pro-components";
 import {DICT_TYPE} from "@/constants/dictType";
 import {DictDataService} from "@/services/admin/dictData.service";

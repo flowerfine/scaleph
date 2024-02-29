@@ -1,18 +1,39 @@
-import { AuthCode, RegisterInfo } from '@/app.d';
-import Footer from '@/components/Footer';
-import { UserService } from '@/services/admin/user.service';
-import { AuthService } from '@/services/auth';
-import { Button, Col, Form, Input, message, Row } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { SelectLang, useIntl } from 'umi';
-import styles from './index.less';
+import {useEffect, useState} from "react";
+import {Button, Col, Form, Input, message, Row} from "antd";
+import {useEmotionCss} from "@ant-design/use-emotion-css";
+import {Helmet, SelectLang, useIntl, useModel, useNavigate} from "@umijs/max";
+import {PATTERNS} from "@/constants";
+import AppsLogo from "@/components/AppLogoComponent";
+import {AuthService} from "@/services/auth";
+import {UserService} from "@/services/admin/user.service";
+import styles from "../index.less";
+import {AuthCode, RegisterInfo} from "@/typings";
+
+const Lang = () => {
+  const langClassName = useEmotionCss(({token}) => {
+    return {
+      width: 42,
+      height: 42,
+      lineHeight: "42px",
+      position: "fixed",
+      right: 16,
+      textAlign: "center",
+      borderRadius: token.borderRadius,
+      ":hover": {
+        backgroundColor: token.colorBgTextHover,
+      },
+    };
+  });
+
+  return <SelectLang className={langClassName}/>;
+};
 
 const Register: React.FC = () => {
   const intl = useIntl();
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [authCode, setAuthCode] = useState<AuthCode>();
+  const {initialState, setInitialState} = useModel("@@initialState");
 
   useEffect(() => {
     refreshAuthCode();
@@ -23,51 +44,63 @@ const Register: React.FC = () => {
     setAuthCode(data);
   };
 
-  const publicPath = process.env.REACT_APP_ENV === 'dist' ? '/scaleph/ui' : ''
-
+  const handleSubmit = () => {
+    try {
+      form.validateFields().then((values: RegisterInfo) => {
+        const params: RegisterInfo = {
+          ...values,
+          uuid: authCode?.uuid as string,
+        };
+        AuthService.register(params).then((resp) => {
+          if (resp.success) {
+            message.success(intl.formatMessage({id: "pages.user.register.success"}));
+            setTimeout(() => {
+              navigate("/user/login");
+            }, 500);
+          } else {
+            refreshAuthCode();
+          }
+        });
+      });
+    } catch (error) {
+      message.error(intl.formatMessage({id: "pages.user.register.failure"}));
+    }
+  };
   return (
     <div className={styles.container}>
-      <div className={styles.lang} data-lang>
-        {SelectLang && <SelectLang />}
-      </div>
-      <div className={styles.content}>
+      <Helmet>
+        <title>
+          {intl.formatMessage({id: "menu.register"})}-{" Scaleph"}
+        </title>
+      </Helmet>
+      <Lang/>
+      <div className={styles.mainContent}>
         <div className={styles.logoInfo}>
-          <img className={styles.logo} alt="logo" src={`${publicPath}/scaleph.svg`} />
-          <span className={styles.title}>Scaleph</span>
+          <AppsLogo
+            width={60}
+            height={60}
+            color={initialState?.settings?.colorPrimary as string}
+          />
+          <span className={styles.title}>{initialState?.settings?.title}</span>
         </div>
-        <div className={styles.loginForm}>
-          <Form
-            form={form}
-            layout="vertical"
-            onFinish={() => {
-              form.validateFields().then((values: any) => {
-                const params: RegisterInfo = { ...values, uuid: authCode?.uuid };
-                AuthService.register(params).then((d) => {
-                  if (d.success) {
-                    const msg = intl.formatMessage({ id: 'pages.user.register.success' });
-                    message.success(msg);
-                    setTimeout(() => {
-                      navigate('/login');
-                    }, 500);
-                  } else {
-                    refreshAuthCode();
-                  }
-                });
-              });
-            }}
-          >
+        <div className={styles.registerForm}>
+          <Form form={form} layout="vertical" onFinish={handleSubmit}>
             <Form.Item
-              label={intl.formatMessage({ id: 'pages.user.register.userName' })}
               name="userName"
+              label={intl.formatMessage({id: "pages.user.register.userName"})}
               rules={[
-                { required: true, min: 5, max: 30 },
+                {required: true, max: 30, min: 5},
+                {
+                  pattern: PATTERNS.characterWord,
+                  message: intl.formatMessage({id: "pages.common.validate.characterWord"}),
+                },
                 {
                   validator: (rule, value, callback) => {
                     UserService.isUserExists(value).then((resp) => {
                       if (resp) {
                         callback();
                       } else {
-                        callback(intl.formatMessage({ id: 'app.common.validate.sameUserName' }));
+                        callback(intl.formatMessage({id: "pages.common.validate.sameUserName"}));
                       }
                     });
                   },
@@ -75,22 +108,22 @@ const Register: React.FC = () => {
               ]}
             >
               <Input
-                placeholder={intl.formatMessage({ id: 'pages.user.register.userName.placeholder' })}
+                placeholder={intl.formatMessage({id: "pages.user.register.userName.placeholder"})}
               />
             </Form.Item>
             <Form.Item
-              label={intl.formatMessage({ id: 'pages.user.register.email' })}
               name="email"
+              label={intl.formatMessage({id: "pages.user.register.email"})}
               rules={[
-                { required: true },
-                { type: 'email' },
+                {required: true},
+                {type: "email"},
                 {
                   validator: (rule, value, callback) => {
                     UserService.isEmailExists(value).then((resp) => {
                       if (resp) {
                         callback();
                       } else {
-                        callback(intl.formatMessage({ id: 'app.common.validate.sameEmail' }));
+                        callback(intl.formatMessage({id: "pages.common.validate.sameEmail"}));
                       }
                     });
                   },
@@ -98,29 +131,31 @@ const Register: React.FC = () => {
               ]}
             >
               <Input
-                placeholder={intl.formatMessage({ id: 'pages.user.register.userName.placeholder' })}
+                placeholder={intl.formatMessage({id: "pages.user.register.email.placeholder"})}
               />
             </Form.Item>
             <Form.Item
-              label={intl.formatMessage({ id: 'pages.user.register.password' })}
               name="password"
-              rules={[{ required: true }, { min: 6 }, { max: 32 }]}
+              label={intl.formatMessage({id: "pages.user.register.password"})}
+              rules={[{required: true, min: 6, max: 32}]}
             >
               <Input.Password
-                placeholder={intl.formatMessage({ id: 'pages.user.register.password.placeholder' })}
+                placeholder={intl.formatMessage({id: "pages.user.register.password.placeholder"})}
               />
             </Form.Item>
             <Form.Item
-              label={intl.formatMessage({ id: 'pages.user.register.confirmPassword' })}
               name="confirmPassword"
+              label={intl.formatMessage({id: "pages.user.register.confirmPassword"})}
               rules={[
-                { required: true },
-                { min: 6 },
-                { max: 32 },
                 {
+                  required: true,
+                  min: 6,
+                  max: 32,
                   validator: (rule, value, callback) => {
-                    if (value && value != form.getFieldValue('password')) {
-                      callback(intl.formatMessage({ id: 'app.common.validate.samePassword' }));
+                    if (value && value != form.getFieldValue("password")) {
+                      callback(
+                        intl.formatMessage({id: "pages.common.validate.samePassword"})
+                      );
                     } else {
                       callback();
                     }
@@ -129,45 +164,51 @@ const Register: React.FC = () => {
               ]}
             >
               <Input.Password
-                placeholder={intl.formatMessage({id: 'pages.user.register.confirmPassword.placeholder'})}
+                placeholder={intl.formatMessage({id: "pages.user.register.confirmPassword.placeholder"})}
               />
             </Form.Item>
             <Form.Item
-              label={intl.formatMessage({ id: 'pages.user.register.authCode' })}
-              rules={[{ required: true, len: 5 }]}
               name="authCode"
+              label={intl.formatMessage({id: "pages.user.register.authCode"})}
+              rules={[{required: true, len: 5}]}
             >
               <Row gutter={[16, 0]}>
                 <Col span={15}>
                   <Form.Item noStyle>
                     <Input
-                      placeholder={intl.formatMessage({id: 'pages.user.register.authCode.placeholder'})}
+                      placeholder={intl.formatMessage({id: "pages.user.register.authCode.placeholder"})}
                     />
                   </Form.Item>
                 </Col>
                 <Col span={9}>
                   <img
                     src={authCode?.img}
-                    alt={intl.formatMessage({ id: 'pages.user.register.authCode' })}
+                    alt={intl.formatMessage({id: "pages.user.register.authCode"})}
                     onClick={refreshAuthCode}
                   />
                 </Col>
               </Row>
             </Form.Item>
-            <Form.Item style={{ marginBottom: '6px' }}>
-              <Button type="primary" size="large" htmlType="submit" style={{ width: '100%' }}>
-                {intl.formatMessage({ id: 'pages.user.register.register' })}
+            <Form.Item style={{marginBottom: "6px"}}>
+              <Button
+                type="primary"
+                size="large"
+                htmlType="submit"
+                style={{width: "100%"}}
+                onClick={() => {
+                }}
+              >
+                {intl.formatMessage({id: "pages.user.register.register"})}
               </Button>
             </Form.Item>
             <Form.Item>
-              <a href="/login" style={{ float: 'right' }}>
-                {intl.formatMessage({ id: 'pages.user.register.login' })}
+              <a href="/user/login" style={{float: "right"}}>
+                {intl.formatMessage({id: "pages.user.register.login"})}
               </a>
             </Form.Item>
           </Form>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

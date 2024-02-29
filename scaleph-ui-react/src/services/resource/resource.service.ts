@@ -1,5 +1,5 @@
-import { PageResponse, ResponseBody } from '@/app.d';
-import { request } from 'umi';
+import { PageResponse, ResponseBody } from '@/typings';
+import { request } from '@umijs/max';
 import { ResourceListParam } from './typings';
 
 export const ResourceService = {

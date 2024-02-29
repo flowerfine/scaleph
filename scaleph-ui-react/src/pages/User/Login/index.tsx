@@ -1,45 +1,40 @@
-import { AuthCode, LoginInfo } from '@/app.d';
-import Footer from '@/components/Footer';
-import { USER_AUTH } from '@/constants/constant';
-import { AuthService } from '@/services/auth';
-import { Button, Checkbox, Col, Form, Input, message, Row } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { SelectLang, useIntl, useModel } from 'umi';
-import styles from './index.less';
+import React, {useEffect, useState} from "react";
+import {flushSync} from "react-dom";
+import {Button, Checkbox, Col, Form, Input, message, Row} from "antd";
+import {useEmotionCss} from "@ant-design/use-emotion-css";
+import {Helmet, SelectLang, useIntl, useModel, useNavigate} from "@umijs/max";
+import {PATTERNS, USER_AUTH} from "@/constants";
+import AppsLogo from "@/components/AppLogoComponent";
+import {AuthService} from "@/services/auth";
+import {UserService} from "@/services/admin/user.service";
+import styles from "../index.less";
+import { AuthCode,LoginInfo } from "@/typings";
+
+const Lang = () => {
+  const langClassName = useEmotionCss(({token}) => {
+    return {
+      width: 42,
+      height: 42,
+      lineHeight: "42px",
+      position: "fixed",
+      right: 16,
+      textAlign: "center",
+      borderRadius: token.borderRadius,
+      ":hover": {
+        backgroundColor: token.colorBgTextHover,
+      },
+    };
+  });
+
+  return <SelectLang className={langClassName}/>;
+};
 
 const Login: React.FC = () => {
   const intl = useIntl();
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [authCode, setAuthCode] = useState<AuthCode>();
-  const { refresh } = useModel('@@initialState');
-  const [initialValues, setInitialValues] = useState({
-    remember: true,
-  });
-  const handleSubmit = async () => {
-    try {
-      form.validateFields().then((values: any) => {
-        const params: LoginInfo = { ...values, uuid: authCode?.uuid };
-        AuthService.login(params).then(async (d) => {
-          if (d.success) {
-            localStorage.setItem(USER_AUTH.token, d.data);
-            refresh();
-            const msg = intl.formatMessage({ id: 'pages.user.login.success' });
-            message.success(msg);
-            setTimeout(() => {
-              navigate('/');
-            }, 500);
-          } else {
-            refreshAuthCode();
-          }
-        });
-      });
-    } catch (error) {
-      const defaultLoginFailureMessage = intl.formatMessage({ id: 'pages.user.login.failure' });
-      message.error(defaultLoginFailureMessage);
-    }
-  };
+  const {initialState, setInitialState} = useModel("@@initialState");
 
   useEffect(() => {
     localStorage.clear();
@@ -47,94 +42,142 @@ const Login: React.FC = () => {
   }, []);
 
   const refreshAuthCode = async () => {
-    const data = await AuthService.refreshAuthImage();
-    setAuthCode(data);
+    AuthService.refreshAuthImage().then((data) => setAuthCode(data))
   };
 
-  const publicPath = process.env.REACT_APP_ENV === 'dist' ? '/scaleph/ui' : '';
+  const handleSubmit = async () => {
+    try {
+      form.validateFields().then((values: LoginInfo) => {
+        const params: LoginInfo = {...values, uuid: authCode?.uuid as string,};
+        AuthService.login(params).then(async (resp) => {
+          if (resp.success) {
+            localStorage.setItem(USER_AUTH.token, resp.data);
+            message.success(intl.formatMessage({id: "pages.user.login.success"}));
+            UserService.getOnlineUserInfo(resp.data).then(async (response) => {
+              if (response.success && response.data) {
+                await flushSync(() => {
+                  setInitialState((state) => ({
+                    ...state,
+                    currentUser: response.data,
+                  }));
+                });
+                AuthService.setSession(response.data)
+                setTimeout(() => {
+                  navigate("/");
+                }, 500);
+              }
+            })
+          } else {
+            refreshAuthCode();
+          }
+        });
+      });
+    } catch (error) {
+      message.error(intl.formatMessage({id: "pages.user.login.failure"}));
+    }
+  };
 
   return (
     <div className={styles.container}>
-      <div className={styles.lang} data-lang>
-        {SelectLang && <SelectLang />}
-      </div>
-      <div className={styles.content}>
+      <Helmet>
+        <title>
+          {intl.formatMessage({id: "menu.login"})}-{" Scaleph"}
+        </title>
+      </Helmet>
+      <Lang/>
+      <div className={styles.mainContent}>
         <div className={styles.logoInfo}>
-          <img className={styles.logo} alt="logo" src={`${publicPath}/scaleph.svg`} />
-          <span className={styles.title}>Scaleph</span>
+          <AppsLogo
+            width={60}
+            height={60}
+            color={initialState?.settings?.colorPrimary as string}
+          />
+          <span className={styles.title}>{initialState?.settings?.title}</span>
         </div>
         <div className={styles.loginForm}>
-          <Form form={form} initialValues={initialValues} layout="vertical">
+          <Form
+            form={form}
+            layout="vertical"
+            initialValues={{autoLogin: true}}
+          >
             <Form.Item
-              label={intl.formatMessage({ id: 'pages.user.login.userName' })}
               name="userName"
-              rules={[{ required: true, min: 5, max: 30 }]}
+              label={intl.formatMessage({id: "pages.user.login.userName"})}
+              rules={[
+                {required: true},
+                {max: 30},
+                {
+                  pattern: PATTERNS.characterWord,
+                  message: intl.formatMessage({id: "pages.common.validate.characterWord"}),
+                },
+              ]}
             >
               <Input
-                placeholder={intl.formatMessage({ id: 'pages.user.login.userName.placeholder' })}
+                placeholder={intl.formatMessage({id: "pages.user.login.userName.placeholder"})}
               />
             </Form.Item>
             <Form.Item
-              label={intl.formatMessage({ id: 'pages.user.login.password' })}
               name="password"
-              rules={[{ required: true, min: 6, max: 32 }]}
+              label={intl.formatMessage({id: "pages.user.login.password"})}
+              rules={[{required: true, min: 6, max: 32}]}
             >
               <Input.Password
-                placeholder={intl.formatMessage({ id: 'pages.user.login.password.placeholder' })}
+                placeholder={intl.formatMessage({id: "pages.user.login.password.placeholder"})}
               />
             </Form.Item>
             <Form.Item
-              label={intl.formatMessage({ id: 'pages.user.login.authCode' })}
-              rules={[{ required: true, len: 5 }]}
               name="authCode"
+              label={intl.formatMessage({id: "pages.user.login.authCode"})}
+              rules={[{required: true, len: 5}]}
             >
               <Row gutter={[16, 0]}>
                 <Col span={15}>
                   <Form.Item noStyle>
                     <Input
-                      placeholder={intl.formatMessage({
-                        id: 'pages.user.login.authCode.placeholder',
-                      })}
+                      placeholder={intl.formatMessage({id: "pages.user.login.authCode.placeholder"})}
                     />
                   </Form.Item>
                 </Col>
                 <Col span={9}>
                   <img
                     src={authCode?.img}
-                    alt={intl.formatMessage({ id: 'pages.user.login.authCode' })}
+                    alt={intl.formatMessage({id: "pages.user.login.authCode"})}
                     onClick={refreshAuthCode}
                   />
                 </Col>
               </Row>
             </Form.Item>
-            <Form.Item style={{ marginBottom: '12px' }}>
-              <Form.Item noStyle name="remember" valuePropName="checked">
-                <Checkbox>{intl.formatMessage({ id: 'pages.user.login.remember' })}</Checkbox>
+            <Form.Item style={{marginBottom: "12px"}}>
+              <Form.Item noStyle name="autoLogin" valuePropName="checked">
+                <Checkbox>
+                  {intl.formatMessage({id: "pages.user.login.autoLogin"})}
+                </Checkbox>
               </Form.Item>
-              <div style={{ float: 'right' }}>
-                <a>{intl.formatMessage({ id: 'pages.user.login.forget' })}</a>
+              <div style={{float: "right"}}>
+                <a>
+                  {intl.formatMessage({id: "pages.user.login.forget"})}
+                </a>
               </div>
             </Form.Item>
-            <Form.Item style={{ marginBottom: '6px' }}>
+            <Form.Item style={{marginBottom: "6px"}}>
               <Button
                 type="primary"
                 size="large"
                 htmlType="submit"
-                style={{ width: '100%' }}
+                style={{width: "100%"}}
                 onClick={handleSubmit}
               >
-                {intl.formatMessage({ id: 'pages.user.login.login' })}
+                {intl.formatMessage({id: "pages.user.login.login"})}
               </Button>
             </Form.Item>
             <Form.Item>
-              <a href="/register" style={{ float: 'right' }}>
-                {intl.formatMessage({ id: 'pages.user.login.register' })}
+              <a href="/user/register" style={{float: "right"}}>
+                {intl.formatMessage({id: "pages.user.login.register"})}
               </a>
             </Form.Item>
           </Form>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

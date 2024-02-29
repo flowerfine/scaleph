@@ -1,9 +1,9 @@
-import {useIntl} from 'umi';
+import {useIntl} from '@umijs/max';
 import {useState} from 'react';
 import {Form, message, Modal, UploadFile} from 'antd';
 import {UploadOutlined} from '@ant-design/icons';
 import {ProForm, ProFormText, ProFormUploadButton} from '@ant-design/pro-components';
-import {ModalFormProps} from '@/app.d';
+import {ModalFormProps} from '@/typings';
 import {Kerberos, KerberosUploadParam} from "@/pages/Resource/typings";
 import {KerberosService} from "@/pages/Resource/KerberosService";
 

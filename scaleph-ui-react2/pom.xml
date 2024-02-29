@@ -27,6 +27,7 @@
         <version>2.0.3-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
+
     <artifactId>scaleph-ui-react2</artifactId>
     <name>scaleph-ui-react2</name>
 
@@ -37,12 +38,12 @@
     </properties>
 
     <profiles>
-        <profile>
-            <id>dist</id>
-            <properties>
-                <build.command>run dist-build</build.command>
-            </properties>
-        </profile>
+      <profile>
+        <id>dist</id>
+        <properties>
+          <build.command>run dist-build</build.command>
+        </properties>
+      </profile>
     </profiles>
 
     <build>
@@ -65,7 +66,7 @@
                         </goals>
                         <phase>generate-resources</phase>
                         <configuration>
-                            <arguments>install</arguments>
+                            <arguments>install --force</arguments>
                         </configuration>
                     </execution>
                     <execution>

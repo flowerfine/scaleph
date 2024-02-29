@@ -1,79 +1,88 @@
-import {PageContainer} from "@ant-design/pro-components";
-import {Col, Menu, Row} from "antd";
-import React, {useEffect, useState} from "react";
-import {useIntl, useLocation} from "@umijs/max";
-import UserLog from "./components/Log";
-import UserMessage from "./components/Message";
-import UserProfile from "./components/Profile";
-import UserSecurity from "./components/Security";
+import { GridContent } from '@ant-design/pro-components';
+import { Col, Menu, Row } from 'antd';
+import { useEffect, useRef, useState } from 'react';
+import { useIntl, useLocation } from 'umi';
+import Log from './components/Log';
+import Message from './components/Message';
+import Profile from './components/Profile';
+import Security from './components/Security';
+import styles from './index.less';
 
-const UserCenter: React.FC = () => {
+const UserCenter: React.FC<{ defaultMenu?: string }> = () => {
   const intl = useIntl();
-  const [selectedKey, setSelectKey] = useState<string>("profile");
-  const target: { key: string } = useLocation().state as { key: string };
+  const urlParams = useLocation();
+  const dom = useRef<HTMLDivElement>();
+  const profile: string = 'profile';
+  const security: string = 'security';
+  const message: string = 'message';
+  const log: string = 'log';
+  const menuMap: Record<string, React.ReactNode> = {
+    profile: intl.formatMessage({ id: 'pages.admin.usercenter.profile' }),
+    security: intl.formatMessage({ id: 'pages.admin.usercenter.security' }),
+    message: intl.formatMessage({ id: 'pages.admin.usercenter.message' }),
+    log: intl.formatMessage({ id: 'pages.admin.usercenter.log' }),
+  };
+  const [selectedKey, setSelectKey] = useState<string>(profile);
 
   useEffect(() => {
-    if (target?.key) {
-      setSelectKey(target.key);
+    const params = urlParams.state;
+    if (params) {
+      setSelectKey(params?.defaultMenu);
     }
   }, []);
 
   const renderChildren = () => {
     switch (selectedKey) {
-      case 'profile':
-        return <UserProfile/>;
-      case 'security':
-        return <UserSecurity/>;
-      case 'message':
-        return <UserMessage/>;
-      case 'log':
-        return <UserLog/>;
+      case profile:
+        return <Profile></Profile>;
+      case security:
+        return <Security></Security>;
+      case message:
+        return <Message></Message>;
+      case log:
+        return <Log></Log>;
       default:
-        return <></>;
+        return null;
     }
   };
 
   return (
-    <PageContainer header={{title: null, breadcrumb: {}}}>
-      <Row>
-        <Col span={4}/>
-        <Col span={16}>
-          <Row>
-            <Col flex="220px">
+    <Row>
+      <Col span={3}></Col>
+      <Col span={18}>
+        <GridContent>
+          <div
+            className={styles.main}
+            ref={(ref) => {
+              if (ref) {
+                dom.current = ref;
+              }
+            }}
+          >
+            <div className={styles.leftMenu}>
               <Menu
                 mode="vertical"
                 selectedKeys={[selectedKey]}
-                onClick={({key}) => {
+                onClick={({ key }) => {
                   setSelectKey(key);
                 }}
-                items={[
-                  {
-                    key: "profile",
-                    label: intl.formatMessage({id: "pages.admin.usercenter.profile"}),
-                  },
-                  {
-                    key: "security",
-                    label: intl.formatMessage({id: "pages.admin.usercenter.security"}),
-                  },
-                  {
-                    key: "message",
-                    label: intl.formatMessage({id: "pages.admin.usercenter.message"}),
-                  },
-                  {
-                    key: "log",
-                    label: intl.formatMessage({id: "pages.admin.usercenter.log"}),
-                  },
-                ]}
-              />
-            </Col>
-            <Col flex="auto" style={{paddingLeft: 18}}>
-              {renderChildren()}
-            </Col>
-          </Row>
-        </Col>
-        <Col span={4}/>
-      </Row>
-    </PageContainer>
+              >
+                {Object.keys(menuMap).map((item) => (
+                  <Menu.Item key={item}>{menuMap[item]}</Menu.Item>
+                ))}
+              </Menu>
+            </div>
+            <div className={styles.right}>
+              <div className={styles.title}>
+                {menuMap[selectedKey]}
+                {renderChildren()}
+              </div>
+            </div>
+          </div>
+        </GridContent>
+      </Col>
+      <Col span={3}></Col>
+    </Row>
   );
 };
 

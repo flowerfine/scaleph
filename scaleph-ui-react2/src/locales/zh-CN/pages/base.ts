@@ -2,10 +2,6 @@ export default {
   'app.title.short': 'Scaleph',
   'app.title.long': 'Scaleph',
 
-  "app.common.message.403": "权限不足，禁止访问该页面！",
-  "app.common.message.404": "您访问的页面不存在！",
-  "app.common.message.500": "服务器出现错误，请稍后刷新重试！",
-
   'app.common.pagination.from': '第',
   'app.common.pagination.to': '条/总共',
   'app.common.pagination.total': '条',
@@ -74,7 +70,6 @@ export default {
   'app.common.operate.stop.label': '停止',
   'app.common.operate.deploy.label': 'Deploy',
   'app.common.operate.shutdown.label': 'Shutdown',
-  'dms.common.operate.back.home': '返回首页',
 
   'app.common.validate.characterWord': '只能输入字母数字、下划线',
   'app.common.validate.characterWord2': '只能输入字母数字、下划线和点号',

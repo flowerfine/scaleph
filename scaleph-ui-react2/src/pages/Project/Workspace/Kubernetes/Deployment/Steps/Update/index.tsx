@@ -1,11 +1,12 @@
+import {connect, history, useIntl} from "umi";
 import React, {useEffect, useRef} from "react";
 import {ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
-import {connect, history, useIntl, useLocation} from "@umijs/max";
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
 import {WsFlinkKubernetesDeployment, WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
 import {WsFlinkKubernetesDeploymentService} from "@/services/project/WsFlinkKubernetesDeploymentService";
 import DeploymentOptionsStepForm from "@/pages/Project/Workspace/Kubernetes/Deployment/Steps/New/OptionsStepForm";
 import DeploymentYAMLStepForm from "@/pages/Project/Workspace/Kubernetes/Deployment/Steps/New/YAMLStepForm";
+import {useLocation} from "@@/exports";
 
 const FlinkKubernetesDeploymentUpdateSteps: React.FC = (props: any) => {
   const intl = useIntl();

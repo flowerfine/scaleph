@@ -1,7 +1,7 @@
-import {useIntl} from '@umijs/max';
+import {useIntl} from 'umi';
 import {Form, message, Modal, UploadFile, UploadProps} from 'antd';
 import {ProForm, ProFormText, ProFormUploadButton} from '@ant-design/pro-components';
-import {ModalFormProps} from '@/typings';
+import {ModalFormProps} from '@/app.d';
 import {ClusterCredentialService} from '@/services/resource/clusterCredential.service';
 import {ClusterCredential, ClusterCredentialUploadParam} from '@/services/resource/typings';
 import {useState} from "react";

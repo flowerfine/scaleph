@@ -1,11 +1,11 @@
-import {Form, message, Modal} from 'antd';
-import {ProForm, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
-import {useIntl} from '@umijs/max';
+import {ModalFormProps} from '@/app.d';
 import {DICT_TYPE} from '@/constants/dictType';
 import {DictDataService} from '@/services/admin/dictData.service';
 import {SecUser} from '@/services/admin/typings';
 import {UserService} from '@/services/admin/user.service';
-import {ModalFormProps} from '@/typings';
+import {Form, message, Modal} from 'antd';
+import {useIntl} from 'umi';
+import {ProForm, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 
 const UserForm: React.FC<ModalFormProps<SecUser>> = ({data, visible, onVisibleChange, onCancel}) => {
   const intl = useIntl();

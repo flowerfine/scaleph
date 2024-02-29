@@ -1,6 +1,6 @@
-import {PageResponse, ResponseBody} from '@/typings';
+import {PageResponse, ResponseBody} from '@/app.d';
 import {USER_AUTH} from '@/constants/constant';
-import {request} from '@umijs/max';
+import {request} from 'umi';
 import {Kerberos, KerberosListParam, KerberosUploadParam} from "@/pages/Resource/typings";
 
 export const KerberosService = {

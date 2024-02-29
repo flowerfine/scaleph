@@ -1,6 +1,6 @@
+import {useIntl} from "umi";
 import React from "react";
 import {ProFormDigit, ProFormGroup, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
-import {useIntl} from "@umijs/max";
 
 const FlinkKubernetesJobDeployResourceStepForm: React.FC = () => {
   const intl = useIntl();

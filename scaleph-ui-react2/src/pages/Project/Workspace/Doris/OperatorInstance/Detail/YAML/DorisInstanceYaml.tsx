@@ -1,8 +1,8 @@
 import React, {useEffect, useRef} from "react";
-import {connect} from "@umijs/max";
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
-import {Props} from '@/typings';
+import {Props} from '@/app.d';
 import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
+import {connect} from "umi";
 
 const DorisInstanceDetailYAMLInstance: React.FC<Props<WsFlinkKubernetesTemplate>> = (props: any) => {
   const editorRef = useRef(null);

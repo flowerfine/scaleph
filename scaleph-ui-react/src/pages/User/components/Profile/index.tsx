@@ -6,7 +6,7 @@ import { UserService } from '@/services/admin/user.service';
 import { Button, Card, Col, DatePicker, Form, Input, message, Row, Select } from 'antd';
 import moment from 'moment';
 import { useLayoutEffect, useState } from 'react';
-import { useIntl } from 'umi';
+import { useIntl } from '@umijs/max';
 
 const Profile: React.FC = () => {
   const intl = useIntl();

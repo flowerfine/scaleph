@@ -1,4 +1,4 @@
-import {history, useAccess, useIntl, useLocation} from "@umijs/max";
+import {history, useAccess, useIntl, useLocation} from "umi";
 import {useRef} from "react";
 import {Button, Space, Tooltip} from "antd";
 import {FolderOpenOutlined} from "@ant-design/icons";

@@ -1,21 +1,39 @@
-﻿export default [
+﻿import { PRIVILEGES } from "../src/constants";
+
+/**
+ * @name umi 的路由配置
+ * @description 只支持 path,component,routes,redirect,wrappers,name,icon 的配置
+ * @param path  path 只支持两种占位符配置，第一种是动态参数 :id 的形式，第二种是 * 通配符，通配符只能出现路由字符串的最后。
+ * @param component 配置 location 和 path 匹配后用于渲染的 React 组件路径。可以是绝对路径，也可以是相对路径，如果是相对路径，会从 src/pages 开始找起。
+ * @param routes 配置子路由，通常在需要为多个路径增加 layout 组件时使用。
+ * @param redirect 配置路由跳转
+ * @param wrappers 配置路由组件的包装组件，通过包装组件可以为当前的路由组件组合进更多的功能。 比如，可以用于路由级别的权限校验
+ * @param name 配置路由的标题，默认读取国际化文件 menu.ts 中 menu.xxxx 的值，如配置 name 为 login，则读取 menu.ts 中 menu.login 的取值作为标题
+ * @param icon 配置路由的图标，取值参考 https://ant.design/components/icon-cn， 注意去除风格后缀和大小写，如想要配置图标为 <StepBackwardOutlined /> 则取值应为 stepBackward 或 StepBackward，如想要配置图标为 <UserOutlined /> 则取值应为 user 或者 User
+ * @doc https://umijs.org/docs/guides/routes
+ */
+export default [
   {
-    path: '/',
-    redirect: '/studio/databoard',
-  },
-  {
-    path: '/login',
+    path: "/user",
     layout: false,
-    component: './User/Login',
+    routes: [
+      {
+        name: "login",
+        path: "/user/login",
+        component: "./User/Login",
+        exact: true,
+      },
+      {
+        name: "register",
+        path: "/user/register",
+        component: "./User/Register",
+        exact: true,
+      },
+    ],
   },
   {
-    path: '/register',
-    layout: false,
-    component: './User/Register',
-  },
-  {
-    path: '/user/center',
-    component: './User',
+    path: "/",
+    redirect: "/studio",
   },
   {
     name: 'studio',
@@ -49,148 +67,219 @@
     path: '/workspace',
     routes: [
       {
-        path: '/workspace',
-        redirect: '/workspace/artifact',
-      },
-      {
-        name: 'project.artifact',
-        path: '/workspace/artifact',
-        icon: 'code',
-        routes: [
-          {
-            path: '/workspace/artifact',
-            redirect: '/workspace/artifact/jar',
-          },
-          {
-            name: 'jar',
-            path: '/workspace/artifact/jar',
-            component: './Project/Workspace/Artifact/Jar',
-          },
-          {
-            path: '/workspace/artifact/history',
-            component: './Project/Workspace/Artifact/Jar/History',
-          },
-          {
-            name: 'sql',
-            path: '/workspace/artifact/sql',
-            component: './Project/Workspace/Artifact/Sql',
-          },
-          {
-            path: '/workspace/artifact/editor',
-            component: './Project/Workspace/Artifact/Sql/CodeEditor',
-          },
-          {
-            name: 'seatunnel',
-            path: '/workspace/artifact/seatunnel',
-            component: './Project/Workspace/Artifact/DI/DiJobView',
-          },
-          {
-            path: '/workspace/artifact/seatunnel/dag',
-            component: './Project/Workspace/Artifact/DI/DiJobFlow',
-          },
-        ]
-      },
-      {
-        name: 'project.flink.kubernetes',
-        path: '/workspace/flink/kubernetes',
+        name: 'project.engine',
+        path: '/workspace/engine',
         icon: 'deploymentUnit',
         routes: [
           {
-            path: '/workspace/flink/kubernetes',
-            redirect: '/workspace/flink/kubernetes/template',
+            name: 'lake',
+            path: '/workspace/engine/lake',
+            icon: 'apartment',
+            routes: [
+              {
+                name: 'iceberg',
+                path: '/workspace/engine/lake/iceberg',
+                icon: 'apartment',
+                component: './Project/Workspace/Engine/Lake/Iceberg',
+              },
+              {
+                name: 'paimon',
+                path: '/workspace/engine/lake/paimon',
+                icon: 'apartment',
+                component: './Project/Workspace/Engine/Lake/Paimon',
+              }
+            ]
           },
           {
-            name: 'template',
-            path: '/workspace/flink/kubernetes/template',
-            component: './Project/Workspace/Kubernetes/Template',
+            name: 'olap',
+            path: '/workspace/engine/olap',
+            icon: 'apartment',
+            routes: [
+              {
+                name: 'doris',
+                path: '/workspace/engine/olap/doris',
+                icon: 'apartment',
+                routes: [
+                  {
+                    name: 'template',
+                    path: '/workspace/engine/olap/doris/template',
+                    component: './Project/Workspace/Engine/OLAP/Doris/OperatorTemplate',
+                  },
+                  {
+                    path: '/workspace/engine/olap/doris/template/steps',
+                    component: './Project/Workspace/Engine/OLAP/Doris/OperatorTemplate/Steps',
+                  },
+                  {
+                    path: '/workspace/engine/olap/doris/template/detail',
+                    component: './Project/Workspace/Engine/OLAP/Doris/OperatorTemplate/Detail',
+                  },
+                  {
+                    name: 'instance',
+                    path: '/workspace/engine/olap/doris/instance',
+                    component: './Project/Workspace/Engine/OLAP/Doris/OperatorInstance',
+                  },
+                  {
+                    path: '/workspace/engine/olap/doris/instance/steps',
+                    component: './Project/Workspace/Engine/OLAP/Doris/OperatorInstance/Steps',
+                  },
+                  {
+                    path: '/workspace/engine/olap/doris/instance/detail',
+                    component: './Project/Workspace/Engine/OLAP/Doris/OperatorInstance/Detail',
+                  },
+                ]
+              },
+              {
+                name: 'starrocks',
+                path: '/workspace/engine/olap/starrocks',
+                icon: 'apartment',
+                component: './Project/Workspace/Engine/OLAP/StarRocks',
+              }
+            ]
           },
           {
-            path: '/workspace/flink/kubernetes/template/steps/new',
-            component: './Project/Workspace/Kubernetes/Template/Steps/New',
-          },
-          {
-            path: '/workspace/flink/kubernetes/template/steps/update',
-            component: './Project/Workspace/Kubernetes/Template/Steps/Update',
-          },
-          {
-            name: 'session-cluster',
-            path: '/workspace/flink/kubernetes/session-cluster',
-            component: './Project/Workspace/Kubernetes/SessionCluster',
-          },
-          {
-            path: '/workspace/flink/kubernetes/session-cluster/steps/new',
-            component: './Project/Workspace/Kubernetes/SessionCluster/Steps/New',
-          },
-          {
-            path: '/workspace/flink/kubernetes/session-cluster/steps/update',
-            component: './Project/Workspace/Kubernetes/SessionCluster/Steps/Update',
-          },
-          {
-            path: '/workspace/flink/kubernetes/session-cluster/detail',
-            component: './Project/Workspace/Kubernetes/SessionCluster/Detail',
-          },
-          {
-            name: 'deployment',
-            path: '/workspace/flink/kubernetes/deployment',
-            component: './Project/Workspace/Kubernetes/Deployment',
-          },
-          {
-            path: '/workspace/flink/kubernetes/deployment/steps/new',
-            component: './Project/Workspace/Kubernetes/Deployment/Steps/New',
-          },
-          {
-            path: '/workspace/flink/kubernetes/deployment/steps/update',
-            component: './Project/Workspace/Kubernetes/Deployment/Steps/Update',
-          },
-          {
-            path: '/workspace/flink/kubernetes/deployment/detail',
-            component: './Project/Workspace/Kubernetes/Deployment/Detail',
-          },
-          {
-            name: 'job',
-            path: '/workspace/flink/kubernetes/job',
-            component: './Project/Workspace/Kubernetes/Job',
-          },
-          {
-            path: '/workspace/flink/kubernetes/job/detail',
-            component: './Project/Workspace/Kubernetes/Job/Detail',
+            name: 'compute',
+            path: '/workspace/engine/compute',
+            icon: 'apartment',
+            routes: [
+              {
+                name: 'flink',
+                path: '/workspace/engine/compute/flink',
+                icon: 'apartment',
+                routes: [
+                  {
+                    name: 'template',
+                    path: '/workspace/engine/compute/flink/template',
+                    component: './Project/Workspace/Engine/Compute/Flink/Template',
+                  },
+                  {
+                    path: '/workspace/engine/compute/flink/template/steps/new',
+                    component: './Project/Workspace/Engine/Compute/Flink/Template/Steps/New',
+                  },
+                  {
+                    path: '/workspace/engine/compute/flink/template/steps/update',
+                    component: './Project/Workspace/Engine/Compute/Flink/Template/Steps/Update',
+                  },
+                  {
+                    name: 'session-cluster',
+                    path: '/workspace/engine/compute/flink/session-cluster',
+                    component: './Project/Workspace/Engine/Compute/Flink/SessionCluster',
+                  },
+                  {
+                    path: '/workspace/engine/compute/flink/session-cluster/steps/new',
+                    component: './Project/Workspace/Engine/Compute/Flink/SessionCluster/Steps/New',
+                  },
+                  {
+                    path: '/workspace/engine/compute/flink/session-cluster/steps/update',
+                    component: './Project/Workspace/Engine/Compute/Flink/SessionCluster/Steps/Update',
+                  },
+                  {
+                    path: '/workspace/engine/compute/flink/session-cluster/detail',
+                    component: './Project/Workspace/Engine/Compute/Flink/SessionCluster/Detail',
+                  },
+                  {
+                    name: 'deployment',
+                    path: '/workspace/engine/compute/flink/deployment',
+                    component: './Project/Workspace/Engine/Compute/Flink/Deployment',
+                  },
+                  {
+                    path: '/workspace/engine/compute/flink/deployment/steps/new',
+                    component: './Project/Workspace/Engine/Compute/Flink/Deployment/Steps/New',
+                  },
+                  {
+                    path: '/workspace/engine/compute/flink/deployment/steps/update',
+                    component: './Project/Workspace/Engine/Compute/Flink/Deployment/Steps/Update',
+                  },
+                  {
+                    path: '/workspace/engine/compute/flink/deployment/detail',
+                    component: './Project/Workspace/Engine/Compute/Flink/Deployment/Detail',
+                  },
+                  {
+                    name: 'job',
+                    path: '/workspace/engine/compute/flink/job',
+                    component: './Project/Workspace/Engine/Compute/Flink/Job',
+                  },
+                  {
+                    path: '/workspace/engine/compute/flink/job/detail',
+                    component: './Project/Workspace/Engine/Compute/Flink/Job/Detail',
+                  },
+                ]
+              }
+            ]
           },
         ]
       },
       {
-        name: 'project.doris',
-        path: '/workspace/doris',
+        name: 'project.data-integration',
+        path: '/workspace/data-integration',
+        icon: 'deploymentUnit',
+        routes: [
+          {
+            name: 'seatunnel',
+            path: '/workspace/data-integration/seatunnel',
+            icon: 'apartment',
+            component: './Project/Workspace/DataIntegration/SeaTunnel',
+          },
+          {
+            path: '/workspace/data-integration/seatunnel/dag',
+            component: './Project/Workspace/DataIntegration/SeaTunnel/Dag',
+          },
+          {
+            name: 'flink-cdc',
+            path: '/workspace/data-integration/flink-cdc',
+            icon: 'apartment',
+            component: './Project/Workspace/DataIntegration/FlinkCDC',
+          },
+          {
+            path: '/workspace/data-integration/flink-cdc/dag',
+            component: './Project/Workspace/DataIntegration/FlinkCDC/Dag',
+          }
+        ]
+      },
+      {
+        name: 'project.data-develop',
+        path: '/workspace/data-develop',
+        icon: 'deploymentUnit',
+        routes: [
+          {
+            name: 'flink-jar',
+            path: '/workspace/data-develop/flink/jar',
+            icon: 'apartment',
+            component: './Project/Workspace/DataDevelop/Flink/Jar',
+          },
+          {
+            path: '/workspace/data-develop/flink/jar/history',
+            component: './Project/Workspace/DataDevelop/Flink/Jar/History',
+          },
+          {
+            name: 'flink-sql',
+            path: '/workspace/data-develop/flink/sql',
+            icon: 'apartment',
+            component: './Project/Workspace/DataDevelop/Flink/SQL',
+          },
+          {
+            path: '/workspace/data-develop/flink/sql/editor',
+            component: './Project/Workspace/DataDevelop/Flink/SQL/CodeEditor',
+          }
+        ]
+      },
+      {
+        name: 'project.dag-scheduler',
+        path: '/workspace/dag-scheduler',
+        icon: 'deploymentUnit',
+      },
+      {
+        name: 'project.data-service',
+        path: '/workspace/data-service',
         icon: 'solution',
         routes: [
           {
-            path: '/workspace/doris',
-            redirect: '/workspace/doris/template',
+            name: 'config',
+            path: '/workspace/data-service/config',
+            component: './Project/Workspace/DataService/Config',
           },
           {
-            name: 'template',
-            path: '/workspace/doris/template',
-            component: './Project/Workspace/Doris/OperatorTemplate',
-          },
-          {
-            path: '/workspace/doris/template/steps',
-            component: './Project/Workspace/Doris/OperatorTemplate/Steps',
-          },
-          {
-            path: '/workspace/doris/template/detail',
-            component: './Project/Workspace/Doris/OperatorTemplate/Detail',
-          },
-          {
-            name: 'instance',
-            path: '/workspace/doris/instance',
-            component: './Project/Workspace/Doris/OperatorInstance',
-          },
-          {
-            path: '/workspace/doris/instance/steps',
-            component: './Project/Workspace/Doris/OperatorInstance/Steps',
-          },
-          {
-            path: '/workspace/doris/instance/detail',
-            component: './Project/Workspace/Doris/OperatorInstance/Detail',
+            path: '/workspace/data-service/config/steps',
+            component: './Project/Workspace/DataService/Config/Steps',
           },
         ]
       },
@@ -358,6 +447,31 @@
     ],
   },
   {
-    component: './404',
+    path: "/user/center",
+    component: "./User",
+    exact: true,
+  },
+  {
+    path: "/403",
+    component: "./Abnormal/403",
+    layout: false,
+    exact: true,
+  },
+  {
+    path: "/404",
+    component: "./Abnormal/404",
+    layout: false,
+    exact: true,
+  },
+  {
+    path: "/500",
+    component: "./Abnormal/500",
+    layout: false,
+    exact: true,
+  },
+  {
+    path: "*",
+    layout: false,
+    component: "./Abnormal/404",
   },
 ];

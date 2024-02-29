@@ -1,5 +1,5 @@
-import { ResponseBody } from '@/app.d';
-import { request } from 'umi';
+import { ResponseBody } from '@/typings';
+import { request } from '@umijs/max';
 import { BasicConfig, EmailConfig } from './typings';
 
 export const SysConfigService = {

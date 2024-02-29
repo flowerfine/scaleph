@@ -1,8 +1,8 @@
-import {history, useIntl} from 'umi';
+import {history, useIntl} from '@umijs/max';
 import {useState} from 'react';
 import {Form, Modal, UploadFile, UploadProps} from 'antd';
 import {ProForm, ProFormDigit, ProFormSelect, ProFormText, ProFormUploadButton} from '@ant-design/pro-components';
-import {ModalFormProps} from '@/app.d';
+import {ModalFormProps} from '@/typings';
 import {DICT_TYPE} from '@/constants/dictType';
 import {DictDataService} from '@/services/admin/dictData.service';
 import {SeatunnelReleaseService} from '@/services/resource/seatunnelRelease.service';

@@ -1,15 +1,15 @@
-import React, { useRef, useState } from 'react';
-import { Button, message, Modal, Space, Tag, Tooltip } from 'antd';
-import { DeleteOutlined, EditOutlined, FormOutlined, PlusOutlined } from '@ant-design/icons';
-import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
-import { useAccess, useIntl } from '@umijs/max';
 import { PRIVILEGE_CODE } from '@/constants/privilegeCode';
 import WebAssugnRoles from '@/pages/Admin/Resource/Web/components/WebAssugnRoles';
 import WebResourceForm from '@/pages/Admin/Resource/Web/components/WebResourceForm';
 import { PrivilegeService } from '@/services/admin/privilege.service';
 import { ResourceWebService } from '@/services/admin/resourceWeb.service';
 import { SecResourceWeb } from '@/services/admin/typings';
+import { DeleteOutlined, EditOutlined, FormOutlined, PlusOutlined } from '@ant-design/icons';
+import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
+import { Button, message, Modal, Space, Tag, Tooltip } from 'antd';
 import { isEmpty } from 'lodash';
+import React, { useRef, useState } from 'react';
+import { useAccess, useIntl } from 'umi';
 
 const WebResourceWeb: React.FC = () => {
   const intl = useIntl();

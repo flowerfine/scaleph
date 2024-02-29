@@ -1,9 +1,8 @@
-import {useAccess, useIntl} from 'umi';
+import {useAccess, useIntl} from '@umijs/max';
 import React, {useEffect, useRef, useState} from 'react';
 import {Button, Card, Col, Input, List, message, Modal, Row, Space, Tabs, Tag, Tooltip, Tree, Typography,} from 'antd';
 import {EditOutlined, FormOutlined, RedoOutlined, StopOutlined, UserSwitchOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProFormSelect, ProTable} from '@ant-design/pro-components';
-import {TreeNode} from '@/app.d';
 import {DICT_TYPE} from '@/constants/dictType';
 import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
 import {DeptService} from '@/services/admin/dept.service';
@@ -17,6 +16,7 @@ import RoleGrant from './components/RoleGrant';
 import UserForm from './components/UserForm';
 import UserRoles from './components/UserRoles';
 import styles from './index.less';
+import {TreeNode} from '@/typings';
 
 const User: React.FC = () => {
   const intl = useIntl();

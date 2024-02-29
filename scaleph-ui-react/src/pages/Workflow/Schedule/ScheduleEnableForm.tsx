@@ -1,8 +1,8 @@
 import React from "react";
 import {Button, Form, message, Modal} from "antd";
 import {ProForm, ProFormSelect} from "@ant-design/pro-components";
-import {history, useIntl} from "umi";
-import {ModalFormProps} from '@/app.d';
+import {history, useIntl} from "@umijs/max";
+import {ModalFormProps} from '@/typings';
 import {WorkflowDefinition} from "@/services/workflow/typings";
 import {SchedulerService} from "@/services/workflow/scheduler.service";
 

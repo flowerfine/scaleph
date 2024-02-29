@@ -37,9 +37,9 @@ jobs:
     timeout-minutes: 360
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
       - name: Log in to the Container registry
         uses: docker/login-action@v1.10.0
         with:

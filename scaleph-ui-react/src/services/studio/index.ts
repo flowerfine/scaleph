@@ -1,7 +1,6 @@
 // @ts-ignore
-import { request } from 'umi';
+import { request } from '@umijs/max';
 import { topBatch100 } from "./typings"
-import { ResponseBody, PageResponse } from "@/app.d"
 
 export const DataboardService = {
   url: '/api/studio/databoard',
