@@ -19,7 +19,7 @@ import {StepSchemaService} from '../helper';
 import {DictDataService} from "@/services/admin/dictData.service";
 import {DICT_TYPE} from "@/constants/dictType";
 
-const SourceCDCSqlServerStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
+const SourceCDCOracleStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
   const [form] = Form.useForm();
 
@@ -78,14 +78,20 @@ const SourceCDCSqlServerStepForm: React.FC<ModalFormProps<Node>> = ({data, visib
           name={CDCParams.databases}
           label={intl.formatMessage({id: 'pages.project.di.step.cdc.databases'})}
           placeholder={intl.formatMessage({id: 'pages.project.di.step.cdc.databases.placeholder'})}
-          colProps={{span: 12}}
+          colProps={{span: 8}}
+        />
+        <ProFormText
+          name={CDCParams.schemas}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdc.schemas'})}
+          placeholder={intl.formatMessage({id: 'pages.project.di.step.cdc.schemas.placeholder'})}
+          colProps={{span: 8}}
         />
         <ProFormText
           name={CDCParams.tables}
           label={intl.formatMessage({id: 'pages.project.di.step.cdc.tables'})}
           placeholder={intl.formatMessage({id: 'pages.project.di.step.cdc.tables.placeholder'})}
           rules={[{required: true}]}
-          colProps={{span: 12}}
+          colProps={{span: 8}}
         />
         <ProFormTextArea
           name={CDCParams.tableConfig}
@@ -317,4 +323,4 @@ const SourceCDCSqlServerStepForm: React.FC<ModalFormProps<Node>> = ({data, visib
   );
 };
 
-export default SourceCDCSqlServerStepForm;
+export default SourceCDCOracleStepForm;

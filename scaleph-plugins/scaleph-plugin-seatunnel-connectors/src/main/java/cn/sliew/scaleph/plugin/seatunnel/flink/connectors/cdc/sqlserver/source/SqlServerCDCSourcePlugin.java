@@ -45,6 +45,7 @@ public class SqlServerCDCSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(PASSWORD);
         props.add(DATABASE);
         props.add(TABLE);
+        props.add(TABLE_CONFIG);
         props.add(STARTUP_MODE);
         props.add(STARTUP_TIMESTAMP);
         props.add(STARTUP_SPECIFIC_OFFSET_FILE);

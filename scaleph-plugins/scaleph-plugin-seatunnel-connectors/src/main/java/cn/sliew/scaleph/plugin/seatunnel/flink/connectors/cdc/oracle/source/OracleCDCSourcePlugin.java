@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cdc.mysql.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cdc.oracle.source;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
@@ -32,18 +32,19 @@ import java.util.List;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cdc.CDCSourceProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class MySQLCDCSourcePlugin extends SeaTunnelConnectorPlugin {
+public class OracleCDCSourcePlugin extends SeaTunnelConnectorPlugin {
 
-    public MySQLCDCSourcePlugin() {
+    public OracleCDCSourcePlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "The MySQL CDC connector allows for reading snapshot data and incremental data from MySQL database",
-                MySQLCDCSourcePlugin.class.getName());
+                "The Oracle CDC connector allows for reading snapshot data and incremental data from Oracle database",
+                OracleCDCSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(BASE_URL);
         props.add(USERNAME);
         props.add(PASSWORD);
         props.add(DATABASE);
+        props.add(OracleCDCSourceProperties.SCHEMA);
         props.add(TABLE);
         props.add(TABLE_CONFIG);
         props.add(STARTUP_MODE);
@@ -57,7 +58,6 @@ public class MySQLCDCSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(INCREMENTAL_PARALLELISM);
         props.add(SNAPSHOT_SPLIT_SIZE);
         props.add(SNAPSHOT_FETCH_SIZE);
-        props.add(SERVER_ID);
         props.add(SERVER_TIME_ZONE);
         props.add(CONNECT_TIMEOUT);
         props.add(CONNECT_MAX_RETRIES);
@@ -76,6 +76,6 @@ public class MySQLCDCSourcePlugin extends SeaTunnelConnectorPlugin {
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SOURCE_MYSQL_CDC;
+        return SeaTunnelPluginMapping.SOURCE_ORACLE_CDC;
     }
 }

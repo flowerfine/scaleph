@@ -69,6 +69,14 @@ public enum CDCSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<JsonNode> TABLE_CONFIG = new PropertyDescriptor.Builder()
+            .name("table-names")
+            .description("Table name of the database to monitor.")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<String> STARTUP_MODE = new PropertyDescriptor.Builder()
             .name("startup.mode")
             .description("Optional startup mode for MySQL CDC consumer")

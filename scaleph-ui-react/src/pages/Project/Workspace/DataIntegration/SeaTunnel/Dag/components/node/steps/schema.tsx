@@ -27,7 +27,7 @@ const SchemaItem: React.FC = () => {
           if (file_format_type == 'json') {
             return (
               <ProFormGroup
-                label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
+                title={intl.formatMessage({id: 'pages.project.di.step.schema'})}
                 tooltip={{
                   title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
                   icon: <InfoCircleOutlined/>,

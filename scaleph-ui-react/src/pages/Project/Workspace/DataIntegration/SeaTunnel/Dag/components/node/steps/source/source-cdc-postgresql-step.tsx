@@ -19,7 +19,7 @@ import {StepSchemaService} from '../helper';
 import {DictDataService} from "@/services/admin/dictData.service";
 import {DICT_TYPE} from "@/constants/dictType";
 
-const SourceCDCSqlServerStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
+const SourceCDCPostgreSQLStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
   const [form] = Form.useForm();
 
@@ -203,6 +203,19 @@ const SourceCDCSqlServerStepForm: React.FC<ModalFormProps<Node>> = ({data, visib
           }}
         />
         <ProFormText
+          name={CDCParams.slotName}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdc.slotName'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.cdc.slotName.tooltip'}),
+            icon: <InfoCircleOutlined/>
+          }}
+        />
+        <ProFormSelect
+          name={CDCParams.decodingPluginName}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdc.decodingPluginName'})}
+          options={["pgoutput", "decoderbufs", "wal2json", "wal2json_rds", "wal2json_streaming", "wal2json_rds_streaming"]}
+        />
+        <ProFormText
           name={CDCParams.serverTimeZone}
           label={intl.formatMessage({id: 'pages.project.di.step.cdc.serverTimeZone'})}
           initialValue={'UTC'}
@@ -317,4 +330,4 @@ const SourceCDCSqlServerStepForm: React.FC<ModalFormProps<Node>> = ({data, visib
   );
 };
 
-export default SourceCDCSqlServerStepForm;
+export default SourceCDCPostgreSQLStepForm;

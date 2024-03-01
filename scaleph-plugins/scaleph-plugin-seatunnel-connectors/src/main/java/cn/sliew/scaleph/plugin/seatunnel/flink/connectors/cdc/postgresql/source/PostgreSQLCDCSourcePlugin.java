@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cdc.mysql.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cdc.postgresql.source;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
@@ -32,12 +32,12 @@ import java.util.List;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cdc.CDCSourceProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class MySQLCDCSourcePlugin extends SeaTunnelConnectorPlugin {
+public class PostgreSQLCDCSourcePlugin extends SeaTunnelConnectorPlugin {
 
-    public MySQLCDCSourcePlugin() {
+    public PostgreSQLCDCSourcePlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "The MySQL CDC connector allows for reading snapshot data and incremental data from MySQL database",
-                MySQLCDCSourcePlugin.class.getName());
+                "The Postgre CDC connector allows for reading snapshot data and incremental data from PostgreSQL database",
+                PostgreSQLCDCSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(BASE_URL);
@@ -57,7 +57,8 @@ public class MySQLCDCSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(INCREMENTAL_PARALLELISM);
         props.add(SNAPSHOT_SPLIT_SIZE);
         props.add(SNAPSHOT_FETCH_SIZE);
-        props.add(SERVER_ID);
+        props.add(PostgreSQLCDCSourceProperties.SLOT_NAME);
+        props.add(PostgreSQLCDCSourceProperties.DECODING_PLUGIN_NAME);
         props.add(SERVER_TIME_ZONE);
         props.add(CONNECT_TIMEOUT);
         props.add(CONNECT_MAX_RETRIES);
@@ -76,6 +77,6 @@ public class MySQLCDCSourcePlugin extends SeaTunnelConnectorPlugin {
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SOURCE_MYSQL_CDC;
+        return SeaTunnelPluginMapping.SOURCE_POSTGRESQL_CDC;
     }
 }
