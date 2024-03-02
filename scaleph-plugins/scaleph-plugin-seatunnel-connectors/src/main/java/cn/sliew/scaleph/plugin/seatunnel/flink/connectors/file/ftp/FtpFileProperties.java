@@ -58,4 +58,13 @@ public enum FtpFileProperties {
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
+
+    public static final PropertyDescriptor<String> CONNECTION_MODE = new PropertyDescriptor.Builder<String>()
+            .name("connection_mode")
+            .description("The target ftp connection mode")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .allowableValues("active_local", "passive_local")
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
 }

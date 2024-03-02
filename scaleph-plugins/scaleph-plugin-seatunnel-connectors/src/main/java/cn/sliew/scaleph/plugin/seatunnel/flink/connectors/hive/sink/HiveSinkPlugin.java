@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSinkProperties.COMPRESS_CODEC;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.COMPRESS_CODEC;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.HiveProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)

@@ -76,6 +76,12 @@ export default {
   'pages.project.di.step.column.tooltip': '数据源读取的列, 用户可以用来实现字段映射',
   'pages.project.di.step.column.field': '字段',
 
+  // saveMode
+  'pages.project.di.step.saveMode.schemaSaveMode': 'Schema变更同步',
+  'pages.project.di.step.saveMode.schemaSaveMode.tooltip': '当上游数据源发生 schema 变更时，同步 schema 变更方式',
+  'pages.project.di.step.saveMode.dataSaveMode': '重复数据同步',
+  'pages.project.di.step.saveMode.dataSaveMode.tooltip': '当上游数据已经在 Doris 存在时，同步数据方式',
+
   // socket
   'pages.project.di.step.socket.maxRetries': '重试次数',
 
@@ -123,6 +129,8 @@ export default {
   'pages.project.di.step.jdbc.autoCommit': '自动提交',
 
   // fake
+  'pages.project.di.step.fake.tablesConfigs': '多表配置',
+  'pages.project.di.step.fake.tablesConfigs.tooltip': '需要在一个数据源中模拟多张表数据时，可以启用此配置',
   'pages.project.di.step.fake.rows': '生成数据',
   'pages.project.di.step.fake.rowNum': '生成数据行数',
   'pages.project.di.step.fake.splitNum': 'Split 数量',
@@ -168,6 +176,8 @@ export default {
 
   // base file
   'pages.project.di.step.baseFile.path': '路径',
+  'pages.project.di.step.baseFile.tmpPath': '数据临时路径',
+  'pages.project.di.step.baseFile.tmpPath.tooltip': '数据会存储在本地临时路径，后续使用 mv 提交至目标路径',
   'pages.project.di.step.baseFile.fileFilterPattern': '文件过滤表达式',
   'pages.project.di.step.baseFile.fileFormatType': '文件格式',
   'pages.project.di.step.baseFile.readColumns': '列',
@@ -183,9 +193,9 @@ export default {
   'pages.project.di.step.baseFile.filenameTimeFormat': '文件名时间格式',
   'pages.project.di.step.baseFile.fieldDelimiter': '字段分隔符',
   'pages.project.di.step.baseFile.rowDelimiter': '行分隔符',
-  'pages.project.di.step.baseFile.havePartition': '带分区',
-  'pages.project.di.step.baseFile.partitionBy': '分区',
-  'pages.project.di.step.baseFile.partitionDirExpression': 'Partition Dir Expression',
+  'pages.project.di.step.baseFile.havePartition': '支持分区',
+  'pages.project.di.step.baseFile.partitionBy': '分区字段',
+  'pages.project.di.step.baseFile.partitionDirExpression': '分区目录表达式',
   'pages.project.di.step.baseFile.isPartitionFieldWriteInFile': '分区字段写入文件',
   'pages.project.di.step.baseFile.sinkColumns': 'Sink列',
   'pages.project.di.step.baseFile.isEnableTransaction': '启用事务',
@@ -583,10 +593,6 @@ export default {
   'pages.project.di.step.doris.dorisBatchSize': '批量写入数量',
   'pages.project.di.step.doris.needsUnsupportedTypeCasting': '启用类型转换',
   'pages.project.di.step.doris.needsUnsupportedTypeCasting.tooltip': '上游数据类型和 Doris 数据类型不匹配时，将上游数据转换成 Doris 支持的数据类型。如 Decimal64 转换成 Double',
-  'pages.project.di.step.doris.schemaSaveMode': 'Schema变更同步',
-  'pages.project.di.step.doris.schemaSaveMode.tooltip': '当上游数据源发生 schema 变更时，同步 schema 变更方式',
-  'pages.project.di.step.doris.dataSaveMode': '重复数据同步',
-  'pages.project.di.step.doris.dataSaveMode.tooltip': '当上游数据已经在 Doris 存在时，同步数据方式',
   'pages.project.di.step.doris.saveModeCreateTemplate': 'Schema 创建模板',
   'pages.project.di.step.doris.saveModeCreateTemplate.tooltip': '同步上游 Schema 时，创建 Doris 表模板',
   'pages.project.di.step.doris.saveModeCreateTemplate.placeholder': 'CREATE TABLE IF NOT EXISTS `${database}`.`${table_name}`\n' +
@@ -661,6 +667,8 @@ export default {
   'pages.project.di.step.dynamodb.schema': '模式',
   'pages.project.di.step.dynamodb.batchSize': '批量大小',
   'pages.project.di.step.dynamodb.batchIntervalMs': '批量间隔时间(毫秒)',
+  'pages.project.di.step.dynamodb.scanItemLimit': '每次Scan限制',
+  'pages.project.di.step.dynamodb.parallelScanThreads': 'Scan线程数',
 
   // s3redshift
   'pages.project.di.step.s3redshift.jdbcUrl': 'Jdbc URL',

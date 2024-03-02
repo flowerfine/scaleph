@@ -98,26 +98,6 @@ public enum DorisSinkProperties {
             .addValidator(Validators.BOOLEAN_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> SCHEMA_SAVE_MODE = new PropertyDescriptor.Builder()
-            .name("schema_save_mode")
-            .description("the schema save mode")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .defaultValue("CREATE_SCHEMA_WHEN_NOT_EXIST")
-            .allowableValues("CREATE_SCHEMA_WHEN_NOT_EXIST", "RECREATE_SCHEMA", "ERROR_WHEN_SCHEMA_NOT_EXIST")
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> DATA_SAVE_MODE = new PropertyDescriptor.Builder()
-            .name("data_save_mode")
-            .description("the data save mode")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .defaultValue("APPEND_DATA")
-            .allowableValues("APPEND_DATA", "DROP_DATA", "CUSTOM_PROCESSING", "ERROR_WHEN_DATA_EXISTS")
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
     public static final PropertyDescriptor<String> SAVE_MODE_CREATE_TEMPLATE = new PropertyDescriptor.Builder()
             .name("save_mode_create_template")
             .description("the data save mode")

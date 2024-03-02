@@ -52,6 +52,9 @@ public class FtpDataSource extends AbstractDataSource {
     @Schema(description = "password")
     private String password;
 
+    @Schema(description = "connection mode。support active_local or passive_local")
+    private String connectionMode;
+
     @Override
     public DataSourceType getType() {
         return DataSourceType.FTP;
@@ -65,7 +68,7 @@ public class FtpDataSource extends AbstractDataSource {
         dsType.setType(getType());
         dto.setDsType(dsType);
         String encryptedPass = CodecUtil.encrypt(password);
-        Map<String, Object> props = Map.of("host", host, "port", port, "username", username, "password", encryptedPass);
+        Map<String, Object> props = Map.of("host", host, "port", port, "username", username, "password", encryptedPass, "connectionMode", connectionMode);
         dto.setProps(props);
         return dto;
     }

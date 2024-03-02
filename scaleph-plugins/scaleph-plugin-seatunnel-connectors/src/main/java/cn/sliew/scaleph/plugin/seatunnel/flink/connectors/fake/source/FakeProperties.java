@@ -24,6 +24,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 public enum FakeProperties {
     ;
 
+    public static final PropertyDescriptor<JsonNode> TABLES_CONFIGS = new PropertyDescriptor.Builder<JsonNode>()
+            .name("tables_configs")
+            .description(
+                    "Define Multiple FakeSource, each item can contains the whole fake source config description below")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<JsonNode> SCHEMA = new PropertyDescriptor.Builder<JsonNode>()
             .name("schema")
             .description(

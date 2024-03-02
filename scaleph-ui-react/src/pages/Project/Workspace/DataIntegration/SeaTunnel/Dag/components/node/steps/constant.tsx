@@ -33,6 +33,7 @@ export const ColumnParams = {
 }
 
 export const FakeParams = {
+    tablesConfigs: 'tables_configs',
     rows: 'rows',
     rowNum: 'row.num',
     splitNum: 'split.num',
@@ -115,6 +116,7 @@ export const JdbcParams = {
 
 export const BaseFileParams = {
     path: 'path',
+    tmpPath: 'tmp_path',
     fileFilterPattern: 'file_filter_pattern',
     fileFormatType: 'file_format_type',
     readColumns: 'read_columns',
@@ -138,7 +140,7 @@ export const BaseFileParams = {
     batchSize: 'batch_size',
     compressCodec: 'compress_codec',
     maxRowsInMemory: 'max_rows_in_memory',
-    sheetName: 'sheet_name'
+    sheetName: 'sheet_name',
 };
 
 export const HDFSFileParams = {
@@ -594,7 +596,9 @@ export const AmazonDynamoDBParams = {
     table: 'table',
     schema: 'schema',
     batchSize: 'batch_size',
-    batchIntervalMs: 'batch_interval_ms'
+    batchIntervalMs: 'batch_interval_ms',
+    scanItemLimit: 'scan_item_limit',
+    parallelScanThreads: 'parallel_scan_threads'
 };
 
 export const S3RedshiftParams = {

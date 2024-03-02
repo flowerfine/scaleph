@@ -24,6 +24,7 @@ import cn.sliew.scaleph.ds.modal.olap.DorisDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
+import cn.sliew.scaleph.plugin.seatunnel.flink.connectors.SaveModeProperties;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
 import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperties;
 import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
@@ -58,8 +59,8 @@ public class DorisSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(SINK_BUFFER_COUNT);
         props.add(DORIS_BATCH_SIZE);
         props.add(NEEDS_UNSUPPORTED_TYPE_CASTING);
-        props.add(SCHEMA_SAVE_MODE);
-        props.add(DATA_SAVE_MODE);
+        props.add(SaveModeProperties.SCHEMA_SAVE_MODE);
+        props.add(SaveModeProperties.DATA_SAVE_MODE);
         props.add(SAVE_MODE_CREATE_TEMPLATE);
         props.add(CUSTOM_SQL);
         props.add(DORIS_CONFIG);

@@ -1,12 +1,15 @@
 import React, {useEffect} from 'react';
 import {Form} from 'antd';
+import {InfoCircleOutlined} from "@ant-design/icons";
 import {
-    DrawerForm, ProFormDependency,
+    DrawerForm,
+    ProFormDependency,
     ProFormDigit,
     ProFormGroup,
-    ProFormList, ProFormRadio, ProFormSelect,
+    ProFormList,
     ProFormSwitch,
-    ProFormText, ProFormTextArea
+    ProFormText,
+    ProFormTextArea
 } from '@ant-design/pro-components';
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
@@ -14,7 +17,7 @@ import {ModalFormProps} from '@/typings';
 import {DorisParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from "../helper";
 import DataSourceItem from "../dataSource";
-import {InfoCircleOutlined} from "@ant-design/icons";
+import SaveModeItem from "../saveMode";
 
 const SinkDorisStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
     const intl = getIntl(getLocale());
@@ -145,33 +148,11 @@ const SinkDorisStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVis
                     }}
                 />
 
-                <ProFormSelect
-                    name={"schema_save_mode"}
-                    label={intl.formatMessage({id: 'pages.project.di.step.doris.schemaSaveMode'})}
-                    tooltip={{
-                        title: intl.formatMessage({id: 'pages.project.di.step.doris.schemaSaveMode.tooltip'}),
-                        icon: <InfoCircleOutlined/>,
-                    }}
-                    colProps={{span: 12}}
-                    initialValue={"CREATE_SCHEMA_WHEN_NOT_EXIST"}
-                    options={["CREATE_SCHEMA_WHEN_NOT_EXIST", "ERROR_WHEN_SCHEMA_NOT_EXIST", "RECREATE_SCHEMA"]}
-                />
-
-                <ProFormSelect
-                    name={"data_save_mode"}
-                    label={intl.formatMessage({id: 'pages.project.di.step.doris.dataSaveMode'})}
-                    tooltip={{
-                        title: intl.formatMessage({id: 'pages.project.di.step.doris.dataSaveMode.tooltip'}),
-                        icon: <InfoCircleOutlined/>,
-                    }}
-                    colProps={{span: 12}}
-                    initialValue={"APPEND_DATA"}
-                    options={["DROP_DATA", "APPEND_DATA", "CUSTOM_PROCESSING", "ERROR_WHEN_DATA_EXISTS"]}
-                />
+                <SaveModeItem/>
                 <ProFormDependency name={['schema_save_mode']}>
                     {({schema_save_mode}) => {
                         if (schema_save_mode == 'CREATE_SCHEMA_WHEN_NOT_EXIST'
-                            || schema_save_mode == 'RECREATE_SCHEMA' ) {
+                            || schema_save_mode == 'RECREATE_SCHEMA') {
                             return (
                                 <ProFormTextArea
                                     name={DorisParams.saveModeCreateTemplate}

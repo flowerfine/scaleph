@@ -30,13 +30,13 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.PATH;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.SHEET_NAME;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSourceProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ftp.FtpFileProperties.*;
 
@@ -52,11 +52,12 @@ public class FtpFileSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(PATH);
         props.add(SKIP_HEADER_ROW_NUMBER);
         props.add(SHEET_NAME);
+        props.add(COMPRESS_CODEC);
         props.add(FILE_FILTER_PATTERN);
         props.add(FILE_FORMAT_TYPE);
         props.add(READ_COLUMNS);
         props.add(SCHEMA);
-        props.add(DELIMITER);
+        props.add(FIELD_DELIMITER);
         props.add(PARSE_PARTITION_FROM_PATH);
         props.add(DATE_FORMAT);
         props.add(TIME_FORMAT);
@@ -80,6 +81,9 @@ public class FtpFileSourcePlugin extends SeaTunnelConnectorPlugin {
         conf.putPOJO(PORT.getName(), dataSource.getPort());
         conf.putPOJO(USER.getName(), dataSource.getUsername());
         conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
+        if (StringUtils.hasText(dataSource.getConnectionMode())) {
+            conf.putPOJO(CONNECTION_MODE.getName(), dataSource.getConnectionMode());
+        }
         return conf;
     }
 

@@ -35,8 +35,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.PATH;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.SHEET_NAME;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSinkProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.s3.S3Properties.*;
 
@@ -51,6 +50,8 @@ public class S3SinkPlugin extends SeaTunnelConnectorPlugin {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(HADOOP_S3_PROPERTIES);
         props.add(PATH);
+        props.add(SHEET_NAME);
+        props.add(COMPRESS_CODEC);
         props.add(FILE_FORMAT_TYPE);
         props.add(CUSTOM_FILENAME);
         props.add(FILE_NAME_EXPRESSION);
@@ -65,7 +66,6 @@ public class S3SinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(IS_ENABLE_TRANSACTION);
         props.add(BATCH_SIZE);
         props.add(MAX_ROWS_IN_MEMORY);
-        props.add(SHEET_NAME);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
