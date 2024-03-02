@@ -51,14 +51,40 @@ public enum DorisProperties {
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
-    
-    public static final PropertyDescriptor<String> TABLE_IDENTIFIER = new PropertyDescriptor.Builder()
-            .name("table.identifier")
-            .description("The name of Doris table")
+
+    public static final PropertyDescriptor<String> DATABASE = new PropertyDescriptor.Builder()
+            .name("database")
+            .description("The database name of Doris table")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> TABLE = new PropertyDescriptor.Builder()
+            .name("table")
+            .description("The table name of Doris table")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> QUERY_PORT = new PropertyDescriptor.Builder()
+            .name("query-port")
+            .description("Doris Fenodes query_port")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> DORIS_BATCH_SIZE = new PropertyDescriptor.Builder()
+            .name("doris.batch.size")
+            .description("the batch size of the write to doris each http request, when the row reaches the size or checkpoint is executed, the data of cached will write to server.")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .defaultValue(1024)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
 }

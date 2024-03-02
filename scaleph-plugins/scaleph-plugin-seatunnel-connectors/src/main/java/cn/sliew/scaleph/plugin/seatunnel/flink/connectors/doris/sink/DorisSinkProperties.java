@@ -89,6 +89,51 @@ public enum DorisSinkProperties {
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<Boolean> NEEDS_UNSUPPORTED_TYPE_CASTING = new PropertyDescriptor.Builder()
+            .name("needs_unsupported_type_casting")
+            .description("Whether to enable the unsupported type casting, such as Decimal64 to Double")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .defaultValue(false)
+            .addValidator(Validators.BOOLEAN_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> SCHEMA_SAVE_MODE = new PropertyDescriptor.Builder()
+            .name("schema_save_mode")
+            .description("the schema save mode")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .defaultValue("CREATE_SCHEMA_WHEN_NOT_EXIST")
+            .allowableValues("CREATE_SCHEMA_WHEN_NOT_EXIST", "RECREATE_SCHEMA", "ERROR_WHEN_SCHEMA_NOT_EXIST")
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> DATA_SAVE_MODE = new PropertyDescriptor.Builder()
+            .name("data_save_mode")
+            .description("the data save mode")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .defaultValue("APPEND_DATA")
+            .allowableValues("APPEND_DATA", "DROP_DATA", "CUSTOM_PROCESSING", "ERROR_WHEN_DATA_EXISTS")
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> SAVE_MODE_CREATE_TEMPLATE = new PropertyDescriptor.Builder()
+            .name("save_mode_create_template")
+            .description("the data save mode")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> CUSTOM_SQL = new PropertyDescriptor.Builder()
+            .name("custom_sql")
+            .description("When data_save_mode selects CUSTOM_PROCESSING, you should fill in the CUSTOM_SQL parameter. This parameter usually fills in a SQL that can be executed. SQL will be executed before synchronization tasks.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<JsonNode> DORIS_CONFIG = new PropertyDescriptor.Builder()
             .name("doris.config")
             .description("The way to specify the parameter is to add the prefix sink.properties. to the original stream load parameter")

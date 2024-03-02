@@ -30,6 +30,7 @@ import SinkDingTalkStepForm from "./sink/sink-dingtalk-step";
 import SinkEmailStepForm from "./sink/sink-email-step";
 import SourceSocketStepForm from "./source/source-socket-step";
 import SinkSocketStepForm from "./sink/sink-socket-step";
+import SourceDorisStepForm from "./source/source-doris-step";
 import SinkDorisStepForm from "./sink/sink-doris-step";
 import SourceStarRocksStepForm from "./source/source-starrocks-step";
 import SinkStarRocksStepForm from "./sink/sink-starrocks-step";
@@ -175,7 +176,10 @@ const SeaTunnnelConnectorForm: React.FC<ModalFormProps<Node>> = ({visible, onVis
     } else if (type === 'sink' && name === 'Socket') {
       return (
         <SinkSocketStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
-    } else if (type === 'sink' && name === 'Doris') {
+    } else if (type === 'source' && name === 'Doris') {
+      return (
+        <SourceDorisStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
+    }  else if (type === 'sink' && name === 'Doris') {
       return (
         <SinkDorisStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'source' && name === 'StarRocks') {

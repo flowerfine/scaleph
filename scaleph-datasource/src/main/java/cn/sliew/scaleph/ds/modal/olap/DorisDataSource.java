@@ -49,6 +49,10 @@ public class DorisDataSource extends AbstractDataSource {
     @Schema(description = "password")
     private String password;
 
+    @NotBlank
+    @Schema(description = "fenodes query port")
+    private Integer queryPort;
+
     @Override
     public DataSourceType getType() {
         return DataSourceType.DORIS;
@@ -68,6 +72,9 @@ public class DorisDataSource extends AbstractDataSource {
         }
         if (StringUtils.hasText(password)) {
             props.put("password", CodecUtil.encrypt(password));
+        }
+        if (queryPort != null) {
+            props.put("queryPort", queryPort);
         }
         dto.setProps(props);
         return dto;
