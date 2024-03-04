@@ -76,8 +76,19 @@ export default {
   'pages.project.di.step.column.tooltip': '数据源读取的列, 用户可以用来实现字段映射',
   'pages.project.di.step.column.field': '字段',
 
+  // saveMode
+  'pages.project.di.step.saveMode.schemaSaveMode': 'Schema变更同步',
+  'pages.project.di.step.saveMode.schemaSaveMode.tooltip': '当上游数据源发生 schema 变更时，同步 schema 变更方式',
+  'pages.project.di.step.saveMode.dataSaveMode': '重复数据同步',
+  'pages.project.di.step.saveMode.dataSaveMode.tooltip': '当上游数据已经在 Doris 存在时，同步数据方式',
+
   // socket
   'pages.project.di.step.socket.maxRetries': '重试次数',
+
+  // console
+  'pages.project.di.step.console.logPrintData': '输出至日志文件',
+  'pages.project.di.step.console.logPrintDataDelayMs': '数据输出延迟(毫秒)',
+  'pages.project.di.step.console.logPrintDataDelayMs.tooltip': '每条数据数据至日志文件时，数据之间的时间间隔。默认为 0，表示无间隔',
 
   // jdbc
   'pages.project.di.step.jdbc.connectionCheckTimeoutSec': '数据源连接超时(秒)',
@@ -118,6 +129,8 @@ export default {
   'pages.project.di.step.jdbc.autoCommit': '自动提交',
 
   // fake
+  'pages.project.di.step.fake.tablesConfigs': '多表配置',
+  'pages.project.di.step.fake.tablesConfigs.tooltip': '需要在一个数据源中模拟多张表数据时，可以启用此配置',
   'pages.project.di.step.fake.rows': '生成数据',
   'pages.project.di.step.fake.rowNum': '生成数据行数',
   'pages.project.di.step.fake.splitNum': 'Split 数量',
@@ -163,6 +176,8 @@ export default {
 
   // base file
   'pages.project.di.step.baseFile.path': '路径',
+  'pages.project.di.step.baseFile.tmpPath': '数据临时路径',
+  'pages.project.di.step.baseFile.tmpPath.tooltip': '数据会存储在本地临时路径，后续使用 mv 提交至目标路径',
   'pages.project.di.step.baseFile.fileFilterPattern': '文件过滤表达式',
   'pages.project.di.step.baseFile.fileFormatType': '文件格式',
   'pages.project.di.step.baseFile.readColumns': '列',
@@ -178,9 +193,9 @@ export default {
   'pages.project.di.step.baseFile.filenameTimeFormat': '文件名时间格式',
   'pages.project.di.step.baseFile.fieldDelimiter': '字段分隔符',
   'pages.project.di.step.baseFile.rowDelimiter': '行分隔符',
-  'pages.project.di.step.baseFile.havePartition': '带分区',
-  'pages.project.di.step.baseFile.partitionBy': '分区',
-  'pages.project.di.step.baseFile.partitionDirExpression': 'Partition Dir Expression',
+  'pages.project.di.step.baseFile.havePartition': '支持分区',
+  'pages.project.di.step.baseFile.partitionBy': '分区字段',
+  'pages.project.di.step.baseFile.partitionDirExpression': '分区目录表达式',
   'pages.project.di.step.baseFile.isPartitionFieldWriteInFile': '分区字段写入文件',
   'pages.project.di.step.baseFile.sinkColumns': 'Sink列',
   'pages.project.di.step.baseFile.isEnableTransaction': '启用事务',
@@ -188,6 +203,7 @@ export default {
   'pages.project.di.step.baseFile.compressCodec': '压缩方式',
   'pages.project.di.step.baseFile.maxRowsInMemory': '内存中缓存数据量',
   'pages.project.di.step.baseFile.sheetName': 'Sheet',
+  'pages.project.di.step.baseFile.enableHeaderWrite': '是否写入 Header',
 
   // hdfs file
   'pages.project.di.step.hdfsFile.defaultFS': 'fs.defaultFS',
@@ -222,6 +238,8 @@ export default {
   'pages.project.di.step.http.url': '请求URL',
   'pages.project.di.step.http.headers': '请求Header',
   'pages.project.di.step.http.header': 'header',
+  'pages.project.di.step.http.connectTimeoutMs': '连接超时(毫秒)',
+  'pages.project.di.step.http.socketTimeoutMs': 'Socket超时(毫秒)',
   'pages.project.di.step.http.params': '请求Param',
   'pages.project.di.step.http.param': 'param',
   'pages.project.di.step.http.body': '请求Body',
@@ -320,6 +338,8 @@ export default {
 
   // hive
   'pages.project.di.step.hive.tableName': 'Hive表名',
+  'pages.project.di.step.hive.abortDropPartitionMetadata': '终止操作是否删除 Metastore 中分区信息',
+  'pages.project.di.step.hive.abortDropPartitionMetadata.tooltip': '只会影响 Metastore 中分区数据，分区中的数据始终会被删除',
   'pages.project.di.step.hive.metastoreUri': 'Hive Metastore URI',
   'pages.project.di.step.hive.metastoreUri.tooltip': '例如 : thrift://ctyun7:9083',
   'pages.project.di.step.hive.readParitions': '分区列表',
@@ -566,7 +586,8 @@ export default {
   'pages.project.di.step.cassandra.asyncWrite': '启用异步写入',
 
   // doris
-  'pages.project.di.step.doris.tableIdentifier': '表格',
+  'pages.project.di.step.doris.database': '数据库',
+  'pages.project.di.step.doris.table': '表',
   'pages.project.di.step.doris.sinkLabelPrefix': '标签前缀',
   'pages.project.di.step.doris.sinkEnable2PC': '启用2PC',
   'pages.project.di.step.doris.sinkEnableDelete': '启用删除',
@@ -574,12 +595,37 @@ export default {
   'pages.project.di.step.doris.sinkMaxRetries': '重试次数',
   'pages.project.di.step.doris.sinkBufferSize': 'Buffer 大小',
   'pages.project.di.step.doris.sinkBufferCount': 'Buffer 数量',
+  'pages.project.di.step.doris.dorisBatchSize': '批量写入数量',
+  'pages.project.di.step.doris.needsUnsupportedTypeCasting': '启用类型转换',
+  'pages.project.di.step.doris.needsUnsupportedTypeCasting.tooltip': '上游数据类型和 Doris 数据类型不匹配时，将上游数据转换成 Doris 支持的数据类型。如 Decimal64 转换成 Double',
+  'pages.project.di.step.doris.saveModeCreateTemplate': 'Schema 创建模板',
+  'pages.project.di.step.doris.saveModeCreateTemplate.tooltip': '同步上游 Schema 时，创建 Doris 表模板',
+  'pages.project.di.step.doris.saveModeCreateTemplate.placeholder': 'CREATE TABLE IF NOT EXISTS `${database}`.`${table_name}`\n' +
+      '(   \n' +
+      '    id,\n' +
+      '    ${rowtype_fields}\n' +
+      ') ENGINE = OLAP UNIQUE KEY (${rowtype_primary_key})\n' +
+      '    DISTRIBUTED BY HASH (${rowtype_primary_key})\n' +
+      '    PROPERTIES\n' +
+      '(\n' +
+      '    "replication_num" = "1"\n' +
+      ');',
+  'pages.project.di.step.doris.customSql': '自定义处理 SQL',
   'pages.project.di.step.doris.dorisConfig': '流式加载配置',
   'pages.project.di.step.doris.dorisConfig.list': '配置',
   'pages.project.di.step.doris.dorisConfig.key': '配置',
   'pages.project.di.step.doris.dorisConfig.key.placeholder': 'format',
   'pages.project.di.step.doris.dorisConfig.value': '值',
   'pages.project.di.step.doris.dorisConfig.value.placeholder': 'JSON',
+  'pages.project.di.step.doris.dorisReadField': '读取字段',
+  'pages.project.di.step.doris.dorisReadField.placeholder': 'F_ID,F_INT,F_BIGINT,F_TINYINT,F_SMALLINT',
+  'pages.project.di.step.doris.dorisFiterQuery': '字段过滤条件',
+  'pages.project.di.step.doris.dorisFiterQuery.placeholder': 'F_ID > 2',
+  'pages.project.di.step.doris.dorisRequestQueryTimeoutS': '超时时间(秒)',
+  'pages.project.di.step.doris.dorisExecMemLimit': 'Doris查询内存限制(字节)',
+  'pages.project.di.step.doris.dorisRequestConnectTimeoutMs': 'Connect 超时时间(毫秒)',
+  'pages.project.di.step.doris.dorisRequestReadTimeoutMs': '读取超时时间(毫秒)',
+  'pages.project.di.step.doris.dorisRequestRetries': '重试次数',
 
 
   // starrocks
@@ -626,6 +672,8 @@ export default {
   'pages.project.di.step.dynamodb.schema': '模式',
   'pages.project.di.step.dynamodb.batchSize': '批量大小',
   'pages.project.di.step.dynamodb.batchIntervalMs': '批量间隔时间(毫秒)',
+  'pages.project.di.step.dynamodb.scanItemLimit': '每次Scan限制',
+  'pages.project.di.step.dynamodb.parallelScanThreads': 'Scan线程数',
 
   // s3redshift
   'pages.project.di.step.s3redshift.jdbcUrl': 'Jdbc URL',

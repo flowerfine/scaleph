@@ -48,6 +48,26 @@ const SinkHttpStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisi
           colProps={{span: 24}}
         />
         <DataSourceItem dataSource={'Http'}/>
+        <ProFormDigit
+          name={HttpParams.socketTimeoutMs}
+          label={intl.formatMessage({id: 'pages.project.di.step.http.socketTimeoutMs'})}
+          colProps={{span: 12}}
+          initialValue={60000}
+          fieldProps={{
+            step: 1000,
+            min: 1
+          }}
+        />
+        <ProFormDigit
+          name={HttpParams.connectTimeoutMs}
+          label={intl.formatMessage({id: 'pages.project.di.step.http.connectTimeoutMs'})}
+          colProps={{span: 12}}
+          initialValue={12000}
+          fieldProps={{
+            step: 1000,
+            min: 1
+          }}
+        />
         <ProFormList
           name={HttpParams.headerArray}
           label={intl.formatMessage({id: 'pages.project.di.step.http.headers'})}

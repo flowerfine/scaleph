@@ -31,5 +31,21 @@ public enum DynamoDBSourceProperties {
             .parser(Parsers.JSON_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
+
+    public static final PropertyDescriptor<Long> SCAN_ITEM_LIMIT = new PropertyDescriptor.Builder()
+            .name("scan_item_limit")
+            .description("number of item each scan request should return")
+            .type(PropertyType.INT)
+            .parser(Parsers.LONG_PARSER)
+            .addValidator(Validators.POSITIVE_LONG_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Long> PARALLEL_SCAN_THREADS = new PropertyDescriptor.Builder()
+            .name("parallel_scan_threads")
+            .description("number of logical segments for parallel scan")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
     
 }

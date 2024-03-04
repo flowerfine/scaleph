@@ -16,35 +16,34 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors;
 
-import cn.sliew.scaleph.plugin.framework.property.*;
+import cn.sliew.scaleph.plugin.framework.property.Parsers;
+import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.plugin.framework.property.PropertyType;
+import cn.sliew.scaleph.plugin.framework.property.Validators;
 
-public enum FileProperties {
+public enum SaveModeProperties {
     ;
 
-    public static final PropertyDescriptor<String> PATH = new PropertyDescriptor.Builder<String>()
-            .name("path")
-            .description("The source dir path started with file://")
+    public static final PropertyDescriptor<String> SCHEMA_SAVE_MODE = new PropertyDescriptor.Builder()
+            .name("schema_save_mode")
+            .description("the schema save mode")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
+            .defaultValue("CREATE_SCHEMA_WHEN_NOT_EXIST")
+            .allowableValues("CREATE_SCHEMA_WHEN_NOT_EXIST", "RECREATE_SCHEMA", "ERROR_WHEN_SCHEMA_NOT_EXIST")
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> SHEET_NAME = new PropertyDescriptor.Builder()
-            .name("sheet_name")
-            .description("Reader the sheet of the workbook,Only used when file_format is excel.")
+    public static final PropertyDescriptor<String> DATA_SAVE_MODE = new PropertyDescriptor.Builder()
+            .name("data_save_mode")
+            .description("the data save mode")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
+            .defaultValue("APPEND_DATA")
+            .allowableValues("APPEND_DATA", "DROP_DATA", "CUSTOM_PROCESSING", "ERROR_WHEN_DATA_EXISTS")
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> COMPRESS_CODEC = new PropertyDescriptor.Builder()
-            .name("compress_codec")
-            .description("The compress codec of files")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
 }

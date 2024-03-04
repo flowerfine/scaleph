@@ -70,6 +70,16 @@ const SourceAmazonDynamodbStepForm: React.FC<ModalFormProps<Node>> = ({data, vis
           label={intl.formatMessage({id: 'pages.project.di.step.dynamodb.table'})}
           rules={[{required: true}]}
         />
+        <ProFormText
+            name={AmazonDynamoDBParams.scanItemLimit}
+            label={intl.formatMessage({id: 'pages.project.di.step.dynamodb.scanItemLimit'})}
+            colProps={{span: 12}}
+        />
+        <ProFormText
+            name={AmazonDynamoDBParams.parallelScanThreads}
+            label={intl.formatMessage({id: 'pages.project.di.step.dynamodb.parallelScanThreads'})}
+            colProps={{span: 12}}
+        />
         <ProFormGroup
           title={intl.formatMessage({id: 'pages.project.di.step.schema'})}
           tooltip={{

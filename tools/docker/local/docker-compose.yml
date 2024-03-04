@@ -29,6 +29,12 @@ services:
       - MYSQL_DATABASE=scaleph
     ports:
       - 3306:3306
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "-u$$MYSQL_ROOT_USER", "-p$$MYSQL_ROOT_PASSWORD",  "ping", "-h", "localhost" ]
+      interval: 3s
+      timeout: 1s
+      retries: 16
+      start_period: 30s
     volumes:
       - ../mysql/my_custom.cnf:/opt/bitnami/mysql/conf/my_custom.cnf
       - ../mysql/init.d:/docker-entrypoint-initdb.d
@@ -56,6 +62,24 @@ services:
     ports:
       - 9000:9000
       - 9001:9001
+    networks:
+      - scaleph
+
+  metastore:
+    image: apache/hive:3.1.3
+    container_name: metastore
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      - SERVICE_NAME=metastore
+      - DB_DRIVER=mysql
+      - SERVICE_OPTS=-Djavax.jdo.option.ConnectionDriverName=com.mysql.cj.jdbc.Driver -Djavax.jdo.option.ConnectionURL=jdbc:mysql://mysql:3306/hive_metastore?createDatabaseIfNotExist=true&useSSL=false -Djavax.jdo.option.ConnectionUserName=root -Djavax.jdo.option.ConnectionPassword=123456
+    ports:
+      - 9083:9083
+    volumes:
+      - ../hive/mysql-connector-java-8.0.11.jar:/opt/hive/lib/mysql.jar
+    restart: unless-stopped
     networks:
       - scaleph
 

@@ -1,22 +1,13 @@
 import React, {useEffect} from 'react';
 import {Form} from 'antd';
-import {InfoCircleOutlined} from "@ant-design/icons";
-import {
-  DrawerForm,
-  ProFormGroup,
-  ProFormList,
-  ProFormSelect,
-  ProFormSwitch,
-  ProFormText,
-  ProFormTextArea,
-} from '@ant-design/pro-components';
+import {DrawerForm, ProFormText,} from '@ant-design/pro-components';
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
-import {BaseFileParams, S3FileParams, STEP_ATTR_TYPE} from '../constant';
+import {STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from '../helper';
-import SchemaItem from "../schema";
 import DataSourceItem from "../dataSource";
+import FileSourceItem from "../fileSource";
 
 const SourceS3FileStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -57,81 +48,7 @@ const SourceS3FileStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, on
           rules={[{required: true}, {max: 120}]}
         />
         <DataSourceItem dataSource={"S3"}/>
-        <ProFormGroup
-          label={intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties'})}
-          tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties.tooltip'}),
-            icon: <InfoCircleOutlined/>,
-          }}
-        >
-          <ProFormList
-            name={S3FileParams.hadoopS3Properties}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties.list'}),
-              type: 'text',
-            }}
-          >
-            <ProFormGroup>
-              <ProFormText
-                name={S3FileParams.key}
-                label={intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties.key'})}
-                placeholder={intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties.key.placeholder'})}
-                colProps={{span: 10, offset: 1}}
-              />
-              <ProFormText
-                name={S3FileParams.value}
-                label={intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties.value'})}
-                placeholder={intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties.value.placeholder'})}
-                colProps={{span: 10, offset: 1}}
-              />
-            </ProFormGroup>
-          </ProFormList>
-        </ProFormGroup>
-        <ProFormText
-          name={BaseFileParams.path}
-          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.path'})}
-          rules={[{required: true}]}
-        />
-        <ProFormTextArea
-          name={BaseFileParams.readColumns}
-          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.readColumns'})}
-        />
-        <ProFormText
-          name={BaseFileParams.fileFilterPattern}
-          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.fileFilterPattern'})}
-        />
-        <SchemaItem/>
-        <ProFormSwitch
-          name={BaseFileParams.parsePartitionFromPath}
-          label={intl.formatMessage({
-            id: 'pages.project.di.step.baseFile.parsePartitionFromPath',
-          })}
-          initialValue={true}
-        />
-        <ProFormSelect
-          name={BaseFileParams.dateFormat}
-          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.dateFormat'})}
-          initialValue={'yyyy-MM-dd'}
-          options={['yyyy-MM-dd', 'yyyy.MM.dd', 'yyyy/MM/dd']}
-        />
-        <ProFormSelect
-          name={BaseFileParams.timeFormat}
-          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.timeFormat'})}
-          initialValue={'HH:mm:ss'}
-          options={['HH:mm:ss', 'HH:mm:ss.SSS']}
-        />
-        <ProFormSelect
-          name={BaseFileParams.datetimeFormat}
-          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.datetimeFormat'})}
-          initialValue={'yyyy-MM-dd HH:mm:ss'}
-          options={[
-            'yyyy-MM-dd HH:mm:ss',
-            'yyyy.MM.dd HH:mm:ss',
-            'yyyy/MM/dd HH:mm:ss',
-            'yyyyMMddHHmmss',
-          ]}
-        />
+        <FileSourceItem/>
       </DrawerForm>
     </XFlow>
   );

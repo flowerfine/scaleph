@@ -36,6 +36,8 @@ public class ConsoleSinkPlugin extends SeaTunnelConnectorPlugin {
                 "Console Sink Plugin, output records to the console.",
                 ConsoleSinkPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
+        props.add(ConsoleSinkProperties.LOG_PRINT_DATA);
+        props.add(ConsoleSinkProperties.LOG_PRINT_DELAY_MS);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = props;

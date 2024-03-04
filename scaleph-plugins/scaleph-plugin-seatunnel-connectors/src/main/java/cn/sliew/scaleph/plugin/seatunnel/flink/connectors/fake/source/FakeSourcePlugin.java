@@ -40,6 +40,7 @@ public class FakeSourcePlugin extends SeaTunnelConnectorPlugin {
                 FakeSourcePlugin.class.getName());
 
         List<PropertyDescriptor> props = new ArrayList<>();
+        props.add(TABLES_CONFIGS);
         props.add(SCHEMA);
         props.add(ROW_NUM);
         props.add(SPLIT_NUM);

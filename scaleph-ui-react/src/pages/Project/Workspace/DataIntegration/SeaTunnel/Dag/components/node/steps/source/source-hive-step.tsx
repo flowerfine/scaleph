@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {Form} from 'antd';
-import {DrawerForm, ProFormGroup, ProFormList, ProFormText,} from '@ant-design/pro-components';
+import {InfoCircleOutlined} from "@ant-design/icons";
+import {DrawerForm, ProFormGroup, ProFormList, ProFormSwitch, ProFormText,} from '@ant-design/pro-components';
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
@@ -52,6 +53,15 @@ const SourceHiveStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
           name={HiveParams.tableName}
           label={intl.formatMessage({id: 'pages.project.di.step.hive.tableName'})}
           rules={[{required: true}]}
+        />
+        <ProFormSwitch
+          name={HiveParams.abortDropPartitionMetadata}
+          label={intl.formatMessage({id: 'pages.project.di.step.hive.abortDropPartitionMetadata'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.hive.abortDropPartitionMetadata.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          initialValue={true}
         />
         <ColumnItem/>
 

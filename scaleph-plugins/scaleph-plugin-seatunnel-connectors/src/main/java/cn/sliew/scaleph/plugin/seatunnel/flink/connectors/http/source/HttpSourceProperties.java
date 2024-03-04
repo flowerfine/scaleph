@@ -42,6 +42,14 @@ public enum HttpSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<JsonNode> PAGEING = new PropertyDescriptor.Builder()
+            .name("pageing")
+            .description("This parameter is used for paging queries")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<String> FORMAT = new PropertyDescriptor.Builder<String>()
             .name("format")
             .description("the format of upstream data, now only support json text, default json.")
@@ -52,8 +60,8 @@ public enum HttpSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> CONTENT_FIELD = new PropertyDescriptor.Builder()
-            .name("content_field")
+    public static final PropertyDescriptor<String> CONTENT_JSON = new PropertyDescriptor.Builder()
+            .name("content_json")
             .description("This parameter can get some json data")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)

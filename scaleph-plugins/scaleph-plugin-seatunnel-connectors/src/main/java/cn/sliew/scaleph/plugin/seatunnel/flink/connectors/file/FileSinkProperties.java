@@ -138,14 +138,6 @@ public enum FileSinkProperties {
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> COMPRESS_CODEC = new PropertyDescriptor.Builder<String>()
-            .name("compress_codec")
-            .description("The compress codec of files")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
     public static final PropertyDescriptor<Integer> MAX_ROWS_IN_MEMORY = new PropertyDescriptor.Builder()
             .name("max_rows_in_memory")
             .description("The compress codec of files")
@@ -160,6 +152,14 @@ public enum FileSinkProperties {
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Boolean> ENABLE_HEADER_WRITE = new PropertyDescriptor.Builder()
+            .name("enable_header_write")
+            .description("Only used when file_format_type is text,csv")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .addValidator(Validators.BOOLEAN_VALIDATOR)
             .validateAndBuild();
 
 }

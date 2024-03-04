@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.doris.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.doris.source;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
@@ -24,7 +24,6 @@ import cn.sliew.scaleph.ds.modal.olap.DorisDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
-import cn.sliew.scaleph.plugin.seatunnel.flink.connectors.SaveModeProperties;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
 import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperties;
 import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
@@ -38,32 +37,25 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.doris.DorisProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.doris.sink.DorisSinkProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.doris.source.DorisSourceProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class DorisSinkPlugin extends SeaTunnelConnectorPlugin {
+public class DorisSourcePlugin extends SeaTunnelConnectorPlugin {
 
-    public DorisSinkPlugin() {
+    public DorisSourcePlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Used to send data to Doris. Both support streaming and batch mode. The internal implementation of Doris sink connector is cached and imported by stream load in batches.",
-                DorisSinkPlugin.class.getName());
+                "Doris source connector",
+                DorisSourcePlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(DATABASE);
         props.add(TABLE);
-        props.add(SINK_LABEL_PREFIX);
-        props.add(SINK_ENABLE_2PC);
-        props.add(SINK_ENABLE_DELETE);
-        props.add(SINK_CHECK_INTERVAL);
-        props.add(SINK_MAX_RETRIES);
-        props.add(SINK_BUFFER_SIZE);
-        props.add(SINK_BUFFER_COUNT);
-        props.add(DORIS_BATCH_SIZE);
-        props.add(NEEDS_UNSUPPORTED_TYPE_CASTING);
-        props.add(SaveModeProperties.SCHEMA_SAVE_MODE);
-        props.add(SaveModeProperties.DATA_SAVE_MODE);
-        props.add(SAVE_MODE_CREATE_TEMPLATE);
-        props.add(CUSTOM_SQL);
-        props.add(DORIS_CONFIG);
+        props.add(DORIS_READ_FIELD);
+        props.add(DORIS_FILTER_QUERY);
+        props.add(DORIS_REQUEST_CONNECT_TIMEOUT_MS);
+        props.add(DORIS_REQUEST_QUERY_TIMEOUT_S);
+        props.add(DORIS_REQUEST_READ_TIMEOUT_MS);
+        props.add(DORIS_REQUEST_RETRIES);
+        props.add(DORIS_EXEC_MEM_LIMIT);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = props;
@@ -94,6 +86,6 @@ public class DorisSinkPlugin extends SeaTunnelConnectorPlugin {
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SINK_DORIS;
+        return SeaTunnelPluginMapping.SOURCE_DORIS;
     }
 }

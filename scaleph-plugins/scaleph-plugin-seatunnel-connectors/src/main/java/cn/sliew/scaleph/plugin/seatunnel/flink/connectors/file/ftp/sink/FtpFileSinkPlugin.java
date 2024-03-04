@@ -30,14 +30,15 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.PATH;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.SHEET_NAME;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSinkProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSinkProperties.TMP_PATH;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ftp.FtpFileProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
@@ -50,6 +51,9 @@ public class FtpFileSinkPlugin extends SeaTunnelConnectorPlugin {
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(PATH);
+        props.add(SHEET_NAME);
+        props.add(COMPRESS_CODEC);
+        props.add(TMP_PATH);
         props.add(FILE_FORMAT_TYPE);
         props.add(CUSTOM_FILENAME);
         props.add(FILE_NAME_EXPRESSION);
@@ -63,9 +67,8 @@ public class FtpFileSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(SINK_COLUMNS);
         props.add(IS_ENABLE_TRANSACTION);
         props.add(BATCH_SIZE);
-        props.add(COMPRESS_CODEC);
         props.add(MAX_ROWS_IN_MEMORY);
-        props.add(SHEET_NAME);
+        props.add(ENABLE_HEADER_WRITE);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
@@ -85,6 +88,9 @@ public class FtpFileSinkPlugin extends SeaTunnelConnectorPlugin {
         conf.putPOJO(PORT.getName(), dataSource.getPort());
         conf.putPOJO(USER.getName(), dataSource.getUsername());
         conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
+        if (StringUtils.hasText(dataSource.getConnectionMode())) {
+            conf.putPOJO(CONNECTION_MODE.getName(), dataSource.getConnectionMode());
+        }
         return conf;
     }
 

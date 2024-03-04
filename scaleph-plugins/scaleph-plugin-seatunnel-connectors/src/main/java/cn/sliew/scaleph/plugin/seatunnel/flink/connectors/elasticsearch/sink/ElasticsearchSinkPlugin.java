@@ -24,6 +24,7 @@ import cn.sliew.scaleph.ds.modal.nosql.ElasticsearchDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
+import cn.sliew.scaleph.plugin.seatunnel.flink.connectors.SaveModeProperties;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
 import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperties;
 import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
@@ -54,6 +55,8 @@ public class ElasticsearchSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(KEY_DELIMITER);
         props.add(MAX_RETRY_COUNT);
         props.add(MAX_BATCH_SIZE);
+        props.add(SaveModeProperties.SCHEMA_SAVE_MODE);
+        props.add(SaveModeProperties.DATA_SAVE_MODE);
         props.add(TLS_VERIFY_CERTIFICATE);
         props.add(TLS_VERIFY_HOSTNAMES);
         props.add(TLS_KEYSTORE_PATH);

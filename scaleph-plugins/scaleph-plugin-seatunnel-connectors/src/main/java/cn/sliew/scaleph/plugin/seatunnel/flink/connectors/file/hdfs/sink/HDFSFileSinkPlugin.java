@@ -36,8 +36,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.PATH;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.SHEET_NAME;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSinkProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.HDFSProperties.FS_DEFAULT_FS;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.HDFSProperties.HDFS_SITE_PATH;
@@ -52,6 +51,9 @@ public class HDFSFileSinkPlugin extends SeaTunnelConnectorPlugin {
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(PATH);
+        props.add(SHEET_NAME);
+        props.add(COMPRESS_CODEC);
+        props.add(TMP_PATH);
         props.add(FILE_FORMAT_TYPE);
         props.add(CUSTOM_FILENAME);
         props.add(FILE_NAME_EXPRESSION);
@@ -66,7 +68,7 @@ public class HDFSFileSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(IS_ENABLE_TRANSACTION);
         props.add(BATCH_SIZE);
         props.add(MAX_ROWS_IN_MEMORY);
-        props.add(SHEET_NAME);
+        props.add(ENABLE_HEADER_WRITE);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);

@@ -72,4 +72,20 @@ public enum HttpProperties {
             .parser(Parsers.LONG_PARSER)
             .addValidator(Validators.POSITIVE_LONG_VALIDATOR)
             .validateAndBuild();
+
+    public static final PropertyDescriptor<Long> CONNECT_TIMEOUT_MS = new PropertyDescriptor.Builder<Long>()
+            .name("connect_timeout_ms")
+            .description("Connection timeout setting.")
+            .type(PropertyType.INT)
+            .parser(Parsers.LONG_PARSER)
+            .addValidator(Validators.POSITIVE_LONG_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Long> SOCKET_TIMEOUT_MS = new PropertyDescriptor.Builder<Long>()
+            .name("socket_timeout_ms")
+            .description("Socket timeout setting.")
+            .type(PropertyType.INT)
+            .parser(Parsers.LONG_PARSER)
+            .addValidator(Validators.POSITIVE_LONG_VALIDATOR)
+            .validateAndBuild();
 }
