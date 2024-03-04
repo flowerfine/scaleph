@@ -238,6 +238,8 @@ export default {
   'pages.project.di.step.http.url': '请求URL',
   'pages.project.di.step.http.headers': '请求Header',
   'pages.project.di.step.http.header': 'header',
+  'pages.project.di.step.http.connectTimeoutMs': '连接超时(毫秒)',
+  'pages.project.di.step.http.socketTimeoutMs': 'Socket超时(毫秒)',
   'pages.project.di.step.http.params': '请求Param',
   'pages.project.di.step.http.param': 'param',
   'pages.project.di.step.http.body': '请求Body',
@@ -336,6 +338,8 @@ export default {
 
   // hive
   'pages.project.di.step.hive.tableName': 'Hive表名',
+  'pages.project.di.step.hive.abortDropPartitionMetadata': '终止操作是否删除 Metastore 中分区信息',
+  'pages.project.di.step.hive.abortDropPartitionMetadata.tooltip': '只会影响 Metastore 中分区数据，分区中的数据始终会被删除',
   'pages.project.di.step.hive.metastoreUri': 'Hive Metastore URI',
   'pages.project.di.step.hive.metastoreUri.tooltip': '例如 : thrift://ctyun7:9083',
   'pages.project.di.step.hive.readParitions': '分区列表',

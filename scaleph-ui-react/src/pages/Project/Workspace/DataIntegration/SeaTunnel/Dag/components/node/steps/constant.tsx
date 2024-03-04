@@ -177,6 +177,8 @@ export const HttpParams = {
     headerArray: 'headerArray',
     header: 'header',
     headerValue: 'headerValue',
+    connectTimeoutMs: 'connect_timeout_ms',
+    socketTimeoutMs: 'socket_timeout_ms',
     paramArray: 'paramArray',
     param: 'param',
     paramValue: 'paramValue',
@@ -275,6 +277,7 @@ export const HiveParams = {
     readPartitions: 'read_partitions',
     readPartitionArray: 'read_partitions',
     readPartition: 'read_partition',
+    abortDropPartitionMetadata: 'abort_drop_partition_metadata',
 };
 
 export const KuduParams = {

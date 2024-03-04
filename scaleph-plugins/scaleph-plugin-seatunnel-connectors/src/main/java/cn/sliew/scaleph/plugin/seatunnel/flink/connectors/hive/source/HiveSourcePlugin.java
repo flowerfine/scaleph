@@ -37,7 +37,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.COMPRESS_CODEC;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.HiveProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.source.HiveSourceProperties.ABORT_DROP_PARTITION_METADATA;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class HiveSourcePlugin extends SeaTunnelConnectorPlugin {
@@ -49,6 +51,8 @@ public class HiveSourcePlugin extends SeaTunnelConnectorPlugin {
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(TABLE_NAME);
+        props.add(COMPRESS_CODEC);
+        props.add(ABORT_DROP_PARTITION_METADATA);
         props.add(FileSourceProperties.READ_COLUMNS);
         props.add(FileSourceProperties.READ_PARTITIONS);
         props.add(CommonProperties.PARALLELISM);
