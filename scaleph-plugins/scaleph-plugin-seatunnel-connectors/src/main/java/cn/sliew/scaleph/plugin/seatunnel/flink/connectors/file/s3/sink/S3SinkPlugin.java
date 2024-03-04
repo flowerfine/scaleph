@@ -52,6 +52,7 @@ public class S3SinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(PATH);
         props.add(SHEET_NAME);
         props.add(COMPRESS_CODEC);
+        props.add(TMP_PATH);
         props.add(FILE_FORMAT_TYPE);
         props.add(CUSTOM_FILENAME);
         props.add(FILE_NAME_EXPRESSION);
@@ -66,6 +67,7 @@ public class S3SinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(IS_ENABLE_TRANSACTION);
         props.add(BATCH_SIZE);
         props.add(MAX_ROWS_IN_MEMORY);
+        props.add(ENABLE_HEADER_WRITE);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);

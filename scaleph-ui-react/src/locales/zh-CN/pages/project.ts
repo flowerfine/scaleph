@@ -203,6 +203,7 @@ export default {
   'pages.project.di.step.baseFile.compressCodec': '压缩方式',
   'pages.project.di.step.baseFile.maxRowsInMemory': '内存中缓存数据量',
   'pages.project.di.step.baseFile.sheetName': 'Sheet',
+  'pages.project.di.step.baseFile.enableHeaderWrite': '是否写入 Header',
 
   // hdfs file
   'pages.project.di.step.hdfsFile.defaultFS': 'fs.defaultFS',

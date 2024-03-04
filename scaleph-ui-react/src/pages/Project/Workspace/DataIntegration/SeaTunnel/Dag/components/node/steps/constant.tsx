@@ -141,6 +141,7 @@ export const BaseFileParams = {
     compressCodec: 'compress_codec',
     maxRowsInMemory: 'max_rows_in_memory',
     sheetName: 'sheet_name',
+    enableHeaderWrite: 'enable_header_write',
 };
 
 export const HDFSFileParams = {

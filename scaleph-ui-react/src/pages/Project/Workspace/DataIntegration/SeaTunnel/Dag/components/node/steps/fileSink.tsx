@@ -56,17 +56,23 @@ const FileSinkItem: React.FC = () => {
                         return (
                             <ProFormGroup>
                                 {compressCodec}
+                              <ProFormSwitch
+                                name={BaseFileParams.enableHeaderWrite}
+                                label={intl.formatMessage({id: 'pages.project.di.step.baseFile.enableHeaderWrite'})}
+                                colProps={{span: 8}}
+                                initialValue={false}
+                              />
                                 <ProFormText
                                     name={BaseFileParams.fieldDelimiter}
                                     label={intl.formatMessage({id: 'pages.project.di.step.baseFile.fieldDelimiter'})}
                                     rules={[{required: true}]}
-                                    colProps={{span: 12}}
+                                    colProps={{span: 8}}
                                 />
                                 <ProFormText
                                     name={BaseFileParams.rowDelimiter}
                                     label={intl.formatMessage({id: 'pages.project.di.step.baseFile.rowDelimiter'})}
                                     rules={[{required: true}]}
-                                    colProps={{span: 12}}
+                                    colProps={{span: 8}}
                                 />
                             </ProFormGroup>
                         );

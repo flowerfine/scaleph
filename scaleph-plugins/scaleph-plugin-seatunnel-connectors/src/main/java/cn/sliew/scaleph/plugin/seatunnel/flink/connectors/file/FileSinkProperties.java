@@ -154,4 +154,12 @@ public enum FileSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<Boolean> ENABLE_HEADER_WRITE = new PropertyDescriptor.Builder()
+            .name("enable_header_write")
+            .description("Only used when file_format_type is text,csv")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .addValidator(Validators.BOOLEAN_VALIDATOR)
+            .validateAndBuild();
+
 }
