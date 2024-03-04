@@ -260,6 +260,10 @@ export default {
   'pages.project.di.step.http.retryBackoffMultiplierMs':
     '重试间隔(Retry-Backoff)时间(毫秒)倍数',
   'pages.project.di.step.http.retryBackoffMaxMs': '最大重试间隔(毫秒)',
+  'pages.project.di.step.http.pagingPageField': '分页字段名',
+  'pages.project.di.step.http.pagingTotalPageSize': '总数据量',
+  'pages.project.di.step.http.pagingBatchSize': '每次分页请求数据量',
+  'pages.project.di.step.http.pagingBatchSize.tooltip': '在总数据量未知时，可使用此字段。如果接口返回数量少于请求数据量，即自动停止分页',
 
   // wechat
   'pages.project.di.step.wechat.url': '微信机器人URL',

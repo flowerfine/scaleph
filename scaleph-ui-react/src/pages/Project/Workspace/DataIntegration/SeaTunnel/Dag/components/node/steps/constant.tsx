@@ -194,6 +194,13 @@ export const HttpParams = {
     retry: 'retry',
     retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms',
     retryBackoffMaxMs: 'retry_backoff_max_ms',
+    pageing: 'pageing',
+    pagingPageField: 'pageing.page_field',
+    pagingTotalPageSize: 'pageing.total_page_size',
+    pagingBatchSize: 'pageing.batch_size',
+    pageField: 'page_field',
+    totalPageSize: 'total_page_size',
+    batchSize: 'batch_size',
 };
 
 export const WeChatParams = {

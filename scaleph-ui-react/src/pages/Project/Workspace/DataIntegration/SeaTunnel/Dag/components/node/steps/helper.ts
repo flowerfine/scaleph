@@ -8,7 +8,7 @@ import {
   FieldMapperParams,
   FilterParams,
   HbaseParams,
-  HiveParams,
+  HiveParams, HttpParams,
   InfluxDBParams,
   IoTDBParams,
   JdbcParams,
@@ -136,6 +136,16 @@ export const StepSchemaService = {
       jsonFields[item.key] = item.path;
     });
     values.json_field = JSON.stringify(jsonFields)
+    return values
+  },
+
+  formatPaging: (values: Record<string, any>) => {
+    const paging: Record<string, any> = {}
+    paging[HttpParams.pageField] = values[HttpParams.pagingPageField]
+    paging[HttpParams.totalPageSize] = values[HttpParams.pagingTotalPageSize]
+    paging[HttpParams.batchSize] = values[HttpParams.pagingBatchSize]
+
+    values[HttpParams.pageing] = paging
     return values
   },
 

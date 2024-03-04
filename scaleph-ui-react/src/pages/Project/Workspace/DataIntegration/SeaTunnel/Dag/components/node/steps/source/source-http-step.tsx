@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {Form} from 'antd';
+import {InfoCircleOutlined} from "@ant-design/icons";
 import {
   DrawerForm,
   ProFormDependency,
@@ -48,6 +49,7 @@ const SourceHttpStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
             StepSchemaService.formatHeader(values);
             StepSchemaService.formatParam(values);
             StepSchemaService.formatJsonField(values);
+            StepSchemaService.formatPaging(values);
             onOK(values)
             return Promise.resolve(true)
           }
@@ -127,6 +129,31 @@ const SourceHttpStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
         <ProFormTextArea
           name={HttpParams.body}
           label={intl.formatMessage({id: 'pages.project.di.step.http.body'})}
+        />
+        <ProFormText
+          name={HttpParams.pagingPageField}
+          label={intl.formatMessage({id: 'pages.project.di.step.http.pagingPageField'})}
+          colProps={{span: 8}}
+        />
+        <ProFormDigit
+          name={HttpParams.pagingTotalPageSize}
+          label={intl.formatMessage({id: 'pages.project.di.step.http.pagingTotalPageSize'})}
+          colProps={{span: 8}}
+          fieldProps={{
+            min: 1
+          }}
+        />
+        <ProFormDigit
+          name={HttpParams.pagingBatchSize}
+          label={intl.formatMessage({id: 'pages.project.di.step.http.pagingBatchSize'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.http.pagingBatchSize.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          colProps={{span: 8}}
+          fieldProps={{
+            min: 1
+          }}
         />
         <ProFormSelect
           name={'format'}
