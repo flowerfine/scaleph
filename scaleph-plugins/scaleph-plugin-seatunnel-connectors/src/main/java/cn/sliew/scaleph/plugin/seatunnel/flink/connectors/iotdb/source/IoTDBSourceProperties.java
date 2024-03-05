@@ -98,4 +98,12 @@ public enum IoTDBSourceProperties {
             .addValidator(Validators.POSITIVE_LONG_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<Integer> THRIFT_MAX_FRAME_SIZE = new PropertyDescriptor.Builder()
+            .name("thrift_max_frame_size")
+            .description("thrift max frame size")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
 }

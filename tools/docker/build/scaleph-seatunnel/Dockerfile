@@ -25,7 +25,8 @@ ENV SEATUNNEL_HOME=/opt/seatunnel
 RUN mkdir -p $SEATUNNEL_HOME
 
 # https://archive.apache.org/dist/seatunnel
-RUN wget https://dist.apache.org/repos/dist/dev/seatunnel/${SEATUNNEL_VERSION}/$TAR_FILE ; \
+# https://dist.apache.org/repos/dist/dev/seatunnel
+RUN wget https://archive.apache.org/dist/seatunnel/${SEATUNNEL_VERSION}/$TAR_FILE ; \
     tar -zxf $TAR_FILE --strip 1 -C $SEATUNNEL_HOME ; \
     rm $TAR_FILE
 
