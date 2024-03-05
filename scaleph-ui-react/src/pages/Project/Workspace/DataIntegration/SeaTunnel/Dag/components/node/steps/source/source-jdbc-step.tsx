@@ -124,6 +124,11 @@ const SourceJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
           }}
           colProps={{span: 6}}
         />
+
+
+
+
+
         <ProFormDigit
           name={JdbcParams.fetchSize}
           label={intl.formatMessage({id: 'pages.project.di.step.jdbc.fetchSize'})}

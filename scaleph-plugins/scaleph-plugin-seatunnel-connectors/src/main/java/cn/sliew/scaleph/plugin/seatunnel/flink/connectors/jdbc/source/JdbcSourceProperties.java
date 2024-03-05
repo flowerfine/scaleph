@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.jdbc.source;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public enum JdbcSourceProperties {
     ;
@@ -29,6 +30,30 @@ public enum JdbcSourceProperties {
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> TABLE_PATH = new PropertyDescriptor.Builder<String>()
+            .name("table_path")
+            .description("The path to the full path of table, you can use this configuration instead of query")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> TABLE_LIST = new PropertyDescriptor.Builder<String>()
+            .name("table_list")
+            .description("The path to the full path of table, you can use this configuration instead of query")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> WHERE_CONDITION = new PropertyDescriptor.Builder<String>()
+            .name("where_condition")
+            .description("Common row filter conditions for all tables/queries")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
@@ -61,6 +86,46 @@ public enum JdbcSourceProperties {
     public static final PropertyDescriptor<Integer> PARTITION_NUM = new PropertyDescriptor.Builder<Integer>()
             .name("partition_num")
             .description("The number of partition count, only support positive integer. default value is job parallelism")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> SPLIT_SIZE = new PropertyDescriptor.Builder<Integer>()
+            .name("split.size")
+            .description("How many rows in one split")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Double> SPLIT_EVEN_DISTRIBUTION_FACTOR_LOWER_BOUND = new PropertyDescriptor.Builder<Integer>()
+            .name("split.even-distribution.factor.lower-bound")
+            .description("The lower bound of the chunk key distribution factor")
+            .type(PropertyType.INT)
+            .parser(Parsers.DOUBLE_PARSER)
+            .addValidator(Validators.DOUBLE_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Double> SPLIT_EVEN_DISTRIBUTION_FACTOR_UPPER_BOUND = new PropertyDescriptor.Builder<Integer>()
+            .name("split.even-distribution.factor.upper-bound")
+            .description("The upper bound of the chunk key distribution factor")
+            .type(PropertyType.INT)
+            .parser(Parsers.DOUBLE_PARSER)
+            .addValidator(Validators.DOUBLE_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> SPLIT_SAMPLE_SHARDING_THRESHOLD = new PropertyDescriptor.Builder<Integer>()
+            .name("split.sample-sharding.threshold")
+            .description("This configuration specifies the threshold of estimated shard count to trigger the sample sharding strategy")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> SPLIT_INVERSE_SAMPLING_RATE = new PropertyDescriptor.Builder<Integer>()
+            .name("split.inverse-sampling.rate")
+            .description("The inverse of the sampling rate used in the sample sharding strategy.")
             .type(PropertyType.INT)
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)

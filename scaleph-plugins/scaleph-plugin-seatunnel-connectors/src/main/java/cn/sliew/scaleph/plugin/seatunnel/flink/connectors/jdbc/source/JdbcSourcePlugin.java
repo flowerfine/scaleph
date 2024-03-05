@@ -50,10 +50,18 @@ public class JdbcSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(CONNECTION_CHECK_TIMEOUT_SEC);
         props.add(COMPATIBLE_MODE);
         props.add(QUERY);
+        props.add(TABLE_PATH);
+        props.add(TABLE_LIST);
+        props.add(WHERE_CONDITION);
         props.add(PARTITION_COLUMN);
         props.add(PARTITION_UPPER_BOUND);
         props.add(PARTITION_LOWER_BOUND);
         props.add(PARTITION_NUM);
+        props.add(SPLIT_SIZE);
+        props.add(SPLIT_EVEN_DISTRIBUTION_FACTOR_LOWER_BOUND);
+        props.add(SPLIT_EVEN_DISTRIBUTION_FACTOR_UPPER_BOUND);
+        props.add(SPLIT_SAMPLE_SHARDING_THRESHOLD);
+        props.add(SPLIT_INVERSE_SAMPLING_RATE);
         props.add(FETCH_SIZE);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
