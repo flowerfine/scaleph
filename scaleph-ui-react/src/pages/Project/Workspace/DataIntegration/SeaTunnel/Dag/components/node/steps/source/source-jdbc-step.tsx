@@ -1,7 +1,14 @@
 import React, {useEffect} from 'react';
 import {Form} from 'antd';
 import {InfoCircleOutlined} from "@ant-design/icons";
-import {DrawerForm, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea,} from '@ant-design/pro-components';
+import {
+  DrawerForm,
+  ProFormDigit,
+  ProFormGroup,
+  ProFormSelect,
+  ProFormText,
+  ProFormTextArea,
+} from '@ant-design/pro-components';
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
@@ -124,6 +131,12 @@ const SourceJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
           }}
           colProps={{span: 6}}
         />
+
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.jdbc.split'})}
+        >
+
+        </ProFormGroup>
 
 
 
