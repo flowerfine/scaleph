@@ -21,6 +21,7 @@ import {StepSchemaService} from "../helper";
 import {DsInfoParam} from "@/services/datasource/typings";
 import {DsInfoService} from "@/services/datasource/info.service";
 import {DictDataService} from "@/services/admin/dictData.service";
+import SaveModeItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/saveMode";
 
 const SinkJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -87,13 +88,6 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisi
             });
           })}
         />
-        <ProFormDigit
-          name={JdbcParams.connectionCheckTimeoutSec}
-          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.connectionCheckTimeoutSec'})}
-          fieldProps={{
-            min: 0
-          }}
-        />
         <ProFormText
           name={JdbcParams.compatibleMode}
           label={intl.formatMessage({id: 'pages.project.di.step.jdbc.compatibleMode'})}
@@ -102,20 +96,62 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisi
             icon: <InfoCircleOutlined/>,
           }}
         />
-        <ProFormText
-          name={JdbcParams.database}
-          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.database'})}
+        <ProFormDigit
+          name={JdbcParams.connectionCheckTimeoutSec}
+          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.connectionCheckTimeoutSec'})}
+          fieldProps={{
+            min: 0
+          }}
+        />
+        <ProFormSwitch
+          name={"generate_sink_sql"}
+          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.generateSinkSql'})}
           tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.table.tooltip'}),
+            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.generateSinkSql.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
-          colProps={{span: 12}}
+          initialValue={true}
         />
-        <ProFormText
-          name={JdbcParams.table}
-          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.table'})}
+        <ProFormDependency name={["generate_sink_sql"]}>
+          {({generate_sink_sql}) => {
+            if (!generate_sink_sql) {
+              return (
+                <ProFormTextArea
+                  name={JdbcParams.query}
+                  label={intl.formatMessage({id: 'pages.project.di.step.jdbc.query'})}
+                />
+              );
+            }
+            return <ProFormGroup>
+              <ProFormText
+                name={JdbcParams.database}
+                label={intl.formatMessage({id: 'pages.project.di.step.jdbc.database'})}
+                tooltip={{
+                  title: intl.formatMessage({id: 'pages.project.di.step.jdbc.table.tooltip'}),
+                  icon: <InfoCircleOutlined/>,
+                }}
+                rules={[{required: true}]}
+                colProps={{span: 12}}
+              />
+              <ProFormText
+                name={JdbcParams.table}
+                label={intl.formatMessage({id: 'pages.project.di.step.jdbc.table'})}
+                tooltip={{
+                  title: intl.formatMessage({id: 'pages.project.di.step.jdbc.table.tooltip'}),
+                  icon: <InfoCircleOutlined/>,
+                }}
+                rules={[{required: true}]}
+                colProps={{span: 12}}
+              />
+            </ProFormGroup>;
+          }}
+        </ProFormDependency>
+
+        <ProFormSwitch
+          name={JdbcParams.enableUpsert}
+          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.enableUpsert'})}
           tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.table.tooltip'}),
+            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.enableUpsert.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
           colProps={{span: 12}}
@@ -127,6 +163,7 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisi
             title: intl.formatMessage({id: 'pages.project.di.step.jdbc.supportUpsert.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
+          colProps={{span: 12}}
         />
         <ProFormDependency name={["support_upsert_by_query_primary_key_exist"]}>
           {({support_upsert_by_query_primary_key_exist}) => {
@@ -159,28 +196,6 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisi
           }}
         </ProFormDependency>
 
-        <ProFormSwitch
-          name={"generate_sink_sql"}
-          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.generateSinkSql'})}
-          tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.generateSinkSql.tooltip'}),
-            icon: <InfoCircleOutlined/>,
-          }}
-          initialValue={true}
-        />
-        <ProFormDependency name={["generate_sink_sql"]}>
-          {({generate_sink_sql}) => {
-            if (!generate_sink_sql) {
-              return (
-                <ProFormTextArea
-                  name={JdbcParams.query}
-                  label={intl.formatMessage({id: 'pages.project.di.step.jdbc.query'})}
-                />
-              );
-            }
-            return <ProFormGroup/>;
-          }}
-        </ProFormDependency>
 
         <ProFormDigit
           name={JdbcParams.batchSize}
@@ -189,7 +204,7 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisi
             title: intl.formatMessage({id: 'pages.project.di.step.jdbc.batch.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
-          colProps={{span: 8}}
+          colProps={{span: 12}}
           initialValue={300}
           fieldProps={{
             min: 0,
@@ -199,7 +214,7 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisi
         <ProFormDigit
           name={JdbcParams.maxRetries}
           label={intl.formatMessage({id: 'pages.project.di.step.jdbc.maxRetries'})}
-          colProps={{span: 8}}
+          colProps={{span: 12}}
           initialValue={3}
           fieldProps={{
             min: 0
@@ -228,11 +243,12 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisi
                   <ProFormSwitch
                     name={JdbcParams.autoCommit}
                     label={intl.formatMessage({id: 'pages.project.di.step.jdbc.autoCommit'})}
+                    colProps={{span: 8}}
                   />
                   <ProFormDigit
                     name={JdbcParams.maxCommitAttempts}
                     label={intl.formatMessage({id: 'pages.project.di.step.jdbc.maxCommitAttempts'})}
-                    colProps={{span: 12}}
+                    colProps={{span: 8}}
                     initialValue={3}
                     fieldProps={{
                       min: 0
@@ -245,7 +261,7 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisi
                       title: intl.formatMessage({id: 'pages.project.di.step.jdbc.transactionTimeoutSec.tooltip'}),
                       icon: <InfoCircleOutlined/>,
                     }}
-                    colProps={{span: 12}}
+                    colProps={{span: 8}}
                     initialValue={-1}
                     fieldProps={{
                       min: -1
@@ -255,6 +271,27 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisi
               );
             }
             return <ProFormGroup/>;
+          }}
+        </ProFormDependency>
+
+        <ProFormSelect
+          name={JdbcParams.fieldIde}
+          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.fieldIde'})}
+          options={["ORIGINAL", "UPPERCASE", "LOWERCASE"]}
+        />
+
+        <SaveModeItem/>
+        <ProFormDependency name={['data_save_mode']}>
+          {({data_save_mode}) => {
+            if (data_save_mode == 'CUSTOM_PROCESSING') {
+              return (
+                <ProFormTextArea
+                  name={JdbcParams.customSql}
+                  label={intl.formatMessage({id: 'pages.project.di.step.jdbc.customSql'})}
+                  rules={[{required: true}]}
+                />
+              )
+            }
           }}
         </ProFormDependency>
       </DrawerForm>

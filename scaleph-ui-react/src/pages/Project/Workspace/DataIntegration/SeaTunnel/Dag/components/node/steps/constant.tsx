@@ -99,6 +99,7 @@ export const JdbcParams = {
     primaryKeys: 'primary_keys',
     primaryKeyArray: 'primaryKeyArray',
     primaryKey: 'key',
+    enableUpsert: 'enable_upsert',
     query: 'query',
     tablePath: 'table_path',
     tableList: 'table_list',
@@ -119,7 +120,11 @@ export const JdbcParams = {
     xaDataSourceClassName: 'xa_data_source_class_name',
     maxCommitAttempts: 'max_commit_attempts',
     transactionTimeoutSec: 'transaction_timeout_sec',
-    autoCommit: 'auto_commit'
+    autoCommit: 'auto_commit',
+    fieldIde: 'field_ide',
+    schemaSaveMode: 'schema_save_mode',
+    dataSaveMode: 'data_save_mode',
+    customSql: 'custom_sql'
 }
 
 export const BaseFileParams = {
