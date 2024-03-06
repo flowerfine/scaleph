@@ -80,13 +80,6 @@ const SourceJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
             });
           })}
         />
-        <ProFormDigit
-          name={JdbcParams.connectionCheckTimeoutSec}
-          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.connectionCheckTimeoutSec'})}
-          fieldProps={{
-            min: 0
-          }}
-        />
         <ProFormText
           name={JdbcParams.compatibleMode}
           label={intl.formatMessage({id: 'pages.project.di.step.jdbc.compatibleMode'})}
@@ -95,53 +88,112 @@ const SourceJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
             icon: <InfoCircleOutlined/>,
           }}
         />
-        <ProFormText
-          name={JdbcParams.partitionColumn}
-          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.partitionColumn'})}
-          tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.partitionColumn.tooltip'}),
-            icon: <InfoCircleOutlined/>,
-          }}
-          colProps={{span: 6}}
-        />
         <ProFormDigit
-          name={JdbcParams.partitionLowerBound}
-          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.partitionLowerBound'})}
+          name={JdbcParams.connectionCheckTimeoutSec}
+          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.connectionCheckTimeoutSec'})}
+          fieldProps={{
+            min: 0
+          }}
+        />
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.jdbc.partition'})}
           tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.partitionLowerBound.tooltip'}),
+            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.partition.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
-          colProps={{span: 6}}
-        />
-        <ProFormDigit
-          name={JdbcParams.partitionUpperBound}
-          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.partitionUpperBound'})}
-          tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.partitionUpperBound.tooltip'}),
-            icon: <InfoCircleOutlined/>,
-          }}
-          colProps={{span: 6}}
-        />
-        <ProFormDigit
-          name={JdbcParams.partitionNum}
-          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.partitionNum'})}
-          tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.partitionNum.tooltip'}),
-            icon: <InfoCircleOutlined/>,
-          }}
-          colProps={{span: 6}}
-        />
-
+          collapsible={true}
+        >
+          <ProFormText
+            name={JdbcParams.partitionColumn}
+            label={intl.formatMessage({id: 'pages.project.di.step.jdbc.partitionColumn'})}
+            tooltip={{
+              title: intl.formatMessage({id: 'pages.project.di.step.jdbc.partitionColumn.tooltip'}),
+              icon: <InfoCircleOutlined/>,
+            }}
+            colProps={{span: 6}}
+          />
+          <ProFormDigit
+            name={JdbcParams.partitionLowerBound}
+            label={intl.formatMessage({id: 'pages.project.di.step.jdbc.partitionLowerBound'})}
+            tooltip={{
+              title: intl.formatMessage({id: 'pages.project.di.step.jdbc.partitionLowerBound.tooltip'}),
+              icon: <InfoCircleOutlined/>,
+            }}
+            colProps={{span: 6}}
+          />
+          <ProFormDigit
+            name={JdbcParams.partitionUpperBound}
+            label={intl.formatMessage({id: 'pages.project.di.step.jdbc.partitionUpperBound'})}
+            tooltip={{
+              title: intl.formatMessage({id: 'pages.project.di.step.jdbc.partitionUpperBound.tooltip'}),
+              icon: <InfoCircleOutlined/>,
+            }}
+            colProps={{span: 6}}
+          />
+          <ProFormDigit
+            name={JdbcParams.partitionNum}
+            label={intl.formatMessage({id: 'pages.project.di.step.jdbc.partitionNum'})}
+            tooltip={{
+              title: intl.formatMessage({id: 'pages.project.di.step.jdbc.partitionNum.tooltip'}),
+              icon: <InfoCircleOutlined/>,
+            }}
+            colProps={{span: 6}}
+          />
+        </ProFormGroup>
         <ProFormGroup
           title={intl.formatMessage({id: 'pages.project.di.step.jdbc.split'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.split.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          collapsible={true}
         >
-
+          <ProFormDigit
+            name={JdbcParams.splitSize}
+            label={intl.formatMessage({id: 'pages.project.di.step.jdbc.splitSize'})}
+            tooltip={{
+              title: intl.formatMessage({id: 'pages.project.di.step.jdbc.splitSize.tooltip'}),
+              icon: <InfoCircleOutlined/>,
+            }}
+            colProps={{span: 8}}
+          />
+          <ProFormDigit
+            name={JdbcParams.splitSampleShardingThreshold}
+            label={intl.formatMessage({id: 'pages.project.di.step.jdbc.splitSampleShardingThreshold'})}
+            tooltip={{
+              title: intl.formatMessage({id: 'pages.project.di.step.jdbc.splitSampleShardingThreshold.tooltip'}),
+              icon: <InfoCircleOutlined/>,
+            }}
+            colProps={{span: 8}}
+          />
+          <ProFormDigit
+            name={JdbcParams.splitInverseSamplingRate}
+            label={intl.formatMessage({id: 'pages.project.di.step.jdbc.splitInverseSamplingRate'})}
+            tooltip={{
+              title: intl.formatMessage({id: 'pages.project.di.step.jdbc.splitInverseSamplingRate.tooltip'}),
+              icon: <InfoCircleOutlined/>,
+            }}
+            colProps={{span: 8}}
+          />
+          <ProFormDigit
+            name={JdbcParams.splitEvenDistributionFactorLowerBound}
+            label={intl.formatMessage({id: 'pages.project.di.step.jdbc.splitEvenDistributionFactorLowerBound'})}
+            tooltip={{
+              title: intl.formatMessage({id: 'pages.project.di.step.jdbc.splitEvenDistributionFactorLowerBound.tooltip'}),
+              icon: <InfoCircleOutlined/>,
+            }}
+            colProps={{span: 12}}
+          />
+          <ProFormDigit
+            name={JdbcParams.splitEvenDistributionFactorUpperBound}
+            label={intl.formatMessage({id: 'pages.project.di.step.jdbc.splitEvenDistributionFactorUpperBound'})}
+            tooltip={{
+              title: intl.formatMessage({id: 'pages.project.di.step.jdbc.splitEvenDistributionFactorUpperBound.tooltip'}),
+              icon: <InfoCircleOutlined/>,
+            }}
+            colProps={{span: 12}}
+          />
         </ProFormGroup>
-
-
-
-
-
         <ProFormDigit
           name={JdbcParams.fetchSize}
           label={intl.formatMessage({id: 'pages.project.di.step.jdbc.fetchSize'})}
@@ -155,7 +207,32 @@ const SourceJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
         <ProFormTextArea
           name={JdbcParams.query}
           label={intl.formatMessage({id: 'pages.project.di.step.jdbc.query'})}
-          rules={[{required: true}]}
+        />
+        <ProFormText
+          name={JdbcParams.whereCondition}
+          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.whereCondition'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.whereCondition.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+        />
+        <ProFormText
+          name={JdbcParams.tablePath}
+          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.tablePath'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.tablePath.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          placeholder={intl.formatMessage({id: 'pages.project.di.step.jdbc.tablePath.placeholder'})}
+        />
+        <ProFormTextArea
+          name={JdbcParams.tableList}
+          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.tableList'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.tableList.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          placeholder={intl.formatMessage({id: 'pages.project.di.step.jdbc.tableList.placeholder'})}
         />
       </DrawerForm>
     </XFlow>

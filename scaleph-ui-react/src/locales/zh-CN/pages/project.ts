@@ -104,6 +104,7 @@ export default {
   'pages.project.di.step.jdbc.primaryKeys.tooltip': '请提供表的主键字段',
   'pages.project.di.step.jdbc.primaryKeys.list': '主键',
   'pages.project.di.step.jdbc.partition': '分区扫描',
+  'pages.project.di.step.jdbc.partition.tooltip': '根据主键或唯一键最大值最小值进行分区',
   'pages.project.di.step.jdbc.partitionColumn': '分区字段',
   'pages.project.di.step.jdbc.partitionColumn.tooltip': '只支持数值类型字段作为分区字段',
   'pages.project.di.step.jdbc.partitionLowerBound': '分区最小值',
@@ -113,10 +114,36 @@ export default {
   'pages.project.di.step.jdbc.partitionNum': '分区数',
   'pages.project.di.step.jdbc.partitionNum.tooltip': '默认值: 任务并行度',
   'pages.project.di.step.jdbc.split': '拆分扫描',
-  'pages.project.di.step.jdbc.split.tooltip': '另一种批量扫描数据方式',
+  'pages.project.di.step.jdbc.split.tooltip': '根据数据总量进行拆分。参考 CDC 全量读取阶段实现',
+  'pages.project.di.step.jdbc.splitSize': '拆分数量',
+  'pages.project.di.step.jdbc.splitSize.tooltip': '将总的数据拆分的份数',
+  'pages.project.di.step.jdbc.splitEvenDistributionFactorLowerBound': 'Chunk Key Even Distribution Factor Lower Bound',
+  'pages.project.di.step.jdbc.splitEvenDistributionFactorLowerBound.tooltip': '不建议调整。参考 CDC 全量读取阶段实现',
+  'pages.project.di.step.jdbc.splitEvenDistributionFactorUpperBound': 'Chunk Key Even Distribution Factor Upper Bound',
+  'pages.project.di.step.jdbc.splitEvenDistributionFactorUpperBound.tooltip': '不建议调整。参考 CDC 全量读取阶段实现',
+  'pages.project.di.step.jdbc.splitSampleShardingThreshold': 'Sample-Sharding Threshold',
+  'pages.project.di.step.jdbc.splitSampleShardingThreshold.tooltip': '参考 CDC 全量读取阶段实现',
+  'pages.project.di.step.jdbc.splitInverseSamplingRate': 'Inverse-Sampling Rate',
+  'pages.project.di.step.jdbc.splitInverseSamplingRate.tooltip': '参考 CDC 全量读取阶段实现',
   'pages.project.di.step.jdbc.fetchSize': 'Jdbc Fetch Size',
   'pages.project.di.step.jdbc.fetchSize.tooltip': '参阅 Jdbc 规范: fetch size',
   'pages.project.di.step.jdbc.query': 'SQL',
+  'pages.project.di.step.jdbc.whereCondition': 'Where 条件',
+  'pages.project.di.step.jdbc.whereCondition.tooltip': '必须以 where 开头，如 where id > 100',
+  'pages.project.di.step.jdbc.tablePath': '单表配置',
+  'pages.project.di.step.jdbc.tablePath.tooltip': '表名，包含 database 或 schema。可替代 query sql',
+  'pages.project.di.step.jdbc.tablePath.placeholder': 'mysql 数据库: testdb.table1',
+  'pages.project.di.step.jdbc.tableList': '多表配置',
+  'pages.project.di.step.jdbc.tableList.placeholder': '[\n' +
+    '    {\n' +
+    '        "table_path": "testdb.table1"\n' +
+    '    },\n' +
+    '    {\n' +
+    '        "table_path": "testdb.table2",\n' +
+    '        "query": "select * from testdb.table2 where id > 100"\n' +
+    '    }\n' +
+    ']',
+  'pages.project.di.step.jdbc.tableList.tooltip': '用于一个Source同时读取多表，可替代 query sql 和单表配置',
   'pages.project.di.step.jdbc.getsql': '获取SQL',
   'pages.project.di.step.jdbc.preview': '预览结果',
   'pages.project.di.step.jdbc.batchSize': '批次数量',
