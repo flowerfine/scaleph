@@ -547,6 +547,14 @@ export default {
   'pages.project.di.step.pulsar.transactionTimeout': '事务超时时间(秒)',
   'pages.project.di.step.pulsar.transactionTimeout.tooltip': '默认 10 分钟',
   'pages.project.di.step.pulsar.messageRoutingMode': '消息路由模式',
+  'pages.project.di.step.pulsar.partitionKeyFields': '分区字段',
+  'pages.project.di.step.pulsar.partitionKeyFields.tooltip': '配置 Pulsar 消息分区字段',
+  'pages.project.di.step.pulsar.partitionKeyField': '字段',
+  'pages.project.di.step.pulsar.pulsarConfig': 'Pulsar 配置',
+  'pages.project.di.step.pulsar.pulsarConfig.tooltip': '添加额外 Pulsar Producer 配置',
+  'pages.project.di.step.pulsar.pulsarConfig.item': '配置项',
+  'pages.project.di.step.pulsar.pulsarConfigKey': '配置',
+  'pages.project.di.step.pulsar.pulsarConfigValue': '值',
 
   // datahub
   'pages.project.di.step.datahub.endpoint': '终端节点',

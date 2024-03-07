@@ -5,14 +5,14 @@ import {
   DrawerForm,
   ProFormDependency,
   ProFormDigit,
-  ProFormGroup,
+  ProFormGroup, ProFormList,
   ProFormSelect,
   ProFormText,
 } from '@ant-design/pro-components';
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
-import {PulsarParams, STEP_ATTR_TYPE} from '../constant';
+import {PulsarParams, SchemaParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from '../helper';
 import DataSourceItem from "../dataSource";
 import FieldItem from "../fields";
@@ -42,9 +42,8 @@ const SinkPulsarStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
         }}
         onFinish={(values) => {
           if (onOK) {
-            StepSchemaService.formatSchema(values);
-            values[PulsarParams.cursorStartupMode] = values.startMode;
-            values[PulsarParams.cursorStopMode] = values.stopMode;
+            StepSchemaService.formatPulsarConf(values);
+            StepSchemaService.formatPulsarPartitionKeyFields(values);
             onOK(values)
             return Promise.resolve(true)
           }
@@ -65,7 +64,6 @@ const SinkPulsarStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
             icon: <InfoCircleOutlined/>,
           }}
         />
-
         <ProFormSelect
           name={'format'}
           label={intl.formatMessage({id: 'pages.project.di.step.pulsar.format'})}
@@ -110,7 +108,6 @@ const SinkPulsarStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
             return <ProFormGroup/>;
           }}
         </ProFormDependency>
-
         <ProFormSelect
           name={PulsarParams.messageRoutingMode}
           label={intl.formatMessage({id: 'pages.project.di.step.pulsar.messageRoutingMode'})}
@@ -118,6 +115,64 @@ const SinkPulsarStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
           initialValue={"RoundRobinPartition"}
           options={["RoundRobinPartition", "SinglePartition", "CustomPartition"]}
         />
+
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.pulsar.partitionKeyFields'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.pulsar.partitionKeyFields.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          collapsible={true}
+        >
+          <ProFormList
+            name={PulsarParams.partitionKeyFieldArray}
+            copyIconProps={false}
+            creatorButtonProps={{
+              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.pulsar.partitionKeyField'}),
+              type: 'text',
+            }}
+          >
+            <ProFormGroup>
+              <ProFormText
+                name={PulsarParams.partitionKeyField}
+                colProps={{span: 23, offset: 1}}
+              />
+            </ProFormGroup>
+          </ProFormList>
+        </ProFormGroup>
+
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.pulsar.pulsarConfig'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.pulsar.pulsarConfig.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          collapsible={true}
+        >
+          <ProFormList
+            name={PulsarParams.pulsarConfigMap}
+            copyIconProps={false}
+            creatorButtonProps={{
+              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.pulsar.pulsarConfig.item'}),
+              type: 'text',
+            }}
+          >
+            <ProFormGroup>
+              <ProFormText
+                name={PulsarParams.pulsarConfigKey}
+                label={intl.formatMessage({id: 'pages.project.di.step.pulsar.pulsarConfigKey'})}
+                colProps={{span: 10, offset: 1}}
+              />
+              <ProFormText
+                name={PulsarParams.pulsarConfigValue}
+                label={intl.formatMessage({id: 'pages.project.di.step.pulsar.pulsarConfigValue'})}
+                colProps={{span: 10, offset: 1}}
+              />
+            </ProFormGroup>
+          </ProFormList>
+        </ProFormGroup>
+
+
       </DrawerForm>
     </XFlow>
   );

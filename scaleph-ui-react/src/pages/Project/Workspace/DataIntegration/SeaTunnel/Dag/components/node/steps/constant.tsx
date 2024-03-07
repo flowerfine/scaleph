@@ -422,7 +422,12 @@ export const PulsarParams = {
     transactionTimeout: 'transaction_timeout',
     messageRoutingMode: 'message.routing.mode',
     partitionKeyFields: 'partition_key_fields',
+    partitionKeyFieldArray: 'partitionKeyFieldArray',
+    partitionKeyField: 'partitionKeyField',
     pulsarConfig: 'pulsar.config',
+    pulsarConfigMap: 'pulsarConfigMap',
+    pulsarConfigKey: 'pulsarConfigKey',
+    pulsarConfigValue: 'pulsarConfigValue',
 };
 
 export const DatahubParams = {
