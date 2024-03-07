@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Form} from 'antd';
 import {InfoCircleOutlined} from "@ant-design/icons";
 import {
-  DrawerForm,
+  DrawerForm, ProFormDependency,
   ProFormDigit,
   ProFormGroup,
   ProFormList,
@@ -13,9 +13,10 @@ import {
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
-import {StarRocksParams, STEP_ATTR_TYPE} from '../constant';
+import {DorisParams, StarRocksParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from "../helper";
 import DataSourceItem from "../dataSource";
+import SaveModeItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/saveMode";
 
 const SinkStarRocksStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -64,16 +65,30 @@ const SinkStarRocksStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, o
         <ProFormText
           name={StarRocksParams.database}
           label={intl.formatMessage({id: 'pages.project.di.step.starrocks.database'})}
+          colProps={{span: 12}}
           rules={[{required: true}]}
         />
         <ProFormText
           name={StarRocksParams.table}
           label={intl.formatMessage({id: 'pages.project.di.step.starrocks.table'})}
+          colProps={{span: 12}}
           rules={[{required: true}]}
         />
         <ProFormText
           name={StarRocksParams.labelPrefix}
           label={intl.formatMessage({id: 'pages.project.di.step.starrocks.labelPrefix'})}
+        />
+        <ProFormDigit
+          name={StarRocksParams.httpSocketTimeoutMs}
+          label={intl.formatMessage({id: 'pages.project.di.step.starrocks.httpSocketTimeoutMs'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.starrocks.httpSocketTimeoutMs.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          fieldProps={{
+            step: 1000,
+            min: 1,
+          }}
         />
         <ProFormDigit
           name={StarRocksParams.batchMaxRows}
@@ -137,17 +152,44 @@ const SinkStarRocksStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, o
           name={StarRocksParams.enableUpsertDelete}
           label={intl.formatMessage({id: 'pages.project.di.step.starrocks.enableUpsertDelete'})}
         />
-        <ProFormTextArea
-          name={StarRocksParams.saveModeCreateTemplate}
-          label={intl.formatMessage({id: 'pages.project.di.step.starrocks.saveModeCreateTemplate'})}
-        />
-
+        <SaveModeItem/>
+        <ProFormDependency name={['schema_save_mode']}>
+          {({schema_save_mode}) => {
+            if (schema_save_mode == 'CREATE_SCHEMA_WHEN_NOT_EXIST'
+              || schema_save_mode == 'RECREATE_SCHEMA') {
+              return (
+                <ProFormTextArea
+                  name={StarRocksParams.saveModeCreateTemplate}
+                  label={intl.formatMessage({id: 'pages.project.di.step.starrocks.saveModeCreateTemplate'})}
+                  tooltip={{
+                    title: intl.formatMessage({id: 'pages.project.di.step.starrocks.saveModeCreateTemplate.tooltip'}),
+                    icon: <InfoCircleOutlined/>,
+                  }}
+                  placeholder={intl.formatMessage({id: 'pages.project.di.step.starrocks.saveModeCreateTemplate.placeholder'})}
+                />
+              )
+            }
+          }}
+        </ProFormDependency>
+        <ProFormDependency name={['data_save_mode']}>
+          {({data_save_mode}) => {
+            if (data_save_mode == 'CUSTOM_PROCESSING') {
+              return (
+                <ProFormTextArea
+                  name={StarRocksParams.customSql}
+                  label={intl.formatMessage({id: 'pages.project.di.step.starrocks.customSql'})}
+                />
+              )
+            }
+          }}
+        </ProFormDependency>
         <ProFormGroup
-          label={intl.formatMessage({id: 'pages.project.di.step.starrocks.starrocksConfig'})}
+          title={intl.formatMessage({id: 'pages.project.di.step.starrocks.starrocksConfig'})}
           tooltip={{
             title: intl.formatMessage({id: 'pages.project.di.step.starrocks.starrocksConfig.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
+          collapsible={true}
         >
           <ProFormList
             name={StarRocksParams.starrocksConfigMap}

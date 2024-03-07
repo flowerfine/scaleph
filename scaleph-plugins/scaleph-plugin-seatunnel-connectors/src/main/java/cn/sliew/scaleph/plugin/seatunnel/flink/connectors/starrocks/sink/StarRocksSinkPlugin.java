@@ -60,6 +60,10 @@ public class StarRocksSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(ENABLE_UPSERT_DELETE);
         props.add(SAVE_MODE_CREATE_TEMPLATE);
         props.add(STARROCKS_CONFIG);
+        props.add(HTTP_SOCKET_TIMEOUT_MS);
+        props.add(SCHEMA_SAVE_MODE);
+        props.add(DATA_SAVE_MODE);
+        props.add(CUSTOM_SQL);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = props;

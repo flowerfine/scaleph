@@ -696,6 +696,18 @@ export default {
   'pages.project.di.step.starrocks.maxRetryBackoffMs': '最大重试退避时间(毫秒)',
   'pages.project.di.step.starrocks.enableUpsertDelete': '启用 Upsert 或 Delete',
   'pages.project.di.step.starrocks.saveModeCreateTemplate': '表模板',
+  'pages.project.di.step.starrocks.saveModeCreateTemplate.tooltip': '同步上游 Schema 时，创建 StarRocks 表模板',
+  'pages.project.di.step.starrocks.saveModeCreateTemplate.placeholder': 'CREATE TABLE IF NOT EXISTS `${database}`.`${table_name}`\n' +
+    '(   \n' +
+    '    id,\n' +
+    '    ${rowtype_fields}\n' +
+    ') ENGINE = OLAP UNIQUE KEY (${rowtype_primary_key})\n' +
+    '    DISTRIBUTED BY HASH (${rowtype_primary_key})\n' +
+    '    PROPERTIES\n' +
+    '(\n' +
+    '    "replication_num" = "1"\n' +
+    ');',
+  'pages.project.di.step.starrocks.customSql': '自定义处理 SQL',
   'pages.project.di.step.starrocks.starrocksConfig': 'StarRocks 配置',
   'pages.project.di.step.starrocks.starrocksConfig.tooltip': '流式加载参数',
   'pages.project.di.step.starrocks.starrocksConfig.list': '配置项',
@@ -710,6 +722,8 @@ export default {
   'pages.project.di.step.starrocks.scanBatchRows': '扫描批次行数',
   'pages.project.di.step.starrocks.scanMemLimit': '扫描内存限制(字节)',
   'pages.project.di.step.starrocks.requestTabletSize': '请求Tablet大小',
+  'pages.project.di.step.starrocks.httpSocketTimeoutMs': 'Http Socket 超时时间(毫秒)',
+  'pages.project.di.step.starrocks.httpSocketTimeoutMs.tooltip': '默认 3 minutes',
 
   // maxcompute
   'pages.project.di.step.maxcompute.project': '项目',

@@ -604,6 +604,7 @@ export const StarRocksParams = {
     maxRetryBackoffMs: 'max_retry_backoff_ms',
     enableUpsertDelete: 'enable_upsert_delete',
     saveModeCreateTemplate: 'save_mode_create_template',
+    customSql: 'custom_sql',
     starrocksConfig: 'starrocks.config',
     starrocksConfigMap: 'starrocksConfigMap',
     starrocksConfigKey: 'starrocksConfigKey',
@@ -615,6 +616,7 @@ export const StarRocksParams = {
     scanBatchRows: 'scan_batch_rows',
     scanMemLimit: 'scan_mem_limit',
     requestTabletSize: 'request_tablet_size',
+    httpSocketTimeoutMs: 'http_socket_timeout_ms',
 };
 
 export const MaxComputeParams = {
