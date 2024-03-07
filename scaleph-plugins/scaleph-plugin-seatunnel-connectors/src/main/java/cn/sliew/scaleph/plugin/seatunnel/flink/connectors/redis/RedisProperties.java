@@ -75,4 +75,12 @@ public enum RedisProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<Integer> DB_NUM = new PropertyDescriptor.Builder()
+            .name("db_num")
+            .description("Redis database index ID. It is connected to db 0 by default")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
 }

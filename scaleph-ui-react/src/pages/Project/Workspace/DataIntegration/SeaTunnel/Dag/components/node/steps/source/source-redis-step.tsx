@@ -1,6 +1,13 @@
 import React, {useEffect} from 'react';
 import {Form} from 'antd';
-import {DrawerForm, ProFormDependency, ProFormGroup, ProFormSelect, ProFormText,} from '@ant-design/pro-components';
+import {
+  DrawerForm,
+  ProFormDependency,
+  ProFormDigit,
+  ProFormGroup,
+  ProFormSelect,
+  ProFormText,
+} from '@ant-design/pro-components';
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
@@ -47,6 +54,14 @@ const SourceRedisStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onV
           rules={[{required: true}, {max: 120}]}
         />
         <DataSourceItem dataSource={"Redis"}/>
+        <ProFormDigit
+          name={RedisParams.dbNum}
+          label={intl.formatMessage({id: 'pages.project.di.step.redis.dbNum'})}
+          initialValue={0}
+          fieldProps={{
+            min: 0
+          }}
+        />
         <ProFormText
           name={RedisParams.keys}
           label={intl.formatMessage({id: 'pages.project.di.step.redis.keys'})}

@@ -390,6 +390,7 @@ export const RedisParams = {
     host: 'host',
     port: 'port',
     auth: 'auth',
+    dbNum: 'db_num',
     keys: 'keys',
     dataType: 'data_type',
     hashKeyParseMode: 'hash_key_parse_mode',

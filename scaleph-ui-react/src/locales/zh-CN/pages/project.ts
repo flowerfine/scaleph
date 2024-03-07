@@ -513,6 +513,7 @@ export default {
   'pages.project.di.step.redis.host': '主机',
   'pages.project.di.step.redis.port': '端口',
   'pages.project.di.step.redis.auth': '认证密码',
+  'pages.project.di.step.redis.dbNum': '数据库',
   'pages.project.di.step.redis.keys': 'Keys Pattern',
   'pages.project.di.step.redis.dataType': '数据类型',
   'pages.project.di.step.redis.hashKeyParseMode': 'Hash Key解析模式',
