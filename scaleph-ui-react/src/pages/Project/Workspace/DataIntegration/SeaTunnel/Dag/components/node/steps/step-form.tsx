@@ -55,6 +55,7 @@ import SinkCassandraStepForm from "./sink/sink-cassandra-step";
 import SourceRedisStepForm from "./source/source-redis-step";
 import SinkRedisStepForm from "./sink/sink-redis-step";
 import SourcePulsarStepForm from "./source/source-pulsar-step";
+import SinkPulsarStepForm from "./sink/sink-pulsar-step";
 import SinkDatahubStepForm from "./sink/sink-datahub-step";
 import SourceElasticsearchStepForm from "./source/source-elasticsearch-step";
 import SinkElasticsearchStepForm from "./sink/sink-elasticsearch-step";
@@ -251,6 +252,9 @@ const SeaTunnnelConnectorForm: React.FC<ModalFormProps<Node>> = ({visible, onVis
     } else if (type === 'source' && name === 'Pulsar') {
       return (
         <SourcePulsarStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
+    } else if (type === 'sink' && name === 'Pulsar') {
+      return (
+        <SinkPulsarStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);
     } else if (type === 'sink' && name === 'DataHub') {
       return (
         <SinkDatahubStepForm visible data={node} onVisibleChange={onVisibleChange} onCancel={onCancel} onOK={onOK}/>);

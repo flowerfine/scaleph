@@ -417,7 +417,12 @@ export const PulsarParams = {
     cursorStopMode: 'cursor.stop.mode',
     cursorStopTimestamp: 'cursor.stop.timestamp',
     format: 'format',
-    fieldDelimiter: 'field_delimiter'
+    fieldDelimiter: 'field_delimiter',
+    semantics: 'semantics',
+    transactionTimeout: 'transaction_timeout',
+    messageRoutingMode: 'message.routing.mode',
+    partitionKeyFields: 'partition_key_fields',
+    pulsarConfig: 'pulsar.config',
 };
 
 export const DatahubParams = {
@@ -498,6 +503,8 @@ export const Neo4jParams = {
     queryParamPositionArray: 'queryParamPositionArray',
     field: 'field',
     position: 'position',
+    writeMode: 'write_mode',
+    maxBatchSize: 'max_batch_size',
 };
 
 export const SentryParams = {

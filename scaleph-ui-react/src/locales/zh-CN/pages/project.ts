@@ -543,6 +543,10 @@ export default {
   'pages.project.di.step.pulsar.cursorStopTimestamp': '游标停止时间戳',
   'pages.project.di.step.pulsar.format': '数据格式',
   'pages.project.di.step.pulsar.fieldDelimiter': '分隔符',
+  'pages.project.di.step.pulsar.semantics': '同步一致性语义',
+  'pages.project.di.step.pulsar.transactionTimeout': '事务超时时间(秒)',
+  'pages.project.di.step.pulsar.transactionTimeout.tooltip': '默认 10 分钟',
+  'pages.project.di.step.pulsar.messageRoutingMode': '消息路由模式',
 
   // datahub
   'pages.project.di.step.datahub.endpoint': '终端节点',
@@ -584,6 +588,8 @@ export default {
   'pages.project.di.step.neo4j.position': '位置',
   'pages.project.di.step.neo4j.maxConnectionTimeout': '最大连接超时时间(秒)',
   'pages.project.di.step.neo4j.maxTransactionRetryTime': '最大事务重试时间(秒)',
+  'pages.project.di.step.neo4j.writeMode': '写入模式',
+  'pages.project.di.step.neo4j.maxBatchSize': '批次最大值',
 
   // sentry
   'pages.project.di.step.sentry.dsn': 'DSN',

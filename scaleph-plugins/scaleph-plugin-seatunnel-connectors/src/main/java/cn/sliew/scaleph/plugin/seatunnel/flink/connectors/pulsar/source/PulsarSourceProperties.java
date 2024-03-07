@@ -24,54 +24,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 public enum PulsarSourceProperties {
     ;
 
-    public static final PropertyDescriptor<String> CLIENT_SERVICE_URL = new PropertyDescriptor.Builder()
-            .name("client.service-url")
-            .description("Service URL provider for Pulsar service.")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> ADMIN_SERVICE_URL = new PropertyDescriptor.Builder()
-            .name("admin.service-url")
-            .description("The Pulsar service HTTP URL for the admin endpoint.")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> AUTH_PLUGIN_CLASS = new PropertyDescriptor.Builder()
-            .name("auth.plugin-class")
-            .description("Name of the authentication plugin.")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> AUTH_PARAMS = new PropertyDescriptor.Builder()
-            .name("auth.params")
-            .description("Parameters for the authentication plugin.")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
     public static final PropertyDescriptor<String> SUBSCRIPTION_NAME = new PropertyDescriptor.Builder()
             .name("subscription.name")
             .description("Specify the subscription name for this consumer.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> TOPIC = new PropertyDescriptor.Builder()
-            .name("topic")
-            .description("Topic name(s) to read data from when the table is used as source. It also supports topic list for source by separating topic by semicolon")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
@@ -151,24 +109,6 @@ public enum PulsarSourceProperties {
             .description("Stop from the specified epoch timestamp (in milliseconds).")
             .type(PropertyType.LONG)
             .parser(Parsers.LONG_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> FORMAT = new PropertyDescriptor.Builder()
-            .name("format")
-            .description("Data format.")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .defaultValue("json")
-            .allowableValues("json", "text")
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> FIELD_DELIMITER = new PropertyDescriptor.Builder<String>()
-            .name("field_delimiter")
-            .description("The separator between columns in a row of data. Only needed by text and csv file format")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
