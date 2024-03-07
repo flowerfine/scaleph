@@ -75,15 +75,26 @@ const SinkS3RedshiftStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, 
         <ProFormText
           name={S3RedshiftParams.executeSql}
           label={intl.formatMessage({id: 'pages.project.di.step.s3redshift.executeSql'})}
-          placeholder={intl.formatMessage({id: 'pages.project.di.step.s3redshift.executeSql.placeholoder'})}
+          placeholder={intl.formatMessage({id: 'pages.project.di.step.s3redshift.executeSql.placeholder'})}
+          rules={[{required: true}]}
+        />
+        <ProFormText
+          name={S3RedshiftParams.bucket}
+          label={intl.formatMessage({id: 'pages.project.di.step.s3redshift.bucket'})}
+          placeholder={intl.formatMessage({id: 'pages.project.di.step.s3redshift.bucket.placeholder'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.s3redshift.bucket.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
           rules={[{required: true}]}
         />
         <ProFormGroup
-          label={intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties'})}
+          title={intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties'})}
           tooltip={{
             title: intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
+          collapsible={true}
         >
           <ProFormList
             name={S3FileParams.hadoopS3Properties}
@@ -163,17 +174,17 @@ const SinkS3RedshiftStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, 
         <ProFormText
           name={BaseFileParams.partitionBy}
           label={intl.formatMessage({id: 'pages.project.di.step.baseFile.partitionBy'})}
-          colProps={{span: 12}}
+          colProps={{span: 8}}
         />
         <ProFormText
           name={BaseFileParams.partitionDirExpression}
-          label={intl.formatMessage({
-            id: 'pages.project.di.step.baseFile.partitionDirExpression',
-          })}
+          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.partitionDirExpression'})}
+          colProps={{span: 8}}
         />
         <ProFormSwitch
           name={BaseFileParams.isPartitionFieldWriteInFile}
           label={intl.formatMessage({id: 'pages.project.di.step.baseFile.isPartitionFieldWriteInFile'})}
+          colProps={{span: 8}}
         />
         <ProFormText
           name={BaseFileParams.sinkColumns}

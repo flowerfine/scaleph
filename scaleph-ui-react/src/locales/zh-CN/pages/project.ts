@@ -735,8 +735,11 @@ export default {
   'pages.project.di.step.s3redshift.jdbcUser': 'Jdbc用户名',
   'pages.project.di.step.s3redshift.jdbcPassword': 'Jdbc密码',
   'pages.project.di.step.s3redshift.executeSql': 'SQL查询语句',
-  'pages.project.di.step.s3redshift.executeSql.placeholoder':
+  'pages.project.di.step.s3redshift.executeSql.placeholder':
     'COPY target_table FROM \'s3://yourbucket${path}\' IAM_ROLE \'arn:XXX\' REGION \'your region\' format as json \'auto\';',
+  'pages.project.di.step.s3redshift.bucket': 'S3 Bucket 地址',
+  'pages.project.di.step.s3redshift.bucket.placeholder': 's3n://seatunnel-test',
+  'pages.project.di.step.s3redshift.bucket.tooltip': 's3n 和 s3a 协议，分别使用不同对应 s3n://seatunnel-test 和 s3a://seatunnel-test',
 
   // openmldb
   'pages.project.di.step.openmldb.clusterMode': '启用集群模式',

@@ -642,7 +642,8 @@ export const S3RedshiftParams = {
     jdbcUrl: 'jdbc_url',
     jdbcUser: 'jdbc_user',
     jdbcPassword: 'jdbc_password',
-    executeSql: 'execute_sql'
+    executeSql: 'execute_sql',
+    bucket: 'bucket'
 };
 
 export const OpenMLDBParams = {
