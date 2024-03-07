@@ -14,6 +14,7 @@ const FieldItem: React.FC = () => {
         title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
         icon: <InfoCircleOutlined/>,
       }}
+      collapsible={true}
     >
       <ProFormList
         name={SchemaParams.fieldArray}

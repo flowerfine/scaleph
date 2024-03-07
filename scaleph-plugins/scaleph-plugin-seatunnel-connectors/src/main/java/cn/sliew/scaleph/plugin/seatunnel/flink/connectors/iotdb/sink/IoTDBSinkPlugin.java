@@ -52,7 +52,6 @@ public class IoTDBSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(KEY_MEASUREMENT_FIELDS);
         props.add(STORAGE_GROUP);
         props.add(BATCH_SIZE);
-        props.add(BATCH_INTERVAL_MS);
         props.add(MAX_RETRIES);
         props.add(RETRY_BACKOFF_MULTIPLIER_MS);
         props.add(MAX_RETRY_BACKOFF_MS);

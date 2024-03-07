@@ -65,6 +65,14 @@ public enum JdbcProperties {
             .fallbackProperty(JdbcPoolProperties.PASSWORD)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<JsonNode> PROPERTIES = new PropertyDescriptor.Builder()
+            .name("properties")
+            .description("Additional connection configuration parameters")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<Integer> CONNECTION_CHECK_TIMEOUT_SEC = new PropertyDescriptor.Builder<Integer>()
             .name("connection_check_timeout_sec")
             .description("The time in seconds to wait for the database operation used to validate the connection to complete.")

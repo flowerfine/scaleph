@@ -113,4 +113,37 @@ public enum StarRocksSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<Integer> HTTP_SOCKET_TIMEOUT_MS = new PropertyDescriptor.Builder()
+            .name("http_socket_timeout_ms")
+            .description("Set http socket timeout, default is 3 minutes.")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> SCHEMA_SAVE_MODE = new PropertyDescriptor.Builder()
+            .name("schema_save_mode")
+            .description("Before the synchronous task is turned on, different treatment schemes are selected for the existing surface structure of the target side.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> DATA_SAVE_MODE = new PropertyDescriptor.Builder()
+            .name("data_save_mode")
+            .description("Before the synchronous task is turned on, different processing schemes are selected for data existing data on the target side.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> CUSTOM_SQL = new PropertyDescriptor.Builder()
+            .name("custom_sql")
+            .description("When data_save_mode selects CUSTOM_PROCESSING, you should fill in the CUSTOM_SQL parameter.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+
 }

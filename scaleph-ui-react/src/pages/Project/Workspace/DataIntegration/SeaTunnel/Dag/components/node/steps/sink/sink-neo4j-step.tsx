@@ -3,9 +3,11 @@ import {Form} from 'antd';
 import {InfoCircleOutlined} from "@ant-design/icons";
 import {
   DrawerForm,
+  ProFormDependency,
   ProFormDigit,
   ProFormGroup,
   ProFormList,
+  ProFormSelect,
   ProFormText,
   ProFormTextArea
 } from '@ant-design/pro-components';
@@ -65,7 +67,7 @@ const SinkNeo4jStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVis
           rules={[{required: true}]}
         />
         <ProFormGroup
-          label={intl.formatMessage({id: 'pages.project.di.step.neo4j.queryParamPosition'})}
+          title={intl.formatMessage({id: 'pages.project.di.step.neo4j.queryParamPosition'})}
           tooltip={{
             title: intl.formatMessage({
               id: 'pages.project.di.step.neo4j.queryParamPosition.tooltip',
@@ -77,9 +79,7 @@ const SinkNeo4jStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVis
             name={Neo4jParams.queryParamPositionArray}
             copyIconProps={false}
             creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({
-                id: 'pages.project.di.step.neo4j.queryParamPosition.list',
-              }),
+              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.neo4j.queryParamPosition.list'}),
               type: 'text',
             }}
           >
@@ -101,8 +101,9 @@ const SinkNeo4jStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVis
           </ProFormList>
         </ProFormGroup>
         <ProFormDigit
-          name={Neo4jParams.maxTransactionRetryTime}
-          label={intl.formatMessage({id: 'pages.project.di.step.neo4j.maxTransactionRetryTime'})}
+          name={Neo4jParams.maxConnectionTimeout}
+          label={intl.formatMessage({id: 'pages.project.di.step.neo4j.maxConnectionTimeout'})}
+          colProps={{span: 12}}
           initialValue={30}
           fieldProps={{
             step: 5,
@@ -110,14 +111,42 @@ const SinkNeo4jStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVis
           }}
         />
         <ProFormDigit
-          name={Neo4jParams.maxConnectionTimeout}
-          label={intl.formatMessage({id: 'pages.project.di.step.neo4j.maxConnectionTimeout'})}
+          name={Neo4jParams.maxTransactionRetryTime}
+          label={intl.formatMessage({id: 'pages.project.di.step.neo4j.maxTransactionRetryTime'})}
+          colProps={{span: 12}}
           initialValue={30}
           fieldProps={{
             step: 5,
             min: 0,
           }}
         />
+
+        <ProFormSelect
+          name={Neo4jParams.writeMode}
+          label={intl.formatMessage({id: 'pages.project.di.step.neo4j.writeMode'})}
+          initialValue={"ONE_BY_ONE"}
+          valueEnum={{
+            ONE_BY_ONE: {text: '逐行写入'},
+            BATCH: {text: '批量写入'},
+          }}
+        />
+        <ProFormDependency name={['write_mode']}>
+          {({write_mode}) => {
+            if (write_mode == 'BATCH') {
+              return <ProFormDigit
+                name={Neo4jParams.maxBatchSize}
+                label={intl.formatMessage({id: 'pages.project.di.step.neo4j.maxBatchSize'})}
+                initialValue={500}
+                fieldProps={{
+                  step: 100,
+                  min: 1,
+                }}
+              />
+            }
+            return <ProFormGroup/>;
+          }}
+        </ProFormDependency>
+
       </DrawerForm>
     </XFlow>
   );

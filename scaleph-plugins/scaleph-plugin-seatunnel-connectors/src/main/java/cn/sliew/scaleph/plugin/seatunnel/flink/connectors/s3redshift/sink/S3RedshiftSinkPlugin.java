@@ -38,6 +38,7 @@ import java.util.List;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.PATH;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSinkProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.s3.S3Properties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.s3redshift.S3RedshiftProperties.BUCKET;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.s3redshift.S3RedshiftProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
@@ -53,6 +54,7 @@ public class S3RedshiftSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(JDBC_USER);
         props.add(JDBC_PASSWORD);
         props.add(EXECUTE_SQL);
+        props.add(BUCKET);
 
         props.add(HADOOP_S3_PROPERTIES);
         props.add(PATH);

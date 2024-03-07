@@ -97,12 +97,17 @@ export default {
   'pages.project.di.step.jdbc.database': '数据库',
   'pages.project.di.step.jdbc.table': '表',
   'pages.project.di.step.jdbc.table.tooltip': '优先级高于SQL',
+  'pages.project.di.step.jdbc.enableUpsert': '启用Upsert',
+  'pages.project.di.step.jdbc.enableUpsert.tooltip': '数据不存在重复时，关闭 Upsert 功能可提高同步性能',
   'pages.project.di.step.jdbc.supportUpsert': '支持Upsert',
+  'pages.project.di.step.jdbc.supportUpsert.tooltip': '根据主键字段实现 Upsert 功能',
   'pages.project.di.step.jdbc.generateSinkSql': '自动生成 SQL',
   'pages.project.di.step.jdbc.generateSinkSql.tooltip': '根据 database 和 table 自动生成插入 SQL 语句',
   'pages.project.di.step.jdbc.primaryKeys': '主键',
   'pages.project.di.step.jdbc.primaryKeys.tooltip': '请提供表的主键字段',
   'pages.project.di.step.jdbc.primaryKeys.list': '主键',
+  'pages.project.di.step.jdbc.partition': '分区扫描',
+  'pages.project.di.step.jdbc.partition.tooltip': '根据主键或唯一键最大值最小值进行分区',
   'pages.project.di.step.jdbc.partitionColumn': '分区字段',
   'pages.project.di.step.jdbc.partitionColumn.tooltip': '只支持数值类型字段作为分区字段',
   'pages.project.di.step.jdbc.partitionLowerBound': '分区最小值',
@@ -111,9 +116,37 @@ export default {
   'pages.project.di.step.jdbc.partitionUpperBound.tooltip': 'SeaTunnel 可查询数据库获取最大值',
   'pages.project.di.step.jdbc.partitionNum': '分区数',
   'pages.project.di.step.jdbc.partitionNum.tooltip': '默认值: 任务并行度',
+  'pages.project.di.step.jdbc.split': '拆分扫描',
+  'pages.project.di.step.jdbc.split.tooltip': '根据数据总量进行拆分。参考 CDC 全量读取阶段实现',
+  'pages.project.di.step.jdbc.splitSize': '拆分数量',
+  'pages.project.di.step.jdbc.splitSize.tooltip': '将总的数据拆分的份数',
+  'pages.project.di.step.jdbc.splitEvenDistributionFactorLowerBound': 'Chunk Key Even Distribution Factor Lower Bound',
+  'pages.project.di.step.jdbc.splitEvenDistributionFactorLowerBound.tooltip': '不建议调整。参考 CDC 全量读取阶段实现',
+  'pages.project.di.step.jdbc.splitEvenDistributionFactorUpperBound': 'Chunk Key Even Distribution Factor Upper Bound',
+  'pages.project.di.step.jdbc.splitEvenDistributionFactorUpperBound.tooltip': '不建议调整。参考 CDC 全量读取阶段实现',
+  'pages.project.di.step.jdbc.splitSampleShardingThreshold': 'Sample-Sharding Threshold',
+  'pages.project.di.step.jdbc.splitSampleShardingThreshold.tooltip': '参考 CDC 全量读取阶段实现',
+  'pages.project.di.step.jdbc.splitInverseSamplingRate': 'Inverse-Sampling Rate',
+  'pages.project.di.step.jdbc.splitInverseSamplingRate.tooltip': '参考 CDC 全量读取阶段实现',
   'pages.project.di.step.jdbc.fetchSize': 'Jdbc Fetch Size',
   'pages.project.di.step.jdbc.fetchSize.tooltip': '参阅 Jdbc 规范: fetch size',
   'pages.project.di.step.jdbc.query': 'SQL',
+  'pages.project.di.step.jdbc.whereCondition': 'Where 条件',
+  'pages.project.di.step.jdbc.whereCondition.tooltip': '必须以 where 开头，如 where id > 100',
+  'pages.project.di.step.jdbc.tablePath': '单表配置',
+  'pages.project.di.step.jdbc.tablePath.tooltip': '表名，包含 database 或 schema。可替代 query sql',
+  'pages.project.di.step.jdbc.tablePath.placeholder': 'mysql 数据库: testdb.table1',
+  'pages.project.di.step.jdbc.tableList': '多表配置',
+  'pages.project.di.step.jdbc.tableList.placeholder': '[\n' +
+    '    {\n' +
+    '        "table_path": "testdb.table1"\n' +
+    '    },\n' +
+    '    {\n' +
+    '        "table_path": "testdb.table2",\n' +
+    '        "query": "select * from testdb.table2 where id > 100"\n' +
+    '    }\n' +
+    ']',
+  'pages.project.di.step.jdbc.tableList.tooltip': '用于一个Source同时读取多表，可替代 query sql 和单表配置',
   'pages.project.di.step.jdbc.getsql': '获取SQL',
   'pages.project.di.step.jdbc.preview': '预览结果',
   'pages.project.di.step.jdbc.batchSize': '批次数量',
@@ -127,6 +160,8 @@ export default {
   'pages.project.di.step.jdbc.transactionTimeoutSec': '事务超时时间(秒)',
   'pages.project.di.step.jdbc.transactionTimeoutSec.tooltip': '-1 表示从不超时',
   'pages.project.di.step.jdbc.autoCommit': '自动提交',
+  'pages.project.di.step.jdbc.fieldIde': '大小写转换',
+  'pages.project.di.step.jdbc.customSql': '自定义处理 SQL',
 
   // fake
   'pages.project.di.step.fake.tablesConfigs': '多表配置',
@@ -432,13 +467,14 @@ export default {
   'pages.project.di.step.iotdb.fields': '字段列表',
   'pages.project.di.step.iotdb.fetchSize': '批量大小',
   'pages.project.di.step.iotdb.thriftDefaultBufferSize': '默认Thrift缓冲区大小',
+  'pages.project.di.step.iotdb.maxThriftFrameSize': 'Thrift最大帧大小',
+  'pages.project.di.step.iotdb.thriftMaxFrameSize': 'Thrift最大帧大小',
   'pages.project.di.step.iotdb.enableCacheLeader': '启用Cache Leader',
   'pages.project.di.step.iotdb.version': '版本',
   'pages.project.di.step.iotdb.numPartitions': '分区数',
   'pages.project.di.step.iotdb.lowerBound': '分区下限',
   'pages.project.di.step.iotdb.upperBound': '分区上限',
   'pages.project.di.step.iotdb.batchSize': '批量大小',
-  'pages.project.di.step.iotdb.batchIntervalMs': '批量间隔(毫秒)',
   'pages.project.di.step.iotdb.maxRetries': '重试次数',
   'pages.project.di.step.iotdb.retryBackoffMultiplierMs': '重试退避倍数(毫秒)',
   'pages.project.di.step.iotdb.maxRetryBackoffMs': '最大重试退避(毫秒)',
@@ -477,6 +513,7 @@ export default {
   'pages.project.di.step.redis.host': '主机',
   'pages.project.di.step.redis.port': '端口',
   'pages.project.di.step.redis.auth': '认证密码',
+  'pages.project.di.step.redis.dbNum': '数据库',
   'pages.project.di.step.redis.keys': 'Keys Pattern',
   'pages.project.di.step.redis.dataType': '数据类型',
   'pages.project.di.step.redis.hashKeyParseMode': 'Hash Key解析模式',
@@ -507,6 +544,18 @@ export default {
   'pages.project.di.step.pulsar.cursorStopTimestamp': '游标停止时间戳',
   'pages.project.di.step.pulsar.format': '数据格式',
   'pages.project.di.step.pulsar.fieldDelimiter': '分隔符',
+  'pages.project.di.step.pulsar.semantics': '同步一致性语义',
+  'pages.project.di.step.pulsar.transactionTimeout': '事务超时时间(秒)',
+  'pages.project.di.step.pulsar.transactionTimeout.tooltip': '默认 10 分钟',
+  'pages.project.di.step.pulsar.messageRoutingMode': '消息路由模式',
+  'pages.project.di.step.pulsar.partitionKeyFields': '分区字段',
+  'pages.project.di.step.pulsar.partitionKeyFields.tooltip': '配置 Pulsar 消息分区字段',
+  'pages.project.di.step.pulsar.partitionKeyField': '字段',
+  'pages.project.di.step.pulsar.pulsarConfig': 'Pulsar 配置',
+  'pages.project.di.step.pulsar.pulsarConfig.tooltip': '添加额外 Pulsar Producer 配置',
+  'pages.project.di.step.pulsar.pulsarConfig.item': '配置项',
+  'pages.project.di.step.pulsar.pulsarConfigKey': '配置',
+  'pages.project.di.step.pulsar.pulsarConfigValue': '值',
 
   // datahub
   'pages.project.di.step.datahub.endpoint': '终端节点',
@@ -548,6 +597,8 @@ export default {
   'pages.project.di.step.neo4j.position': '位置',
   'pages.project.di.step.neo4j.maxConnectionTimeout': '最大连接超时时间(秒)',
   'pages.project.di.step.neo4j.maxTransactionRetryTime': '最大事务重试时间(秒)',
+  'pages.project.di.step.neo4j.writeMode': '写入模式',
+  'pages.project.di.step.neo4j.maxBatchSize': '批次最大值',
 
   // sentry
   'pages.project.di.step.sentry.dsn': 'DSN',
@@ -645,6 +696,18 @@ export default {
   'pages.project.di.step.starrocks.maxRetryBackoffMs': '最大重试退避时间(毫秒)',
   'pages.project.di.step.starrocks.enableUpsertDelete': '启用 Upsert 或 Delete',
   'pages.project.di.step.starrocks.saveModeCreateTemplate': '表模板',
+  'pages.project.di.step.starrocks.saveModeCreateTemplate.tooltip': '同步上游 Schema 时，创建 StarRocks 表模板',
+  'pages.project.di.step.starrocks.saveModeCreateTemplate.placeholder': 'CREATE TABLE IF NOT EXISTS `${database}`.`${table_name}`\n' +
+    '(   \n' +
+    '    id,\n' +
+    '    ${rowtype_fields}\n' +
+    ') ENGINE = OLAP UNIQUE KEY (${rowtype_primary_key})\n' +
+    '    DISTRIBUTED BY HASH (${rowtype_primary_key})\n' +
+    '    PROPERTIES\n' +
+    '(\n' +
+    '    "replication_num" = "1"\n' +
+    ');',
+  'pages.project.di.step.starrocks.customSql': '自定义处理 SQL',
   'pages.project.di.step.starrocks.starrocksConfig': 'StarRocks 配置',
   'pages.project.di.step.starrocks.starrocksConfig.tooltip': '流式加载参数',
   'pages.project.di.step.starrocks.starrocksConfig.list': '配置项',
@@ -659,6 +722,8 @@ export default {
   'pages.project.di.step.starrocks.scanBatchRows': '扫描批次行数',
   'pages.project.di.step.starrocks.scanMemLimit': '扫描内存限制(字节)',
   'pages.project.di.step.starrocks.requestTabletSize': '请求Tablet大小',
+  'pages.project.di.step.starrocks.httpSocketTimeoutMs': 'Http Socket 超时时间(毫秒)',
+  'pages.project.di.step.starrocks.httpSocketTimeoutMs.tooltip': '默认 3 minutes',
 
   // maxcompute
   'pages.project.di.step.maxcompute.project': '项目',
@@ -684,8 +749,11 @@ export default {
   'pages.project.di.step.s3redshift.jdbcUser': 'Jdbc用户名',
   'pages.project.di.step.s3redshift.jdbcPassword': 'Jdbc密码',
   'pages.project.di.step.s3redshift.executeSql': 'SQL查询语句',
-  'pages.project.di.step.s3redshift.executeSql.placeholoder':
+  'pages.project.di.step.s3redshift.executeSql.placeholder':
     'COPY target_table FROM \'s3://yourbucket${path}\' IAM_ROLE \'arn:XXX\' REGION \'your region\' format as json \'auto\';',
+  'pages.project.di.step.s3redshift.bucket': 'S3 Bucket 地址',
+  'pages.project.di.step.s3redshift.bucket.placeholder': 's3n://seatunnel-test',
+  'pages.project.di.step.s3redshift.bucket.tooltip': 's3n 和 s3a 协议，分别使用不同对应 s3n://seatunnel-test 和 s3a://seatunnel-test',
 
   // openmldb
   'pages.project.di.step.openmldb.clusterMode': '启用集群模式',

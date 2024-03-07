@@ -6,6 +6,8 @@ import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {MaxComputeParams, STEP_ATTR_TYPE} from '../constant';
 import DataSourceItem from "../dataSource";
+import FieldItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/fields";
+import {StepSchemaService} from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/helper";
 
 const SourceMaxComputeStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -32,6 +34,7 @@ const SourceMaxComputeStepForm: React.FC<ModalFormProps<Node>> = ({data, visible
         }}
         onFinish={(values) => {
           if (onOK) {
+            StepSchemaService.formatSchema(values)
             onOK(values)
             return Promise.resolve(true)
           }
@@ -67,6 +70,7 @@ const SourceMaxComputeStepForm: React.FC<ModalFormProps<Node>> = ({data, visible
             min: 1,
           }}
         />
+        <FieldItem/>
       </DrawerForm>
     </XFlow>
   );

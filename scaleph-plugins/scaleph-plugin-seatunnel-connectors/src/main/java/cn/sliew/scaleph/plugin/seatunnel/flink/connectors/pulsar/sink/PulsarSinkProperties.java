@@ -16,36 +16,43 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.neo4j.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.pulsar.sink;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
 import com.fasterxml.jackson.databind.JsonNode;
 
-public enum Neo4jSinkProperties {
+public enum PulsarSinkProperties {
     ;
 
-    public static final PropertyDescriptor<Integer> MAX_BATCH_SIZE = new PropertyDescriptor.Builder()
-            .name("max_batch_size")
-            .description("max_batch_size refers to the maximum number of data entries that can be written in a single transaction when writing to a database.")
-            .type(PropertyType.INT)
-            .parser(Parsers.INTEGER_PARSER)
-            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> WRITE_MODE = new PropertyDescriptor.Builder()
-            .name("write_mode")
-            .description("The default value is oneByOne, or set it to \"Batch\" if you want to have the ability to write in batches")
+    public static final PropertyDescriptor<String> SEMANTICS = new PropertyDescriptor.Builder()
+            .name("semantics")
+            .description("Consistency semantics for writing to pulsar.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<JsonNode> QUERY_PARAM_POSITION = new PropertyDescriptor.Builder()
-            .name("queryParamPosition")
-            .description("position mapping information for query parameters.")
+    public static final PropertyDescriptor<Integer> TRANSACTION_TIMEOUT = new PropertyDescriptor.Builder()
+            .name("transaction_timeout")
+            .description("The transaction timeout is specified as 10 minutes by default.")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> MESSAGE_ROUTING_MODE = new PropertyDescriptor.Builder()
+            .name("message.routing.mode")
+            .description("Default routing mode for messages to partition.")
             .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> PARTITION_KEY_FIELDS = new PropertyDescriptor.Builder()
+            .name("partition_key_fields")
+            .description("Configure which fields are used as the key of the pulsar message.")
+            .type(PropertyType.OBJECT)
             .parser(Parsers.JSON_PARSER)
-            .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

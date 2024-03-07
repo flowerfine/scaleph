@@ -59,4 +59,13 @@ public enum S3RedshiftProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<String> BUCKET = new PropertyDescriptor.Builder()
+            .name("bucket")
+            .description("The bucket address of s3 file system.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
 }

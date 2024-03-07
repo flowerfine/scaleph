@@ -44,7 +44,7 @@ const SinkKafkaStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVis
           if (onOK) {
             StepSchemaService.formatSchema(values);
             StepSchemaService.formatKafkaConf(values);
-            StepSchemaService.formatPartitionKeyFields(values);
+            StepSchemaService.formatKafkaPartitionKeyFields(values);
             StepSchemaService.formatAssginPartitions(values);
             onOK(values)
             return Promise.resolve(true)

@@ -74,7 +74,7 @@ public class KafkaSinkPlugin extends SeaTunnelConnectorPlugin {
         KafkaDataSource dataSource = (KafkaDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
         conf.putPOJO(BOOTSTRAP_SERVERS.getName(), dataSource.getBootstrapServers());
         for (Map.Entry<String, Object> entry : properties.toMap().entrySet()) {
-            if (entry.getKey().startsWith(KAFKA_CONF.getName())) {
+            if (entry.getKey().startsWith(KAFKA_CONFIG.getName())) {
                 conf.putPOJO(entry.getKey(), entry.getValue());
             }
         }

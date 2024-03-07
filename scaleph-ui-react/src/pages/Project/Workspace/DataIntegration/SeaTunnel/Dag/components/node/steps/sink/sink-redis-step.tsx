@@ -44,6 +44,14 @@ const SinkRedisStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVis
           rules={[{required: true}, {max: 120}]}
         />
         <DataSourceItem dataSource={'Redis'}/>
+        <ProFormDigit
+          name={RedisParams.dbNum}
+          label={intl.formatMessage({id: 'pages.project.di.step.redis.dbNum'})}
+          initialValue={0}
+          fieldProps={{
+            min: 0
+          }}
+        />
         <ProFormText
           name={RedisParams.key}
           label={intl.formatMessage({id: 'pages.project.di.step.redis.key'})}

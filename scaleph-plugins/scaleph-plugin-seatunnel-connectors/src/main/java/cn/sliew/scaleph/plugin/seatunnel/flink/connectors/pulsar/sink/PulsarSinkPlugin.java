@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.neo4j.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.pulsar.sink;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
-import cn.sliew.scaleph.ds.modal.Neo4jDataSource;
+import cn.sliew.scaleph.ds.modal.mq.PulsarDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
@@ -36,27 +36,29 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.neo4j.Neo4jProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.neo4j.sink.Neo4jSinkProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.pulsar.PulsarProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.pulsar.sink.PulsarSinkProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class Neo4jSinkPlugin extends SeaTunnelConnectorPlugin {
+public class PulsarSinkPlugin extends SeaTunnelConnectorPlugin {
 
-    public Neo4jSinkPlugin() {
+    public PulsarSinkPlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Neo4j sink connector",
-                Neo4jSinkPlugin.class.getName());
+                "Sink connector for Apache Pulsar.",
+                PulsarSinkPlugin.class.getName());
+
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(DATABASE);
-        props.add(QUERY);
-        props.add(QUERY_PARAM_POSITION);
-        props.add(MAX_BATCH_SIZE);
-        props.add(WRITE_MODE);
-        props.add(MAX_TRANSACTION_RETRY_SIZE);
-        props.add(MAX_CONNECTION_TIMEOUT);
+        props.add(TOPIC);
+        props.add(FORMAT);
+        props.add(FIELD_DELIMITER);
+        props.add(PULSAR_CONFIG);
+        props.add(SEMANTICS);
+        props.add(TRANSACTION_TIMEOUT);
+        props.add(MESSAGE_ROUTING_MODE);
+        props.add(PARTITION_KEY_FIELDS);
         props.add(CommonProperties.PARALLELISM);
-        props.add(CommonProperties.SOURCE_TABLE_NAME);
-        this.supportedProperties = props;
+        props.add(CommonProperties.RESULT_TABLE_NAME);
+        supportedProperties = Collections.unmodifiableList(props);
     }
 
     @Override
@@ -68,23 +70,20 @@ public class Neo4jSinkPlugin extends SeaTunnelConnectorPlugin {
     public ObjectNode createConf() {
         ObjectNode conf = super.createConf();
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
-        Neo4jDataSource dataSource = (Neo4jDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
-        conf.putPOJO(URI.getName(), dataSource.getUri());
-        if (StringUtils.hasText(dataSource.getUsername())) {
-            conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
-            conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
+        PulsarDataSource dataSource = (PulsarDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.putPOJO(ADMIN_SERVICE_URL.getName(), dataSource.getWebServiceUrl());
+        conf.putPOJO(CLIENT_SERVICE_URL.getName(), dataSource.getClientServiceUrl());
+        if (StringUtils.hasText(dataSource.getAuthPlugin())) {
+            conf.putPOJO(AUTH_PLUGIN_CLASS.getName(), dataSource.getAuthPlugin());
         }
-        if (StringUtils.hasText(dataSource.getBearerToken())) {
-            conf.putPOJO(BEARER_TOKEN.getName(), dataSource.getBearerToken());
-        }
-        if (StringUtils.hasText(dataSource.getKerberosTicket())) {
-            conf.putPOJO(KERBEROS_TICKET.getName(), dataSource.getKerberosTicket());
+        if (StringUtils.hasText(dataSource.getAuthParams())) {
+            conf.putPOJO(AUTH_PARAMS.getName(), dataSource.getAuthParams());
         }
         return conf;
     }
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SINK_NEO4J;
+        return SeaTunnelPluginMapping.SINK_PULSAR;
     }
 }
