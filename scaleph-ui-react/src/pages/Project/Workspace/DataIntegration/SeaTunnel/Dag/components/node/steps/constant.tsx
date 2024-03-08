@@ -302,9 +302,25 @@ export const HiveParams = {
 
 export const KuduParams = {
     kuduMaster: 'kudu_master',
-    kuduTable: 'kudu_table',
-    columnsList: 'columnsList',
-    saveMode: 'save_mode'
+    enableKerberos: 'enable_kerberos',
+    kerberosPrincipal: 'kerberos_principal',
+    kerberosKeytab: 'kerberos_keytab',
+    kerberosKrb5conf: 'kerberos_krb5conf',
+    clientWorkerCount: 'client_worker_count',
+    clientDefaultOperationTimeoutMs: 'client_default_operation_timeout_ms',
+    clientDefaultAdminOperationTimeoutMs: 'client_default_admin_operation_timeout_ms',
+    tableName: 'table_name',
+    saveMode: 'save_mode',
+    sessionFlushMode: 'session_flush_mode',
+    batchSize: 'batch_size',
+    bufferFlushInterval: 'buffer_flush_interval',
+    ignoreNotFound: 'ignore_not_found',
+    ignoreNotDuplicate: 'ignore_not_duplicate',
+    scanTokenQueryTimeout: 'scan_token_query_timeout',
+    scanTokenBatchSizeBytes: 'scan_token_batch_size_bytes',
+    filter: 'filter',
+    schema: 'schema',
+    tableList: 'table_list',
 };
 
 export const KafkaParams = {

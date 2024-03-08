@@ -386,9 +386,23 @@ export default {
 
   // kudu
   'pages.project.di.step.kudu.master': 'Master',
-  'pages.project.di.step.kudu.table': 'Table',
-  'pages.project.di.step.kudu.columnsList': '字段列表',
-  'pages.project.di.step.kudu.savemode': '保存模式',
+  'pages.project.di.step.kudu.tableName': 'Table',
+  'pages.project.di.step.kudu.client': '客户端配置',
+  'pages.project.di.step.kudu.clientWorkerCount': 'Worker 数量',
+  'pages.project.di.step.kudu.clientWorkerCount.tooltip': '默认为 CPU 核数的 2 倍',
+  'pages.project.di.step.kudu.clientDefaultOperationTimeoutMs': '操作超时时间(毫秒)',
+  'pages.project.di.step.kudu.clientDefaultAdminOperationTimeoutMs': 'Admin操作超时时间(毫秒)',
+  'pages.project.di.step.kudu.write': '写入配置',
+  'pages.project.di.step.kudu.saveMode': '存储模式',
+  'pages.project.di.step.kudu.sessionFlushMode': 'Kudu Flush 模式',
+  'pages.project.di.step.kudu.batchSize': 'Flush 批次大小',
+  'pages.project.di.step.kudu.bufferFlushInterval': 'Flush 间隔(毫秒)',
+  'pages.project.di.step.kudu.ignoreNotFound': '忽略不存在的数据',
+  'pages.project.di.step.kudu.ignoreNotDuplicate': '忽略重复数据',
+  'pages.project.di.step.kudu.scan': 'Scan配置',
+  'pages.project.di.step.kudu.scanTokenQueryTimeout': 'Scan查询超时时间(毫秒)',
+  'pages.project.di.step.kudu.scanTokenBatchSizeBytes': 'Scan批次数据量(byte)',
+  'pages.project.di.step.kudu.filter': 'Scan过滤表达式',
 
   // kafka
   'pages.project.di.step.kafka.topic': 'Topic',

@@ -11,7 +11,10 @@ const DataSourceItem: React.FC<{ dataSource: string }> = ({dataSource}) => {
   const intl = getIntl(getLocale());
 
   return (
-    <ProFormGroup>
+    <ProFormGroup
+      title={intl.formatMessage({id: 'pages.project.di.step.dataSource'})}
+      collapsible={true}
+    >
       <ProFormSelect
         name={"dataSourceType"}
         label={intl.formatMessage({id: 'pages.project.di.step.dataSourceType'})}
