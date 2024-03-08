@@ -50,6 +50,7 @@ public class RedisSourcePlugin extends SeaTunnelConnectorPlugin {
                 RedisSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
+        props.add(DB_NUM);
         props.add(KEYS);
         props.add(DATA_TYPE);
         props.add(HASH_KEY_PARSE_MODE);

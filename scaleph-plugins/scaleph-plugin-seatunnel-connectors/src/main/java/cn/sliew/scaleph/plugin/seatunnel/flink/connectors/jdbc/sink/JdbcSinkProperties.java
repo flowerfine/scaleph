@@ -131,4 +131,39 @@ public enum JdbcSinkProperties {
             .defaultValue(true)
             .parser(Parsers.BOOLEAN_PARSER)
             .validateAndBuild();
+
+    public static final PropertyDescriptor<String> FIELD_IDE = new PropertyDescriptor.Builder<Boolean>()
+            .name("field_ide")
+            .description("The field \"field_ide\" is used to identify whether the field needs to be converted to uppercase or lowercase when synchronizing from the source to the sink")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> SCHEMA_SAVE_MODE = new PropertyDescriptor.Builder<Boolean>()
+            .name("schema_save_mode")
+            .description("Before the synchronous task is turned on, different treatment schemes are selected for the existing surface structure of the target side.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> DATA_SAVE_MODE = new PropertyDescriptor.Builder<Boolean>()
+            .name("data_save_mode")
+            .description("Before the synchronous task is turned on, different processing schemes are selected for data existing data on the target side.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> CUSTOM_SQL = new PropertyDescriptor.Builder<Boolean>()
+            .name("custom_sql")
+            .description("When data_save_mode selects CUSTOM_PROCESSING, you should fill in the CUSTOM_SQL parameter.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Boolean> ENABLE_UPSERT = new PropertyDescriptor.Builder<Boolean>()
+            .name("enable_upsert")
+            .description("Enable upsert by primary_keys exist.")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .validateAndBuild();
 }

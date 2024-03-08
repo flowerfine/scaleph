@@ -50,6 +50,7 @@ public class RedisSinkPlugin extends SeaTunnelConnectorPlugin {
                 RedisSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
+        props.add(DB_NUM);
         props.add(KEY);
         props.add(EXPIRE);
         props.add(DATA_TYPE);

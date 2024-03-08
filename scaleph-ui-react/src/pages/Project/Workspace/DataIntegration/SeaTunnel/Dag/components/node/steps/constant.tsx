@@ -99,11 +99,20 @@ export const JdbcParams = {
     primaryKeys: 'primary_keys',
     primaryKeyArray: 'primaryKeyArray',
     primaryKey: 'key',
+    enableUpsert: 'enable_upsert',
     query: 'query',
+    tablePath: 'table_path',
+    tableList: 'table_list',
+    whereCondition: 'where_condition',
     partitionColumn: 'partition_column',
     partitionLowerBound: 'partition_lower_bound',
     partitionUpperBound: 'partition_upper_bound',
     partitionNum: 'partition_num',
+    splitSize: 'split.size',
+    splitEvenDistributionFactorLowerBound: 'split.even-distribution.factor.lower-bound',
+    splitEvenDistributionFactorUpperBound: 'split.even-distribution.factor.upper-bound',
+    splitSampleShardingThreshold: 'split.sample-sharding.threshold',
+    splitInverseSamplingRate: 'split.inverse-sampling.rate',
     fetchSize: 'fetch_size',
     batchSize: 'batch_size',
     maxRetries: 'max_retries',
@@ -111,7 +120,11 @@ export const JdbcParams = {
     xaDataSourceClassName: 'xa_data_source_class_name',
     maxCommitAttempts: 'max_commit_attempts',
     transactionTimeoutSec: 'transaction_timeout_sec',
-    autoCommit: 'auto_commit'
+    autoCommit: 'auto_commit',
+    fieldIde: 'field_ide',
+    schemaSaveMode: 'schema_save_mode',
+    dataSaveMode: 'data_save_mode',
+    customSql: 'custom_sql'
 }
 
 export const BaseFileParams = {
@@ -194,6 +207,13 @@ export const HttpParams = {
     retry: 'retry',
     retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms',
     retryBackoffMaxMs: 'retry_backoff_max_ms',
+    pageing: 'pageing',
+    pagingPageField: 'pageing.page_field',
+    pagingTotalPageSize: 'pageing.total_page_size',
+    pagingBatchSize: 'pageing.batch_size',
+    pageField: 'page_field',
+    totalPageSize: 'total_page_size',
+    batchSize: 'batch_size',
 };
 
 export const WeChatParams = {
@@ -282,9 +302,25 @@ export const HiveParams = {
 
 export const KuduParams = {
     kuduMaster: 'kudu_master',
-    kuduTable: 'kudu_table',
-    columnsList: 'columnsList',
-    saveMode: 'save_mode'
+    enableKerberos: 'enable_kerberos',
+    kerberosPrincipal: 'kerberos_principal',
+    kerberosKeytab: 'kerberos_keytab',
+    kerberosKrb5conf: 'kerberos_krb5conf',
+    clientWorkerCount: 'client_worker_count',
+    clientDefaultOperationTimeoutMs: 'client_default_operation_timeout_ms',
+    clientDefaultAdminOperationTimeoutMs: 'client_default_admin_operation_timeout_ms',
+    tableName: 'table_name',
+    saveMode: 'save_mode',
+    sessionFlushMode: 'session_flush_mode',
+    batchSize: 'batch_size',
+    bufferFlushInterval: 'buffer_flush_interval',
+    ignoreNotFound: 'ignore_not_found',
+    ignoreNotDuplicate: 'ignore_not_duplicate',
+    scanTokenQueryTimeout: 'scan_token_query_timeout',
+    scanTokenBatchSizeBytes: 'scan_token_batch_size_bytes',
+    filter: 'filter',
+    schema: 'schema',
+    tableList: 'table_list',
 };
 
 export const KafkaParams = {
@@ -328,12 +364,12 @@ export const IoTDBParams = {
     lowerBound: 'lower_bound',
     upperBound: 'upper_bound',
     batchSize: 'batch_size',
-    batchIntervalMs: 'batch_interval_ms',
     maxRetries: 'max_retries',
     retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms',
     maxRetryBackoffMs: 'max_retry_backoff_ms',
     defaultThriftBufferSize: 'default_thrift_buffer_size',
     maxThriftFrameSize: 'max_thrift_frame_size',
+    thriftMaxFrameSize: 'thrift_max_frame_size',
     zoneId: 'zone_id',
     enableRpcCompression: 'enable_rpc_compression',
     connectionTimeoutInMs: 'connection_timeout_in_ms',
@@ -370,6 +406,7 @@ export const RedisParams = {
     host: 'host',
     port: 'port',
     auth: 'auth',
+    dbNum: 'db_num',
     keys: 'keys',
     dataType: 'data_type',
     hashKeyParseMode: 'hash_key_parse_mode',
@@ -397,7 +434,17 @@ export const PulsarParams = {
     cursorStopMode: 'cursor.stop.mode',
     cursorStopTimestamp: 'cursor.stop.timestamp',
     format: 'format',
-    fieldDelimiter: 'field_delimiter'
+    fieldDelimiter: 'field_delimiter',
+    semantics: 'semantics',
+    transactionTimeout: 'transaction_timeout',
+    messageRoutingMode: 'message.routing.mode',
+    partitionKeyFields: 'partition_key_fields',
+    partitionKeyFieldArray: 'partitionKeyFieldArray',
+    partitionKeyField: 'partitionKeyField',
+    pulsarConfig: 'pulsar.config',
+    pulsarConfigMap: 'pulsarConfigMap',
+    pulsarConfigKey: 'pulsarConfigKey',
+    pulsarConfigValue: 'pulsarConfigValue',
 };
 
 export const DatahubParams = {
@@ -478,6 +525,8 @@ export const Neo4jParams = {
     queryParamPositionArray: 'queryParamPositionArray',
     field: 'field',
     position: 'position',
+    writeMode: 'write_mode',
+    maxBatchSize: 'max_batch_size',
 };
 
 export const SentryParams = {
@@ -571,6 +620,7 @@ export const StarRocksParams = {
     maxRetryBackoffMs: 'max_retry_backoff_ms',
     enableUpsertDelete: 'enable_upsert_delete',
     saveModeCreateTemplate: 'save_mode_create_template',
+    customSql: 'custom_sql',
     starrocksConfig: 'starrocks.config',
     starrocksConfigMap: 'starrocksConfigMap',
     starrocksConfigKey: 'starrocksConfigKey',
@@ -582,6 +632,7 @@ export const StarRocksParams = {
     scanBatchRows: 'scan_batch_rows',
     scanMemLimit: 'scan_mem_limit',
     requestTabletSize: 'request_tablet_size',
+    httpSocketTimeoutMs: 'http_socket_timeout_ms',
 };
 
 export const MaxComputeParams = {
@@ -609,7 +660,8 @@ export const S3RedshiftParams = {
     jdbcUrl: 'jdbc_url',
     jdbcUser: 'jdbc_user',
     jdbcPassword: 'jdbc_password',
-    executeSql: 'execute_sql'
+    executeSql: 'execute_sql',
+    bucket: 'bucket'
 };
 
 export const OpenMLDBParams = {

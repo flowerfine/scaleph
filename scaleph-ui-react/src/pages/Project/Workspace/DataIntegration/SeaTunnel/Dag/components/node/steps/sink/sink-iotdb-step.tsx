@@ -90,15 +90,6 @@ const SinkIoTDBStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVis
           }}
         />
         <ProFormDigit
-          name={IoTDBParams.batchIntervalMs}
-          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.batchIntervalMs'})}
-          initialValue={1000}
-          fieldProps={{
-            step: 1000,
-            min: 1,
-          }}
-        />
-        <ProFormDigit
           name={IoTDBParams.maxRetries}
           label={intl.formatMessage({id: 'pages.project.di.step.iotdb.maxRetries'})}
           colProps={{span: 6}}
@@ -127,6 +118,7 @@ const SinkIoTDBStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVis
         <ProFormDigit
           name={IoTDBParams.defaultThriftBufferSize}
           label={intl.formatMessage({id: 'pages.project.di.step.iotdb.thriftDefaultBufferSize'})}
+          colProps={{span: 12}}
           fieldProps={{
             step: 1000,
             min: 1,
@@ -134,7 +126,8 @@ const SinkIoTDBStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVis
         />
         <ProFormDigit
           name={IoTDBParams.maxThriftFrameSize}
-          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.thriftMaxFrameSize'})}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.maxThriftFrameSize'})}
+          colProps={{span: 12}}
           fieldProps={{
             step: 1000,
             min: 1,

@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.pulsar.PulsarProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.pulsar.source.PulsarSourceProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)

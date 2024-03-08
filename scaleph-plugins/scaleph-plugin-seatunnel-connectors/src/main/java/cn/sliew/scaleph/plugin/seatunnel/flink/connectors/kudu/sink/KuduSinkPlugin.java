@@ -36,6 +36,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kudu.KuduProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kudu.sink.KuduSinkProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class KuduSinkPlugin extends SeaTunnelConnectorPlugin {
@@ -45,8 +46,13 @@ public class KuduSinkPlugin extends SeaTunnelConnectorPlugin {
                 "Write data to Kudu.",
                 KuduSinkPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(KUDU_TABLE);
+        props.add(TABLE_NAME);
         props.add(SAVE_MODE);
+        props.add(SESSION_FLUSH_MODE);
+        props.add(BATCH_SIZE);
+        props.add(BUFFER_FLUSH_INTERVAL);
+        props.add(IGNORE_NOT_FOUND);
+        props.add(IGNORE_NOT_DUPLICATE);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);

@@ -133,6 +133,22 @@ public enum Validators {
                 .valid(reason == null).build();
         }
     };
+
+    public static final Validator DOUBLE_VALIDATOR = new Validator() {
+        @Override
+        public ValidationResult validate(final String subject, final String value) {
+            String reason = null;
+            try {
+                Double.parseDouble(value);
+            } catch (NumberFormatException e) {
+                reason = "not a valid Double";
+            }
+
+            return new ValidationResult.Builder().subject(subject).input(value).explanation(reason)
+                    .valid(reason == null).build();
+        }
+    };
+
     public static final Validator NUMBER_VALIDATOR = new Validator() {
         @Override
         public ValidationResult validate(final String subject, final String value) {
@@ -147,6 +163,7 @@ public enum Validators {
                 .valid(reason == null).build();
         }
     };
+
     public static final Validator NON_EMPTY_VALIDATOR = new Validator() {
         @Override
         public ValidationResult validate(final String subject, final String value) {

@@ -36,6 +36,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kudu.KuduProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kudu.source.KuduSourceProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class KuduSourcePlugin extends SeaTunnelConnectorPlugin {
@@ -45,8 +46,19 @@ public class KuduSourcePlugin extends SeaTunnelConnectorPlugin {
                 "Used to read data from Kudu.",
                 KuduSourcePlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
+        props.add(ENABLE_KERBEROS);
+        props.add(KERBEROS_PRINCIPAL);
+        props.add(KERBEROS_KEYTAB);
+        props.add(KERBEROS_KRB5CONF);
+        props.add(CLIENT_WORKER_COUNT);
+        props.add(CLIENT_DEFAULT_OPERATION_TIMEOUT_MS);
+        props.add(CLIENT_DEFAULT_ADMIN_OPERATION_TIMEOUT_MS);
         props.add(KUDU_TABLE);
         props.add(COLUMNS_LIST);
+        props.add(SCAN_TOKEN_QUERY_TIMEOUT);
+        props.add(SCAN_TOKEN_BATCH_SIZE_BYTES);
+        props.add(SCHEMA);
+        props.add(TABLE_LIST);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);

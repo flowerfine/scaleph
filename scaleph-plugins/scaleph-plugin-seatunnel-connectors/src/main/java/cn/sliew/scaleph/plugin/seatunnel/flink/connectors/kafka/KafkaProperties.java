@@ -61,7 +61,7 @@ public enum KafkaProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<JsonNode> KAFKA_CONF = new PropertyDescriptor.Builder()
+    public static final PropertyDescriptor<JsonNode> KAFKA_CONFIG = new PropertyDescriptor.Builder()
             .name("kafka.config")
             .description(
                     "The way to specify parameters is to add the prefix kafka. to the original parameter name. For example, the way to specify auto.offset.reset is: kafka.auto.offset.reset = latest")

@@ -36,6 +36,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.maxcompute.MaxComputeProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.maxcompute.source.MaxComputeSourceProperties.SCHEMA;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.maxcompute.source.MaxComputeSourceProperties.SPLIT_ROW;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
@@ -51,6 +52,7 @@ public class MaxComputeSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(TABLE_NAME);
         props.add(PARTITION_SPEC);
         props.add(SPLIT_ROW);
+        props.add(SCHEMA);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);

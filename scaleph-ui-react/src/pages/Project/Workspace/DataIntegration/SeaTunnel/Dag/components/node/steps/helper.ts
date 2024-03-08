@@ -8,11 +8,11 @@ import {
   FieldMapperParams,
   FilterParams,
   HbaseParams,
-  HiveParams,
+  HiveParams, HttpParams,
   InfluxDBParams,
   IoTDBParams,
   JdbcParams,
-  KafkaParams, RocketMQParams,
+  KafkaParams, PulsarParams, RocketMQParams,
   SchemaParams,
   SplitParams,
   StarRocksParams
@@ -94,7 +94,7 @@ export const StepSchemaService = {
     return values
   },
 
-  formatPartitionKeyFields: (values: Record<string, any>) => {
+  formatKafkaPartitionKeyFields: (values: Record<string, any>) => {
     const partitionKeyFields: Array<string> = []
     values.partitionKeyArray?.forEach(function (item: Record<string, any>) {
       partitionKeyFields.push(item.partitionKey)
@@ -109,6 +109,24 @@ export const StepSchemaService = {
       assignPartitions.push(item.assignPartition)
     });
     values[KafkaParams.assignPartitions] = JSON.stringify(assignPartitions)
+    return values
+  },
+
+  formatPulsarConf: (values: Record<string, any>) => {
+    const config: Record<string, any> = {}
+    values[PulsarParams.pulsarConfigMap]?.forEach(function (item: Record<string, any>) {
+      config[item[PulsarParams.pulsarConfigKey]] = item[PulsarParams.pulsarConfigValue];
+    });
+    values[PulsarParams.pulsarConfig] = JSON.stringify(config)
+    return values
+  },
+
+  formatPulsarPartitionKeyFields: (values: Record<string, any>) => {
+    const partitionKeyFields: Array<string> = []
+    values[PulsarParams.partitionKeyFieldArray]?.forEach(function (item: Record<string, any>) {
+      partitionKeyFields.push(item[PulsarParams.partitionKeyField])
+    });
+    values[PulsarParams.partitionKeyFields] = JSON.stringify(partitionKeyFields)
     return values
   },
 
@@ -136,6 +154,16 @@ export const StepSchemaService = {
       jsonFields[item.key] = item.path;
     });
     values.json_field = JSON.stringify(jsonFields)
+    return values
+  },
+
+  formatPaging: (values: Record<string, any>) => {
+    const paging: Record<string, any> = {}
+    paging[HttpParams.pageField] = values[HttpParams.pagingPageField]
+    paging[HttpParams.totalPageSize] = values[HttpParams.pagingTotalPageSize]
+    paging[HttpParams.batchSize] = values[HttpParams.pagingBatchSize]
+
+    values[HttpParams.pageing] = paging
     return values
   },
 

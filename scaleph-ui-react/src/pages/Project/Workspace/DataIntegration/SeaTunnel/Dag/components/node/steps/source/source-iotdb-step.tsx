@@ -68,6 +68,16 @@ const SourceIoTDBStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onV
         <ProFormDigit
           name={IoTDBParams.thriftDefaultBufferSize}
           label={intl.formatMessage({id: 'pages.project.di.step.iotdb.thriftDefaultBufferSize'})}
+          colProps={{span: 12}}
+          fieldProps={{
+            step: 1000,
+            min: 1,
+          }}
+        />
+        <ProFormDigit
+          name={IoTDBParams.thriftMaxFrameSize}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.thriftMaxFrameSize'})}
+          colProps={{span: 12}}
           fieldProps={{
             step: 1000,
             min: 1,

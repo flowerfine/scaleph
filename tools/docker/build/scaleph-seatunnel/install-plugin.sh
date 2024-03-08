@@ -31,7 +31,8 @@ if [ -n "$1" ]; then
 fi
 
 echo "Install SeaTunnel plugin dependencis"
-${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=mysql -DartifactId=mysql-connector-java -Dversion=8.0.28 -Ddest=${SEATUNNEL_HOME}/plugins
+${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=mysql -DartifactId=mysql-connector-java -Dversion=8.0.28 -Ddest=${SEATUNNEL_HOME}/plugins/mysql-cdc/lib
+${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=mysql -DartifactId=mysql-connector-java -Dversion=8.0.28 -Ddest=${SEATUNNEL_HOME}/plugins/jdbc/lib
 
 echo "Install SeaTunnel connectors plugins, usage version is ${version}"
 
