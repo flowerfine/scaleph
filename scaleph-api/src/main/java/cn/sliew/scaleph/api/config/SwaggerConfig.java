@@ -58,7 +58,7 @@ public class SwaggerConfig {
         return new Info()
                 .title("Scaleph API文档")
                 .description("Scaleph API文档")
-                .version("1.0.5-SNAPSHOT")
+                .version("2.0.3-SNAPSHOT")
                 .termsOfService("https://flowerfine.github.io/scaleph-website/zh")
                 .license(new License().name("Apache 2.0").url("https://github.com/flowerfine/scaleph/blob/dev/LICENSE"))
                 .contact(contact());
