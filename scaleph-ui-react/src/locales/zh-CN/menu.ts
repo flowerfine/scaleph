@@ -17,7 +17,6 @@ export default {
   'menu.project.engine.compute.flink.template': '部署模板',
   'menu.project.engine.compute.flink.session-cluster': 'Session 集群',
   'menu.project.engine.compute.flink.deployment': 'Deployment',
-  'menu.project.engine.compute.flink.job': '任务',
   'menu.project.data-integration': '数据集成',
   'menu.project.data-integration.seatunnel': 'SeaTunnel',
   'menu.project.data-integration.flink-cdc': 'Flink CDC',
@@ -27,6 +26,8 @@ export default {
   'menu.project.dag-scheduler': 'DAG 调度',
   'menu.project.data-service': '数据服务',
   'menu.project.data-service.config': '接口配置',
+  'menu.project.operation': '运维中心',
+  'menu.project.operation.flink': 'Flink任务',
 
   'menu.resource': '资源',
   'menu.resource.jar': '公共 Jar',

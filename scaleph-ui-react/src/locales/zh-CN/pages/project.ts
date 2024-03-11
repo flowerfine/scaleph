@@ -1014,6 +1014,9 @@ export default {
   'pages.project.flink.kubernetes.job.detail.metrics': 'Metrics',
   'pages.project.flink.kubernetes.job.detail.logs': 'Logs',
 
+  'pages.project.flink.kubernetes.job.detail.overview': '总览',
+  'pages.project.flink.kubernetes.job.detail.overview.artifact': 'Artifact',
+  'pages.project.flink.kubernetes.job.detail.overview.resource': '资源详情',
   'pages.project.flink.kubernetes.job.detail.yaml': 'YAML',
   'pages.project.flink.kubernetes.job.detail.instanceList': 'Intances',
   'pages.project.flink.kubernetes.job.detail.instanceList.startTime': 'Start Time',

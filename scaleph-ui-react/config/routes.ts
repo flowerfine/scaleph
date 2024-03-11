@@ -192,16 +192,7 @@ export default [
                   {
                     path: '/workspace/engine/compute/flink/deployment/detail',
                     component: './Project/Workspace/Engine/Compute/Flink/Deployment/Detail',
-                  },
-                  {
-                    name: 'job',
-                    path: '/workspace/engine/compute/flink/job',
-                    component: './Project/Workspace/Engine/Compute/Flink/Job',
-                  },
-                  {
-                    path: '/workspace/engine/compute/flink/job/detail',
-                    component: './Project/Workspace/Engine/Compute/Flink/Job/Detail',
-                  },
+                  }
                 ]
               }
             ]
@@ -281,6 +272,22 @@ export default [
             path: '/workspace/data-service/config/steps',
             component: './Project/Workspace/DataService/Config/Steps',
           },
+        ]
+      },
+      {
+        name: 'project.operation',
+        path: '/workspace/operation',
+        icon: 'solution',
+        routes: [
+          {
+            name: 'flink',
+            path: '/workspace/operation/compute/flink/job',
+            component: './Project/Workspace/Engine/Compute/Flink/Job',
+          },
+          {
+            path: '/workspace/operation/compute/flink/job/detail',
+            component: './Project/Workspace/Engine/Compute/Flink/Job/Detail',
+          }
         ]
       },
     ]
