@@ -199,6 +199,11 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
       children: <FlinkKubernetesJobDetailOverviewWeb data={props.flinkKubernetesJobDetail.job}/>
     },
     {
+      label: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.savepoint'}),
+      key: 'savepoint',
+      children: <FlinkKubernetesJobDetailSavepointWeb data={props.flinkKubernetesJobDetail.job}/>
+    },
+    {
       label: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.yaml'}),
       key: 'yaml',
       children: <FlinkKubernetesJobDetailYAMLWeb data={props.flinkKubernetesJobDetail.job}/>
@@ -207,11 +212,6 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
       label: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.instanceList'}),
       key: 'instanceList',
       children: <FlinkKubernetesJobDetailInstanceListWeb data={props.flinkKubernetesJobDetail.job}/>
-    },
-    {
-      label: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.savepoint'}),
-      key: 'savepoint',
-      children: <FlinkKubernetesJobDetailSavepointWeb data={props.flinkKubernetesJobDetail.job}/>
     },
   ]
   return (

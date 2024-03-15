@@ -1,14 +1,14 @@
 import React from "react";
 import {ProCard} from "@ant-design/pro-components";
-import {connect, useIntl} from "@umijs/max";
-import {Props} from '@/typings';
-import {WsFlinkKubernetesJob} from "@/services/project/typings";
+import {useIntl} from "@umijs/max";
 import ArtifactFlinkJarWeb
   from "@/pages/Project/Workspace/Engine/Compute/Flink/Job/Detail/Overview/ArtifactFlinkJarWeb";
 import FlinkKubernetesJobResourceWeb
   from "@/pages/Project/Workspace/Engine/Compute/Flink/Job/Detail/Overview/FlinkKubernetesJobResourceWeb";
+import FlinkKubernetesJobDetailConfigurationWeb
+  from "@/pages/Project/Workspace/Engine/Compute/Flink/Job/Detail/Overview/FlinkKubernetesJobConfiguration";
 
-const FlinkKubernetesJobDetailOverviewWeb: React.FC<Props<WsFlinkKubernetesJob>> = (props: any) => {
+const FlinkKubernetesJobDetailOverviewWeb: React.FC = () => {
   const intl = useIntl();
 
   return (
@@ -25,10 +25,14 @@ const FlinkKubernetesJobDetailOverviewWeb: React.FC<Props<WsFlinkKubernetesJob>>
       >
         <FlinkKubernetesJobResourceWeb/>
       </ProCard>
+      <ProCard
+        title={intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.overview.configuration'})}
+        bordered
+      >
+        <FlinkKubernetesJobDetailConfigurationWeb/>
+      </ProCard>
     </ProCard.Group>
   );
 }
 
-
-const mapModelToProps = ({flinkKubernetesJobDetail}: any) => ({flinkKubernetesJobDetail})
-export default connect(mapModelToProps)(FlinkKubernetesJobDetailOverviewWeb);
+export default FlinkKubernetesJobDetailOverviewWeb;
