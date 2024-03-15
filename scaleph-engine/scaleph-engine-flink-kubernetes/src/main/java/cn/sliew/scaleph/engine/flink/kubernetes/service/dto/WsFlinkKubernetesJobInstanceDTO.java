@@ -69,6 +69,9 @@ public class WsFlinkKubernetesJobInstanceDTO extends BaseDO {
     @Schema(description = "user flink configuration")
     private Map<String, String> userFlinkConfiguration;
 
+    @Schema(description = "merged flink configuration")
+    private Map<String, String> mergedFlinkConfiguration;
+
     @Schema(description = "deploy state")
     private ResourceLifecycleState state;
 

@@ -499,6 +499,7 @@ export type WsFlinkKubernetesJobInstance = {
   jobManager?: Record<string, any>;
   taskManager?: Record<string, any>;
   userFlinkConfiguration?: Record<string, any>;
+  mergedFlinkConfiguration?: Record<string, any>;
   state: Dict;
   jobState?: Dict;
   error?: Dict;

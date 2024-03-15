@@ -29,6 +29,7 @@ import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstance;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstanceSavepoint;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobInstanceMapper;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobInstanceSavepointMapper;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.util.TemplateMerger;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobInstanceDeployParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobState;
@@ -171,6 +172,8 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
         switch (jobDTO.getDeploymentKind()) {
             case FLINK_DEPLOYMENT:
                 clusterCredentialId = jobDTO.getFlinkDeployment().getClusterCredentialId();
+                Map<String, String> flinkConfiguration = jobDTO.getFlinkDeployment().getFlinkConfiguration();
+                record.setMergedFlinkConfiguration(JacksonUtil.toJsonString(TemplateMerger.merge(flinkConfiguration, param.getUserFlinkConfiguration(), Map.class)));
                 resource = Constant.FLINK_DEPLOYMENT;
                 callbackHandler = flinkDeploymentWatchCallbackHandler;
                 break;
@@ -182,6 +185,7 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
             default:
         }
         flinkKubernetesOperatorService.deployJob(clusterCredentialId, yaml);
+        wsFlinkKubernetesJobInstanceMapper.insert(record);
         // add watch
         Map<String, String> lables = metadataHandler.generateLables(jobInstanceDTO);
         flinkKubernetesOperatorService.addWatch(clusterCredentialId, resource, lables, callbackHandler);

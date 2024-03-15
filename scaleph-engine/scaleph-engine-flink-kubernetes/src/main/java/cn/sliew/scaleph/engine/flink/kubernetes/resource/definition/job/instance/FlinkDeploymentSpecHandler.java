@@ -26,7 +26,6 @@ import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
 import java.util.Optional;
 
 @Component
@@ -99,7 +98,7 @@ public class FlinkDeploymentSpecHandler {
     private void mergeJobInstance(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
         spec.setJobManager(TemplateMerger.merge(spec.getJobManager(), jobInstanceDTO.getJobManager(), JobManagerSpec.class));
         spec.setTaskManager(TemplateMerger.merge(spec.getTaskManager(), jobInstanceDTO.getTaskManager(), TaskManagerSpec.class));
-        spec.setFlinkConfiguration(TemplateMerger.merge(spec.getFlinkConfiguration(), jobInstanceDTO.getUserFlinkConfiguration(), Map.class));
+        spec.setFlinkConfiguration(jobInstanceDTO.getMergedFlinkConfiguration());
         JobSpec job = spec.getJob();
         if (jobInstanceDTO.getParallelism() != null) {
             job.setParallelism(jobInstanceDTO.getParallelism());

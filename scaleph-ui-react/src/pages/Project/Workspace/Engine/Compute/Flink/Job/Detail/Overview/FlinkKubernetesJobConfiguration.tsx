@@ -15,7 +15,7 @@ const FlinkKubernetesJobDetailConfigurationWeb: React.FC = (props: any) => {
   useEffect(() => {
     if (props.flinkKubernetesJobDetail.job?.jobInstance) {
       const config: Array<Config> = []
-      Object.entries<[string, any][]>(props.flinkKubernetesJobDetail.job?.jobInstance?.userFlinkConfiguration ? {...props.flinkKubernetesJobDetail.job?.jobInstance?.userFlinkConfiguration} : {}).forEach(([key, value]) => {
+      Object.entries<[string, any][]>(props.flinkKubernetesJobDetail.job?.jobInstance?.mergedFlinkConfiguration ? {...props.flinkKubernetesJobDetail.job?.jobInstance?.mergedFlinkConfiguration} : {}).forEach(([key, value]) => {
         config.push({
           key: key,
           value: value
