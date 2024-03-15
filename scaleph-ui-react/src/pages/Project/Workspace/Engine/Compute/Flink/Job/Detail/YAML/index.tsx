@@ -1,52 +1,27 @@
-import React, {useEffect, useRef, useState} from "react";
-import {connect} from "@umijs/max";
-import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
+import React from "react";
+import {Divider} from "antd";
+import {ProCard} from "@ant-design/pro-components";
+import {connect, useIntl} from "@umijs/max";
 import {Props} from '@/typings';
 import {WsFlinkKubernetesJob} from "@/services/project/typings";
-import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJobService";
+import FlinkKubernetesJobDetailDeployYAMLWeb
+  from "@/pages/Project/Workspace/Engine/Compute/Flink/Job/Detail/YAML/FlinkKubernetesJobDetailDeployYaml";
+import FlinkKubernetesJobDetailStatusYAMLWeb
+  from "@/pages/Project/Workspace/Engine/Compute/Flink/Job/Detail/YAML/FlinkKubernetesJobDetailStatusYaml";
 
 const FlinkKubernetesJobDetailYAMLWeb: React.FC<Props<WsFlinkKubernetesJob>> = (props: any) => {
-
-  const editorRef = useRef(null);
-  const monaco = useMonaco();
-
-  const [job, setJob] = useState<string>()
-
-  useEffect(() => {
-    // do conditional chaining
-    monaco?.languages.typescript.javascriptDefaults.setEagerModelSync(true);
-  }, [monaco]);
-
-  useEffect(() => {
-    if (props.flinkKubernetesJobDetail.job) {
-      WsFlinkKubernetesJobService.asYaml(props.flinkKubernetesJobDetail.job?.id).then((response) => {
-        if (response.success) {
-          setJob(response.data)
-        }
-      })
-    }
-  }, [props.flinkKubernetesJobDetail.job]);
-
-  const handleEditorDidMount = (editor, monaco: Monaco) => {
-    editorRef.current = editor;
-  }
+  const intl = useIntl();
 
   return (
-    <Editor
-      width="730"
-      height="600px"
-      language="yaml"
-      theme="vs-white"
-      value={job}
-      options={{
-        selectOnLineNumbers: true,
-        readOnly: true,
-        minimap: {
-          enabled: false
-        }
-      }}
-      onMount={handleEditorDidMount}
-    />
+    <ProCard.Group title={false} direction={'row'}>
+      <ProCard title={intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.steps.yaml.instance'})}>
+        <FlinkKubernetesJobDetailDeployYAMLWeb/>
+      </ProCard>
+      <Divider type={'vertical'}/>
+      <ProCard title={intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.steps.yaml.status'})}>
+        <FlinkKubernetesJobDetailStatusYAMLWeb/>
+      </ProCard>
+    </ProCard.Group>
   );
 }
 

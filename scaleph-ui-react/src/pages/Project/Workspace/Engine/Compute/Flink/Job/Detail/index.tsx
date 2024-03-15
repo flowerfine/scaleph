@@ -21,7 +21,7 @@ import FlinkKubernetesJobShutdownForm from "@/pages/Project/Workspace/Engine/Com
 import FlinkKubernetesJobDetailInstanceListWeb
   from "@/pages/Project/Workspace/Engine/Compute/Flink/Job/Detail/InstanceList";
 import FlinkKubernetesJobDetailSavepointWeb from "@/pages/Project/Workspace/Engine/Compute/Flink/Job/Detail/Savepoint";
-import FlinkKubernetesJobDetailOverviewWeb from "src/pages/Project/Workspace/Engine/Compute/Flink/Job/Detail/Overview";
+import FlinkKubernetesJobDetailOverviewWeb from "@/pages/Project/Workspace/Engine/Compute/Flink/Job/Detail/Overview";
 
 const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
   const intl = useIntl();

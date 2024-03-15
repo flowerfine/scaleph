@@ -1,81 +1,67 @@
-import React, {useRef} from "react";
-import {ActionType, ProDescriptions, ProFormInstance} from "@ant-design/pro-components";
+import React from "react";
+import {ProDescriptions} from "@ant-design/pro-components";
 import {ProDescriptionsItemProps} from "@ant-design/pro-descriptions";
 import {ProCoreActionType} from "@ant-design/pro-utils/es/typing";
-import {connect, useAccess, useIntl} from "@umijs/max";
+import {connect, useIntl} from "@umijs/max";
 import {Props} from '@/typings';
-import {WsArtifactFlinkJar, WsFlinkKubernetesJob, WsFlinkKubernetesJobInstance} from "@/services/project/typings";
-import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJobService";
+import {WsFlinkKubernetesJob, WsFlinkKubernetesJobInstance} from "@/services/project/typings";
 
 const FlinkKubernetesJobResourceWeb: React.FC<Props<WsFlinkKubernetesJob>> = (props: any) => {
-    const intl = useIntl();
-    const access = useAccess();
-    const actionRef = useRef<ActionType>();
-    const formRef = useRef<ProFormInstance>();
+  const intl = useIntl();
 
+  const descriptionColumns: ProDescriptionsItemProps<WsFlinkKubernetesJobInstance>[] = [
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.deploy.resource.jobManagerCpu'}),
+      key: `jobManagerCpu`,
+      renderText: (text: any, record: WsFlinkKubernetesJobInstance, index: number, action: ProCoreActionType) => {
+        return record.jobManager?.resource?.cpu
+      }
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.deploy.resource.taskManagerCpu'}),
+      key: `taskManagerCpu`,
+      renderText: (text: any, record: WsFlinkKubernetesJobInstance, index: number, action: ProCoreActionType) => {
+        return record.taskManager?.resource?.cpu
+      }
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.deploy.resource.jobManagerMemory'}),
+      key: `jobManagerMemory`,
+      renderText: (text: any, record: WsFlinkKubernetesJobInstance, index: number, action: ProCoreActionType) => {
+        return record.jobManager?.resource?.memory
+      }
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.deploy.resource.taskManagerMemory'}),
+      key: `taskManagerMemory`,
+      renderText: (text: any, record: WsFlinkKubernetesJobInstance, index: number, action: ProCoreActionType) => {
+        return record.taskManager?.resource?.memory
+      }
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.deploy.resource.jobManagerReplicas'}),
+      key: `jobManagerReplicas`,
+      renderText: (text: any, record: WsFlinkKubernetesJobInstance, index: number, action: ProCoreActionType) => {
+        return record.jobManager?.replicas
+      }
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.deploy.resource.taskManagerReplicas'}),
+      key: `taskManagerReplicas`,
+      renderText: (text: any, record: WsFlinkKubernetesJobInstance, index: number, action: ProCoreActionType) => {
+        return record.taskManager?.replicas
+      }
+    },
+  ]
 
-    const descriptionColumns: ProDescriptionsItemProps<WsFlinkKubernetesJobInstance>[] = [
-        {
-            title: intl.formatMessage({id: 'pages.project.artifact.name'}),
-            key: `name`,
-            renderText: (text: any, record: WsArtifactFlinkJar, index: number, action: ProCoreActionType) => {
-                return record.artifact?.name
-            }
-        },
-        {
-            title: intl.formatMessage({id: 'pages.project.artifact.jar.fileName'}),
-            key: `fileName`,
-            dataIndex: 'fileName'
-        },
-        {
-            title: intl.formatMessage({id: 'pages.resource.flinkRelease.version'}),
-            key: `flinkVersion`,
-            dataIndex: 'flinkVersion',
-            renderText: (text: any, record: WsArtifactFlinkJar, index: number, action: ProCoreActionType) => {
-                return record.flinkVersion?.label
-            }
-        },
-        {
-            title: intl.formatMessage({id: 'pages.project.artifact.jar.entryClass'}),
-            key: `entryClass`,
-            dataIndex: 'entryClass'
-        },
-        {
-            title: intl.formatMessage({id: 'pages.project.artifact.jar.jarParams'}),
-            key: `jarParams`,
-            dataIndex: 'jarParams',
-            valueType: 'jsonCode'
-        },
-        {
-            title: intl.formatMessage({id: 'app.common.data.remark'}),
-            key: `remark`,
-            dataIndex: 'remark',
-            renderText: (text: any, record: WsArtifactFlinkJar, index: number, action: ProCoreActionType) => {
-                return record.artifact?.remark
-            }
-        },
-        {
-            title: intl.formatMessage({id: 'app.common.data.createTime'}),
-            key: `createTime`,
-            dataIndex: 'createTime',
-        },
-        {
-            title: intl.formatMessage({id: 'app.common.data.updateTime'}),
-            key: `updateTime`,
-            dataIndex: 'updateTime',
-        }
-    ]
-
-    return (
-        <ProDescriptions
-            column={2}
-            bordered={true}
-            request={() => {
-                return WsFlinkKubernetesJobService.getCurrentInstance({wsFlinkKubernetesJobId: props.flinkKubernetesJobDetail.job?.id})
-            }}
-            columns={descriptionColumns}
-        />
-    );
+  return (
+    <ProDescriptions
+      column={2}
+      bordered={true}
+      dataSource={props.flinkKubernetesJobDetail.job?.jobInstance}
+      columns={descriptionColumns}
+    />
+  );
 }
 
 
