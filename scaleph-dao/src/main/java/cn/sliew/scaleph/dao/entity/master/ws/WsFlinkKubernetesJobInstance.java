@@ -67,6 +67,9 @@ public class WsFlinkKubernetesJobInstance extends BaseDO {
     @TableField("user_flink_configuration")
     private String userFlinkConfiguration;
 
+    @TableField("merged_flink_configuration")
+    private String mergedFlinkConfiguration;
+
     @TableField(value = "`state`", updateStrategy = FieldStrategy.IGNORED)
     private ResourceLifecycleState state;
 

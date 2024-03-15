@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @Tag(name = "Flink Kubernetes管理-Job管理")
 @RestController
@@ -169,6 +170,17 @@ public class WsFlinkKubernetesJobController {
     public ResponseEntity<Page<WsFlinkKubernetesJobInstanceDTO>> listInstances(@Valid WsFlinkKubernetesJobInstanceListParam param) throws Exception {
         Page<WsFlinkKubernetesJobInstanceDTO> result = wsFlinkKubernetesJobInstanceService.list(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("instances/current")
+    @Operation(summary = "获取任务当前实例", description = "获取任务当前实例")
+    public ResponseEntity<ResponseVO<WsFlinkKubernetesJobInstanceDTO>> currentInstance(@RequestParam("wsFlinkKubernetesJobId") Long wsFlinkKubernetesJobId) throws Exception {
+        Optional<WsFlinkKubernetesJobInstanceDTO> optional = wsFlinkKubernetesJobInstanceService.selectCurrent(wsFlinkKubernetesJobId);
+        if (optional.isPresent()) {
+            return new ResponseEntity<>(ResponseVO.success(optional.get()), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(ResponseVO.error("not found"), HttpStatus.NOT_FOUND);
     }
 
     @Logging

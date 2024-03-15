@@ -29,6 +29,7 @@ import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstance;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstanceSavepoint;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobInstanceMapper;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobInstanceSavepointMapper;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.util.TemplateMerger;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobInstanceDeployParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobState;
@@ -161,16 +162,16 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
         if (param.getUserFlinkConfiguration() != null) {
             record.setUserFlinkConfiguration(JacksonUtil.toJsonString(param.getUserFlinkConfiguration()));
         }
-        wsFlinkKubernetesJobInstanceMapper.insert(record);
-        WsFlinkKubernetesJobInstanceDTO jobInstanceDTO = selectOne(record.getId());
-        WsFlinkKubernetesJobDTO jobDTO = jobInstanceDTO.getWsFlinkKubernetesJob();
-        String yaml = asYaml(record.getId());
+        WsFlinkKubernetesJobDTO jobDTO = wsFlinkKubernetesJobService.selectOne(param.getWsFlinkKubernetesJobId());
         Long clusterCredentialId = null;
         String resource = null;
         WatchCallbackHandler callbackHandler = null;
         switch (jobDTO.getDeploymentKind()) {
             case FLINK_DEPLOYMENT:
                 clusterCredentialId = jobDTO.getFlinkDeployment().getClusterCredentialId();
+                Map<String, String> flinkConfiguration = jobDTO.getFlinkDeployment().getFlinkConfiguration();
+                Map<String, String> mergedFlinkConfiguration = TemplateMerger.merge(flinkConfiguration, param.getUserFlinkConfiguration(), Map.class);
+                record.setMergedFlinkConfiguration(JacksonUtil.toJsonString(mergedFlinkConfiguration));
                 resource = Constant.FLINK_DEPLOYMENT;
                 callbackHandler = flinkDeploymentWatchCallbackHandler;
                 break;
@@ -181,6 +182,10 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
                 break;
             default:
         }
+        wsFlinkKubernetesJobInstanceMapper.insert(record);
+
+        WsFlinkKubernetesJobInstanceDTO jobInstanceDTO = selectOne(record.getId());
+        String yaml = asYaml(record.getId());
         flinkKubernetesOperatorService.deployJob(clusterCredentialId, yaml);
         // add watch
         Map<String, String> lables = metadataHandler.generateLables(jobInstanceDTO);

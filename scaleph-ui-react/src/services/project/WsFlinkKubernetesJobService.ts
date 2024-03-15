@@ -37,7 +37,7 @@ export const WsFlinkKubernetesJobService = {
   },
 
   asYaml: async (id: number) => {
-    return request<ResponseBody<Record<string, any>>>(`${WsFlinkKubernetesJobService.url}/asYaml/` + id, {
+    return request<ResponseBody<string>>(`${WsFlinkKubernetesJobService.url}/asYaml/` + id, {
       method: 'GET',
     });
   },
@@ -131,6 +131,13 @@ export const WsFlinkKubernetesJobService = {
         current: res.current,
       };
       return result;
+    });
+  },
+
+  getCurrentInstance: async (queryParam: WsFlinkKubernetesJobInstanceParam) => {
+    return request<ResponseBody<WsFlinkKubernetesJobInstance>>(`${WsFlinkKubernetesJobService.url}/instances/current`, {
+      method: 'GET',
+      params: queryParam,
     });
   },
 

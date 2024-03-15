@@ -33,6 +33,7 @@
         <result column="job_manager" property="jobManager"/>
         <result column="task_manager" property="taskManager"/>
         <result column="user_flink_configuration" property="userFlinkConfiguration"/>
+        <result column="merged_flink_configuration" property="mergedFlinkConfiguration"/>
         <result column="state" property="state"/>
         <result column="job_state" property="jobState"/>
         <result column="error" property="error"/>
@@ -58,6 +59,7 @@
         <result column="job_manager" property="jobManager"/>
         <result column="task_manager" property="taskManager"/>
         <result column="user_flink_configuration" property="userFlinkConfiguration"/>
+        <result column="merged_flink_configuration" property="mergedFlinkConfiguration"/>
         <result column="state" property="state"/>
         <result column="job_state" property="jobState"/>
         <result column="error" property="error"/>
@@ -75,7 +77,7 @@
         id, creator, create_time, editor, update_time,
         ws_flink_kubernetes_job_id, instance_id,
         parallelism, upgrade_mode, allow_non_restored_state,
-        job_manager, task_manager, user_flink_configuration,
+        job_manager, task_manager, user_flink_configuration, merged_flink_configuration,
         `state`, job_state, `error`, cluster_info, task_manager_info,
         start_time, end_time, duration
     </sql>

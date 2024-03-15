@@ -167,7 +167,7 @@ const FlinkKubernetesJobWeb: React.FC = () => {
                 type="link"
                 icon={<NodeIndexOutlined/>}
                 onClick={() => {
-                  history.push("/workspace/engine/compute/flink/job/detail", record)
+                  history.push("/workspace/operation/compute/flink/job/detail", record)
                 }}
               />
             </Tooltip>
