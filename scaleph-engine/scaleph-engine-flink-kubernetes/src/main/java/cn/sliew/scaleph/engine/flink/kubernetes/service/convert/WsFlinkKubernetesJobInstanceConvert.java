@@ -54,6 +54,9 @@ public interface WsFlinkKubernetesJobInstanceConvert extends BaseConvert<WsFlink
         if (CollectionUtils.isEmpty(dto.getUserFlinkConfiguration()) == false) {
             entity.setUserFlinkConfiguration(JacksonUtil.toJsonString(dto.getUserFlinkConfiguration()));
         }
+        if (CollectionUtils.isEmpty(dto.getMergedFlinkConfiguration()) == false) {
+            entity.setMergedFlinkConfiguration(JacksonUtil.toJsonString(dto.getMergedFlinkConfiguration()));
+        }
         if (CollectionUtils.isEmpty(dto.getClusterInfo()) == false) {
             entity.setClusterInfo(JacksonUtil.toJsonString(dto.getClusterInfo()));
         }
@@ -78,6 +81,9 @@ public interface WsFlinkKubernetesJobInstanceConvert extends BaseConvert<WsFlink
         }
         if (StringUtils.hasText(entity.getUserFlinkConfiguration())) {
             dto.setUserFlinkConfiguration(JacksonUtil.parseJsonString(entity.getUserFlinkConfiguration(), Map.class));
+        }
+        if (StringUtils.hasText(entity.getMergedFlinkConfiguration())) {
+            dto.setMergedFlinkConfiguration(JacksonUtil.parseJsonString(entity.getMergedFlinkConfiguration(), Map.class));
         }
         if (StringUtils.hasText(entity.getClusterInfo())) {
             dto.setClusterInfo(JacksonUtil.parseJsonString(entity.getClusterInfo(), Map.class));

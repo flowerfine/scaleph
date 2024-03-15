@@ -162,10 +162,7 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
         if (param.getUserFlinkConfiguration() != null) {
             record.setUserFlinkConfiguration(JacksonUtil.toJsonString(param.getUserFlinkConfiguration()));
         }
-        wsFlinkKubernetesJobInstanceMapper.insert(record);
-        WsFlinkKubernetesJobInstanceDTO jobInstanceDTO = selectOne(record.getId());
-        WsFlinkKubernetesJobDTO jobDTO = jobInstanceDTO.getWsFlinkKubernetesJob();
-        String yaml = asYaml(record.getId());
+        WsFlinkKubernetesJobDTO jobDTO = wsFlinkKubernetesJobService.selectOne(param.getWsFlinkKubernetesJobId());
         Long clusterCredentialId = null;
         String resource = null;
         WatchCallbackHandler callbackHandler = null;
@@ -173,7 +170,8 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
             case FLINK_DEPLOYMENT:
                 clusterCredentialId = jobDTO.getFlinkDeployment().getClusterCredentialId();
                 Map<String, String> flinkConfiguration = jobDTO.getFlinkDeployment().getFlinkConfiguration();
-                record.setMergedFlinkConfiguration(JacksonUtil.toJsonString(TemplateMerger.merge(flinkConfiguration, param.getUserFlinkConfiguration(), Map.class)));
+                Map<String, String> mergedFlinkConfiguration = TemplateMerger.merge(flinkConfiguration, param.getUserFlinkConfiguration(), Map.class);
+                record.setMergedFlinkConfiguration(JacksonUtil.toJsonString(mergedFlinkConfiguration));
                 resource = Constant.FLINK_DEPLOYMENT;
                 callbackHandler = flinkDeploymentWatchCallbackHandler;
                 break;
@@ -184,8 +182,11 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
                 break;
             default:
         }
-        flinkKubernetesOperatorService.deployJob(clusterCredentialId, yaml);
         wsFlinkKubernetesJobInstanceMapper.insert(record);
+
+        WsFlinkKubernetesJobInstanceDTO jobInstanceDTO = selectOne(record.getId());
+        String yaml = asYaml(record.getId());
+        flinkKubernetesOperatorService.deployJob(clusterCredentialId, yaml);
         // add watch
         Map<String, String> lables = metadataHandler.generateLables(jobInstanceDTO);
         flinkKubernetesOperatorService.addWatch(clusterCredentialId, resource, lables, callbackHandler);
