@@ -3,48 +3,40 @@ import {ProDescriptionsItemProps} from "@ant-design/pro-descriptions";
 import {ProCoreActionType} from "@ant-design/pro-utils/es/typing";
 import {ProDescriptions} from "@ant-design/pro-components";
 import {connect, useIntl} from "@umijs/max";
-import {WsArtifactFlinkJar} from "@/services/project/typings";
+import {WsArtifactFlinkCDC, WsArtifactFlinkSql} from "@/services/project/typings";
 
-const ArtifactFlinkJarWeb: React.FC = (props: any) => {
+const ArtifactFlinkCDCWeb: React.FC = (props: any) => {
   const intl = useIntl();
 
-  const descriptionColumns: ProDescriptionsItemProps<WsArtifactFlinkJar>[] = [
+  const descriptionColumns: ProDescriptionsItemProps<WsArtifactFlinkCDC>[] = [
     {
       title: intl.formatMessage({id: 'pages.project.artifact.name'}),
       key: `name`,
-      renderText: (text: any, record: WsArtifactFlinkJar, index: number, action: ProCoreActionType) => {
+      renderText: (text: any, record: WsArtifactFlinkCDC, index: number, action: ProCoreActionType) => {
         return record.artifact?.name
       }
     },
     {
-      title: intl.formatMessage({id: 'pages.project.artifact.jar.fileName'}),
-      key: `fileName`,
-      dataIndex: 'fileName'
+      title: intl.formatMessage({id: 'pages.project.artifact.cdc.flinkCDCVersion'}),
+      key: `flinkCDCVersion`,
+      dataIndex: 'flinkCDCVersion',
+      renderText: (text: any, record: WsArtifactFlinkCDC, index: number, action: ProCoreActionType) => {
+        return record.flinkCDCVersion?.label
+      }
     },
     {
       title: intl.formatMessage({id: 'pages.resource.flinkRelease.version'}),
       key: `flinkVersion`,
       dataIndex: 'flinkVersion',
-      renderText: (text: any, record: WsArtifactFlinkJar, index: number, action: ProCoreActionType) => {
+      renderText: (text: any, record: WsArtifactFlinkCDC, index: number, action: ProCoreActionType) => {
         return record.flinkVersion?.label
       }
-    },
-    {
-      title: intl.formatMessage({id: 'pages.project.artifact.jar.entryClass'}),
-      key: `entryClass`,
-      dataIndex: 'entryClass'
-    },
-    {
-      title: intl.formatMessage({id: 'pages.project.artifact.jar.jarParams'}),
-      key: `jarParams`,
-      dataIndex: 'jarParams',
-      valueType: 'jsonCode'
     },
     {
       title: intl.formatMessage({id: 'app.common.data.remark'}),
       key: `remark`,
       dataIndex: 'remark',
-      renderText: (text: any, record: WsArtifactFlinkJar, index: number, action: ProCoreActionType) => {
+      renderText: (text: any, record: WsArtifactFlinkCDC, index: number, action: ProCoreActionType) => {
         return record.artifact?.remark
       }
     },
@@ -64,7 +56,7 @@ const ArtifactFlinkJarWeb: React.FC = (props: any) => {
     <ProDescriptions
       column={2}
       bordered={true}
-      dataSource={props.flinkKubernetesJobDetail.job?.artifactFlinkJar}
+      dataSource={props.flinkKubernetesJobDetail.job?.artifactFlinkCDC}
       columns={descriptionColumns}
     />
   );
@@ -72,4 +64,4 @@ const ArtifactFlinkJarWeb: React.FC = (props: any) => {
 
 
 const mapModelToProps = ({flinkKubernetesJobDetail}: any) => ({flinkKubernetesJobDetail})
-export default connect(mapModelToProps)(ArtifactFlinkJarWeb);
+export default connect(mapModelToProps)(ArtifactFlinkCDCWeb);
