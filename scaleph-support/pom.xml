@@ -38,7 +38,6 @@
         <module>scaleph-system</module>
         <module>scaleph-generator</module>
         <module>scaleph-dag</module>
-        <module>scaleph-queue</module>
     </modules>
 
 </project>

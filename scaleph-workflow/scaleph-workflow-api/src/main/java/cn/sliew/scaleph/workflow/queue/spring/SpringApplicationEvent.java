@@ -16,11 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.queue;
+package cn.sliew.scaleph.workflow.queue.spring;
 
-import java.util.EventObject;
+import cn.sliew.scaleph.workflow.queue.Event;
+import lombok.Getter;
+import org.springframework.context.ApplicationEvent;
 
-public interface EventListener extends java.util.EventListener {
+public class SpringApplicationEvent extends ApplicationEvent {
 
-    void onEvent(EventObject event);
+    @Getter
+    private final Event event;
+
+    public SpringApplicationEvent(Object source, Event event) {
+        super(source);
+        this.event = event;
+    }
 }

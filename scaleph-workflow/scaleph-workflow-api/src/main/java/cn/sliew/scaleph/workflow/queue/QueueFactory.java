@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.model;
+package cn.sliew.scaleph.workflow.queue;
 
-public interface Queue {
+public interface QueueFactory {
 
-    String getName();
+    Queue newInstance(String name);
 }

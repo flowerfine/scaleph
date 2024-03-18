@@ -171,6 +171,8 @@
         <spring-cloud-openfeign.version>3.1.7</spring-cloud-openfeign.version>
         <zjsonpatch.version>0.4.14</zjsonpatch.version>
         <kogito.version>2.44.0.Alpha</kogito.version>
+        <redisson.version>3.27.2</redisson.version>
+        <cola.version>4.3.2</cola.version>
     </properties>
 
     <dependencyManagement>
@@ -730,6 +732,18 @@
                 <groupId>org.kie.kogito</groupId>
                 <artifactId>kogito-serverless-workflow-runtime</artifactId>
                 <version>${kogito.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-data-27</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cola</groupId>
+                <artifactId>cola-component-statemachine</artifactId>
+                <version>${cola.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

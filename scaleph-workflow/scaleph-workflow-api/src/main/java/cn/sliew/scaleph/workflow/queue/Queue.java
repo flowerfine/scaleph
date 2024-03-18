@@ -16,7 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.queue;
+package cn.sliew.scaleph.workflow.queue;
 
-public interface Event {
+/**
+ * does pinterest's PubSubClient better?
+ */
+public interface Queue<T extends Event> {
+
+    String getName();
+
+    void register(String consumerGroup, EventListener<T> listener);
+
+    void remove(EventListener<T> listener);
+
+    void push(T event);
 }

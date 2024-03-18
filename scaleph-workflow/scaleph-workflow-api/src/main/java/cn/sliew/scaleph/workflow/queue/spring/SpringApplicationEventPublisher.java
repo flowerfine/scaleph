@@ -16,13 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.queue;
+package cn.sliew.scaleph.workflow.queue.spring;
 
-import java.util.EventObject;
+import cn.sliew.scaleph.workflow.queue.Event;
+import cn.sliew.scaleph.workflow.queue.EventPublisher;
+import org.springframework.context.ApplicationEventPublisher;
 
-public interface Queue {
+public class SpringApplicationEventPublisher implements EventPublisher {
 
-    void register(EventListener listener);
+    private ApplicationEventPublisher eventPublisher;
 
-    void push(EventObject event);
+    public SpringApplicationEventPublisher(ApplicationEventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
+    }
+
+    @Override
+    public void publishEvent(Event event) {
+        eventPublisher.publishEvent(new SpringApplicationEvent(this, event));
+    }
 }
