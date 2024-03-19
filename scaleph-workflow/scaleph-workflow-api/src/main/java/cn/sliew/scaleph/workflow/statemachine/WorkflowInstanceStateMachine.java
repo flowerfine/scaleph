@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.workflow.statemachine;
 
-import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceEvent;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
 import cn.sliew.scaleph.workflow.listener.*;

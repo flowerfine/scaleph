@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.workflow.queue.spring;
 
-import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.workflow.queue.Event;
 import cn.sliew.scaleph.workflow.queue.EventListener;
 import org.springframework.context.ApplicationListener;
