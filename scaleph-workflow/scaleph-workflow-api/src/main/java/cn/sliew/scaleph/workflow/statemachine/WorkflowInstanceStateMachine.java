@@ -18,9 +18,12 @@
 
 package cn.sliew.scaleph.workflow.statemachine;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceEvent;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
-import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
+import cn.sliew.scaleph.workflow.listener.*;
+import cn.sliew.scaleph.workflow.queue.Queue;
+import cn.sliew.scaleph.workflow.queue.QueueFactory;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
 import com.alibaba.cola.statemachine.Action;
 import com.alibaba.cola.statemachine.StateMachine;
@@ -28,14 +31,33 @@ import com.alibaba.cola.statemachine.builder.StateMachineBuilder;
 import com.alibaba.cola.statemachine.builder.StateMachineBuilderFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Component
 public class WorkflowInstanceStateMachine implements InitializingBean {
 
-    private WorkflowInstanceService workflowInstanceService;
+    @Autowired
+    private QueueFactory queueFactory;
+    @Autowired
+    private WorkflowInstanceDeployEventListener workflowInstanceDeployEventListener;
+    @Autowired
+    private WorkflowInstanceShutdownEventListener workflowInstanceShutdownEventListener;
+    @Autowired
+    private WorkflowInstanceSuspendEventListener workflowInstanceSuspendEventListener;
+    @Autowired
+    private WorkflowInstanceResumeEventListener workflowInstanceResumeEventListener;
+    @Autowired
+    private WorkflowInstanceSuccessEventListener workflowInstanceSuccessEventListener;
+    @Autowired
+    private WorkflowInstanceFailureEventListener workflowInstanceFailureEventListener;
+
     private StateMachine<WorkflowInstanceState, WorkflowInstanceEvent, WorkflowInstanceDTO> stateMachine;
+    private Map<WorkflowInstanceEvent, Queue<WorkflowInstanceEventDTO>> queueMap;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -45,104 +67,82 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
                 .from(WorkflowInstanceState.PENDING)
                 .to(WorkflowInstanceState.RUNNING)
                 .on(WorkflowInstanceEvent.COMMAND_DEPLOY)
-                .perform(doDeploy());
+                .perform(doPerform());
         builder.externalTransition()
                 .from(WorkflowInstanceState.PENDING)
                 .to(WorkflowInstanceState.SUSPEND)
                 .on(WorkflowInstanceEvent.COMMAND_SUSPEND)
-                .perform(doSuspend());
+                .perform(doPerform());
         builder.externalTransition()
                 .from(WorkflowInstanceState.PENDING)
                 .to(WorkflowInstanceState.TERMINATED)
                 .on(WorkflowInstanceEvent.COMMAND_SHUTDOWN)
-                .perform(doShutdown());
+                .perform(doPerform());
 
         builder.externalTransition()
                 .from(WorkflowInstanceState.RUNNING)
                 .to(WorkflowInstanceState.SUCCESS)
                 .on(WorkflowInstanceEvent.PROCESS_SUCCESS)
-                .perform(onSuccess());
+                .perform(doPerform());
         builder.externalTransition()
                 .from(WorkflowInstanceState.RUNNING)
                 .to(WorkflowInstanceState.FAILURE)
                 .on(WorkflowInstanceEvent.PROCESS_FAILURE)
-                .perform(onFailure());
+                .perform(doPerform());
         builder.externalTransition()
                 .from(WorkflowInstanceState.RUNNING)
                 .to(WorkflowInstanceState.SUSPEND)
                 .on(WorkflowInstanceEvent.COMMAND_SUSPEND)
-                .perform(doSuspend());
+                .perform(doPerform());
         builder.externalTransition()
                 .from(WorkflowInstanceState.RUNNING)
                 .to(WorkflowInstanceState.TERMINATED)
                 .on(WorkflowInstanceEvent.COMMAND_SHUTDOWN)
-                .perform(doShutdown());
+                .perform(doPerform());
 
         builder.externalTransition()
                 .from(WorkflowInstanceState.SUSPEND)
                 .to(WorkflowInstanceState.RUNNING)
                 .on(WorkflowInstanceEvent.COMMAND_RESUME)
-                .perform(doResume());
+                .perform(doPerform());
         builder.externalTransition()
                 .from(WorkflowInstanceState.SUSPEND)
                 .to(WorkflowInstanceState.TERMINATED)
                 .on(WorkflowInstanceEvent.COMMAND_SHUTDOWN)
-                .perform(doShutdown());
+                .perform(doPerform());
 
         this.stateMachine = builder.build("WorkflowInstanceStateMachine");
+        this.queueMap = new HashMap<>();
+
+        Queue deployQueue = queueFactory.newInstance(WorkflowInstanceEvent.COMMAND_DEPLOY.getValue());
+        deployQueue.register("WorkflowInstanceStateMachine", workflowInstanceDeployEventListener);
+        queueMap.put(WorkflowInstanceEvent.COMMAND_DEPLOY, deployQueue);
+
+        Queue shutDownQueue = queueFactory.newInstance(WorkflowInstanceEvent.COMMAND_SHUTDOWN.getValue());
+        shutDownQueue.register("WorkflowInstanceStateMachine", workflowInstanceShutdownEventListener);
+        queueMap.put(WorkflowInstanceEvent.COMMAND_SHUTDOWN, shutDownQueue);
+
+        Queue suspendQueue = queueFactory.newInstance(WorkflowInstanceEvent.COMMAND_SUSPEND.getValue());
+        suspendQueue.register("WorkflowInstanceStateMachine", workflowInstanceSuspendEventListener);
+        queueMap.put(WorkflowInstanceEvent.COMMAND_SUSPEND, suspendQueue);
+
+        Queue resumeQueue = queueFactory.newInstance(WorkflowInstanceEvent.COMMAND_RESUME.getValue());
+        resumeQueue.register("WorkflowInstanceStateMachine", workflowInstanceResumeEventListener);
+        queueMap.put(WorkflowInstanceEvent.COMMAND_RESUME, resumeQueue);
+
+        Queue successQueue = queueFactory.newInstance(WorkflowInstanceEvent.PROCESS_SUCCESS.getValue());
+        successQueue.register("WorkflowInstanceStateMachine", workflowInstanceSuccessEventListener);
+        queueMap.put(WorkflowInstanceEvent.PROCESS_SUCCESS, successQueue);
+
+        Queue failureQueue = queueFactory.newInstance(WorkflowInstanceEvent.PROCESS_FAILURE.getValue());
+        failureQueue.register("WorkflowInstanceStateMachine", workflowInstanceFailureEventListener);
+        queueMap.put(WorkflowInstanceEvent.PROCESS_FAILURE, failureQueue);
     }
 
-    private Action<WorkflowInstanceState, WorkflowInstanceEvent, WorkflowInstanceDTO> doDeploy() {
-        return new Action<WorkflowInstanceState, WorkflowInstanceEvent, WorkflowInstanceDTO>() {
-            @Override
-            public void execute(WorkflowInstanceState fromState, WorkflowInstanceState toState, WorkflowInstanceEvent eventEnum, WorkflowInstanceDTO workflowInstanceDTO) {
-                log.info("执行部署任务");
-            }
-        };
-    }
-
-    private Action<WorkflowInstanceState, WorkflowInstanceEvent, WorkflowInstanceDTO> doShutdown() {
-        return new Action<WorkflowInstanceState, WorkflowInstanceEvent, WorkflowInstanceDTO>() {
-            @Override
-            public void execute(WorkflowInstanceState fromState, WorkflowInstanceState toState, WorkflowInstanceEvent eventEnum, WorkflowInstanceDTO workflowInstanceDTO) {
-                log.info("执行停止任务");
-            }
-        };
-    }
-
-    private Action<WorkflowInstanceState, WorkflowInstanceEvent, WorkflowInstanceDTO> doSuspend() {
-        return new Action<WorkflowInstanceState, WorkflowInstanceEvent, WorkflowInstanceDTO>() {
-            @Override
-            public void execute(WorkflowInstanceState fromState, WorkflowInstanceState toState, WorkflowInstanceEvent eventEnum, WorkflowInstanceDTO workflowInstanceDTO) {
-                log.info("执行暂停任务");
-            }
-        };
-    }
-
-    private Action<WorkflowInstanceState, WorkflowInstanceEvent, WorkflowInstanceDTO> doResume() {
-        return new Action<WorkflowInstanceState, WorkflowInstanceEvent, WorkflowInstanceDTO>() {
-            @Override
-            public void execute(WorkflowInstanceState fromState, WorkflowInstanceState toState, WorkflowInstanceEvent eventEnum, WorkflowInstanceDTO workflowInstanceDTO) {
-                log.info("执行恢复任务");
-            }
-        };
-    }
-
-    private Action<WorkflowInstanceState, WorkflowInstanceEvent, WorkflowInstanceDTO> onSuccess() {
-        return new Action<WorkflowInstanceState, WorkflowInstanceEvent, WorkflowInstanceDTO>() {
-            @Override
-            public void execute(WorkflowInstanceState fromState, WorkflowInstanceState toState, WorkflowInstanceEvent eventEnum, WorkflowInstanceDTO workflowInstanceDTO) {
-                log.info("任务成功");
-            }
-        };
-    }
-
-    private Action<WorkflowInstanceState, WorkflowInstanceEvent, WorkflowInstanceDTO> onFailure() {
-        return new Action<WorkflowInstanceState, WorkflowInstanceEvent, WorkflowInstanceDTO>() {
-            @Override
-            public void execute(WorkflowInstanceState fromState, WorkflowInstanceState toState, WorkflowInstanceEvent eventEnum, WorkflowInstanceDTO workflowInstanceDTO) {
-                log.info("任务失败");
-            }
+    private Action<WorkflowInstanceState, WorkflowInstanceEvent, WorkflowInstanceDTO> doPerform() {
+        return (fromState, toState, eventEnum, workflowInstanceDTO) -> {
+            Queue<WorkflowInstanceEventDTO> queue = queueMap.get(eventEnum);
+            queue.push(new WorkflowInstanceEventDTO(eventEnum.getValue(), fromState, toState, eventEnum, workflowInstanceDTO));
         };
     }
 

@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.queue;
+package cn.sliew.scaleph.workflow.listener;
 
-public interface Event {
+public interface WorkflowTaskInstanceEventListener {
 
-    String getTopic();
+    void run(WorkflowTaskInstanceEventDTO eventDTO);
 }

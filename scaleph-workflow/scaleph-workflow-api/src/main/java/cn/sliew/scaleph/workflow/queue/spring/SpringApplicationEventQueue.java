@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.workflow.queue.spring;
 
-
 import cn.sliew.scaleph.workflow.queue.Event;
 import cn.sliew.scaleph.workflow.queue.EventListener;
 import cn.sliew.scaleph.workflow.queue.Queue;
@@ -42,12 +41,12 @@ public class SpringApplicationEventQueue<T extends Event> implements Queue<T> {
 
     @Override
     public void register(String consumerGroup, EventListener<T> listener) {
-        eventListener.register(consumerGroup, listener);
+        eventListener.register(getName(), consumerGroup, listener);
     }
 
     @Override
     public void remove(EventListener<T> listener) {
-        eventListener.remove(listener);
+        eventListener.remove(getName(), listener);
     }
 
     @Override

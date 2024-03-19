@@ -58,7 +58,7 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
     }
 
     @Override
-    public WorkflowInstanceDTO start(Long workflowDefinitionId) {
+    public WorkflowInstanceDTO deploy(Long workflowDefinitionId) {
         WorkflowInstance record = new WorkflowInstance();
         record.setWorkflowDefinitionId(workflowDefinitionId);
         record.setState(WorkflowInstanceState.PENDING);
@@ -67,12 +67,17 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
     }
 
     @Override
+    public void shutdown(Long id) {
+
+    }
+
+    @Override
     public void suspend(Long id) {
 
     }
 
     @Override
-    public void terminate(Long id) {
+    public void resume(Long id) {
 
     }
 }

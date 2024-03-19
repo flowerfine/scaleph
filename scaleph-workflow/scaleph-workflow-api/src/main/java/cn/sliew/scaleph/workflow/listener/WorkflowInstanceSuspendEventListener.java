@@ -16,9 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.queue;
+package cn.sliew.scaleph.workflow.listener;
 
-public interface Event {
+import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-    String getTopic();
+@Slf4j
+@Component
+public class WorkflowInstanceSuspendEventListener implements WorkflowInstanceEventListener {
+
+    @Autowired
+    private WorkflowInstanceService workflowInstanceService;
+
+    @Override
+    public void onEvent(WorkflowInstanceEventDTO event) {
+        log.info("on event, {}", JacksonUtil.toJsonString(event));
+    }
 }

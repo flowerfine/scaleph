@@ -28,10 +28,12 @@ public interface WorkflowInstanceService {
 
     WorkflowInstanceDTO get(Long id);
 
-    WorkflowInstanceDTO start(Long workflowDefinitionId);
+    WorkflowInstanceDTO deploy(Long workflowDefinitionId);
+
+    void shutdown(Long id);
 
     void suspend(Long id);
 
-    void terminate(Long id);
+    void resume(Long id);
 
 }

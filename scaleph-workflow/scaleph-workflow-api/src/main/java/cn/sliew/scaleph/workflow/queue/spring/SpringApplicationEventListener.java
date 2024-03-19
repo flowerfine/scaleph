@@ -18,25 +18,40 @@
 
 package cn.sliew.scaleph.workflow.queue.spring;
 
+import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.workflow.queue.Event;
 import cn.sliew.scaleph.workflow.queue.EventListener;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-@Slf4j
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 @Component
 public class SpringApplicationEventListener implements ApplicationListener<SpringApplicationEvent> {
-    
+
+    private ConcurrentMap<String, List<EventListener>> registry = new ConcurrentHashMap<>();
+
     @Override
-    public void onApplicationEvent(SpringApplicationEvent event) {
-        log.info("{}", event.getEvent());
+    public void onApplicationEvent(SpringApplicationEvent springApplicationEvent) {
+        Event event = springApplicationEvent.getEvent();
+        List<EventListener> listeners = registry.computeIfAbsent(event.getTopic(), key -> new ArrayList<>());
+        for (EventListener listener : listeners) {
+            listener.onEvent(event);
+        }
     }
 
-    public void register(String consumerGroup, EventListener listener) {
-
+    public void register(String topic, String consumerGroup, EventListener listener) {
+        List<EventListener> listeners = registry.computeIfAbsent(topic, key -> new ArrayList<>());
+        if (listeners.contains(listeners) == false) {
+            listeners.add(listener);
+        }
     }
 
-    public void remove(EventListener listener) {
-
+    public void remove(String topic, EventListener listener) {
+        List<EventListener> listeners = registry.computeIfAbsent(topic, key -> new ArrayList<>());
+        listeners.remove(listener);
     }
 }
