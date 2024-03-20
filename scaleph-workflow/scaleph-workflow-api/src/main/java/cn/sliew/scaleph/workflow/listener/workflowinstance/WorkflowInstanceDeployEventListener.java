@@ -59,5 +59,7 @@ public class WorkflowInstanceDeployEventListener implements WorkflowInstanceEven
         WorkflowInstanceDTO workflowInstanceDTO = event.getWorkflowInstanceDTO();
         WorkflowDefinitionDTO workflowDefinitionDTO = workflowInstanceDTO.getWorkflowDefinition();
         List<WorkflowTaskDefinitionDTO> workflowTaskDefinitionDTOS = workflowTaskDefinitionService.list(workflowDefinitionDTO.getId());
+
+        // 获取 workflowDefinition 的类信息，然后执行
     }
 }

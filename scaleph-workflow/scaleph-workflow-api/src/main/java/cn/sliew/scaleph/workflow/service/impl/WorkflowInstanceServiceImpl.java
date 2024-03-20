@@ -26,6 +26,7 @@ import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
 import cn.sliew.scaleph.workflow.service.convert.WorkflowInstanceVOConvert;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowInstanceListParam;
+import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,8 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 
     @Autowired
     private WorkflowInstanceMapper workflowInstanceMapper;
+    @Autowired
+    private WorkflowInstanceStateMachine stateMachine;
 
     @Override
     public Page<WorkflowInstanceDTO> list(WorkflowInstanceListParam param) {
@@ -63,21 +66,25 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
         record.setWorkflowDefinitionId(workflowDefinitionId);
         record.setState(WorkflowInstanceState.PENDING);
         workflowInstanceMapper.insert(record);
+        stateMachine.deploy(get(record.getId()));
         return get(record.getId());
     }
 
     @Override
     public void shutdown(Long id) {
-
+        WorkflowInstanceDTO workflowInstanceDTO = get(id);
+        stateMachine.shutdown(workflowInstanceDTO);
     }
 
     @Override
     public void suspend(Long id) {
-
+        WorkflowInstanceDTO workflowInstanceDTO = get(id);
+        stateMachine.suspend(workflowInstanceDTO);
     }
 
     @Override
     public void resume(Long id) {
-
+        WorkflowInstanceDTO workflowInstanceDTO = get(id);
+        stateMachine.resume(workflowInstanceDTO);
     }
 }

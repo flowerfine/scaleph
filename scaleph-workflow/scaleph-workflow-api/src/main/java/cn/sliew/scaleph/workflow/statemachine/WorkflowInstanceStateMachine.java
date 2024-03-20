@@ -20,7 +20,6 @@ package cn.sliew.scaleph.workflow.statemachine;
 
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceEvent;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
-import cn.sliew.scaleph.workflow.listener.workflow.instance.*;
 import cn.sliew.scaleph.workflow.listener.workflowinstance.*;
 import cn.sliew.scaleph.workflow.queue.Queue;
 import cn.sliew.scaleph.workflow.queue.QueueFactory;
