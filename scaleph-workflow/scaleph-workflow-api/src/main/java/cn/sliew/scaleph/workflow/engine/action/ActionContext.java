@@ -59,7 +59,7 @@ public class ActionContext implements AttributeMap {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date fireTime;
 
-    private ContainerPool containerPool = new ThreadContainerPool();
+    private static ContainerPool containerPool = new ThreadContainerPool();
 
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
