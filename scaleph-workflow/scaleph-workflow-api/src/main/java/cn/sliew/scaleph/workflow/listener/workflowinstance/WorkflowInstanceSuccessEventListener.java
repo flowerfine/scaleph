@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.listener;
+package cn.sliew.scaleph.workflow.listener.workflowinstance;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class WorkflowInstanceSuspendEventListener implements WorkflowInstanceEventListener {
+public class WorkflowInstanceSuccessEventListener implements WorkflowInstanceEventListener {
 
     @Autowired
     private WorkflowInstanceService workflowInstanceService;

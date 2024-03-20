@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.listener;
+package cn.sliew.scaleph.workflow.listener.taskinstance;
 
 public interface WorkflowTaskInstanceEventListener {
 

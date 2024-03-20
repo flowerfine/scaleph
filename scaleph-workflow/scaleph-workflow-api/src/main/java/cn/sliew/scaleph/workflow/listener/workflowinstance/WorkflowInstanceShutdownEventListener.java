@@ -16,10 +16,9 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.listener;
+package cn.sliew.scaleph.workflow.listener.workflowinstance;
 
 import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceEvent;
 import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class WorkflowInstanceDeployEventListener implements WorkflowInstanceEventListener {
+public class WorkflowInstanceShutdownEventListener implements WorkflowInstanceEventListener {
 
     @Autowired
     private WorkflowInstanceService workflowInstanceService;

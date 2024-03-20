@@ -20,7 +20,8 @@ package cn.sliew.scaleph.workflow.statemachine;
 
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceEvent;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
-import cn.sliew.scaleph.workflow.listener.*;
+import cn.sliew.scaleph.workflow.listener.workflow.instance.*;
+import cn.sliew.scaleph.workflow.listener.workflowinstance.*;
 import cn.sliew.scaleph.workflow.queue.Queue;
 import cn.sliew.scaleph.workflow.queue.QueueFactory;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
@@ -66,16 +67,6 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
                 .from(WorkflowInstanceState.PENDING)
                 .to(WorkflowInstanceState.RUNNING)
                 .on(WorkflowInstanceEvent.COMMAND_DEPLOY)
-                .perform(doPerform());
-        builder.externalTransition()
-                .from(WorkflowInstanceState.PENDING)
-                .to(WorkflowInstanceState.SUSPEND)
-                .on(WorkflowInstanceEvent.COMMAND_SUSPEND)
-                .perform(doPerform());
-        builder.externalTransition()
-                .from(WorkflowInstanceState.PENDING)
-                .to(WorkflowInstanceState.TERMINATED)
-                .on(WorkflowInstanceEvent.COMMAND_SHUTDOWN)
                 .perform(doPerform());
 
         builder.externalTransition()

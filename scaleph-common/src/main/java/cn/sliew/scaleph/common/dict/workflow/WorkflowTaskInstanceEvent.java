@@ -32,8 +32,10 @@ public enum WorkflowTaskInstanceEvent implements DictInstance {
     COMMAND_SHUTDOWN("1", "COMMAND_SHUTDOWN"),
     COMMAND_SUSPEND("2", "COMMAND_SUSPEND"),
     COMMAND_RESUME("3", "COMMAND_RESUME"),
+
     PROCESS_SUCCESS("4", "PROCESS_SUCCESS"),
     PROCESS_FAILURE("5", "PROCESS_FAILURE"),
+    PROCESS_WAITING("6", "PROCESS_WAITING"),
     ;
 
     @JsonCreator

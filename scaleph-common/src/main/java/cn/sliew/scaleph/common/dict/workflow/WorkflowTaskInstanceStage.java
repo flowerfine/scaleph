@@ -28,9 +28,13 @@ import java.util.Arrays;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum WorkflowTaskInstanceStage implements DictInstance {
 
-    PRE("0", "PreHandler"),
-    EXECUTE("1", "Execute"),
-    POST("2", "PostHandler"),
+    PENDING("0", "PENDING"),
+    RUNNING("1", "RUNNING"),
+    WAITING("2", "WAITING"),
+    SUSPEND("3", "SUSPEND"),
+    SUCCESS("4", "SUCCESS"),
+    FAILURE("5", "FAILURE"),
+    TERMINATED("6", "TERMINATED"),
     ;
 
     @JsonCreator

@@ -23,10 +23,12 @@ import cn.sliew.milky.common.constant.AttributeKey;
 import cn.sliew.milky.common.constant.AttributeMap;
 import cn.sliew.milky.common.constant.DefaultAttributeMap;
 import cn.sliew.scaleph.common.container.pool.ContainerPool;
-import cn.sliew.scaleph.common.container.pool.ContainerValue;
 import cn.sliew.scaleph.common.container.pool.thread.ThreadContainerPool;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Collection;
 import java.util.Date;

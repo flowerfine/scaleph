@@ -16,41 +16,41 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.listener;
+package cn.sliew.scaleph.workflow.listener.taskinstance;
 
-import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceEvent;
-import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
+import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceEvent;
+import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
 import cn.sliew.scaleph.workflow.queue.Event;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import lombok.Getter;
 
 import java.util.Optional;
 
 @Getter
-public class WorkflowInstanceEventDTO implements Event {
+public class WorkflowTaskInstanceEventDTO implements Event {
 
     private final String topic;
-    private final WorkflowInstanceState state;
-    private final WorkflowInstanceState nextState;
-    private final WorkflowInstanceEvent event;
-    private final WorkflowInstanceDTO workflowInstanceDTO;
+    private final WorkflowTaskInstanceStage state;
+    private final WorkflowTaskInstanceStage nextState;
+    private final WorkflowTaskInstanceEvent event;
+    private final WorkflowTaskInstanceDTO workflowTaskInstanceDTO;
     private final Optional<Exception> exception;
 
-    public WorkflowInstanceEventDTO(String topic, WorkflowInstanceState state, WorkflowInstanceState nextState, WorkflowInstanceEvent event, WorkflowInstanceDTO workflowInstanceDTO) {
+    public WorkflowTaskInstanceEventDTO(String topic, WorkflowTaskInstanceStage state, WorkflowTaskInstanceStage nextState, WorkflowTaskInstanceEvent event, WorkflowTaskInstanceDTO workflowTaskInstanceDTO) {
         this.topic = topic;
         this.state = state;
         this.nextState = nextState;
         this.event = event;
-        this.workflowInstanceDTO = workflowInstanceDTO;
+        this.workflowTaskInstanceDTO = workflowTaskInstanceDTO;
         this.exception = Optional.empty();
     }
 
-    public WorkflowInstanceEventDTO(String topic, WorkflowInstanceState state, WorkflowInstanceState nextState, WorkflowInstanceEvent event, WorkflowInstanceDTO workflowInstanceDTO, Exception exception) {
+    public WorkflowTaskInstanceEventDTO(String topic, WorkflowTaskInstanceStage state, WorkflowTaskInstanceStage nextState, WorkflowTaskInstanceEvent event, WorkflowTaskInstanceDTO workflowTaskInstanceDTO, Exception exception) {
         this.topic = topic;
         this.state = state;
         this.nextState = nextState;
         this.event = event;
-        this.workflowInstanceDTO = workflowInstanceDTO;
+        this.workflowTaskInstanceDTO = workflowTaskInstanceDTO;
         this.exception = Optional.ofNullable(exception);
     }
 
