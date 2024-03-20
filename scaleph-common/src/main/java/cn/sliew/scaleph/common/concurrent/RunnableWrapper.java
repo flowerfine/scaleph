@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.common.concurrent;
 
-public interface RunnableWrapper extends Runnable{
+public interface RunnableWrapper extends Runnable {
 
     @Override
     default void run() {
@@ -34,6 +34,7 @@ public interface RunnableWrapper extends Runnable{
 
     /**
      * This method has the same semantics as {@link Runnable#run()}
+     *
      * @throws InterruptedException if the run method throws an InterruptedException
      */
     void doRun() throws Exception;

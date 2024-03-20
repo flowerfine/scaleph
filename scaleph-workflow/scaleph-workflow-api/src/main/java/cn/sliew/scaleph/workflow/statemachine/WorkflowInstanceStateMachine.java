@@ -150,4 +150,12 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
     public void resume(WorkflowInstanceDTO workflowInstanceDTO) {
         stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.COMMAND_RESUME, workflowInstanceDTO);
     }
+
+    public void onSuccess(WorkflowInstanceDTO workflowInstanceDTO) {
+        stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.PROCESS_SUCCESS, workflowInstanceDTO);
+    }
+
+    public void onFailure(WorkflowInstanceDTO workflowInstanceDTO, Exception exception) {
+        stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.PROCESS_FAILURE, workflowInstanceDTO);
+    }
 }

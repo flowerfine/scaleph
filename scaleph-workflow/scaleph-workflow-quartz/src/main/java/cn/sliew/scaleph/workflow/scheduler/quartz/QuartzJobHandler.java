@@ -36,7 +36,6 @@ import cn.sliew.scaleph.workflow.service.WorkflowTaskDefinitionService;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
-import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -57,8 +56,6 @@ public class QuartzJobHandler extends QuartzJobBean {
     @Autowired
     private WorkflowInstanceService workflowInstanceService;
     @Autowired
-    private WorkflowInstanceStateMachine stateMachine;
-    @Autowired
     private WorkflowTaskDefinitionService workflowTaskDefinitionService;
 
     /**
@@ -74,8 +71,8 @@ public class QuartzJobHandler extends QuartzJobBean {
         WorkflowSchedule workflowSchedule = JacksonUtil.parseJsonString(json, WorkflowSchedule.class);
         WorkflowDefinitionDTO workflowDefinitionDTO = workflowDefinitionService.get(workflowSchedule.getWorkflowDefinitionId());
         WorkflowInstanceDTO workflowInstanceDTO = workflowInstanceService.deploy(workflowDefinitionDTO.getId());
-//        stateMachine.deploy(workflowInstanceDTO);
 
+        // todo 以下全部移除
         ActionContext actionContext = buildActionContext(context, workflowDefinitionDTO, workflowInstanceDTO);
         List<WorkflowTaskDefinitionDTO> workflowTaskDefinitionDTOS = workflowTaskDefinitionService.list(workflowDefinitionDTO.getId());
         // 应该是对 task 的上下游关系进行梳理后，进而执行

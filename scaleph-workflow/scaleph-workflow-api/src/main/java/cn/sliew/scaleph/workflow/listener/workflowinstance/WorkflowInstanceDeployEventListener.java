@@ -18,17 +18,13 @@
 
 package cn.sliew.scaleph.workflow.listener.workflowinstance;
 
-import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.workflow.engine.Engine;
-import cn.sliew.scaleph.workflow.engine.EngineBuilder;
-import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
 import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskDefinitionService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
-import cn.sliew.scaleph.workflow.statemachine.WorkflowTaskInstanceStateMachine;
+import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -39,27 +35,40 @@ import java.util.List;
 @Component
 public class WorkflowInstanceDeployEventListener implements WorkflowInstanceEventListener {
 
-    private Engine engine = EngineBuilder.newInstance().build();
-
-    @Autowired
-    private WorkflowDefinitionService workflowDefinitionService;
     @Autowired
     private WorkflowInstanceService workflowInstanceService;
     @Autowired
     private WorkflowTaskDefinitionService workflowTaskDefinitionService;
     @Autowired
     private WorkflowTaskInstanceService workflowTaskInstanceService;
-
     @Autowired
-    private WorkflowTaskInstanceStateMachine workflowTaskInstanceStateMachine;
+    private WorkflowInstanceStateMachine stateMachine;
 
     @Override
     public void onEvent(WorkflowInstanceEventDTO event) {
-        log.info("on event, {}", JacksonUtil.toJsonString(event));
         WorkflowInstanceDTO workflowInstanceDTO = event.getWorkflowInstanceDTO();
         WorkflowDefinitionDTO workflowDefinitionDTO = workflowInstanceDTO.getWorkflowDefinition();
-        List<WorkflowTaskDefinitionDTO> workflowTaskDefinitionDTOS = workflowTaskDefinitionService.list(workflowDefinitionDTO.getId());
+        try {
+            // fixme 获取所有 task 的执行结果，执行成功，则发送执行成功事件，否则发送执行失败事件
+            doDeploy(workflowDefinitionDTO);
+            onSuccess(workflowInstanceDTO.getId());
+        } catch (Exception e) {
+            onFailure(workflowInstanceDTO.getId(), e);
+        }
+    }
 
-        // 获取 workflowDefinition 的类信息，然后执行
+    private void doDeploy(WorkflowDefinitionDTO workflowDefinitionDTO) {
+        List<WorkflowTaskDefinitionDTO> workflowTaskDefinitionDTOS = workflowTaskDefinitionService.list(workflowDefinitionDTO.getId());
+        for (WorkflowTaskDefinitionDTO workflowTaskDefinitionDTO : workflowTaskDefinitionDTOS) {
+            workflowTaskInstanceService.deploy(workflowTaskDefinitionDTO.getId());
+        }
+    }
+
+    private void onFailure(Long workflowInstanceId, Exception e) {
+        stateMachine.onFailure(workflowInstanceService.get(workflowInstanceId), e);
+    }
+
+    private void onSuccess(Long workflowInstanceId) {
+        stateMachine.onSuccess(workflowInstanceService.get(workflowInstanceId), e);
     }
 }
