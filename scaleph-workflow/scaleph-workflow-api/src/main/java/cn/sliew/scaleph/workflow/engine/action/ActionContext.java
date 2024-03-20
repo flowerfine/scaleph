@@ -65,6 +65,10 @@ public class ActionContext implements AttributeMap {
     @Setter(AccessLevel.NONE)
     private final DefaultAttributeMap attributeMap = new DefaultAttributeMap();
 
+    public ContainerPool getContainerPool() {
+        return containerPool;
+    }
+
     @Override
     public <T> Collection<Attribute<T>> attrs() {
         return attributeMap.attrs();
