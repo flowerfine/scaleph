@@ -47,7 +47,7 @@ public class WhileFlow extends AbstractCondition {
             }
 
             @Override
-            public void onFailure(Exception e) {
+            public void onFailure(Throwable e) {
                 listener.onFailure(e);
             }
         });

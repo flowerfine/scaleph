@@ -69,6 +69,6 @@ public class WorkflowInstanceDeployEventListener implements WorkflowInstanceEven
     }
 
     private void onSuccess(Long workflowInstanceId) {
-        stateMachine.onSuccess(workflowInstanceService.get(workflowInstanceId), e);
+        stateMachine.onSuccess(workflowInstanceService.get(workflowInstanceId));
     }
 }

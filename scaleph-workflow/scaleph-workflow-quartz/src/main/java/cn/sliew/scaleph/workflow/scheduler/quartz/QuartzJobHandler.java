@@ -96,7 +96,7 @@ public class QuartzJobHandler extends QuartzJobBean {
             }
 
             @Override
-            public void onFailure(Exception e) {
+            public void onFailure(Throwable e) {
                 log.error("workflow {} run failure!", workflowDefinitionDTO.getName(), e);
             }
         });
