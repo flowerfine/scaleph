@@ -37,8 +37,14 @@ public class ThreadContainer extends AbstractContainer {
 
     @Override
     protected void doExecute(Runnable task, ActionListener<Void> listener) {
-        Runnable wrapped = ActionListener.wrap(task, listener);
-        future = CompletableFuture.runAsync(wrapped, executor);
+        future = CompletableFuture.runAsync(task, executor);
+        future.whenComplete((unused, throwable) -> {
+            if (throwable != null) {
+                listener.onFailure(new Exception(throwable));
+            } else {
+                listener.onResponse(unused);
+            }
+        });
     }
 
     @Override
