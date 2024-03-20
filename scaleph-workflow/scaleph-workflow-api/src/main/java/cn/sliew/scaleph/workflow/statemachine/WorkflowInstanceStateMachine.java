@@ -131,7 +131,11 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
     private Action<WorkflowInstanceState, WorkflowInstanceEvent, WorkflowInstanceDTO> doPerform() {
         return (fromState, toState, eventEnum, workflowInstanceDTO) -> {
             Queue<WorkflowInstanceEventDTO> queue = queueMap.get(eventEnum);
-            queue.push(new WorkflowInstanceEventDTO(eventEnum.getValue(), fromState, toState, eventEnum, workflowInstanceDTO));
+            if (queue != null) {
+                queue.push(new WorkflowInstanceEventDTO(eventEnum.getValue(), fromState, toState, eventEnum, workflowInstanceDTO));
+            } else {
+                log.error("queue not found, event:{}", eventEnum.getValue());
+            }
         };
     }
 

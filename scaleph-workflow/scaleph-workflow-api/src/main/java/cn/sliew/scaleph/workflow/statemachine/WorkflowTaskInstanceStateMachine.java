@@ -58,8 +58,13 @@ public class WorkflowTaskInstanceStateMachine implements InitializingBean {
 
         builder.externalTransition()
                 .from(WorkflowTaskInstanceStage.RUNNING)
-                .to(WorkflowTaskInstanceStage.WAITING)
-                .on(WorkflowTaskInstanceEvent.PROCESS_WAITING)
+                .to(WorkflowTaskInstanceStage.SUCCESS)
+                .on(WorkflowTaskInstanceEvent.PROCESS_SUCCESS)
+                .perform(doPerform());
+        builder.externalTransition()
+                .from(WorkflowTaskInstanceStage.RUNNING)
+                .to(WorkflowTaskInstanceStage.FAILURE)
+                .on(WorkflowTaskInstanceEvent.PROCESS_FAILURE)
                 .perform(doPerform());
         builder.externalTransition()
                 .from(WorkflowTaskInstanceStage.RUNNING)
@@ -70,17 +75,6 @@ public class WorkflowTaskInstanceStateMachine implements InitializingBean {
                 .from(WorkflowTaskInstanceStage.RUNNING)
                 .to(WorkflowTaskInstanceStage.TERMINATED)
                 .on(WorkflowTaskInstanceEvent.COMMAND_SHUTDOWN)
-                .perform(doPerform());
-
-        builder.externalTransition()
-                .from(WorkflowTaskInstanceStage.WAITING)
-                .to(WorkflowTaskInstanceStage.SUCCESS)
-                .on(WorkflowTaskInstanceEvent.PROCESS_SUCCESS)
-                .perform(doPerform());
-        builder.externalTransition()
-                .from(WorkflowTaskInstanceStage.WAITING)
-                .to(WorkflowTaskInstanceStage.FAILURE)
-                .on(WorkflowTaskInstanceEvent.PROCESS_FAILURE)
                 .perform(doPerform());
 
         builder.externalTransition()
@@ -101,7 +95,11 @@ public class WorkflowTaskInstanceStateMachine implements InitializingBean {
     private Action<WorkflowTaskInstanceStage, WorkflowTaskInstanceEvent, WorkflowTaskInstanceDTO> doPerform() {
         return (fromState, toState, eventEnum, workflowTaskInstanceDTO) -> {
             Queue<WorkflowTaskInstanceEventDTO> queue = queueMap.get(eventEnum);
-            queue.push(new WorkflowTaskInstanceEventDTO(eventEnum.getValue(), fromState, toState, eventEnum, workflowTaskInstanceDTO));
+            if (queue != null) {
+                queue.push(new WorkflowTaskInstanceEventDTO(eventEnum.getValue(), fromState, toState, eventEnum, workflowTaskInstanceDTO));
+            } else {
+                log.error("queue not found, event: {}", eventEnum.getValue());
+            }
         };
     }
 

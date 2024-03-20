@@ -35,7 +35,6 @@ public enum WorkflowTaskInstanceEvent implements DictInstance {
 
     PROCESS_SUCCESS("4", "PROCESS_SUCCESS"),
     PROCESS_FAILURE("5", "PROCESS_FAILURE"),
-    PROCESS_WAITING("6", "PROCESS_WAITING"),
     ;
 
     @JsonCreator
