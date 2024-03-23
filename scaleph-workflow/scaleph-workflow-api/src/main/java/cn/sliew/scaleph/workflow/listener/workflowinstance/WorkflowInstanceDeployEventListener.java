@@ -24,11 +24,16 @@ import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RExecutorFuture;
+import org.redisson.api.RScheduledExecutorService;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -43,6 +48,8 @@ public class WorkflowInstanceDeployEventListener implements WorkflowInstanceEven
     private WorkflowTaskInstanceService workflowTaskInstanceService;
     @Autowired
     private WorkflowInstanceStateMachine stateMachine;
+    @Autowired
+    private RedissonClient redissonClient;
 
     @Override
     public void onEvent(WorkflowInstanceEventDTO event) {
@@ -58,9 +65,13 @@ public class WorkflowInstanceDeployEventListener implements WorkflowInstanceEven
     }
 
     private void doDeploy(WorkflowDefinitionDTO workflowDefinitionDTO) {
+        RScheduledExecutorService executorService = redissonClient.getExecutorService("WorkflowTaskInstanceDeploy");
         List<WorkflowTaskDefinitionDTO> workflowTaskDefinitionDTOS = workflowTaskDefinitionService.list(workflowDefinitionDTO.getId());
+        List<RExecutorFuture<WorkflowTaskInstanceDTO>> futures = new ArrayList<>(workflowTaskDefinitionDTOS.size());
         for (WorkflowTaskDefinitionDTO workflowTaskDefinitionDTO : workflowTaskDefinitionDTOS) {
-            workflowTaskInstanceService.deploy(workflowTaskDefinitionDTO.getId());
+            RExecutorFuture<WorkflowTaskInstanceDTO> future = executorService.submit(() -> workflowTaskInstanceService.deploy(workflowTaskDefinitionDTO.getId()));
+            futures.add(future);
+            // todo 全部执行完毕，在发送下一步信息
         }
     }
 
