@@ -633,6 +633,11 @@
                 <artifactId>pekko-stream_${scala.binary.version}</artifactId>
                 <version>${pekko.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.pekko</groupId>
+                <artifactId>pekko-serialization-jackson_${scala.binary.version}</artifactId>
+                <version>${pekko.version}</version>
+            </dependency>
 
 
             <dependency>
