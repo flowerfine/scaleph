@@ -52,15 +52,15 @@ public enum Constants {
     /**
      * 验证码 key
      */
-    public static final String AUTH_CODE_KEY = "authCode-key_";
+    public static final String AUTH_CODE_KEY = "authCode-key:";
     /**
      * 在线用户TOKEN标识
      */
-    public static final String ONLINE_TOKEN_KEY = "online-token_";
+    public static final String ONLINE_TOKEN_KEY = "online-token:";
     /**
      * 在线用户标识
      */
-    public static final String ONLINE_USER_KEY = "online-user_";
+    public static final String ONLINE_USER_KEY = "online-user:";
     /**
      * 用户token key
      */
