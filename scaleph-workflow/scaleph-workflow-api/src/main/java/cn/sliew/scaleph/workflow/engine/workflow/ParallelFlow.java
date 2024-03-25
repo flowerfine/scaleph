@@ -49,7 +49,7 @@ public class ParallelFlow extends AbstractWorkFlow {
                         }
 
                         @Override
-                        public void onFailure(Exception e) {
+                        public void onFailure(Throwable e) {
                             results.add(new DefaultActionResult(ActionStatus.FAILURE, context, e));
                         }
                     });

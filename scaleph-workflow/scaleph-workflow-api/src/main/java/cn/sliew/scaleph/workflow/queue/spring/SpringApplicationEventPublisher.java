@@ -16,27 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.enums;
+package cn.sliew.scaleph.workflow.queue.spring;
 
-import lombok.Getter;
+import cn.sliew.scaleph.workflow.queue.Event;
+import cn.sliew.scaleph.workflow.queue.EventPublisher;
+import org.springframework.context.ApplicationEventPublisher;
 
-/**
- * @author gleiyu
- */
-@Getter
-@Deprecated
-public enum JobAttrTypeEnum {
+public class SpringApplicationEventPublisher implements EventPublisher {
 
-    JOB_ATTR("1", "作业变量"),
-    JOB_PROP("2", "作业属性"),
-    ENGINE_PROP("3", "引擎属性"),
-    ;
+    private ApplicationEventPublisher eventPublisher;
 
-    private String value;
-    private String label;
+    public SpringApplicationEventPublisher(ApplicationEventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
+    }
 
-    JobAttrTypeEnum(String value, String label) {
-        this.value = value;
-        this.label = label;
+    @Override
+    public void publishEvent(Event event) {
+        eventPublisher.publishEvent(new SpringApplicationEvent(this, event));
     }
 }

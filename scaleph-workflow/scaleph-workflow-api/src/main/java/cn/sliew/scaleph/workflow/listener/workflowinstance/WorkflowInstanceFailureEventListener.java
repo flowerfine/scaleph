@@ -16,24 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service;
+package cn.sliew.scaleph.workflow.listener.workflowinstance;
 
-import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
-import cn.sliew.scaleph.workflow.service.param.WorkflowTaskInstanceListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public interface WorkflowTaskInstanceService {
+@Slf4j
+@Component
+public class WorkflowInstanceFailureEventListener implements WorkflowInstanceEventListener {
 
-    Page<WorkflowTaskInstanceDTO> list(WorkflowTaskInstanceListParam param);
+    @Autowired
+    private WorkflowInstanceService workflowInstanceService;
 
-    WorkflowTaskInstanceDTO get(Long id);
-
-    WorkflowTaskInstanceDTO deploy(Long workflowTaskDefinitionId);
-
-    void shutdown(Long id);
-
-    void suspend(Long id);
-
-    void resume(Long id);
+    @Override
+    public void onEvent(WorkflowInstanceEventDTO event) {
+        log.info("on event, {}", JacksonUtil.toJsonString(event));
+    }
 }

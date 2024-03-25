@@ -16,24 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service;
+package cn.sliew.scaleph.workflow.queue;
 
-import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
-import cn.sliew.scaleph.workflow.service.param.WorkflowTaskInstanceListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+/**
+ * does pinterest's PubSubClient better?
+ */
+public interface Queue<T extends Event> {
 
-public interface WorkflowTaskInstanceService {
+    String getName();
 
-    Page<WorkflowTaskInstanceDTO> list(WorkflowTaskInstanceListParam param);
+    void register(String consumerGroup, EventListener<T> listener);
 
-    WorkflowTaskInstanceDTO get(Long id);
+    void remove(EventListener<T> listener);
 
-    WorkflowTaskInstanceDTO deploy(Long workflowTaskDefinitionId);
-
-    void shutdown(Long id);
-
-    void suspend(Long id);
-
-    void resume(Long id);
+    void push(T event);
 }

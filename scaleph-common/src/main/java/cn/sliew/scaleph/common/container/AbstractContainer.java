@@ -43,14 +43,8 @@ public abstract class AbstractContainer extends AbstractLifeCycle implements Con
         doExecute(task, listener);
     }
 
-    protected void doExecute(Runnable task, ActionListener<Void> listener) {
-        try {
-            task.run();
-            listener.onResponse(null);
-        } catch (Exception e) {
-            listener.onFailure(e);
-        }
-    }
+
+    protected abstract void doExecute(Runnable task, ActionListener<Void> listener);
 
     @Override
     protected abstract void doInitialize();

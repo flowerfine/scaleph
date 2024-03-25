@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.model;
+package cn.sliew.scaleph.workflow.queue;
 
-public interface Queue {
+public interface Event {
 
-    String getName();
+    String getTopic();
 }

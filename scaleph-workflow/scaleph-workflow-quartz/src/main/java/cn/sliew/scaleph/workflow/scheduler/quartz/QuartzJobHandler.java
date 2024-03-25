@@ -70,7 +70,9 @@ public class QuartzJobHandler extends QuartzJobBean {
         String json = dataMap.getString(QuartzUtil.WORKFLOW_SCHEDULE);
         WorkflowSchedule workflowSchedule = JacksonUtil.parseJsonString(json, WorkflowSchedule.class);
         WorkflowDefinitionDTO workflowDefinitionDTO = workflowDefinitionService.get(workflowSchedule.getWorkflowDefinitionId());
-        WorkflowInstanceDTO workflowInstanceDTO = workflowInstanceService.start(workflowDefinitionDTO.getId());
+        WorkflowInstanceDTO workflowInstanceDTO = workflowInstanceService.deploy(workflowDefinitionDTO.getId());
+
+        // todo 以下全部移除
         ActionContext actionContext = buildActionContext(context, workflowDefinitionDTO, workflowInstanceDTO);
         List<WorkflowTaskDefinitionDTO> workflowTaskDefinitionDTOS = workflowTaskDefinitionService.list(workflowDefinitionDTO.getId());
         // 应该是对 task 的上下游关系进行梳理后，进而执行
@@ -94,7 +96,7 @@ public class QuartzJobHandler extends QuartzJobBean {
             }
 
             @Override
-            public void onFailure(Exception e) {
+            public void onFailure(Throwable e) {
                 log.error("workflow {} run failure!", workflowDefinitionDTO.getName(), e);
             }
         });

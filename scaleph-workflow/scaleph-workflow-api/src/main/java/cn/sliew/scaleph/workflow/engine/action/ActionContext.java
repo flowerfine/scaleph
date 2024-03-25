@@ -23,10 +23,12 @@ import cn.sliew.milky.common.constant.AttributeKey;
 import cn.sliew.milky.common.constant.AttributeMap;
 import cn.sliew.milky.common.constant.DefaultAttributeMap;
 import cn.sliew.scaleph.common.container.pool.ContainerPool;
-import cn.sliew.scaleph.common.container.pool.ContainerValue;
 import cn.sliew.scaleph.common.container.pool.thread.ThreadContainerPool;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Collection;
 import java.util.Date;
@@ -57,11 +59,15 @@ public class ActionContext implements AttributeMap {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date fireTime;
 
-    private ContainerPool containerPool = new ThreadContainerPool();
+    private static ContainerPool containerPool = new ThreadContainerPool();
 
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     private final DefaultAttributeMap attributeMap = new DefaultAttributeMap();
+
+    public ContainerPool getContainerPool() {
+        return containerPool;
+    }
 
     @Override
     public <T> Collection<Attribute<T>> attrs() {

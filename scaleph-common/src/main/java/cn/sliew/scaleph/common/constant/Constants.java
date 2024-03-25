@@ -52,15 +52,15 @@ public enum Constants {
     /**
      * 验证码 key
      */
-    public static final String AUTH_CODE_KEY = "authCode-key_";
+    public static final String AUTH_CODE_KEY = "authCode-key:";
     /**
      * 在线用户TOKEN标识
      */
-    public static final String ONLINE_TOKEN_KEY = "online-token_";
+    public static final String ONLINE_TOKEN_KEY = "online-token:";
     /**
      * 在线用户标识
      */
-    public static final String ONLINE_USER_KEY = "online-user_";
+    public static final String ONLINE_USER_KEY = "online-user:";
     /**
      * 用户token key
      */
@@ -71,30 +71,8 @@ public enum Constants {
     /**
      * schedule job and group
      */
-    public static final String JOB_PREFIX = "job-";
-    public static final String JOB_GROUP_PREFIX = "jobGrp-";
-    public static final String TRIGGER_PREFIX = "trigger-";
-    public static final String TRIGGER_GROUP_PREFIX = "triggerGrp-";
-    public static final String INTERNAL_GROUP = "sysInternal";
-    public static final String JOB_LOG_KEY = "traceLog";
-    public static final String ETL_JOB_PREFIX = "job-";
-    public static final String CRON_EVERY_THREE_SECONDS = "/3 * * * * ? ";
-    public static final String JOB_PARAM_JOB_INFO = "JOB_INFO";
-    public static final String JOB_PARAM_PROJECT_INFO = "PROJECT_INFO";
-    /**
-     * 作业流程步骤属性相关
-     */
-    public static final String CLUSTER_DEPLOY_TARGET = "deploy_target";
-    public static final String JOB_ID = "jobId";
-    public static final String JOB_NAME = "job.name";
-    public static final String JOB_STEP_CODE = "stepCode";
-    public static final String JOB_STEP_TITLE = "stepTitle";
-    public static final String JOB_STEP_ATTRS = "stepAttrs";
-    public static final String JOB_GRAPH = "jobGraph";
-    public static final String JOB_STEP_ATTR_DATASOURCE = "dataSource";
-    public static final String JOB_STEP_ATTR_DRIVER = "driver";
-    public static final String JOB_STEP_ATTR_URL = "url";
-    public static final String JOB_STEP_ATTR_USERNAME = "username";
-    public static final String JOB_STEP_ATTR_PASSWORD = "password";
-
+    public static final String JOB_PREFIX = "job";
+    public static final String JOB_GROUP_PREFIX = "jobGrp";
+    public static final String TRIGGER_PREFIX = "trigger";
+    public static final String TRIGGER_GROUP_PREFIX = "triggerGrp";
 }

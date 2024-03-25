@@ -16,24 +16,9 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service;
+package cn.sliew.scaleph.workflow.queue;
 
-import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
-import cn.sliew.scaleph.workflow.service.param.WorkflowTaskInstanceListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+public interface EventListener<T extends Event> {
 
-public interface WorkflowTaskInstanceService {
-
-    Page<WorkflowTaskInstanceDTO> list(WorkflowTaskInstanceListParam param);
-
-    WorkflowTaskInstanceDTO get(Long id);
-
-    WorkflowTaskInstanceDTO deploy(Long workflowTaskDefinitionId);
-
-    void shutdown(Long id);
-
-    void suspend(Long id);
-
-    void resume(Long id);
+    void onEvent(T event);
 }

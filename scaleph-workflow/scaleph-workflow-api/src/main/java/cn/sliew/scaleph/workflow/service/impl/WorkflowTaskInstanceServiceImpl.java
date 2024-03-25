@@ -18,13 +18,16 @@
 
 package cn.sliew.scaleph.workflow.service.impl;
 
+import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskInstance;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskInstanceVO;
 import cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowTaskInstanceMapper;
+import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.service.convert.WorkflowTaskInstanceVOConvert;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowTaskInstanceListParam;
+import cn.sliew.scaleph.workflow.statemachine.WorkflowTaskInstanceStateMachine;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +40,11 @@ import static cn.sliew.milky.common.check.Ensures.checkState;
 public class WorkflowTaskInstanceServiceImpl implements WorkflowTaskInstanceService {
 
     @Autowired
+    private WorkflowInstanceService workflowInstanceService;
+    @Autowired
     private WorkflowTaskInstanceMapper workflowTaskInstanceMapper;
+    @Autowired
+    private WorkflowTaskInstanceStateMachine stateMachine;
 
     @Override
     public Page<WorkflowTaskInstanceDTO> list(WorkflowTaskInstanceListParam param) {
@@ -54,5 +61,33 @@ public class WorkflowTaskInstanceServiceImpl implements WorkflowTaskInstanceServ
         WorkflowTaskInstanceVO vo = workflowTaskInstanceMapper.get(id);
         checkState(vo != null, () -> "workflow task instance not exists for id: " + id);
         return WorkflowTaskInstanceVOConvert.INSTANCE.toDto(vo);
+    }
+
+    @Override
+    public WorkflowTaskInstanceDTO deploy(Long workflowTaskDefinitionId) {
+        WorkflowTaskInstance record = new WorkflowTaskInstance();
+        record.setWorkflowTaskDefinitionId(workflowTaskDefinitionId);
+        record.setStage(WorkflowTaskInstanceStage.PENDING);
+        workflowTaskInstanceMapper.insert(record);
+        stateMachine.deploy(get(record.getId()));
+        return get(record.getId());
+    }
+
+    @Override
+    public void shutdown(Long id) {
+        WorkflowTaskInstanceDTO workflowTaskInstanceDTO = get(id);
+        stateMachine.shutdown(workflowTaskInstanceDTO);
+    }
+
+    @Override
+    public void suspend(Long id) {
+        WorkflowTaskInstanceDTO workflowTaskInstanceDTO = get(id);
+        stateMachine.suspend(workflowTaskInstanceDTO);
+    }
+
+    @Override
+    public void resume(Long id) {
+        WorkflowTaskInstanceDTO workflowTaskInstanceDTO = get(id);
+        stateMachine.resume(workflowTaskInstanceDTO);
     }
 }

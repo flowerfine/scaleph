@@ -61,7 +61,7 @@ public class SequentialFlow extends AbstractWorkFlow {
             }
 
             @Override
-            public void onFailure(Exception e) {
+            public void onFailure(Throwable e) {
                 listener.onFailure(e);
             }
         });

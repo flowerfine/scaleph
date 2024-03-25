@@ -73,7 +73,7 @@ public abstract class AbstractWorkFlow implements WorkFlow {
                 }
 
                 @Override
-                public void onFailure(Exception e) {
+                public void onFailure(Throwable e) {
                     listener.onFailure(e);
                 }
             });

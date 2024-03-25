@@ -16,24 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service;
+package cn.sliew.scaleph.workflow.queue.spring;
 
-import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
-import cn.sliew.scaleph.workflow.service.param.WorkflowTaskInstanceListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.sliew.scaleph.workflow.queue.Event;
+import lombok.Getter;
+import org.springframework.context.ApplicationEvent;
 
-public interface WorkflowTaskInstanceService {
+public class SpringApplicationEvent extends ApplicationEvent {
 
-    Page<WorkflowTaskInstanceDTO> list(WorkflowTaskInstanceListParam param);
+    @Getter
+    private final Event event;
 
-    WorkflowTaskInstanceDTO get(Long id);
-
-    WorkflowTaskInstanceDTO deploy(Long workflowTaskDefinitionId);
-
-    void shutdown(Long id);
-
-    void suspend(Long id);
-
-    void resume(Long id);
+    public SpringApplicationEvent(Object source, Event event) {
+        super(source);
+        this.event = event;
+    }
 }

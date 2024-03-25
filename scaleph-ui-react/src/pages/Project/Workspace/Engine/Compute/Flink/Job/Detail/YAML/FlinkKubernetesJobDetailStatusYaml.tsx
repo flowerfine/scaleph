@@ -18,14 +18,14 @@ const FlinkKubernetesJobDetailStatusYAMLWeb: React.FC<Props<WsFlinkKubernetesJob
   }, [monaco]);
 
   useEffect(() => {
-    if (props.flinkKubernetesJobDetail.job) {
-      WsFlinkKubernetesJobService.asYaml(props.flinkKubernetesJobDetail.job?.id).then((response) => {
+    if (props.flinkKubernetesJobDetail.job?.jobInstance) {
+      WsFlinkKubernetesJobService.getInstanceStatusYaml(props.flinkKubernetesJobDetail.job?.jobInstance?.id).then((response) => {
         if (response.success) {
           setJobStatus(response.data)
         }
       })
     }
-  }, [props.flinkKubernetesJobDetail.job]);
+  }, [props.flinkKubernetesJobDetail.job?.jobInstance]);
 
   const handleEditorDidMount = (editor, monaco: Monaco) => {
     editorRef.current = editor;

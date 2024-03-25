@@ -53,7 +53,7 @@ public class Dependent extends AbstractCondition {
                 }
 
                 @Override
-                public void onFailure(Exception e) {
+                public void onFailure(Throwable e) {
                     listener.onFailure(e);
                 }
             });

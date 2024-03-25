@@ -7,6 +7,7 @@ import FlinkKubernetesJobResourceWeb
   from "@/pages/Project/Workspace/Engine/Compute/Flink/Job/Detail/Overview/FlinkKubernetesJobResourceWeb";
 import FlinkKubernetesJobDetailConfigurationWeb
   from "@/pages/Project/Workspace/Engine/Compute/Flink/Job/Detail/Overview/FlinkKubernetesJobConfiguration";
+import ArtifactWeb from "@/pages/Project/Workspace/Engine/Compute/Flink/Job/Detail/Overview/ArtifactWeb";
 
 const FlinkKubernetesJobDetailOverviewWeb: React.FC = () => {
   const intl = useIntl();
@@ -17,7 +18,7 @@ const FlinkKubernetesJobDetailOverviewWeb: React.FC = () => {
         title={intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.overview.artifact'})}
         bordered
       >
-        <ArtifactFlinkJarWeb/>
+        <ArtifactWeb/>
       </ProCard>
       <ProCard
         title={intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.overview.resource'})}

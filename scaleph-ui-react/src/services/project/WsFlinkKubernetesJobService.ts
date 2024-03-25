@@ -141,6 +141,18 @@ export const WsFlinkKubernetesJobService = {
     });
   },
 
+  getInstanceYaml: async (jobInstanceId: number) => {
+    return request<ResponseBody<string>>(`${WsFlinkKubernetesJobService.url}/instances/asYaml/` + jobInstanceId, {
+      method: 'GET',
+    });
+  },
+
+  getInstanceStatusYaml: async (jobInstanceId: number) => {
+    return request<ResponseBody<string>>(`${WsFlinkKubernetesJobService.url}/instances/status/asYaml/` + jobInstanceId, {
+      method: 'GET',
+    });
+  },
+
   listSavepoints: async (queryParam: WsFlinkKubernetesJobInstanceSavepointParam) => {
     return request<PageResponse<WsFlinkKubernetesJobInstanceSavepoint>>(`${WsFlinkKubernetesJobService.url}/instances/savepoint`, {
       method: 'GET',

@@ -28,6 +28,8 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJob
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.*;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
+import io.fabric8.kubernetes.client.utils.Serialization;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +73,7 @@ public class WsFlinkKubernetesJobController {
     @Logging
     @GetMapping("/asYaml/{id}")
     @Operation(summary = "查询 YAML 格式 Job", description = "查询 YAML 格式 Job")
-    public ResponseEntity<ResponseVO<String>> asYaml(@PathVariable("id") Long id) throws Exception {
+    public ResponseEntity<ResponseVO<String>> asYaml(@PathVariable("id") Long id) {
         String yaml = wsFlinkKubernetesJobInstanceService.mockYaml(id);
         return new ResponseEntity(ResponseVO.success(yaml), HttpStatus.OK);
     }
@@ -111,7 +113,7 @@ public class WsFlinkKubernetesJobController {
     @Logging
     @GetMapping("{jobInstanceId}/flinkui")
     @Operation(summary = "获取 flink-ui 链接", description = "获取 flink-ui 链接")
-    public ResponseEntity<ResponseVO<URI>> getFlinkUI(@PathVariable("jobInstanceId") Long jobInstanceId) throws Exception {
+    public ResponseEntity<ResponseVO<URI>> getFlinkUI(@PathVariable("jobInstanceId") Long jobInstanceId) {
         URI endpoint = flinkJobManagerEndpointService.getJobManagerEndpoint(jobInstanceId);
         return new ResponseEntity<>(ResponseVO.success(endpoint), HttpStatus.OK);
     }
@@ -167,7 +169,7 @@ public class WsFlinkKubernetesJobController {
     @Logging
     @GetMapping("instances")
     @Operation(summary = "获取任务实例列表", description = "获取任务实例列表")
-    public ResponseEntity<Page<WsFlinkKubernetesJobInstanceDTO>> listInstances(@Valid WsFlinkKubernetesJobInstanceListParam param) throws Exception {
+    public ResponseEntity<Page<WsFlinkKubernetesJobInstanceDTO>> listInstances(@Valid WsFlinkKubernetesJobInstanceListParam param) {
         Page<WsFlinkKubernetesJobInstanceDTO> result = wsFlinkKubernetesJobInstanceService.list(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -175,7 +177,7 @@ public class WsFlinkKubernetesJobController {
     @Logging
     @GetMapping("instances/current")
     @Operation(summary = "获取任务当前实例", description = "获取任务当前实例")
-    public ResponseEntity<ResponseVO<WsFlinkKubernetesJobInstanceDTO>> currentInstance(@RequestParam("wsFlinkKubernetesJobId") Long wsFlinkKubernetesJobId) throws Exception {
+    public ResponseEntity<ResponseVO<WsFlinkKubernetesJobInstanceDTO>> currentInstance(@RequestParam("wsFlinkKubernetesJobId") Long wsFlinkKubernetesJobId) {
         Optional<WsFlinkKubernetesJobInstanceDTO> optional = wsFlinkKubernetesJobInstanceService.selectCurrent(wsFlinkKubernetesJobId);
         if (optional.isPresent()) {
             return new ResponseEntity<>(ResponseVO.success(optional.get()), HttpStatus.OK);
@@ -192,9 +194,20 @@ public class WsFlinkKubernetesJobController {
     }
 
     @Logging
+    @GetMapping("/instances/status/asYaml/{id}")
+    @Operation(summary = "查询 YAML 格式 Job 状态", description = "查询 YAML 格式 Job 状态")
+    public ResponseEntity<ResponseVO<String>> instanceStatusAsYaml(@PathVariable("id") Long id) {
+        Optional<GenericKubernetesResource> optional = wsFlinkKubernetesJobInstanceService.getStatusWithoutManagedFields(id);
+        if (optional.isPresent()) {
+            return new ResponseEntity(ResponseVO.success(Serialization.asYaml(optional.get())), HttpStatus.OK);
+        }
+        return new ResponseEntity(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
     @GetMapping("/instances/savepoint")
     @Operation(summary = "查询 Job 实例 savepoint", description = "查询 Job 实例 savepoint")
-    public ResponseEntity<Page<WsFlinkKubernetesJobInstanceSavepointDTO>> getSavepoint(@Valid WsFlinkKubernetesJobInstanceSavepointListParam param) throws Exception {
+    public ResponseEntity<Page<WsFlinkKubernetesJobInstanceSavepointDTO>> getSavepoint(@Valid WsFlinkKubernetesJobInstanceSavepointListParam param) {
         Page<WsFlinkKubernetesJobInstanceSavepointDTO> result = wsFlinkKubernetesJobInstanceService.selectSavepoint(param);
         return new ResponseEntity(result, HttpStatus.OK);
     }

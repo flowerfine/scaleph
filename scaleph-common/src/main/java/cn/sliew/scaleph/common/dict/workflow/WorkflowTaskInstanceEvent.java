@@ -26,28 +26,29 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum WorkflowTaskInstanceStage implements DictInstance {
+public enum WorkflowTaskInstanceEvent implements DictInstance {
 
-    PENDING("0", "PENDING"),
-    RUNNING("1", "RUNNING"),
-    SUSPEND("3", "SUSPEND"),
-    SUCCESS("4", "SUCCESS"),
-    FAILURE("5", "FAILURE"),
-    TERMINATED("6", "TERMINATED"),
+    COMMAND_DEPLOY("0", "COMMAND_DEPLOY"),
+    COMMAND_SHUTDOWN("1", "COMMAND_SHUTDOWN"),
+    COMMAND_SUSPEND("2", "COMMAND_SUSPEND"),
+    COMMAND_RESUME("3", "COMMAND_RESUME"),
+
+    PROCESS_SUCCESS("4", "PROCESS_SUCCESS"),
+    PROCESS_FAILURE("5", "PROCESS_FAILURE"),
     ;
 
     @JsonCreator
-    public static WorkflowTaskInstanceStage of(String value) {
+    public static WorkflowTaskInstanceEvent of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(WorkflowTaskInstanceStage.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(WorkflowTaskInstanceEvent.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    WorkflowTaskInstanceStage(String value, String label) {
+    WorkflowTaskInstanceEvent(String value, String label) {
         this.value = value;
         this.label = label;
     }

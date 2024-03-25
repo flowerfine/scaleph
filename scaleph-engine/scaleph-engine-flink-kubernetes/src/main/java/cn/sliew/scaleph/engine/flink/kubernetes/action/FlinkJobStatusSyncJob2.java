@@ -16,24 +16,30 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service;
+package cn.sliew.scaleph.engine.flink.kubernetes.action;
 
-import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
-import cn.sliew.scaleph.workflow.service.param.WorkflowTaskInstanceListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.sliew.milky.common.filter.ActionListener;
+import cn.sliew.scaleph.workflow.engine.action.ActionContext;
+import cn.sliew.scaleph.workflow.engine.action.ActionResult;
+import cn.sliew.scaleph.workflow.engine.workflow.AbstractWorkFlow;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
-public interface WorkflowTaskInstanceService {
+@Slf4j
+@Component
+public class FlinkJobStatusSyncJob2 extends AbstractWorkFlow {
 
-    Page<WorkflowTaskInstanceDTO> list(WorkflowTaskInstanceListParam param);
+    public FlinkJobStatusSyncJob2() {
+        super("FLINK_JOB_STATUS_SYNC_JOB2");
+    }
 
-    WorkflowTaskInstanceDTO get(Long id);
+    @Override
+    protected Runnable doExecute(ActionContext context, ActionListener<ActionResult> listener) {
+        return () -> process();
+    }
 
-    WorkflowTaskInstanceDTO deploy(Long workflowTaskDefinitionId);
+    private void process() {
+        log.info("update flink kubernetes job status success!");
+    }
 
-    void shutdown(Long id);
-
-    void suspend(Long id);
-
-    void resume(Long id);
 }
