@@ -159,7 +159,7 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
         stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.PROCESS_SUCCESS, workflowInstanceDTO);
     }
 
-    public void onFailure(WorkflowInstanceDTO workflowInstanceDTO, Exception exception) {
+    public void onFailure(WorkflowInstanceDTO workflowInstanceDTO, Throwable throwable) {
         stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.PROCESS_FAILURE, workflowInstanceDTO);
     }
 }

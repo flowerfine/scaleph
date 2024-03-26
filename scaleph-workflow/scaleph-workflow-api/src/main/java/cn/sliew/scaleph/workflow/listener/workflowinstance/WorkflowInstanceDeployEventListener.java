@@ -35,6 +35,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
@@ -56,15 +57,13 @@ public class WorkflowInstanceDeployEventListener implements WorkflowInstanceEven
         WorkflowInstanceDTO workflowInstanceDTO = event.getWorkflowInstanceDTO();
         WorkflowDefinitionDTO workflowDefinitionDTO = workflowInstanceDTO.getWorkflowDefinition();
         try {
-            // fixme 获取所有 task 的执行结果，执行成功，则发送执行成功事件，否则发送执行失败事件
-            doDeploy(workflowDefinitionDTO);
-            onSuccess(workflowInstanceDTO.getId());
+            doDeploy(workflowInstanceDTO, workflowDefinitionDTO);
         } catch (Exception e) {
             onFailure(workflowInstanceDTO.getId(), e);
         }
     }
 
-    private void doDeploy(WorkflowDefinitionDTO workflowDefinitionDTO) {
+    private void doDeploy(WorkflowInstanceDTO workflowInstanceDTO, WorkflowDefinitionDTO workflowDefinitionDTO) {
         RScheduledExecutorService executorService = redissonClient.getExecutorService("WorkflowTaskInstanceDeploy");
         List<WorkflowTaskDefinitionDTO> workflowTaskDefinitionDTOS = workflowTaskDefinitionService.list(workflowDefinitionDTO.getId());
         List<RExecutorFuture<WorkflowTaskInstanceDTO>> futures = new ArrayList<>(workflowTaskDefinitionDTOS.size());
@@ -73,10 +72,18 @@ public class WorkflowInstanceDeployEventListener implements WorkflowInstanceEven
             futures.add(future);
             // todo 全部执行完毕，在发送下一步信息
         }
+        CompletableFuture<Void> allFuture = CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]));
+        allFuture.whenComplete(((unused, throwable) -> {
+            if (throwable != null) {
+                onFailure(workflowInstanceDTO.getId(), throwable);
+            } else {
+                onSuccess(workflowInstanceDTO.getId());
+            }
+        }));
     }
 
-    private void onFailure(Long workflowInstanceId, Exception e) {
-        stateMachine.onFailure(workflowInstanceService.get(workflowInstanceId), e);
+    private void onFailure(Long workflowInstanceId, Throwable throwable) {
+        stateMachine.onFailure(workflowInstanceService.get(workflowInstanceId), throwable);
     }
 
     private void onSuccess(Long workflowInstanceId) {
