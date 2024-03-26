@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.workflow.service;
 
-import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowTaskInstanceListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

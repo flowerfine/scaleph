@@ -20,7 +20,10 @@ package cn.sliew.scaleph.workflow.statemachine;
 
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceEvent;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
+import cn.sliew.scaleph.workflow.listener.taskinstance.WorkflowTaskInstanceDeployEventListener;
 import cn.sliew.scaleph.workflow.listener.taskinstance.WorkflowTaskInstanceEventDTO;
+import cn.sliew.scaleph.workflow.listener.taskinstance.WorkflowTaskInstanceFailureEventListener;
+import cn.sliew.scaleph.workflow.listener.taskinstance.WorkflowTaskInstanceSuccessEventListener;
 import cn.sliew.scaleph.workflow.queue.Queue;
 import cn.sliew.scaleph.workflow.queue.QueueFactory;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
@@ -42,6 +45,13 @@ public class WorkflowTaskInstanceStateMachine implements InitializingBean {
 
     @Autowired
     private QueueFactory queueFactory;
+    @Autowired
+    private WorkflowTaskInstanceDeployEventListener workflowTaskInstanceDeployEventListener;
+    @Autowired
+    private WorkflowTaskInstanceSuccessEventListener workflowTaskInstanceSuccessEventListener;
+    @Autowired
+    private WorkflowTaskInstanceFailureEventListener workflowTaskInstanceFailureEventListener;
+
 
     private StateMachine<WorkflowTaskInstanceStage, WorkflowTaskInstanceEvent, WorkflowTaskInstanceDTO> stateMachine;
     private Map<WorkflowTaskInstanceEvent, Queue<WorkflowTaskInstanceEventDTO>> queueMap;
@@ -90,6 +100,18 @@ public class WorkflowTaskInstanceStateMachine implements InitializingBean {
 
         this.stateMachine = builder.build("WorkflowTaskInstanceStateMachine");
         this.queueMap = new HashMap<>();
+
+        Queue deployQueue = queueFactory.newInstance(WorkflowTaskInstanceEvent.COMMAND_DEPLOY.getValue());
+        deployQueue.register("WorkflowTaskInstanceStateMachine", workflowTaskInstanceDeployEventListener);
+        queueMap.put(WorkflowTaskInstanceEvent.COMMAND_DEPLOY, deployQueue);
+
+        Queue successQueue = queueFactory.newInstance(WorkflowTaskInstanceEvent.PROCESS_SUCCESS.getValue());
+        successQueue.register("WorkflowTaskInstanceStateMachine", workflowTaskInstanceSuccessEventListener);
+        queueMap.put(WorkflowTaskInstanceEvent.PROCESS_SUCCESS, successQueue);
+
+        Queue failureQueue = queueFactory.newInstance(WorkflowTaskInstanceEvent.PROCESS_FAILURE.getValue());
+        failureQueue.register("WorkflowTaskInstanceStateMachine", workflowTaskInstanceFailureEventListener);
+        queueMap.put(WorkflowTaskInstanceEvent.PROCESS_FAILURE, failureQueue);
     }
 
     private Action<WorkflowTaskInstanceStage, WorkflowTaskInstanceEvent, WorkflowTaskInstanceDTO> doPerform() {
@@ -117,5 +139,13 @@ public class WorkflowTaskInstanceStateMachine implements InitializingBean {
 
     public void resume(WorkflowTaskInstanceDTO workflowTaskInstanceDTO) {
         stateMachine.fireEvent(workflowTaskInstanceDTO.getStage(), WorkflowTaskInstanceEvent.COMMAND_RESUME, workflowTaskInstanceDTO);
+    }
+
+    public void onSuccess(WorkflowTaskInstanceDTO workflowTaskInstanceDTO) {
+        stateMachine.fireEvent(workflowTaskInstanceDTO.getStage(), WorkflowTaskInstanceEvent.PROCESS_SUCCESS, workflowTaskInstanceDTO);
+    }
+
+    public void onFailure(WorkflowTaskInstanceDTO workflowTaskInstanceDTO, Throwable throwable) {
+        stateMachine.fireEvent(workflowTaskInstanceDTO.getStage(), WorkflowTaskInstanceEvent.PROCESS_FAILURE, workflowTaskInstanceDTO);
     }
 }

@@ -66,27 +66,21 @@ public class WorkflowInstanceDeployEventListener implements WorkflowInstanceEven
     private void doDeploy(WorkflowInstanceDTO workflowInstanceDTO, WorkflowDefinitionDTO workflowDefinitionDTO) {
         RScheduledExecutorService executorService = redissonClient.getExecutorService("WorkflowTaskInstanceDeploy");
         List<WorkflowTaskDefinitionDTO> workflowTaskDefinitionDTOS = workflowTaskDefinitionService.list(workflowDefinitionDTO.getId());
+        // fixme 应该是找到 root 节点，批量启动 root 节点
         List<RExecutorFuture<WorkflowTaskInstanceDTO>> futures = new ArrayList<>(workflowTaskDefinitionDTOS.size());
         for (WorkflowTaskDefinitionDTO workflowTaskDefinitionDTO : workflowTaskDefinitionDTOS) {
             RExecutorFuture<WorkflowTaskInstanceDTO> future = executorService.submit(() -> workflowTaskInstanceService.deploy(workflowTaskDefinitionDTO.getId()));
             futures.add(future);
-            // todo 全部执行完毕，在发送下一步信息
         }
         CompletableFuture<Void> allFuture = CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]));
         allFuture.whenComplete(((unused, throwable) -> {
             if (throwable != null) {
                 onFailure(workflowInstanceDTO.getId(), throwable);
-            } else {
-                onSuccess(workflowInstanceDTO.getId());
             }
         }));
     }
 
     private void onFailure(Long workflowInstanceId, Throwable throwable) {
         stateMachine.onFailure(workflowInstanceService.get(workflowInstanceId), throwable);
-    }
-
-    private void onSuccess(Long workflowInstanceId) {
-        stateMachine.onSuccess(workflowInstanceService.get(workflowInstanceId));
     }
 }
