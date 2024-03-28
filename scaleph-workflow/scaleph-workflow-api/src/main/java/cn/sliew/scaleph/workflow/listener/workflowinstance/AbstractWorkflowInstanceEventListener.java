@@ -37,7 +37,7 @@ public abstract class AbstractWorkflowInstanceEventListener implements WorkflowI
     protected RScheduledExecutorService executorService;
 
     @Autowired
-    private WorkflowInstanceService workflowInstanceService;
+    protected WorkflowInstanceService workflowInstanceService;
     @Autowired
     private WorkflowInstanceStateMachine stateMachine;
     @Autowired

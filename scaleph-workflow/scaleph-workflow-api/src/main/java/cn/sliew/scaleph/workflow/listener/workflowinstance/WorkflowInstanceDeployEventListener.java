@@ -18,18 +18,17 @@
 
 package cn.sliew.scaleph.workflow.listener.workflowinstance;
 
-import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskDefinitionService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RExecutorFuture;
+import org.redisson.api.annotation.RInject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -39,11 +38,7 @@ import java.util.concurrent.CompletableFuture;
 public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanceEventListener {
 
     @Autowired
-    private WorkflowInstanceService workflowInstanceService;
-    @Autowired
     private WorkflowTaskDefinitionService workflowTaskDefinitionService;
-    @Autowired
-    private WorkflowTaskInstanceService workflowTaskInstanceService;
 
     @Override
     protected CompletableFuture handleEventAsync(Long workflowInstanceId) {
@@ -55,12 +50,34 @@ public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanc
     private CompletableFuture doDeploy(WorkflowDefinitionDTO workflowDefinitionDTO) {
         List<WorkflowTaskDefinitionDTO> workflowTaskDefinitionDTOS = workflowTaskDefinitionService.list(workflowDefinitionDTO.getId());
         // fixme 应该是找到 root 节点，批量启动 root 节点
-        List<RExecutorFuture<WorkflowTaskInstanceDTO>> futures = new ArrayList<>(workflowTaskDefinitionDTOS.size());
+        List<CompletableFuture> futures = new ArrayList<>(workflowTaskDefinitionDTOS.size());
         for (WorkflowTaskDefinitionDTO workflowTaskDefinitionDTO : workflowTaskDefinitionDTOS) {
-            CompletableFuture.runAsync(() -> workflowTaskInstanceService.deploy(workflowTaskDefinitionDTO.getId()));
-            RExecutorFuture<WorkflowTaskInstanceDTO> future = executorService.submit(() -> workflowTaskInstanceService.deploy(workflowTaskDefinitionDTO.getId()));
+            CompletableFuture future = (CompletableFuture) executorService.submit(new DeployRunner(workflowTaskDefinitionDTO.getId()));
             futures.add(future);
         }
         return CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]));
+    }
+
+    /**
+     * 必须实现 Serializable 接口，无法使用 lambda
+     */
+    public static class DeployRunner implements Runnable, Serializable {
+
+        private Long workflowTaskDefinitionId;
+
+        @RInject
+        private String taskId;
+        @Autowired
+        private WorkflowTaskInstanceService workflowTaskInstanceService;
+
+        public DeployRunner(Long workflowTaskDefinitionId) {
+            this.workflowTaskDefinitionId = workflowTaskDefinitionId;
+        }
+
+        @Override
+        public void run() {
+            workflowTaskInstanceService.deploy(workflowTaskDefinitionId);
+            System.out.println("执行子任务啦: " + taskId + ", param: " + workflowTaskDefinitionId);
+        }
     }
 }
