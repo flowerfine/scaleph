@@ -3,15 +3,16 @@ package cn.sliew.scaleph.workflow.listener.taskinstance;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.statemachine.WorkflowTaskInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RExecutorFuture;
 import org.redisson.api.RScheduledExecutorService;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.CompletableFuture;
+
 @Slf4j
 @Component
-public class WorkflowTaskInstanceFailureEventListener implements WorkflowTaskInstanceEventListener {
+public class WorkflowTaskInstanceFailureEventListener extends AbstractWorkflowTaskInstanceEventListener {
 
     @Autowired
     private WorkflowTaskInstanceService workflowTaskInstanceService;
@@ -21,15 +22,8 @@ public class WorkflowTaskInstanceFailureEventListener implements WorkflowTaskIns
     private RedissonClient redissonClient;
 
     @Override
-    public void onEvent(WorkflowTaskInstanceEventDTO event) {
+    protected CompletableFuture handleEventAsync(Long workflowTaskInstanceId) {
         RScheduledExecutorService executorService = redissonClient.getExecutorService("WorkflowTaskInstanceExecute");
-        RExecutorFuture<?> future = executorService.submit(() -> log.info("workflow task instance on deploy"));
-        future.whenComplete((unused, throwable) -> {
-           if (throwable != null) {
-               stateMachine.onFailure(event.getWorkflowTaskInstanceDTO(), throwable);
-           } else {
-               stateMachine.onSuccess(event.getWorkflowTaskInstanceDTO());
-           }
-        });
+        return (CompletableFuture) executorService.submit(() -> log.info("workflow task instance on deploy"));
     }
 }

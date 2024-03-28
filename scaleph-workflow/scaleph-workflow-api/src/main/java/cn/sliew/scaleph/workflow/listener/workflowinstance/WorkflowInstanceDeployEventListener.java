@@ -25,7 +25,6 @@ import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
-import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RExecutorFuture;
 import org.redisson.api.RScheduledExecutorService;
@@ -39,7 +38,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
-public class WorkflowInstanceDeployEventListener implements WorkflowInstanceEventListener {
+public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanceEventListener {
 
     @Autowired
     private WorkflowInstanceService workflowInstanceService;
@@ -48,39 +47,25 @@ public class WorkflowInstanceDeployEventListener implements WorkflowInstanceEven
     @Autowired
     private WorkflowTaskInstanceService workflowTaskInstanceService;
     @Autowired
-    private WorkflowInstanceStateMachine stateMachine;
-    @Autowired
     private RedissonClient redissonClient;
 
     @Override
-    public void onEvent(WorkflowInstanceEventDTO event) {
-        WorkflowInstanceDTO workflowInstanceDTO = event.getWorkflowInstanceDTO();
+    protected CompletableFuture handleEventAsync(Long workflowInstanceId) {
+        WorkflowInstanceDTO workflowInstanceDTO = workflowInstanceService.get(workflowInstanceId);
         WorkflowDefinitionDTO workflowDefinitionDTO = workflowInstanceDTO.getWorkflowDefinition();
-        try {
-            doDeploy(workflowInstanceDTO, workflowDefinitionDTO);
-        } catch (Exception e) {
-            onFailure(workflowInstanceDTO.getId(), e);
-        }
+        return doDeploy(workflowDefinitionDTO);
     }
 
-    private void doDeploy(WorkflowInstanceDTO workflowInstanceDTO, WorkflowDefinitionDTO workflowDefinitionDTO) {
+    private CompletableFuture doDeploy(WorkflowDefinitionDTO workflowDefinitionDTO) {
         RScheduledExecutorService executorService = redissonClient.getExecutorService("WorkflowTaskInstanceDeploy");
         List<WorkflowTaskDefinitionDTO> workflowTaskDefinitionDTOS = workflowTaskDefinitionService.list(workflowDefinitionDTO.getId());
         // fixme 应该是找到 root 节点，批量启动 root 节点
         List<RExecutorFuture<WorkflowTaskInstanceDTO>> futures = new ArrayList<>(workflowTaskDefinitionDTOS.size());
         for (WorkflowTaskDefinitionDTO workflowTaskDefinitionDTO : workflowTaskDefinitionDTOS) {
+            CompletableFuture.runAsync(() -> workflowTaskInstanceService.deploy(workflowTaskDefinitionDTO.getId()));
             RExecutorFuture<WorkflowTaskInstanceDTO> future = executorService.submit(() -> workflowTaskInstanceService.deploy(workflowTaskDefinitionDTO.getId()));
             futures.add(future);
         }
-        CompletableFuture<Void> allFuture = CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]));
-        allFuture.whenComplete(((unused, throwable) -> {
-            if (throwable != null) {
-                onFailure(workflowInstanceDTO.getId(), throwable);
-            }
-        }));
-    }
-
-    private void onFailure(Long workflowInstanceId, Throwable throwable) {
-        stateMachine.onFailure(workflowInstanceService.get(workflowInstanceId), throwable);
+        return CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]));
     }
 }

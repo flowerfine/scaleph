@@ -33,24 +33,24 @@ public class WorkflowInstanceEventDTO implements Event {
     private final WorkflowInstanceState state;
     private final WorkflowInstanceState nextState;
     private final WorkflowInstanceEvent event;
-    private final WorkflowInstanceDTO workflowInstanceDTO;
+    private final Long workflowInstanceId;
     private final Optional<Exception> exception;
 
-    public WorkflowInstanceEventDTO(String topic, WorkflowInstanceState state, WorkflowInstanceState nextState, WorkflowInstanceEvent event, WorkflowInstanceDTO workflowInstanceDTO) {
+    public WorkflowInstanceEventDTO(String topic, WorkflowInstanceState state, WorkflowInstanceState nextState, WorkflowInstanceEvent event, Long workflowInstanceId) {
         this.topic = topic;
         this.state = state;
         this.nextState = nextState;
         this.event = event;
-        this.workflowInstanceDTO = workflowInstanceDTO;
+        this.workflowInstanceId = workflowInstanceId;
         this.exception = Optional.empty();
     }
 
-    public WorkflowInstanceEventDTO(String topic, WorkflowInstanceState state, WorkflowInstanceState nextState, WorkflowInstanceEvent event, WorkflowInstanceDTO workflowInstanceDTO, Exception exception) {
+    public WorkflowInstanceEventDTO(String topic, WorkflowInstanceState state, WorkflowInstanceState nextState, WorkflowInstanceEvent event, Long workflowInstanceId, Exception exception) {
         this.topic = topic;
         this.state = state;
         this.nextState = nextState;
         this.event = event;
-        this.workflowInstanceDTO = workflowInstanceDTO;
+        this.workflowInstanceId = workflowInstanceId;
         this.exception = Optional.ofNullable(exception);
     }
 

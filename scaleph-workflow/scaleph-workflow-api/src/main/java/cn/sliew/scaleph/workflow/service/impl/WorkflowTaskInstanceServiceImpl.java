@@ -22,12 +22,13 @@ import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskInstance;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskInstanceVO;
 import cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowTaskInstanceMapper;
-import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.service.convert.WorkflowTaskInstanceVOConvert;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowTaskInstanceListParam;
 import cn.sliew.scaleph.workflow.statemachine.WorkflowTaskInstanceStateMachine;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,8 +40,6 @@ import static cn.sliew.milky.common.check.Ensures.checkState;
 @Service
 public class WorkflowTaskInstanceServiceImpl implements WorkflowTaskInstanceService {
 
-    @Autowired
-    private WorkflowInstanceService workflowInstanceService;
     @Autowired
     private WorkflowTaskInstanceMapper workflowTaskInstanceMapper;
     @Autowired
@@ -64,6 +63,17 @@ public class WorkflowTaskInstanceServiceImpl implements WorkflowTaskInstanceServ
     }
 
     @Override
+    public void updateState(Long id, WorkflowTaskInstanceStage stage, WorkflowTaskInstanceStage nextStage, String message) {
+        LambdaUpdateWrapper<WorkflowTaskInstance> updateWrapper = Wrappers.lambdaUpdate(WorkflowTaskInstance.class)
+                .eq(WorkflowTaskInstance::getId, id)
+                .eq(WorkflowTaskInstance::getStage, stage);
+        WorkflowTaskInstance record = new WorkflowTaskInstance();
+        record.setStage(nextStage);
+        record.setMessage(message);
+        workflowTaskInstanceMapper.update(record, updateWrapper);
+    }
+
+    @Override
     public WorkflowTaskInstanceDTO deploy(Long workflowTaskDefinitionId) {
         WorkflowTaskInstance record = new WorkflowTaskInstance();
         record.setWorkflowTaskDefinitionId(workflowTaskDefinitionId);
@@ -75,19 +85,16 @@ public class WorkflowTaskInstanceServiceImpl implements WorkflowTaskInstanceServ
 
     @Override
     public void shutdown(Long id) {
-        WorkflowTaskInstanceDTO workflowTaskInstanceDTO = get(id);
-        stateMachine.shutdown(workflowTaskInstanceDTO);
+        stateMachine.shutdown(get(id));
     }
 
     @Override
     public void suspend(Long id) {
-        WorkflowTaskInstanceDTO workflowTaskInstanceDTO = get(id);
-        stateMachine.suspend(workflowTaskInstanceDTO);
+        stateMachine.suspend(get(id));
     }
 
     @Override
     public void resume(Long id) {
-        WorkflowTaskInstanceDTO workflowTaskInstanceDTO = get(id);
-        stateMachine.resume(workflowTaskInstanceDTO);
+        stateMachine.resume(get(id));
     }
 }

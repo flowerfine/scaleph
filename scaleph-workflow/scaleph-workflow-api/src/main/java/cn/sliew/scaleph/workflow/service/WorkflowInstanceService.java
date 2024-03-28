@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.workflow.service;
 
+import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowInstanceListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -27,6 +28,8 @@ public interface WorkflowInstanceService {
     Page<WorkflowInstanceDTO> list(WorkflowInstanceListParam param);
 
     WorkflowInstanceDTO get(Long id);
+
+    void updateState(Long id, WorkflowInstanceState state, WorkflowInstanceState nextState, String message);
 
     WorkflowInstanceDTO deploy(Long workflowDefinitionId);
 

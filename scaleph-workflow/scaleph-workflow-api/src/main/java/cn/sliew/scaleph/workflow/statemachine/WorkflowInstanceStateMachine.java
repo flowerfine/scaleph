@@ -55,12 +55,12 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
     @Autowired
     private WorkflowInstanceFailureEventListener workflowInstanceFailureEventListener;
 
-    private StateMachine<WorkflowInstanceState, WorkflowInstanceEvent, WorkflowInstanceDTO> stateMachine;
+    private StateMachine<WorkflowInstanceState, WorkflowInstanceEvent, Long> stateMachine;
     private Map<WorkflowInstanceEvent, Queue<WorkflowInstanceEventDTO>> queueMap;
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        StateMachineBuilder<WorkflowInstanceState, WorkflowInstanceEvent, WorkflowInstanceDTO> builder = StateMachineBuilderFactory.create();
+        StateMachineBuilder<WorkflowInstanceState, WorkflowInstanceEvent, Long> builder = StateMachineBuilderFactory.create();
 
         builder.externalTransition()
                 .from(WorkflowInstanceState.PENDING)
@@ -103,36 +103,36 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
         this.stateMachine = builder.build("WorkflowInstanceStateMachine");
         this.queueMap = new HashMap<>();
 
-        Queue deployQueue = queueFactory.newInstance(WorkflowInstanceEvent.COMMAND_DEPLOY.getValue());
+        Queue deployQueue = queueFactory.newInstance("WorkflowInstanceEvent#" + WorkflowInstanceEvent.COMMAND_DEPLOY.getValue());
         deployQueue.register("WorkflowInstanceStateMachine", workflowInstanceDeployEventListener);
         queueMap.put(WorkflowInstanceEvent.COMMAND_DEPLOY, deployQueue);
 
-        Queue shutDownQueue = queueFactory.newInstance(WorkflowInstanceEvent.COMMAND_SHUTDOWN.getValue());
+        Queue shutDownQueue = queueFactory.newInstance("WorkflowInstanceEvent#" + WorkflowInstanceEvent.COMMAND_SHUTDOWN.getValue());
         shutDownQueue.register("WorkflowInstanceStateMachine", workflowInstanceShutdownEventListener);
         queueMap.put(WorkflowInstanceEvent.COMMAND_SHUTDOWN, shutDownQueue);
 
-        Queue suspendQueue = queueFactory.newInstance(WorkflowInstanceEvent.COMMAND_SUSPEND.getValue());
+        Queue suspendQueue = queueFactory.newInstance("WorkflowInstanceEvent#" + WorkflowInstanceEvent.COMMAND_SUSPEND.getValue());
         suspendQueue.register("WorkflowInstanceStateMachine", workflowInstanceSuspendEventListener);
         queueMap.put(WorkflowInstanceEvent.COMMAND_SUSPEND, suspendQueue);
 
-        Queue resumeQueue = queueFactory.newInstance(WorkflowInstanceEvent.COMMAND_RESUME.getValue());
+        Queue resumeQueue = queueFactory.newInstance("WorkflowInstanceEvent#" + WorkflowInstanceEvent.COMMAND_RESUME.getValue());
         resumeQueue.register("WorkflowInstanceStateMachine", workflowInstanceResumeEventListener);
         queueMap.put(WorkflowInstanceEvent.COMMAND_RESUME, resumeQueue);
 
-        Queue successQueue = queueFactory.newInstance(WorkflowInstanceEvent.PROCESS_SUCCESS.getValue());
+        Queue successQueue = queueFactory.newInstance("WorkflowInstanceEvent#" + WorkflowInstanceEvent.PROCESS_SUCCESS.getValue());
         successQueue.register("WorkflowInstanceStateMachine", workflowInstanceSuccessEventListener);
         queueMap.put(WorkflowInstanceEvent.PROCESS_SUCCESS, successQueue);
 
-        Queue failureQueue = queueFactory.newInstance(WorkflowInstanceEvent.PROCESS_FAILURE.getValue());
+        Queue failureQueue = queueFactory.newInstance("WorkflowInstanceEvent#" + WorkflowInstanceEvent.PROCESS_FAILURE.getValue());
         failureQueue.register("WorkflowInstanceStateMachine", workflowInstanceFailureEventListener);
         queueMap.put(WorkflowInstanceEvent.PROCESS_FAILURE, failureQueue);
     }
 
-    private Action<WorkflowInstanceState, WorkflowInstanceEvent, WorkflowInstanceDTO> doPerform() {
-        return (fromState, toState, eventEnum, workflowInstanceDTO) -> {
+    private Action<WorkflowInstanceState, WorkflowInstanceEvent, Long> doPerform() {
+        return (fromState, toState, eventEnum, workflowInstanceId) -> {
             Queue<WorkflowInstanceEventDTO> queue = queueMap.get(eventEnum);
             if (queue != null) {
-                queue.push(new WorkflowInstanceEventDTO(eventEnum.getValue(), fromState, toState, eventEnum, workflowInstanceDTO));
+                queue.push(new WorkflowInstanceEventDTO(queue.getName(), fromState, toState, eventEnum, workflowInstanceId));
             } else {
                 log.error("queue not found, event:{}", eventEnum.getValue());
             }
@@ -140,26 +140,26 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
     }
 
     public void deploy(WorkflowInstanceDTO workflowInstanceDTO) {
-        stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.COMMAND_DEPLOY, workflowInstanceDTO);
+        stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.COMMAND_DEPLOY, workflowInstanceDTO.getId());
     }
 
     public void shutdown(WorkflowInstanceDTO workflowInstanceDTO) {
-        stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.COMMAND_SHUTDOWN, workflowInstanceDTO);
+        stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.COMMAND_SHUTDOWN, workflowInstanceDTO.getId());
     }
 
     public void suspend(WorkflowInstanceDTO workflowInstanceDTO) {
-        stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.COMMAND_SUSPEND, workflowInstanceDTO);
+        stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.COMMAND_SUSPEND, workflowInstanceDTO.getId());
     }
 
     public void resume(WorkflowInstanceDTO workflowInstanceDTO) {
-        stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.COMMAND_RESUME, workflowInstanceDTO);
+        stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.COMMAND_RESUME, workflowInstanceDTO.getId());
     }
 
     public void onSuccess(WorkflowInstanceDTO workflowInstanceDTO) {
-        stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.PROCESS_SUCCESS, workflowInstanceDTO);
+        stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.PROCESS_SUCCESS, workflowInstanceDTO.getId());
     }
 
     public void onFailure(WorkflowInstanceDTO workflowInstanceDTO, Throwable throwable) {
-        stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.PROCESS_FAILURE, workflowInstanceDTO);
+        stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.PROCESS_FAILURE, workflowInstanceDTO.getId());
     }
 }

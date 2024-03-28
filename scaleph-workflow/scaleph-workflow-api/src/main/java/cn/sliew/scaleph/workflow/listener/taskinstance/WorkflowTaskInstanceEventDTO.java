@@ -21,7 +21,6 @@ package cn.sliew.scaleph.workflow.listener.taskinstance;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceEvent;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
 import cn.sliew.scaleph.workflow.queue.Event;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import lombok.Getter;
 
 import java.util.Optional;
@@ -33,24 +32,24 @@ public class WorkflowTaskInstanceEventDTO implements Event {
     private final WorkflowTaskInstanceStage state;
     private final WorkflowTaskInstanceStage nextState;
     private final WorkflowTaskInstanceEvent event;
-    private final WorkflowTaskInstanceDTO workflowTaskInstanceDTO;
+    private final Long workflowTaskInstanceId;
     private final Optional<Exception> exception;
 
-    public WorkflowTaskInstanceEventDTO(String topic, WorkflowTaskInstanceStage state, WorkflowTaskInstanceStage nextState, WorkflowTaskInstanceEvent event, WorkflowTaskInstanceDTO workflowTaskInstanceDTO) {
+    public WorkflowTaskInstanceEventDTO(String topic, WorkflowTaskInstanceStage state, WorkflowTaskInstanceStage nextState, WorkflowTaskInstanceEvent event, Long workflowTaskInstanceId) {
         this.topic = topic;
         this.state = state;
         this.nextState = nextState;
         this.event = event;
-        this.workflowTaskInstanceDTO = workflowTaskInstanceDTO;
+        this.workflowTaskInstanceId = workflowTaskInstanceId;
         this.exception = Optional.empty();
     }
 
-    public WorkflowTaskInstanceEventDTO(String topic, WorkflowTaskInstanceStage state, WorkflowTaskInstanceStage nextState, WorkflowTaskInstanceEvent event, WorkflowTaskInstanceDTO workflowTaskInstanceDTO, Exception exception) {
+    public WorkflowTaskInstanceEventDTO(String topic, WorkflowTaskInstanceStage state, WorkflowTaskInstanceStage nextState, WorkflowTaskInstanceEvent event, Long workflowTaskInstanceId, Exception exception) {
         this.topic = topic;
         this.state = state;
         this.nextState = nextState;
         this.event = event;
-        this.workflowTaskInstanceDTO = workflowTaskInstanceDTO;
+        this.workflowTaskInstanceId = workflowTaskInstanceId;
         this.exception = Optional.ofNullable(exception);
     }
 

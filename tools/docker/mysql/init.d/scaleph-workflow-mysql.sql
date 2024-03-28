@@ -122,7 +122,7 @@ CREATE TABLE `workflow_task_instance`
 (
     `id`                          BIGINT     NOT NULL AUTO_INCREMENT,
     `workflow_task_definition_id` BIGINT     NOT NULL,
-    `state`                       VARCHAR(4) NOT NULL,
+    `state`                       VARCHAR(4),
     `stage`                       VARCHAR(4) NOT NULL,
     `start_time`                  DATETIME,
     `end_time`                    DATETIME,

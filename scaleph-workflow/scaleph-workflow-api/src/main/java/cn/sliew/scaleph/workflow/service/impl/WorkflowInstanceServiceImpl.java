@@ -27,6 +27,8 @@ import cn.sliew.scaleph.workflow.service.convert.WorkflowInstanceVOConvert;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowInstanceListParam;
 import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,6 +63,17 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
     }
 
     @Override
+    public void updateState(Long id, WorkflowInstanceState state, WorkflowInstanceState nextState, String message) {
+        LambdaUpdateWrapper<WorkflowInstance> updateWrapper = Wrappers.lambdaUpdate(WorkflowInstance.class)
+                .eq(WorkflowInstance::getId, id)
+                .eq(WorkflowInstance::getState, state);
+        WorkflowInstance record = new WorkflowInstance();
+        record.setState(nextState);
+        record.setMessage(message);
+        workflowInstanceMapper.update(record, updateWrapper);
+    }
+
+    @Override
     public WorkflowInstanceDTO deploy(Long workflowDefinitionId) {
         WorkflowInstance record = new WorkflowInstance();
         record.setWorkflowDefinitionId(workflowDefinitionId);
@@ -72,19 +85,16 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 
     @Override
     public void shutdown(Long id) {
-        WorkflowInstanceDTO workflowInstanceDTO = get(id);
-        stateMachine.shutdown(workflowInstanceDTO);
+        stateMachine.shutdown(get(id));
     }
 
     @Override
     public void suspend(Long id) {
-        WorkflowInstanceDTO workflowInstanceDTO = get(id);
-        stateMachine.suspend(workflowInstanceDTO);
+        stateMachine.suspend(get(id));
     }
 
     @Override
     public void resume(Long id) {
-        WorkflowInstanceDTO workflowInstanceDTO = get(id);
-        stateMachine.resume(workflowInstanceDTO);
+        stateMachine.resume(get(id));
     }
 }
