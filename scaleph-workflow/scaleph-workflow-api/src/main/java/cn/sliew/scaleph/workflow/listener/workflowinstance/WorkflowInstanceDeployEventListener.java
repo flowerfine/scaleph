@@ -27,8 +27,6 @@ import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RExecutorFuture;
-import org.redisson.api.RScheduledExecutorService;
-import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -46,8 +44,6 @@ public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanc
     private WorkflowTaskDefinitionService workflowTaskDefinitionService;
     @Autowired
     private WorkflowTaskInstanceService workflowTaskInstanceService;
-    @Autowired
-    private RedissonClient redissonClient;
 
     @Override
     protected CompletableFuture handleEventAsync(Long workflowInstanceId) {
@@ -57,7 +53,6 @@ public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanc
     }
 
     private CompletableFuture doDeploy(WorkflowDefinitionDTO workflowDefinitionDTO) {
-        RScheduledExecutorService executorService = redissonClient.getExecutorService("WorkflowTaskInstanceDeploy");
         List<WorkflowTaskDefinitionDTO> workflowTaskDefinitionDTOS = workflowTaskDefinitionService.list(workflowDefinitionDTO.getId());
         // fixme 应该是找到 root 节点，批量启动 root 节点
         List<RExecutorFuture<WorkflowTaskInstanceDTO>> futures = new ArrayList<>(workflowTaskDefinitionDTOS.size());

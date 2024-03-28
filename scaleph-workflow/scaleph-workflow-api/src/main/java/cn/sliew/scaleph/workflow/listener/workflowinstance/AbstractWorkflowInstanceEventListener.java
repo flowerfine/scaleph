@@ -19,20 +19,35 @@
 package cn.sliew.scaleph.workflow.listener.workflowinstance;
 
 import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.common.util.SpringApplicationContextUtil;
 import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
 import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RScheduledExecutorService;
+import org.redisson.api.RedissonClient;
+import org.redisson.api.WorkerOptions;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
-public abstract class AbstractWorkflowInstanceEventListener implements WorkflowInstanceEventListener {
+public abstract class AbstractWorkflowInstanceEventListener implements WorkflowInstanceEventListener, InitializingBean {
+
+    protected RScheduledExecutorService executorService;
 
     @Autowired
     private WorkflowInstanceService workflowInstanceService;
     @Autowired
     private WorkflowInstanceStateMachine stateMachine;
+    @Autowired
+    private RedissonClient redissonClient;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        executorService = redissonClient.getExecutorService(WorkflowInstanceStateMachine.EXECUTOR);
+        executorService.registerWorkers(WorkerOptions.defaults().beanFactory(SpringApplicationContextUtil.getApplicationContext()));
+    }
 
     @Override
     public void onEvent(WorkflowInstanceEventDTO event) {

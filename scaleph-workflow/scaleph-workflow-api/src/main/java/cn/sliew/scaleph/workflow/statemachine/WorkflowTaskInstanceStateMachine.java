@@ -43,6 +43,9 @@ import java.util.Map;
 @Component
 public class WorkflowTaskInstanceStateMachine implements InitializingBean {
 
+    public static final String CONSUMER_GROUP = "WorkflowTaskInstanceStateMachine";
+    public static final String EXECUTOR = "WorkflowTaskInstanceExecute";
+
     @Autowired
     private QueueFactory queueFactory;
     @Autowired
@@ -98,19 +101,19 @@ public class WorkflowTaskInstanceStateMachine implements InitializingBean {
                 .on(WorkflowTaskInstanceEvent.COMMAND_SHUTDOWN)
                 .perform(doPerform());
 
-        this.stateMachine = builder.build("WorkflowTaskInstanceStateMachine");
+        this.stateMachine = builder.build(CONSUMER_GROUP);
         this.queueMap = new HashMap<>();
 
         Queue deployQueue = queueFactory.newInstance("WorkflowTaskInstanceEvent#" + WorkflowTaskInstanceEvent.COMMAND_DEPLOY.getValue());
-        deployQueue.register("WorkflowTaskInstanceStateMachine", workflowTaskInstanceDeployEventListener);
+        deployQueue.register(CONSUMER_GROUP, workflowTaskInstanceDeployEventListener);
         queueMap.put(WorkflowTaskInstanceEvent.COMMAND_DEPLOY, deployQueue);
 
         Queue successQueue = queueFactory.newInstance("WorkflowTaskInstanceEvent#" + WorkflowTaskInstanceEvent.PROCESS_SUCCESS.getValue());
-        successQueue.register("WorkflowTaskInstanceStateMachine", workflowTaskInstanceSuccessEventListener);
+        successQueue.register(CONSUMER_GROUP, workflowTaskInstanceSuccessEventListener);
         queueMap.put(WorkflowTaskInstanceEvent.PROCESS_SUCCESS, successQueue);
 
         Queue failureQueue = queueFactory.newInstance("WorkflowTaskInstanceEvent#" + WorkflowTaskInstanceEvent.PROCESS_FAILURE.getValue());
-        failureQueue.register("WorkflowTaskInstanceStateMachine", workflowTaskInstanceFailureEventListener);
+        failureQueue.register(CONSUMER_GROUP, workflowTaskInstanceFailureEventListener);
         queueMap.put(WorkflowTaskInstanceEvent.PROCESS_FAILURE, failureQueue);
     }
 

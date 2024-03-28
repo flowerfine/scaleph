@@ -40,6 +40,9 @@ import java.util.Map;
 @Component
 public class WorkflowInstanceStateMachine implements InitializingBean {
 
+    public static final String CONSUMER_GROUP = "WorkflowInstanceStateMachine";
+    public static final String EXECUTOR = "WorkflowInstanceExecute";
+
     @Autowired
     private QueueFactory queueFactory;
     @Autowired
@@ -100,31 +103,31 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
                 .on(WorkflowInstanceEvent.COMMAND_SHUTDOWN)
                 .perform(doPerform());
 
-        this.stateMachine = builder.build("WorkflowInstanceStateMachine");
+        this.stateMachine = builder.build(CONSUMER_GROUP);
         this.queueMap = new HashMap<>();
 
         Queue deployQueue = queueFactory.newInstance("WorkflowInstanceEvent#" + WorkflowInstanceEvent.COMMAND_DEPLOY.getValue());
-        deployQueue.register("WorkflowInstanceStateMachine", workflowInstanceDeployEventListener);
+        deployQueue.register(CONSUMER_GROUP, workflowInstanceDeployEventListener);
         queueMap.put(WorkflowInstanceEvent.COMMAND_DEPLOY, deployQueue);
 
         Queue shutDownQueue = queueFactory.newInstance("WorkflowInstanceEvent#" + WorkflowInstanceEvent.COMMAND_SHUTDOWN.getValue());
-        shutDownQueue.register("WorkflowInstanceStateMachine", workflowInstanceShutdownEventListener);
+        shutDownQueue.register(CONSUMER_GROUP, workflowInstanceShutdownEventListener);
         queueMap.put(WorkflowInstanceEvent.COMMAND_SHUTDOWN, shutDownQueue);
 
         Queue suspendQueue = queueFactory.newInstance("WorkflowInstanceEvent#" + WorkflowInstanceEvent.COMMAND_SUSPEND.getValue());
-        suspendQueue.register("WorkflowInstanceStateMachine", workflowInstanceSuspendEventListener);
+        suspendQueue.register(CONSUMER_GROUP, workflowInstanceSuspendEventListener);
         queueMap.put(WorkflowInstanceEvent.COMMAND_SUSPEND, suspendQueue);
 
         Queue resumeQueue = queueFactory.newInstance("WorkflowInstanceEvent#" + WorkflowInstanceEvent.COMMAND_RESUME.getValue());
-        resumeQueue.register("WorkflowInstanceStateMachine", workflowInstanceResumeEventListener);
+        resumeQueue.register(CONSUMER_GROUP, workflowInstanceResumeEventListener);
         queueMap.put(WorkflowInstanceEvent.COMMAND_RESUME, resumeQueue);
 
         Queue successQueue = queueFactory.newInstance("WorkflowInstanceEvent#" + WorkflowInstanceEvent.PROCESS_SUCCESS.getValue());
-        successQueue.register("WorkflowInstanceStateMachine", workflowInstanceSuccessEventListener);
+        successQueue.register(CONSUMER_GROUP, workflowInstanceSuccessEventListener);
         queueMap.put(WorkflowInstanceEvent.PROCESS_SUCCESS, successQueue);
 
         Queue failureQueue = queueFactory.newInstance("WorkflowInstanceEvent#" + WorkflowInstanceEvent.PROCESS_FAILURE.getValue());
-        failureQueue.register("WorkflowInstanceStateMachine", workflowInstanceFailureEventListener);
+        failureQueue.register(CONSUMER_GROUP, workflowInstanceFailureEventListener);
         queueMap.put(WorkflowInstanceEvent.PROCESS_FAILURE, failureQueue);
     }
 
