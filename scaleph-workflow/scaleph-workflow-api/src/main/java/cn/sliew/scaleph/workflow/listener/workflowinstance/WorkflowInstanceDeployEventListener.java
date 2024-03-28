@@ -77,7 +77,6 @@ public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanc
         @Override
         public void run() {
             workflowTaskInstanceService.deploy(workflowTaskDefinitionId);
-            System.out.println("执行子任务啦: " + taskId + ", param: " + workflowTaskDefinitionId);
         }
     }
 }
