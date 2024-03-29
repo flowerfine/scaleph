@@ -33,7 +33,7 @@ public class WorkflowTaskInstanceEventDTO implements Event {
     private final WorkflowTaskInstanceStage nextState;
     private final WorkflowTaskInstanceEvent event;
     private final Long workflowTaskInstanceId;
-    private final Optional<Exception> exception;
+    private final Optional<Throwable> throwable;
 
     public WorkflowTaskInstanceEventDTO(String topic, WorkflowTaskInstanceStage state, WorkflowTaskInstanceStage nextState, WorkflowTaskInstanceEvent event, Long workflowTaskInstanceId) {
         this.topic = topic;
@@ -41,16 +41,16 @@ public class WorkflowTaskInstanceEventDTO implements Event {
         this.nextState = nextState;
         this.event = event;
         this.workflowTaskInstanceId = workflowTaskInstanceId;
-        this.exception = Optional.empty();
+        this.throwable = Optional.empty();
     }
 
-    public WorkflowTaskInstanceEventDTO(String topic, WorkflowTaskInstanceStage state, WorkflowTaskInstanceStage nextState, WorkflowTaskInstanceEvent event, Long workflowTaskInstanceId, Exception exception) {
+    public WorkflowTaskInstanceEventDTO(String topic, WorkflowTaskInstanceStage state, WorkflowTaskInstanceStage nextState, WorkflowTaskInstanceEvent event, Long workflowTaskInstanceId, Throwable throwable) {
         this.topic = topic;
         this.state = state;
         this.nextState = nextState;
         this.event = event;
         this.workflowTaskInstanceId = workflowTaskInstanceId;
-        this.exception = Optional.ofNullable(exception);
+        this.throwable = Optional.ofNullable(throwable);
     }
 
     @Override

@@ -24,6 +24,7 @@ import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RExecutorFuture;
 import org.redisson.api.annotation.RInject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -49,11 +50,12 @@ public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanc
 
     private CompletableFuture doDeploy(WorkflowDefinitionDTO workflowDefinitionDTO) {
         List<WorkflowTaskDefinitionDTO> workflowTaskDefinitionDTOS = workflowTaskDefinitionService.list(workflowDefinitionDTO.getId());
-        // fixme 应该是找到 root 节点，批量启动 root 节点
+        // todo 应该是找到 root 节点，批量启动 root 节点
         List<CompletableFuture> futures = new ArrayList<>(workflowTaskDefinitionDTOS.size());
         for (WorkflowTaskDefinitionDTO workflowTaskDefinitionDTO : workflowTaskDefinitionDTOS) {
-            CompletableFuture future = (CompletableFuture) executorService.submit(new DeployRunner(workflowTaskDefinitionDTO.getId()));
-            futures.add(future);
+            RExecutorFuture future = executorService.submit(new DeployRunner(workflowTaskDefinitionDTO.getId()));
+            // RExecutorFuture -> CompletableFuture 类型强转无法监听异步任务执行结果。需转成 CompletableFuture
+            futures.add(future.toCompletableFuture());
         }
         return CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]));
     }

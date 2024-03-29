@@ -18,29 +18,53 @@
 
 package cn.sliew.scaleph.workflow.listener.taskinstance;
 
-import cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowTaskInstanceMapper;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomUtils;
+import org.redisson.api.annotation.RInject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
 public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTaskInstanceEventListener {
 
-    @Autowired
-    private WorkflowTaskInstanceService workflowTaskInstanceService;
-    @Autowired
-    private WorkflowTaskInstanceMapper workflowTaskInstanceMapper;
-
     @Override
-    protected CompletableFuture handleEventAsync(Long workflowTaskInstanceId) {
-        return (CompletableFuture) executorService.submit(() -> handle(workflowTaskInstanceId));
+    protected CompletableFuture handleEventAsync(WorkflowTaskInstanceEventDTO event) {
+        CompletableFuture<?> future = executorService.submit(new DeployRunner(event)).toCompletableFuture();
+        future.whenCompleteAsync((unused, throwable) -> {
+            if (throwable != null) {
+                log.error("deploy workflow task instance error", throwable);
+                onFailure(event.getWorkflowTaskInstanceId(), throwable);
+            } else {
+                stateMachine.onSuccess(workflowTaskInstanceService.get(event.getWorkflowTaskInstanceId()));
+            }
+        });
+        return future;
     }
 
-    private void handle(Long workflowTaskInstanceId) {
-        log.info("deploy workflow task instance: {}", workflowTaskInstanceId);
+    public static class DeployRunner implements Runnable, Serializable {
+
+        private WorkflowTaskInstanceEventDTO event;
+
+        @RInject
+        private String taskId;
+        @Autowired
+        private WorkflowTaskInstanceService workflowTaskInstanceService;
+
+        public DeployRunner(WorkflowTaskInstanceEventDTO event) {
+            this.event = event;
+        }
+
+        @Override
+        public void run() {
+            workflowTaskInstanceService.updateState(event.getWorkflowTaskInstanceId(), event.getState(), event.getNextState(), null);
+            if (RandomUtils.nextInt(0, 100) > 30) {
+                throw new RuntimeException("部署失败");
+            }
+        }
     }
 }

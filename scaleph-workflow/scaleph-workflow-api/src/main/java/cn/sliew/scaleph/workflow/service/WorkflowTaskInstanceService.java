@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.workflow.service;
 
-import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowTaskInstanceListParam;
@@ -31,6 +30,10 @@ public interface WorkflowTaskInstanceService {
     WorkflowTaskInstanceDTO get(Long id);
 
     void updateState(Long id, WorkflowTaskInstanceStage stage, WorkflowTaskInstanceStage nextStage, String message);
+
+    void updateSuccess(Long id);
+
+    void updateFailure(Long id, Throwable throwable);
 
     WorkflowTaskInstanceDTO deploy(Long workflowTaskDefinitionId);
 

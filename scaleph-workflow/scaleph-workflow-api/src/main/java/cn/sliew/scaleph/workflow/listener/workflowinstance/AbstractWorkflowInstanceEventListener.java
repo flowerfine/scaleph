@@ -54,15 +54,14 @@ public abstract class AbstractWorkflowInstanceEventListener implements WorkflowI
     @Override
     public void afterPropertiesSet() throws Exception {
         executorService = redissonClient.getExecutorService(WorkflowInstanceStateMachine.EXECUTOR);
-        executorService.registerWorkers(WorkerOptions.defaults().beanFactory(beanFactory));
+        executorService.registerWorkers(WorkerOptions.defaults().workers(20).beanFactory(beanFactory));
     }
 
     @Override
     public void onEvent(WorkflowInstanceEventDTO event) {
         try {
             CompletableFuture<?> future = handleEventAsync(event.getWorkflowInstanceId());
-            future.whenComplete((unused, throwable) -> {
-                log.info("workflow instance end, {}", JacksonUtil.toJsonString(event), throwable);
+            future.whenCompleteAsync((unused, throwable) -> {
                 if (throwable != null) {
                     onFailure(event.getWorkflowInstanceId(), throwable);
                 } else {
