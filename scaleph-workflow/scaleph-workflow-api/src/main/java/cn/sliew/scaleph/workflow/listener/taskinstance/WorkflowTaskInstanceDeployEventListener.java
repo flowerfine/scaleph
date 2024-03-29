@@ -37,7 +37,6 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
         CompletableFuture<?> future = executorService.submit(new DeployRunner(event)).toCompletableFuture();
         future.whenCompleteAsync((unused, throwable) -> {
             if (throwable != null) {
-                log.error("deploy workflow task instance error", throwable);
                 onFailure(event.getWorkflowTaskInstanceId(), throwable);
             } else {
                 stateMachine.onSuccess(workflowTaskInstanceService.get(event.getWorkflowTaskInstanceId()));
