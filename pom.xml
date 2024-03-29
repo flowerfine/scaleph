@@ -172,7 +172,7 @@
         <spring-cloud-openfeign.version>3.1.7</spring-cloud-openfeign.version>
         <zjsonpatch.version>0.4.14</zjsonpatch.version>
         <kogito.version>2.44.0.Alpha</kogito.version>
-        <redisson.version>3.27.2</redisson.version>
+        <redisson.version>3.18.0</redisson.version>
         <cola.version>4.3.2</cola.version>
     </properties>
 
