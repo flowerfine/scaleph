@@ -18,7 +18,8 @@
 
 package cn.sliew.scaleph.workflow.listener.taskinstance;
 
-public interface WorkflowTaskInstanceEventListener {
+import cn.sliew.scaleph.workflow.queue.EventListener;
 
-    void run(WorkflowTaskInstanceEventDTO eventDTO);
+public interface WorkflowTaskInstanceEventListener extends EventListener<WorkflowTaskInstanceEventDTO> {
+
 }

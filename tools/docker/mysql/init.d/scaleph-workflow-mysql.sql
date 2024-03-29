@@ -110,7 +110,8 @@ VALUES (2, 2, '1', 'FlinkJobStatus', 'cn.sliew.scaleph.engine.flink.kubernetes.a
         NULL, 'sys', 'sys');
 INSERT INTO `workflow_task_definition`(`id`, `workflow_definition_id`, `type`, `name`, `handler`, `param`, `remark`,
                                        `creator`, `editor`)
-VALUES (3, 3, '1', 'DorisOperatorInstanceStatus', 'cn.sliew.scaleph.engine.doris.action.DorisOperatorInstanceStatusSyncJob', NULL,
+VALUES (3, 3, '1', 'DorisOperatorInstanceStatus',
+        'cn.sliew.scaleph.engine.doris.action.DorisOperatorInstanceStatusSyncJob', NULL,
         NULL, 'sys', 'sys');
 INSERT INTO `workflow_task_definition`(`id`, `workflow_definition_id`, `type`, `name`, `handler`, `param`, `remark`,
                                        `creator`, `editor`)
@@ -122,9 +123,9 @@ CREATE TABLE `workflow_task_instance`
 (
     `id`                          BIGINT     NOT NULL AUTO_INCREMENT,
     `workflow_task_definition_id` BIGINT     NOT NULL,
-    `state`                       VARCHAR(4) NOT NULL,
+    `state`                       VARCHAR(4),
     `stage`                       VARCHAR(4) NOT NULL,
-    `start_time`                  DATETIME,
+    `start_time`                  DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `end_time`                    DATETIME,
     `message`                     VARCHAR(255),
     `creator`                     VARCHAR(32),

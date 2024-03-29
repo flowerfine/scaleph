@@ -21,7 +21,6 @@ package cn.sliew.scaleph.workflow.listener.workflowinstance;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceEvent;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
 import cn.sliew.scaleph.workflow.queue.Event;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
 import lombok.Getter;
 
 import java.util.Optional;
@@ -33,25 +32,25 @@ public class WorkflowInstanceEventDTO implements Event {
     private final WorkflowInstanceState state;
     private final WorkflowInstanceState nextState;
     private final WorkflowInstanceEvent event;
-    private final WorkflowInstanceDTO workflowInstanceDTO;
-    private final Optional<Exception> exception;
+    private final Long workflowInstanceId;
+    private final Optional<Throwable> throwable;
 
-    public WorkflowInstanceEventDTO(String topic, WorkflowInstanceState state, WorkflowInstanceState nextState, WorkflowInstanceEvent event, WorkflowInstanceDTO workflowInstanceDTO) {
+    public WorkflowInstanceEventDTO(String topic, WorkflowInstanceState state, WorkflowInstanceState nextState, WorkflowInstanceEvent event, Long workflowInstanceId) {
         this.topic = topic;
         this.state = state;
         this.nextState = nextState;
         this.event = event;
-        this.workflowInstanceDTO = workflowInstanceDTO;
-        this.exception = Optional.empty();
+        this.workflowInstanceId = workflowInstanceId;
+        this.throwable = Optional.empty();
     }
 
-    public WorkflowInstanceEventDTO(String topic, WorkflowInstanceState state, WorkflowInstanceState nextState, WorkflowInstanceEvent event, WorkflowInstanceDTO workflowInstanceDTO, Exception exception) {
+    public WorkflowInstanceEventDTO(String topic, WorkflowInstanceState state, WorkflowInstanceState nextState, WorkflowInstanceEvent event, Long workflowInstanceId, Throwable throwable) {
         this.topic = topic;
         this.state = state;
         this.nextState = nextState;
         this.event = event;
-        this.workflowInstanceDTO = workflowInstanceDTO;
-        this.exception = Optional.ofNullable(exception);
+        this.workflowInstanceId = workflowInstanceId;
+        this.throwable = Optional.ofNullable(throwable);
     }
 
     @Override

@@ -16,27 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service;
+package cn.sliew.scaleph.api.config;
 
-import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
-import cn.sliew.scaleph.workflow.service.param.WorkflowInstanceListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.redisson.config.Config;
+import org.redisson.spring.starter.RedissonAutoConfiguration;
+import org.redisson.spring.starter.RedissonAutoConfigurationCustomizer;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.context.annotation.Configuration;
 
-public interface WorkflowInstanceService {
+@Configuration
+@AutoConfigureBefore(RedissonAutoConfiguration.class)
+public class RedissionConfig implements RedissonAutoConfigurationCustomizer {
 
-    Page<WorkflowInstanceDTO> list(WorkflowInstanceListParam param);
+    @Override
+    public void customize(Config config) {
 
-    WorkflowInstanceDTO get(Long id);
-
-    void updateState(Long id, WorkflowInstanceState state, WorkflowInstanceState nextState, String message);
-
-    WorkflowInstanceDTO deploy(Long workflowDefinitionId);
-
-    void shutdown(Long id);
-
-    void suspend(Long id);
-
-    void resume(Long id);
-
+    }
 }

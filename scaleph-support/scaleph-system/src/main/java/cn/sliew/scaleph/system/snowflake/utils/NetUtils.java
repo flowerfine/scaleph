@@ -159,7 +159,7 @@ public class NetUtils {
                 continue;
             }
             networkInterfaces.add(ni);
-            log.info("Valid network interface: index = {}, name = {}, mac = {}",
+            log.debug("Valid network interface: index = {}, name = {}, mac = {}",
                     ni.getIndex(), ni.getName(), bytesToMac(ni.getHardwareAddress()));
         }
         if (networkInterfaces.isEmpty()) {

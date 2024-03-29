@@ -18,68 +18,67 @@
 
 package cn.sliew.scaleph.workflow.listener.workflowinstance;
 
-import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskDefinitionService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
-import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RExecutorFuture;
-import org.redisson.api.RScheduledExecutorService;
-import org.redisson.api.RedissonClient;
+import org.redisson.api.annotation.RInject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
-public class WorkflowInstanceDeployEventListener implements WorkflowInstanceEventListener {
+public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanceEventListener {
 
-    @Autowired
-    private WorkflowInstanceService workflowInstanceService;
     @Autowired
     private WorkflowTaskDefinitionService workflowTaskDefinitionService;
-    @Autowired
-    private WorkflowTaskInstanceService workflowTaskInstanceService;
-    @Autowired
-    private WorkflowInstanceStateMachine stateMachine;
-    @Autowired
-    private RedissonClient redissonClient;
 
     @Override
-    public void onEvent(WorkflowInstanceEventDTO event) {
-        WorkflowInstanceDTO workflowInstanceDTO = event.getWorkflowInstanceDTO();
+    protected CompletableFuture handleEventAsync(Long workflowInstanceId) {
+        WorkflowInstanceDTO workflowInstanceDTO = workflowInstanceService.get(workflowInstanceId);
         WorkflowDefinitionDTO workflowDefinitionDTO = workflowInstanceDTO.getWorkflowDefinition();
-        try {
-            // fixme 获取所有 task 的执行结果，执行成功，则发送执行成功事件，否则发送执行失败事件
-            doDeploy(workflowDefinitionDTO);
-            onSuccess(workflowInstanceDTO.getId());
-        } catch (Exception e) {
-            onFailure(workflowInstanceDTO.getId(), e);
-        }
+        return doDeploy(workflowDefinitionDTO);
     }
 
-    private void doDeploy(WorkflowDefinitionDTO workflowDefinitionDTO) {
-        RScheduledExecutorService executorService = redissonClient.getExecutorService("WorkflowTaskInstanceDeploy");
+    private CompletableFuture doDeploy(WorkflowDefinitionDTO workflowDefinitionDTO) {
         List<WorkflowTaskDefinitionDTO> workflowTaskDefinitionDTOS = workflowTaskDefinitionService.list(workflowDefinitionDTO.getId());
-        List<RExecutorFuture<WorkflowTaskInstanceDTO>> futures = new ArrayList<>(workflowTaskDefinitionDTOS.size());
+        // todo 应该是找到 root 节点，批量启动 root 节点
+        List<CompletableFuture> futures = new ArrayList<>(workflowTaskDefinitionDTOS.size());
         for (WorkflowTaskDefinitionDTO workflowTaskDefinitionDTO : workflowTaskDefinitionDTOS) {
-            RExecutorFuture<WorkflowTaskInstanceDTO> future = executorService.submit(() -> workflowTaskInstanceService.deploy(workflowTaskDefinitionDTO.getId()));
-            futures.add(future);
-            // todo 全部执行完毕，在发送下一步信息
+            RExecutorFuture future = executorService.submit(new DeployRunner(workflowTaskDefinitionDTO.getId()));
+            // RExecutorFuture -> CompletableFuture 类型强转无法监听异步任务执行结果。需转成 CompletableFuture
+            futures.add(future.toCompletableFuture());
         }
+        return CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]));
     }
 
-    private void onFailure(Long workflowInstanceId, Exception e) {
-        stateMachine.onFailure(workflowInstanceService.get(workflowInstanceId), e);
-    }
+    /**
+     * 必须实现 Serializable 接口，无法使用 lambda
+     */
+    public static class DeployRunner implements Runnable, Serializable {
 
-    private void onSuccess(Long workflowInstanceId) {
-        stateMachine.onSuccess(workflowInstanceService.get(workflowInstanceId));
+        private Long workflowTaskDefinitionId;
+
+        @RInject
+        private String taskId;
+        @Autowired
+        private WorkflowTaskInstanceService workflowTaskInstanceService;
+
+        public DeployRunner(Long workflowTaskDefinitionId) {
+            this.workflowTaskDefinitionId = workflowTaskDefinitionId;
+        }
+
+        @Override
+        public void run() {
+            workflowTaskInstanceService.deploy(workflowTaskDefinitionId);
+        }
     }
 }
