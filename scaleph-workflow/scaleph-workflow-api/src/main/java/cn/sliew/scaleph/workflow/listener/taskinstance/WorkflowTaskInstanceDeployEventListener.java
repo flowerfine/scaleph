@@ -19,8 +19,6 @@
 package cn.sliew.scaleph.workflow.listener.taskinstance;
 
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.RandomUtils;
 import org.redisson.api.annotation.RInject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,7 +26,6 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 import java.util.concurrent.CompletableFuture;
 
-@Slf4j
 @Component
 public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTaskInstanceEventListener {
 
@@ -62,9 +59,6 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
         public void run() {
             workflowTaskInstanceService.updateTaskId(event.getWorkflowTaskInstanceId(), taskId);
             workflowTaskInstanceService.updateState(event.getWorkflowTaskInstanceId(), event.getState(), event.getNextState(), null);
-            if (RandomUtils.nextInt(0, 100) > 80) {
-                throw new RuntimeException("任务执行失败");
-            }
         }
     }
 }

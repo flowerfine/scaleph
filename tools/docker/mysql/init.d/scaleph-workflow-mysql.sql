@@ -69,7 +69,7 @@ CREATE TABLE `workflow_instance`
 (
     `id`                     BIGINT       NOT NULL AUTO_INCREMENT,
     `workflow_definition_id` BIGINT       NOT NULL,
-    `task_id`                VARCHAR(128) NOT NULL,
+    `task_id`                VARCHAR(128),
     `state`                  VARCHAR(4)   NOT NULL,
     `start_time`             DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `end_time`               DATETIME,
@@ -125,7 +125,7 @@ CREATE TABLE `workflow_task_instance`
     `id`                          BIGINT       NOT NULL AUTO_INCREMENT,
     `workflow_task_definition_id` BIGINT       NOT NULL,
     `workflow_instance_id`        BIGINT       NOT NULL,
-    `task_id`                     VARCHAR(128) NOT NULL,
+    `task_id`                     VARCHAR(128),
     `stage`                       VARCHAR(4)   NOT NULL,
     `start_time`                  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `end_time`                    DATETIME,

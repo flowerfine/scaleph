@@ -85,7 +85,7 @@ public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanc
             for (WorkflowTaskDefinitionDTO workflowTaskDefinitionDTO : workflowTaskDefinitionDTOS) {
                 workflowTaskInstanceDTOS.add(workflowTaskInstanceService.deploy(workflowTaskDefinitionDTO.getId(), event.getWorkflowInstanceId()));
             }
-            // todo 循环检测 workflowTaskInstanceDTOS 状态，判断是否成功或失败
+            // todo 循环检测 workflowTaskInstanceDTOS 状态或接收 workflowTaskInstance 事件，判断是否成功或失败
         }
     }
 }
