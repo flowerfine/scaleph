@@ -55,7 +55,6 @@ public class WorkflowTaskInstanceFailureEventListener extends AbstractWorkflowTa
         @Override
         public void run() {
             workflowTaskInstanceService.updateFailure(workflowTaskInstanceId, throwable.orElse(null));
-            log.info("执行子任务失败啦, workflowTaskInstanceId: {}, taskId: {}", workflowTaskInstanceId, taskId, throwable);
         }
     }
 

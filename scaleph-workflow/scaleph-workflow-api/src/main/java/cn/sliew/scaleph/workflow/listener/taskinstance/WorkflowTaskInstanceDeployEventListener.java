@@ -61,7 +61,7 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
         @Override
         public void run() {
             workflowTaskInstanceService.updateState(event.getWorkflowTaskInstanceId(), event.getState(), event.getNextState(), null);
-            if (RandomUtils.nextInt(0, 100) > 30) {
+            if (RandomUtils.nextInt(0, 100) > 80) {
                 throw new RuntimeException("部署失败");
             }
         }

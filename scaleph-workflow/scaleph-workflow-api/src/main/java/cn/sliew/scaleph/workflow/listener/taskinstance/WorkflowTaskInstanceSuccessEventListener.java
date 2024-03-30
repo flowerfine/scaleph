@@ -52,7 +52,6 @@ public class WorkflowTaskInstanceSuccessEventListener extends AbstractWorkflowTa
         @Override
         public void run() {
             workflowTaskInstanceService.updateSuccess(workflowTaskInstanceId);
-            log.info("执行子任务成功啦, workflowTaskInstanceId: {}, taskId: {}", workflowTaskInstanceId, taskId);
         }
     }
 
