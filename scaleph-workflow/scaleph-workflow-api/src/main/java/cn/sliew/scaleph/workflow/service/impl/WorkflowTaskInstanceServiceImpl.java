@@ -96,9 +96,18 @@ public class WorkflowTaskInstanceServiceImpl implements WorkflowTaskInstanceServ
     }
 
     @Override
-    public WorkflowTaskInstanceDTO deploy(Long workflowTaskDefinitionId) {
+    public void updateTaskId(Long id, String taskId) {
+        WorkflowTaskInstance record = new WorkflowTaskInstance();
+        record.setId(id);
+        record.setTaskId(taskId);
+        workflowTaskInstanceMapper.updateById(record);
+    }
+
+    @Override
+    public WorkflowTaskInstanceDTO deploy(Long workflowTaskDefinitionId, Long workflowInstanceId) {
         WorkflowTaskInstance record = new WorkflowTaskInstance();
         record.setWorkflowTaskDefinitionId(workflowTaskDefinitionId);
+        record.setWorkflowInstanceId(workflowInstanceId);
         record.setStage(WorkflowTaskInstanceStage.PENDING);
         workflowTaskInstanceMapper.insert(record);
         stateMachine.deploy(get(record.getId()));

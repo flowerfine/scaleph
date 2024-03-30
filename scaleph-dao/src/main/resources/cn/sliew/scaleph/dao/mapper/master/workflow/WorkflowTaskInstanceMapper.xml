@@ -25,7 +25,8 @@
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
         <result column="workflow_task_definition_id" property="workflowTaskDefinitionId"/>
-        <result column="state" property="state"/>
+        <result column="workflow_instance_id" property="workflowInstanceId"/>
+        <result column="task_id" property="taskId"/>
         <result column="stage" property="stage"/>
         <result column="start_time" property="startTime"/>
         <result column="end_time" property="endTime"/>
@@ -38,7 +39,7 @@
         <result column="create_time" property="createTime"/>
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
-        <result column="state" property="state"/>
+        <result column="task_id" property="taskId"/>
         <result column="stage" property="stage"/>
         <result column="start_time" property="startTime"/>
         <result column="end_time" property="endTime"/>
@@ -51,6 +52,9 @@
             <result column="definition_name" property="name"/>
             <result column="definition_param" property="param"/>
             <result column="definition_remark" property="remark"/>
+        </association>
+        <association column="workflow_instance_id" property="workflowInstance"
+                     select="cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowInstanceMapper.get">
         </association>
     </resultMap>
 

@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.dao.entity.master.workflow;
 
-import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -39,8 +38,11 @@ public class WorkflowTaskInstanceVO extends BaseDO {
     @TableField(value = "workflow_task_definition_id", exist = false)
     private WorkflowTaskDefinition workflowTaskDefinition;
 
-    @TableField("state")
-    private WorkflowInstanceState state;
+    @TableField(value = "workflow_instance_id", exist = false)
+    private WorkflowInstanceVO workflowInstance;
+
+    @TableField("task_id")
+    private String taskId;
 
     @TableField("stage")
     private WorkflowTaskInstanceStage stage;

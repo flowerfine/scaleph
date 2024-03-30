@@ -35,7 +35,9 @@ public interface WorkflowTaskInstanceService {
 
     void updateFailure(Long id, Throwable throwable);
 
-    WorkflowTaskInstanceDTO deploy(Long workflowTaskDefinitionId);
+    void updateTaskId(Long id, String taskId);
+
+    WorkflowTaskInstanceDTO deploy(Long workflowTaskDefinitionId, Long workflowInstanceId);
 
     void shutdown(Long id);
 

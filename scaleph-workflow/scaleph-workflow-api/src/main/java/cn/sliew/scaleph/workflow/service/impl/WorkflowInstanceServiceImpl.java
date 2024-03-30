@@ -74,6 +74,14 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
     }
 
     @Override
+    public void updateTaskId(Long id, String taskId) {
+        WorkflowInstance record = new WorkflowInstance();
+        record.setId(id);
+        record.setTaskId(taskId);
+        workflowInstanceMapper.updateById(record);
+    }
+
+    @Override
     public WorkflowInstanceDTO deploy(Long workflowDefinitionId) {
         WorkflowInstance record = new WorkflowInstance();
         record.setWorkflowDefinitionId(workflowDefinitionId);

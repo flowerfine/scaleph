@@ -31,6 +31,8 @@ public interface WorkflowInstanceService {
 
     void updateState(Long id, WorkflowInstanceState state, WorkflowInstanceState nextState, String message);
 
+    void updateTaskId(Long id, String taskId);
+
     WorkflowInstanceDTO deploy(Long workflowDefinitionId);
 
     void shutdown(Long id);

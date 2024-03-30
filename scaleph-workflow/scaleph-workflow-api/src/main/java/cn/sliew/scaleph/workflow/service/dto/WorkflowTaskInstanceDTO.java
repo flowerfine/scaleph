@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.workflow.service.dto;
 
-import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
 import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -34,8 +33,11 @@ public class WorkflowTaskInstanceDTO extends BaseDTO {
     @Schema(description = "workflow task definition")
     private WorkflowTaskDefinitionDTO workflowTaskDefinition;
 
-    @Schema(description = "workflow task instance state")
-    private WorkflowInstanceState state;
+    @Schema(description = "workflow instance")
+    private WorkflowInstanceDTO workflowInstanceDTO;
+
+    @Schema(description = "task id")
+    private String taskId;
 
     @Schema(description = "workflow task instance state")
     private WorkflowTaskInstanceStage stage;
