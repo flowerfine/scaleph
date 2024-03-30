@@ -45,6 +45,8 @@ public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanc
         future.whenCompleteAsync((unused, throwable) -> {
             if (throwable != null) {
                 onFailure(event.getWorkflowInstanceId(), throwable);
+            } else {
+                stateMachine.onSuccess(workflowInstanceService.get(event.getWorkflowInstanceId()));
             }
         });
         return future;

@@ -18,21 +18,38 @@
 
 package cn.sliew.scaleph.workflow.listener.workflowinstance;
 
-import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Slf4j
+import java.io.Serializable;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+
 @Component
-public class WorkflowInstanceFailureEventListener implements WorkflowInstanceEventListener {
+public class WorkflowInstanceFailureEventListener extends AbstractWorkflowInstanceEventListener {
 
     @Autowired
     private WorkflowInstanceService workflowInstanceService;
 
     @Override
-    public void onEvent(WorkflowInstanceEventDTO event) {
-        log.info("on event, {}", JacksonUtil.toJsonString(event));
+    protected CompletableFuture handleEventAsync(WorkflowInstanceEventDTO event) {
+        return CompletableFuture.runAsync(new FailureRunner(event.getWorkflowInstanceId(), event.getThrowable()));
+    }
+
+    private class FailureRunner implements Runnable, Serializable {
+
+        private Long workflowInstanceId;
+        private Optional<Throwable> throwable;
+
+        public FailureRunner(Long workflowInstanceId, Optional<Throwable> throwable) {
+            this.workflowInstanceId = workflowInstanceId;
+            this.throwable = throwable;
+        }
+
+        @Override
+        public void run() {
+            workflowInstanceService.updateFailure(workflowInstanceId, throwable.orElse(null));
+        }
     }
 }

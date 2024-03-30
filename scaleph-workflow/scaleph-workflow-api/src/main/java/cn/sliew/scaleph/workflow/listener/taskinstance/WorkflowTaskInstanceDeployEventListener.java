@@ -63,7 +63,7 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
             workflowTaskInstanceService.updateTaskId(event.getWorkflowTaskInstanceId(), taskId);
             workflowTaskInstanceService.updateState(event.getWorkflowTaskInstanceId(), event.getState(), event.getNextState(), null);
             if (RandomUtils.nextInt(0, 100) > 80) {
-                throw new RuntimeException("部署失败");
+                throw new RuntimeException("任务执行失败");
             }
         }
     }

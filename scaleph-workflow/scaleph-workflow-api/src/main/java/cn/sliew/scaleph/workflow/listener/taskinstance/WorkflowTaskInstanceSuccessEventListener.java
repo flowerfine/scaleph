@@ -18,32 +18,22 @@
 
 package cn.sliew.scaleph.workflow.listener.taskinstance;
 
-import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
-import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.annotation.RInject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.concurrent.CompletableFuture;
 
-@Slf4j
 @Component
 public class WorkflowTaskInstanceSuccessEventListener extends AbstractWorkflowTaskInstanceEventListener {
 
     @Override
     protected CompletableFuture handleEventAsync(WorkflowTaskInstanceEventDTO event) {
-        return executorService.submit(new SuccessRunner(event.getWorkflowTaskInstanceId())).toCompletableFuture();
+        return CompletableFuture.runAsync(new SuccessRunner(event.getWorkflowTaskInstanceId())).toCompletableFuture();
     }
 
-    public static class SuccessRunner implements Runnable, Serializable {
+    private class SuccessRunner implements Runnable, Serializable {
 
         private Long workflowTaskInstanceId;
-
-        @RInject
-        private String taskId;
-        @Autowired
-        private WorkflowTaskInstanceService workflowTaskInstanceService;
 
         public SuccessRunner(Long workflowTaskInstanceId) {
             this.workflowTaskInstanceId = workflowTaskInstanceId;

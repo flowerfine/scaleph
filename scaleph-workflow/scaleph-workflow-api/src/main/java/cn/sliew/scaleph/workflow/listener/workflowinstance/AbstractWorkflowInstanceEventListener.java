@@ -41,7 +41,7 @@ public abstract class AbstractWorkflowInstanceEventListener implements WorkflowI
     @Autowired
     protected WorkflowInstanceService workflowInstanceService;
     @Autowired
-    private WorkflowInstanceStateMachine stateMachine;
+    protected WorkflowInstanceStateMachine stateMachine;
     @Autowired
     private RedissonClient redissonClient;
 

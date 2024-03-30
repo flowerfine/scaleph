@@ -74,6 +74,16 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
     }
 
     @Override
+    public void updateSuccess(Long id) {
+
+    }
+
+    @Override
+    public void updateFailure(Long id, Throwable throwable) {
+
+    }
+
+    @Override
     public void updateTaskId(Long id, String taskId) {
         WorkflowInstance record = new WorkflowInstance();
         record.setId(id);
