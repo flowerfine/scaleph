@@ -33,6 +33,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
@@ -71,6 +72,35 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
         record.setState(nextState);
         record.setMessage(message);
         workflowInstanceMapper.update(record, updateWrapper);
+    }
+
+    @Override
+    public void updateSuccess(Long id) {
+        WorkflowInstance record = new WorkflowInstance();
+        record.setId(id);
+        record.setState(WorkflowInstanceState.SUCCESS);
+        record.setEndTime(new Date());
+        workflowInstanceMapper.updateById(record);
+    }
+
+    @Override
+    public void updateFailure(Long id, Throwable throwable) {
+        WorkflowInstance record = new WorkflowInstance();
+        record.setId(id);
+        record.setState(WorkflowInstanceState.FAILURE);
+        record.setEndTime(new Date());
+        if (throwable != null) {
+            record.setMessage(throwable.getMessage());
+        }
+        workflowInstanceMapper.updateById(record);
+    }
+
+    @Override
+    public void updateTaskId(Long id, String taskId) {
+        WorkflowInstance record = new WorkflowInstance();
+        record.setId(id);
+        record.setTaskId(taskId);
+        workflowInstanceMapper.updateById(record);
     }
 
     @Override

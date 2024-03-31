@@ -25,6 +25,7 @@
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
         <result column="workflow_definition_id" property="workflowDefinitionId"/>
+        <result column="task_id" property="taskId"/>
         <result column="state" property="state"/>
         <result column="start_time" property="startTime"/>
         <result column="end_time" property="endTime"/>
@@ -37,6 +38,7 @@
         <result column="create_time" property="createTime"/>
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
+        <result column="task_id" property="taskId"/>
         <result column="state" property="state"/>
         <result column="start_time" property="startTime"/>
         <result column="end_time" property="endTime"/>
@@ -54,7 +56,7 @@
 
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        workflow_definition_id, state, start_time, end_time, message
+        workflow_definition_id, task_id, state, start_time, end_time, message
     </sql>
 
     <select id="list" resultMap="WorkflowInstanceVOMap">

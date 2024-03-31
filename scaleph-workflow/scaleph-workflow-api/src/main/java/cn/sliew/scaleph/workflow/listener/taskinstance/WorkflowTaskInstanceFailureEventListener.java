@@ -18,34 +18,24 @@
 
 package cn.sliew.scaleph.workflow.listener.taskinstance;
 
-import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
-import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.annotation.RInject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-@Slf4j
 @Component
 public class WorkflowTaskInstanceFailureEventListener extends AbstractWorkflowTaskInstanceEventListener {
-    
+
     @Override
     protected CompletableFuture handleEventAsync(WorkflowTaskInstanceEventDTO event) {
-        return executorService.submit(new FailureRunner(event.getWorkflowTaskInstanceId(), event.getThrowable())).toCompletableFuture();
+        return CompletableFuture.runAsync(new FailureRunner(event.getWorkflowTaskInstanceId(), event.getThrowable())).toCompletableFuture();
     }
 
-    public static class FailureRunner implements Runnable, Serializable {
+    private class FailureRunner implements Runnable, Serializable {
 
         private Long workflowTaskInstanceId;
         private Optional<Throwable> throwable;
-
-        @RInject
-        private String taskId;
-        @Autowired
-        private WorkflowTaskInstanceService workflowTaskInstanceService;
 
         public FailureRunner(Long workflowTaskInstanceId, Optional<Throwable> throwable) {
             this.workflowTaskInstanceId = workflowTaskInstanceId;
@@ -55,7 +45,6 @@ public class WorkflowTaskInstanceFailureEventListener extends AbstractWorkflowTa
         @Override
         public void run() {
             workflowTaskInstanceService.updateFailure(workflowTaskInstanceId, throwable.orElse(null));
-            log.info("执行子任务失败啦, workflowTaskInstanceId: {}, taskId: {}", workflowTaskInstanceId, taskId, throwable);
         }
     }
 

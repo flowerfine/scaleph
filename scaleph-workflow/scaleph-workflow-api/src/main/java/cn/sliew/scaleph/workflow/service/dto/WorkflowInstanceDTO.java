@@ -33,6 +33,9 @@ public class WorkflowInstanceDTO extends BaseDTO {
     @Schema(description = "workflow definition")
     private WorkflowDefinitionDTO workflowDefinition;
 
+    @Schema(description = "task id")
+    private String taskId;
+
     @Schema(description = "workflow instance state")
     private WorkflowInstanceState state;
 

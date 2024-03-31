@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.workflow.listener.workflowinstance;
 
-import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
 import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +41,7 @@ public abstract class AbstractWorkflowInstanceEventListener implements WorkflowI
     @Autowired
     protected WorkflowInstanceService workflowInstanceService;
     @Autowired
-    private WorkflowInstanceStateMachine stateMachine;
+    protected WorkflowInstanceStateMachine stateMachine;
     @Autowired
     private RedissonClient redissonClient;
 
@@ -60,14 +59,7 @@ public abstract class AbstractWorkflowInstanceEventListener implements WorkflowI
     @Override
     public void onEvent(WorkflowInstanceEventDTO event) {
         try {
-            CompletableFuture<?> future = handleEventAsync(event.getWorkflowInstanceId());
-            future.whenCompleteAsync((unused, throwable) -> {
-                if (throwable != null) {
-                    onFailure(event.getWorkflowInstanceId(), throwable);
-                } else {
-                    workflowInstanceService.updateState(event.getWorkflowInstanceId(), event.getState(), event.getNextState(), null);
-                }
-            });
+            handleEventAsync(event);
         } catch (Throwable throwable) {
             onFailure(event.getWorkflowInstanceId(), throwable);
         }
@@ -77,5 +69,5 @@ public abstract class AbstractWorkflowInstanceEventListener implements WorkflowI
         stateMachine.onFailure(workflowInstanceService.get(workflowInstanceId), throwable);
     }
 
-    protected abstract CompletableFuture handleEventAsync(Long workflowInstanceId);
+    protected abstract CompletableFuture handleEventAsync(WorkflowInstanceEventDTO event);
 }
