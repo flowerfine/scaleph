@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.workflow.listener.taskinstance;
 
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -45,6 +46,8 @@ public class WorkflowTaskInstanceFailureEventListener extends AbstractWorkflowTa
         @Override
         public void run() {
             workflowTaskInstanceService.updateFailure(workflowTaskInstanceId, throwable.orElse(null));
+            WorkflowTaskInstanceDTO workflowTaskInstanceDTO = workflowTaskInstanceService.get(workflowTaskInstanceId);
+            workflowInstanceStateMachine.onTaskChange(workflowTaskInstanceDTO.getWorkflowInstanceDTO());
         }
     }
 

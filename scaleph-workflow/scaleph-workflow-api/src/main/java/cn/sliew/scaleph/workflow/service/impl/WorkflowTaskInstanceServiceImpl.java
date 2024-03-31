@@ -23,10 +23,12 @@ import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskInstance;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskInstanceVO;
 import cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowTaskInstanceMapper;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
+import cn.sliew.scaleph.workflow.service.convert.WorkflowTaskInstanceConvert;
 import cn.sliew.scaleph.workflow.service.convert.WorkflowTaskInstanceVOConvert;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowTaskInstanceListParam;
 import cn.sliew.scaleph.workflow.statemachine.WorkflowTaskInstanceStateMachine;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -54,6 +56,14 @@ public class WorkflowTaskInstanceServiceImpl implements WorkflowTaskInstanceServ
         List<WorkflowTaskInstanceDTO> workflowTaskInstanceDTOS = WorkflowTaskInstanceVOConvert.INSTANCE.toDto(taskInstanceVOPage.getRecords());
         result.setRecords(workflowTaskInstanceDTOS);
         return result;
+    }
+
+    @Override
+    public List<WorkflowTaskInstanceDTO> list(Long workflowInstanceId) {
+        LambdaQueryWrapper<WorkflowTaskInstance> queryWrapper = Wrappers.lambdaQuery(WorkflowTaskInstance.class)
+                .eq(WorkflowTaskInstance::getWorkflowInstanceId, workflowInstanceId);
+        List<WorkflowTaskInstance> workflowTaskInstances = workflowTaskInstanceMapper.selectList(queryWrapper);
+        return WorkflowTaskInstanceConvert.INSTANCE.toDto(workflowTaskInstances);
     }
 
     @Override

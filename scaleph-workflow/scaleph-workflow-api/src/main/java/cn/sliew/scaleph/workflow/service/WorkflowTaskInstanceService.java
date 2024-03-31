@@ -23,9 +23,13 @@ import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowTaskInstanceListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
+import java.util.List;
+
 public interface WorkflowTaskInstanceService {
 
     Page<WorkflowTaskInstanceDTO> list(WorkflowTaskInstanceListParam param);
+
+    List<WorkflowTaskInstanceDTO> list(Long workflowInstanceId);
 
     WorkflowTaskInstanceDTO get(Long id);
 

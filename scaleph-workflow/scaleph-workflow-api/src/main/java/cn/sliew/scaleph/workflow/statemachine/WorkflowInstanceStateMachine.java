@@ -55,6 +55,8 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
     @Autowired
     private WorkflowInstanceResumeEventListener workflowInstanceResumeEventListener;
     @Autowired
+    private WorkflowInstanceTaskChangeEventListener workflowInstanceTaskChangeEventListener;
+    @Autowired
     private WorkflowInstanceSuccessEventListener workflowInstanceSuccessEventListener;
     @Autowired
     private WorkflowInstanceFailureEventListener workflowInstanceFailureEventListener;
@@ -72,6 +74,10 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
                 .on(WorkflowInstanceEvent.COMMAND_DEPLOY)
                 .perform(doPerform());
 
+        builder.internalTransition()
+                .within(WorkflowInstanceState.RUNNING)
+                .on(WorkflowInstanceEvent.PROCESS_TASK_CHANGE)
+                .perform(doPerform());
         builder.externalTransition()
                 .from(WorkflowInstanceState.RUNNING)
                 .to(WorkflowInstanceState.SUCCESS)
@@ -123,6 +129,10 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
         resumeQueue.register(CONSUMER_GROUP, workflowInstanceResumeEventListener);
         queueMap.put(WorkflowInstanceEvent.COMMAND_RESUME, resumeQueue);
 
+        Queue taskChangeQueue = queueFactory.newInstance("WorkflowInstanceEvent#" + WorkflowInstanceEvent.PROCESS_TASK_CHANGE.getValue());
+        taskChangeQueue.register(CONSUMER_GROUP, workflowInstanceTaskChangeEventListener);
+        queueMap.put(WorkflowInstanceEvent.PROCESS_TASK_CHANGE, taskChangeQueue);
+
         Queue successQueue = queueFactory.newInstance("WorkflowInstanceEvent#" + WorkflowInstanceEvent.PROCESS_SUCCESS.getValue());
         successQueue.register(CONSUMER_GROUP, workflowInstanceSuccessEventListener);
         queueMap.put(WorkflowInstanceEvent.PROCESS_SUCCESS, successQueue);
@@ -157,6 +167,10 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
 
     public void resume(WorkflowInstanceDTO workflowInstanceDTO) {
         stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.COMMAND_RESUME, Pair.of(workflowInstanceDTO.getId(), null));
+    }
+
+    public void onTaskChange(WorkflowInstanceDTO workflowInstanceDTO) {
+        stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.PROCESS_TASK_CHANGE, Pair.of(workflowInstanceDTO.getId(), null));
     }
 
     public void onSuccess(WorkflowInstanceDTO workflowInstanceDTO) {
