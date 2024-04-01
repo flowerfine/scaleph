@@ -33,11 +33,13 @@ public enum FlinkImageMapping {
     JAR_1_16(FlinkJobType.JAR, OperatorFlinkVersion.v1_16, FlinkVersionMapping.V_1_16, "flink:1.16"),
     JAR_1_17(FlinkJobType.JAR, OperatorFlinkVersion.v1_17, FlinkVersionMapping.V_1_17, "flink:1.17"),
     JAR_1_18(FlinkJobType.JAR, OperatorFlinkVersion.v1_18, FlinkVersionMapping.V_1_18, "flink:1.18"),
+    JAR_1_19(FlinkJobType.JAR, OperatorFlinkVersion.v1_19, FlinkVersionMapping.V_1_19, "flink:1.19"),
 
     SQL_1_17(FlinkJobType.SQL, OperatorFlinkVersion.v1_17, FlinkVersionMapping.V_1_17, "ghcr.io/flowerfine/scaleph-sql-template:1.17"),
     SQL_1_18(FlinkJobType.SQL, OperatorFlinkVersion.v1_18, FlinkVersionMapping.V_1_18, "ghcr.io/flowerfine/scaleph-sql-template:1.18"),
 
     SEATUNNEL_1_15(FlinkJobType.SEATUNNEL, OperatorFlinkVersion.v1_15, FlinkVersionMapping.V_1_15, "ghcr.io/flowerfine/scaleph-seatunnel:2.3.4-flink-1.15"),
+    SEATUNNEL_1_16(FlinkJobType.SEATUNNEL, OperatorFlinkVersion.v1_16, FlinkVersionMapping.V_1_16, "ghcr.io/flowerfine/scaleph-seatunnel:2.3.4-flink-1.16"),
     FLINK_CDC_1_18(FlinkJobType.FLINK_CDC, OperatorFlinkVersion.v1_18, FlinkVersionMapping.V_1_18, "ghcr.io/flowerfine/scaleph-flink-cdc:3.0.0-flink-1.18"),
     ;
 

@@ -17,11 +17,13 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
 
+import io.fabric8.kubernetes.api.model.networking.v1.IngressTLS;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,4 +49,14 @@ public class IngressSpec {
      * Ingress annotations.
      */
     private Map<String, String> annotations;
+
+    /**
+     * Ingress labels.
+     */
+    private Map<String, String> labels;
+
+    /**
+     * Ingress tls.
+     */
+    private List<IngressTLS> tls;
 }

@@ -20,6 +20,7 @@ package cn.sliew.scaleph.system.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -28,10 +29,13 @@ import java.util.Date;
  * @author gleiyu
  */
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class BaseDTO implements Serializable {
 
     private static final long serialVersionUID = -3170630380110141492L;
 
+    // 仅使用 id 作为 equals 和 hashcode 字段
+    @EqualsAndHashCode.Include
     @Schema(description = "ID")
     private Long id;
 

@@ -43,6 +43,9 @@ public abstract class CommonStatus<SPEC extends AbstractFlinkSpec> {
      */
     private String error;
 
+    /** Last observed generation of the FlinkDeployment/FlinkSessionJob. */
+    private Long observedGeneration;
+
     /**
      * Lifecycle state of the Flink resource (including being rolled back, failed etc.).
      */

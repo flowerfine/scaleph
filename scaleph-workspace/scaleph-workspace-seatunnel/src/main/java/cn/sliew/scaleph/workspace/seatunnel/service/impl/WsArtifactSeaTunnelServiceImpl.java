@@ -164,7 +164,7 @@ public class WsArtifactSeaTunnelServiceImpl implements WsArtifactSeaTunnelServic
         WsArtifactSeaTunnel record = new WsArtifactSeaTunnel();
         record.setArtifactId(artifactDTO.getId());
         record.setSeaTunnelEngine(SeaTunnelEngineType.SEATUNNEL);
-        record.setFlinkVersion(FlinkVersion.V_1_15_4);
+        record.setFlinkVersion(FlinkVersion.V_1_16_3);
         record.setSeaTunnelVersion(SeaTunnelVersion.current());
         record.setDagId(seaTunnelDagService.initialize());
         record.setCurrent(YesOrNo.YES);

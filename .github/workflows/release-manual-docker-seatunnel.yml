@@ -29,10 +29,10 @@ on:
       flinkVersion:
         description: 'flink version'
         required: true
-        default: '1.15'
+        default: '1.16'
         type: choice
         options:
-          - 1.15
+          - 1.16
 env:
   HUB: ghcr.io/flowerfine/scaleph-seatunnel
   SEATUNNEL_VERSION: ${{ inputs.seatunnelVersion }}

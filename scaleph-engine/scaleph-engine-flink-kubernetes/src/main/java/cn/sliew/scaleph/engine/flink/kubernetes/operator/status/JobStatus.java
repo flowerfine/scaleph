@@ -62,5 +62,5 @@ public class JobStatus {
     /**
      * Information about pending and last checkpoint for the job.
      */
-    private Object checkpointInfo = new Object();
+    private CheckpointInfo checkpointInfo = new CheckpointInfo();
 }

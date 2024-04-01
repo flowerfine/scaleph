@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.workflow.listener.taskinstance;
 
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
+import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
 import cn.sliew.scaleph.workflow.statemachine.WorkflowTaskInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RScheduledExecutorService;
@@ -40,6 +41,8 @@ public abstract class AbstractWorkflowTaskInstanceEventListener implements Workf
 
     @Autowired
     protected WorkflowTaskInstanceService workflowTaskInstanceService;
+    @Autowired
+    protected WorkflowInstanceStateMachine workflowInstanceStateMachine;
     @Autowired
     protected WorkflowTaskInstanceStateMachine stateMachine;
     @Autowired

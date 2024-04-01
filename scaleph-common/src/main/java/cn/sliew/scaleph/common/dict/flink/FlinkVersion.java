@@ -45,6 +45,8 @@ public enum FlinkVersion implements DictInstance {
 
     V_1_18_0("1.18.0", "1.18.0"),
     V_1_18_1("1.18.1", "1.18.1"),
+
+    V_1_19_0("1.19.0", "1.19.0"),
     ;
 
     @JsonCreator
