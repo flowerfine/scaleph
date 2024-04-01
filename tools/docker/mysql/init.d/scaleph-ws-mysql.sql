@@ -236,7 +236,7 @@ INSERT INTO `ws_flink_kubernetes_template`(`id`, `project_id`, `name`, `template
                                            `log_configuration`, `ingress`, additional_dependencies, `remark`, `creator`,
                                            `editor`)
 VALUES (4, 1, 'simple-seatunnel-deployment', '35e4a532-3c7b-4273-8cdb-edbef2cb9e49', 'FlinkDeployment', 'default',
-        '{"image":"ghcr.io/flowerfine/scaleph-seatunnel:2.3.3-flink-1.15","imagePullPolicy":"IfNotPresent","flinkVersion":"1.15.4","serviceAccount":"flink"}',
+        '{"image":"ghcr.io/flowerfine/scaleph-seatunnel:2.3.4-flink-1.15","imagePullPolicy":"IfNotPresent","flinkVersion":"1.15.4","serviceAccount":"flink"}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         '{"resource":{"cpu":1.0,"memory":"1G"},"replicas":1}',
         NULL,
