@@ -88,6 +88,13 @@ public class JobSpec implements Diffable<JobSpec> {
      */
     private Boolean allowNonRestoredState;
 
+    /**
+     * Nonce used to trigger a full redeployment of the job from the savepoint path specified in
+     * initialSavepointPath. In order to trigger redeployment, change the number to a different
+     * non-null value. Rollback is not possible after redeployment.
+     */
+    private Long savepointRedeployNonce;
+
     @Override
     public DiffResult<JobSpec> diff(JobSpec right) {
         ReflectionDiffBuilder builder = new ReflectionDiffBuilder(this, right, ToStringStyle.DEFAULT_STYLE);

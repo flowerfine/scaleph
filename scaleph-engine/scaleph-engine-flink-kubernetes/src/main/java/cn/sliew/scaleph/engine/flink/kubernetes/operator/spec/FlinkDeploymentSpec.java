@@ -66,6 +66,7 @@ public class FlinkDeploymentSpec extends AbstractFlinkSpec {
     /**
      * Base pod template for job and task manager pods. Can be overridden by the jobManager and
      * taskManager pod templates.
+     * fixme change to PodTemplateSpec
      */
     private Pod podTemplate;
 
