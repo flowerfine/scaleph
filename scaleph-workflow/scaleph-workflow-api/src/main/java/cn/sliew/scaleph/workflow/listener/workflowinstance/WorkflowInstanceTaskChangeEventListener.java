@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.workflow.listener.workflowinstance;
 
-import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskDefinitionService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
@@ -26,6 +26,7 @@ import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import com.google.common.graph.Graph;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -37,6 +38,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowInstanceEventListener {
 
@@ -47,7 +49,13 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
 
     @Override
     protected CompletableFuture handleEventAsync(WorkflowInstanceEventDTO event) {
-        return CompletableFuture.runAsync(new TaskChangeRunner(event.getWorkflowInstanceId()));
+        CompletableFuture<Void> future = CompletableFuture.runAsync(new TaskChangeRunner(event.getWorkflowInstanceId()));
+        future.whenComplete(((unused, throwable) -> {
+            if (throwable != null) {
+                onFailure(event.getWorkflowInstanceId(), throwable);
+            }
+        }));
+        return future;
     }
 
     private class TaskChangeRunner implements Runnable, Serializable {
@@ -60,9 +68,13 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
 
         @Override
         public void run() {
+
             WorkflowInstanceDTO workflowInstanceDTO = workflowInstanceService.get(workflowInstanceId);
-            System.out.println("子任务状态变更: " + JacksonUtil.toJsonString(workflowInstanceDTO));
+            if (workflowInstanceDTO.getState() == WorkflowInstanceState.FAILURE) {
+                return;
+            }
             Graph<WorkflowTaskDefinitionDTO> dag = workflowTaskDefinitionService.getDag(workflowInstanceDTO.getWorkflowDefinition().getId());
+            Map<Long, WorkflowTaskDefinitionDTO> dagNodeMap = toDagNodeMap(dag);
 
             List<WorkflowTaskInstanceDTO> workflowTaskInstanceDTOS = workflowTaskInstanceService.list(workflowInstanceId);
             Map<Long, WorkflowTaskInstanceDTO> workflowTaskDefinitionMap = toWorkflowTaskDefinitionMap(workflowTaskInstanceDTOS);
@@ -78,7 +90,7 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
                 }
             }
             if (isAnyFailure) {
-                stateMachine.onFailure(workflowInstanceService.get(workflowInstanceId), new Exception(anyFailureMessage));
+                onFailure(workflowInstanceId, new Exception(anyFailureMessage));
                 return;
             }
 
@@ -88,8 +100,8 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
                 if (workflowTaskInstanceDTO.getStage() == WorkflowTaskInstanceStage.SUCCESS) {
                     successTaskCount++;
                     // 如何前置节点都成功了，则尝试启动后继节点
-                    // equals() 和 hashcode()
-                    Set<WorkflowTaskDefinitionDTO> successors = dag.successors(workflowTaskInstanceDTO.getWorkflowTaskDefinition());
+                    WorkflowTaskDefinitionDTO node = dagNodeMap.get(workflowTaskInstanceDTO.getWorkflowTaskDefinition().getId());
+                    Set<WorkflowTaskDefinitionDTO> successors = dag.successors(node);
                     successors.stream().forEach(workflowTaskDefinitionDTO -> tryDeploySuccessor(dag, workflowTaskDefinitionMap, workflowTaskDefinitionDTO));
                 }
             }
@@ -103,6 +115,14 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
             return workflowTaskInstanceDTOS.stream()
                     .collect(Collectors.toMap(
                             workflowTaskInstanceDTO -> workflowTaskInstanceDTO.getWorkflowTaskDefinition().getId(),
+                            Function.identity()
+                    ));
+        }
+
+        private Map<Long, WorkflowTaskDefinitionDTO> toDagNodeMap(Graph<WorkflowTaskDefinitionDTO> dag) {
+            return dag.nodes().stream()
+                    .collect(Collectors.toMap(
+                            workflowTaskDefinitionDTO -> workflowTaskDefinitionDTO.getId(),
                             Function.identity()
                     ));
         }

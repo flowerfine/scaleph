@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.workflow.listener.workflowinstance;
 
-import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskDefinitionService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
@@ -81,11 +80,9 @@ public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanc
             Graph<WorkflowTaskDefinitionDTO> dag = workflowTaskDefinitionService.getDag(workflowDefinitionDTO.getId());
             Set<WorkflowTaskDefinitionDTO> nodes = dag.nodes();
             for (WorkflowTaskDefinitionDTO workflowTaskDefinitionDTO : nodes) {
-                System.out.println("验证是否需要启动 root 节点: " + JacksonUtil.toJsonString(workflowTaskDefinitionDTO));
                 // root 节点
                 if (dag.inDegree(workflowTaskDefinitionDTO) == 0) {
                     workflowTaskInstanceService.deploy(workflowTaskDefinitionDTO.getId(), event.getWorkflowInstanceId());
-                    System.out.println("真正启动 root 节点: " + JacksonUtil.toJsonString(workflowTaskDefinitionDTO));
                 }
             }
             // todo 循环检测 workflowTaskInstanceDTOS 状态或接收 workflowTaskInstance 事件，判断是否成功或失败

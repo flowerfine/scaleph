@@ -22,12 +22,10 @@ import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskType;
 import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.Map;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 public class WorkflowTaskDefinitionDTO extends BaseDTO {
 
     @Schema(description = "workflow definition id")
