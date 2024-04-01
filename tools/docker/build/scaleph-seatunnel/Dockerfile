@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG FLINK_VERSION=1.15
+ARG FLINK_VERSION=1.16
 ARG BASE_RELEASE_IMAGE=flink:${FLINK_VERSION}
 FROM $BASE_RELEASE_IMAGE as release
 
