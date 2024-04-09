@@ -16,8 +16,8 @@
   ~ limitations under the License.
   -->
 
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -26,19 +26,12 @@
         <version>2.0.3-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>scaleph-support</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>scaleph-queue</artifactId>
 
-    <modules>
-        <module>scaleph-privilege</module>
-        <module>scaleph-mail</module>
-        <module>scaleph-storage</module>
-        <module>scaleph-cache</module>
-        <module>scaleph-log</module>
-        <module>scaleph-system</module>
-        <module>scaleph-generator</module>
-        <module>scaleph-dag</module>
-        <module>scaleph-queue</module>
-    </modules>
-
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-system</artifactId>
+        </dependency>
+    </dependencies>
 </project>
