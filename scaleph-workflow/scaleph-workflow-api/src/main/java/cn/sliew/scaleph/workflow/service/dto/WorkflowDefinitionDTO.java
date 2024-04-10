@@ -20,6 +20,7 @@ package cn.sliew.scaleph.workflow.service.dto;
 
 import cn.sliew.scaleph.common.dict.workflow.WorkflowExecuteType;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowType;
+import cn.sliew.scaleph.dag.service.dto.DagDTO;
 import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -52,5 +53,8 @@ public class WorkflowDefinitionDTO extends BaseDTO {
 
     @Schema(description = "schedule")
     private WorkflowScheduleDTO schedule;
+
+    @Schema(description = "dag")
+    private DagDTO dag;
 
 }

@@ -16,16 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workspace.flink.cdc.service;
+package cn.sliew.scaleph.workflow.service;
 
-import cn.sliew.scaleph.dag.service.DagDndService;
 import cn.sliew.scaleph.dag.service.dto.DagDTO;
 import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
+import cn.sliew.scaleph.workflow.service.param.WorkflowDefinitionListParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
 
-public interface FlinkCDCDagService extends DagDndService {
+public interface WorkflowDagService {
 
     Long initialize();
 
@@ -36,4 +38,5 @@ public interface FlinkCDCDagService extends DagDndService {
     void update(Long dagId, DagGraphVO graph);
 
     List<DndDTO> getDnds();
+
 }

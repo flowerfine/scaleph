@@ -22,12 +22,6 @@ import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowDefinitionListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-/**
- * workflow 组成：definition
- * instance: workflow 每一次运行记做 instance，运行结束，则转为 log
- *
- * run terminate, schedule, unschedule
- */
 public interface WorkflowDefinitionService {
 
     Page<WorkflowDefinitionDTO> list(WorkflowDefinitionListParam param);

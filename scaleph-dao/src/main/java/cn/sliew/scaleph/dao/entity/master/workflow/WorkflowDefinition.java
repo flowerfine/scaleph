@@ -46,4 +46,7 @@ public class WorkflowDefinition extends BaseDO {
     @TableField("remark")
     private String remark;
 
+    @TableField("dag_id")
+    private Long dagId;
+
 }

@@ -20,6 +20,7 @@ package cn.sliew.scaleph.workflow.service.convert;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.dag.service.dto.DagDTO;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowDefinition;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -43,6 +44,9 @@ public interface WorkflowDefinitionConvert extends BaseConvert<WorkflowDefinitio
         if (CollectionUtils.isEmpty(dto.getParam()) == false) {
             entity.setParam(JacksonUtil.toJsonString(dto.getParam()));
         }
+        if (dto.getDag() != null) {
+            entity.setDagId(dto.getDag().getId());
+        }
         return entity;
     }
 
@@ -53,6 +57,9 @@ public interface WorkflowDefinitionConvert extends BaseConvert<WorkflowDefinitio
         if (StringUtils.hasText(entity.getParam())) {
             dto.setParam(JacksonUtil.parseJsonString(entity.getParam(), new TypeReference<Map<String, Object>>() {}));
         }
+        DagDTO dag = new DagDTO();
+        dag.setId(entity.getDagId());
+        dto.setDag(dag);
         return dto;
     }
 }

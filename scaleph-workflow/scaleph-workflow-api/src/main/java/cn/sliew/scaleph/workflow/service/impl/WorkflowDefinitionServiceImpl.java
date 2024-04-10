@@ -21,6 +21,7 @@ package cn.sliew.scaleph.workflow.service.impl;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowDefinition;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowDefinitionVO;
 import cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowDefinitionMapper;
+import cn.sliew.scaleph.workflow.service.WorkflowDagService;
 import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
 import cn.sliew.scaleph.workflow.service.convert.WorkflowDefinitionVOConvert;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
@@ -38,6 +39,8 @@ public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService 
 
     @Autowired
     private WorkflowDefinitionMapper workflowDefinitionMapper;
+    @Autowired
+    private WorkflowDagService workflowDagService;
 
     @Override
     public Page<WorkflowDefinitionDTO> list(WorkflowDefinitionListParam param) {
@@ -53,6 +56,8 @@ public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService 
     public WorkflowDefinitionDTO get(Long id) {
         WorkflowDefinitionVO record = workflowDefinitionMapper.get(id);
         checkState(record != null, () -> "workflow definition not exists for id: " + id);
-        return WorkflowDefinitionVOConvert.INSTANCE.toDto(record);
+        WorkflowDefinitionDTO dto = WorkflowDefinitionVOConvert.INSTANCE.toDto(record);
+        dto.setDag(workflowDagService.getDag(record.getDagId()));
+        return dto;
     }
 }

@@ -20,7 +20,9 @@ package cn.sliew.scaleph.workspace.flink.cdc.service.impl;
 
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCPluginType;
 import cn.sliew.scaleph.dag.service.DagService;
+import cn.sliew.scaleph.dag.service.dto.DagDTO;
 import cn.sliew.scaleph.dag.service.param.DagSimpleAddParam;
+import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndPortDTO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndPortGroupEnum;
@@ -54,13 +56,13 @@ public class FlinkCDCDagServiceImpl implements FlinkCDCDagService {
     }
 
     @Override
-    public Object getDag(Long dagId) {
-        return null;
+    public DagDTO getDag(Long dagId) {
+        return dagService.selectOne(dagId);
     }
 
     @Override
-    public void update(Object param) {
-
+    public void update(Long dagId, DagGraphVO graph) {
+        dagService.replace(dagId, graph);
     }
 
     @Override

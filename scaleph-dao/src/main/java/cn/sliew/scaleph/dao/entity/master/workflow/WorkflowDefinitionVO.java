@@ -46,7 +46,10 @@ public class WorkflowDefinitionVO extends BaseDO {
     @TableField("remark")
     private String remark;
 
-    @TableField("schedule")
+    @TableField(value = "schedule", exist = false)
     private WorkflowSchedule schedule;
+
+    @TableField("dag_id")
+    private Long dagId;
 
 }
