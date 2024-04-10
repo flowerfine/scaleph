@@ -24,7 +24,7 @@ import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO2;
 import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
 import com.google.common.graph.Graph;
 import lombok.extern.slf4j.Slf4j;
@@ -80,12 +80,12 @@ public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanc
             WorkflowDefinitionDTO workflowDefinitionDTO = workflowInstanceDTO.getWorkflowDefinition();
 
             // 找到 root 节点，批量启动 root 节点
-            Graph<WorkflowTaskDefinitionDTO> dag = workflowDefinitionService.getDag(workflowDefinitionDTO.getId());
-            Set<WorkflowTaskDefinitionDTO> nodes = dag.nodes();
-            for (WorkflowTaskDefinitionDTO workflowTaskDefinitionDTO : nodes) {
+            Graph<WorkflowTaskDefinitionDTO2> dag = workflowDefinitionService.getDag(workflowDefinitionDTO.getId());
+            Set<WorkflowTaskDefinitionDTO2> nodes = dag.nodes();
+            for (WorkflowTaskDefinitionDTO2 workflowTaskDefinitionDTO2 : nodes) {
                 // root 节点
-                if (dag.inDegree(workflowTaskDefinitionDTO) == 0) {
-                    workflowTaskInstanceService.deploy(workflowTaskDefinitionDTO.getId(), event.getWorkflowInstanceId());
+                if (dag.inDegree(workflowTaskDefinitionDTO2) == 0) {
+                    workflowTaskInstanceService.deploy(workflowTaskDefinitionDTO2.getId(), event.getWorkflowInstanceId());
                 }
             }
             // todo 循环检测 workflowTaskInstanceDTOS 状态或接收 workflowTaskInstance 事件，判断是否成功或失败

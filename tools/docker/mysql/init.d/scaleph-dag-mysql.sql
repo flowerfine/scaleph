@@ -70,6 +70,26 @@ INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `p
                         `creator`, `editor`)
 VALUES (4, 2, 'f08143b4-34dc-4190-8723-e8d8ce49738f', 'Console Sink', 360, 290,
         '{"name":"Console","type":"sink","engine":"seatunnel"}', '{"stepTitle":"Console Sink"}', 'sys', 'sys');
+INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `step_meta`, `step_attrs`,
+                        `creator`, `editor`)
+VALUES (7, 4, '7f7ced76-7771-4870-91d9-435ef1c4e623', 'FlinkSessionClusterStatus', 460, 400,
+        '{\"handler\":\"cn.sliew.scaleph.engine.flink.kubernetes.action.FlinkSessionClusterStatusSyncJob\",\"type\":\"1\"}',
+        NULL, 'sys', 'sys');
+INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `step_meta`, `step_attrs`,
+                        `creator`, `editor`)
+VALUES (8, 5, '5d5d67c5-ade3-4005-a0db-d514bf11616d', 'FlinkJobStatus', 460, 400,
+        '{\"handler\":\"cn.sliew.scaleph.engine.flink.kubernetes.action.FlinkJobStatusSyncJob\",\"type\":\"1\"}', NULL,
+        'sys', 'sys');
+INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `step_meta`, `step_attrs`,
+                        `creator`, `editor`)
+VALUES (9, 6, '8c7b171c-f232-4b96-b842-5f4fbef34bc1', 'DorisOperatorInstanceStatus', 460, 400,
+        '{\"handler\":\"cn.sliew.scaleph.engine.doris.action.DorisOperatorInstanceStatusSyncJob\",\"type\":\"1\"}',
+        NULL, 'sys', 'sys');
+INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `step_meta`, `step_attrs`,
+                        `creator`, `editor`)
+VALUES (10, 7, 'cae1a622-6c96-4cec-81d3-883510c17702', 'FlinkJobStatus', 460, 400,
+        '{\"handler\":\"cn.sliew.scaleph.engine.flink.kubernetes.action.FlinkJobStatusSyncJob2\",\"type\":\"1\"}', NULL,
+        'sys', 'sys');
 
 drop table if exists dag_link;
 create table dag_link

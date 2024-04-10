@@ -22,7 +22,7 @@ import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionAttrs;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO2;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionMeta;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.mapstruct.Mapper;
@@ -31,11 +31,11 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.BeanUtils;
 
 @Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface WorkflowTaskDefinition2Convert extends BaseConvert<DagStepDTO, WorkflowTaskDefinitionDTO> {
+public interface WorkflowTaskDefinition2Convert extends BaseConvert<DagStepDTO, WorkflowTaskDefinitionDTO2> {
     WorkflowTaskDefinition2Convert INSTANCE = Mappers.getMapper(WorkflowTaskDefinition2Convert.class);
 
     @Override
-    default DagStepDTO toDo(WorkflowTaskDefinitionDTO dto) {
+    default DagStepDTO toDo(WorkflowTaskDefinitionDTO2 dto) {
         DagStepDTO entity = new DagStepDTO();
         BeanUtils.copyProperties(dto, entity);
         ObjectNode stepMeta = (ObjectNode) JacksonUtil.toJsonNode(dto.getStepMeta());
@@ -46,8 +46,8 @@ public interface WorkflowTaskDefinition2Convert extends BaseConvert<DagStepDTO, 
     }
 
     @Override
-    default WorkflowTaskDefinitionDTO toDto(DagStepDTO entity) {
-        WorkflowTaskDefinitionDTO dto = new WorkflowTaskDefinitionDTO();
+    default WorkflowTaskDefinitionDTO2 toDto(DagStepDTO entity) {
+        WorkflowTaskDefinitionDTO2 dto = new WorkflowTaskDefinitionDTO2();
         BeanUtils.copyProperties(entity, dto);
         dto.setStepMeta(JacksonUtil.toObject(entity.getStepMeta(), WorkflowTaskDefinitionMeta.class));
         dto.setStepAttrs(JacksonUtil.toObject(entity.getStepMeta(), WorkflowTaskDefinitionAttrs.class));
