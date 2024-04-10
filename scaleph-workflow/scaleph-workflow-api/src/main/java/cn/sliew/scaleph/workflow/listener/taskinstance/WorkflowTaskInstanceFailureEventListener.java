@@ -29,7 +29,7 @@ import java.util.concurrent.CompletableFuture;
 @MessageListener(topic = WorkflowTaskInstanceFailureEventListener.TOPIC, consumerGroup = WorkflowTaskInstanceStateMachine.CONSUMER_GROUP)
 public class WorkflowTaskInstanceFailureEventListener extends AbstractWorkflowTaskInstanceEventListener {
 
-    public static final String TOPIC = "TOPIC_WORKFLOW_TASK_INSTANCE_PROCESS_SUCCESS";
+    public static final String TOPIC = "TOPIC_WORKFLOW_TASK_INSTANCE_PROCESS_FAILURE";
 
     @Override
     protected CompletableFuture handleEventAsync(WorkflowTaskInstanceEventDTO event) {
