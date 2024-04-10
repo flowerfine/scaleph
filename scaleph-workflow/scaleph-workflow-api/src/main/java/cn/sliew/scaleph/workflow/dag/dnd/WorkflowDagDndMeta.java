@@ -16,20 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service;
+package cn.sliew.scaleph.workflow.dag.dnd;
 
-import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
-import cn.sliew.scaleph.workflow.service.param.WorkflowDefinitionListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.common.graph.Graph;
+import cn.sliew.scaleph.dag.xflow.dnd.DndMeta;
+import lombok.Data;
 
-public interface WorkflowDefinitionService {
+@Data
+public class WorkflowDagDndMeta extends DndMeta {
 
-    Page<WorkflowDefinitionDTO> list(WorkflowDefinitionListParam param);
+    /**
+     * @see cn.sliew.scaleph.common.dict.workflow.WorkflowTaskType
+     */
+    private String type;
 
-    WorkflowDefinitionDTO get(Long id);
-
-    Graph<WorkflowTaskDefinitionDTO> getDag(Long id);
-
+    private String handler;
 }

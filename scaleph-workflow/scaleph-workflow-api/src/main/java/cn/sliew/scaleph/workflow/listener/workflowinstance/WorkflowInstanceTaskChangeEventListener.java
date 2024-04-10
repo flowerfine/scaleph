@@ -21,6 +21,7 @@ package cn.sliew.scaleph.workflow.listener.workflowinstance;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
 import cn.sliew.scaleph.queue.MessageListener;
+import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskDefinitionService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
@@ -45,6 +46,8 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
 
     public static final String TOPIC = "TOPIC_WORKFLOW_INSTANCE_PROCESS_TASK_CHANGE";
 
+    @Autowired
+    private WorkflowDefinitionService workflowDefinitionService;
     @Autowired
     private WorkflowTaskDefinitionService workflowTaskDefinitionService;
     @Autowired
@@ -76,7 +79,7 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
             if (workflowInstanceDTO.getState() == WorkflowInstanceState.FAILURE) {
                 return;
             }
-            Graph<WorkflowTaskDefinitionDTO> dag = workflowTaskDefinitionService.getDag(workflowInstanceDTO.getWorkflowDefinition().getId());
+            Graph<WorkflowTaskDefinitionDTO> dag = workflowDefinitionService.getDag(workflowInstanceDTO.getWorkflowDefinition().getId());
             Map<Long, WorkflowTaskDefinitionDTO> dagNodeMap = toDagNodeMap(dag);
 
             List<WorkflowTaskInstanceDTO> workflowTaskInstanceDTOS = workflowTaskInstanceService.list(workflowInstanceId);

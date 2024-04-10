@@ -25,9 +25,6 @@ import cn.sliew.scaleph.workflow.service.convert.WorkflowTaskDefinitionConvert;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.google.common.graph.Graph;
-import com.google.common.graph.GraphBuilder;
-import com.google.common.graph.MutableGraph;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,15 +42,5 @@ public class WorkflowTaskDefinitionServiceImpl implements WorkflowTaskDefinition
                 .eq(WorkflowTaskDefinition::getWorkflowDefinitionId, workflowDefinitionId);
         List<WorkflowTaskDefinition> workflowTaskDefinitions = workflowTaskDefinitionMapper.selectList(queryWrapper);
         return WorkflowTaskDefinitionConvert.INSTANCE.toDto(workflowTaskDefinitions);
-    }
-
-    @Override
-    public Graph<WorkflowTaskDefinitionDTO> getDag(Long workflowDefinitionId) {
-        MutableGraph<WorkflowTaskDefinitionDTO> graph = GraphBuilder.directed().build();
-        List<WorkflowTaskDefinitionDTO> workflowTaskDefinitionDTOS = list(workflowDefinitionId);
-        for (WorkflowTaskDefinitionDTO workflowTaskDefinitionDTO : workflowTaskDefinitionDTOS) {
-            graph.addNode(workflowTaskDefinitionDTO);
-        }
-        return graph;
     }
 }

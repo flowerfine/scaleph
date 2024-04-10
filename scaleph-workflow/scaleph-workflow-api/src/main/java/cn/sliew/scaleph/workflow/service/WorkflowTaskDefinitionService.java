@@ -19,14 +19,12 @@
 package cn.sliew.scaleph.workflow.service;
 
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
-import com.google.common.graph.Graph;
 
 import java.util.List;
 
+@Deprecated
 public interface WorkflowTaskDefinitionService {
 
     List<WorkflowTaskDefinitionDTO> list(Long workflowDefinitionId);
-
-    Graph<WorkflowTaskDefinitionDTO> getDag(Long workflowDefinitionId);
 
 }

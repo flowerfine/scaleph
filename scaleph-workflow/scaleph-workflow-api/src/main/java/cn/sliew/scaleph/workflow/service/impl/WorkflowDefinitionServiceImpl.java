@@ -18,19 +18,30 @@
 
 package cn.sliew.scaleph.workflow.service.impl;
 
+import cn.sliew.scaleph.dag.service.dto.DagDTO;
+import cn.sliew.scaleph.dag.service.dto.DagLinkDTO;
+import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowDefinition;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowDefinitionVO;
 import cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowDefinitionMapper;
 import cn.sliew.scaleph.workflow.service.WorkflowDagService;
 import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
 import cn.sliew.scaleph.workflow.service.convert.WorkflowDefinitionVOConvert;
+import cn.sliew.scaleph.workflow.service.convert.WorkflowTaskDefinition2Convert;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowDefinitionListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.graph.Graph;
+import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.MutableGraph;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -59,5 +70,29 @@ public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService 
         WorkflowDefinitionDTO dto = WorkflowDefinitionVOConvert.INSTANCE.toDto(record);
         dto.setDag(workflowDagService.getDag(record.getDagId()));
         return dto;
+    }
+
+    @Override
+    public Graph<WorkflowTaskDefinitionDTO> getDag(Long id) {
+        WorkflowDefinitionDTO workflowDefinitionDTO = get(id);
+        DagDTO dag = workflowDefinitionDTO.getDag();
+        return buildGraph(id, dag);
+    }
+
+    private MutableGraph<WorkflowTaskDefinitionDTO> buildGraph(Long id, DagDTO dag) {
+        MutableGraph<WorkflowTaskDefinitionDTO> graph = GraphBuilder.directed().build();
+        List<DagStepDTO> steps = dag.getSteps();
+        List<DagLinkDTO> links = dag.getLinks();
+        if (CollectionUtils.isEmpty(steps) || CollectionUtils.isEmpty(links)) {
+            return graph;
+        }
+        Map<String, WorkflowTaskDefinitionDTO> stepMap = new HashMap<>();
+        for (DagStepDTO step : steps) {
+            WorkflowTaskDefinitionDTO taskDefinitionDTO = WorkflowTaskDefinition2Convert.INSTANCE.toDto(step);
+            taskDefinitionDTO.setWorkflowDefinitionId(id);
+            graph.addNode(taskDefinitionDTO);
+        }
+        links.forEach(link -> graph.putEdge(stepMap.get(link.getFromStepId()), stepMap.get(link.getToStepId())));
+        return graph;
     }
 }

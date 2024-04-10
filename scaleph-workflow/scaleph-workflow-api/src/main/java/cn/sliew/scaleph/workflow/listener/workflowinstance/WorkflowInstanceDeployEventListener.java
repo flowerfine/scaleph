@@ -19,8 +19,8 @@
 package cn.sliew.scaleph.workflow.listener.workflowinstance;
 
 import cn.sliew.scaleph.queue.MessageListener;
+import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
 import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
-import cn.sliew.scaleph.workflow.service.WorkflowTaskDefinitionService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
@@ -62,9 +62,9 @@ public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanc
         @RInject
         private String taskId;
         @Autowired
-        private WorkflowInstanceService workflowInstanceService;
+        private WorkflowDefinitionService workflowDefinitionService;
         @Autowired
-        private WorkflowTaskDefinitionService workflowTaskDefinitionService;
+        private WorkflowInstanceService workflowInstanceService;
         @Autowired
         private WorkflowTaskInstanceService workflowTaskInstanceService;
 
@@ -80,7 +80,7 @@ public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanc
             WorkflowDefinitionDTO workflowDefinitionDTO = workflowInstanceDTO.getWorkflowDefinition();
 
             // 找到 root 节点，批量启动 root 节点
-            Graph<WorkflowTaskDefinitionDTO> dag = workflowTaskDefinitionService.getDag(workflowDefinitionDTO.getId());
+            Graph<WorkflowTaskDefinitionDTO> dag = workflowDefinitionService.getDag(workflowDefinitionDTO.getId());
             Set<WorkflowTaskDefinitionDTO> nodes = dag.nodes();
             for (WorkflowTaskDefinitionDTO workflowTaskDefinitionDTO : nodes) {
                 // root 节点
