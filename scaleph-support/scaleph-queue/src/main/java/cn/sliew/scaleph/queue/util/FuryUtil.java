@@ -26,6 +26,7 @@ public enum FuryUtil {
 
     private static Fury fury = Fury.builder().withLanguage(Language.JAVA)
             .requireClassRegistration(false)
+            .withRefTracking(true)
             .build();
 
     public static byte[] serialize(Object obj) {

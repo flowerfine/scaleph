@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.workflow.service.impl;
 
+import cn.sliew.milky.common.exception.ThrowableTraceFormater;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowInstance;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowInstanceVO;
@@ -90,7 +91,8 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
         record.setState(WorkflowInstanceState.FAILURE);
         record.setEndTime(new Date());
         if (throwable != null) {
-            record.setMessage(throwable.getMessage());
+            String throwableMessage = ThrowableTraceFormater.readStackTrace(throwable);
+            record.setMessage(throwableMessage.length() > 255 ? throwableMessage.substring(0, 255) : throwableMessage);
         }
         workflowInstanceMapper.updateById(record);
     }
