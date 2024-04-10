@@ -83,6 +83,15 @@ services:
     networks:
       - scaleph
 
+  gravitino:
+    image: datastrato/gravitino:0.4.0
+    container_name: gravitino
+    ports:
+      - 8090:8090
+    restart: unless-stopped
+    networks:
+      - scaleph
+
 networks:
   scaleph:
     driver: bridge
