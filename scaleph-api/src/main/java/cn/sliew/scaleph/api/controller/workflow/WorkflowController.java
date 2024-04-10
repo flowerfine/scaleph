@@ -22,12 +22,12 @@ import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
 import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
-import cn.sliew.scaleph.workflow.service.WorkflowTaskDefinitionService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO2;
 import cn.sliew.scaleph.workflow.service.param.WorkflowDefinitionListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.graph.Graph;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.Set;
 
 @Tag(name = "workflow管理-workflow")
 @RestController
@@ -48,8 +48,6 @@ public class WorkflowController {
 
     @Autowired
     private WorkflowDefinitionService workflowDefinitionService;
-    @Autowired
-    private WorkflowTaskDefinitionService workflowTaskDefinitionService;
     @Autowired
     private WorkflowInstanceService workflowInstanceService;
     @Autowired
@@ -66,9 +64,9 @@ public class WorkflowController {
     @Logging
     @GetMapping("{workflowDefinitionId}")
     @Operation(summary = "查询 workflow 定义列表", description = "查询 workflow 定义列表")
-    public ResponseEntity<ResponseVO<List<WorkflowTaskDefinitionDTO>>> listWorkflowTaskDefinitions(@PathVariable("workflowDefinitionId") Long workflowDefinitionId) {
-        List<WorkflowTaskDefinitionDTO> result = workflowTaskDefinitionService.list(workflowDefinitionId);
-        return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
+    public ResponseEntity<ResponseVO<Set<WorkflowTaskDefinitionDTO2>>> listWorkflowTaskDefinitions(@PathVariable("workflowDefinitionId") Long workflowDefinitionId) {
+        Graph<WorkflowTaskDefinitionDTO2> dag = workflowDefinitionService.getDag(workflowDefinitionId);
+        return new ResponseEntity<>(ResponseVO.success(dag.nodes()), HttpStatus.OK);
     }
 
 }

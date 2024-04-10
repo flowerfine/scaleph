@@ -22,10 +22,8 @@ import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
 import cn.sliew.scaleph.queue.MessageListener;
 import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
-import cn.sliew.scaleph.workflow.service.WorkflowTaskDefinitionService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO2;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
@@ -49,8 +47,6 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
 
     @Autowired
     private WorkflowDefinitionService workflowDefinitionService;
-    @Autowired
-    private WorkflowTaskDefinitionService workflowTaskDefinitionService;
     @Autowired
     private WorkflowTaskInstanceService workflowTaskInstanceService;
 
@@ -107,7 +103,7 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
                 if (workflowTaskInstanceDTO.getStage() == WorkflowTaskInstanceStage.SUCCESS) {
                     successTaskCount++;
                     // 如何前置节点都成功了，则尝试启动后继节点
-                    WorkflowTaskDefinitionDTO2 node = dagNodeMap.get(workflowTaskInstanceDTO.getWorkflowTaskDefinition().getId());
+                    WorkflowTaskDefinitionDTO2 node = dagNodeMap.get(workflowTaskInstanceDTO.getWorkflowTaskDefinitionId());
                     Set<WorkflowTaskDefinitionDTO2> successors = dag.successors(node);
                     successors.stream().forEach(workflowTaskDefinitionDTO -> tryDeploySuccessor(dag, workflowTaskDefinitionMap, workflowTaskDefinitionDTO));
                 }
@@ -121,7 +117,7 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
         private Map<Long, WorkflowTaskInstanceDTO> toWorkflowTaskDefinitionMap(List<WorkflowTaskInstanceDTO> workflowTaskInstanceDTOS) {
             return workflowTaskInstanceDTOS.stream()
                     .collect(Collectors.toMap(
-                            workflowTaskInstanceDTO -> workflowTaskInstanceDTO.getWorkflowTaskDefinition().getId(),
+                            workflowTaskInstanceDTO -> workflowTaskInstanceDTO.getWorkflowTaskDefinitionId(),
                             Function.identity()
                     ));
         }
@@ -134,14 +130,14 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
                     ));
         }
 
-        private void tryDeploySuccessor(Graph<WorkflowTaskDefinitionDTO> dag, Map<Long, WorkflowTaskInstanceDTO> workflowTaskDefinitionMap, WorkflowTaskDefinitionDTO workflowTaskDefinitionDTO) {
+        private void tryDeploySuccessor(Graph<WorkflowTaskDefinitionDTO2> dag, Map<Long, WorkflowTaskInstanceDTO> workflowTaskDefinitionMap, WorkflowTaskDefinitionDTO2 workflowTaskDefinitionDTO) {
             // 已经执行过
             if (workflowTaskDefinitionMap.containsKey(workflowTaskDefinitionDTO.getId())) {
                 return;
             }
             // 判断前驱节点是否全部成功
-            Set<WorkflowTaskDefinitionDTO> predecessors = dag.predecessors(workflowTaskDefinitionDTO);
-            for (WorkflowTaskDefinitionDTO predecessor : predecessors) {
+            Set<WorkflowTaskDefinitionDTO2> predecessors = dag.predecessors(workflowTaskDefinitionDTO);
+            for (WorkflowTaskDefinitionDTO2 predecessor : predecessors) {
                 // 前驱节点未执行
                 if (workflowTaskDefinitionMap.containsKey(predecessor.getId()) == false) {
                     return;

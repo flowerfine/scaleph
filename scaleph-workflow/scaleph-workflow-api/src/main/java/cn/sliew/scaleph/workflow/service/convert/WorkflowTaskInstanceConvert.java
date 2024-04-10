@@ -21,7 +21,6 @@ package cn.sliew.scaleph.workflow.service.convert;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskInstance;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -36,7 +35,6 @@ public interface WorkflowTaskInstanceConvert extends BaseConvert<WorkflowTaskIns
     default WorkflowTaskInstance toDo(WorkflowTaskInstanceDTO dto) {
         WorkflowTaskInstance entity = new WorkflowTaskInstance();
         BeanUtils.copyProperties(dto, entity);
-        entity.setWorkflowTaskDefinitionId(dto.getWorkflowTaskDefinition().getId());
         entity.setWorkflowInstanceId(dto.getWorkflowInstanceDTO().getId());
         return entity;
     }
@@ -45,9 +43,6 @@ public interface WorkflowTaskInstanceConvert extends BaseConvert<WorkflowTaskIns
     default WorkflowTaskInstanceDTO toDto(WorkflowTaskInstance entity) {
         WorkflowTaskInstanceDTO dto = new WorkflowTaskInstanceDTO();
         BeanUtils.copyProperties(entity, dto);
-        WorkflowTaskDefinitionDTO workflowTaskDefinitionDTO = new WorkflowTaskDefinitionDTO();
-        workflowTaskDefinitionDTO.setId(entity.getWorkflowTaskDefinitionId());
-        dto.setWorkflowTaskDefinition(workflowTaskDefinitionDTO);
         WorkflowInstanceDTO workflowInstanceDTO = new WorkflowInstanceDTO();
         workflowInstanceDTO.setId(entity.getWorkflowInstanceId());
         dto.setWorkflowInstanceDTO(workflowInstanceDTO);

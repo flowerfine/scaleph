@@ -32,10 +32,10 @@ import cn.sliew.scaleph.workflow.engine.workflow.ParallelFlow;
 import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
 import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
 import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
-import cn.sliew.scaleph.workflow.service.WorkflowTaskDefinitionService;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO2;
+import com.google.common.graph.Graph;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -45,6 +45,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.util.ClassUtils;
 
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 public class QuartzJobHandler extends QuartzJobBean {
@@ -55,8 +56,6 @@ public class QuartzJobHandler extends QuartzJobBean {
     private WorkflowDefinitionService workflowDefinitionService;
     @Autowired
     private WorkflowInstanceService workflowInstanceService;
-    @Autowired
-    private WorkflowTaskDefinitionService workflowTaskDefinitionService;
 
     /**
      * 路由分发任务
@@ -74,11 +73,12 @@ public class QuartzJobHandler extends QuartzJobBean {
 
         // todo 以下全部移除
         ActionContext actionContext = buildActionContext(context, workflowDefinitionDTO, workflowInstanceDTO);
-        List<WorkflowTaskDefinitionDTO> workflowTaskDefinitionDTOS = workflowTaskDefinitionService.list(workflowDefinitionDTO.getId());
-        // 应该是对 task 的上下游关系进行梳理后，进而执行
+        Graph<WorkflowTaskDefinitionDTO2> dag = workflowDefinitionService.getDag(workflowDefinitionDTO.getId());
+        Set<WorkflowTaskDefinitionDTO2> workflowTaskDefinitionDTOS = dag.nodes();
+        // fixme 应该是对 task 的上下游关系进行梳理后，进而执行
         Action[] actions = workflowTaskDefinitionDTOS.stream().map(workflowTaskDefinition -> {
             try {
-                Class<?> clazz = ClassUtils.forName(workflowTaskDefinition.getHandler(), ClassUtils.getDefaultClassLoader());
+                Class<?> clazz = ClassUtils.forName(workflowTaskDefinition.getStepMeta().getHandler(), ClassUtils.getDefaultClassLoader());
                 return (Action) SpringApplicationContextUtil.getBean(clazz);
             } catch (ClassNotFoundException e) {
                 Rethrower.throwAs(e);
