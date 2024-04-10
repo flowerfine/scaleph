@@ -16,9 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.queue;
+package cn.sliew.scaleph.queue;
 
-public interface Event {
+import org.springframework.stereotype.Component;
 
-    String getTopic();
+import java.lang.annotation.*;
+
+/**
+ * todo 扫描注解实现自动注册
+ */
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Component
+public @interface MessageListener {
+
+    String topic();
+
+    String consumerGroup();
 }

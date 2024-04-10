@@ -35,6 +35,10 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-queue</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-plugin-framework</artifactId>
         </dependency>
 

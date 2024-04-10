@@ -18,8 +18,19 @@
 
 package cn.sliew.scaleph.workflow.listener.workflowinstance;
 
-import cn.sliew.scaleph.workflow.queue.EventListener;
+import cn.sliew.scaleph.queue.Message;
+import cn.sliew.scaleph.queue.MessageHandler;
+import cn.sliew.scaleph.queue.util.FuryUtil;
 
-public interface WorkflowInstanceEventListener extends EventListener<WorkflowInstanceEventDTO> {
+public interface WorkflowInstanceEventListener extends MessageHandler {
 
+    @Override
+    default void handler(Message message) throws Exception {
+        if (message.getBody() != null) {
+            WorkflowInstanceEventDTO eventDTO = (WorkflowInstanceEventDTO) FuryUtil.deserialize(message.getBody());
+            onEvent(eventDTO);
+        }
+    }
+
+    void onEvent(WorkflowInstanceEventDTO eventDTO);
 }

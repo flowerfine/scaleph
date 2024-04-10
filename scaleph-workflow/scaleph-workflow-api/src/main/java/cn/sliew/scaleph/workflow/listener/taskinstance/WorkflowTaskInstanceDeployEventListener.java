@@ -18,16 +18,19 @@
 
 package cn.sliew.scaleph.workflow.listener.taskinstance;
 
+import cn.sliew.scaleph.queue.MessageListener;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
+import cn.sliew.scaleph.workflow.statemachine.WorkflowTaskInstanceStateMachine;
 import org.redisson.api.annotation.RInject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.concurrent.CompletableFuture;
 
-@Component
+@MessageListener(topic = WorkflowTaskInstanceDeployEventListener.TOPIC, consumerGroup = WorkflowTaskInstanceStateMachine.CONSUMER_GROUP)
 public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTaskInstanceEventListener {
+
+    public static final String TOPIC = "TOPIC_WORKFLOW_TASK_INSTANCE_COMMAND_DEPLOY";
 
     @Override
     protected CompletableFuture handleEventAsync(WorkflowTaskInstanceEventDTO event) {

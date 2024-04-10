@@ -20,41 +20,28 @@ package cn.sliew.scaleph.workflow.listener.taskinstance;
 
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceEvent;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
-import cn.sliew.scaleph.workflow.queue.Event;
 import lombok.Getter;
 
 import java.util.Optional;
 
 @Getter
-public class WorkflowTaskInstanceEventDTO implements Event {
+public class WorkflowTaskInstanceEventDTO {
 
-    private final String topic;
     private final WorkflowTaskInstanceStage state;
     private final WorkflowTaskInstanceStage nextState;
     private final WorkflowTaskInstanceEvent event;
     private final Long workflowTaskInstanceId;
     private final Optional<Throwable> throwable;
 
-    public WorkflowTaskInstanceEventDTO(String topic, WorkflowTaskInstanceStage state, WorkflowTaskInstanceStage nextState, WorkflowTaskInstanceEvent event, Long workflowTaskInstanceId) {
-        this.topic = topic;
-        this.state = state;
-        this.nextState = nextState;
-        this.event = event;
-        this.workflowTaskInstanceId = workflowTaskInstanceId;
-        this.throwable = Optional.empty();
+    public WorkflowTaskInstanceEventDTO(WorkflowTaskInstanceStage state, WorkflowTaskInstanceStage nextState, WorkflowTaskInstanceEvent event, Long workflowTaskInstanceId) {
+        this(state, nextState, event, workflowTaskInstanceId, null);
     }
 
-    public WorkflowTaskInstanceEventDTO(String topic, WorkflowTaskInstanceStage state, WorkflowTaskInstanceStage nextState, WorkflowTaskInstanceEvent event, Long workflowTaskInstanceId, Throwable throwable) {
-        this.topic = topic;
+    public WorkflowTaskInstanceEventDTO(WorkflowTaskInstanceStage state, WorkflowTaskInstanceStage nextState, WorkflowTaskInstanceEvent event, Long workflowTaskInstanceId, Throwable throwable) {
         this.state = state;
         this.nextState = nextState;
         this.event = event;
         this.workflowTaskInstanceId = workflowTaskInstanceId;
         this.throwable = Optional.ofNullable(throwable);
-    }
-
-    @Override
-    public String getTopic() {
-        return topic;
     }
 }

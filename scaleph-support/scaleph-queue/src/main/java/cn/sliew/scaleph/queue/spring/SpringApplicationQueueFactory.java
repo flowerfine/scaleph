@@ -37,11 +37,12 @@ public class SpringApplicationQueueFactory implements QueueFactory, ApplicationE
 
     private ConcurrentMap<String, Queue> queues = new ConcurrentHashMap<>();
 
+    private Timer timer;
     @Autowired
     private SpringApplicationEventListener eventListener;
-    // SimpleApplicationEventMulticaster 换成异步的
     private ApplicationEventPublisher eventPublisher;
-    private Timer timer;
+    // 设置 executor，变更为异步操作
+//    private SimpleApplicationEventMulticaster applicationEventMulticaster;
 
     @Override
     public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {

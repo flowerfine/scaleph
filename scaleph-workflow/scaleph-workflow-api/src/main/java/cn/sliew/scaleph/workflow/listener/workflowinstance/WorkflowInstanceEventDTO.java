@@ -20,41 +20,28 @@ package cn.sliew.scaleph.workflow.listener.workflowinstance;
 
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceEvent;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
-import cn.sliew.scaleph.workflow.queue.Event;
 import lombok.Getter;
 
 import java.util.Optional;
 
 @Getter
-public class WorkflowInstanceEventDTO implements Event {
+public class WorkflowInstanceEventDTO {
 
-    private final String topic;
     private final WorkflowInstanceState state;
     private final WorkflowInstanceState nextState;
     private final WorkflowInstanceEvent event;
     private final Long workflowInstanceId;
     private final Optional<Throwable> throwable;
 
-    public WorkflowInstanceEventDTO(String topic, WorkflowInstanceState state, WorkflowInstanceState nextState, WorkflowInstanceEvent event, Long workflowInstanceId) {
-        this.topic = topic;
-        this.state = state;
-        this.nextState = nextState;
-        this.event = event;
-        this.workflowInstanceId = workflowInstanceId;
-        this.throwable = Optional.empty();
+    public WorkflowInstanceEventDTO(WorkflowInstanceState state, WorkflowInstanceState nextState, WorkflowInstanceEvent event, Long workflowInstanceId) {
+        this(state, nextState, event, workflowInstanceId, null);
     }
 
-    public WorkflowInstanceEventDTO(String topic, WorkflowInstanceState state, WorkflowInstanceState nextState, WorkflowInstanceEvent event, Long workflowInstanceId, Throwable throwable) {
-        this.topic = topic;
+    public WorkflowInstanceEventDTO(WorkflowInstanceState state, WorkflowInstanceState nextState, WorkflowInstanceEvent event, Long workflowInstanceId, Throwable throwable) {
         this.state = state;
         this.nextState = nextState;
         this.event = event;
         this.workflowInstanceId = workflowInstanceId;
         this.throwable = Optional.ofNullable(throwable);
-    }
-
-    @Override
-    public String getTopic() {
-        return topic;
     }
 }

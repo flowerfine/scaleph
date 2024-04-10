@@ -25,7 +25,7 @@ import java.util.Map;
 
 @Data
 @Builder
-public class Message {
+public final class Message {
 
     private String id;
     private String topic;

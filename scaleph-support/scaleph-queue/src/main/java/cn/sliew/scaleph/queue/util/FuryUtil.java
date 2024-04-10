@@ -16,22 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.queue.spring;
+package cn.sliew.scaleph.queue.util;
 
-import cn.sliew.scaleph.workflow.queue.Event;
-import cn.sliew.scaleph.workflow.queue.EventPublisher;
-import org.springframework.context.ApplicationEventPublisher;
+import io.fury.Fury;
+import io.fury.config.Language;
 
-public class SpringApplicationEventPublisher implements EventPublisher {
+public enum FuryUtil {
+    ;
 
-    private ApplicationEventPublisher eventPublisher;
+    private static Fury fury = Fury.builder().withLanguage(Language.JAVA)
+            .requireClassRegistration(false)
+            .build();
 
-    public SpringApplicationEventPublisher(ApplicationEventPublisher eventPublisher) {
-        this.eventPublisher = eventPublisher;
+    public static byte[] serialize(Object obj) {
+        return fury.serialize(obj);
     }
 
-    @Override
-    public void publishEvent(Event event) {
-        eventPublisher.publishEvent(new SpringApplicationEvent(this, event));
+    public static Object deserialize(byte[] bytes) {
+        return fury.deserialize(bytes);
     }
 }

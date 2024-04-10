@@ -18,14 +18,17 @@
 
 package cn.sliew.scaleph.workflow.statemachine;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceEvent;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
+import cn.sliew.scaleph.queue.Message;
+import cn.sliew.scaleph.queue.Queue;
+import cn.sliew.scaleph.queue.QueueFactory;
+import cn.sliew.scaleph.queue.util.FuryUtil;
 import cn.sliew.scaleph.workflow.listener.taskinstance.WorkflowTaskInstanceDeployEventListener;
 import cn.sliew.scaleph.workflow.listener.taskinstance.WorkflowTaskInstanceEventDTO;
 import cn.sliew.scaleph.workflow.listener.taskinstance.WorkflowTaskInstanceFailureEventListener;
 import cn.sliew.scaleph.workflow.listener.taskinstance.WorkflowTaskInstanceSuccessEventListener;
-import cn.sliew.scaleph.workflow.queue.Queue;
-import cn.sliew.scaleph.workflow.queue.QueueFactory;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import com.alibaba.cola.statemachine.Action;
 import com.alibaba.cola.statemachine.StateMachine;
@@ -37,10 +40,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
 @Slf4j
 @Component
 public class WorkflowTaskInstanceStateMachine implements InitializingBean {
@@ -50,15 +49,8 @@ public class WorkflowTaskInstanceStateMachine implements InitializingBean {
 
     @Autowired
     private QueueFactory queueFactory;
-    @Autowired
-    private WorkflowTaskInstanceDeployEventListener workflowTaskInstanceDeployEventListener;
-    @Autowired
-    private WorkflowTaskInstanceSuccessEventListener workflowTaskInstanceSuccessEventListener;
-    @Autowired
-    private WorkflowTaskInstanceFailureEventListener workflowTaskInstanceFailureEventListener;
 
     private StateMachine<WorkflowTaskInstanceStage, WorkflowTaskInstanceEvent, Pair<Long, Throwable>> stateMachine;
-    private Map<WorkflowTaskInstanceEvent, Queue<WorkflowTaskInstanceEventDTO>> queueMap;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -103,30 +95,31 @@ public class WorkflowTaskInstanceStateMachine implements InitializingBean {
                 .perform(doPerform());
 
         this.stateMachine = builder.build(CONSUMER_GROUP);
-        this.queueMap = new HashMap<>();
-
-        Queue deployQueue = queueFactory.newInstance("WorkflowTaskInstanceEvent#" + WorkflowTaskInstanceEvent.COMMAND_DEPLOY.getValue());
-        deployQueue.register(CONSUMER_GROUP, workflowTaskInstanceDeployEventListener);
-        queueMap.put(WorkflowTaskInstanceEvent.COMMAND_DEPLOY, deployQueue);
-
-        Queue successQueue = queueFactory.newInstance("WorkflowTaskInstanceEvent#" + WorkflowTaskInstanceEvent.PROCESS_SUCCESS.getValue());
-        successQueue.register(CONSUMER_GROUP, workflowTaskInstanceSuccessEventListener);
-        queueMap.put(WorkflowTaskInstanceEvent.PROCESS_SUCCESS, successQueue);
-
-        Queue failureQueue = queueFactory.newInstance("WorkflowTaskInstanceEvent#" + WorkflowTaskInstanceEvent.PROCESS_FAILURE.getValue());
-        failureQueue.register(CONSUMER_GROUP, workflowTaskInstanceFailureEventListener);
-        queueMap.put(WorkflowTaskInstanceEvent.PROCESS_FAILURE, failureQueue);
     }
 
     private Action<WorkflowTaskInstanceStage, WorkflowTaskInstanceEvent, Pair<Long, Throwable>> doPerform() {
         return (fromState, toState, eventEnum, pair) -> {
-            Queue<WorkflowTaskInstanceEventDTO> queue = queueMap.get(eventEnum);
-            if (queue != null) {
-                queue.push(new WorkflowTaskInstanceEventDTO(queue.getName(), fromState, toState, eventEnum, pair.getLeft(), pair.getRight()));
-            } else {
-                log.error("queue not found, event: {}", eventEnum.getValue());
-            }
+            Queue queue = queueFactory.get(getTopic(eventEnum));
+            WorkflowTaskInstanceEventDTO eventDTO = new WorkflowTaskInstanceEventDTO(fromState, toState, eventEnum, pair.getLeft(), pair.getRight());
+            Message message = Message.builder()
+                    .topic(queue.getName())
+                    .body(FuryUtil.serialize(eventDTO))
+                    .build();
+            queue.push(message);
         };
+    }
+
+    private String getTopic(WorkflowTaskInstanceEvent event) {
+        switch (event) {
+            case COMMAND_DEPLOY:
+                return WorkflowTaskInstanceDeployEventListener.TOPIC;
+            case PROCESS_SUCCESS:
+                return WorkflowTaskInstanceSuccessEventListener.TOPIC;
+            case PROCESS_FAILURE:
+                return WorkflowTaskInstanceFailureEventListener.TOPIC;
+            default:
+                throw new IllegalStateException("unknown workflow task instance event: " + JacksonUtil.toJsonString(event));
+        }
     }
 
     public void deploy(WorkflowTaskInstanceDTO workflowTaskInstanceDTO) {

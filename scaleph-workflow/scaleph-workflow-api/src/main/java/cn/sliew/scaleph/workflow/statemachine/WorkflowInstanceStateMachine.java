@@ -18,11 +18,14 @@
 
 package cn.sliew.scaleph.workflow.statemachine;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceEvent;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
+import cn.sliew.scaleph.queue.Message;
+import cn.sliew.scaleph.queue.Queue;
+import cn.sliew.scaleph.queue.QueueFactory;
+import cn.sliew.scaleph.queue.util.FuryUtil;
 import cn.sliew.scaleph.workflow.listener.workflowinstance.*;
-import cn.sliew.scaleph.workflow.queue.Queue;
-import cn.sliew.scaleph.workflow.queue.QueueFactory;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
 import com.alibaba.cola.statemachine.Action;
 import com.alibaba.cola.statemachine.StateMachine;
@@ -34,9 +37,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Slf4j
 @Component
 public class WorkflowInstanceStateMachine implements InitializingBean {
@@ -46,23 +46,8 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
 
     @Autowired
     private QueueFactory queueFactory;
-    @Autowired
-    private WorkflowInstanceDeployEventListener workflowInstanceDeployEventListener;
-    @Autowired
-    private WorkflowInstanceShutdownEventListener workflowInstanceShutdownEventListener;
-    @Autowired
-    private WorkflowInstanceSuspendEventListener workflowInstanceSuspendEventListener;
-    @Autowired
-    private WorkflowInstanceResumeEventListener workflowInstanceResumeEventListener;
-    @Autowired
-    private WorkflowInstanceTaskChangeEventListener workflowInstanceTaskChangeEventListener;
-    @Autowired
-    private WorkflowInstanceSuccessEventListener workflowInstanceSuccessEventListener;
-    @Autowired
-    private WorkflowInstanceFailureEventListener workflowInstanceFailureEventListener;
 
     private StateMachine<WorkflowInstanceState, WorkflowInstanceEvent, Pair<Long, Throwable>> stateMachine;
-    private Map<WorkflowInstanceEvent, Queue<WorkflowInstanceEventDTO>> queueMap;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -111,46 +96,39 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
                 .perform(doPerform());
 
         this.stateMachine = builder.build(CONSUMER_GROUP);
-        this.queueMap = new HashMap<>();
-
-        Queue deployQueue = queueFactory.newInstance("WorkflowInstanceEvent#" + WorkflowInstanceEvent.COMMAND_DEPLOY.getValue());
-        deployQueue.register(CONSUMER_GROUP, workflowInstanceDeployEventListener);
-        queueMap.put(WorkflowInstanceEvent.COMMAND_DEPLOY, deployQueue);
-
-        Queue shutDownQueue = queueFactory.newInstance("WorkflowInstanceEvent#" + WorkflowInstanceEvent.COMMAND_SHUTDOWN.getValue());
-        shutDownQueue.register(CONSUMER_GROUP, workflowInstanceShutdownEventListener);
-        queueMap.put(WorkflowInstanceEvent.COMMAND_SHUTDOWN, shutDownQueue);
-
-        Queue suspendQueue = queueFactory.newInstance("WorkflowInstanceEvent#" + WorkflowInstanceEvent.COMMAND_SUSPEND.getValue());
-        suspendQueue.register(CONSUMER_GROUP, workflowInstanceSuspendEventListener);
-        queueMap.put(WorkflowInstanceEvent.COMMAND_SUSPEND, suspendQueue);
-
-        Queue resumeQueue = queueFactory.newInstance("WorkflowInstanceEvent#" + WorkflowInstanceEvent.COMMAND_RESUME.getValue());
-        resumeQueue.register(CONSUMER_GROUP, workflowInstanceResumeEventListener);
-        queueMap.put(WorkflowInstanceEvent.COMMAND_RESUME, resumeQueue);
-
-        Queue taskChangeQueue = queueFactory.newInstance("WorkflowInstanceEvent#" + WorkflowInstanceEvent.PROCESS_TASK_CHANGE.getValue());
-        taskChangeQueue.register(CONSUMER_GROUP, workflowInstanceTaskChangeEventListener);
-        queueMap.put(WorkflowInstanceEvent.PROCESS_TASK_CHANGE, taskChangeQueue);
-
-        Queue successQueue = queueFactory.newInstance("WorkflowInstanceEvent#" + WorkflowInstanceEvent.PROCESS_SUCCESS.getValue());
-        successQueue.register(CONSUMER_GROUP, workflowInstanceSuccessEventListener);
-        queueMap.put(WorkflowInstanceEvent.PROCESS_SUCCESS, successQueue);
-
-        Queue failureQueue = queueFactory.newInstance("WorkflowInstanceEvent#" + WorkflowInstanceEvent.PROCESS_FAILURE.getValue());
-        failureQueue.register(CONSUMER_GROUP, workflowInstanceFailureEventListener);
-        queueMap.put(WorkflowInstanceEvent.PROCESS_FAILURE, failureQueue);
     }
 
     private Action<WorkflowInstanceState, WorkflowInstanceEvent, Pair<Long, Throwable>> doPerform() {
         return (fromState, toState, eventEnum, pair) -> {
-            Queue<WorkflowInstanceEventDTO> queue = queueMap.get(eventEnum);
-            if (queue != null) {
-                queue.push(new WorkflowInstanceEventDTO(queue.getName(), fromState, toState, eventEnum, pair.getLeft(), pair.getRight()));
-            } else {
-                log.error("queue not found, event:{}", eventEnum.getValue());
-            }
+            Queue queue = queueFactory.get(getTopic(eventEnum));
+            WorkflowInstanceEventDTO eventDTO = new WorkflowInstanceEventDTO(fromState, toState, eventEnum, pair.getLeft(), pair.getRight());
+            Message message = Message.builder()
+                    .topic(queue.getName())
+                    .body(FuryUtil.serialize(eventDTO))
+                    .build();
+            queue.push(message);
         };
+    }
+
+    private String getTopic(WorkflowInstanceEvent event) {
+        switch (event) {
+            case COMMAND_DEPLOY:
+                return WorkflowInstanceDeployEventListener.TOPIC;
+            case COMMAND_SHUTDOWN:
+                return WorkflowInstanceShutdownEventListener.TOPIC;
+            case COMMAND_SUSPEND:
+                return WorkflowInstanceSuspendEventListener.TOPIC;
+            case COMMAND_RESUME:
+                return WorkflowInstanceResumeEventListener.TOPIC;
+            case PROCESS_TASK_CHANGE:
+                return WorkflowInstanceTaskChangeEventListener.TOPIC;
+            case PROCESS_SUCCESS:
+                return WorkflowInstanceSuccessEventListener.TOPIC;
+            case PROCESS_FAILURE:
+                return WorkflowInstanceFailureEventListener.TOPIC;
+            default:
+                throw new IllegalStateException("unknown workflow instance event: " + JacksonUtil.toJsonString(event));
+        }
     }
 
     public void deploy(WorkflowInstanceDTO workflowInstanceDTO) {
