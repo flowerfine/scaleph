@@ -20,6 +20,14 @@ INSERT INTO `dag_instance` (`id`, `dag_meta`, `dag_attrs`, `creator`, `editor`)
 VALUES (2, NULL, NULL, 'sys', 'sys');
 INSERT INTO `dag_instance`(`id`, `dag_meta`, `dag_attrs`, `creator`, `editor`)
 VALUES (3, NULL, NULL, 'sys', 'sys');
+INSERT INTO `dag_instance`(`id`, `dag_meta`, `dag_attrs`, `creator`, `editor`)
+VALUES (4, NULL, NULL, 'sys', 'sys');
+INSERT INTO `dag_instance`(`id`, `dag_meta`, `dag_attrs`, `creator`, `editor`)
+VALUES (5, NULL, NULL, 'sys', 'sys');
+INSERT INTO `dag_instance`(`id`, `dag_meta`, `dag_attrs`, `creator`, `editor`)
+VALUES (6, NULL, NULL, 'sys', 'sys');
+INSERT INTO `dag_instance`(`id`, `dag_meta`, `dag_attrs`, `creator`, `editor`)
+VALUES (7, NULL, NULL, 'sys', 'sys');
 
 drop table if exists dag_step;
 create table dag_step
