@@ -66,7 +66,7 @@ public class MessageListenerBeanPostProcessor
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         Class<?> targetClass = AopUtils.getTargetClass(bean);
-        if (targetClass.isAssignableFrom(MessageHandler.class)) {
+        if (MessageHandler.class.isAssignableFrom(targetClass)) {
             MessageListener ann = targetClass.getAnnotation(MessageListener.class);
             if (ann != null) {
                 String topic = ann.topic();
