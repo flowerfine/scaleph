@@ -30,11 +30,11 @@ import java.util.Date;
 @EqualsAndHashCode
 public class WorkflowTaskInstanceDTO extends BaseDTO {
 
-    @Schema(description = "workflow task definition id")
-    private Long workflowTaskDefinitionId;
-
     @Schema(description = "workflow instance")
     private WorkflowInstanceDTO workflowInstanceDTO;
+
+    @Schema(description = "step id")
+    private Long stepId;
 
     @Schema(description = "task id")
     private String taskId;
