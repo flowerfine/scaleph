@@ -32,12 +32,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Slf4j
 @MessageListener(topic = WorkflowInstanceTaskChangeEventListener.TOPIC, consumerGroup = WorkflowInstanceStateMachine.CONSUMER_GROUP)
@@ -71,21 +67,18 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
 
         @Override
         public void run() {
-
             WorkflowInstanceDTO workflowInstanceDTO = workflowInstanceService.get(workflowInstanceId);
             if (workflowInstanceDTO.getState() == WorkflowInstanceState.FAILURE) {
                 return;
             }
-            Graph<WorkflowTaskDefinitionDTO2> dag = workflowDefinitionService.getDag(workflowInstanceDTO.getWorkflowDefinition().getId());
-            Map<Long, WorkflowTaskDefinitionDTO2> dagNodeMap = toDagNodeMap(dag);
 
-            List<WorkflowTaskInstanceDTO> workflowTaskInstanceDTOS = workflowTaskInstanceService.list(workflowInstanceId);
-            Map<Long, WorkflowTaskInstanceDTO> workflowTaskDefinitionMap = toWorkflowTaskDefinitionMap(workflowTaskInstanceDTOS);
+            Graph<WorkflowTaskDefinitionDTO2> dag = workflowDefinitionService.getDag(workflowInstanceDTO.getWorkflowDefinition().getId());
+            Graph<WorkflowTaskInstanceDTO> workflowTaskInstanceGraph = workflowTaskInstanceService.getDag(workflowInstanceId, dag);
 
             // 检测所有任务的状态，如果有一个失败，则失败
             boolean isAnyFailure = false;
             String anyFailureMessage = null;
-            for (WorkflowTaskInstanceDTO workflowTaskInstanceDTO : workflowTaskInstanceDTOS) {
+            for (WorkflowTaskInstanceDTO workflowTaskInstanceDTO : workflowTaskInstanceGraph.nodes()) {
                 if (workflowTaskInstanceDTO.getStage() == WorkflowTaskInstanceStage.FAILURE) {
                     isAnyFailure = true;
                     anyFailureMessage = workflowTaskInstanceDTO.getMessage();
@@ -99,13 +92,12 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
 
             // 检测所有任务，如果都执行成功，则成功。在检测过程中，尝试启动所有后置节点
             int successTaskCount = 0;
-            for (WorkflowTaskInstanceDTO workflowTaskInstanceDTO : workflowTaskInstanceDTOS) {
+            for (WorkflowTaskInstanceDTO workflowTaskInstanceDTO : workflowTaskInstanceGraph.nodes()) {
                 if (workflowTaskInstanceDTO.getStage() == WorkflowTaskInstanceStage.SUCCESS) {
                     successTaskCount++;
-                    // 如何前置节点都成功了，则尝试启动后继节点
-                    WorkflowTaskDefinitionDTO2 node = dagNodeMap.get(workflowTaskInstanceDTO.getWorkflowTaskDefinitionId());
-                    Set<WorkflowTaskDefinitionDTO2> successors = dag.successors(node);
-                    successors.stream().forEach(workflowTaskDefinitionDTO -> tryDeploySuccessor(dag, workflowTaskDefinitionMap, workflowTaskDefinitionDTO));
+                    // 如果节点成功，尝试启动后继节点
+                    Set<WorkflowTaskInstanceDTO> successors = workflowTaskInstanceGraph.successors(workflowTaskInstanceDTO);
+                    successors.stream().forEach(taskInstanceDTO -> tryDeploySuccessor(workflowTaskInstanceGraph, taskInstanceDTO));
                 }
             }
 
@@ -114,41 +106,24 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
             }
         }
 
-        private Map<Long, WorkflowTaskInstanceDTO> toWorkflowTaskDefinitionMap(List<WorkflowTaskInstanceDTO> workflowTaskInstanceDTOS) {
-            return workflowTaskInstanceDTOS.stream()
-                    .collect(Collectors.toMap(
-                            workflowTaskInstanceDTO -> workflowTaskInstanceDTO.getWorkflowTaskDefinitionId(),
-                            Function.identity()
-                    ));
-        }
-
-        private Map<Long, WorkflowTaskDefinitionDTO2> toDagNodeMap(Graph<WorkflowTaskDefinitionDTO2> dag) {
-            return dag.nodes().stream()
-                    .collect(Collectors.toMap(
-                            workflowTaskDefinitionDTO2 -> workflowTaskDefinitionDTO2.getId(),
-                            Function.identity()
-                    ));
-        }
-
-        private void tryDeploySuccessor(Graph<WorkflowTaskDefinitionDTO2> dag, Map<Long, WorkflowTaskInstanceDTO> workflowTaskDefinitionMap, WorkflowTaskDefinitionDTO2 workflowTaskDefinitionDTO) {
+        private void tryDeploySuccessor(Graph<WorkflowTaskInstanceDTO> workflowTaskInstanceGraph, WorkflowTaskInstanceDTO workflowTaskInstanceDTO) {
             // 已经执行过
-            if (workflowTaskDefinitionMap.containsKey(workflowTaskDefinitionDTO.getId())) {
+            if (workflowTaskInstanceDTO.getStage() != WorkflowTaskInstanceStage.PENDING) {
                 return;
             }
             // 判断前驱节点是否全部成功
-            Set<WorkflowTaskDefinitionDTO2> predecessors = dag.predecessors(workflowTaskDefinitionDTO);
-            for (WorkflowTaskDefinitionDTO2 predecessor : predecessors) {
+            Set<WorkflowTaskInstanceDTO> predecessors = workflowTaskInstanceGraph.predecessors(workflowTaskInstanceDTO);
+            for (WorkflowTaskInstanceDTO predecessor : predecessors) {
                 // 前驱节点未执行
-                if (workflowTaskDefinitionMap.containsKey(predecessor.getId()) == false) {
+                if (predecessor.getStage() == WorkflowTaskInstanceStage.PENDING) {
                     return;
                 }
                 // 前驱节点未成功
-                WorkflowTaskInstanceDTO predecessorInstance = workflowTaskDefinitionMap.get(predecessor.getId());
-                if (predecessorInstance.getStage() != WorkflowTaskInstanceStage.SUCCESS) {
+                if (predecessor.getStage() != WorkflowTaskInstanceStage.SUCCESS) {
                     return;
                 }
             }
-            workflowTaskInstanceService.deploy(workflowTaskDefinitionDTO.getId(), workflowInstanceId);
+            workflowTaskInstanceService.deploy(workflowTaskInstanceDTO.getId());
         }
     }
 }

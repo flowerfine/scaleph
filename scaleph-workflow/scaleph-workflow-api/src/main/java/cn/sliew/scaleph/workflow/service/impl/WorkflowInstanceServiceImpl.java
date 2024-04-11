@@ -25,6 +25,7 @@ import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowInstanceVO;
 import cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowInstanceMapper;
 import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
 import cn.sliew.scaleph.workflow.service.convert.WorkflowInstanceVOConvert;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowInstanceListParam;
 import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
@@ -106,9 +107,10 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
     }
 
     @Override
-    public WorkflowInstanceDTO deploy(Long workflowDefinitionId) {
+    public WorkflowInstanceDTO deploy(WorkflowDefinitionDTO workflowDefinitionDTO) {
         WorkflowInstance record = new WorkflowInstance();
-        record.setWorkflowDefinitionId(workflowDefinitionId);
+        record.setDagId(workflowDefinitionDTO.getDag().getId());
+        record.setWorkflowDefinitionId(workflowDefinitionDTO.getId());
         record.setState(WorkflowInstanceState.PENDING);
         workflowInstanceMapper.insert(record);
         stateMachine.deploy(get(record.getId()));

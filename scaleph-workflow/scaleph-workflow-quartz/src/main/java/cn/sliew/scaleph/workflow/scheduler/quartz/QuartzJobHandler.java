@@ -44,7 +44,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.util.ClassUtils;
 
-import java.util.List;
 import java.util.Set;
 
 @Slf4j
@@ -69,7 +68,7 @@ public class QuartzJobHandler extends QuartzJobBean {
         String json = dataMap.getString(QuartzUtil.WORKFLOW_SCHEDULE);
         WorkflowSchedule workflowSchedule = JacksonUtil.parseJsonString(json, WorkflowSchedule.class);
         WorkflowDefinitionDTO workflowDefinitionDTO = workflowDefinitionService.get(workflowSchedule.getWorkflowDefinitionId());
-        WorkflowInstanceDTO workflowInstanceDTO = workflowInstanceService.deploy(workflowDefinitionDTO.getId());
+        WorkflowInstanceDTO workflowInstanceDTO = workflowInstanceService.deploy(workflowDefinitionDTO);
 
         // todo 以下全部移除
         ActionContext actionContext = buildActionContext(context, workflowDefinitionDTO, workflowInstanceDTO);

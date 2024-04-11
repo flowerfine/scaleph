@@ -21,11 +21,13 @@ package cn.sliew.scaleph.workflow.listener.taskinstance;
 import cn.sliew.scaleph.queue.MessageListener;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.statemachine.WorkflowTaskInstanceStateMachine;
+import org.apache.commons.lang3.RandomUtils;
 import org.redisson.api.annotation.RInject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 @MessageListener(topic = WorkflowTaskInstanceDeployEventListener.TOPIC, consumerGroup = WorkflowTaskInstanceStateMachine.CONSUMER_GROUP)
 public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTaskInstanceEventListener {
@@ -60,8 +62,13 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
 
         @Override
         public void run() {
-            workflowTaskInstanceService.updateTaskId(event.getWorkflowTaskInstanceId(), taskId);
-            workflowTaskInstanceService.updateState(event.getWorkflowTaskInstanceId(), event.getState(), event.getNextState(), null);
+            try {
+                workflowTaskInstanceService.updateTaskId(event.getWorkflowTaskInstanceId(), taskId);
+                workflowTaskInstanceService.updateState(event.getWorkflowTaskInstanceId(), event.getState(), event.getNextState(), null);
+                TimeUnit.SECONDS.sleep(RandomUtils.nextLong(1, 30));
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
