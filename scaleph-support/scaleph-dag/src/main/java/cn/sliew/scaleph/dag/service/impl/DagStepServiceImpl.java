@@ -32,6 +32,8 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
+import static cn.sliew.milky.common.check.Ensures.checkState;
+
 @Service
 public class DagStepServiceImpl implements DagStepService {
 
@@ -44,6 +46,13 @@ public class DagStepServiceImpl implements DagStepService {
                 .eq(DagStep::getDagId, dagId);
         List<DagStep> dagSteps = dagStepMapper.selectList(queryWrapper);
         return DagStepConvert.INSTANCE.toDto(dagSteps);
+    }
+
+    @Override
+    public DagStepDTO selectOne(Long stepId) {
+        DagStep record = dagStepMapper.selectById(stepId);
+        checkState(record != null, () -> "dag step not exists for id: " + stepId);
+        return DagStepConvert.INSTANCE.toDto(record);
     }
 
     @Override

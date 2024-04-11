@@ -32,4 +32,6 @@ public interface WorkflowDefinitionService {
 
     Graph<WorkflowTaskDefinitionDTO2> getDag(Long id);
 
+    WorkflowTaskDefinitionDTO2 getTaskDefinition(Long workflowTaskDefinitionId);
+
 }

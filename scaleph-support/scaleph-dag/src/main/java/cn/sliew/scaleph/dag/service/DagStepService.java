@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.dag.service;
 
+import cn.sliew.scaleph.dag.service.dto.DagDTO;
 import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
 
 import java.util.List;
@@ -25,6 +26,8 @@ import java.util.List;
 public interface DagStepService {
 
     List<DagStepDTO> listSteps(Long dagId);
+
+    DagStepDTO selectOne(Long stepId);
 
     int insert(DagStepDTO stepDTO);
 

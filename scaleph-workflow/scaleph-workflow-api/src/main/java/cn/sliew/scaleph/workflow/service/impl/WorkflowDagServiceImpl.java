@@ -19,7 +19,9 @@
 package cn.sliew.scaleph.workflow.service.impl;
 
 import cn.sliew.scaleph.dag.service.DagService;
+import cn.sliew.scaleph.dag.service.DagStepService;
 import cn.sliew.scaleph.dag.service.dto.DagDTO;
+import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
 import cn.sliew.scaleph.dag.service.param.DagSimpleAddParam;
 import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
@@ -35,6 +37,8 @@ public class WorkflowDagServiceImpl implements WorkflowDagService {
 
     @Autowired
     private DagService dagService;
+    @Autowired
+    private DagStepService dagStepService;
 
     @Override
     public Long initialize() {
@@ -49,6 +53,11 @@ public class WorkflowDagServiceImpl implements WorkflowDagService {
     @Override
     public DagDTO getDag(Long dagId) {
         return dagService.selectOne(dagId);
+    }
+
+    @Override
+    public DagStepDTO getStep(Long stepId) {
+        return dagStepService.selectOne(stepId);
     }
 
     @Override

@@ -95,4 +95,10 @@ public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService 
         links.forEach(link -> graph.putEdge(stepMap.get(link.getFromStepId()), stepMap.get(link.getToStepId())));
         return graph;
     }
+
+    @Override
+    public WorkflowTaskDefinitionDTO2 getTaskDefinition(Long workflowTaskDefinitionId) {
+        DagStepDTO step = workflowDagService.getStep(workflowTaskDefinitionId);
+        return WorkflowTaskDefinition2Convert.INSTANCE.toDto(step);
+    }
 }

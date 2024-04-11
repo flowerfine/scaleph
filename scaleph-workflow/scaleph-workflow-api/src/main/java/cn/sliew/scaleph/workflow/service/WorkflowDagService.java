@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.workflow.service;
 
 import cn.sliew.scaleph.dag.service.dto.DagDTO;
+import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
 import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
@@ -34,6 +35,8 @@ public interface WorkflowDagService {
     void destroy(Long dagId);
 
     DagDTO getDag(Long dagId);
+
+    DagStepDTO getStep(Long stepId);
 
     void update(Long dagId, DagGraphVO graph);
 

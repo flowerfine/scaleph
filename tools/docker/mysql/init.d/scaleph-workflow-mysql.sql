@@ -70,6 +70,7 @@ CREATE TABLE `workflow_instance`
 (
     `id`                     BIGINT     NOT NULL AUTO_INCREMENT,
     `workflow_definition_id` BIGINT     NOT NULL,
+    `dag_id`                 BIGINT     NOT NULL,
     `task_id`                VARCHAR(128),
     `state`                  VARCHAR(4) NOT NULL,
     `start_time`             DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -83,58 +84,21 @@ CREATE TABLE `workflow_instance`
     KEY                      `idx_workflow_definition` (`workflow_definition_id`)
 ) ENGINE = InnoDB COMMENT ='workflow instance';
 
-DROP TABLE IF EXISTS `workflow_task_definition`;
-CREATE TABLE `workflow_task_definition`
-(
-    `id`                     BIGINT       NOT NULL AUTO_INCREMENT,
-    `workflow_definition_id` BIGINT       NOT NULL,
-    `type`                   VARCHAR(4)   NOT NULL,
-    `name`                   VARCHAR(255) NOT NULL,
-    `handler`                VARCHAR(255) NOT NULL,
-    `param`                  TEXT,
-    `remark`                 VARCHAR(255),
-    `creator`                VARCHAR(32),
-    `create_time`            DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `editor`                 VARCHAR(32),
-    `update_time`            DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    KEY                      `idx_workflow_definition` (`workflow_definition_id`)
-) ENGINE = InnoDB COMMENT ='workflow task definition';
-
-INSERT INTO `workflow_task_definition`(`id`, `workflow_definition_id`, `type`, `name`, `handler`, `param`, `remark`,
-                                       `creator`, `editor`)
-VALUES (1, 1, '1', 'FlinkSessionClusterStatus',
-        'cn.sliew.scaleph.engine.flink.kubernetes.action.FlinkSessionClusterStatusSyncJob', NULL, NULL,
-        'sys', 'sys');
-INSERT INTO `workflow_task_definition`(`id`, `workflow_definition_id`, `type`, `name`, `handler`, `param`, `remark`,
-                                       `creator`, `editor`)
-VALUES (2, 2, '1', 'FlinkJobStatus', 'cn.sliew.scaleph.engine.flink.kubernetes.action.FlinkJobStatusSyncJob', NULL,
-        NULL, 'sys', 'sys');
-INSERT INTO `workflow_task_definition`(`id`, `workflow_definition_id`, `type`, `name`, `handler`, `param`, `remark`,
-                                       `creator`, `editor`)
-VALUES (3, 3, '1', 'DorisOperatorInstanceStatus',
-        'cn.sliew.scaleph.engine.doris.action.DorisOperatorInstanceStatusSyncJob', NULL,
-        NULL, 'sys', 'sys');
-INSERT INTO `workflow_task_definition`(`id`, `workflow_definition_id`, `type`, `name`, `handler`, `param`, `remark`,
-                                       `creator`, `editor`)
-VALUES (4, 4, '1', 'FlinkJobStatus', 'cn.sliew.scaleph.engine.flink.kubernetes.action.FlinkJobStatusSyncJob2', NULL,
-        NULL, 'sys', 'sys');
-
 DROP TABLE IF EXISTS `workflow_task_instance`;
 CREATE TABLE `workflow_task_instance`
 (
-    `id`                          BIGINT     NOT NULL AUTO_INCREMENT,
-    `workflow_task_definition_id` BIGINT     NOT NULL,
-    `workflow_instance_id`        BIGINT     NOT NULL,
-    `task_id`                     VARCHAR(128),
-    `stage`                       VARCHAR(4) NOT NULL,
-    `start_time`                  DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `end_time`                    DATETIME,
-    `message`                     TEXT,
-    `creator`                     VARCHAR(32),
-    `create_time`                 DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `editor`                      VARCHAR(32),
-    `update_time`                 DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `id`                   BIGINT     NOT NULL AUTO_INCREMENT,
+    `workflow_instance_id` BIGINT     NOT NULL,
+    `step_id`              BIGINT     NOT NULL,
+    `task_id`              VARCHAR(128),
+    `stage`                VARCHAR(4) NOT NULL,
+    `start_time`           DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `end_time`             DATETIME,
+    `message`              TEXT,
+    `creator`              VARCHAR(32),
+    `create_time`          DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `editor`               VARCHAR(32),
+    `update_time`          DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
-    KEY                           `idx_workflow_task_definition` (`workflow_task_definition_id`)
+    KEY                    `idx_workflow_task_definition` (`workflow_task_definition_id`)
 ) ENGINE = InnoDB COMMENT ='workflow task instance';
