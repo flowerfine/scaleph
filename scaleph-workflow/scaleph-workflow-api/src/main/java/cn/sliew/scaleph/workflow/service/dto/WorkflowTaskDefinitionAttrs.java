@@ -26,6 +26,9 @@ import java.util.Map;
 @Data
 public class WorkflowTaskDefinitionAttrs {
 
+    @Schema(description = "refered workflow definition id")
+    private Long referenceWorkflowDefinitionId;
+
     @Schema(description = "workflow task param")
     private Map<String, Object> param;
 

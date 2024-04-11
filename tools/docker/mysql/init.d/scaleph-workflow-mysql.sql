@@ -68,20 +68,23 @@ VALUES (4, '0', 'FlinkJobStatusSyncJob2', '1', '0', NULL, NULL, 7, 'sys', 'sys')
 DROP TABLE IF EXISTS `workflow_instance`;
 CREATE TABLE `workflow_instance`
 (
-    `id`                     BIGINT     NOT NULL AUTO_INCREMENT,
-    `workflow_definition_id` BIGINT     NOT NULL,
-    `dag_id`                 BIGINT     NOT NULL,
-    `task_id`                VARCHAR(128),
-    `state`                  VARCHAR(4) NOT NULL,
-    `start_time`             DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `end_time`               DATETIME,
-    `message`                TEXT,
-    `creator`                VARCHAR(32),
-    `create_time`            DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `editor`                 VARCHAR(32),
-    `update_time`            DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `id`                          BIGINT     NOT NULL AUTO_INCREMENT,
+    `parent_workflow_instance_id` BIGINT,
+    `workflow_definition_id`      BIGINT     NOT NULL,
+    `dag_id`                      BIGINT     NOT NULL,
+    `trigger`                     VARCHAR(255) COMMENT '触发原因',
+    `task_id`                     VARCHAR(128),
+    `state`                       VARCHAR(4) NOT NULL,
+    `start_time`                  DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `end_time`                    DATETIME,
+    `outputs`                     TEXT,
+    `message`                     TEXT,
+    `creator`                     VARCHAR(32),
+    `create_time`                 DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `editor`                      VARCHAR(32),
+    `update_time`                 DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
-    KEY                      `idx_workflow_definition` (`workflow_definition_id`)
+    KEY                           `idx_workflow_definition` (`workflow_definition_id`)
 ) ENGINE = InnoDB COMMENT ='workflow instance';
 
 DROP TABLE IF EXISTS `workflow_task_instance`;
@@ -94,6 +97,7 @@ CREATE TABLE `workflow_task_instance`
     `stage`                VARCHAR(4) NOT NULL,
     `start_time`           DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `end_time`             DATETIME,
+    `outputs`              TEXT,
     `message`              TEXT,
     `creator`              VARCHAR(32),
     `create_time`          DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
