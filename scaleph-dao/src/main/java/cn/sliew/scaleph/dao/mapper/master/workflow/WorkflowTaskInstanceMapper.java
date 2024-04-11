@@ -19,10 +19,7 @@
 package cn.sliew.scaleph.dao.mapper.master.workflow;
 
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskInstance;
-import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskInstanceVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -32,9 +29,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface WorkflowTaskInstanceMapper extends BaseMapper<WorkflowTaskInstance> {
-
-    Page<WorkflowTaskInstanceVO> list(Page<WorkflowTaskInstance> page, @Param("workflowTaskDefinitionId") Long workflowTaskDefinitionId);
-
-    WorkflowTaskInstanceVO get(@Param("id") Long id);
 
 }

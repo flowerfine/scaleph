@@ -100,5 +100,6 @@ CREATE TABLE `workflow_task_instance`
     `editor`               VARCHAR(32),
     `update_time`          DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
-    KEY                    `idx_workflow_task_definition` (`workflow_task_definition_id`)
+    KEY                    `idx_workflow_instance` (`workflow_instance_id`),
+    KEY                    `idx_step` (`step_id`)
 ) ENGINE = InnoDB COMMENT ='workflow task instance';
