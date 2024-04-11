@@ -16,9 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.scheduler.quartz;
-
-import cn.sliew.scaleph.workflow.engine.action.ActionContext;
+package cn.sliew.scaleph.workflow.engine.action;
 
 import java.util.Date;
 import java.util.Map;
@@ -38,6 +36,17 @@ public class ActionContextBuilder {
 
     public ActionContextBuilder withWorkflowInstanceId(Long workflowInstanceId) {
         context.setWorkflowInstanceId(workflowInstanceId);
+        return this;
+    }
+
+
+    public ActionContextBuilder withWorkflowTaskDefinitionId(Long stepId) {
+        context.setWorkflowTaskDefinitionId(stepId);
+        return this;
+    }
+
+    public ActionContextBuilder withWorkflowTaskInstanceId(Long workflowTaskInstanceId) {
+        context.setWorkflowTaskInstanceId(workflowTaskInstanceId);
         return this;
     }
 

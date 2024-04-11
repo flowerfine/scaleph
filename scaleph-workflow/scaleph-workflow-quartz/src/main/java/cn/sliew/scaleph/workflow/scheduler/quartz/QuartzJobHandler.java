@@ -18,38 +18,20 @@
 
 package cn.sliew.scaleph.workflow.scheduler.quartz;
 
-import cn.sliew.milky.common.exception.Rethrower;
-import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.common.util.SpringApplicationContextUtil;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowSchedule;
-import cn.sliew.scaleph.workflow.engine.Engine;
-import cn.sliew.scaleph.workflow.engine.EngineBuilder;
-import cn.sliew.scaleph.workflow.engine.action.Action;
-import cn.sliew.scaleph.workflow.engine.action.ActionContext;
-import cn.sliew.scaleph.workflow.engine.action.ActionResult;
-import cn.sliew.scaleph.workflow.engine.workflow.ParallelFlow;
-import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
 import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
 import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO2;
-import com.google.common.graph.Graph;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
-import org.springframework.util.ClassUtils;
-
-import java.util.Set;
 
 @Slf4j
 public class QuartzJobHandler extends QuartzJobBean {
-
-    private Engine engine = EngineBuilder.newInstance().build();
 
     @Autowired
     private WorkflowDefinitionService workflowDefinitionService;
@@ -68,49 +50,6 @@ public class QuartzJobHandler extends QuartzJobBean {
         String json = dataMap.getString(QuartzUtil.WORKFLOW_SCHEDULE);
         WorkflowSchedule workflowSchedule = JacksonUtil.parseJsonString(json, WorkflowSchedule.class);
         WorkflowDefinitionDTO workflowDefinitionDTO = workflowDefinitionService.get(workflowSchedule.getWorkflowDefinitionId());
-        WorkflowInstanceDTO workflowInstanceDTO = workflowInstanceService.deploy(workflowDefinitionDTO);
-
-        // todo 以下全部移除
-        ActionContext actionContext = buildActionContext(context, workflowDefinitionDTO, workflowInstanceDTO);
-        Graph<WorkflowTaskDefinitionDTO2> dag = workflowDefinitionService.getDag(workflowDefinitionDTO.getId());
-        Set<WorkflowTaskDefinitionDTO2> workflowTaskDefinitionDTOS = dag.nodes();
-        // fixme 应该是对 task 的上下游关系进行梳理后，进而执行
-        Action[] actions = workflowTaskDefinitionDTOS.stream().map(workflowTaskDefinition -> {
-            try {
-                Class<?> clazz = ClassUtils.forName(workflowTaskDefinition.getStepMeta().getHandler(), ClassUtils.getDefaultClassLoader());
-                return (Action) SpringApplicationContextUtil.getBean(clazz);
-            } catch (ClassNotFoundException e) {
-                Rethrower.throwAs(e);
-                return null;
-            }
-        }).toArray(length -> new Action[length]);
-        WorkFlow workFlow = ParallelFlow.newParallelFlow()
-                .name(workflowDefinitionDTO.getName())
-                .execute(actions)
-                .build();
-        engine.run(workFlow, actionContext, new ActionListener<ActionResult>() {
-            @Override
-            public void onResponse(ActionResult result) {
-                log.debug("workflow {} run success!", workflowDefinitionDTO.getName());
-            }
-
-            @Override
-            public void onFailure(Throwable e) {
-                log.error("workflow {} run failure!", workflowDefinitionDTO.getName(), e);
-            }
-        });
+        workflowInstanceService.deploy(workflowDefinitionDTO);
     }
-
-    private ActionContext buildActionContext(JobExecutionContext context, WorkflowDefinitionDTO definitionDTO, WorkflowInstanceDTO instanceDTO) {
-        return ActionContextBuilder.newBuilder()
-                .withWorkflowDefinitionId(definitionDTO.getId())
-                .withWorkflowInstanceId(instanceDTO.getId())
-                .withParams(definitionDTO.getParam())
-                .withPreviousFireTime(context.getPreviousFireTime())
-                .withNextFireTime(context.getNextFireTime())
-                .withScheduledFireTime(context.getScheduledFireTime())
-                .withFireTime(context.getFireTime())
-                .validateAndBuild();
-    }
-
 }
