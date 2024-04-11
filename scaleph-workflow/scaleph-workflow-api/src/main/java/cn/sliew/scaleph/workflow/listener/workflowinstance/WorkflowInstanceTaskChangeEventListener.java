@@ -18,36 +18,43 @@
 
 package cn.sliew.scaleph.workflow.listener.workflowinstance;
 
-import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
-import cn.sliew.scaleph.workflow.service.WorkflowTaskDefinitionService;
+import cn.sliew.scaleph.queue.MessageListener;
+import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO2;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
+import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
 import com.google.common.graph.Graph;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
-@Component
+@Slf4j
+@MessageListener(topic = WorkflowInstanceTaskChangeEventListener.TOPIC, consumerGroup = WorkflowInstanceStateMachine.CONSUMER_GROUP)
 public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowInstanceEventListener {
 
+    public static final String TOPIC = "TOPIC_WORKFLOW_INSTANCE_PROCESS_TASK_CHANGE";
+
     @Autowired
-    private WorkflowTaskDefinitionService workflowTaskDefinitionService;
+    private WorkflowDefinitionService workflowDefinitionService;
     @Autowired
     private WorkflowTaskInstanceService workflowTaskInstanceService;
 
     @Override
     protected CompletableFuture handleEventAsync(WorkflowInstanceEventDTO event) {
-        return CompletableFuture.runAsync(new TaskChangeRunner(event.getWorkflowInstanceId()));
+        CompletableFuture<Void> future = CompletableFuture.runAsync(new TaskChangeRunner(event.getWorkflowInstanceId()));
+        future.whenComplete(((unused, throwable) -> {
+            if (throwable != null) {
+                onFailure(event.getWorkflowInstanceId(), throwable);
+            }
+        }));
+        return future;
     }
 
     private class TaskChangeRunner implements Runnable, Serializable {
@@ -61,16 +68,17 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
         @Override
         public void run() {
             WorkflowInstanceDTO workflowInstanceDTO = workflowInstanceService.get(workflowInstanceId);
-            System.out.println("子任务状态变更: " + JacksonUtil.toJsonString(workflowInstanceDTO));
-            Graph<WorkflowTaskDefinitionDTO> dag = workflowTaskDefinitionService.getDag(workflowInstanceDTO.getWorkflowDefinition().getId());
+            if (workflowInstanceDTO.getState() == WorkflowInstanceState.FAILURE) {
+                return;
+            }
 
-            List<WorkflowTaskInstanceDTO> workflowTaskInstanceDTOS = workflowTaskInstanceService.list(workflowInstanceId);
-            Map<Long, WorkflowTaskInstanceDTO> workflowTaskDefinitionMap = toWorkflowTaskDefinitionMap(workflowTaskInstanceDTOS);
+            Graph<WorkflowTaskDefinitionDTO2> dag = workflowDefinitionService.getDag(workflowInstanceDTO.getWorkflowDefinition().getId());
+            Graph<WorkflowTaskInstanceDTO> workflowTaskInstanceGraph = workflowTaskInstanceService.getDag(workflowInstanceId, dag);
 
             // 检测所有任务的状态，如果有一个失败，则失败
             boolean isAnyFailure = false;
             String anyFailureMessage = null;
-            for (WorkflowTaskInstanceDTO workflowTaskInstanceDTO : workflowTaskInstanceDTOS) {
+            for (WorkflowTaskInstanceDTO workflowTaskInstanceDTO : workflowTaskInstanceGraph.nodes()) {
                 if (workflowTaskInstanceDTO.getStage() == WorkflowTaskInstanceStage.FAILURE) {
                     isAnyFailure = true;
                     anyFailureMessage = workflowTaskInstanceDTO.getMessage();
@@ -78,19 +86,18 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
                 }
             }
             if (isAnyFailure) {
-                stateMachine.onFailure(workflowInstanceService.get(workflowInstanceId), new Exception(anyFailureMessage));
+                onFailure(workflowInstanceId, new Exception(anyFailureMessage));
                 return;
             }
 
             // 检测所有任务，如果都执行成功，则成功。在检测过程中，尝试启动所有后置节点
             int successTaskCount = 0;
-            for (WorkflowTaskInstanceDTO workflowTaskInstanceDTO : workflowTaskInstanceDTOS) {
+            for (WorkflowTaskInstanceDTO workflowTaskInstanceDTO : workflowTaskInstanceGraph.nodes()) {
                 if (workflowTaskInstanceDTO.getStage() == WorkflowTaskInstanceStage.SUCCESS) {
                     successTaskCount++;
-                    // 如何前置节点都成功了，则尝试启动后继节点
-                    // equals() 和 hashcode()
-                    Set<WorkflowTaskDefinitionDTO> successors = dag.successors(workflowTaskInstanceDTO.getWorkflowTaskDefinition());
-                    successors.stream().forEach(workflowTaskDefinitionDTO -> tryDeploySuccessor(dag, workflowTaskDefinitionMap, workflowTaskDefinitionDTO));
+                    // 如果节点成功，尝试启动后继节点
+                    Set<WorkflowTaskInstanceDTO> successors = workflowTaskInstanceGraph.successors(workflowTaskInstanceDTO);
+                    successors.stream().forEach(taskInstanceDTO -> tryDeploySuccessor(workflowTaskInstanceGraph, taskInstanceDTO));
                 }
             }
 
@@ -99,33 +106,24 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
             }
         }
 
-        private Map<Long, WorkflowTaskInstanceDTO> toWorkflowTaskDefinitionMap(List<WorkflowTaskInstanceDTO> workflowTaskInstanceDTOS) {
-            return workflowTaskInstanceDTOS.stream()
-                    .collect(Collectors.toMap(
-                            workflowTaskInstanceDTO -> workflowTaskInstanceDTO.getWorkflowTaskDefinition().getId(),
-                            Function.identity()
-                    ));
-        }
-
-        private void tryDeploySuccessor(Graph<WorkflowTaskDefinitionDTO> dag, Map<Long, WorkflowTaskInstanceDTO> workflowTaskDefinitionMap, WorkflowTaskDefinitionDTO workflowTaskDefinitionDTO) {
+        private void tryDeploySuccessor(Graph<WorkflowTaskInstanceDTO> workflowTaskInstanceGraph, WorkflowTaskInstanceDTO workflowTaskInstanceDTO) {
             // 已经执行过
-            if (workflowTaskDefinitionMap.containsKey(workflowTaskDefinitionDTO.getId())) {
+            if (workflowTaskInstanceDTO.getStage() != WorkflowTaskInstanceStage.PENDING) {
                 return;
             }
             // 判断前驱节点是否全部成功
-            Set<WorkflowTaskDefinitionDTO> predecessors = dag.predecessors(workflowTaskDefinitionDTO);
-            for (WorkflowTaskDefinitionDTO predecessor : predecessors) {
+            Set<WorkflowTaskInstanceDTO> predecessors = workflowTaskInstanceGraph.predecessors(workflowTaskInstanceDTO);
+            for (WorkflowTaskInstanceDTO predecessor : predecessors) {
                 // 前驱节点未执行
-                if (workflowTaskDefinitionMap.containsKey(predecessor.getId()) == false) {
+                if (predecessor.getStage() == WorkflowTaskInstanceStage.PENDING) {
                     return;
                 }
                 // 前驱节点未成功
-                WorkflowTaskInstanceDTO predecessorInstance = workflowTaskDefinitionMap.get(predecessor.getId());
-                if (predecessorInstance.getStage() != WorkflowTaskInstanceStage.SUCCESS) {
+                if (predecessor.getStage() != WorkflowTaskInstanceStage.SUCCESS) {
                     return;
                 }
             }
-            workflowTaskInstanceService.deploy(workflowTaskDefinitionDTO.getId(), workflowInstanceId);
+            workflowTaskInstanceService.deploy(workflowTaskInstanceDTO.getId());
         }
     }
 }

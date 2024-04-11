@@ -16,9 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.queue;
+package cn.sliew.scaleph.workflow.service.dto;
 
-public interface EventListener<T extends Event> {
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
-    void onEvent(T event);
+import java.util.Map;
+
+@Data
+public class WorkflowTaskDefinitionAttrs {
+
+    @Schema(description = "refered workflow definition id")
+    private Long referenceWorkflowDefinitionId;
+
+    @Schema(description = "workflow task param")
+    private Map<String, Object> param;
+
+    @Schema(description = "备注")
+    private String remark;
 }

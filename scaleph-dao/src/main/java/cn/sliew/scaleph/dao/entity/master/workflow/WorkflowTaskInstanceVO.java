@@ -18,12 +18,9 @@
 
 package cn.sliew.scaleph.dao.entity.master.workflow;
 
-import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
-import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-
-import java.util.Date;
 
 /**
  * <p>
@@ -31,29 +28,11 @@ import java.util.Date;
  * </p>
  */
 @Data
-public class WorkflowTaskInstanceVO extends BaseDO {
+@TableName("workflow_task_instance")
+public class WorkflowTaskInstanceVO extends WorkflowTaskInstance {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField(value = "workflow_task_definition_id", exist = false)
-    private WorkflowTaskDefinition workflowTaskDefinition;
-
-    @TableField(value = "workflow_instance_id", exist = false)
+    @TableField(value = "workflow_instance", exist = false)
     private WorkflowInstanceVO workflowInstance;
-
-    @TableField("task_id")
-    private String taskId;
-
-    @TableField("stage")
-    private WorkflowTaskInstanceStage stage;
-
-    @TableField("start_time")
-    private Date startTime;
-
-    @TableField("end_time")
-    private Date endTime;
-
-    @TableField("message")
-    private String message;
-
 }

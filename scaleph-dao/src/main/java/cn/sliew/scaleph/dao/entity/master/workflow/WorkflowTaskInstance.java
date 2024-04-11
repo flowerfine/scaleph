@@ -37,11 +37,11 @@ public class WorkflowTaskInstance extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("workflow_task_definition_id")
-    private Long workflowTaskDefinitionId;
-
     @TableField("workflow_instance_id")
     private Long workflowInstanceId;
+
+    @TableField("step_id")
+    private Long stepId;
 
     @TableField("task_id")
     private String taskId;

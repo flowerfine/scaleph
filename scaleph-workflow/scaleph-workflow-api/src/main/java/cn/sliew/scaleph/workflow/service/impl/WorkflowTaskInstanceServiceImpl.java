@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.workflow.service.impl;
 
+import cn.sliew.milky.common.exception.ThrowableTraceFormater;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskInstance;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskInstanceVO;
@@ -25,6 +26,7 @@ import cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowTaskInstanceMapper;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.service.convert.WorkflowTaskInstanceConvert;
 import cn.sliew.scaleph.workflow.service.convert.WorkflowTaskInstanceVOConvert;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO2;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowTaskInstanceListParam;
 import cn.sliew.scaleph.workflow.statemachine.WorkflowTaskInstanceStateMachine;
@@ -32,11 +34,17 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.graph.EndpointPair;
+import com.google.common.graph.Graph;
+import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.MutableGraph;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -64,6 +72,23 @@ public class WorkflowTaskInstanceServiceImpl implements WorkflowTaskInstanceServ
                 .eq(WorkflowTaskInstance::getWorkflowInstanceId, workflowInstanceId);
         List<WorkflowTaskInstance> workflowTaskInstances = workflowTaskInstanceMapper.selectList(queryWrapper);
         return WorkflowTaskInstanceConvert.INSTANCE.toDto(workflowTaskInstances);
+    }
+
+    @Override
+    public Graph<WorkflowTaskInstanceDTO> getDag(Long workflowInstanceId, Graph<WorkflowTaskDefinitionDTO2> dag) {
+        List<WorkflowTaskInstanceDTO> workflowTaskInstanceDTOS = list(workflowInstanceId);
+        MutableGraph<WorkflowTaskInstanceDTO> graph = GraphBuilder.directed().build();
+        Map<Long, WorkflowTaskInstanceDTO> stepMap = new HashMap<>();
+        for (WorkflowTaskInstanceDTO workflowTaskInstanceDTO : workflowTaskInstanceDTOS) {
+            stepMap.put(workflowTaskInstanceDTO.getStepId(), workflowTaskInstanceDTO);
+            graph.addNode(workflowTaskInstanceDTO);
+        }
+        for (EndpointPair<WorkflowTaskDefinitionDTO2> edge : dag.edges()) {
+            WorkflowTaskDefinitionDTO2 source = edge.source();
+            WorkflowTaskDefinitionDTO2 target = edge.target();
+            graph.putEdge(stepMap.get(source.getId()), stepMap.get(target.getId()));
+        }
+        return graph;
     }
 
     @Override
@@ -100,7 +125,8 @@ public class WorkflowTaskInstanceServiceImpl implements WorkflowTaskInstanceServ
         record.setStage(WorkflowTaskInstanceStage.FAILURE);
         record.setEndTime(new Date());
         if (throwable != null) {
-            record.setMessage(throwable.getMessage());
+            String throwableMessage = ThrowableTraceFormater.readStackTrace(throwable);
+            record.setMessage(throwableMessage.length() > 255 ? throwableMessage.substring(0, 255) : throwableMessage);
         }
         workflowTaskInstanceMapper.updateById(record);
     }
@@ -114,14 +140,30 @@ public class WorkflowTaskInstanceServiceImpl implements WorkflowTaskInstanceServ
     }
 
     @Override
-    public WorkflowTaskInstanceDTO deploy(Long workflowTaskDefinitionId, Long workflowInstanceId) {
+    public Graph<WorkflowTaskInstanceDTO> initialize(Long workflowInstanceId, Graph<WorkflowTaskDefinitionDTO2> graph) {
+        try {
+            for (WorkflowTaskDefinitionDTO2 node : graph.nodes()) {
+                createWorkflowTaskInstance(workflowInstanceId, node);
+            }
+            return getDag(workflowInstanceId, graph);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private WorkflowTaskInstanceDTO createWorkflowTaskInstance(Long workflowInstanceId, WorkflowTaskDefinitionDTO2 node) {
         WorkflowTaskInstance record = new WorkflowTaskInstance();
-        record.setWorkflowTaskDefinitionId(workflowTaskDefinitionId);
         record.setWorkflowInstanceId(workflowInstanceId);
+        record.setStepId(node.getId());
         record.setStage(WorkflowTaskInstanceStage.PENDING);
         workflowTaskInstanceMapper.insert(record);
-        stateMachine.deploy(get(record.getId()));
         return get(record.getId());
+    }
+
+    @Override
+    public void deploy(Long id) {
+        stateMachine.deploy(get(id));
     }
 
     @Override

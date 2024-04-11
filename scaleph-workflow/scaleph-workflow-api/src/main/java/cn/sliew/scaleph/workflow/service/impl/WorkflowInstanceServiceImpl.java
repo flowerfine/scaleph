@@ -18,12 +18,14 @@
 
 package cn.sliew.scaleph.workflow.service.impl;
 
+import cn.sliew.milky.common.exception.ThrowableTraceFormater;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowInstance;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowInstanceVO;
 import cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowInstanceMapper;
 import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
 import cn.sliew.scaleph.workflow.service.convert.WorkflowInstanceVOConvert;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowInstanceListParam;
 import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
@@ -90,7 +92,8 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
         record.setState(WorkflowInstanceState.FAILURE);
         record.setEndTime(new Date());
         if (throwable != null) {
-            record.setMessage(throwable.getMessage());
+            String throwableMessage = ThrowableTraceFormater.readStackTrace(throwable);
+            record.setMessage(throwableMessage.length() > 255 ? throwableMessage.substring(0, 255) : throwableMessage);
         }
         workflowInstanceMapper.updateById(record);
     }
@@ -104,9 +107,10 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
     }
 
     @Override
-    public WorkflowInstanceDTO deploy(Long workflowDefinitionId) {
+    public WorkflowInstanceDTO deploy(WorkflowDefinitionDTO workflowDefinitionDTO) {
         WorkflowInstance record = new WorkflowInstance();
-        record.setWorkflowDefinitionId(workflowDefinitionId);
+        record.setDagId(workflowDefinitionDTO.getDag().getId());
+        record.setWorkflowDefinitionId(workflowDefinitionDTO.getId());
         record.setState(WorkflowInstanceState.PENDING);
         workflowInstanceMapper.insert(record);
         stateMachine.deploy(get(record.getId()));

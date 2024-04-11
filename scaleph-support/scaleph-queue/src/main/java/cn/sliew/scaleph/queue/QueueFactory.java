@@ -16,19 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.queue.spring;
+package cn.sliew.scaleph.queue;
 
-import cn.sliew.scaleph.workflow.queue.Event;
-import lombok.Getter;
-import org.springframework.context.ApplicationEvent;
+public interface QueueFactory {
 
-public class SpringApplicationEvent extends ApplicationEvent {
+    Queue create(String name);
 
-    @Getter
-    private final Event event;
-
-    public SpringApplicationEvent(Object source, Event event) {
-        super(source);
-        this.event = event;
-    }
+    Queue get(String name);
 }

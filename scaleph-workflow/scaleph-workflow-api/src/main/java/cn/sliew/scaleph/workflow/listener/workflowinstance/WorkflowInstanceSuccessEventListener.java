@@ -18,13 +18,16 @@
 
 package cn.sliew.scaleph.workflow.listener.workflowinstance;
 
-import org.springframework.stereotype.Component;
+import cn.sliew.scaleph.queue.MessageListener;
+import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
 
 import java.io.Serializable;
 import java.util.concurrent.CompletableFuture;
 
-@Component
+@MessageListener(topic = WorkflowInstanceSuccessEventListener.TOPIC, consumerGroup = WorkflowInstanceStateMachine.CONSUMER_GROUP)
 public class WorkflowInstanceSuccessEventListener extends AbstractWorkflowInstanceEventListener {
+
+    public static final String TOPIC = "TOPIC_WORKFLOW_INSTANCE_PROCESS_SUCCESS";
 
     @Override
     protected CompletableFuture handleEventAsync(WorkflowInstanceEventDTO event) {

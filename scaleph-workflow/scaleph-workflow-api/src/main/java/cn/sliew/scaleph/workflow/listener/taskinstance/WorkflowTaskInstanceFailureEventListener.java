@@ -18,15 +18,18 @@
 
 package cn.sliew.scaleph.workflow.listener.taskinstance;
 
+import cn.sliew.scaleph.queue.MessageListener;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
-import org.springframework.stereotype.Component;
+import cn.sliew.scaleph.workflow.statemachine.WorkflowTaskInstanceStateMachine;
 
 import java.io.Serializable;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-@Component
+@MessageListener(topic = WorkflowTaskInstanceFailureEventListener.TOPIC, consumerGroup = WorkflowTaskInstanceStateMachine.CONSUMER_GROUP)
 public class WorkflowTaskInstanceFailureEventListener extends AbstractWorkflowTaskInstanceEventListener {
+
+    public static final String TOPIC = "TOPIC_WORKFLOW_TASK_INSTANCE_PROCESS_FAILURE";
 
     @Override
     protected CompletableFuture handleEventAsync(WorkflowTaskInstanceEventDTO event) {

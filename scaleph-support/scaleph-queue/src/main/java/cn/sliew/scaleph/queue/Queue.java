@@ -16,17 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service;
+package cn.sliew.scaleph.queue;
 
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
-import com.google.common.graph.Graph;
+import java.time.Duration;
 
-import java.util.List;
+public interface Queue {
 
-public interface WorkflowTaskDefinitionService {
+    String getName();
 
-    List<WorkflowTaskDefinitionDTO> list(Long workflowDefinitionId);
+    void register(String consumerGroup, MessageHandler handler);
 
-    Graph<WorkflowTaskDefinitionDTO> getDag(Long workflowDefinitionId);
+    void remove(String consumerGroup, MessageHandler handler);
 
+    default void push(Message message) {
+        push(message, Duration.ZERO);
+    }
+
+    void push(Message message, Duration delay);
 }

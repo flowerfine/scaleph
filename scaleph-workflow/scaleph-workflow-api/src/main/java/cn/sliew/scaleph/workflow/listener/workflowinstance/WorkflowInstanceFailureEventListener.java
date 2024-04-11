@@ -18,16 +18,19 @@
 
 package cn.sliew.scaleph.workflow.listener.workflowinstance;
 
+import cn.sliew.scaleph.queue.MessageListener;
 import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
+import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-@Component
+@MessageListener(topic = WorkflowInstanceFailureEventListener.TOPIC, consumerGroup = WorkflowInstanceStateMachine.CONSUMER_GROUP)
 public class WorkflowInstanceFailureEventListener extends AbstractWorkflowInstanceEventListener {
+
+    public static final String TOPIC = "TOPIC_WORKFLOW_INSTANCE_PROCESS_FAILURE";
 
     @Autowired
     private WorkflowInstanceService workflowInstanceService;

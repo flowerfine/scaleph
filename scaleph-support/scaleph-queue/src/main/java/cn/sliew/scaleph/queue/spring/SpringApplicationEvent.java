@@ -16,22 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.queue.spring;
+package cn.sliew.scaleph.queue.spring;
 
-import cn.sliew.scaleph.workflow.queue.Event;
-import cn.sliew.scaleph.workflow.queue.EventPublisher;
-import org.springframework.context.ApplicationEventPublisher;
+import cn.sliew.scaleph.queue.Message;
+import lombok.Getter;
+import org.springframework.context.ApplicationEvent;
 
-public class SpringApplicationEventPublisher implements EventPublisher {
+public class SpringApplicationEvent extends ApplicationEvent {
 
-    private ApplicationEventPublisher eventPublisher;
+    @Getter
+    private final Message message;
 
-    public SpringApplicationEventPublisher(ApplicationEventPublisher eventPublisher) {
-        this.eventPublisher = eventPublisher;
-    }
-
-    @Override
-    public void publishEvent(Event event) {
-        eventPublisher.publishEvent(new SpringApplicationEvent(this, event));
+    public SpringApplicationEvent(Object source, Message message) {
+        super(source);
+        this.message = message;
     }
 }

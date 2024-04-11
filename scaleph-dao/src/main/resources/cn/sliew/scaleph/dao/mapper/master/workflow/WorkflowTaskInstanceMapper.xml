@@ -24,8 +24,8 @@
         <result column="create_time" property="createTime"/>
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
-        <result column="workflow_task_definition_id" property="workflowTaskDefinitionId"/>
         <result column="workflow_instance_id" property="workflowInstanceId"/>
+        <result column="step_id" property="stepId"/>
         <result column="task_id" property="taskId"/>
         <result column="stage" property="stage"/>
         <result column="start_time" property="startTime"/>
@@ -39,53 +39,34 @@
         <result column="create_time" property="createTime"/>
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
+        <result column="step_id" property="stepId"/>
         <result column="task_id" property="taskId"/>
         <result column="stage" property="stage"/>
         <result column="start_time" property="startTime"/>
         <result column="end_time" property="endTime"/>
         <result column="message" property="message"/>
-        <association property="workflowTaskDefinition"
-                     javaType="cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskDefinition">
-            <result column="definition_id" property="id"/>
-            <result column="definition_workflow_definition_id" property="workflowDefinitionId"/>
-            <result column="definition_type" property="type"/>
-            <result column="definition_name" property="name"/>
-            <result column="definition_param" property="param"/>
-            <result column="definition_remark" property="remark"/>
-        </association>
         <association column="workflow_instance_id" property="workflowInstance"
                      select="cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowInstanceMapper.get">
         </association>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, creator, create_time, editor, update_time,
-        workflow_task_definition_id, state, stage, start_time, end_time, message
+        id
+        , creator, create_time, editor, update_time,
+        workflow_instance_id, step_id, task_id, stage, start_time, end_time, message
     </sql>
 
     <select id="list" resultMap="WorkflowTaskInstanceVOMap">
-        SELECT t1.*,
-               t2.id                     AS definition_id,
-               t2.workflow_definition_id AS definition_workflow_definition_id,
-               t2.type                   AS definition_type,
-               t2.`name`                 AS definition_name,
-               t2.param                  AS definition_param,
-               t2.remark                 AS definition_remark
-        FROM workflow_task_instance t1
-                     JOIN workflow_task_definition t2 ON t1.workflow_task_definition_id = t2.id
-        WHERE t1.workflow_task_definition_id = #{workflowTaskDefinitionId}
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM workflow_task_instance
+        WHERE step_id = #{stepId}
     </select>
 
     <select id="get" resultMap="WorkflowTaskInstanceVOMap">
-        SELECT t1.*,
-               t2.id                     AS definition_id,
-               t2.workflow_definition_id AS definition_workflow_definition_id,
-               t2.type                   AS definition_type,
-               t2.`name`                 AS definition_name,
-               t2.param                  AS definition_param,
-               t2.remark                 AS definition_remark
-        FROM workflow_task_instance t1
-                     JOIN workflow_task_definition t2 ON t1.workflow_task_definition_id = t2.id
-        WHERE t1.id = #{id}
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM workflow_task_instance
+        WHERE id = #{id}
     </select>
 </mapper>

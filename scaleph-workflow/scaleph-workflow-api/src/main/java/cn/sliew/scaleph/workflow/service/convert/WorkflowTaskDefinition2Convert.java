@@ -20,39 +20,37 @@ package cn.sliew.scaleph.workflow.service.convert;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskDefinition;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
-import com.fasterxml.jackson.core.type.TypeReference;
+import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionAttrs;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO2;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionMeta;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.BeanUtils;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-
-import java.util.Map;
 
 @Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface WorkflowTaskDefinitionConvert extends BaseConvert<WorkflowTaskDefinition, WorkflowTaskDefinitionDTO> {
-    WorkflowTaskDefinitionConvert INSTANCE = Mappers.getMapper(WorkflowTaskDefinitionConvert.class);
+public interface WorkflowTaskDefinition2Convert extends BaseConvert<DagStepDTO, WorkflowTaskDefinitionDTO2> {
+    WorkflowTaskDefinition2Convert INSTANCE = Mappers.getMapper(WorkflowTaskDefinition2Convert.class);
 
     @Override
-    default WorkflowTaskDefinition toDo(WorkflowTaskDefinitionDTO dto) {
-        WorkflowTaskDefinition entity = new WorkflowTaskDefinition();
+    default DagStepDTO toDo(WorkflowTaskDefinitionDTO2 dto) {
+        DagStepDTO entity = new DagStepDTO();
         BeanUtils.copyProperties(dto, entity);
-        if (CollectionUtils.isEmpty(dto.getParam()) == false) {
-            entity.setParam(JacksonUtil.toJsonString(dto.getParam()));
-        }
+        ObjectNode stepMeta = (ObjectNode) JacksonUtil.toJsonNode(dto.getStepMeta());
+        stepMeta.putPOJO("type", dto.getStepMeta().getType().getValue());
+        entity.setStepMeta(stepMeta);
+        entity.setStepAttrs(JacksonUtil.toJsonNode(dto.getStepAttrs()));
         return entity;
     }
 
     @Override
-    default WorkflowTaskDefinitionDTO toDto(WorkflowTaskDefinition entity) {
-        WorkflowTaskDefinitionDTO dto = new WorkflowTaskDefinitionDTO();
+    default WorkflowTaskDefinitionDTO2 toDto(DagStepDTO entity) {
+        WorkflowTaskDefinitionDTO2 dto = new WorkflowTaskDefinitionDTO2();
         BeanUtils.copyProperties(entity, dto);
-        if (StringUtils.hasText(entity.getParam())) {
-            dto.setParam(JacksonUtil.parseJsonString(entity.getParam(), new TypeReference<Map<String, Object>>() {}));
-        }
+        dto.setStepMeta(JacksonUtil.toObject(entity.getStepMeta(), WorkflowTaskDefinitionMeta.class));
+        dto.setStepAttrs(JacksonUtil.toObject(entity.getStepMeta(), WorkflowTaskDefinitionAttrs.class));
         return dto;
     }
 }

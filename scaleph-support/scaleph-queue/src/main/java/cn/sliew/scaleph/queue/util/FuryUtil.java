@@ -16,9 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.queue;
+package cn.sliew.scaleph.queue.util;
 
-public interface QueueFactory {
+import io.fury.Fury;
+import io.fury.config.Language;
 
-    Queue newInstance(String name);
+public enum FuryUtil {
+    ;
+
+    private static Fury fury = Fury.builder().withLanguage(Language.JAVA)
+            .requireClassRegistration(false)
+            .withRefTracking(true)
+            .build();
+
+    public static byte[] serialize(Object obj) {
+        return fury.serialize(obj);
+    }
+
+    public static Object deserialize(byte[] bytes) {
+        return fury.deserialize(bytes);
+    }
 }

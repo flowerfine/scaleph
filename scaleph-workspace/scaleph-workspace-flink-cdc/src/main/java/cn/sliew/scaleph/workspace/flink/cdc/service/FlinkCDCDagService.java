@@ -19,6 +19,8 @@
 package cn.sliew.scaleph.workspace.flink.cdc.service;
 
 import cn.sliew.scaleph.dag.service.DagDndService;
+import cn.sliew.scaleph.dag.service.dto.DagDTO;
+import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
 
 import java.util.List;
@@ -29,9 +31,9 @@ public interface FlinkCDCDagService extends DagDndService {
 
     void destroy(Long dagId);
 
-    Object getDag(Long dagId);
+    DagDTO getDag(Long dagId);
 
-    void update(Object param);
+    void update(Long dagId, DagGraphVO graph);
 
     List<DndDTO> getDnds();
 }

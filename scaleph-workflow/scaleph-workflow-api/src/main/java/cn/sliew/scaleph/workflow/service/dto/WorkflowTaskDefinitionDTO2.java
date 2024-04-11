@@ -16,41 +16,36 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.workflow;
+package cn.sliew.scaleph.workflow.service.dto;
 
-import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskType;
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.sliew.scaleph.system.model.BaseDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-/**
- * <p>
- * workflow task definition
- * </p>
- */
 @Data
-@TableName("workflow_task_definition")
-public class WorkflowTaskDefinition extends BaseDO {
+public class WorkflowTaskDefinitionDTO2 extends BaseDTO {
 
-    private static final long serialVersionUID = 1L;
-
-    @TableField("workflow_definition_id")
+    @Schema(description = "workflow definition id")
     private Long workflowDefinitionId;
 
-    @TableField("`type`")
-    private WorkflowTaskType type;
+    @Schema(description = "dag id")
+    private Long dagId;
 
-    @TableField("`name`")
-    private String name;
+    @Schema(description = "步骤id")
+    private String stepId;
 
-    @TableField("`handler`")
-    private String handler;
+    @Schema(description = "步骤名称")
+    private String stepName;
 
-    @TableField("param")
-    private String param;
+    @Schema(description = "x坐标")
+    private Integer positionX;
 
-    @TableField("remark")
-    private String remark;
+    @Schema(description = "y坐标")
+    private Integer positionY;
 
+    @Schema(description = "step meta")
+    private WorkflowTaskDefinitionMeta stepMeta;
+
+    @Schema(description = "step attrs")
+    private WorkflowTaskDefinitionAttrs stepAttrs;
 }

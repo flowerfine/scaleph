@@ -42,6 +42,7 @@
         <result column="execute_type" property="executeType"/>
         <result column="param" property="param"/>
         <result column="remark" property="remark"/>
+        <result column="dag_id" property="dagId"/>
         <association property="schedule"
                      javaType="cn.sliew.scaleph.dao.entity.master.workflow.WorkflowSchedule">
             <result column="schedule_id" property="id"/>
@@ -56,7 +57,7 @@
 
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        `type`, `name`, execute_type, param, remark
+        `type`, `name`, execute_type, param, remark, dag_id
     </sql>
 
     <select id="list" resultMap="WorkflowDefinitionVOMap">

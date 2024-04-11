@@ -16,9 +16,30 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.queue;
+package cn.sliew.scaleph.workflow.service;
 
-public interface EventPublisher {
+import cn.sliew.scaleph.dag.service.dto.DagDTO;
+import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
+import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
+import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
+import cn.sliew.scaleph.workflow.service.param.WorkflowDefinitionListParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-    void publishEvent(Event event);
+import java.util.List;
+
+public interface WorkflowDagService {
+
+    Long initialize();
+
+    void destroy(Long dagId);
+
+    DagDTO getDag(Long dagId);
+
+    DagStepDTO getStep(Long stepId);
+
+    void update(Long dagId, DagGraphVO graph);
+
+    List<DndDTO> getDnds();
+
 }

@@ -16,18 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.queue;
+package cn.sliew.scaleph.workflow.dag.dnd;
 
-/**
- * does pinterest's PubSubClient better?
- */
-public interface Queue<T extends Event> {
+import cn.sliew.scaleph.dag.xflow.dnd.DndMeta;
+import lombok.Data;
 
-    String getName();
+@Data
+public class WorkflowDagDndMeta extends DndMeta {
 
-    void register(String consumerGroup, EventListener<T> listener);
+    /**
+     * @see cn.sliew.scaleph.common.dict.workflow.WorkflowTaskType
+     */
+    private String type;
 
-    void remove(EventListener<T> listener);
-
-    void push(T event);
+    private String handler;
 }

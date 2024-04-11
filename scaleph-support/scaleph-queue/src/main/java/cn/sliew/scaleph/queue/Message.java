@@ -16,9 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.queue;
+package cn.sliew.scaleph.queue;
 
-public interface Event {
+import lombok.Builder;
+import lombok.Data;
 
-    String getTopic();
+import java.util.Map;
+
+@Data
+@Builder
+public final class Message {
+
+    private String id;
+    private String topic;
+
+    private Integer retry;
+    private Integer maxRetry;
+    private Integer backoffMills;
+
+    private Map<String, Object> headers;
+    private byte[] body;
 }

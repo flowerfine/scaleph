@@ -19,33 +19,15 @@
 package cn.sliew.scaleph.workflow.service.dto;
 
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskType;
-import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-import java.util.Map;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class WorkflowTaskDefinitionDTO extends BaseDTO {
-
-    @Schema(description = "workflow definition id")
-    private Long workflowDefinitionId;
+public class WorkflowTaskDefinitionMeta {
 
     @Schema(description = "workflow task type")
     private WorkflowTaskType type;
 
-    @Schema(description = "workflow task name")
-    private String name;
-
     @Schema(description = "workflow task handler")
     private String handler;
-
-    @Schema(description = "workflow task param")
-    private Map<String, Object> param;
-
-    @Schema(description = "备注")
-    private String remark;
-
 }

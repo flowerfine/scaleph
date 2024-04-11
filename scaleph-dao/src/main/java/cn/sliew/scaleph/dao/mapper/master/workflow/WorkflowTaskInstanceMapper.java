@@ -33,7 +33,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface WorkflowTaskInstanceMapper extends BaseMapper<WorkflowTaskInstance> {
 
-    Page<WorkflowTaskInstanceVO> list(Page<WorkflowTaskInstance> page, @Param("workflowTaskDefinitionId") Long workflowTaskDefinitionId);
+    Page<WorkflowTaskInstanceVO> list(Page<WorkflowTaskInstance> page, @Param("stepId") Long stepId);
 
     WorkflowTaskInstanceVO get(@Param("id") Long id);
 

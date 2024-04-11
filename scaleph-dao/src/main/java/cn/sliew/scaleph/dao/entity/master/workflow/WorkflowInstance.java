@@ -35,6 +35,9 @@ public class WorkflowInstance extends BaseDO {
     @TableField("workflow_definition_id")
     private Long workflowDefinitionId;
 
+    @TableField("dag_id")
+    private Long dagId;
+
     @TableField("task_id")
     private String taskId;
 
