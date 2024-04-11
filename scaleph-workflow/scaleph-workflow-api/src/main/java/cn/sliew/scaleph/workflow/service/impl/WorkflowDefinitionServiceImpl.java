@@ -83,7 +83,7 @@ public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService 
         MutableGraph<WorkflowTaskDefinitionDTO2> graph = GraphBuilder.directed().build();
         List<DagStepDTO> steps = dag.getSteps();
         List<DagLinkDTO> links = dag.getLinks();
-        if (CollectionUtils.isEmpty(steps) || CollectionUtils.isEmpty(links)) {
+        if (CollectionUtils.isEmpty(steps)) {
             return graph;
         }
         Map<String, WorkflowTaskDefinitionDTO2> stepMap = new HashMap<>();

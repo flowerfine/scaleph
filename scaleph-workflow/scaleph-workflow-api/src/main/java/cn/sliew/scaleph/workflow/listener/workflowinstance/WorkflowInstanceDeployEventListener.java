@@ -68,6 +68,8 @@ public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanc
         private WorkflowInstanceService workflowInstanceService;
         @Autowired
         private WorkflowTaskInstanceService workflowTaskInstanceService;
+        @Autowired
+        private WorkflowInstanceStateMachine stateMachine;
 
         public DeployRunner(WorkflowInstanceEventDTO event) {
             this.event = event;
@@ -82,6 +84,11 @@ public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanc
 
             // 找到 root 节点，批量启动 root 节点
             Graph<WorkflowTaskDefinitionDTO2> dag = workflowDefinitionService.getDag(workflowDefinitionDTO.getId());
+            // 无节点，直接成功
+            if (dag.nodes().size() == 0) {
+                stateMachine.onSuccess(workflowInstanceDTO);
+                return;
+            }
             Graph<WorkflowTaskInstanceDTO> workflowTaskInstanceGraph = workflowTaskInstanceService.initialize(event.getWorkflowInstanceId(), dag);
 
             Set<WorkflowTaskInstanceDTO> nodes = workflowTaskInstanceGraph.nodes();

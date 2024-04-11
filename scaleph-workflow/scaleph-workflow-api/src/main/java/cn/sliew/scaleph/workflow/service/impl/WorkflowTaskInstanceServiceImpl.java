@@ -141,10 +141,15 @@ public class WorkflowTaskInstanceServiceImpl implements WorkflowTaskInstanceServ
 
     @Override
     public Graph<WorkflowTaskInstanceDTO> initialize(Long workflowInstanceId, Graph<WorkflowTaskDefinitionDTO2> graph) {
-        for (WorkflowTaskDefinitionDTO2 node : graph.nodes()) {
-            createWorkflowTaskInstance(workflowInstanceId, node);
+        try {
+            for (WorkflowTaskDefinitionDTO2 node : graph.nodes()) {
+                createWorkflowTaskInstance(workflowInstanceId, node);
+            }
+            return getDag(workflowInstanceId, graph);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return getDag(workflowInstanceId, graph);
+        return null;
     }
 
     private WorkflowTaskInstanceDTO createWorkflowTaskInstance(Long workflowInstanceId, WorkflowTaskDefinitionDTO2 node) {

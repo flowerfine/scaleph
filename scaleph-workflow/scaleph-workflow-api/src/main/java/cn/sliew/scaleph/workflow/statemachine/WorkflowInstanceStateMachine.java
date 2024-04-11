@@ -58,6 +58,11 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
                 .to(WorkflowInstanceState.RUNNING)
                 .on(WorkflowInstanceEvent.COMMAND_DEPLOY)
                 .perform(doPerform());
+        builder.externalTransition()
+                .from(WorkflowInstanceState.PENDING)
+                .to(WorkflowInstanceState.SUCCESS)
+                .on(WorkflowInstanceEvent.PROCESS_SUCCESS)
+                .perform(doPerform());
 
         builder.internalTransition()
                 .within(WorkflowInstanceState.RUNNING)
