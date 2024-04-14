@@ -96,6 +96,7 @@
         <module>scaleph-api</module>
         <module>scaleph-meta</module>
 
+        <module>scaleph-application</module>
         <module>scaleph-engine</module>
         <module>scaleph-workspace</module>
         <module>scaleph-plugins</module>
@@ -261,6 +262,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-application</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
