@@ -16,13 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.model;
+package cn.sliew.scaleph.workflow.engine.workflow.composite;
 
-import cn.sliew.scaleph.workflow.engine.action.task.Task;
+import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
 
-import java.util.List;
+public interface GroupWorkFlow extends WorkFlow {
 
-public interface Flow {
-
-    List<Task> getTasks();
+    String getGroup();
 }

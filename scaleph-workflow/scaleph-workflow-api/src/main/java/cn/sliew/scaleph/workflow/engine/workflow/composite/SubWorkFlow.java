@@ -16,15 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.model;
+package cn.sliew.scaleph.workflow.engine.workflow.composite;
 
-public interface DataInputOption {
+import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
 
-    String getName();
+public interface SubWorkFlow extends WorkFlow {
 
-    String getDescription();
-
-    Object getDefaults();
-
-    Boolean isRequired();
+    WorkFlow getParent();
 }

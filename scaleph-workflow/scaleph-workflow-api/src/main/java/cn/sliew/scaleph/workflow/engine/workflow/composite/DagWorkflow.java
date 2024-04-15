@@ -16,8 +16,10 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.model;
+package cn.sliew.scaleph.workflow.engine.workflow.composite;
 
-public interface DataOutputOption {
+import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
+
+public interface DagWorkflow extends WorkFlow {
 
 }
