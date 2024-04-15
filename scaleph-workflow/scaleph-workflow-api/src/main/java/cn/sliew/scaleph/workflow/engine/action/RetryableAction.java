@@ -16,13 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.model;
+package cn.sliew.scaleph.workflow.engine.action;
 
-import cn.sliew.scaleph.workflow.engine.action.task.Task;
+import java.time.Duration;
 
-import java.util.List;
+public interface RetryableAction extends Action {
 
-public interface Flow {
+    Duration getBackoffPeriod();
 
-    List<Task> getTasks();
+    Integer getRetryTimes();
+
+    Integer getMaxRetryTimes();
 }

@@ -18,11 +18,13 @@
 
 package cn.sliew.scaleph.workflow.model;
 
-import cn.sliew.scaleph.workflow.engine.action.task.Task;
+public interface DataInputOption {
 
-import java.util.List;
+    String getName();
 
-public interface Flow {
+    String getDescription();
 
-    List<Task> getTasks();
+    Object getDefaults();
+
+    Boolean isRequired();
 }

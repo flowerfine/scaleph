@@ -20,10 +20,15 @@ package cn.sliew.scaleph.workflow.engine.action;
 
 import cn.sliew.milky.common.constant.AttributeKey;
 import cn.sliew.milky.common.filter.ActionListener;
+import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskType;
 
 import java.util.List;
 
 public interface Action {
+
+    default WorkflowTaskType getType() {
+        return WorkflowTaskType.JAVA;
+    }
 
     String getName();
 
@@ -32,4 +37,12 @@ public interface Action {
     List<AttributeKey> getOutputs();
 
     void execute(ActionContext context, ActionListener<ActionResult> listener);
+
+    default void onTimeout(ActionContext context, ActionListener<ActionResult> listener) {
+
+    }
+
+    default void onTerminate(ActionContext context, ActionListener<ActionResult> listener) {
+
+    }
 }
