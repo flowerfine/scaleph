@@ -30,7 +30,12 @@
     <dependencies>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-system</artifactId>
+            <artifactId>scaleph-queue</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.cola</groupId>
+            <artifactId>cola-component-statemachine</artifactId>
         </dependency>
 
         <dependency>
