@@ -41,7 +41,7 @@ public class CronManager implements InitializingBean, DisposableBean {
     }
 
     private void checkStatus(WatchCronIntervalEnum intervalEnum) {
-        log.info("check status");
+//        log.info("check status");
     }
 
     /**

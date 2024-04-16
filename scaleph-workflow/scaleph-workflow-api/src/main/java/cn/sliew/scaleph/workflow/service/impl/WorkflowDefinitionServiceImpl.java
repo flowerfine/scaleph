@@ -91,6 +91,7 @@ public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService 
             WorkflowTaskDefinitionDTO2 taskDefinitionDTO = WorkflowTaskDefinition2Convert.INSTANCE.toDto(step);
             taskDefinitionDTO.setWorkflowDefinitionId(id);
             graph.addNode(taskDefinitionDTO);
+            stepMap.put(taskDefinitionDTO.getStepId(), taskDefinitionDTO);
         }
         links.forEach(link -> graph.putEdge(stepMap.get(link.getFromStepId()), stepMap.get(link.getToStepId())));
         return graph;

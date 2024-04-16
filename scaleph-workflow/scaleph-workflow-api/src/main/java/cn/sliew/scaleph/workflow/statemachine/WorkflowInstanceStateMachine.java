@@ -109,7 +109,7 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
             WorkflowInstanceEventDTO eventDTO = new WorkflowInstanceEventDTO(fromState, toState, eventEnum, pair.getLeft(), pair.getRight());
             Message message = Message.builder()
                     .topic(queue.getName())
-                    .body(FuryUtil.serialize(eventDTO))
+                    .body(FuryUtil.serializeByJava(eventDTO))
                     .build();
             queue.push(message);
         };

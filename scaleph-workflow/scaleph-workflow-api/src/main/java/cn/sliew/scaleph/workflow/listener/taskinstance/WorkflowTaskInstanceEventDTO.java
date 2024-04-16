@@ -22,16 +22,18 @@ import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceEvent;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
 import lombok.Getter;
 
-import java.util.Optional;
+import java.io.Serializable;
 
 @Getter
-public class WorkflowTaskInstanceEventDTO {
+public class WorkflowTaskInstanceEventDTO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private final WorkflowTaskInstanceStage state;
     private final WorkflowTaskInstanceStage nextState;
     private final WorkflowTaskInstanceEvent event;
     private final Long workflowTaskInstanceId;
-    private final Optional<Throwable> throwable;
+    private final Throwable throwable;
 
     public WorkflowTaskInstanceEventDTO(WorkflowTaskInstanceStage state, WorkflowTaskInstanceStage nextState, WorkflowTaskInstanceEvent event, Long workflowTaskInstanceId) {
         this(state, nextState, event, workflowTaskInstanceId, null);
@@ -42,6 +44,6 @@ public class WorkflowTaskInstanceEventDTO {
         this.nextState = nextState;
         this.event = event;
         this.workflowTaskInstanceId = workflowTaskInstanceId;
-        this.throwable = Optional.ofNullable(throwable);
+        this.throwable = throwable;
     }
 }
