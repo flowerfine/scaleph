@@ -121,9 +121,24 @@ VALUES (9, 6, '8c7b171c-f232-4b96-b842-5f4fbef34bc1', 'DorisOperatorInstanceStat
         NULL, 'sys', 'sys');
 INSERT INTO `dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
                                `step_meta`, `step_attrs`, `creator`, `editor`)
-VALUES (10, 7, 'cae1a622-6c96-4cec-81d3-883510c17702', 'FlinkJobStatus', 460, 400, NULL, NULL,
-        '{\"handler\":\"cn.sliew.scaleph.engine.flink.kubernetes.action.FlinkJobStatusSyncJob2\",\"type\":\"1\"}', NULL,
-        'sys', 'sys');
+VALUES (10, 7, 'cae1a622-6c96-4cec-81d3-883510c17702', 'FlinkJobStatus-1', 460, 400, NULL, NULL,
+        '{\"handler\":\"cn.sliew.scaleph.engine.flink.kubernetes.action.FlinkJobStatusSyncJobStepOne\",\"type\":\"1\"}',
+        NULL, 'sys', 'sys');
+INSERT INTO `dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                               `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (11, 7, '2c2cb6c8-794b-4cc1-8258-cd1898912744', 'FlinkJobStatus-2', 460, 400, NULL, NULL,
+        '{\"handler\":\"cn.sliew.scaleph.engine.flink.kubernetes.action.FlinkJobStatusSyncJobStepTwo\",\"type\":\"1\"}',
+        NULL, 'sys', 'sys');
+INSERT INTO `dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                               `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (12, 7, 'd82a947b-f414-4273-973a-06f20fe33f0d', 'FlinkJobStatus-3-1', 460, 400, NULL, NULL,
+        '{\"handler\":\"cn.sliew.scaleph.engine.flink.kubernetes.action.FlinkJobStatusSyncJobStepThreeOne\",\"type\":\"1\"}',
+        NULL, 'sys', 'sys');
+INSERT INTO `dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                               `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (13, 7, '027db10b-9150-403d-9d11-e4a36c99e1db', 'FlinkJobStatus-3-2', 460, 400, NULL, NULL,
+        '{\"handler\":\"cn.sliew.scaleph.engine.flink.kubernetes.action.FlinkJobStatusSyncJobStepThreeTwo\",\"type\":\"1\"}',
+        NULL, 'sys', 'sys');
 
 drop table if exists dag_config_link;
 create table dag_config_link
@@ -154,6 +169,18 @@ INSERT INTO `dag_config_link` (`id`, `dag_id`, `link_id`, `link_name`, `from_ste
                                `link_meta`, `link_attrs`, `creator`, `editor`)
 VALUES (2, 2, 'd57021a1-65c7-4dfe-ae89-3b73d00fcf72', NULL, '6223c6c3-b552-4c69-adab-5300b7514fad',
         'f08143b4-34dc-4190-8723-e8d8ce49738f', NULL, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `dag_config_link` (`id`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`, `shape`, `style`,
+                               `link_meta`, `link_attrs`, `creator`, `editor`)
+VALUES (4, 7, '2d172e1a-ef92-431c-9889-7461bccae7a5', NULL, 'cae1a622-6c96-4cec-81d3-883510c17702',
+        '2c2cb6c8-794b-4cc1-8258-cd1898912744', NULL, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `dag_config_link` (`id`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`, `shape`, `style`,
+                               `link_meta`, `link_attrs`, `creator`, `editor`)
+VALUES (5, 7, 'af16c8ee-0abf-4555-aa0e-98ec01964ce1', NULL, '2c2cb6c8-794b-4cc1-8258-cd1898912744',
+        'd82a947b-f414-4273-973a-06f20fe33f0d', NULL, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `dag_config_link` (`id`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`, `shape`, `style`,
+                               `link_meta`, `link_attrs`, `creator`, `editor`)
+VALUES (6, 7, '027db10b-9150-403d-9d11-e4a36c99e1db', NULL, '2c2cb6c8-794b-4cc1-8258-cd1898912744',
+        '027db10b-9150-403d-9d11-e4a36c99e1db', NULL, NULL, NULL, NULL, 'sys', 'sys');
 
 drop table if exists dag_instance;
 create table dag_instance

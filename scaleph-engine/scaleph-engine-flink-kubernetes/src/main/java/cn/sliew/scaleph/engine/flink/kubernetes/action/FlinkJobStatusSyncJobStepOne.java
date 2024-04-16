@@ -27,10 +27,10 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class FlinkJobStatusSyncJob2 extends AbstractWorkFlow {
+public class FlinkJobStatusSyncJobStepOne extends AbstractWorkFlow {
 
-    public FlinkJobStatusSyncJob2() {
-        super("FLINK_JOB_STATUS_SYNC_JOB2");
+    public FlinkJobStatusSyncJobStepOne() {
+        super("FLINK_JOB_STATUS_SYNC_JOB_STEP_ONE");
     }
 
     @Override
@@ -39,7 +39,7 @@ public class FlinkJobStatusSyncJob2 extends AbstractWorkFlow {
     }
 
     private void process() {
-        log.info("update flink kubernetes job status success!");
+        log.info("update flink kubernetes job status step-1");
     }
 
 }
