@@ -19,12 +19,12 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.sessioncluster.FlinkSessionCluster;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkJobManagerEndpointService;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesSessionClusterService;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesSessionClusterListParam;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesSessionClusterSelectListParam;
+import cn.sliew.scaleph.application.flink.resource.definition.sessioncluster.FlinkSessionCluster;
+import cn.sliew.scaleph.application.flink.service.FlinkJobManagerEndpointService;
+import cn.sliew.scaleph.application.flink.service.WsFlinkKubernetesSessionClusterService;
+import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesSessionClusterDTO;
+import cn.sliew.scaleph.application.flink.service.param.WsFlinkKubernetesSessionClusterListParam;
+import cn.sliew.scaleph.application.flink.service.param.WsFlinkKubernetesSessionClusterSelectListParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

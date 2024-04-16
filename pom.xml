@@ -267,11 +267,6 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-application</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-workspace-project</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -298,17 +293,17 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-application-flink</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-engine-doris</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-engine-flink-client</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-engine-flink-kubernetes</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

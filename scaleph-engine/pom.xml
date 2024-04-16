@@ -32,7 +32,6 @@
     <modules>
         <module>scaleph-engine-doris</module>
         <module>scaleph-engine-flink-client</module>
-        <module>scaleph-engine-flink-kubernetes</module>
         <module>scaleph-engine-sql-gateway</module>
         <module>scaleph-sql-template</module>
     </modules>
