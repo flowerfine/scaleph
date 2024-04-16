@@ -32,6 +32,8 @@ public interface ClusterCredentialService extends ResourceDescriptor<ClusterCred
 
     Page<ClusterCredentialDTO> list(ClusterCredentialListParam param);
 
+    List<Long> listAll();
+
     ClusterCredentialDTO selectOne(Long id);
 
     void upload(ClusterCredentialUploadParam param, MultipartFile file) throws IOException;

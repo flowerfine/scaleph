@@ -16,15 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.model;
+package cn.sliew.scaleph.workflow.engine.action;
 
-public interface Input {
+public interface ActionExecutionListener {
 
-    String getName();
+    default void onTaskStartup(Action action) {
+    }
 
-    String getDescription();
+    default void onTaskEnd(Action action) {
+    }
 
-    Object getDefaults();
-
-    Boolean isRequired();
+    default void onTaskFailure(Action action, Throwable throwable) {
+    }
 }

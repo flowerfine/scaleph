@@ -28,6 +28,7 @@ import cn.sliew.scaleph.resource.service.param.ClusterCredentialListParam;
 import cn.sliew.scaleph.resource.service.param.ClusterCredentialUploadParam;
 import cn.sliew.scaleph.resource.service.param.ResourceListParam;
 import cn.sliew.scaleph.storage.service.FileSystemService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.hadoop.fs.Path;
@@ -42,6 +43,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -81,6 +83,14 @@ public class ClusterCredentialServiceImpl implements ClusterCredentialService {
         List<ClusterCredentialDTO> dtoList = ClusterCredentialConvert.INSTANCE.toDto(page.getRecords());
         result.setRecords(dtoList);
         return result;
+    }
+
+    @Override
+    public List<Long> listAll() {
+        LambdaQueryWrapper<ResourceClusterCredential> queryWrapper = Wrappers.lambdaQuery(ResourceClusterCredential.class)
+                .select(ResourceClusterCredential::getId);
+        List<ResourceClusterCredential> records = resourceClusterCredentialMapper.selectList(queryWrapper);
+        return records.stream().map(ResourceClusterCredential::getId).collect(Collectors.toList());
     }
 
     @Override

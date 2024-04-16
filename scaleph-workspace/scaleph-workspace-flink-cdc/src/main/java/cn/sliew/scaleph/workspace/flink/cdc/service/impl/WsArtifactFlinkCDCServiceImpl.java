@@ -116,7 +116,7 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
         record.setArtifactId(artifactDTO.getId());
         record.setFlinkVersion(FlinkVersion.current());
         record.setFlinkCDCVersion(FlinkCDCVersion.current());
-        record.setDagId(flinkCDCDagService.initialize());
+        record.setDagId(flinkCDCDagService.initialize(param.getName(), param.getRemark()));
         record.setCurrent(YesOrNo.YES);
         wsArtifactFlinkCDCMapper.insert(record);
         return selectOne(record.getId());

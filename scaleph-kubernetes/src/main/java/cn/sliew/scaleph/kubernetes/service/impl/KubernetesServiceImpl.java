@@ -24,6 +24,8 @@ import cn.sliew.scaleph.common.util.SystemUtil;
 import cn.sliew.scaleph.kubernetes.service.KubernetesService;
 import cn.sliew.scaleph.resource.service.ClusterCredentialService;
 import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
 import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClientBuilder;
@@ -45,7 +47,7 @@ import java.util.concurrent.ConcurrentMap;
 public class KubernetesServiceImpl implements KubernetesService {
 
     private ConcurrentMap<Long, KubernetesClient> cache = new ConcurrentHashMap<>(4);
-    private ConcurrentMap<Long, ConcurrentMap<String, NamespacedKubernetesClient>> namespacedCache = new ConcurrentHashMap<>(4);
+    private Table<Long, String, NamespacedKubernetesClient> clientCache = HashBasedTable.create();
 
     @Autowired
     private ClusterCredentialService clusterCredentialService;
@@ -57,8 +59,10 @@ public class KubernetesServiceImpl implements KubernetesService {
 
     @Override
     public NamespacedKubernetesClient getClient(Long clusterCredentialId, String namespace) {
-        ConcurrentMap<String, NamespacedKubernetesClient> clientMap = namespacedCache.computeIfAbsent(clusterCredentialId, (key) -> new ConcurrentHashMap());
-        return clientMap.computeIfAbsent(namespace, (key) -> buildNamespacedClient(clusterCredentialId, namespace));
+        if (clientCache.contains(clusterCredentialId, namespace) == false) {
+            clientCache.put(clusterCredentialId, namespace, buildNamespacedClient(clusterCredentialId, namespace));
+        }
+        return clientCache.get(clusterCredentialId, namespace);
     }
 
     private KubernetesClient buildClient(Long clusterCredentialId) {

@@ -18,11 +18,11 @@
 
 package cn.sliew.scaleph.workflow.service.impl;
 
-import cn.sliew.scaleph.dag.service.DagService;
-import cn.sliew.scaleph.dag.service.DagStepService;
-import cn.sliew.scaleph.dag.service.dto.DagDTO;
-import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
-import cn.sliew.scaleph.dag.service.param.DagSimpleAddParam;
+import cn.sliew.scaleph.dag.service.DagConfigComplexService;
+import cn.sliew.scaleph.dag.service.DagConfigStepService;
+import cn.sliew.scaleph.dag.service.dto.DagConfigComplexDTO;
+import cn.sliew.scaleph.dag.service.dto.DagConfigStepDTO;
+import cn.sliew.scaleph.dag.service.param.DagConfigSimpleAddParam;
 import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
 import cn.sliew.scaleph.workflow.service.WorkflowDagService;
@@ -36,33 +36,37 @@ import java.util.List;
 public class WorkflowDagServiceImpl implements WorkflowDagService {
 
     @Autowired
-    private DagService dagService;
+    private DagConfigComplexService dagConfigComplexService;
     @Autowired
-    private DagStepService dagStepService;
+    private DagConfigStepService dagConfigStepService;
 
     @Override
-    public Long initialize() {
-        return dagService.insert(new DagSimpleAddParam());
+    public Long initialize(String name, String remark) {
+        DagConfigSimpleAddParam param = new DagConfigSimpleAddParam();
+        param.setType("WorkFlow");
+        param.setName(name);
+        param.setRemark(remark);
+        return dagConfigComplexService.insert(param);
     }
 
     @Override
     public void destroy(Long dagId) {
-        dagService.delete(dagId);
+        dagConfigComplexService.delete(dagId);
     }
 
     @Override
-    public DagDTO getDag(Long dagId) {
-        return dagService.selectOne(dagId);
+    public DagConfigComplexDTO getDag(Long dagId) {
+        return dagConfigComplexService.selectOne(dagId);
     }
 
     @Override
-    public DagStepDTO getStep(Long stepId) {
-        return dagStepService.selectOne(stepId);
+    public DagConfigStepDTO getStep(Long stepId) {
+        return dagConfigStepService.selectOne(stepId);
     }
 
     @Override
     public void update(Long dagId, DagGraphVO graph) {
-        dagService.replace(dagId, graph);
+        dagConfigComplexService.replace(dagId, graph);
     }
 
     @Override

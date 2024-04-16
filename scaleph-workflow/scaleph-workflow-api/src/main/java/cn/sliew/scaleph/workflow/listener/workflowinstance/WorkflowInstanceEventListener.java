@@ -27,8 +27,11 @@ public interface WorkflowInstanceEventListener extends MessageHandler {
     @Override
     default void handler(Message message) throws Exception {
         if (message.getBody() != null) {
-            WorkflowInstanceEventDTO eventDTO = (WorkflowInstanceEventDTO) FuryUtil.deserialize(message.getBody());
-            onEvent(eventDTO);
+            Object deserialized = FuryUtil.deserializeByJava(message.getBody());
+            if (deserialized instanceof WorkflowInstanceEventDTO) {
+                WorkflowInstanceEventDTO eventDTO = (WorkflowInstanceEventDTO) deserialized;
+                onEvent(eventDTO);
+            }
         }
     }
 

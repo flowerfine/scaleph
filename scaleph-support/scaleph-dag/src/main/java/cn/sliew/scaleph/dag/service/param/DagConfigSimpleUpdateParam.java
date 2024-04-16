@@ -16,11 +16,30 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.model;
+package cn.sliew.scaleph.dag.service.param;
 
-import java.util.List;
+import com.fasterxml.jackson.databind.JsonNode;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
-public interface Flow {
+import javax.validation.constraints.NotNull;
 
-    List<Task> getTasks();
+@Data
+public class DagConfigSimpleUpdateParam {
+
+    @NotNull
+    @Schema(description = "id")
+    private Long id;
+
+    @Schema(description = "DAG名称")
+    private String name;
+
+    @Schema(description = "DAG元信息")
+    private JsonNode dagMeta;
+
+    @Schema(description = "DAG属性")
+    private JsonNode dagAttrs;
+
+    @Schema(description = "备注")
+    private String remark;
 }

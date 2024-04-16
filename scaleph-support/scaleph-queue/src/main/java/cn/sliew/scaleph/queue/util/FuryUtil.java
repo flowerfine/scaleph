@@ -21,6 +21,8 @@ package cn.sliew.scaleph.queue.util;
 import io.fury.Fury;
 import io.fury.config.Language;
 
+import java.io.*;
+
 public enum FuryUtil {
     ;
 
@@ -33,7 +35,27 @@ public enum FuryUtil {
         return fury.serialize(obj);
     }
 
+    public static byte[] serializeByJava(Object obj) {
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+            oos.writeObject(obj);
+            return bos.toByteArray();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static Object deserialize(byte[] bytes) {
         return fury.deserialize(bytes);
+    }
+
+    public static Object deserializeByJava(byte[] bytes) {
+        try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+             ObjectInputStream ois = new ObjectInputStream(bis)) {
+            return ois.readObject();
+
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

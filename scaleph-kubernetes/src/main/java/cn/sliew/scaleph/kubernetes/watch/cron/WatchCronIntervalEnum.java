@@ -16,30 +16,30 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.action;
+package cn.sliew.scaleph.kubernetes.watch.cron;
 
-import cn.sliew.milky.common.filter.ActionListener;
-import cn.sliew.scaleph.workflow.engine.action.ActionContext;
-import cn.sliew.scaleph.workflow.engine.action.ActionResult;
-import cn.sliew.scaleph.workflow.engine.workflow.AbstractWorkFlow;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import lombok.Getter;
 
-@Slf4j
-@Component
-public class FlinkJobStatusSyncJob2 extends AbstractWorkFlow {
+import java.time.Duration;
 
-    public FlinkJobStatusSyncJob2() {
-        super("FLINK_JOB_STATUS_SYNC_JOB2");
+@Getter
+public enum WatchCronIntervalEnum {
+
+    LEVEL_5s(60L, Duration.ofSeconds(5L)),
+    LEVEL_10s(120L, Duration.ofSeconds(10L)),
+    LEVEL_30s(180L, Duration.ofSeconds(30L)),
+    LEVEL_1m(240L, Duration.ofMinutes(1L)),
+    LEVEL_2m(300L, Duration.ofMinutes(2L)),
+    LEVEL_3m(360L, Duration.ofMinutes(3L)),
+    LEVEL_4m(420L, Duration.ofMinutes(4L)),
+    LEVEL_5m(Long.MAX_VALUE, Duration.ofMinutes(5L)),
+    ;
+
+    private Long maxCount;
+    private Duration interval;
+
+    WatchCronIntervalEnum(Long maxCount, Duration interval) {
+        this.maxCount = maxCount;
+        this.interval = interval;
     }
-
-    @Override
-    protected Runnable doExecute(ActionContext context, ActionListener<ActionResult> listener) {
-        return () -> process();
-    }
-
-    private void process() {
-        log.info("update flink kubernetes job status success!");
-    }
-
 }

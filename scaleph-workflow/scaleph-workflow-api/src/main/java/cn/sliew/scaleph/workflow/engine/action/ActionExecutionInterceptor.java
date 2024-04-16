@@ -16,8 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.model;
+package cn.sliew.scaleph.workflow.engine.action;
 
-public interface Output {
+public interface ActionExecutionInterceptor {
 
+    default ActionResult beforeExecution(Action action) {
+        return null;
+    }
+
+    default ActionResult afterExecution(Action action, ActionResult actionResult) {
+        return actionResult;
+    }
+
+    default void finallyAfterExecution(Action action, ActionResult actionResult, Throwable throwable) {
+    }
 }

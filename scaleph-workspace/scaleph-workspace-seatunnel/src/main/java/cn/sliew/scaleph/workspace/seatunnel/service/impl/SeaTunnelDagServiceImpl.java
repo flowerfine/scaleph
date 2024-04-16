@@ -20,9 +20,9 @@ package cn.sliew.scaleph.workspace.seatunnel.service.impl;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
-import cn.sliew.scaleph.dag.service.DagService;
-import cn.sliew.scaleph.dag.service.dto.DagDTO;
-import cn.sliew.scaleph.dag.service.param.DagSimpleAddParam;
+import cn.sliew.scaleph.dag.service.DagConfigComplexService;
+import cn.sliew.scaleph.dag.service.dto.DagConfigComplexDTO;
+import cn.sliew.scaleph.dag.service.param.DagConfigSimpleAddParam;
 import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndPortDTO;
@@ -31,8 +31,8 @@ import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.workspace.seatunnel.dag.dnd.SeaTunnelDagDndDTO;
 import cn.sliew.scaleph.workspace.seatunnel.dag.dnd.SeaTunnelDagDndMeta;
-import cn.sliew.scaleph.workspace.seatunnel.service.SeaTunnelDagService;
 import cn.sliew.scaleph.workspace.seatunnel.service.SeaTunnelConnectorService;
+import cn.sliew.scaleph.workspace.seatunnel.service.SeaTunnelDagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,28 +44,32 @@ import static cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType.SEATUNN
 public class SeaTunnelDagServiceImpl implements SeaTunnelDagService {
 
     @Autowired
-    private DagService dagService;
+    private DagConfigComplexService dagConfigComplexService;
     @Autowired
     private SeaTunnelConnectorService seatunnelConnectorService;
 
     @Override
-    public Long initialize() {
-        return dagService.insert(new DagSimpleAddParam());
+    public Long initialize(String name, String remark) {
+        DagConfigSimpleAddParam param = new DagConfigSimpleAddParam();
+        param.setType("SeaTunnel");
+        param.setName(name);
+        param.setRemark(remark);
+        return dagConfigComplexService.insert(param);
     }
 
     @Override
     public void destroy(Long dagId) {
-        dagService.delete(dagId);
+        dagConfigComplexService.delete(dagId);
     }
 
     @Override
-    public DagDTO getDag(Long dagId) {
-        return dagService.selectOne(dagId);
+    public DagConfigComplexDTO getDag(Long dagId) {
+        return dagConfigComplexService.selectOne(dagId);
     }
 
     @Override
     public void update(Long dagId, DagGraphVO graph) {
-        dagService.replace(dagId, graph);
+        dagConfigComplexService.replace(dagId, graph);
     }
 
     @Override

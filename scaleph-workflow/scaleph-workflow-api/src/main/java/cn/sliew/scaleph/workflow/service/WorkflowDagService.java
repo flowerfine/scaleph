@@ -18,25 +18,22 @@
 
 package cn.sliew.scaleph.workflow.service;
 
-import cn.sliew.scaleph.dag.service.dto.DagDTO;
-import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
+import cn.sliew.scaleph.dag.service.dto.DagConfigComplexDTO;
+import cn.sliew.scaleph.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
-import cn.sliew.scaleph.workflow.service.param.WorkflowDefinitionListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
 
 public interface WorkflowDagService {
 
-    Long initialize();
+    Long initialize(String name, String remark);
 
     void destroy(Long dagId);
 
-    DagDTO getDag(Long dagId);
+    DagConfigComplexDTO getDag(Long dagId);
 
-    DagStepDTO getStep(Long stepId);
+    DagConfigStepDTO getStep(Long stepId);
 
     void update(Long dagId, DagGraphVO graph);
 

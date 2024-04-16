@@ -19,19 +19,19 @@
 package cn.sliew.scaleph.workspace.flink.cdc.service.impl;
 
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCPluginType;
-import cn.sliew.scaleph.dag.service.DagService;
-import cn.sliew.scaleph.dag.service.dto.DagDTO;
-import cn.sliew.scaleph.dag.service.param.DagSimpleAddParam;
+import cn.sliew.scaleph.dag.service.DagConfigComplexService;
+import cn.sliew.scaleph.dag.service.dto.DagConfigComplexDTO;
+import cn.sliew.scaleph.dag.service.param.DagConfigSimpleAddParam;
 import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndPortDTO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndPortGroupEnum;
+import cn.sliew.scaleph.plugin.flink.cdc.FlinkCDCPipilineConnectorPlugin;
+import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.workspace.flink.cdc.dag.dnd.FlinkCDCDagDndDTO;
 import cn.sliew.scaleph.workspace.flink.cdc.dag.dnd.FlinkCDCDagDndMeta;
 import cn.sliew.scaleph.workspace.flink.cdc.service.FlinkCDCConnectorService;
 import cn.sliew.scaleph.workspace.flink.cdc.service.FlinkCDCDagService;
-import cn.sliew.scaleph.plugin.flink.cdc.FlinkCDCPipilineConnectorPlugin;
-import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,28 +41,32 @@ import java.util.*;
 public class FlinkCDCDagServiceImpl implements FlinkCDCDagService {
 
     @Autowired
-    private DagService dagService;
+    private DagConfigComplexService dagConfigComplexService;
     @Autowired
     private FlinkCDCConnectorService flinkCDCConnectorService;
 
     @Override
-    public Long initialize() {
-        return dagService.insert(new DagSimpleAddParam());
+    public Long initialize(String name, String remark) {
+        DagConfigSimpleAddParam param = new DagConfigSimpleAddParam();
+        param.setType("Flink-CDC");
+        param.setName(name);
+        param.setRemark(remark);
+        return dagConfigComplexService.insert(param);
     }
 
     @Override
     public void destroy(Long dagId) {
-        dagService.delete(dagId);
+        dagConfigComplexService.delete(dagId);
     }
 
     @Override
-    public DagDTO getDag(Long dagId) {
-        return dagService.selectOne(dagId);
+    public DagConfigComplexDTO getDag(Long dagId) {
+        return dagConfigComplexService.selectOne(dagId);
     }
 
     @Override
     public void update(Long dagId, DagGraphVO graph) {
-        dagService.replace(dagId, graph);
+        dagConfigComplexService.replace(dagId, graph);
     }
 
     @Override

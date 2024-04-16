@@ -20,7 +20,7 @@ package cn.sliew.scaleph.workflow.service.convert;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dag.service.dto.DagDTO;
+import cn.sliew.scaleph.dag.service.dto.DagConfigComplexDTO;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowDefinitionVO;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowSchedule;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
@@ -64,7 +64,7 @@ public interface WorkflowDefinitionVOConvert extends BaseConvert<WorkflowDefinit
         }
         WorkflowScheduleDTO schedule = WorkflowScheduleConvert.INSTANCE.toDto(entity.getSchedule());
         dto.setSchedule(schedule);
-        DagDTO dag = new DagDTO();
+        DagConfigComplexDTO dag = new DagConfigComplexDTO();
         dag.setId(entity.getDagId());
         dto.setDag(dag);
         return dto;

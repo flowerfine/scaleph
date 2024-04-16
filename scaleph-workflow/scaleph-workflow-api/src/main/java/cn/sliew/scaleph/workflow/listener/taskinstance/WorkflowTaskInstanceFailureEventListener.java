@@ -41,9 +41,9 @@ public class WorkflowTaskInstanceFailureEventListener extends AbstractWorkflowTa
         private Long workflowTaskInstanceId;
         private Optional<Throwable> throwable;
 
-        public FailureRunner(Long workflowTaskInstanceId, Optional<Throwable> throwable) {
+        public FailureRunner(Long workflowTaskInstanceId, Throwable throwable) {
             this.workflowTaskInstanceId = workflowTaskInstanceId;
-            this.throwable = throwable;
+            this.throwable = Optional.ofNullable(throwable);
         }
 
         @Override
