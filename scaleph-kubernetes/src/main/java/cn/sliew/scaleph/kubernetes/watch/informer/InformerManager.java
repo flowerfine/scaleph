@@ -43,7 +43,7 @@ public class InformerManager implements InitializingBean, DisposableBean {
     private ClusterCredentialService clusterCredentialService;
     @Autowired
     private KubernetesService kubernetesService;
-    @Autowired
+    @Autowired(required = false)
     private Map<String, KubernetesInformerWatchHandler> watchHandlers;
 
     @Override
