@@ -30,15 +30,15 @@
     <dependencies>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-engine-doris</artifactId>
+            <artifactId>scaleph-application-flink</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-application-doris</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-engine-sql-gateway</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-application-flink</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>

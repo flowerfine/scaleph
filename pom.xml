@@ -298,7 +298,7 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-engine-doris</artifactId>
+                <artifactId>scaleph-application-doris</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
