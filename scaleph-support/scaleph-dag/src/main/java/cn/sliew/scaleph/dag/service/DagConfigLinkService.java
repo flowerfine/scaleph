@@ -16,27 +16,27 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service;
+package cn.sliew.scaleph.dag.service;
 
-import cn.sliew.scaleph.dag.service.dto.DagConfigComplexDTO;
-import cn.sliew.scaleph.dag.service.dto.DagConfigStepDTO;
-import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
-import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
+import cn.sliew.scaleph.dag.service.dto.DagConfigLinkDTO;
 
 import java.util.List;
 
-public interface WorkflowDagService {
+public interface DagConfigLinkService {
 
-    Long initialize(String name, String remark);
+    List<DagConfigLinkDTO> listLinks(Long dagId);
 
-    void destroy(Long dagId);
+    int insert(DagConfigLinkDTO linkDTO);
 
-    DagConfigComplexDTO getDag(Long dagId);
+    int update(DagConfigLinkDTO linkDTO);
 
-    DagConfigStepDTO getStep(Long stepId);
+    int upsert(DagConfigLinkDTO linkDTO);
 
-    void update(Long dagId, DagGraphVO graph);
+    int deleteByDag(Long dagId);
 
-    List<DndDTO> getDnds();
+    int deleteByDag(List<Long> dagIds);
 
+    int deleteSurplusLinks(Long dagId, List<String> linkIds);
+
+    int clone(Long sourceDagId, Long targetDagId);
 }

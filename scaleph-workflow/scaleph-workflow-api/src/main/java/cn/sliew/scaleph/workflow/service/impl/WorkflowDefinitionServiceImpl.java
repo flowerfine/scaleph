@@ -18,9 +18,9 @@
 
 package cn.sliew.scaleph.workflow.service.impl;
 
-import cn.sliew.scaleph.dag.service.dto.DagDTO;
-import cn.sliew.scaleph.dag.service.dto.DagLinkDTO;
-import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
+import cn.sliew.scaleph.dag.service.dto.DagConfigComplexDTO;
+import cn.sliew.scaleph.dag.service.dto.DagConfigLinkDTO;
+import cn.sliew.scaleph.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowDefinition;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowDefinitionVO;
 import cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowDefinitionMapper;
@@ -75,19 +75,19 @@ public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService 
     @Override
     public Graph<WorkflowTaskDefinitionDTO2> getDag(Long id) {
         WorkflowDefinitionDTO workflowDefinitionDTO = get(id);
-        DagDTO dag = workflowDefinitionDTO.getDag();
+        DagConfigComplexDTO dag = workflowDefinitionDTO.getDag();
         return buildGraph(id, dag);
     }
 
-    private MutableGraph<WorkflowTaskDefinitionDTO2> buildGraph(Long id, DagDTO dag) {
+    private MutableGraph<WorkflowTaskDefinitionDTO2> buildGraph(Long id, DagConfigComplexDTO dag) {
         MutableGraph<WorkflowTaskDefinitionDTO2> graph = GraphBuilder.directed().build();
-        List<DagStepDTO> steps = dag.getSteps();
-        List<DagLinkDTO> links = dag.getLinks();
+        List<DagConfigStepDTO> steps = dag.getSteps();
+        List<DagConfigLinkDTO> links = dag.getLinks();
         if (CollectionUtils.isEmpty(steps)) {
             return graph;
         }
         Map<String, WorkflowTaskDefinitionDTO2> stepMap = new HashMap<>();
-        for (DagStepDTO step : steps) {
+        for (DagConfigStepDTO step : steps) {
             WorkflowTaskDefinitionDTO2 taskDefinitionDTO = WorkflowTaskDefinition2Convert.INSTANCE.toDto(step);
             taskDefinitionDTO.setWorkflowDefinitionId(id);
             graph.addNode(taskDefinitionDTO);
@@ -98,7 +98,7 @@ public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService 
 
     @Override
     public WorkflowTaskDefinitionDTO2 getTaskDefinition(Long workflowTaskDefinitionId) {
-        DagStepDTO step = workflowDagService.getStep(workflowTaskDefinitionId);
+        DagConfigStepDTO step = workflowDagService.getStep(workflowTaskDefinitionId);
         return WorkflowTaskDefinition2Convert.INSTANCE.toDto(step);
     }
 }

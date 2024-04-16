@@ -16,27 +16,30 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service;
+package cn.sliew.scaleph.dag.service.param;
 
-import cn.sliew.scaleph.dag.service.dto.DagConfigComplexDTO;
-import cn.sliew.scaleph.dag.service.dto.DagConfigStepDTO;
-import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
-import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
+import com.fasterxml.jackson.databind.JsonNode;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
-public interface WorkflowDagService {
+@Data
+public class DagConfigSimpleAddParam {
 
-    Long initialize(String name, String remark);
+    @NotNull
+    @Schema(description = "DAG 类型")
+    private String type;
 
-    void destroy(Long dagId);
+    @Schema(description = "DAG名称")
+    private String name;
 
-    DagConfigComplexDTO getDag(Long dagId);
+    @Schema(description = "DAG元信息")
+    private JsonNode dagMeta;
 
-    DagConfigStepDTO getStep(Long stepId);
+    @Schema(description = "DAG属性")
+    private JsonNode dagAttrs;
 
-    void update(Long dagId, DagGraphVO graph);
-
-    List<DndDTO> getDnds();
-
+    @Schema(description = "备注")
+    private String remark;
 }

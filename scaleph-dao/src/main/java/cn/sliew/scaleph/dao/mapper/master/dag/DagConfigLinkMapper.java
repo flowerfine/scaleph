@@ -16,27 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service;
+package cn.sliew.scaleph.dao.mapper.master.dag;
 
-import cn.sliew.scaleph.dag.service.dto.DagConfigComplexDTO;
-import cn.sliew.scaleph.dag.service.dto.DagConfigStepDTO;
-import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
-import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
+import cn.sliew.scaleph.dao.entity.master.dag.DagConfigLink;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-public interface WorkflowDagService {
-
-    Long initialize(String name, String remark);
-
-    void destroy(Long dagId);
-
-    DagConfigComplexDTO getDag(Long dagId);
-
-    DagConfigStepDTO getStep(Long stepId);
-
-    void update(Long dagId, DagGraphVO graph);
-
-    List<DndDTO> getDnds();
+/**
+ * DAG 配置连线 Mapper 接口
+ */
+@Repository
+public interface DagConfigLinkMapper extends BaseMapper<DagConfigLink> {
 
 }

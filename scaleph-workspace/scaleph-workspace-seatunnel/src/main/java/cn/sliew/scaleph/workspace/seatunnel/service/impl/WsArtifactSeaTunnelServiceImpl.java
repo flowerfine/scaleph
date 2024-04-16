@@ -27,9 +27,9 @@ import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelVersion;
 import cn.sliew.scaleph.common.util.PropertyUtil;
-import cn.sliew.scaleph.dag.service.dto.DagDTO;
-import cn.sliew.scaleph.dag.service.dto.DagLinkDTO;
-import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
+import cn.sliew.scaleph.dag.service.dto.DagConfigComplexDTO;
+import cn.sliew.scaleph.dag.service.dto.DagConfigLinkDTO;
+import cn.sliew.scaleph.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.scaleph.dao.entity.master.ws.WsArtifactSeaTunnel;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsArtifactSeaTunnelMapper;
 import cn.sliew.scaleph.plugin.framework.exception.PluginException;
@@ -140,7 +140,7 @@ public class WsArtifactSeaTunnelServiceImpl implements WsArtifactSeaTunnelServic
     public String buildConfig(Long id, Optional<String> jobName) throws Exception {
         WsArtifactSeaTunnelDTO dto = selectOne(id);
         ObjectNode conf = JacksonUtil.createObjectNode();
-        DagDTO dag = dto.getDag();
+        DagConfigComplexDTO dag = dto.getDag();
         // env
         buildEnvs(conf, jobName.isPresent() ? jobName.get() : dto.getArtifact().getName(), dag.getDagAttrs());
         // source, sink, transform
@@ -166,7 +166,7 @@ public class WsArtifactSeaTunnelServiceImpl implements WsArtifactSeaTunnelServic
         record.setSeaTunnelEngine(SeaTunnelEngineType.SEATUNNEL);
         record.setFlinkVersion(FlinkVersion.V_1_16_3);
         record.setSeaTunnelVersion(SeaTunnelVersion.current());
-        record.setDagId(seaTunnelDagService.initialize());
+        record.setDagId(seaTunnelDagService.initialize(param.getName(), param.getRemark()));
         record.setCurrent(YesOrNo.YES);
         wsArtifactSeaTunnelMapper.insert(record);
         return selectOne(record.getId());
@@ -240,15 +240,15 @@ public class WsArtifactSeaTunnelServiceImpl implements WsArtifactSeaTunnelServic
         return env;
     }
 
-    private MutableGraph<ObjectNode> buildGraph(DagDTO dag) throws PluginException {
+    private MutableGraph<ObjectNode> buildGraph(DagConfigComplexDTO dag) throws PluginException {
         MutableGraph<ObjectNode> graph = GraphBuilder.directed().build();
-        List<DagStepDTO> steps = dag.getSteps();
-        List<DagLinkDTO> links = dag.getLinks();
+        List<DagConfigStepDTO> steps = dag.getSteps();
+        List<DagConfigLinkDTO> links = dag.getLinks();
         if (CollectionUtils.isEmpty(steps) || CollectionUtils.isEmpty(links)) {
             return graph;
         }
         Map<String, ObjectNode> stepMap = new HashMap<>();
-        for (DagStepDTO step : steps) {
+        for (DagConfigStepDTO step : steps) {
             Properties properties = mergeJobAttrs(step);
             SeaTunnelPluginType stepType = SeaTunnelPluginType.of(step.getStepMeta().get("type").asText());
             SeaTunnelPluginName stepName = SeaTunnelPluginName.of(step.getStepMeta().get("name").asText());
@@ -264,7 +264,7 @@ public class WsArtifactSeaTunnelServiceImpl implements WsArtifactSeaTunnelServic
         return graph;
     }
 
-    private Properties mergeJobAttrs(DagStepDTO step) throws PluginException {
+    private Properties mergeJobAttrs(DagConfigStepDTO step) throws PluginException {
         Properties properties = PropertyUtil.mapToProperties(JacksonUtil.toObject(step.getStepAttrs(), new TypeReference<Map<String, Object>>() {
         }));
         SeaTunnelPluginType pluginType = SeaTunnelPluginType.of(step.getStepMeta().get("type").asText());
