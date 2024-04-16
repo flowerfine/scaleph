@@ -21,6 +21,24 @@ create table dag_config
     primary key (id)
 ) engine = innodb comment 'DAG 配置';
 
+INSERT INTO `dag_config` (`id`, `type`, `name`, `config_id`, `dag_meta`, `dag_attrs`, `remark`, `creator`, `editor`)
+VALUES (1, 'SeaTunnel', 'e_commerce', 'bsag8e409f8c81a64edc8f0e1b27d6a010cb', NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `dag_config` (`id`, `type`, `name`, `config_id`, `dag_meta`, `dag_attrs`, `remark`, `creator`, `editor`)
+VALUES (2, 'SeaTunnel', 'fake', 'ewykdb10bd1e437346369e027a437473d483', NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `dag_config`(`id`, `type`, `name`, `config_id`, `dag_meta`, `dag_attrs`, `remark`, `creator`, `editor`)
+VALUES (3, 'Flink-CDC', 'flink-cdc-example', 'nlly3ab39bb296a34c5888dd6509ffe588e4', NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `dag_config`(`id`, `type`, `name`, `config_id`, `dag_meta`, `dag_attrs`, `remark`, `creator`, `editor`)
+VALUES (4, 'WorkFlow', 'FlinkSessionClusterStatusSyncJob', 'rnsp52fdd5edd77044a9acc0c2f24c42d760', NULL, NULL, NULL,
+        'sys', 'sys');
+INSERT INTO `dag_config`(`id`, `type`, `name`, `config_id`, `dag_meta`, `dag_attrs`, `remark`, `creator`, `editor`)
+VALUES (5, 'WorkFlow', 'FlinkJobStatusSyncJob', 'kvqfebc60efa8def410ebfe30f70fd8f1768', NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `dag_config`(`id`, `type`, `name`, `config_id`, `dag_meta`, `dag_attrs`, `remark`, `creator`, `editor`)
+VALUES (6, 'WorkFlow', 'DorisOperatorInstanceStatusSyncJob', 'kepa00f4fdb5e8794cbb931067244caf5ef2', NULL, NULL, NULL,
+        'sys', 'sys');
+INSERT INTO `dag_config`(`id`, `type`, `name`, `config_id`, `dag_meta`, `dag_attrs`, `remark`, `creator`, `editor`)
+VALUES (7, 'WorkFlow', 'FlinkJobStatusSyncJob2', 'fssxbe099903bf174c11bf64b0d486383784', NULL, NULL, NULL, 'sys',
+        'sys');
+
 drop table if exists dag_config_history;
 create table dag_config_history
 (
@@ -64,6 +82,49 @@ create table dag_config_step
     unique key uniq_step (dag_id, step_id)
 ) engine = innodb comment 'DAG 配置步骤';
 
+INSERT INTO `dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                               `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (1, 1, '157f118c-9b6c-4d18-a919-fce824676696', 'Jdbc Source', 520, 150, NULL, NULL,
+        '{\"name\":\"Jdbc\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
+        '{\"stepTitle\":\"Jdbc Source\",\"dataSourceType\":\"MySQL\",\"dataSource\":1,\"fetch_size\":0,\"query\":\"select * from sample_data_e_commerce\"}',
+        'sys', 'sys');
+INSERT INTO `dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                               `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (2, 1, 'e69dbf5a-76ad-47be-aa16-175b733a7df2', 'Jdbc Sink', 460, 400, NULL, NULL,
+        '{\"name\":\"Jdbc\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
+        '{\"stepTitle\":\"Jdbc Sink\",\"dataSourceType\":\"MySQL\",\"dataSource\":1,\"generate_sink_sql\":false,\"batch_size\":300,\"max_retries\":3,\"is_exactly_once\":false,\"query\":\"insert into sample_data_e_commerce_duplicate \\\\n( id, invoice_no, stock_code, description, quantity, invoice_date, unit_price, customer_id, country )\\\\nvalues (?,?,?,?,?,?,?,?,?)\",\"primary_keys\":\"[]\"}',
+        'sys', 'sys');
+INSERT INTO `dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                               `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (3, 2, '6223c6c3-b552-4c69-adab-5300b7514fad', 'Fake Source', 380, 140, NULL, NULL,
+        '{"name":"FakeSource","type":"source","engine":"seatunnel"}',
+        '{"stepTitle":"Fake Source","fields":[{"field":"c_string","type":"string"},{"field":"c_boolean","type":"boolean"},{"field":"c_tinyint","type":"tinyint"},{"field":"c_smallint","type":"smallint"},{"field":"c_int","type":"int"},{"field":"c_bigint","type":"bigint"},{"field":"c_float","type":"float"},{"field":"c_double","type":"double"},{"field":"c_decimal","type":"decimal(30, 8)"},{"field":"c_bytes","type":"bytes"},{"field":"c_map","type":"map<string, string>"},{"field":"c_date","type":"date"},{"field":"c_time","type":"time"},{"field":"c_timestamp","type":"timestamp"}],"schema":"{\\\"fields\\\":{\\\"c_string\\\":\\\"string\\\",\\\"c_boolean\\\":\\\"boolean\\\",\\\"c_tinyint\\\":\\\"tinyint\\\",\\\"c_smallint\\\":\\\"smallint\\\",\\\"c_int\\\":\\\"int\\\",\\\"c_bigint\\\":\\\"bigint\\\",\\\"c_float\\\":\\\"float\\\",\\\"c_double\\\":\\\"double\\\",\\\"c_decimal\\\":\\\"decimal(30, 8)\\\",\\\"c_bytes\\\":\\\"bytes\\\",\\\"c_map\\\":\\\"map<string, string>\\\",\\\"c_date\\\":\\\"date\\\",\\\"c_time\\\":\\\"time\\\",\\\"c_timestamp\\\":\\\"timestamp\\\"}}"}',
+        'sys', 'sys');
+INSERT INTO `dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                               `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (4, 2, 'f08143b4-34dc-4190-8723-e8d8ce49738f', 'Console Sink', 360, 290, NULL, NULL,
+        '{"name":"Console","type":"sink","engine":"seatunnel"}', '{"stepTitle":"Console Sink"}', 'sys', 'sys');
+INSERT INTO `dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                               `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (7, 4, '7f7ced76-7771-4870-91d9-435ef1c4e623', 'FlinkSessionClusterStatus', 460, 400, NULL, NULL,
+        '{\"handler\":\"cn.sliew.scaleph.engine.flink.kubernetes.action.FlinkSessionClusterStatusSyncJob\",\"type\":\"1\"}',
+        NULL, 'sys', 'sys');
+INSERT INTO `dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                               `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (8, 5, '5d5d67c5-ade3-4005-a0db-d514bf11616d', 'FlinkJobStatus', 460, 400, NULL, NULL,
+        '{\"handler\":\"cn.sliew.scaleph.engine.flink.kubernetes.action.FlinkJobStatusSyncJob\",\"type\":\"1\"}', NULL,
+        'sys', 'sys');
+INSERT INTO `dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                               `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (9, 6, '8c7b171c-f232-4b96-b842-5f4fbef34bc1', 'DorisOperatorInstanceStatus', 460, 400, NULL, NULL,
+        '{\"handler\":\"cn.sliew.scaleph.engine.doris.action.DorisOperatorInstanceStatusSyncJob\",\"type\":\"1\"}',
+        NULL, 'sys', 'sys');
+INSERT INTO `dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                               `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (10, 7, 'cae1a622-6c96-4cec-81d3-883510c17702', 'FlinkJobStatus', 460, 400, NULL, NULL,
+        '{\"handler\":\"cn.sliew.scaleph.engine.flink.kubernetes.action.FlinkJobStatusSyncJob2\",\"type\":\"1\"}', NULL,
+        'sys', 'sys');
+
 drop table if exists dag_config_link;
 create table dag_config_link
 (
@@ -85,6 +146,15 @@ create table dag_config_link
     unique key uniq_link (dag_id, link_id)
 ) engine = innodb comment 'DAG 配置连线';
 
+INSERT INTO `dag_config_link` (`id`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`, `shape`, `style`,
+                               `link_meta`, `link_attrs`, `creator`, `editor`)
+VALUES (1, 1, '78ca5c31-0eaa-4d43-8f30-0d8f7d0ec317', NULL, '157f118c-9b6c-4d18-a919-fce824676696',
+        'e69dbf5a-76ad-47be-aa16-175b733a7df2', NULL, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `dag_config_link` (`id`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`, `shape`, `style`,
+                               `link_meta`, `link_attrs`, `creator`, `editor`)
+VALUES (2, 2, 'd57021a1-65c7-4dfe-ae89-3b73d00fcf72', NULL, '6223c6c3-b552-4c69-adab-5300b7514fad',
+        'f08143b4-34dc-4190-8723-e8d8ce49738f', NULL, NULL, NULL, NULL, 'sys', 'sys');
+
 drop table if exists dag_instance;
 create table dag_instance
 (
@@ -97,21 +167,6 @@ create table dag_instance
     update_time timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id)
 ) engine = innodb comment 'DAG 实例';
-
-INSERT INTO `dag_instance` (`id`, `dag_meta`, `dag_attrs`, `creator`, `editor`)
-VALUES (1, NULL, NULL, 'sys', 'sys');
-INSERT INTO `dag_instance` (`id`, `dag_meta`, `dag_attrs`, `creator`, `editor`)
-VALUES (2, NULL, NULL, 'sys', 'sys');
-INSERT INTO `dag_instance`(`id`, `dag_meta`, `dag_attrs`, `creator`, `editor`)
-VALUES (3, NULL, NULL, 'sys', 'sys');
-INSERT INTO `dag_instance`(`id`, `dag_meta`, `dag_attrs`, `creator`, `editor`)
-VALUES (4, NULL, NULL, 'sys', 'sys');
-INSERT INTO `dag_instance`(`id`, `dag_meta`, `dag_attrs`, `creator`, `editor`)
-VALUES (5, NULL, NULL, 'sys', 'sys');
-INSERT INTO `dag_instance`(`id`, `dag_meta`, `dag_attrs`, `creator`, `editor`)
-VALUES (6, NULL, NULL, 'sys', 'sys');
-INSERT INTO `dag_instance`(`id`, `dag_meta`, `dag_attrs`, `creator`, `editor`)
-VALUES (7, NULL, NULL, 'sys', 'sys');
 
 drop table if exists dag_step;
 create table dag_step
@@ -132,49 +187,6 @@ create table dag_step
     unique key uniq_step (dag_id, step_id)
 ) engine = innodb comment 'DAG 步骤';
 
-INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `step_meta`, `step_attrs`,
-                        `creator`, `editor`)
-VALUES (1, 1, '157f118c-9b6c-4d18-a919-fce824676696', 'Jdbc Source', 520, 150,
-        '{\"name\":\"Jdbc\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
-        '{\"stepTitle\":\"Jdbc Source\",\"dataSourceType\":\"MySQL\",\"dataSource\":1,\"fetch_size\":0,\"query\":\"select * from sample_data_e_commerce\"}',
-        'sys', 'sys');
-INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `step_meta`, `step_attrs`,
-                        `creator`, `editor`)
-VALUES (2, 1, 'e69dbf5a-76ad-47be-aa16-175b733a7df2', 'Jdbc Sink', 460, 400,
-        '{\"name\":\"Jdbc\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
-        '{\"stepTitle\":\"Jdbc Sink\",\"dataSourceType\":\"MySQL\",\"dataSource\":1,\"generate_sink_sql\":false,\"batch_size\":300,\"max_retries\":3,\"is_exactly_once\":false,\"query\":\"insert into sample_data_e_commerce_duplicate \\\\n( id, invoice_no, stock_code, description, quantity, invoice_date, unit_price, customer_id, country )\\\\nvalues (?,?,?,?,?,?,?,?,?)\",\"primary_keys\":\"[]\"}',
-        'sys', 'sys');
-INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `step_meta`, `step_attrs`,
-                        `creator`, `editor`)
-VALUES (3, 2, '6223c6c3-b552-4c69-adab-5300b7514fad', 'Fake Source', 380, 140,
-        '{"name":"FakeSource","type":"source","engine":"seatunnel"}',
-        '{"stepTitle":"Fake Source","fields":[{"field":"c_string","type":"string"},{"field":"c_boolean","type":"boolean"},{"field":"c_tinyint","type":"tinyint"},{"field":"c_smallint","type":"smallint"},{"field":"c_int","type":"int"},{"field":"c_bigint","type":"bigint"},{"field":"c_float","type":"float"},{"field":"c_double","type":"double"},{"field":"c_decimal","type":"decimal(30, 8)"},{"field":"c_bytes","type":"bytes"},{"field":"c_map","type":"map<string, string>"},{"field":"c_date","type":"date"},{"field":"c_time","type":"time"},{"field":"c_timestamp","type":"timestamp"}],"schema":"{\\\"fields\\\":{\\\"c_string\\\":\\\"string\\\",\\\"c_boolean\\\":\\\"boolean\\\",\\\"c_tinyint\\\":\\\"tinyint\\\",\\\"c_smallint\\\":\\\"smallint\\\",\\\"c_int\\\":\\\"int\\\",\\\"c_bigint\\\":\\\"bigint\\\",\\\"c_float\\\":\\\"float\\\",\\\"c_double\\\":\\\"double\\\",\\\"c_decimal\\\":\\\"decimal(30, 8)\\\",\\\"c_bytes\\\":\\\"bytes\\\",\\\"c_map\\\":\\\"map<string, string>\\\",\\\"c_date\\\":\\\"date\\\",\\\"c_time\\\":\\\"time\\\",\\\"c_timestamp\\\":\\\"timestamp\\\"}}"}',
-        'sys', 'sys');
-INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `step_meta`, `step_attrs`,
-                        `creator`, `editor`)
-VALUES (4, 2, 'f08143b4-34dc-4190-8723-e8d8ce49738f', 'Console Sink', 360, 290,
-        '{"name":"Console","type":"sink","engine":"seatunnel"}', '{"stepTitle":"Console Sink"}', 'sys', 'sys');
-INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `step_meta`, `step_attrs`,
-                        `creator`, `editor`)
-VALUES (7, 4, '7f7ced76-7771-4870-91d9-435ef1c4e623', 'FlinkSessionClusterStatus', 460, 400,
-        '{\"handler\":\"cn.sliew.scaleph.engine.flink.kubernetes.action.FlinkSessionClusterStatusSyncJob\",\"type\":\"1\"}',
-        NULL, 'sys', 'sys');
-INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `step_meta`, `step_attrs`,
-                        `creator`, `editor`)
-VALUES (8, 5, '5d5d67c5-ade3-4005-a0db-d514bf11616d', 'FlinkJobStatus', 460, 400,
-        '{\"handler\":\"cn.sliew.scaleph.engine.flink.kubernetes.action.FlinkJobStatusSyncJob\",\"type\":\"1\"}', NULL,
-        'sys', 'sys');
-INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `step_meta`, `step_attrs`,
-                        `creator`, `editor`)
-VALUES (9, 6, '8c7b171c-f232-4b96-b842-5f4fbef34bc1', 'DorisOperatorInstanceStatus', 460, 400,
-        '{\"handler\":\"cn.sliew.scaleph.engine.doris.action.DorisOperatorInstanceStatusSyncJob\",\"type\":\"1\"}',
-        NULL, 'sys', 'sys');
-INSERT INTO `dag_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `step_meta`, `step_attrs`,
-                        `creator`, `editor`)
-VALUES (10, 7, 'cae1a622-6c96-4cec-81d3-883510c17702', 'FlinkJobStatus', 460, 400,
-        '{\"handler\":\"cn.sliew.scaleph.engine.flink.kubernetes.action.FlinkJobStatusSyncJob2\",\"type\":\"1\"}', NULL,
-        'sys', 'sys');
-
 drop table if exists dag_link;
 create table dag_link
 (
@@ -193,12 +205,3 @@ create table dag_link
     primary key (id),
     unique key uniq_link (dag_id, link_id)
 ) engine = innodb comment 'DAG 连线';
-
-INSERT INTO `dag_link` (`id`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`, `link_meta`, `link_attrs`,
-                        `creator`, `editor`)
-VALUES (1, 1, '78ca5c31-0eaa-4d43-8f30-0d8f7d0ec317', NULL, '157f118c-9b6c-4d18-a919-fce824676696',
-        'e69dbf5a-76ad-47be-aa16-175b733a7df2', NULL, NULL, 'sys', 'sys');
-INSERT INTO `dag_link` (`id`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`, `link_meta`, `link_attrs`,
-                        `creator`, `editor`)
-VALUES (2, 2, 'd57021a1-65c7-4dfe-ae89-3b73d00fcf72', NULL, '6223c6c3-b552-4c69-adab-5300b7514fad',
-        'f08143b4-34dc-4190-8723-e8d8ce49738f', NULL, NULL, 'sys', 'sys');
