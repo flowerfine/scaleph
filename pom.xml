@@ -176,6 +176,7 @@
         <redisson.version>3.27.2</redisson.version>
         <cola.version>4.3.2</cola.version>
         <fury.version>0.4.1</fury.version>
+        <jgrapht.version>1.5.2</jgrapht.version>
     </properties>
 
     <dependencyManagement>
@@ -779,6 +780,12 @@
                 <groupId>org.furyio</groupId>
                 <artifactId>fury-core</artifactId>
                 <version>${fury.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jgrapht</groupId>
+                <artifactId>jgrapht-core</artifactId>
+                <version>${jgrapht.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
