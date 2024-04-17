@@ -22,18 +22,20 @@ import io.fabric8.kubernetes.model.annotation.Group;
 import io.fabric8.kubernetes.model.annotation.Version;
 import lombok.Data;
 
+import java.util.List;
+
+@Data
 @Group("core.oam.dev")
 @Version("v1beta1")
-public class TraitDefinition implements Schema {
+public class TraitDefinition extends AbstractSchema {
 
-    private String apiVersion;
-    private String kind;
-    private MetaData metadata;
+    private Spec spec;
 
     @Data
     public static class Spec {
 
-        private boolean allowComponentOverlap;
+        private List<String> appliesToWorkloads;
+        private List<String> conflictsWith;
         private DefinitionRef definitionRef;
     }
 }

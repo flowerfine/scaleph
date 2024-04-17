@@ -25,15 +25,13 @@ import lombok.Data;
 @Data
 @Group("core.oam.dev")
 @Version("v1beta1")
-public class ComponentDefinition extends AbstractSchema {
+public class PolicyDefinition extends AbstractSchema {
 
     private Spec spec;
 
     @Data
     public static class Spec {
-
-        private Semantic semantic;
-        private WorkloadTypeDescriptor workload;
+        private Semantic schematic;
     }
 
     @Data
@@ -41,25 +39,4 @@ public class ComponentDefinition extends AbstractSchema {
         // kubevela 支持 cue、helm、kube
     }
 
-    @Data
-    public static class WorkloadTypeDescriptor {
-
-        /**
-         * 通过 name 引用 WorkloadDefinition
-         */
-        private String type;
-
-        /**
-         * 通过 group、version 和 kind 引用 WorkloadDefinition。gvk -> group、version、kind
-         * 和 type 互斥，只能同时存在一个。
-         */
-        private WorkloadGVK definition;
-    }
-
-    @Data
-    public static class WorkloadGVK {
-
-        private String apiVersion;
-        private String kind;
-    }
 }

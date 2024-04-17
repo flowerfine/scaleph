@@ -22,44 +22,36 @@ import io.fabric8.kubernetes.model.annotation.Group;
 import io.fabric8.kubernetes.model.annotation.Version;
 import lombok.Data;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
 @Data
 @Group("core.oam.dev")
 @Version("v1beta1")
-public class ComponentDefinition extends AbstractSchema {
+public class Application extends AbstractSchema {
 
     private Spec spec;
 
     @Data
-    public static class Spec {
+    public static class Spec  {
 
-        private Semantic semantic;
-        private WorkloadTypeDescriptor workload;
+        private List<Component> components;
     }
 
     @Data
-    public static class Semantic {
-        // kubevela 支持 cue、helm、kube
-    }
+    public static class Component {
 
-    @Data
-    public static class WorkloadTypeDescriptor {
-
-        /**
-         * 通过 name 引用 WorkloadDefinition
-         */
+        private String name;
         private String type;
-
-        /**
-         * 通过 group、version 和 kind 引用 WorkloadDefinition。gvk -> group、version、kind
-         * 和 type 互斥，只能同时存在一个。
-         */
-        private WorkloadGVK definition;
+        private Properties properties;
+        private List<Trait> traits;
+        private Map<String, String> scopes;
     }
 
     @Data
-    public static class WorkloadGVK {
-
-        private String apiVersion;
-        private String kind;
+    public static class Trait {
+        private String type;
+        private Properties properties;
     }
 }

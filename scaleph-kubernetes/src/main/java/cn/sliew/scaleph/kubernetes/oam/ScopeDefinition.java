@@ -22,13 +22,13 @@ import io.fabric8.kubernetes.model.annotation.Group;
 import io.fabric8.kubernetes.model.annotation.Version;
 import lombok.Data;
 
+@Deprecated
+@Data
 @Group("core.oam.dev")
 @Version("v1beta1")
-public class ScopeDefinition implements Schema {
+public class ScopeDefinition extends AbstractSchema {
 
-    private String apiVersion;
-    private String kind;
-    private MetaData metadata;
+    private Spec spec;
 
     @Data
     public static class Spec {
