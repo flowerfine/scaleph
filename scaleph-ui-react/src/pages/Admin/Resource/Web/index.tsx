@@ -1,15 +1,15 @@
-import React, { useRef, useState } from 'react';
-import { Button, message, Modal, Space, Tag, Tooltip } from 'antd';
-import { DeleteOutlined, EditOutlined, FormOutlined, PlusOutlined } from '@ant-design/icons';
-import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
-import { useAccess, useIntl } from '@umijs/max';
-import { PRIVILEGE_CODE } from '@/constants/privilegeCode';
+import React, {useRef, useState} from 'react';
+import {Button, message, Modal, Space, Switch, Tag, Tooltip} from 'antd';
+import {DeleteOutlined, EditOutlined, FormOutlined, PlusOutlined} from '@ant-design/icons';
+import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
+import {useAccess, useIntl} from '@umijs/max';
+import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
 import WebAssugnRoles from '@/pages/Admin/Resource/Web/components/WebAssugnRoles';
 import WebResourceForm from '@/pages/Admin/Resource/Web/components/WebResourceForm';
-import { PrivilegeService } from '@/services/admin/privilege.service';
-import { ResourceWebService } from '@/services/admin/resourceWeb.service';
-import { SecResourceWeb } from '@/services/admin/typings';
-import { isEmpty } from 'lodash';
+import {PrivilegeService} from '@/services/admin/privilege.service';
+import {ResourceWebService} from '@/services/admin/resourceWeb.service';
+import {SecResourceWeb} from '@/services/admin/typings';
+import {isEmpty} from 'lodash';
 
 const WebResourceWeb: React.FC = () => {
   const intl = useIntl();
@@ -21,11 +21,11 @@ const WebResourceWeb: React.FC = () => {
     visiable: boolean;
     parent: SecResourceWeb;
     data: SecResourceWeb;
-  }>({ visiable: false, parent: {}, data: {} });
+  }>({visiable: false, parent: {}, data: {}});
   const [webAssignRoles, setWebAssignRoles] = useState<{
     visiable: boolean;
     data: SecResourceWeb;
-  }>({ visiable: false, parent: {}, data: {} });
+  }>({visiable: false, parent: {}, data: {}});
 
   const onExpand = (expanded: boolean, record: SecResourceWeb) => {
     if (expanded && record.children && isEmpty(record.children)) {
@@ -37,7 +37,7 @@ const WebResourceWeb: React.FC = () => {
 
   const tableColumns: ProColumns<SecResourceWeb>[] = [
     {
-      title: intl.formatMessage({ id: 'pages.admin.resource.type' }),
+      title: intl.formatMessage({id: 'pages.admin.resource.type'}),
       dataIndex: 'type',
       width: 120,
       render: (dom, entity) => {
@@ -47,56 +47,49 @@ const WebResourceWeb: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({ id: 'pages.admin.resource.web.name' }),
+      title: intl.formatMessage({id: 'pages.admin.resource.web.name'}),
       dataIndex: 'name',
-      // render: (dom, entity) => {
-      //   return intl.formatMessage({ id: `menu.${entity?.name}` });
-      // },
     },
     {
-      title: intl.formatMessage({ id: 'pages.admin.resource.web.path' }),
+      title: intl.formatMessage({id: 'pages.admin.resource.web.menuName'}),
+      dataIndex: 'menuName',
+      hideInSearch: true,
+    },
+    {
+      title: intl.formatMessage({id: 'pages.admin.resource.web.layout'}),
+      dataIndex: 'layout',
+      hideInSearch: true,
+      render: (dom, entity, index, action, schema) => {
+        return <Switch value={entity.layout}/>
+      }
+    },
+    {
+      title: intl.formatMessage({id: 'pages.admin.resource.web.path'}),
       dataIndex: 'path',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({ id: 'pages.admin.resource.web.redirect' }),
+      title: intl.formatMessage({id: 'pages.admin.resource.web.redirect'}),
       dataIndex: 'redirect',
       hideInSearch: true,
     },
-    // {
-    //   title: intl.formatMessage({id: 'pages.admin.resource.web.layout'}),
-    //   dataIndex: 'layout',
-    //   hideInSearch: true
-    // },
     {
-      title: intl.formatMessage({ id: 'pages.admin.resource.web.icon' }),
+      title: intl.formatMessage({id: 'pages.admin.resource.web.icon'}),
       dataIndex: 'icon',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({ id: 'pages.admin.resource.web.component' }),
+      title: intl.formatMessage({id: 'pages.admin.resource.web.component'}),
       dataIndex: 'component',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({ id: 'app.common.data.remark' }),
+      title: intl.formatMessage({id: 'app.common.data.remark'}),
       dataIndex: 'remark',
       hideInSearch: true,
     },
-    // {
-    //   title: intl.formatMessage({id: 'app.common.data.createTime'}),
-    //   dataIndex: 'createTime',
-    //   hideInSearch: true,
-    //   width: 180,
-    // },
-    // {
-    //   title: intl.formatMessage({id: 'app.common.data.updateTime'}),
-    //   dataIndex: 'updateTime',
-    //   hideInSearch: true,
-    //   width: 180,
-    // },
     {
-      title: intl.formatMessage({ id: 'app.common.operate.label' }),
+      title: intl.formatMessage({id: 'app.common.operate.label'}),
       dataIndex: 'actions',
       align: 'center',
       width: 160,
@@ -106,59 +99,59 @@ const WebResourceWeb: React.FC = () => {
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.new.roles' })}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.new.roles'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<FormOutlined />}
-                  onClick={() => setWebAssignRoles({ visiable: true, data: record })}
+                  icon={<FormOutlined/>}
+                  onClick={() => setWebAssignRoles({visiable: true, data: record})}
                 />
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.new.label' })}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.new.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<PlusOutlined />}
+                  icon={<PlusOutlined/>}
                   onClick={() =>
-                    setWebResourceFormData({ visiable: true, parent: record, data: {} })
+                    setWebResourceFormData({visiable: true, parent: record, data: {}})
                   }
                 />
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<EditOutlined />}
+                  icon={<EditOutlined/>}
                   onClick={() =>
-                    setWebResourceFormData({ visiable: true, parent: {}, data: record })
+                    setWebResourceFormData({visiable: true, parent: {}, data: record})
                   }
                 ></Button>
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<DeleteOutlined />}
+                  icon={<DeleteOutlined/>}
                   onClick={() => {
                     Modal.confirm({
-                      title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
+                      title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
                       content: intl.formatMessage({
                         id: 'app.common.operate.delete.confirm.content',
                       }),
-                      okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                      okButtonProps: { danger: true },
-                      cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                      okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                      okButtonProps: {danger: true},
+                      cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
                         ResourceWebService.deleteOne(record).then((d) => {
                           if (d.success) {
                             message.success(
-                              intl.formatMessage({ id: 'app.common.operate.delete.success' }),
+                              intl.formatMessage({id: 'app.common.operate.delete.success'}),
                             );
                             actionRef.current?.reload();
                           }
@@ -176,11 +169,11 @@ const WebResourceWeb: React.FC = () => {
   ];
 
   return (
-    <div>
+    <PageContainer title={false}>
       <ProTable<SecResourceWeb>
         search={{
           labelWidth: 'auto',
-          span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
+          span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
         }}
         rowKey="id"
         actionRef={actionRef}
@@ -188,7 +181,7 @@ const WebResourceWeb: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return ResourceWebService.listByPage({ ...params, pid: 0 });
+          return ResourceWebService.listByPage({...params, pid: 0});
         }}
         toolbar={{
           actions: [
@@ -196,9 +189,9 @@ const WebResourceWeb: React.FC = () => {
               <Button
                 key="new"
                 type="primary"
-                onClick={() => setWebResourceFormData({ visiable: true, parent: null, data: {} })}
+                onClick={() => setWebResourceFormData({visiable: true, parent: null, data: {}})}
               >
-                {intl.formatMessage({ id: 'app.common.operate.new.label' })}
+                {intl.formatMessage({id: 'app.common.operate.new.label'})}
               </Button>
             ),
             access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
@@ -208,18 +201,18 @@ const WebResourceWeb: React.FC = () => {
                 disabled={selectedRows.length < 1}
                 onClick={() => {
                   Modal.confirm({
-                    title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
+                    title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
                     content: intl.formatMessage({
                       id: 'app.common.operate.delete.confirm.content',
                     }),
-                    okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                    okButtonProps: { danger: true },
-                    cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                    okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                    okButtonProps: {danger: true},
+                    cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                     onOk() {
                       ResourceWebService.deleteBatch(selectedRows).then((d) => {
                         if (d.success) {
                           message.success(
-                            intl.formatMessage({ id: 'app.common.operate.delete.success' }),
+                            intl.formatMessage({id: 'app.common.operate.delete.success'}),
                           );
                           actionRef.current?.reload();
                         }
@@ -228,26 +221,26 @@ const WebResourceWeb: React.FC = () => {
                   });
                 }}
               >
-                {intl.formatMessage({ id: 'app.common.operate.delete.label' })}
+                {intl.formatMessage({id: 'app.common.operate.delete.label'})}
               </Button>
             ),
           ],
         }}
-        pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
+        pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
         rowSelection={{
           fixed: true,
           onChange: (selectedRowKeys, selectedRows, info) => setSelectedRows(selectedRows),
         }}
         tableAlertRender={false}
         tableAlertOptionRender={false}
-        scroll={{ x: 1500, y: 'calc( 100vh - 385px )' }}
+        scroll={{x: 1500, y: 'calc( 100vh - 385px )'}}
       />
       {webResourceFormData.visiable && (
         <WebResourceForm
           visible={webResourceFormData.visiable}
-          onCancel={() => setWebResourceFormData({ visiable: false, parent: {}, data: {} })}
+          onCancel={() => setWebResourceFormData({visiable: false, parent: {}, data: {}})}
           onVisibleChange={(visiable) => {
-            setWebResourceFormData({ visiable: visiable, parent: {}, data: {} });
+            setWebResourceFormData({visiable: visiable, parent: {}, data: {}});
             actionRef.current?.reload();
           }}
           parent={webResourceFormData.parent}
@@ -258,15 +251,15 @@ const WebResourceWeb: React.FC = () => {
       {webAssignRoles.visiable && (
         <WebAssugnRoles
           visible={webAssignRoles.visiable}
-          onCancel={() => setWebAssignRoles({ visiable: false, data: {} })}
+          onCancel={() => setWebAssignRoles({visiable: false, data: {}})}
           onVisibleChange={(visiable) => {
-            setWebAssignRoles({ visiable: visiable, data: {} });
+            setWebAssignRoles({visiable: visiable, data: {}});
             actionRef.current?.reload();
           }}
           data={webAssignRoles.data}
         />
       )}
-    </div>
+    </PageContainer>
   );
 };
 

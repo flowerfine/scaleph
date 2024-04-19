@@ -41,8 +41,11 @@ public class SecResourceWebDTO extends BaseDTO {
     @Schema(description = "上级资源id")
     private Long pid;
 
-    @Schema(description = "前端名称")
+    @Schema(description = "名称")
     private String name;
+
+    @Schema(description = "前端目录")
+    private String menuName;
 
     @Schema(description = "前端路由路径")
     private String path;

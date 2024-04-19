@@ -64,7 +64,7 @@ public class SecAuthorizeServiceImpl implements SecAuthorizeService {
         List<UmiRoute> routes = new ArrayList<>(secResourceWebDTOS.size());
         for (SecResourceWebDTO secResourceWebDTO : secResourceWebDTOS) {
             UmiRoute route = new UmiRoute();
-            route.setName(secResourceWebDTO.getName());
+            route.setName(secResourceWebDTO.getMenuName());
             route.setPath(secResourceWebDTO.getPath());
             route.setRedirect(secResourceWebDTO.getRedirect());
             route.setIcon(secResourceWebDTO.getIcon());

@@ -28,6 +28,7 @@
         <result column="type" property="type"/>
         <result column="pid" property="pid"/>
         <result column="name" property="name"/>
+        <result column="menu_name" property="menuName"/>
         <result column="path" property="path"/>
         <result column="redirect" property="redirect"/>
         <result column="layout" property="layout"/>
@@ -48,7 +49,7 @@
         create_time,
         editor,
         update_time,
-        `type`, pid, `name`, `path`, redirect, layout, icon, `component`, remark
+        `type`, pid, `name`, `menu_name`, `path`, redirect, layout, icon, `component`, remark
     </sql>
 
     <select id="listByPidAndUserId" resultMap="BaseResultMap">
@@ -64,6 +65,9 @@
         AND t4.user_id = #{userId}
         <if test="name != null and name != ''">
             AND t1.`name` like CONCAT('%', #{name}, '%')
+        </if>
+        <if test="layout != null">
+            AND t1.`layout` = #{layout}
         </if>
     </select>
 </mapper>

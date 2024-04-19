@@ -84,7 +84,7 @@ public class SecResourceWebServiceImpl implements SecResourceWebService {
 
     @Override
     public List<SecResourceWebDTO> listByPidAndUserId(Long pid, Long userId, String name) {
-        List<SecResourceWeb> list = secResourceWebMapper.listByPidAndUserId(pid, userId, name);
+        List<SecResourceWeb> list = secResourceWebMapper.listByPidAndUserId(pid, userId, name, true);
         return SecResourceWebConvert.INSTANCE.toDto(list);
     }
 

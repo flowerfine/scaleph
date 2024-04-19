@@ -38,9 +38,12 @@ public class SecResourceWeb extends BaseDO {
 
     @TableField("pid")
     private Long pid;
-    
+
     @TableField("`name`")
     private String name;
+
+    @TableField("`menu_name`")
+    private String menuName;
 
     @TableField("`path`")
     private String path;

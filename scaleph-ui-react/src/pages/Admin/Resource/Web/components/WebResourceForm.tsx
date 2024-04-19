@@ -70,6 +70,7 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
           pid: parent?.id ? parent.id : (data?.pid ? data.pid : 0),
           type: data.type?.value,
           name: data.name,
+          menuName: data.menuName,
           path: data.path,
           redirect: data.redirect,
           layout: data.layout,
@@ -96,6 +97,10 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
           label={intl.formatMessage({id: 'pages.admin.resource.web.name'})}
         />
         <ProFormText
+          name={"menuName"}
+          label={intl.formatMessage({id: 'pages.admin.resource.web.menuName'})}
+        />
+        <ProFormText
           name={"path"}
           label={intl.formatMessage({id: 'pages.admin.resource.web.path'})}
         />
@@ -106,6 +111,7 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
         <ProFormSwitch
           name={"layout"}
           label={intl.formatMessage({id: 'pages.admin.resource.web.layout'})}
+          initialValue={true}
         />
         <ProFormText
           name={"icon"}

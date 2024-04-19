@@ -442,12 +442,6 @@ export default [
         component: './Admin/Resource/Web',
       },
       {
-        name: 'privilege',
-        path: '/admin/privilege',
-        icon: 'team',
-        component: './Admin/Privilege',
-      },
-      {
         name: 'quartz',
         path: '/admin/workflow/quartz',
         icon: 'fieldTime',

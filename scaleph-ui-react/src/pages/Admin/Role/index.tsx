@@ -5,7 +5,14 @@ import {DictDataService} from '@/services/admin/dictData.service';
 import {RoleService} from '@/services/admin/role.service';
 import {SecRole} from '@/services/admin/typings';
 import {DeleteOutlined, EditOutlined, FormOutlined, SelectOutlined} from '@ant-design/icons';
-import {ActionType, ProColumns, ProFormInstance, ProFormSelect, ProTable,} from '@ant-design/pro-components';
+import {
+  ActionType,
+  PageContainer,
+  ProColumns,
+  ProFormInstance,
+  ProFormSelect,
+  ProTable,
+} from '@ant-design/pro-components';
 import {Button, message, Modal, Space, Tag, Tooltip} from 'antd';
 import React, {useRef, useState} from 'react';
 import {useAccess, useIntl} from '@umijs/max';
@@ -177,7 +184,7 @@ const RoleWeb: React.FC = () => {
   ];
 
   return (
-    <div>
+    <PageContainer title={false}>
       <ProTable<SecRole>
         search={{
           labelWidth: 'auto',
@@ -275,7 +282,7 @@ const RoleWeb: React.FC = () => {
           data={resourceWebs.data}
         />
       )}
-    </div>
+    </PageContainer>
   );
 };
 
