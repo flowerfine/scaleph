@@ -346,11 +346,11 @@ export default [
             name: 'info',
             path: '/metadata/data-source/info',
             icon: 'group',
-            component: './DataSource',
+            component: './Metadata/DataSource/Info',
           },
           {
             path: '/metadata/data-source/info/stepForms',
-            component: './DataSource/StepForms',
+            component: './Metadata/DataSource/Info/StepForms',
           }
         ]
       },
@@ -363,7 +363,7 @@ export default [
             name: 'catalog',
             path: '/metadata/gravitino/catelog',
             icon: 'group',
-            component: './DataSource',
+            component: './Metadata/Gravitino/Catalog',
           },
         ]
       }
