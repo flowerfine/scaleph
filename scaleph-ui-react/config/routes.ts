@@ -333,17 +333,39 @@ export default [
     ]
   },
   {
-    name: 'dataSource',
-    path: '/dataSource',
+    name: 'metadata',
+    path: '/metadata',
     icon: 'compass',
     routes: [
       {
-        path: '/dataSource',
-        component: './DataSource',
+        name: 'data-source',
+        path: '/metadata/data-source',
+        icon: 'group',
+        routes: [
+          {
+            name: 'info',
+            path: '/metadata/data-source/info',
+            icon: 'group',
+            component: './DataSource',
+          },
+          {
+            path: '/metadata/data-source/info/stepForms',
+            component: './DataSource/StepForms',
+          }
+        ]
       },
       {
-        path: '/dataSource/stepForms',
-        component: './DataSource/StepForms',
+        name: 'gravitino',
+        path: '/metadata/gravitino',
+        icon: 'group',
+        routes: [
+          {
+            name: 'catalog',
+            path: '/metadata/gravitino/catelog',
+            icon: 'group',
+            component: './DataSource',
+          },
+        ]
       }
     ]
   },

@@ -37,7 +37,12 @@ export default {
   'menu.resource.clusterCredential': 'Cluster Credential',
   'menu.resource.clusterCredential.file': 'Credential File',
 
-  'menu.dataSource': '数据源',
+  'menu.metadata': '元数据',
+  'menu.metadata.data-source': '数据源',
+  'menu.metadata.data-source.info': '数据源信息',
+  'menu.metadata.data-source.category': '数据源类型',
+  'menu.metadata.gravitino': 'Gravitino',
+  'menu.metadata.gravitino.catalog': 'Catalog',
 
   'menu.stdata': '数据标准',
   'menu.stdata.system': '业务系统',
