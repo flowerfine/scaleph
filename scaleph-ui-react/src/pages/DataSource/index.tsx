@@ -25,6 +25,7 @@ const DataSourceListWeb: React.FC = () => {
       title: intl.formatMessage({id: 'pages.dataSource.type.logo'}),
       dataIndex: 'logo',
       width: 160,
+      hideInSearch: true,
       render: (dom, entity, index, action, schema) => {
         return <Image
           alt={entity.dsType?.type.label}
