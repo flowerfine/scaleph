@@ -1,7 +1,7 @@
 import {useIntl} from '@umijs/max';
 import {useRef} from 'react';
 import {Col, Row} from 'antd';
-import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
+import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {DictDataService} from '@/services/admin/dictData.service';
 import {DictTypeService} from '@/services/admin/dictType.service';
 import {SysDictData, SysDictType} from '@/services/admin/typings';
@@ -63,7 +63,7 @@ const Dict: React.FC = () => {
   ];
 
   return (
-    <div>
+    <PageContainer title={false}>
       <Row gutter={[12, 12]}>
         <Col span={8}>
           <ProTable<SysDictType>
@@ -110,7 +110,7 @@ const Dict: React.FC = () => {
           />
         </Col>
       </Row>
-    </div>
+    </PageContainer>
   );
 };
 

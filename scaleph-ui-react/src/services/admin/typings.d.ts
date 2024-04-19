@@ -1,3 +1,5 @@
+import {Dict} from "@/typings";
+
 export type SysDictType = {
   code: string;
   name: string;
@@ -148,6 +150,7 @@ export type SecResourceWeb = {
   type: Dict;
   pid: number;
   name: string;
+  menuName?: string;
   path: string;
   redirect?: string;
   layout?: boolean;

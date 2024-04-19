@@ -5,6 +5,7 @@ export default {
   'pages.dataSource.updateTime': '更新时间',
 
   'pages.dataSource.category': '分类',
+  'pages.dataSource.type.logo': '类型 LOGO',
   'pages.dataSource.info.name': '数据源',
   'pages.dataSource.info.type': '类型',
   'pages.dataSource.info.version': '版本',

@@ -83,7 +83,7 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
   const returnTitle = useMemo(() => {
     return (
       <Space direction="vertical">
-        <span>{` ${intl.formatMessage({ id: `menu.${data?.name}` })}-${intl.formatMessage({ id: 'app.common.operate.new.rolesUser' })}`}</span>
+        <span>{` ${intl.formatMessage({ id: `${data?.name}` })}-${intl.formatMessage({ id: 'app.common.operate.new.rolesUser' })}`}</span>
       </Space>
     );
   }, [data, intl]);

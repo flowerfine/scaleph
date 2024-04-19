@@ -19,12 +19,12 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.engine.doris.service.WsDorisOperatorTemplateService;
-import cn.sliew.scaleph.engine.doris.service.dto.WsDorisOperatorTemplateDTO;
-import cn.sliew.scaleph.engine.doris.service.param.WsDorisOperatorTemplateAddParam;
-import cn.sliew.scaleph.engine.doris.service.param.WsDorisOperatorTemplateListParam;
-import cn.sliew.scaleph.engine.doris.service.param.WsDorisOperatorTemplateUpdateParam;
-import cn.sliew.scaleph.engine.doris.service.resource.template.DorisTemplate;
+import cn.sliew.scaleph.application.doris.doris.service.WsDorisOperatorTemplateService;
+import cn.sliew.scaleph.application.doris.doris.service.dto.WsDorisOperatorTemplateDTO;
+import cn.sliew.scaleph.application.doris.doris.service.param.WsDorisOperatorTemplateAddParam;
+import cn.sliew.scaleph.application.doris.doris.service.param.WsDorisOperatorTemplateListParam;
+import cn.sliew.scaleph.application.doris.doris.service.param.WsDorisOperatorTemplateUpdateParam;
+import cn.sliew.scaleph.application.doris.doris.service.resource.template.DorisTemplate;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

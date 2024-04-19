@@ -31,6 +31,7 @@ export default {
   'pages.admin.resource.type': '资源类型',
   'pages.admin.resource.web': 'Web 资源',
   'pages.admin.resource.web.name': '名称',
+  'pages.admin.resource.web.menuName': '目录',
   'pages.admin.resource.web.path': '路径',
   'pages.admin.resource.web.redirect': 'Redirect',
   'pages.admin.resource.web.layout': 'Layout',

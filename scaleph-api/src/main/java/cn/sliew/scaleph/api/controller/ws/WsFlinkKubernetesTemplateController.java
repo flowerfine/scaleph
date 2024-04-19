@@ -19,15 +19,15 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
+import cn.sliew.scaleph.application.flink.service.WsFlinkKubernetesTemplateService;
+import cn.sliew.scaleph.application.flink.service.dto.FlinkImageOption;
+import cn.sliew.scaleph.application.flink.service.dto.FlinkVersionOption;
+import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesTemplateDTO;
+import cn.sliew.scaleph.application.flink.service.param.WsFlinkKubernetesTemplateAddParam;
+import cn.sliew.scaleph.application.flink.service.param.WsFlinkKubernetesTemplateListParam;
+import cn.sliew.scaleph.application.flink.service.param.WsFlinkKubernetesTemplateUpdateParam;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.definition.template.FlinkTemplate;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesTemplateService;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.FlinkImageOption;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.FlinkVersionOption;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesTemplateDTO;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesTemplateAddParam;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesTemplateListParam;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesTemplateUpdateParam;
+import cn.sliew.scaleph.application.flink.resource.definition.template.FlinkTemplate;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

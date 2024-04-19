@@ -4,6 +4,7 @@ import { Card, Col, Row, Statistic, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useCallback, useEffect, useState } from 'react';
 import { useIntl } from '@umijs/max';
+import {PageContainer} from "@ant-design/pro-components";
 
 const DataBoard: React.FC = () => {
   const intl = useIntl();
@@ -93,7 +94,7 @@ const DataBoard: React.FC = () => {
   ];
 
   return (
-    <>
+    <PageContainer title={false}>
       <Row gutter={[4, 16]}>
       <Col span="6">
           <Card>
@@ -137,7 +138,7 @@ const DataBoard: React.FC = () => {
             </Card>
           </Col>
       </Row>
-    </>
+    </PageContainer>
   );
 };
 

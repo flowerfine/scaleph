@@ -2,7 +2,7 @@ import {history, useAccess, useIntl} from "@umijs/max";
 import React, {useRef, useState} from "react";
 import {Button, Space, Switch, Tooltip} from "antd";
 import {FolderOpenOutlined, SettingOutlined} from "@ant-design/icons";
-import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
+import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {WorkflowDefinition} from "@/services/workflow/typings";
 import {WorkflowService} from "@/services/workflow/workflow.service";
 import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
@@ -131,7 +131,7 @@ const QuartzWorkflowDefinition: React.FC = () => {
   ]
 
   return (
-    <div>
+    <PageContainer title={false}>
       <ProTable<WorkflowDefinition>
         search={{
           labelWidth: 'auto',
@@ -162,7 +162,7 @@ const QuartzWorkflowDefinition: React.FC = () => {
           data={scheduleEnableFormData.data}
         />
       )}
-    </div>
+    </PageContainer>
   );
 }
 

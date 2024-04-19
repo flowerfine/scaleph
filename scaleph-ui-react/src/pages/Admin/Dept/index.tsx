@@ -1,7 +1,7 @@
 import {useAccess, useIntl} from "@umijs/max";
 import React, {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
-import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
+import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {SecDeptTree} from "@/services/admin/typings";
@@ -115,7 +115,7 @@ const DeptWeb: React.FC = () => {
   ];
 
   return (
-    <div>
+    <PageContainer title={false}>
       <ProTable<SecDeptTree>
         search={{
           labelWidth: 'auto',
@@ -188,7 +188,7 @@ const DeptWeb: React.FC = () => {
           data={deptFormData.data}
         />
       )}
-    </div>
+    </PageContainer>
   );
 }
 
