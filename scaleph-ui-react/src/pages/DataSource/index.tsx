@@ -1,12 +1,13 @@
 import {history, useAccess, useIntl} from "@umijs/max";
-import {useEffect, useRef, useState} from "react";
-import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {DsInfo, DsType} from "@/services/datasource/typings";
-import {DsCategoryService} from "@/services/datasource/category.service";
-import {DsInfoService} from "@/services/datasource/info.service";
-import {Button, message, Modal, Select, Space, Tooltip} from "antd";
-import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
+import {useRef, useState} from "react";
+import {Button, Image, message, Modal, Space, Tooltip} from "antd";
 import {DeleteOutlined} from "@ant-design/icons";
+import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
+import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
+import {DICT_TYPE} from "@/constants/dictType";
+import {DsInfo} from "@/services/datasource/typings";
+import {DsInfoService} from "@/services/datasource/info.service";
+import {DictDataService} from "@/services/admin/dictData.service";
 
 const DataSourceListWeb: React.FC = () => {
   const intl = useIntl();
@@ -14,15 +15,6 @@ const DataSourceListWeb: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<DsInfo[]>([]);
-  const [dsTypes, setDsTypes] = useState<DsType[]>([]);
-
-  useEffect(() => {
-    DsCategoryService.listTypes({}).then((response) => {
-      if (response.data) {
-        setDsTypes(response.data)
-      }
-    })
-  }, []);
 
   const tableColumns: ProColumns<DsInfo>[] = [
     {
@@ -30,32 +22,30 @@ const DataSourceListWeb: React.FC = () => {
       dataIndex: 'name'
     },
     {
+      title: intl.formatMessage({id: 'pages.dataSource.type.logo'}),
+      dataIndex: 'logo',
+      width: 160,
+      render: (dom, entity, index, action, schema) => {
+        return <Image
+          alt={entity.dsType?.type.label}
+          preview={false} src={entity.dsType?.logo}
+          wrapperStyle={{
+            width: '60%',
+            height: '60%'
+          }}
+        ></Image>
+      }
+    },
+    {
       title: intl.formatMessage({id: 'pages.dataSource.info.type'}),
       dataIndex: 'dsType',
       width: 160,
       render: (dom, entity, index, action, schema) => {
-        return entity.dsType.type.label
+        return entity.dsType?.type.label
       },
-      renderFormItem: (item, {defaultRender, ...rest}, form) => {
-        return (
-          <Select
-            showSearch={true}
-            allowClear={true}
-            optionFilterProp="label"
-            filterOption={(input, option) =>
-              (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
-            }
-          >
-            {dsTypes.map((item) => {
-              return (
-                <Select.Option key={item.type.value} value={item.type.value}>
-                  {item.type.label}
-                </Select.Option>
-              );
-            })}
-          </Select>
-        );
-      },
+      request: (params, props) => {
+        return DictDataService.listDictDataByType2(DICT_TYPE.datasourceType)
+      }
     },
     {
       title: intl.formatMessage({id: 'pages.dataSource.info.version'}),
