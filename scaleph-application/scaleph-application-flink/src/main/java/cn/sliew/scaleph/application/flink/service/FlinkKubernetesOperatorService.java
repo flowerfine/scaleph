@@ -40,8 +40,6 @@ public interface FlinkKubernetesOperatorService {
 
     Optional<GenericKubernetesResource> getJob(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO) throws Exception;
 
-    void deployJob(Long clusterCredentialId, String job) throws Exception;
-
     void shutdownJob(Long clusterCredentialId, String job) throws Exception;
 
     void applyJob(Long clusterCredentialId, String job) throws Exception;

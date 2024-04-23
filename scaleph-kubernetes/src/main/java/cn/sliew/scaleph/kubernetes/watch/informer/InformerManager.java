@@ -63,7 +63,9 @@ public class InformerManager implements InitializingBean, DisposableBean {
         KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
         informerMap.put(clusterCredentialId, client.informers());
         SharedInformerFactory informer = client.informers();
-        watchHandlers.values().forEach(handler -> registerWatchHandler(clusterCredentialId, client, informer, handler));
+        if (watchHandlers != null) {
+            watchHandlers.values().forEach(handler -> registerWatchHandler(clusterCredentialId, client, informer, handler));
+        }
         informer.startAllRegisteredInformers();
         log.info("shared informer start success, clusterCredentialId: {}", clusterCredentialId);
     }

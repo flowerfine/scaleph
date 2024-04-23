@@ -186,7 +186,7 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
 
         WsFlinkKubernetesJobInstanceDTO jobInstanceDTO = selectOne(record.getId());
         String yaml = asYaml(record.getId());
-        flinkKubernetesOperatorService.deployJob(clusterCredentialId, yaml);
+        flinkKubernetesOperatorService.applyJob(clusterCredentialId, yaml);
         // add watch
         Map<String, String> lables = metadataHandler.generateLables(jobInstanceDTO);
         flinkKubernetesOperatorService.addWatch(clusterCredentialId, resource, lables, callbackHandler);
