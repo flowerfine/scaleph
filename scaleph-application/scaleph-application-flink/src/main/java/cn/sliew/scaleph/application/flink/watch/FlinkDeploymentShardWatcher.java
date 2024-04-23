@@ -19,7 +19,8 @@
 package cn.sliew.scaleph.application.flink.watch;
 
 import cn.sliew.scaleph.application.flink.resource.definition.deployment.FlinkDeployment;
-import cn.sliew.scaleph.kubernetes.watch.KubernetesSharedInformer;
+import cn.sliew.scaleph.kubernetes.watch.watch.shared.KubernetesSharedInformer;
+import cn.sliew.scaleph.kubernetes.watch.watch.shared.KubernetesSharedWatcher;
 import io.fabric8.kubernetes.client.NamespacedKubernetesClient;
 import io.fabric8.kubernetes.client.dsl.Informable;
 import org.springframework.util.CollectionUtils;
@@ -28,7 +29,7 @@ import java.util.Map;
 
 import static cn.sliew.milky.common.check.Ensures.checkArgument;
 
-public class FlinkDeploymentShardWatcher extends KubernetesSharedInformer<FlinkDeployment> {
+public class FlinkDeploymentShardWatcher extends KubernetesSharedInformer<FlinkDeployment> implements KubernetesSharedWatcher<FlinkDeployment> {
 
     public FlinkDeploymentShardWatcher(NamespacedKubernetesClient client, Map<String, String> labels) {
         super(client, getInformableConfigMaps(client, labels));

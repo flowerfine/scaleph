@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.watch;
+package cn.sliew.scaleph.kubernetes.watch.watch.shared;
 
+import cn.sliew.scaleph.kubernetes.watch.watch.WatchCallbackHandler;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.client.NamespacedKubernetesClient;
-import io.fabric8.kubernetes.client.Watch;
 import io.fabric8.kubernetes.client.dsl.Informable;
 import io.fabric8.kubernetes.client.informers.ResourceEventHandler;
 import io.fabric8.kubernetes.client.informers.SharedIndexInformer;
@@ -38,7 +38,8 @@ import static cn.sliew.milky.common.check.Ensures.checkState;
  * Base class for shared watcher based on {@link SharedIndexInformer}.
  */
 @Slf4j
-public abstract class KubernetesSharedInformer<T extends HasMetadata> {
+public abstract class KubernetesSharedInformer<T extends HasMetadata>
+        implements KubernetesSharedWatcher<T> {
 
     private final NamespacedKubernetesClient client;
     private final SharedIndexInformer<T> sharedIndexInformer;
@@ -55,10 +56,12 @@ public abstract class KubernetesSharedInformer<T extends HasMetadata> {
         this.sharedIndexInformer = informable.inform(aggregatedEventHandler, 0);
     }
 
-    public Watch watch(String name, WatchCallbackHandler<T> handler, @Nullable Executor executor) {
+    @Override
+    public Watch watch(String name, WatchCallbackHandler<T> handler, Executor executor) {
         return aggregatedEventHandler.watch(name, new WatchCallback<>(handler, executor));
     }
 
+    @Override
     public void close() {
         this.sharedIndexInformer.stop();
         this.informerExecutor.shutdown();

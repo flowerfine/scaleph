@@ -28,8 +28,8 @@ import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesSessionCl
 import cn.sliew.scaleph.application.flink.watch.FlinkDeploymentShardWatcher;
 import cn.sliew.scaleph.kubernetes.Constant;
 import cn.sliew.scaleph.kubernetes.service.KubernetesService;
-import cn.sliew.scaleph.kubernetes.watch.DefaultKubernetesWatcher;
-import cn.sliew.scaleph.kubernetes.watch.WatchCallbackHandler;
+import cn.sliew.scaleph.kubernetes.watch.watch.DefaultKubernetesWatcher;
+import cn.sliew.scaleph.kubernetes.watch.watch.WatchCallbackHandler;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -117,6 +117,7 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
         client.load(new ByteArrayInputStream((job).getBytes())).createOrReplace();
     }
 
+    @Override
     public <T extends HasMetadata> Watch addWatch(Long clusterCredentialId, String resource, Map<String, String> labels, WatchCallbackHandler<T> callbackHandler) throws Exception {
         KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
         return client.genericKubernetesResources(Constant.API_VERSION, resource)

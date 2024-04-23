@@ -16,22 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.watch;
+package cn.sliew.scaleph.kubernetes.watch.watch;
 
-import java.util.List;
+import cn.sliew.scaleph.common.exception.ScalephException;
 
 /**
- * Callback handler for kubernetes resources.
+ * Kubernetes too old resource version exception.
  */
-public interface WatchCallbackHandler<T> {
+public class KubernetesTooOldResourceVersionException extends ScalephException {
 
-    void onAdded(List<T> resources);
+    private static final long serialVersionUID = 1L;
 
-    void onModified(List<T> resources);
+    public KubernetesTooOldResourceVersionException(Throwable cause) {
+        super(cause);
+    }
 
-    void onDeleted(List<T> resources);
-
-    void onError(List<T> resources);
-
-    void handleError(Throwable throwable);
+    public KubernetesTooOldResourceVersionException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

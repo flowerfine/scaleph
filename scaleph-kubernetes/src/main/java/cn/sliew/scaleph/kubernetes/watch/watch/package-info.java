@@ -16,22 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.watch;
-
-import cn.sliew.scaleph.common.exception.ScalephException;
-
 /**
- * Kubernetes too old resource version exception.
+ * forked from flink, https://github.com/apache/flink/blob/release-1.19/flink-kubernetes/src/main/java/org/apache/flink/kubernetes/kubeclient/resources/AbstractKubernetesWatcher.java
  */
-public class KubernetesTooOldResourceVersionException extends ScalephException {
-
-    private static final long serialVersionUID = 1L;
-
-    public KubernetesTooOldResourceVersionException(Throwable cause) {
-        super(cause);
-    }
-
-    public KubernetesTooOldResourceVersionException(String message, Throwable cause) {
-        super(message, cause);
-    }
-}
+package cn.sliew.scaleph.kubernetes.watch.watch;

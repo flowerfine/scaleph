@@ -52,7 +52,7 @@ import cn.sliew.scaleph.application.flink.service.param.WsFlinkKubernetesJobInst
 import cn.sliew.scaleph.application.flink.service.param.WsFlinkKubernetesJobInstanceShutdownParam;
 import cn.sliew.scaleph.application.flink.watch.FlinkDeploymentWatchCallbackHandler;
 import cn.sliew.scaleph.kubernetes.Constant;
-import cn.sliew.scaleph.kubernetes.watch.WatchCallbackHandler;
+import cn.sliew.scaleph.kubernetes.watch.watch.WatchCallbackHandler;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

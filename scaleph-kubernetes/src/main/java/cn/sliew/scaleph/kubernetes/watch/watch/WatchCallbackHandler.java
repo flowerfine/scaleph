@@ -16,7 +16,22 @@
  * limitations under the License.
  */
 
+package cn.sliew.scaleph.kubernetes.watch.watch;
+
+import java.util.List;
+
 /**
- * forked from flink, https://github.com/apache/flink/blob/release-1.17/flink-kubernetes/src/main/java/org/apache/flink/kubernetes/kubeclient/resources/AbstractKubernetesWatcher.java
+ * Callback handler for kubernetes resources.
  */
-package cn.sliew.scaleph.kubernetes.watch;
+public interface WatchCallbackHandler<T> {
+
+    void onAdded(List<T> resources);
+
+    void onModified(List<T> resources);
+
+    void onDeleted(List<T> resources);
+
+    void onError(List<T> resources);
+
+    void handleError(Throwable throwable);
+}
