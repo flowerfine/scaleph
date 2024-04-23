@@ -27,6 +27,7 @@ import io.fabric8.kubernetes.client.informers.SharedIndexInformer;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nullable;
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.Consumer;
@@ -53,7 +54,7 @@ public abstract class KubernetesSharedInformer<T extends HasMetadata>
 
         informerExecutor = Executors.newSingleThreadExecutor();
         this.aggregatedEventHandler = new AggregatedEventHandler(informerExecutor);
-        this.sharedIndexInformer = informable.inform(aggregatedEventHandler, 0);
+        this.sharedIndexInformer = informable.inform(aggregatedEventHandler, Duration.ofMillis(100).toMillis());
     }
 
     @Override
