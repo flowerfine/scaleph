@@ -16,7 +16,27 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.watch.event.source.informer;
+package cn.sliew.scaleph.kubernetes.service.param;
 
-public class InformerEventSource {
+import io.fabric8.kubernetes.api.model.GroupVersionKind;
+import io.fabric8.kubernetes.api.model.HasMetadata;
+import lombok.Data;
+
+/**
+ * @see GroupVersionKind
+ */
+@Data
+public class VersionGroupKind {
+
+    private String namespace;
+    private String apiVersion;
+    private String kind;
+    private String name;
+
+    public static VersionGroupKind gvkFor(Class<? extends HasMetadata> resourceClass) {
+        VersionGroupKind versionGroupKind = new VersionGroupKind();
+        versionGroupKind.setApiVersion(HasMetadata.getGroup(resourceClass) + "/" + HasMetadata.getVersion(resourceClass));
+        versionGroupKind.setKind(HasMetadata.getKind(resourceClass));
+        return versionGroupKind;
+    }
 }

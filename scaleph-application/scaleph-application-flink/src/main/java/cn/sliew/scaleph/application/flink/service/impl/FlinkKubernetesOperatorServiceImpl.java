@@ -29,7 +29,7 @@ import cn.sliew.scaleph.application.flink.watch.FlinkDeploymentShardWatcher;
 import cn.sliew.scaleph.kubernetes.Constant;
 import cn.sliew.scaleph.kubernetes.service.KubernetesService;
 import cn.sliew.scaleph.kubernetes.service.ObjectService;
-import cn.sliew.scaleph.kubernetes.service.param.VersionAndGroup;
+import cn.sliew.scaleph.kubernetes.service.param.VersionGroupKind;
 import cn.sliew.scaleph.kubernetes.watch.watch.DefaultKubernetesWatcher;
 import cn.sliew.scaleph.kubernetes.watch.watch.WatchCallbackHandler;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
@@ -55,7 +55,7 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
 
     @Override
     public Optional<GenericKubernetesResource> getSessionCluster(WsFlinkKubernetesSessionClusterDTO sessionClusterDTO) throws Exception {
-        VersionAndGroup versionAndGroup = new VersionAndGroup();
+        VersionGroupKind versionAndGroup = new VersionGroupKind();
         versionAndGroup.setNamespace(sessionClusterDTO.getNamespace());
         versionAndGroup.setApiVersion(Constant.API_VERSION);
         versionAndGroup.setKind(Constant.FLINK_DEPLOYMENT);
@@ -77,7 +77,7 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
 
     @Override
     public Optional<GenericKubernetesResource> getJob(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO) throws Exception {
-        VersionAndGroup versionAndGroup = new VersionAndGroup();
+        VersionGroupKind versionAndGroup = new VersionGroupKind();
         versionAndGroup.setApiVersion(Constant.API_VERSION);
         versionAndGroup.setKind(Constant.FLINK_DEPLOYMENT);
         versionAndGroup.setName(jobInstanceDTO.getInstanceId());

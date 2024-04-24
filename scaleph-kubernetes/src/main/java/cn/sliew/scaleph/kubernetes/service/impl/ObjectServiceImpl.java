@@ -20,7 +20,7 @@ package cn.sliew.scaleph.kubernetes.service.impl;
 
 import cn.sliew.scaleph.kubernetes.service.KubernetesService;
 import cn.sliew.scaleph.kubernetes.service.ObjectService;
-import cn.sliew.scaleph.kubernetes.service.param.VersionAndGroup;
+import cn.sliew.scaleph.kubernetes.service.param.VersionGroupKind;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.StatusDetails;
@@ -53,7 +53,7 @@ public class ObjectServiceImpl implements ObjectService {
     }
 
     @Override
-    public Optional<GenericKubernetesResource> getResource(Long clusterCredentialId, VersionAndGroup versionAndGroup) throws Exception {
+    public Optional<GenericKubernetesResource> getResource(Long clusterCredentialId, VersionGroupKind versionAndGroup) throws Exception {
         KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
         GenericKubernetesResource resource = client.genericKubernetesResources(versionAndGroup.getApiVersion(), versionAndGroup.getKind())
                 .inNamespace(versionAndGroup.getNamespace())

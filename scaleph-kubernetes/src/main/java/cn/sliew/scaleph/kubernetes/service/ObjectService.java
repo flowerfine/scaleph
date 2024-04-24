@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.kubernetes.service;
 
-import cn.sliew.scaleph.kubernetes.service.param.VersionAndGroup;
+import cn.sliew.scaleph.kubernetes.service.param.VersionGroupKind;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 
@@ -31,6 +31,6 @@ public interface ObjectService {
 
     void deleteResource(Long clusterCredentialId, String resource) throws Exception;
 
-    Optional<GenericKubernetesResource> getResource(Long clusterCredentialId, VersionAndGroup versionAndGroup) throws Exception;
+    Optional<GenericKubernetesResource> getResource(Long clusterCredentialId, VersionGroupKind versionAndGroup) throws Exception;
 
 }
