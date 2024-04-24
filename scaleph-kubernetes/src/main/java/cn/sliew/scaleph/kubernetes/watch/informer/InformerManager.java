@@ -43,6 +43,7 @@ public class InformerManager implements InitializingBean, DisposableBean {
     private ClusterCredentialService clusterCredentialService;
     @Autowired
     private KubernetesService kubernetesService;
+    // 切换成 WatchCallbackHandler
     @Autowired(required = false)
     private Map<String, KubernetesInformerWatchHandler> watchHandlers;
 
@@ -59,10 +60,13 @@ public class InformerManager implements InitializingBean, DisposableBean {
         informerMap.forEach(this::stopCluster);
     }
 
+    /**
+     * todo namespace
+     */
     private void initCluster(Long clusterCredentialId) {
         KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
-        informerMap.put(clusterCredentialId, client.informers());
         SharedInformerFactory informer = client.informers();
+        informerMap.put(clusterCredentialId, informer);
         if (watchHandlers != null) {
             watchHandlers.values().forEach(handler -> registerWatchHandler(clusterCredentialId, client, informer, handler));
         }
