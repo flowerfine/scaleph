@@ -62,6 +62,10 @@ public class InformerManager implements InitializingBean, DisposableBean {
 
     /**
      * todo namespace。命名空间级别的
+     * todo 事件监听应该是 2 级的，默认是 namespace 级别的，可以做到更进一步资源级别的
+     * todo 就比如 eventHandler，可以是单个的，也可以是经过聚合后分发给多个 eventHandler
+     * todo 注意 list-watch 和 informer 的区别，informer 是 list-watch 的一个封装，
+     * todo 先调用 list 获取全量，在调用 watch 获取增量事件
      */
     private void initCluster(Long clusterCredentialId) {
         KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
