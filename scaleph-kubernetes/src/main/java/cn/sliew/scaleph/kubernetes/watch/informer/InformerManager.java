@@ -61,7 +61,7 @@ public class InformerManager implements InitializingBean, DisposableBean {
     }
 
     /**
-     * todo namespace
+     * todo namespace。命名空间级别的
      */
     private void initCluster(Long clusterCredentialId) {
         KubernetesClient client = kubernetesService.getClient(clusterCredentialId);

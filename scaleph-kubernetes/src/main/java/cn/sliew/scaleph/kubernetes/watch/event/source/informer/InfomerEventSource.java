@@ -54,6 +54,7 @@ public class InfomerEventSource<R extends HasMetadata, P extends HasMetadata>
 
     @Override
     protected void doStart() {
+        // fixme namespace or gvk ?
         this.manager = new InformerManager<>(client, this);
         this.manager.start();
     }
