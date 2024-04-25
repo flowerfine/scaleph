@@ -27,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
  * Watcher for resources in Kubernetes.
  */
 @Slf4j
+@Deprecated
 public abstract class AbstractKubernetesWatcher<T extends HasMetadata> implements Watcher<T> {
 
     protected final WatchCallbackHandler<T> callbackHandler;

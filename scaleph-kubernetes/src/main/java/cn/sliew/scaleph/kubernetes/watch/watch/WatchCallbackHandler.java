@@ -23,6 +23,7 @@ import java.util.List;
 /**
  * Callback handler for kubernetes resources.
  */
+@Deprecated
 public interface WatchCallbackHandler<T> {
 
     void onAdded(List<T> resources);

@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Slf4j
+@Deprecated
 public class DefaultKubernetesWatcher<T extends HasMetadata> extends AbstractKubernetesWatcher<T> {
 
     public DefaultKubernetesWatcher(WatchCallbackHandler<T> callbackHandler) {

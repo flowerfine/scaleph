@@ -16,12 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.watch.event.source.timer;
+package cn.sliew.scaleph.kubernetes.watch.event.source.poll;
 
 import cn.sliew.scaleph.kubernetes.watch.event.Event;
 import cn.sliew.scaleph.kubernetes.watch.event.ResourceID;
-import cn.sliew.scaleph.kubernetes.watch.event.health.Status;
-import cn.sliew.scaleph.kubernetes.watch.event.source.AbstractEventSource;
+import cn.sliew.scaleph.kubernetes.watch.event.source.AbstractResourceEventSource;
 import cn.sliew.scaleph.kubernetes.watch.event.source.ResourceEventAware;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.netty.util.HashedWheelTimer;
@@ -33,10 +32,18 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-public class TimerEventSource<R extends HasMetadata> extends AbstractEventSource implements ResourceEventAware<R> {
+public class PerPollEventSource<R, P extends HasMetadata>
+        extends AbstractResourceEventSource<R, P>
+        implements ResourceEventAware<P> {
 
     private HashedWheelTimer timer;
     private Map<ResourceID, Timeout> tasks = new ConcurrentHashMap<>();
+    private Duration period;
+
+    public PerPollEventSource(Class<R> resourceClass, Duration period) {
+        super(resourceClass);
+        this.period = period;
+    }
 
     @Override
     protected void doInitialize() {
@@ -54,16 +61,28 @@ public class TimerEventSource<R extends HasMetadata> extends AbstractEventSource
     }
 
     @Override
-    public Status getStatus() {
-        return timer != null ? Status.HEALTHY : Status.UNHEALTHY;
+    public void onResourceCreated(P resource) {
+        checkAndRegister(resource);
     }
 
     @Override
-    public void onResourceDeleted(R resource) {
+    public void onResourceUpdated(P newResource, P oldResource) {
+        checkAndRegister(newResource);
+    }
+
+    @Override
+    public void onResourceDeleted(P resource) {
         cancel(ResourceID.fromResource(resource));
     }
 
-    public void schedule(R resource, Duration delay) {
+    private void checkAndRegister(P resource) {
+        ResourceID resourceID = ResourceID.fromResource(resource);
+        if (tasks.containsKey(resourceID) == false) {
+            schedule(resource, period);
+        }
+    }
+
+    public void schedule(P resource, Duration delay) {
         ResourceID resourceID = ResourceID.fromResource(resource);
         if (tasks.containsKey(resourceID)) {
             cancel(resourceID);
@@ -91,6 +110,7 @@ public class TimerEventSource<R extends HasMetadata> extends AbstractEventSource
         @Override
         public void run(Timeout timeout) throws Exception {
             getHandler().handleEvent(new Event(resourceID));
+            timeout.task().run(timeout);
         }
     }
 }

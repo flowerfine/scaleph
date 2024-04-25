@@ -20,7 +20,6 @@ package cn.sliew.scaleph.kubernetes.watch.event.source.informer;
 
 import cn.sliew.scaleph.kubernetes.watch.event.Event;
 import cn.sliew.scaleph.kubernetes.watch.event.ResourceID;
-import cn.sliew.scaleph.kubernetes.watch.event.health.Status;
 import cn.sliew.scaleph.kubernetes.watch.event.source.AbstractResourceEventSource;
 import io.fabric8.kubernetes.api.model.GroupVersionKind;
 import io.fabric8.kubernetes.api.model.HasMetadata;
@@ -62,11 +61,6 @@ public class InfomerEventSource<R extends HasMetadata, P extends HasMetadata>
     @Override
     protected void doStop() {
         this.manager.stop();
-    }
-
-    @Override
-    public Status getStatus() {
-        return null;
     }
 
     @Override

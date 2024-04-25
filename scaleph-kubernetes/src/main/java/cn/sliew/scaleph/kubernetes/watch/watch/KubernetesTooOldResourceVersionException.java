@@ -23,6 +23,7 @@ import cn.sliew.scaleph.common.exception.ScalephException;
 /**
  * Kubernetes too old resource version exception.
  */
+@Deprecated
 public class KubernetesTooOldResourceVersionException extends ScalephException {
 
     private static final long serialVersionUID = 1L;
