@@ -16,14 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.oam;
+package cn.sliew.scaleph.kubernetes.oam.common;
 
 import lombok.Data;
 
 @Data
-public class AbstractSchema implements Schema {
+public class DefinitionRef {
 
+    /**
+     * name 和 apiVersion、kind 互斥，只能使用一种方式
+     */
+    private String name;
     private String apiVersion;
     private String kind;
-    private MetaData metadata;
 }

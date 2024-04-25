@@ -293,6 +293,11 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-application-oam</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-application-flink</artifactId>
                 <version>${project.version}</version>
             </dependency>

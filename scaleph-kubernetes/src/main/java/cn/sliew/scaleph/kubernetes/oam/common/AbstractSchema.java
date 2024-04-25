@@ -16,22 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.oam;
+package cn.sliew.scaleph.kubernetes.oam.common;
 
-import io.fabric8.kubernetes.model.annotation.Group;
-import io.fabric8.kubernetes.model.annotation.Version;
 import lombok.Data;
 
 @Data
-@Group("core.oam.dev")
-@Version("v1beta1")
-public class WorkloadDefinition extends AbstractSchema {
+public class AbstractSchema implements Schema {
 
-    private Spec spec;
-
-    @Data
-    public static class Spec {
-
-        private DefinitionRef definitionRef;
-    }
+    private String apiVersion;
+    private String kind;
+    private MetaData metadata;
 }

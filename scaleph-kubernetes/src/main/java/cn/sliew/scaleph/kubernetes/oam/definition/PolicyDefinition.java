@@ -16,42 +16,28 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.oam;
+package cn.sliew.scaleph.kubernetes.oam.definition;
 
+import cn.sliew.scaleph.kubernetes.oam.common.AbstractSchema;
 import io.fabric8.kubernetes.model.annotation.Group;
 import io.fabric8.kubernetes.model.annotation.Version;
 import lombok.Data;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
 @Data
 @Group("core.oam.dev")
 @Version("v1beta1")
-public class Application extends AbstractSchema {
+public class PolicyDefinition extends AbstractSchema {
 
     private Spec spec;
 
     @Data
-    public static class Spec  {
-
-        private List<Component> components;
+    public static class Spec {
+        private Semantic schematic;
     }
 
     @Data
-    public static class Component {
-
-        private String name;
-        private String type;
-        private Properties properties;
-        private List<Trait> traits;
-        private Map<String, String> scopes;
+    public static class Semantic {
+        // kubevela 支持 cue、helm、kube
     }
 
-    @Data
-    public static class Trait {
-        private String type;
-        private Properties properties;
-    }
 }

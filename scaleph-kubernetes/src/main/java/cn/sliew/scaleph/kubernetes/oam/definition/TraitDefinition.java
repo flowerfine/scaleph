@@ -16,7 +16,28 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.oam;
+package cn.sliew.scaleph.kubernetes.oam.definition;
 
-public interface ComponentBinder {
+import cn.sliew.scaleph.kubernetes.oam.common.AbstractSchema;
+import cn.sliew.scaleph.kubernetes.oam.common.DefinitionRef;
+import io.fabric8.kubernetes.model.annotation.Group;
+import io.fabric8.kubernetes.model.annotation.Version;
+import lombok.Data;
+
+import java.util.List;
+
+@Data
+@Group("core.oam.dev")
+@Version("v1beta1")
+public class TraitDefinition extends AbstractSchema {
+
+    private Spec spec;
+
+    @Data
+    public static class Spec {
+
+        private List<String> appliesToWorkloads;
+        private List<String> conflictsWith;
+        private DefinitionRef definitionRef;
+    }
 }

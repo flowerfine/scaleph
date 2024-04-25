@@ -16,21 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.oam;
+package cn.sliew.scaleph.kubernetes.oam.common;
 
+import io.fabric8.kubernetes.model.annotation.Group;
+import io.fabric8.kubernetes.model.annotation.Version;
 import lombok.Data;
 
-import java.util.Map;
-
 @Data
-public class MetaData {
+@Group("core.oam.dev")
+@Version("v1beta1")
+public class Component extends AbstractSchema {
 
-    private String name;
-    private Map<String, String> labels;
-    /**
-     * version 和 description 预定义且推荐使用
-     * definition.oam.dev/description: description
-     * definition.oam.dev/version: version
-     */
-    private Map<String, String> annotations;
 }

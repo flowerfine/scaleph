@@ -16,11 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.oam;
+package cn.sliew.scaleph.kubernetes.oam.common;
 
-public interface WorkloadBinder {
-
-    WorkloadDefinition getWorkload();
-
-    ComponentDefinition getComponent();
+public interface ComponentBinder {
 }
