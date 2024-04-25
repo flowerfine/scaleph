@@ -77,6 +77,8 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           no-cache: false
+          cache-from: type=gha
+          cache-to: type=gha
           push: false
           context: .
           platforms: linux/amd64,linux/arm64
