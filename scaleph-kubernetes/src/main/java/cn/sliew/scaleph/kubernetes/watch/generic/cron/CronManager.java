@@ -16,29 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.watch.cron;
+package cn.sliew.scaleph.kubernetes.watch.generic.cron;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class CronManager implements InitializingBean, DisposableBean {
+public class CronManager {
 
-    @Override
-    public void destroy() throws Exception {
-
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-
-    }
+    @Autowired
+    private List<KubernetesCronHandler> cronHandlers;
 
     private void checkStatus(WatchCronIntervalEnum intervalEnum) {
 //        log.info("check status");

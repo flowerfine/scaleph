@@ -16,12 +16,30 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.watch.informer;
+package cn.sliew.scaleph.kubernetes.watch.generic.cron;
 
-import io.fabric8.kubernetes.client.KubernetesClient;
-import io.fabric8.kubernetes.client.informers.SharedInformerFactory;
+import lombok.Getter;
 
-public interface KubernetesInformerWatchHandler {
+import java.time.Duration;
 
-    void register(Long clusterCredentialId, KubernetesClient client, SharedInformerFactory sharedInformerFactory);
+@Getter
+public enum WatchCronIntervalEnum {
+
+    LEVEL_5s(60L, Duration.ofSeconds(5L)),
+    LEVEL_10s(120L, Duration.ofSeconds(10L)),
+    LEVEL_30s(180L, Duration.ofSeconds(30L)),
+    LEVEL_1m(240L, Duration.ofMinutes(1L)),
+    LEVEL_2m(300L, Duration.ofMinutes(2L)),
+    LEVEL_3m(360L, Duration.ofMinutes(3L)),
+    LEVEL_4m(420L, Duration.ofMinutes(4L)),
+    LEVEL_5m(Long.MAX_VALUE, Duration.ofMinutes(5L)),
+    ;
+
+    private Long maxCount;
+    private Duration interval;
+
+    WatchCronIntervalEnum(Long maxCount, Duration interval) {
+        this.maxCount = maxCount;
+        this.interval = interval;
+    }
 }

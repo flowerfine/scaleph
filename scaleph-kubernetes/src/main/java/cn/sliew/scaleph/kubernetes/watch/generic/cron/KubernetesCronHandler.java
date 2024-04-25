@@ -16,30 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.watch.cron;
+package cn.sliew.scaleph.kubernetes.watch.generic.cron;
 
-import lombok.Getter;
+import cn.sliew.scaleph.kubernetes.service.param.Resource;
+import io.fabric8.kubernetes.api.model.GroupVersionKind;
+import io.fabric8.kubernetes.client.KubernetesClient;
 
-import java.time.Duration;
+public interface KubernetesCronHandler {
 
-@Getter
-public enum WatchCronIntervalEnum {
+    Iterable<Resource> getResources(Long maxCount);
 
-    LEVEL_5s(60L, Duration.ofSeconds(5L)),
-    LEVEL_10s(120L, Duration.ofSeconds(10L)),
-    LEVEL_30s(180L, Duration.ofSeconds(30L)),
-    LEVEL_1m(240L, Duration.ofMinutes(1L)),
-    LEVEL_2m(300L, Duration.ofMinutes(2L)),
-    LEVEL_3m(360L, Duration.ofMinutes(3L)),
-    LEVEL_4m(420L, Duration.ofMinutes(4L)),
-    LEVEL_5m(Long.MAX_VALUE, Duration.ofMinutes(5L)),
-    ;
-
-    private Long maxCount;
-    private Duration interval;
-
-    WatchCronIntervalEnum(Long maxCount, Duration interval) {
-        this.maxCount = maxCount;
-        this.interval = interval;
-    }
+    void checkStatus(KubernetesClient client, String namespace, GroupVersionKind gvk);
 }

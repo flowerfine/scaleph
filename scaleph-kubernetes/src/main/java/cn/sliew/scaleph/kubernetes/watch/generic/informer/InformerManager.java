@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.watch.informer;
+package cn.sliew.scaleph.kubernetes.watch.generic.informer;
 
 import cn.sliew.scaleph.kubernetes.service.KubernetesService;
 import cn.sliew.scaleph.resource.service.ClusterCredentialService;

@@ -16,11 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.watch.cron;
+package cn.sliew.scaleph.kubernetes.service.param;
 
-import io.fabric8.kubernetes.client.KubernetesClient;
+import lombok.Data;
 
-public interface KubernetesCronHandler {
+@Data
+public class Cluster {
 
-    void checkStatus(KubernetesClient client);
+    private Long clusterCredentialId;
+    private String namespace;
 }
