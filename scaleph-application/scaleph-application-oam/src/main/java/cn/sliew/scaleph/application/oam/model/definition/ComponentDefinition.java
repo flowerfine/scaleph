@@ -19,9 +19,12 @@
 package cn.sliew.scaleph.application.oam.model.definition;
 
 import cn.sliew.scaleph.application.oam.model.common.AbstractSchema;
+import cn.sliew.scaleph.application.oam.model.common.Schematic;
 import io.fabric8.kubernetes.model.annotation.Group;
 import io.fabric8.kubernetes.model.annotation.Version;
 import lombok.Data;
+
+import java.util.Properties;
 
 @Data
 @Group("core.oam.dev")
@@ -33,13 +36,9 @@ public class ComponentDefinition extends AbstractSchema {
     @Data
     public static class Spec {
 
-        private Semantic semantic;
+        private Schematic schematic;
         private WorkloadTypeDescriptor workload;
-    }
-
-    @Data
-    public static class Semantic {
-        // kubevela 支持 cue、helm、kube
+        private Properties properties;
     }
 
     @Data

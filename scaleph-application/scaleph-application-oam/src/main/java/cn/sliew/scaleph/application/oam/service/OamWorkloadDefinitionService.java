@@ -16,30 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.application.oam.service.dto;
+package cn.sliew.scaleph.application.oam.service;
 
-import cn.sliew.scaleph.system.model.BaseDTO;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import cn.sliew.scaleph.application.oam.model.definition.WorkloadDefinition;
+import cn.sliew.scaleph.system.model.PaginationParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-/**
- * Policy Definition 信息
- */
-@Data
-public class OamPolicyDefinitionDTO extends BaseDTO {
+import java.util.List;
 
-    private static final long serialVersionUID = 1L;
+public interface OamWorkloadDefinitionService {
 
-    @Schema(description = "定义id。主要用于 kubernetes 中 metadata 使用")
-    private String definitionId;
+    Page<WorkloadDefinition> listByPage(PaginationParam param);
 
-    private String name;
+    List<WorkloadDefinition> listAll();
 
-    private String definitionRef;
-
-    private String schematic;
-
-    @Schema(description = "备注")
-    private String remark;
+    WorkloadDefinition selectOne(Long id);
 }

@@ -293,6 +293,19 @@ export default [
     ]
   },
   {
+    name: 'oam',
+    path: '/oam',
+    icon: 'wallet',
+    routes: [
+      {
+        name: 'definition',
+        path: '/oam/definitin',
+        icon: 'signature',
+        component: './OAM/Definition',
+      },
+    ],
+  },
+  {
     name: 'resource',
     path: '/resource',
     icon: 'fileText',

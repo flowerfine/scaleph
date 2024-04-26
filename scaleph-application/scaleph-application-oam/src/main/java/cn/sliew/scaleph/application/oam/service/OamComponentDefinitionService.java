@@ -16,34 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.application.oam.service.dto;
+package cn.sliew.scaleph.application.oam.service;
 
-import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import cn.sliew.scaleph.application.oam.model.definition.ComponentDefinition;
+import cn.sliew.scaleph.system.model.PaginationParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-/**
- * Trait Definition 信息
- */
-@Data
-@Schema(name = "OamTraitDefinition", description = "Trait Definition 信息")
-public class OamTraitDefinitionDTO extends BaseDTO {
+import java.util.List;
 
-    private static final long serialVersionUID = 1L;
+public interface OamComponentDefinitionService {
 
-    @Schema(description = "定义id。主要用于 kubernetes 中 metadata 使用")
-    private String definitionId;
+    Page<ComponentDefinition> listByPage(PaginationParam param);
 
-    private String name;
+    List<ComponentDefinition> listAll();
 
-    private String definitionRef;
-
-    private String appliesToWorkloads;
-
-    private String schematic;
-
-    private String properties;
-
-    @Schema(description = "备注")
-    private String remark;
+    ComponentDefinition selectOne(Long id);
 }
