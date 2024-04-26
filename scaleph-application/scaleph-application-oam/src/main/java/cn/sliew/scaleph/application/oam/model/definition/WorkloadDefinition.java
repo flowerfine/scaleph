@@ -16,11 +16,10 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.oam.definition;
+package cn.sliew.scaleph.application.oam.model.definition;
 
-import cn.sliew.scaleph.kubernetes.oam.common.AbstractSchema;
-import cn.sliew.scaleph.kubernetes.oam.common.DefinitionRef;
-import cn.sliew.scaleph.kubernetes.oam.common.Schematic;
+import cn.sliew.scaleph.application.oam.model.common.AbstractSchema;
+import cn.sliew.scaleph.application.oam.model.common.DefinitionRef;
 import io.fabric8.kubernetes.model.annotation.Group;
 import io.fabric8.kubernetes.model.annotation.Version;
 import lombok.Data;
@@ -28,13 +27,13 @@ import lombok.Data;
 @Data
 @Group("core.oam.dev")
 @Version("v1beta1")
-public class PolicyDefinition extends AbstractSchema {
+public class WorkloadDefinition extends AbstractSchema {
 
     private Spec spec;
 
     @Data
     public static class Spec {
+
         private DefinitionRef definitionRef;
-        private Schematic schematic;
     }
 }

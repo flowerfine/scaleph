@@ -16,29 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.oam.application;
+package cn.sliew.scaleph.application.oam.model.common;
 
-import cn.sliew.scaleph.kubernetes.oam.common.AbstractSchema;
-import io.fabric8.kubernetes.model.annotation.Group;
-import io.fabric8.kubernetes.model.annotation.Version;
 import lombok.Data;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
 @Data
-@Group("core.oam.dev")
-@Version("v1beta1")
-public class Application extends AbstractSchema {
+public class AbstractSchema implements Schema {
 
-    private Spec spec;
-
-    @Data
-    public static class Spec  {
-
-        private List<ApplicationComponent> components;
-        private List<ApplicationPolicy> policies;
-    }
-
+    private String apiVersion;
+    private String kind;
+    private MetaData metadata;
 }

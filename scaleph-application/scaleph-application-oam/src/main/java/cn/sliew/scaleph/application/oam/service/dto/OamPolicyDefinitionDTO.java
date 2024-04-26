@@ -16,31 +16,30 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.oam.definition;
+package cn.sliew.scaleph.application.oam.service.dto;
 
-import cn.sliew.scaleph.kubernetes.oam.common.AbstractSchema;
-import cn.sliew.scaleph.kubernetes.oam.common.DefinitionRef;
-import cn.sliew.scaleph.kubernetes.oam.common.Schematic;
-import io.fabric8.kubernetes.model.annotation.Group;
-import io.fabric8.kubernetes.model.annotation.Version;
+import cn.sliew.scaleph.system.model.BaseDTO;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.util.List;
-import java.util.Properties;
-
+/**
+ * Policy Definition 信息
+ */
 @Data
-@Group("core.oam.dev")
-@Version("v1beta1")
-public class TraitDefinition extends AbstractSchema {
+public class OamPolicyDefinitionDTO extends BaseDTO {
 
-    private Spec spec;
+    private static final long serialVersionUID = 1L;
 
-    @Data
-    public static class Spec {
+    @Schema(description = "定义id。主要用于 kubernetes 中 metadata 使用")
+    private String definitionId;
 
-        private DefinitionRef definitionRef;
-        private List<String> appliesToWorkloads;
-        private Schematic schematic;
-        private Properties properties;
-    }
+    private String name;
+
+    private String definitionRef;
+
+    private String schematic;
+
+    @Schema(description = "备注")
+    private String remark;
 }

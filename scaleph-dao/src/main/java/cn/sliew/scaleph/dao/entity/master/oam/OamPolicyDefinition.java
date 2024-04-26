@@ -21,7 +21,6 @@ package cn.sliew.scaleph.dao.entity.master.oam;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -29,12 +28,10 @@ import lombok.Data;
  */
 @Data
 @TableName("oam_policy_definition")
-@Schema(name = "OamPolicyDefinition", description = "Policy Definition 信息")
 public class OamPolicyDefinition extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "定义id。主要用于 kubernetes 中 metadata 使用")
     @TableField("definition_id")
     private String definitionId;
 
@@ -47,7 +44,6 @@ public class OamPolicyDefinition extends BaseDO {
     @TableField("schematic")
     private String schematic;
 
-    @Schema(description = "备注")
     @TableField("remark")
     private String remark;
 }

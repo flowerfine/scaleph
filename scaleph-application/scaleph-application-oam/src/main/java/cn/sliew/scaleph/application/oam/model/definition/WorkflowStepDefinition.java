@@ -16,13 +16,28 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.oam.common;
+package cn.sliew.scaleph.application.oam.model.definition;
 
+import cn.sliew.scaleph.application.oam.model.common.AbstractSchema;
+import io.fabric8.kubernetes.model.annotation.Group;
+import io.fabric8.kubernetes.model.annotation.Version;
 import lombok.Data;
 
 @Data
-public class Schematic {
+@Group("core.oam.dev")
+@Version("v1beta1")
+public class WorkflowStepDefinition extends AbstractSchema {
 
-    // kubevela 支持 cue、helm、kube
-    private String cue;
+    private Spec spec;
+
+    @Data
+    public static class Spec {
+        private Semantic schematic;
+    }
+
+    @Data
+    public static class Semantic {
+        // kubevela 支持 cue、helm、kube
+    }
+
 }

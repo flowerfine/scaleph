@@ -16,37 +16,31 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.oam;
+package cn.sliew.scaleph.application.oam.model.definition;
 
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.sliew.scaleph.application.oam.model.common.AbstractSchema;
+import cn.sliew.scaleph.application.oam.model.common.DefinitionRef;
+import cn.sliew.scaleph.application.oam.model.common.Schematic;
+import io.fabric8.kubernetes.model.annotation.Group;
+import io.fabric8.kubernetes.model.annotation.Version;
 import lombok.Data;
 
-/**
- * Workload Definition 信息
- */
+import java.util.List;
+import java.util.Properties;
+
 @Data
-@TableName("oam_workload_definition")
-public class OamWorkloadDefinition extends BaseDO {
+@Group("core.oam.dev")
+@Version("v1beta1")
+public class TraitDefinition extends AbstractSchema {
 
-    private static final long serialVersionUID = 1L;
+    private Spec spec;
 
-    @TableField("definition_id")
-    private String definitionId;
+    @Data
+    public static class Spec {
 
-    @TableField("`name`")
-    private String name;
-
-    @TableField("definition_ref")
-    private String definitionRef;
-
-    @TableField("schematic")
-    private String schematic;
-
-    @TableField("extension")
-    private String extension;
-
-    @TableField("remark")
-    private String remark;
+        private DefinitionRef definitionRef;
+        private List<String> appliesToWorkloads;
+        private Schematic schematic;
+        private Properties properties;
+    }
 }

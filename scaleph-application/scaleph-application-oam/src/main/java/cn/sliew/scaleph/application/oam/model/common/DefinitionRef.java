@@ -16,15 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.oam.application;
+package cn.sliew.scaleph.application.oam.model.common;
 
 import lombok.Data;
 
-import java.util.Properties;
-
 @Data
-public class ApplicationComponentTrait {
+public class DefinitionRef {
 
-    private String type;
-    private Properties properties;
+    /**
+     * name 和 apiVersion、kind 互斥，只能使用一种方式
+     */
+    private String name;
+    private String apiVersion;
+    private String kind;
 }

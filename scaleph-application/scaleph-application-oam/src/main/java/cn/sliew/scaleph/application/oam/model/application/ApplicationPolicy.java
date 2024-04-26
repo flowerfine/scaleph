@@ -1,4 +1,4 @@
-package cn.sliew.scaleph.kubernetes.oam.application;
+package cn.sliew.scaleph.application.oam.model.application;
 
 import lombok.Data;
 

@@ -35,11 +35,4 @@
         <module>scaleph-application-doris</module>
     </modules>
 
-    <dependencies>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-application-oam</artifactId>
-        </dependency>
-    </dependencies>
-
 </project>

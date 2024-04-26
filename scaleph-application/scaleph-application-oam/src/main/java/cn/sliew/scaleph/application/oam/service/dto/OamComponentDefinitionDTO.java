@@ -16,14 +16,32 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes.oam.common;
+package cn.sliew.scaleph.application.oam.service.dto;
 
-import cn.sliew.scaleph.kubernetes.oam.definition.ComponentDefinition;
-import cn.sliew.scaleph.kubernetes.oam.definition.WorkloadDefinition;
+import cn.sliew.scaleph.system.model.BaseDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
-public interface WorkloadBinder {
+/**
+ * Component Definition 信息
+ */
+@Data
+@Schema(name = "OamComponentDefinition", description = "Component Definition 信息")
+public class OamComponentDefinitionDTO extends BaseDTO {
 
-    WorkloadDefinition getWorkload();
+    private static final long serialVersionUID = 1L;
 
-    ComponentDefinition getComponent();
+    @Schema(description = "定义id。主要用于 kubernetes 中 metadata 使用")
+    private String definitionId;
+
+    private String name;
+
+    private String workloadType;
+
+    private String schematic;
+
+    private String extension;
+
+    @Schema(description = "备注")
+    private String remark;
 }

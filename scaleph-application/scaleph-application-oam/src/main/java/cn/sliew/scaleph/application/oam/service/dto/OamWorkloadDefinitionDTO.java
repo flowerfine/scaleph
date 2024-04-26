@@ -16,37 +16,32 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.oam;
+package cn.sliew.scaleph.application.oam.service.dto;
 
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.sliew.scaleph.system.model.BaseDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
  * Workload Definition 信息
  */
 @Data
-@TableName("oam_workload_definition")
-public class OamWorkloadDefinition extends BaseDO {
+@Schema(name = "OamWorkloadDefinition", description = "Workload Definition 信息")
+public class OamWorkloadDefinitionDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("definition_id")
+    @Schema(description = "定义id。主要用于 kubernetes 中 metadata 使用")
     private String definitionId;
 
-    @TableField("`name`")
     private String name;
 
-    @TableField("definition_ref")
     private String definitionRef;
 
-    @TableField("schematic")
     private String schematic;
 
-    @TableField("extension")
     private String extension;
 
-    @TableField("remark")
+    @Schema(description = "备注")
     private String remark;
 }

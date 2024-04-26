@@ -11,4 +11,10 @@
     </parent>
     <artifactId>scaleph-application-oam</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-kubernetes</artifactId>
+        </dependency>
+    </dependencies>
 </project>
