@@ -20,11 +20,13 @@ package cn.sliew.scaleph.kubernetes.oam.definition;
 
 import cn.sliew.scaleph.kubernetes.oam.common.AbstractSchema;
 import cn.sliew.scaleph.kubernetes.oam.common.DefinitionRef;
+import cn.sliew.scaleph.kubernetes.oam.common.Schematic;
 import io.fabric8.kubernetes.model.annotation.Group;
 import io.fabric8.kubernetes.model.annotation.Version;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Properties;
 
 @Data
 @Group("core.oam.dev")
@@ -36,8 +38,9 @@ public class TraitDefinition extends AbstractSchema {
     @Data
     public static class Spec {
 
-        private List<String> appliesToWorkloads;
-        private List<String> conflictsWith;
         private DefinitionRef definitionRef;
+        private List<String> appliesToWorkloads;
+        private Schematic schematic;
+        private Properties properties;
     }
 }
