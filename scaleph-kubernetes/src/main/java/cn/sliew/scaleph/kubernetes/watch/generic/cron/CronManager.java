@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class CronManager {
 
-    @Autowired
+    @Autowired(required = false)
     private List<KubernetesCronHandler> cronHandlers;
 
     private void checkStatus(WatchCronIntervalEnum intervalEnum) {

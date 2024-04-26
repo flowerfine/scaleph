@@ -80,6 +80,9 @@
             <id>sonatype-nexus</id>
             <name>Sonatype Nexus Snapshots</name>
             <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
         </repository>
     </repositories>
 
@@ -177,6 +180,7 @@
         <cola.version>4.3.2</cola.version>
         <fury.version>0.4.1</fury.version>
         <jgrapht.version>1.5.2</jgrapht.version>
+        <gravitino.version>0.5.0</gravitino.version>
     </properties>
 
     <dependencyManagement>
@@ -786,6 +790,12 @@
                 <groupId>org.jgrapht</groupId>
                 <artifactId>jgrapht-core</artifactId>
                 <version>${jgrapht.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.datastrato.gravitino</groupId>
+                <artifactId>client-java-runtime</artifactId>
+                <version>${gravitino.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
