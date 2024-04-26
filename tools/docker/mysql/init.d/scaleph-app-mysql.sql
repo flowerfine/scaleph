@@ -1,8 +1,8 @@
 create database if not exists scaleph default character set utf8mb4 collate utf8mb4_unicode_ci;
 use scaleph;
 
-drop table if exists ws_component_definition;
-create table ws_component_definition
+drop table if exists oam_component_definition;
+create table oam_component_definition
 (
     id            bigint    not null auto_increment comment '自增主键',
     definition_id varchar(64) comment '定义id。主要用于 kubernetes 中 metadata 使用',
@@ -18,8 +18,8 @@ create table ws_component_definition
     primary key (id)
 ) engine = innodb comment 'Component Definition 信息';
 
-drop table if exists ws_workload_definition;
-create table ws_workload_definition
+drop table if exists oam_workload_definition;
+create table oam_workload_definition
 (
     id             bigint    not null auto_increment comment '自增主键',
     definition_id  varchar(64) comment '定义id。主要用于 kubernetes 中 metadata 使用',
@@ -35,8 +35,8 @@ create table ws_workload_definition
     primary key (id)
 ) engine = innodb comment 'Workload Definition 信息';
 
-drop table if exists ws_policy_definition;
-create table ws_policy_definition
+drop table if exists oam_policy_definition;
+create table oam_policy_definition
 (
     id             bigint    not null auto_increment comment '自增主键',
     definition_id  varchar(64) comment '定义id。主要用于 kubernetes 中 metadata 使用',
@@ -51,8 +51,8 @@ create table ws_policy_definition
     primary key (id)
 ) engine = innodb comment 'Policy Definition 信息';
 
-drop table if exists ws_trait_definition;
-create table ws_trait_definition
+drop table if exists oam_trait_definition;
+create table oam_trait_definition
 (
     id                   bigint    not null auto_increment comment '自增主键',
     definition_id        varchar(64) comment '定义id。主要用于 kubernetes 中 metadata 使用',
@@ -69,8 +69,8 @@ create table ws_trait_definition
     primary key (id)
 ) engine = innodb comment 'Trait Definition 信息';
 
-drop table if exists ws_appplication_configuration;
-create table ws_appplication_configuration
+drop table if exists oam_appplication_configuration;
+create table oam_appplication_configuration
 (
     id            bigint    not null auto_increment comment '自增主键',
     project_id    bigint    not null comment '项目id',
@@ -89,8 +89,8 @@ create table ws_appplication_configuration
     key           idx_project (project_id)
 ) engine = innodb comment '应用配置信息';
 
-drop table if exists ws_appplication;
-create table ws_appplication
+drop table if exists oam_appplication;
+create table oam_appplication
 (
     id                    bigint       not null auto_increment comment '自增主键',
     project_id            bigint       not null comment '项目id',
@@ -111,8 +111,8 @@ create table ws_appplication
     key                   idx_project (project_id)
 ) engine = innodb comment '应用信息';
 
-drop table if exists ws_appplication_component;
-create table ws_appplication_component
+drop table if exists oam_appplication_component;
+create table oam_appplication_component
 (
     id           bigint    not null auto_increment comment '自增主键',
     component_id varchar(64) comment '应用id。主要用于 kubernetes 中 metadata 使用',
@@ -126,6 +126,5 @@ create table ws_appplication_component
     create_time  timestamp not null default current_timestamp comment '创建时间',
     editor       varchar(32) comment '修改人',
     update_time  timestamp not null default current_timestamp on update current_timestamp comment '修改时间',
-    primary key (id),
-    key          idx_project (project_id)
+    primary key (id)
 ) engine = innodb comment '应用-Component 信息';
