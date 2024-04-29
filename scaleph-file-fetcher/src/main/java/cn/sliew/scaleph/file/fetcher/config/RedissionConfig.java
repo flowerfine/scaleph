@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.api.config;
+package cn.sliew.scaleph.file.fetcher.config;
 
 import cn.sliew.scaleph.common.util.NetUtils;
 import org.redisson.config.Config;

@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.ds.gravitino;
 
+import cn.sliew.scaleph.common.util.NetUtils;
 import com.datastrato.gravitino.client.GravitinoAdminClient;
 import com.datastrato.gravitino.client.GravitinoClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class GravitinoConfig {
 
     @Bean
     public GravitinoAdminClient gravitinoAdminClient() {
-        return GravitinoAdminClient.builder(properties.getUrl())
+        return GravitinoAdminClient.builder(NetUtils.replaceLocalhost(properties.getUrl()))
                 .withSimpleAuth()
                 .build();
     }
@@ -43,7 +44,7 @@ public class GravitinoConfig {
      * fixme 必须添加 metalakeName
      */
     public GravitinoClient gravitinoClient() {
-        return GravitinoClient.builder(properties.getUrl())
+        return GravitinoClient.builder(NetUtils.replaceLocalhost(properties.getUrl()))
                 .withSimpleAuth()
                 .build();
     }

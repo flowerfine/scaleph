@@ -20,6 +20,7 @@ package cn.sliew.scaleph.application.flink.resource.handler;
 
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
+import cn.sliew.scaleph.common.util.NetUtils;
 import cn.sliew.scaleph.config.kubernetes.resource.ResourceNames;
 import cn.sliew.scaleph.config.storage.S3FileSystemProperties;
 import cn.sliew.scaleph.application.flink.operator.spec.FlinkDeploymentSpec;
@@ -70,7 +71,7 @@ public class FileSystemPluginHandler {
 
     private void addFileSystemConfigOption(Map<String, String> flinkConfiguration) {
         if (s3FileSystemProperties != null) {
-            flinkConfiguration.put(S3_ENDPOINT, MinioUtil.replaceLocalhost(s3FileSystemProperties.getEndpoint()));
+            flinkConfiguration.put(S3_ENDPOINT, NetUtils.replaceLocalhost(s3FileSystemProperties.getEndpoint()));
             flinkConfiguration.put(S3_ACCESS_KEY, s3FileSystemProperties.getAccessKey());
             flinkConfiguration.put(S3_SECRET_KEY, s3FileSystemProperties.getSecretKey());
             flinkConfiguration.put(S3_PATH_STYLE_ACCESS, "true"); // container

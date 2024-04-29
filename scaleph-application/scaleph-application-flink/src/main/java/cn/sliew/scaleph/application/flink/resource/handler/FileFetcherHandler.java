@@ -21,6 +21,7 @@ package cn.sliew.scaleph.application.flink.resource.handler;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.common.dict.image.ImagePullPolicy;
+import cn.sliew.scaleph.common.util.NetUtils;
 import cn.sliew.scaleph.config.kubernetes.resource.ResourceNames;
 import cn.sliew.scaleph.config.storage.S3FileSystemProperties;
 import cn.sliew.scaleph.application.flink.operator.spec.FlinkDeploymentSpec;
@@ -163,7 +164,7 @@ public class FileFetcherHandler {
         if (s3FileSystemProperties != null) {
             EnvVarBuilder builder = new EnvVarBuilder();
             builder.withName(ENDPOINT);
-            builder.withValue(MinioUtil.replaceLocalhost(s3FileSystemProperties.getEndpoint()));
+            builder.withValue(NetUtils.replaceLocalhost(s3FileSystemProperties.getEndpoint()));
             return Arrays.asList(builder.build());
         }
         return Collections.emptyList();

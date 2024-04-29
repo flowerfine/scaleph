@@ -20,23 +20,13 @@ package cn.sliew.scaleph.application.flink.service.impl;
 
 import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.application.flink.service.param.WsFlinkKubernetesJobInstanceDeployParam;
-import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
-import cn.sliew.scaleph.common.dict.flink.kubernetes.ResourceLifecycleState;
-import cn.sliew.scaleph.common.dict.flink.kubernetes.SavepointFormatType;
-import cn.sliew.scaleph.common.dict.flink.kubernetes.SavepointTriggerType;
-import cn.sliew.scaleph.common.util.UUIDUtil;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstance;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstanceSavepoint;
-import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobInstanceMapper;
-import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobInstanceSavepointMapper;
-import cn.sliew.scaleph.application.flink.operator.util.TemplateMerger;
 import cn.sliew.scaleph.application.flink.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.application.flink.operator.spec.JobState;
 import cn.sliew.scaleph.application.flink.operator.status.FlinkDeploymentStatus;
 import cn.sliew.scaleph.application.flink.operator.status.JobStatus;
 import cn.sliew.scaleph.application.flink.operator.status.Savepoint;
 import cn.sliew.scaleph.application.flink.operator.status.SavepointInfo;
+import cn.sliew.scaleph.application.flink.operator.util.TemplateMerger;
 import cn.sliew.scaleph.application.flink.resource.definition.job.instance.FlinkJobInstanceConverterFactory;
 import cn.sliew.scaleph.application.flink.resource.definition.job.instance.MetadataHandler;
 import cn.sliew.scaleph.application.flink.service.FlinkKubernetesOperatorService;
@@ -47,10 +37,20 @@ import cn.sliew.scaleph.application.flink.service.convert.WsFlinkKubernetesJobIn
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobInstanceDTO;
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobInstanceSavepointDTO;
+import cn.sliew.scaleph.application.flink.service.param.WsFlinkKubernetesJobInstanceDeployParam;
 import cn.sliew.scaleph.application.flink.service.param.WsFlinkKubernetesJobInstanceListParam;
 import cn.sliew.scaleph.application.flink.service.param.WsFlinkKubernetesJobInstanceSavepointListParam;
 import cn.sliew.scaleph.application.flink.service.param.WsFlinkKubernetesJobInstanceShutdownParam;
 import cn.sliew.scaleph.application.flink.watch.FlinkDeploymentWatchCallbackHandler;
+import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
+import cn.sliew.scaleph.common.dict.flink.kubernetes.ResourceLifecycleState;
+import cn.sliew.scaleph.common.dict.flink.kubernetes.SavepointFormatType;
+import cn.sliew.scaleph.common.dict.flink.kubernetes.SavepointTriggerType;
+import cn.sliew.scaleph.common.util.UUIDUtil;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstance;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstanceSavepoint;
+import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobInstanceMapper;
+import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobInstanceSavepointMapper;
 import cn.sliew.scaleph.kubernetes.Constant;
 import cn.sliew.scaleph.kubernetes.watch.watch.WatchCallbackHandler;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -342,16 +342,22 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
         if (status == null) {
             return -1;
         }
-        WsFlinkKubernetesJobInstance record = new WsFlinkKubernetesJobInstance();
-        record.setId(id);
+        WsFlinkKubernetesJobInstance record = WsFlinkKubernetesJobInstanceConvert.INSTANCE.toDo(selectOne(id));
         record.setState(EnumUtils.getEnum(ResourceLifecycleState.class, status.getLifecycleState().name()));
         if (status.getJobStatus() != null) {
             JobStatus jobStatus = status.getJobStatus();
             if (jobStatus.getState() != null) {
                 record.setJobState(FlinkJobState.of(jobStatus.getState()));
             }
+            if (record.getJobState() == FlinkJobState.FAILED
+                    || record.getJobState() == FlinkJobState.CANCELED
+                    || record.getJobState() == FlinkJobState.FINISHED
+                    || record.getJobState() == FlinkJobState.SUSPENDED) {
+                record.setEndTime(new Date(Long.parseLong(jobStatus.getUpdateTime())));
+            }
             if (jobStatus.getStartTime() != null) {
                 record.setStartTime(new Date(Long.parseLong(jobStatus.getStartTime())));
+                record.setDuration(Long.parseLong(jobStatus.getUpdateTime()) - Long.parseLong(jobStatus.getStartTime()));
             }
         }
         record.setError(status.getError());
@@ -396,12 +402,18 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
 
     @Override
     public int clearStatus(Long id) {
-        WsFlinkKubernetesJobInstance record = new WsFlinkKubernetesJobInstance();
-        record.setId(id);
+        WsFlinkKubernetesJobInstance record = WsFlinkKubernetesJobInstanceConvert.INSTANCE.toDo(selectOne(id));
         record.setState(null);
         record.setError(null);
         record.setClusterInfo(null);
         record.setTaskManagerInfo(null);
+        if (record.getStartTime() != null && record.getEndTime() == null && (record.getJobState() == FlinkJobState.FAILED
+                || record.getJobState() == FlinkJobState.CANCELED
+                || record.getJobState() == FlinkJobState.FINISHED
+                || record.getJobState() == FlinkJobState.SUSPENDED)) {
+            record.setEndTime(new Date());
+            record.setDuration(System.currentTimeMillis() - record.getStartTime().getTime());
+        }
         return wsFlinkKubernetesJobInstanceMapper.updateById(record);
     }
 }
