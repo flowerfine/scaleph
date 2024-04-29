@@ -1018,6 +1018,7 @@ export default {
   'pages.project.flink.kubernetes.job.detail.overview.artifact': 'Artifact',
   'pages.project.flink.kubernetes.job.detail.overview.resource': '资源详情',
   'pages.project.flink.kubernetes.job.detail.overview.configuration': 'Flink 配置',
+  'pages.project.flink.kubernetes.job.detail.triggerSavepoint': 'Savepoint',
   'pages.project.flink.kubernetes.job.detail.savepoint': '状态管理',
   'pages.project.flink.kubernetes.job.detail.savepoint.timeStamp': 'TimeStamp',
   'pages.project.flink.kubernetes.job.detail.savepoint.formatType': 'Format',

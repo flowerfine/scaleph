@@ -50,6 +50,12 @@ spring:
 app:
   host: localhost:4200
 
+gravitino:
+  #  type: local
+  url: ${GRAVITINO_URL:http://127.0.0.1:8090}
+  metalake: ${spring.application.name}
+  user: ${spring.application.name}
+
 file-system:
 #  type: local
   type: s3

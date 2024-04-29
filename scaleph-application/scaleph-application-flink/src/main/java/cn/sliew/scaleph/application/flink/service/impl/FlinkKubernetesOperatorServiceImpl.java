@@ -28,8 +28,10 @@ import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesSessionCl
 import cn.sliew.scaleph.application.flink.watch.FlinkDeploymentShardWatcher;
 import cn.sliew.scaleph.kubernetes.Constant;
 import cn.sliew.scaleph.kubernetes.service.KubernetesService;
-import cn.sliew.scaleph.kubernetes.watch.DefaultKubernetesWatcher;
-import cn.sliew.scaleph.kubernetes.watch.WatchCallbackHandler;
+import cn.sliew.scaleph.kubernetes.service.ObjectService;
+import cn.sliew.scaleph.kubernetes.service.param.VersionGroupKind;
+import cn.sliew.scaleph.kubernetes.watch.watch.DefaultKubernetesWatcher;
+import cn.sliew.scaleph.kubernetes.watch.watch.WatchCallbackHandler;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -39,7 +41,7 @@ import io.fabric8.kubernetes.client.utils.Serialization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayInputStream;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -48,34 +50,38 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
 
     @Autowired
     private KubernetesService kubernetesService;
+    @Autowired
+    private ObjectService objectService;
 
     @Override
     public Optional<GenericKubernetesResource> getSessionCluster(WsFlinkKubernetesSessionClusterDTO sessionClusterDTO) throws Exception {
-        KubernetesClient client = kubernetesService.getClient(sessionClusterDTO.getClusterCredentialId());
-        GenericKubernetesResource resource = client.genericKubernetesResources(Constant.API_VERSION, Constant.FLINK_DEPLOYMENT)
-                .inNamespace(sessionClusterDTO.getNamespace())
-                .withName(sessionClusterDTO.getSessionClusterId())
-                .get();
-        return Optional.ofNullable(resource);
+        VersionGroupKind versionAndGroup = new VersionGroupKind();
+        versionAndGroup.setNamespace(sessionClusterDTO.getNamespace());
+        versionAndGroup.setApiVersion(Constant.API_VERSION);
+        versionAndGroup.setKind(Constant.FLINK_DEPLOYMENT);
+        versionAndGroup.setName(sessionClusterDTO.getSessionClusterId());
+        return objectService.getResource(sessionClusterDTO.getClusterCredentialId(), versionAndGroup);
     }
 
     @Override
     public void deploySessionCluster(Long clusterCredentialId, FlinkSessionCluster sessionCluster) throws Exception {
-        KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
         FlinkDeployment deployment = FlinkDeploymentFactory.fromSessionCluster(sessionCluster);
-        // fixme 这里多做了一层转化，用对象会报错
-        client.resource(Serialization.asYaml(deployment)).createOrReplace();
+        objectService.applyResource(clusterCredentialId, Serialization.asYaml(deployment));
     }
 
     @Override
     public void shutdownSessionCluster(Long clusterCredentialId, FlinkSessionCluster sessionCluster) throws Exception {
-        KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
         FlinkDeployment deployment = FlinkDeploymentFactory.fromSessionCluster(sessionCluster);
-        client.resource(Serialization.asYaml(deployment)).delete();
+        objectService.deleteResource(clusterCredentialId, Serialization.asYaml(deployment));
     }
 
     @Override
     public Optional<GenericKubernetesResource> getJob(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO) throws Exception {
+        VersionGroupKind versionAndGroup = new VersionGroupKind();
+        versionAndGroup.setApiVersion(Constant.API_VERSION);
+        versionAndGroup.setKind(Constant.FLINK_DEPLOYMENT);
+        versionAndGroup.setName(jobInstanceDTO.getInstanceId());
+
         final WsFlinkKubernetesJobDTO jobDto = jobInstanceDTO.getWsFlinkKubernetesJob();
         Long clusterCredentialId = null;
         String namespace = null;
@@ -90,33 +96,22 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
                 break;
             default:
         }
-        KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
-        // fixme only support flinkdeployment
-        GenericKubernetesResource resource = client.genericKubernetesResources(Constant.API_VERSION, Constant.FLINK_DEPLOYMENT)
-                .inNamespace(namespace)
-                .withName(jobInstanceDTO.getInstanceId())
-                .get();
-        return Optional.ofNullable(resource);
-    }
-
-    @Override
-    public void deployJob(Long clusterCredentialId, String job) throws Exception {
-        KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
-        client.load(new ByteArrayInputStream((job).getBytes())).createOrReplace();
+        versionAndGroup.setNamespace(namespace);
+        return objectService.getResource(clusterCredentialId, versionAndGroup);
     }
 
     @Override
     public void shutdownJob(Long clusterCredentialId, String job) throws Exception {
-        KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
-        client.load(new ByteArrayInputStream((job).getBytes())).delete();
+        objectService.deleteResource(clusterCredentialId, job);
     }
 
     @Override
     public void applyJob(Long clusterCredentialId, String job) throws Exception {
-        KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
-        client.load(new ByteArrayInputStream((job).getBytes())).createOrReplace();
+        List<HasMetadata> hasMetadataList = objectService.applyResource(clusterCredentialId, job);
+        // 增加 watch 功能
     }
 
+    @Override
     public <T extends HasMetadata> Watch addWatch(Long clusterCredentialId, String resource, Map<String, String> labels, WatchCallbackHandler<T> callbackHandler) throws Exception {
         KubernetesClient client = kubernetesService.getClient(clusterCredentialId);
         return client.genericKubernetesResources(Constant.API_VERSION, resource)

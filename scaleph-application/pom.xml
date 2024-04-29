@@ -30,6 +30,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>scaleph-application-oam</module>
         <module>scaleph-application-flink</module>
         <module>scaleph-application-doris</module>
     </modules>

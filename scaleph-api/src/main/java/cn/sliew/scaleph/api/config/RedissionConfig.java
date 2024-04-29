@@ -18,7 +18,9 @@
 
 package cn.sliew.scaleph.api.config;
 
+import cn.sliew.scaleph.common.util.NetUtils;
 import org.redisson.config.Config;
+import org.redisson.config.SingleServerConfig;
 import org.redisson.spring.starter.RedissonAutoConfiguration;
 import org.redisson.spring.starter.RedissonAutoConfigurationCustomizer;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -30,6 +32,7 @@ public class RedissionConfig implements RedissonAutoConfigurationCustomizer {
 
     @Override
     public void customize(Config config) {
-
+        SingleServerConfig singleServerConfig = config.useSingleServer();
+        singleServerConfig.setAddress(NetUtils.replaceLocalhost(singleServerConfig.getAddress()));
     }
 }

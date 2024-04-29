@@ -22,7 +22,7 @@ import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobInstan
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.application.flink.resource.definition.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.application.flink.watch.FlinkDeploymentShardWatcher;
-import cn.sliew.scaleph.kubernetes.watch.WatchCallbackHandler;
+import cn.sliew.scaleph.kubernetes.watch.watch.WatchCallbackHandler;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.client.Watch;
@@ -39,8 +39,6 @@ public interface FlinkKubernetesOperatorService {
     void shutdownSessionCluster(Long clusterCredentialId, FlinkSessionCluster sessionCluster) throws Exception;
 
     Optional<GenericKubernetesResource> getJob(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO) throws Exception;
-
-    void deployJob(Long clusterCredentialId, String job) throws Exception;
 
     void shutdownJob(Long clusterCredentialId, String job) throws Exception;
 

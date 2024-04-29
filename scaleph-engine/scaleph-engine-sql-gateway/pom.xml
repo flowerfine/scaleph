@@ -73,7 +73,7 @@
         </dependency>
         <dependency>
             <groupId>cn.sliew</groupId>
-            <artifactId>sakura-catalog</artifactId>
+            <artifactId>sakura-catalog-flink</artifactId>
         </dependency>
     </dependencies>
 </project>

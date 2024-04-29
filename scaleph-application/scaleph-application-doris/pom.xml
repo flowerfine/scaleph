@@ -31,6 +31,10 @@
     <dependencies>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-application-oam</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-workspace-project</artifactId>
         </dependency>
 

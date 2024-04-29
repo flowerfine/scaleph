@@ -30,6 +30,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-application-oam</artifactId>
+        </dependency>
+        <dependency>
             <groupId>cn.sliew</groupId>
             <artifactId>scaleph-engine-sql-gateway</artifactId>
         </dependency>

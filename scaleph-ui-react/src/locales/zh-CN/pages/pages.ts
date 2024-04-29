@@ -6,6 +6,7 @@ import project from './project';
 import resource from './resource';
 import dataSource from "./dataSource";
 import metadata from "./metadata";
+import oam from "./oam";
 import stdata from "./stdata";
 export default {
   ...base,
@@ -16,5 +17,6 @@ export default {
   ...resource,
   ...dataSource,
   ...metadata,
+  ...oam,
   ...stdata,
 };

@@ -399,6 +399,8 @@ INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `menu_name`, `path`,
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `menu_name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`, `creator`, `editor`) VALUES (77, '2', 40, '接口配置-创建', NULL, '/workspace/data-service/config/steps', NULL, 0, NULL, './Project/Workspace/DataService/Config/Steps', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `menu_name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`, `creator`, `editor`) VALUES (78, '2', 41, 'Flink任务', 'flink', '/workspace/operation/compute/flink/job', NULL, 1, NULL, './Project/Workspace/Engine/Compute/Flink/Job', NULL, 'sys', 'sys');
 INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `menu_name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`, `creator`, `editor`) VALUES (79, '2', 41, 'Flink任务-详情', NULL, '/workspace/operation/compute/flink/job/detail', NULL, 0, NULL, './Project/Workspace/Engine/Compute/Flink/Job/Detail', NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `menu_name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`, `creator`, `editor`) VALUES (80, '0', 0, 'OAM', 'oam', '/oam', NULL, 1, 'WalletOutlined', NULL, NULL, 'sys', 'sys');
+INSERT INTO `sec_resource_web`(`id`, `type`, `pid`, `name`, `menu_name`, `path`, `redirect`, `layout`, `icon`, `component`, `remark`, `creator`, `editor`) VALUES (81, '2', 80, 'XDefinition', 'definition', '/oam/definitin', NULL, 1, 'SignatureOutlined', './OAM/Definition', NULL, 'sys', 'sys');
 
 drop table if exists sec_resource_web_role;
 create table sec_resource_web_role

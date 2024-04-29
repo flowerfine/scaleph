@@ -29,6 +29,9 @@ export default {
   'menu.project.operation': '运维中心',
   'menu.project.operation.flink': 'Flink任务',
 
+  'menu.oam': 'OAM',
+  'menu.oam.definition': 'XDefinition',
+
   'menu.resource': '资源',
   'menu.resource.jar': '公共 Jar',
   'menu.resource.flinkRelease': 'Flink Release',

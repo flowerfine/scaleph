@@ -54,7 +54,7 @@ public class MybatisPlusGenerator {
     /**
      * just add table names here and run the {@link #main(String[])} method.
      */
-    private static final String[] TABLES = {"dag_config", "dag_config_step", "dag_config_link"};
+    private static final String[] TABLES = {"oam_component_definition", "oam_workload_definition", "oam_policy_definition", "oam_trait_definition"};
 
     public static void main(String[] args) {
         //自动生成配置
