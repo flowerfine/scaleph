@@ -43,7 +43,7 @@ Secondly, take followed steps.
 git clone https://github.com/flowerfine/scaleph.git
 
 cd scaleph
-git checkout 2.0.1
+git checkout 2.0.3
 
 cd scaleph/tools/docker/deploy/scaleph
 docker-compose up
