@@ -608,7 +608,7 @@
 
             <dependency>
                 <groupId>cn.sliew</groupId>
-                <artifactId>sakura-catalog</artifactId>
+                <artifactId>sakura-catalog-flink</artifactId>
                 <version>${sakura.version}</version>
             </dependency>
 
