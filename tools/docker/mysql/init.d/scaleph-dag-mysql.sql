@@ -117,7 +117,7 @@ VALUES (8, 5, '5d5d67c5-ade3-4005-a0db-d514bf11616d', 'FlinkJobStatus', 460, 400
 INSERT INTO `dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
                                `step_meta`, `step_attrs`, `creator`, `editor`)
 VALUES (9, 6, '8c7b171c-f232-4b96-b842-5f4fbef34bc1', 'DorisOperatorInstanceStatus', 460, 400, NULL, NULL,
-        '{\"handler\":\"cn.sliew.scaleph.application.doris.action.doris.DorisOperatorInstanceStatusSyncJob\",\"type\":\"1\"}',
+        '{\"handler\":\"cn.sliew.scaleph.application.doris.action.DorisOperatorInstanceStatusSyncJob\",\"type\":\"1\"}',
         NULL, 'sys', 'sys');
 INSERT INTO `dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
                                `step_meta`, `step_attrs`, `creator`, `editor`)

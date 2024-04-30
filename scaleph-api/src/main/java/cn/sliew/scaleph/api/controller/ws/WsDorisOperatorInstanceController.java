@@ -19,14 +19,14 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.application.doris.doris.operator.DorisCluster;
-import cn.sliew.scaleph.application.doris.doris.service.DorisClusterEndpointService;
-import cn.sliew.scaleph.application.doris.doris.service.WsDorisOperatorInstanceService;
-import cn.sliew.scaleph.application.doris.doris.service.dto.DorisClusterFeEndpoint;
-import cn.sliew.scaleph.application.doris.doris.service.dto.WsDorisOperatorInstanceDTO;
-import cn.sliew.scaleph.application.doris.doris.service.param.WsDorisOperatorInstanceAddParam;
-import cn.sliew.scaleph.application.doris.doris.service.param.WsDorisOperatorInstanceListParam;
-import cn.sliew.scaleph.application.doris.doris.service.param.WsDorisOperatorInstanceUpdateParam;
+import cn.sliew.scaleph.application.doris.operator.DorisCluster;
+import cn.sliew.scaleph.application.doris.service.DorisClusterEndpointService;
+import cn.sliew.scaleph.application.doris.service.WsDorisOperatorInstanceService;
+import cn.sliew.scaleph.application.doris.service.dto.DorisClusterFeEndpoint;
+import cn.sliew.scaleph.application.doris.service.dto.WsDorisOperatorInstanceDTO;
+import cn.sliew.scaleph.application.doris.service.param.WsDorisOperatorInstanceAddParam;
+import cn.sliew.scaleph.application.doris.service.param.WsDorisOperatorInstanceListParam;
+import cn.sliew.scaleph.application.doris.service.param.WsDorisOperatorInstanceUpdateParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
