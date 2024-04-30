@@ -14,30 +14,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: CI-NPM
+name: CI
 
 on:
-  pull_request:
-    paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
-  push:
-    paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
+  schedule:
+    - cron: '0 20 * * *' # automatic test while every day on 04:00 am at UTC+10
   workflow_dispatch:
-  workflow_call:
 
 jobs:
-  build:
-    if: github.repository == 'flowerfine/scaleph'
-    strategy:
-      matrix:
-        os: [ ubuntu-latest, macos-latest, windows-latest ]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-      - name: Build scaleph-ui-react-dist
-        run: mvn -B -U package -pl scaleph-ui-react -am -DskipTests
-      - name: Build with NPM
-        timeout-minutes: 360
-        run: cd scaleph-ui-react && npm install && npm run build --prod
+  ## 调用公共和专用存储库中的可重用工作流。
+  ## flowerfine/scaleph/.github/workflows/ci-maven.yml@dev
+  ## 调用同一仓库的工作流
+  ## ./.github/workflows/ci-npm.yml
+
+  build_maven:
+    uses: ./.github/workflows/ci-maven.yml
+
+  build_npm:
+    uses: ./.github/workflows/ci-npm.yml
+
+  build_docker:
+    uses: ./.github/workflows/ci-docker-build.yml
