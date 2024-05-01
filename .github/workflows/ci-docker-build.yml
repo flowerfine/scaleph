@@ -21,9 +21,8 @@ on:
     paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
   pull_request:
     paths-ignore: [ 'docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
-  schedule:
-    - cron: '0 20 * * *' # automatic test while every day on 04:00 am at UTC+10
   workflow_dispatch:
+  workflow_call:
 
 env:
   HUB: ghcr.io/flowerfine/scaleph

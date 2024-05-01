@@ -407,10 +407,7 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
         record.setError(null);
         record.setClusterInfo(null);
         record.setTaskManagerInfo(null);
-        if (record.getStartTime() != null && record.getEndTime() == null && (record.getJobState() == FlinkJobState.FAILED
-                || record.getJobState() == FlinkJobState.CANCELED
-                || record.getJobState() == FlinkJobState.FINISHED
-                || record.getJobState() == FlinkJobState.SUSPENDED)) {
+        if (record.getStartTime() != null && record.getEndTime() == null) {
             record.setEndTime(new Date());
             record.setDuration(System.currentTimeMillis() - record.getStartTime().getTime());
         }
