@@ -15,14 +15,22 @@
 # limitations under the License.
 #
 
+
+spring:
+  redis:
+    database: 0
+    host: ${REDIS_HOST:127.0.0.1}
+    port: ${REDIS_PORT:6379}
+    password: ${REDIS_PASSWORD:123456}
+
 file-system:
   #  type: local
   type: s3
   proxy: false
   bucket: ${spring.application.name}
-  endPoint: http://127.0.0.1:9000
-  accessKey: admin
-  secretKey: password
+  endPoint: ${MINIO_ENDPOINT:http://127.0.0.1:9000}
+  accessKey: ${MINIO_ACCESS_KEY:admin}
+  secretKey: ${MINIO_SECRET_KEY:password}
 #  type: oss
 #  bucket: ${spring.application.name}
 #  endPoint: Aliyun OSS endpoint to connect to
