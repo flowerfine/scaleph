@@ -180,14 +180,7 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
           <Button
             type="default"
             icon={<DashboardOutlined/>}
-            disabled={!(props.flinkKubernetesJobDetail.job?.jobInstance?.state?.value == ResourceLifecycleState.STABLE
-              && (props.flinkKubernetesJobDetail.job?.jobInstance?.jobState?.value == FlinkJobState.CREATED
-                || props.flinkKubernetesJobDetail.job?.jobInstance?.jobState?.value == FlinkJobState.RUNNING
-                || props.flinkKubernetesJobDetail.job?.jobInstance?.jobState?.value == FlinkJobState.FAILING
-                || props.flinkKubernetesJobDetail.job?.jobInstance?.jobState?.value == FlinkJobState.FAILED
-                || props.flinkKubernetesJobDetail.job?.jobInstance?.jobState?.value == FlinkJobState.CANCELLING
-                || props.flinkKubernetesJobDetail.job?.jobInstance?.jobState?.value == FlinkJobState.CANCELED
-                || props.flinkKubernetesJobDetail.job?.jobInstance?.jobState?.value == FlinkJobState.FINISHED))}
+            disabled={!(props.flinkKubernetesJobDetail.job?.jobInstance?.state?.value == ResourceLifecycleState.STABLE)}
             onClick={() => WsFlinkKubernetesJobService.flinkui(props.flinkKubernetesJobDetail.job.jobInstance.id)}
           >
             {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.flinkui'})}
