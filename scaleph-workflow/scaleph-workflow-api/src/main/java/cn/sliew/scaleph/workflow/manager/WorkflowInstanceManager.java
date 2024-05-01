@@ -16,34 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service;
+package cn.sliew.scaleph.workflow.manager;
 
-import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
-import cn.sliew.scaleph.workflow.service.param.WorkflowInstanceListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+public interface WorkflowInstanceManager {
 
-public interface WorkflowInstanceService {
-
-    Page<WorkflowInstanceDTO> list(WorkflowInstanceListParam param);
-
-    WorkflowInstanceDTO get(Long id);
-
-    void updateState(Long id, WorkflowInstanceState state, WorkflowInstanceState nextState, String message);
-
-    void updateSuccess(Long id);
-
-    void updateFailure(Long id, Throwable throwable);
-
-    void updateTaskId(Long id, String taskId);
-
-    void deploy(WorkflowDefinitionDTO workflowDefinitionDTO);
+    void deploy(Long id);
 
     void shutdown(Long id);
 
     void suspend(Long id);
 
     void resume(Long id);
-
 }

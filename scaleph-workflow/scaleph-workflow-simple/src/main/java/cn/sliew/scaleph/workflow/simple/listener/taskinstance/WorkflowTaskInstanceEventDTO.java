@@ -16,34 +16,34 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.listener.workflowinstance;
+package cn.sliew.scaleph.workflow.simple.listener.taskinstance;
 
-import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceEvent;
-import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
+import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceEvent;
+import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
 import lombok.Getter;
 
 import java.io.Serializable;
 
 @Getter
-public class WorkflowInstanceEventDTO implements Serializable {
+public class WorkflowTaskInstanceEventDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final WorkflowInstanceState state;
-    private final WorkflowInstanceState nextState;
-    private final WorkflowInstanceEvent event;
-    private final Long workflowInstanceId;
+    private final WorkflowTaskInstanceStage state;
+    private final WorkflowTaskInstanceStage nextState;
+    private final WorkflowTaskInstanceEvent event;
+    private final Long workflowTaskInstanceId;
     private final Throwable throwable;
 
-    public WorkflowInstanceEventDTO(WorkflowInstanceState state, WorkflowInstanceState nextState, WorkflowInstanceEvent event, Long workflowInstanceId) {
-        this(state, nextState, event, workflowInstanceId, null);
+    public WorkflowTaskInstanceEventDTO(WorkflowTaskInstanceStage state, WorkflowTaskInstanceStage nextState, WorkflowTaskInstanceEvent event, Long workflowTaskInstanceId) {
+        this(state, nextState, event, workflowTaskInstanceId, null);
     }
 
-    public WorkflowInstanceEventDTO(WorkflowInstanceState state, WorkflowInstanceState nextState, WorkflowInstanceEvent event, Long workflowInstanceId, Throwable throwable) {
+    public WorkflowTaskInstanceEventDTO(WorkflowTaskInstanceStage state, WorkflowTaskInstanceStage nextState, WorkflowTaskInstanceEvent event, Long workflowTaskInstanceId, Throwable throwable) {
         this.state = state;
         this.nextState = nextState;
         this.event = event;
-        this.workflowInstanceId = workflowInstanceId;
+        this.workflowTaskInstanceId = workflowTaskInstanceId;
         this.throwable = throwable;
     }
 }

@@ -16,26 +16,44 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.listener.workflowinstance;
+package cn.sliew.scaleph.workflow.simple.manager;
 
-import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.queue.MessageListener;
+import cn.sliew.scaleph.workflow.manager.WorkflowInstanceManager;
 import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
-import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
-import lombok.extern.slf4j.Slf4j;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
+import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowInstanceStateMachine;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-@Slf4j
-@MessageListener(topic = WorkflowInstanceResumeEventListener.TOPIC, consumerGroup = WorkflowInstanceStateMachine.CONSUMER_GROUP)
-public class WorkflowInstanceResumeEventListener implements WorkflowInstanceEventListener {
-
-    public static final String TOPIC = "TOPIC_WORKFLOW_INSTANCE_COMMAND_RESUME";
+@Component
+public class SimpleWorkflowInstanceManager implements WorkflowInstanceManager {
 
     @Autowired
     private WorkflowInstanceService workflowInstanceService;
+    @Autowired
+    private WorkflowInstanceStateMachine stateMachine;
 
     @Override
-    public void onEvent(WorkflowInstanceEventDTO event) {
-        log.info("on event, {}", JacksonUtil.toJsonString(event));
+    public void deploy(Long id) {
+        stateMachine.deploy(get(id));
+    }
+
+    @Override
+    public void shutdown(Long id) {
+        stateMachine.shutdown(get(id));
+    }
+
+    @Override
+    public void suspend(Long id) {
+        stateMachine.suspend(get(id));
+    }
+
+    @Override
+    public void resume(Long id) {
+        stateMachine.resume(get(id));
+    }
+
+    private WorkflowInstanceDTO get(Long id) {
+        return workflowInstanceService.get(id);
     }
 }

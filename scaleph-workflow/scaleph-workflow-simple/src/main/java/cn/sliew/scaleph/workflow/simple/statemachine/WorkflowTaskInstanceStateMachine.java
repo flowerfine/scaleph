@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.statemachine;
+package cn.sliew.scaleph.workflow.simple.statemachine;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceEvent;
@@ -25,10 +25,10 @@ import cn.sliew.scaleph.queue.Message;
 import cn.sliew.scaleph.queue.Queue;
 import cn.sliew.scaleph.queue.QueueFactory;
 import cn.sliew.scaleph.queue.util.FuryUtil;
-import cn.sliew.scaleph.workflow.listener.taskinstance.WorkflowTaskInstanceDeployEventListener;
-import cn.sliew.scaleph.workflow.listener.taskinstance.WorkflowTaskInstanceEventDTO;
-import cn.sliew.scaleph.workflow.listener.taskinstance.WorkflowTaskInstanceFailureEventListener;
-import cn.sliew.scaleph.workflow.listener.taskinstance.WorkflowTaskInstanceSuccessEventListener;
+import cn.sliew.scaleph.workflow.simple.listener.taskinstance.WorkflowTaskInstanceDeployEventListener;
+import cn.sliew.scaleph.workflow.simple.listener.taskinstance.WorkflowTaskInstanceEventDTO;
+import cn.sliew.scaleph.workflow.simple.listener.taskinstance.WorkflowTaskInstanceFailureEventListener;
+import cn.sliew.scaleph.workflow.simple.listener.taskinstance.WorkflowTaskInstanceSuccessEventListener;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import com.alibaba.cola.statemachine.Action;
 import com.alibaba.cola.statemachine.StateMachine;

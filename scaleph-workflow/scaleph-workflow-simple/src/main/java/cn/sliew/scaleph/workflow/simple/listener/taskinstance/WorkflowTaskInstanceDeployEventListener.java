@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.listener.taskinstance;
+package cn.sliew.scaleph.workflow.simple.listener.taskinstance;
 
 import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.filter.ActionListener;
@@ -34,7 +34,7 @@ import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO2;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
-import cn.sliew.scaleph.workflow.statemachine.WorkflowTaskInstanceStateMachine;
+import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowTaskInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.annotation.RInject;
 import org.springframework.beans.factory.annotation.Autowired;

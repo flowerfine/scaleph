@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.listener.taskinstance;
+package cn.sliew.scaleph.workflow.simple.listener.taskinstance;
 
 import cn.sliew.scaleph.queue.Message;
 import cn.sliew.scaleph.queue.MessageHandler;

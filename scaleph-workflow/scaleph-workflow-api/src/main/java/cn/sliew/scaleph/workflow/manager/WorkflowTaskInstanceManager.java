@@ -16,24 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.listener.workflowinstance;
+package cn.sliew.scaleph.workflow.manager;
 
-import cn.sliew.scaleph.queue.Message;
-import cn.sliew.scaleph.queue.MessageHandler;
-import cn.sliew.scaleph.queue.util.FuryUtil;
+public interface WorkflowTaskInstanceManager {
 
-public interface WorkflowInstanceEventListener extends MessageHandler {
+    void deploy(Long id);
 
-    @Override
-    default void handler(Message message) throws Exception {
-        if (message.getBody() != null) {
-            Object deserialized = FuryUtil.deserializeByJava(message.getBody());
-            if (deserialized instanceof WorkflowInstanceEventDTO) {
-                WorkflowInstanceEventDTO eventDTO = (WorkflowInstanceEventDTO) deserialized;
-                onEvent(eventDTO);
-            }
-        }
-    }
+    void shutdown(Long id);
 
-    void onEvent(WorkflowInstanceEventDTO eventDTO);
+    void suspend(Long id);
+
+    void resume(Long id);
 }

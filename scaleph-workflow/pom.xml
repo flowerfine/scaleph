@@ -32,6 +32,7 @@
     <modules>
         <module>scaleph-workflow-api</module>
         <module>scaleph-workflow-quartz</module>
+        <module>scaleph-workflow-simple</module>
     </modules>
 
     <dependencyManagement>
@@ -39,6 +40,11 @@
             <dependency>
                 <groupId>${project.parent.groupId}</groupId>
                 <artifactId>scaleph-workflow-api</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.parent.groupId}</groupId>
+                <artifactId>scaleph-workflow-simple</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
         </dependencies>

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.statemachine;
+package cn.sliew.scaleph.workflow.simple.statemachine;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceEvent;
@@ -25,8 +25,8 @@ import cn.sliew.scaleph.queue.Message;
 import cn.sliew.scaleph.queue.Queue;
 import cn.sliew.scaleph.queue.QueueFactory;
 import cn.sliew.scaleph.queue.util.FuryUtil;
-import cn.sliew.scaleph.workflow.listener.workflowinstance.*;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
+import cn.sliew.scaleph.workflow.simple.listener.workflowinstance.*;
 import com.alibaba.cola.statemachine.Action;
 import com.alibaba.cola.statemachine.StateMachine;
 import com.alibaba.cola.statemachine.builder.StateMachineBuilder;

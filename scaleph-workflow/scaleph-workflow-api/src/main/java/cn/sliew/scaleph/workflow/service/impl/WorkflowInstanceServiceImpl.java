@@ -23,12 +23,12 @@ import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowInstance;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowInstanceVO;
 import cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowInstanceMapper;
+import cn.sliew.scaleph.workflow.manager.WorkflowInstanceManager;
 import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
 import cn.sliew.scaleph.workflow.service.convert.WorkflowInstanceVOConvert;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowInstanceListParam;
-import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -46,7 +46,7 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
     @Autowired
     private WorkflowInstanceMapper workflowInstanceMapper;
     @Autowired
-    private WorkflowInstanceStateMachine stateMachine;
+    private WorkflowInstanceManager workflowInstanceManager;
 
     @Override
     public Page<WorkflowInstanceDTO> list(WorkflowInstanceListParam param) {
@@ -107,28 +107,27 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
     }
 
     @Override
-    public WorkflowInstanceDTO deploy(WorkflowDefinitionDTO workflowDefinitionDTO) {
+    public void deploy(WorkflowDefinitionDTO workflowDefinitionDTO) {
         WorkflowInstance record = new WorkflowInstance();
         record.setDagId(workflowDefinitionDTO.getDag().getId());
         record.setWorkflowDefinitionId(workflowDefinitionDTO.getId());
         record.setState(WorkflowInstanceState.PENDING);
         workflowInstanceMapper.insert(record);
-        stateMachine.deploy(get(record.getId()));
-        return get(record.getId());
+        workflowInstanceManager.deploy(record.getId());
     }
 
     @Override
     public void shutdown(Long id) {
-        stateMachine.shutdown(get(id));
+        workflowInstanceManager.shutdown(id);
     }
 
     @Override
     public void suspend(Long id) {
-        stateMachine.suspend(get(id));
+        workflowInstanceManager.suspend(id);
     }
 
     @Override
     public void resume(Long id) {
-        stateMachine.resume(get(id));
+        workflowInstanceManager.resume(id);
     }
 }
