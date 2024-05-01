@@ -121,7 +121,7 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
 
           <Popconfirm
             title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
-            disabled={!(props.flinkKubernetesJobDetail.job?.jobInstance?.state == ResourceLifecycleState.STABLE
+            disabled={!(props.flinkKubernetesJobDetail.job?.jobInstance?.state?.value == ResourceLifecycleState.STABLE
               && props.flinkKubernetesJobDetail.job?.jobInstance?.jobState?.value == FlinkJobState.RUNNING)}
             onConfirm={() => {
               WsFlinkKubernetesJobService.restart(props.flinkKubernetesJobDetail.job.jobInstance.id).then(response => {
@@ -134,7 +134,7 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
             <Button
               type="default"
               icon={<RedoOutlined/>}
-              disabled={!(props.flinkKubernetesJobDetail.job?.jobInstance?.state == ResourceLifecycleState.STABLE
+              disabled={!(props.flinkKubernetesJobDetail.job?.jobInstance?.state?.value == ResourceLifecycleState.STABLE
                 && props.flinkKubernetesJobDetail.job?.jobInstance?.jobState?.value == FlinkJobState.RUNNING)}
             >
               {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.restart'})}
@@ -155,7 +155,7 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
         <div>
           <Popconfirm
             title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
-            disabled={!(props.flinkKubernetesJobDetail.job?.jobInstance?.state == ResourceLifecycleState.STABLE
+            disabled={!(props.flinkKubernetesJobDetail.job?.jobInstance?.state?.value == ResourceLifecycleState.STABLE
               && props.flinkKubernetesJobDetail.job?.jobInstance?.jobState?.value == FlinkJobState.RUNNING)}
             onConfirm={() => {
               WsFlinkKubernetesJobService.triggerSavepoint(props.flinkKubernetesJobDetail.job.jobInstance.id).then(response => {
@@ -168,7 +168,7 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
             <Button
               type="default"
               icon={<CameraOutlined/>}
-              disabled={!(props.flinkKubernetesJobDetail.job?.jobInstance?.state == ResourceLifecycleState.STABLE
+              disabled={!(props.flinkKubernetesJobDetail.job?.jobInstance?.state?.value == ResourceLifecycleState.STABLE
                 && props.flinkKubernetesJobDetail.job?.jobInstance?.jobState?.value == FlinkJobState.RUNNING)}
             >
               {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.triggerSavepoint'})}
@@ -180,7 +180,7 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
           <Button
             type="default"
             icon={<DashboardOutlined/>}
-            disabled={(props.flinkKubernetesJobDetail.job?.jobInstance?.state == ResourceLifecycleState.STABLE
+            disabled={!(props.flinkKubernetesJobDetail.job?.jobInstance?.state?.value == ResourceLifecycleState.STABLE
               && (props.flinkKubernetesJobDetail.job?.jobInstance?.jobState?.value == FlinkJobState.CREATED
                 || props.flinkKubernetesJobDetail.job?.jobInstance?.jobState?.value == FlinkJobState.RUNNING
                 || props.flinkKubernetesJobDetail.job?.jobInstance?.jobState?.value == FlinkJobState.FAILING
