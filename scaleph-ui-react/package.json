@@ -1,6 +1,6 @@
 {
   "name": "scaleph",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "private": true,
   "description": "Scaleph",
   "scripts": {
@@ -48,7 +48,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@ant-design/pro-components": "^2.3.47",
-    "@antv/xflow": "^2.0.3",
+    "@antv/xflow": "^2.0.4",
     "@antv/xflow-diff": "^1.0.0",
     "@antv/layout": "^0.3.2",
     "@antv/x6-react-components": "^2.0.8",

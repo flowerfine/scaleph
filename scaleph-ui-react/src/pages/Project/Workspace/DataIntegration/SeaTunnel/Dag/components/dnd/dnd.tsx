@@ -2,12 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {Tree} from 'antd';
 import SearchInput from './search';
 import {Props} from "@/typings";
-import {WsArtifactSeaTunnel, WsDiJob} from "@/services/project/typings";
+import {WsArtifactSeaTunnel} from "@/services/project/typings";
 import {WsArtifactSeaTunnelService} from "@/services/project/WsArtifactSeaTunnelService";
 import styles from './dnd.less';
 import {DndNode} from "../node/dnd-node";
-
-const {DirectoryTree} = Tree;
 
 type ComponentTreeItem = {
   category: string;
@@ -66,10 +64,11 @@ const Dnd: React.FC<Props<WsArtifactSeaTunnel>> = ({data}) => {
         />
       </div>
       {treeItems.length && (
-        <DirectoryTree
+        <Tree
           rootClassName={styles.tree}
           blockNode
           showIcon={false}
+          key={"key"}
           defaultExpandAll
           titleRender={(node) => treeNodeRender(node)}
           treeData={searchComponents.length ? searchComponents : treeItems}
