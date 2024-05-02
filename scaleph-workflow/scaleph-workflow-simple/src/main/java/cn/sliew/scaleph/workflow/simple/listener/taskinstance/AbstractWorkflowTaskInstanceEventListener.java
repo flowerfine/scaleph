@@ -16,10 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.listener.workflowinstance;
+package cn.sliew.scaleph.workflow.simple.listener.taskinstance;
 
-import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
-import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
+import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
+import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowInstanceStateMachine;
+import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowTaskInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RScheduledExecutorService;
 import org.redisson.api.RedissonClient;
@@ -33,15 +34,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
-public abstract class AbstractWorkflowInstanceEventListener implements WorkflowInstanceEventListener, InitializingBean, BeanFactoryAware {
+public abstract class AbstractWorkflowTaskInstanceEventListener implements WorkflowTaskInstanceEventListener, InitializingBean, BeanFactoryAware {
 
     private BeanFactory beanFactory;
     protected RScheduledExecutorService executorService;
 
     @Autowired
-    protected WorkflowInstanceService workflowInstanceService;
+    protected WorkflowTaskInstanceService workflowTaskInstanceService;
     @Autowired
-    protected WorkflowInstanceStateMachine stateMachine;
+    protected WorkflowInstanceStateMachine workflowInstanceStateMachine;
+    @Autowired
+    protected WorkflowTaskInstanceStateMachine stateMachine;
     @Autowired
     private RedissonClient redissonClient;
 
@@ -52,22 +55,22 @@ public abstract class AbstractWorkflowInstanceEventListener implements WorkflowI
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        executorService = redissonClient.getExecutorService(WorkflowInstanceStateMachine.EXECUTOR);
+        executorService = redissonClient.getExecutorService(WorkflowTaskInstanceStateMachine.EXECUTOR);
         executorService.registerWorkers(WorkerOptions.defaults().workers(20).beanFactory(beanFactory));
     }
 
     @Override
-    public void onEvent(WorkflowInstanceEventDTO event) {
+    public void onEvent(WorkflowTaskInstanceEventDTO event) {
         try {
             handleEventAsync(event);
         } catch (Throwable throwable) {
-            onFailure(event.getWorkflowInstanceId(), throwable);
+            onFailure(event.getWorkflowTaskInstanceId(), throwable);
         }
     }
 
-    protected void onFailure(Long workflowInstanceId, Throwable throwable) {
-        stateMachine.onFailure(workflowInstanceService.get(workflowInstanceId), throwable);
+    protected void onFailure(Long workflowTaskInstanceId, Throwable throwable) {
+        stateMachine.onFailure(workflowTaskInstanceService.get(workflowTaskInstanceId), throwable);
     }
 
-    protected abstract CompletableFuture handleEventAsync(WorkflowInstanceEventDTO event);
+    protected abstract CompletableFuture handleEventAsync(WorkflowTaskInstanceEventDTO event);
 }

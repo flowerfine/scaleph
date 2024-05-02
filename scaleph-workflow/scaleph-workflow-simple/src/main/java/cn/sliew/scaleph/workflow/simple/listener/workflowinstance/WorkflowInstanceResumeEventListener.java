@@ -16,20 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.listener.workflowinstance;
+package cn.sliew.scaleph.workflow.simple.listener.workflowinstance;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.queue.MessageListener;
 import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
-import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
+import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
-@MessageListener(topic = WorkflowInstanceShutdownEventListener.TOPIC, consumerGroup = WorkflowInstanceStateMachine.CONSUMER_GROUP)
-public class WorkflowInstanceShutdownEventListener implements WorkflowInstanceEventListener {
+@MessageListener(topic = WorkflowInstanceResumeEventListener.TOPIC, consumerGroup = WorkflowInstanceStateMachine.CONSUMER_GROUP)
+public class WorkflowInstanceResumeEventListener implements WorkflowInstanceEventListener {
 
-    public static final String TOPIC = "TOPIC_WORKFLOW_INSTANCE_COMMAND_SHUTDOWN";
+    public static final String TOPIC = "TOPIC_WORKFLOW_INSTANCE_COMMAND_RESUME";
 
     @Autowired
     private WorkflowInstanceService workflowInstanceService;

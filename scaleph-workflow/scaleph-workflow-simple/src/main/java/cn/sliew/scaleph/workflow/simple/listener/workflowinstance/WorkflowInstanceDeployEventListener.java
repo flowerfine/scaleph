@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.listener.workflowinstance;
+package cn.sliew.scaleph.workflow.simple.listener.workflowinstance;
 
 import cn.sliew.scaleph.queue.MessageListener;
 import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
@@ -26,7 +26,7 @@ import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO2;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
-import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
+import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowInstanceStateMachine;
 import com.google.common.graph.Graph;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.annotation.RInject;

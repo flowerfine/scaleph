@@ -23,13 +23,13 @@ import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskInstance;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskInstanceVO;
 import cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowTaskInstanceMapper;
+import cn.sliew.scaleph.workflow.manager.WorkflowTaskInstanceManager;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.service.convert.WorkflowTaskInstanceConvert;
 import cn.sliew.scaleph.workflow.service.convert.WorkflowTaskInstanceVOConvert;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO2;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowTaskInstanceListParam;
-import cn.sliew.scaleph.workflow.statemachine.WorkflowTaskInstanceStateMachine;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -54,7 +54,7 @@ public class WorkflowTaskInstanceServiceImpl implements WorkflowTaskInstanceServ
     @Autowired
     private WorkflowTaskInstanceMapper workflowTaskInstanceMapper;
     @Autowired
-    private WorkflowTaskInstanceStateMachine stateMachine;
+    private WorkflowTaskInstanceManager workflowTaskInstanceManager;
 
     @Override
     public Page<WorkflowTaskInstanceDTO> list(WorkflowTaskInstanceListParam param) {
@@ -163,21 +163,21 @@ public class WorkflowTaskInstanceServiceImpl implements WorkflowTaskInstanceServ
 
     @Override
     public void deploy(Long id) {
-        stateMachine.deploy(get(id));
+        workflowTaskInstanceManager.deploy(id);
     }
 
     @Override
     public void shutdown(Long id) {
-        stateMachine.shutdown(get(id));
+        workflowTaskInstanceManager.shutdown(id);
     }
 
     @Override
     public void suspend(Long id) {
-        stateMachine.suspend(get(id));
+        workflowTaskInstanceManager.suspend(id);
     }
 
     @Override
     public void resume(Long id) {
-        stateMachine.resume(get(id));
+        workflowTaskInstanceManager.resume(id);
     }
 }

@@ -32,9 +32,9 @@ fi
 
 echo "Install SeaTunnel plugin dependencis"
 mkdir -p ${SEATUNNEL_HOME}/plugins/mysql-cdc/lib
-${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=mysql -DartifactId=mysql-connector-java -Dversion=8.0.28 -Ddest=${SEATUNNEL_HOME}/plugins/mysql-cdc/lib
+${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=mysql -DartifactId=mysql-connector-java -Dversion=8.0.28 -Dtransitive=false -Ddest=${SEATUNNEL_HOME}/plugins/mysql-cdc/lib
 mkdir -p ${SEATUNNEL_HOME}/plugins/jdbc/lib
-${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=mysql -DartifactId=mysql-connector-java -Dversion=8.0.28 -Ddest=${SEATUNNEL_HOME}/plugins/jdbc/lib
+${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=mysql -DartifactId=mysql-connector-java -Dversion=8.0.28 -Dtransitive=false -Ddest=${SEATUNNEL_HOME}/plugins/jdbc/lib
 
 echo "Install SeaTunnel connectors plugins, usage version is ${version}"
 
@@ -51,7 +51,7 @@ while read line; do
     if [ "$first_char" != "-" ] && [ "$first_char" != "#" ] && [ ! -z $first_char ]
       	then
       		echo "install connector : " $line
-      		${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=org.apache.seatunnel -DartifactId=${line} -Dversion=${version} -Ddest=${SEATUNNEL_HOME}/connectors
+      		${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=org.apache.seatunnel -DartifactId=${line} -Dversion=${version} -Dtransitive=false -Ddest=${SEATUNNEL_HOME}/connectors
     fi
 
 done < ${SEATUNNEL_HOME}/config/plugin_config

@@ -16,43 +16,35 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.listener.workflowinstance;
+package cn.sliew.scaleph.workflow.simple.listener.workflowinstance;
 
 import cn.sliew.scaleph.queue.MessageListener;
-import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
-import cn.sliew.scaleph.workflow.statemachine.WorkflowInstanceStateMachine;
-import org.springframework.beans.factory.annotation.Autowired;
+import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowInstanceStateMachine;
 
 import java.io.Serializable;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-@MessageListener(topic = WorkflowInstanceFailureEventListener.TOPIC, consumerGroup = WorkflowInstanceStateMachine.CONSUMER_GROUP)
-public class WorkflowInstanceFailureEventListener extends AbstractWorkflowInstanceEventListener {
+@MessageListener(topic = WorkflowInstanceSuccessEventListener.TOPIC, consumerGroup = WorkflowInstanceStateMachine.CONSUMER_GROUP)
+public class WorkflowInstanceSuccessEventListener extends AbstractWorkflowInstanceEventListener {
 
-    public static final String TOPIC = "TOPIC_WORKFLOW_INSTANCE_PROCESS_FAILURE";
-
-    @Autowired
-    private WorkflowInstanceService workflowInstanceService;
+    public static final String TOPIC = "TOPIC_WORKFLOW_INSTANCE_PROCESS_SUCCESS";
 
     @Override
     protected CompletableFuture handleEventAsync(WorkflowInstanceEventDTO event) {
-        return CompletableFuture.runAsync(new FailureRunner(event.getWorkflowInstanceId(), event.getThrowable()));
+        return CompletableFuture.runAsync(new SuccessRunner(event.getWorkflowInstanceId()));
     }
 
-    private class FailureRunner implements Runnable, Serializable {
+    private class SuccessRunner implements Runnable, Serializable {
 
         private Long workflowInstanceId;
-        private Optional<Throwable> throwable;
 
-        public FailureRunner(Long workflowInstanceId, Throwable throwable) {
+        public SuccessRunner(Long workflowInstanceId) {
             this.workflowInstanceId = workflowInstanceId;
-            this.throwable = Optional.ofNullable(throwable);
         }
 
         @Override
         public void run() {
-            workflowInstanceService.updateFailure(workflowInstanceId, throwable.orElse(null));
+            workflowInstanceService.updateSuccess(workflowInstanceId);
         }
     }
 }
