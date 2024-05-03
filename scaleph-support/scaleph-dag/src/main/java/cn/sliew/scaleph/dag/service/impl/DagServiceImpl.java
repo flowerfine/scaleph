@@ -23,7 +23,7 @@ import cn.sliew.scaleph.dag.service.DagInstanceService;
 import cn.sliew.scaleph.dag.service.DagLinkService;
 import cn.sliew.scaleph.dag.service.DagService;
 import cn.sliew.scaleph.dag.service.DagStepService;
-import cn.sliew.scaleph.dag.service.dto.DagDTO;
+import cn.sliew.scaleph.dag.service.dto.DagInstanceComplexDTO;
 import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
 import cn.sliew.scaleph.dag.service.dto.DagLinkDTO;
 import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
@@ -50,13 +50,13 @@ public class DagServiceImpl implements DagService {
     private DagStepService dagStepService;
 
     @Override
-    public DagDTO selectOne(Long dagId) {
-        DagDTO dagDTO = new DagDTO();
+    public DagInstanceComplexDTO selectOne(Long dagId) {
+        DagInstanceComplexDTO dagInstanceComplexDTO = new DagInstanceComplexDTO();
         DagInstanceDTO instanceDTO = dagInstanceService.selectOne(dagId);
-        BeanUtils.copyProperties(instanceDTO, dagDTO);
-        dagDTO.setLinks(dagLinkService.listLinks(dagId));
-        dagDTO.setSteps(dagStepService.listSteps(dagId));
-        return dagDTO;
+        BeanUtils.copyProperties(instanceDTO, dagInstanceComplexDTO);
+        dagInstanceComplexDTO.setLinks(dagLinkService.listLinks(dagId));
+        dagInstanceComplexDTO.setSteps(dagStepService.listSteps(dagId));
+        return dagInstanceComplexDTO;
     }
 
     @Override

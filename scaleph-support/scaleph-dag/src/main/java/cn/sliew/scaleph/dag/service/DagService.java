@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.dag.service;
 
-import cn.sliew.scaleph.dag.service.dto.DagDTO;
+import cn.sliew.scaleph.dag.service.dto.DagInstanceComplexDTO;
 import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
 import cn.sliew.scaleph.dag.service.param.DagSimpleAddParam;
 import cn.sliew.scaleph.dag.service.param.DagSimpleUpdateParam;
@@ -28,7 +28,7 @@ import java.util.List;
 
 public interface DagService {
 
-    DagDTO selectOne(Long dagId);
+    DagInstanceComplexDTO selectOne(Long dagId);
 
     DagInstanceDTO selectSimpleOne(Long dagId);
 
