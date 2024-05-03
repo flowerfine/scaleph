@@ -23,6 +23,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * DAG 实例
  */
@@ -32,9 +34,24 @@ public class DagInstanceDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "DAG元信息")
-    private JsonNode dagMeta;
+    @Schema(description = "DAG配置")
+    private DagConfigComplexDTO dagConfig;
 
-    @Schema(description = "DAG属性")
-    private JsonNode dagAttrs;
+    @Schema(description = "instance id")
+    private String instanceId;
+
+    @Schema(description = "输入参数")
+    private JsonNode inputs;
+
+    @Schema(description = "输出参数")
+    private JsonNode outputs;
+
+    @Schema(description = "状态")
+    private String status;
+
+    @Schema(description = "启动时间")
+    private Date startTime;
+
+    @Schema(description = "结束时间")
+    private Date endTime;
 }
