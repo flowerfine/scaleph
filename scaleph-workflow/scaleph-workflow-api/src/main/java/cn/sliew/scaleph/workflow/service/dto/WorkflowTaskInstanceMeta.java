@@ -16,8 +16,29 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.model;
+package cn.sliew.scaleph.workflow.service.dto;
 
-public interface Scheduler {
+import cn.sliew.scaleph.system.model.BaseDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
+import java.util.Date;
+
+@Data
+public class WorkflowTaskInstanceMeta extends BaseDTO {
+
+    @Schema(description = "task id")
+    private String taskId;
+
+    @Schema(description = "workflow task instance state")
+    private String stage;
+
+    @Schema(description = "workflow task instance start time")
+    private Date startTime;
+
+    @Schema(description = "workflow task instance end time")
+    private Date endTime;
+
+    @Schema(description = "workflow task instance message")
+    private String message;
 }

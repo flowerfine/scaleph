@@ -32,7 +32,7 @@ import cn.sliew.scaleph.workflow.engine.workflow.ParallelFlow;
 import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
 import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO2;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowTaskInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
@@ -85,7 +85,7 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
             workflowTaskInstanceService.updateState(event.getWorkflowTaskInstanceId(), event.getState(), event.getNextState(), null);
 
             WorkflowTaskInstanceDTO workflowTaskInstanceDTO = workflowTaskInstanceService.get(event.getWorkflowTaskInstanceId());
-            WorkflowTaskDefinitionDTO2 taskDefinition = workflowDefinitionService.getTaskDefinition(workflowTaskInstanceDTO.getStepId());
+            WorkflowTaskDefinitionDTO taskDefinition = workflowDefinitionService.getTaskDefinition(workflowTaskInstanceDTO.getStepId());
 
             try {
                 Class<?> clazz = ClassUtils.forName(taskDefinition.getStepMeta().getHandler(), ClassUtils.getDefaultClassLoader());

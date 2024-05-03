@@ -24,7 +24,7 @@ import cn.sliew.scaleph.queue.MessageListener;
 import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO2;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowInstanceStateMachine;
 import com.google.common.graph.Graph;
@@ -72,7 +72,7 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
                 return;
             }
 
-            Graph<WorkflowTaskDefinitionDTO2> dag = workflowDefinitionService.getDag(workflowInstanceDTO.getWorkflowDefinition().getId());
+            Graph<WorkflowTaskDefinitionDTO> dag = workflowDefinitionService.getDag(workflowInstanceDTO.getWorkflowDefinition().getId());
             Graph<WorkflowTaskInstanceDTO> workflowTaskInstanceGraph = workflowTaskInstanceService.getDag(workflowInstanceId, dag);
 
             // 检测所有任务的状态，如果有一个失败，则失败

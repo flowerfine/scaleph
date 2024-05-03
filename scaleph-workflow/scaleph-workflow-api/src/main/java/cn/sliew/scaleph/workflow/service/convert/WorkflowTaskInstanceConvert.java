@@ -27,6 +27,7 @@ import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.BeanUtils;
 
+@Deprecated
 @Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface WorkflowTaskInstanceConvert extends BaseConvert<WorkflowTaskInstance, WorkflowTaskInstanceDTO> {
     WorkflowTaskInstanceConvert INSTANCE = Mappers.getMapper(WorkflowTaskInstanceConvert.class);

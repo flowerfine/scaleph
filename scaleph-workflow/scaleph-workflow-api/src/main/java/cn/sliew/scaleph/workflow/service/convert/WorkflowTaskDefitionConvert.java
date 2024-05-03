@@ -22,7 +22,7 @@ import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionAttrs;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO2;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionMeta;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.mapstruct.Mapper;
@@ -31,11 +31,11 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.BeanUtils;
 
 @Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface WorkflowTaskDefinition2Convert extends BaseConvert<DagConfigStepDTO, WorkflowTaskDefinitionDTO2> {
-    WorkflowTaskDefinition2Convert INSTANCE = Mappers.getMapper(WorkflowTaskDefinition2Convert.class);
+public interface WorkflowTaskDefitionConvert extends BaseConvert<DagConfigStepDTO, WorkflowTaskDefinitionDTO> {
+    WorkflowTaskDefitionConvert INSTANCE = Mappers.getMapper(WorkflowTaskDefitionConvert.class);
 
     @Override
-    default DagConfigStepDTO toDo(WorkflowTaskDefinitionDTO2 dto) {
+    default DagConfigStepDTO toDo(WorkflowTaskDefinitionDTO dto) {
         DagConfigStepDTO entity = new DagConfigStepDTO();
         BeanUtils.copyProperties(dto, entity);
         ObjectNode stepMeta = (ObjectNode) JacksonUtil.toJsonNode(dto.getStepMeta());
@@ -46,8 +46,8 @@ public interface WorkflowTaskDefinition2Convert extends BaseConvert<DagConfigSte
     }
 
     @Override
-    default WorkflowTaskDefinitionDTO2 toDto(DagConfigStepDTO entity) {
-        WorkflowTaskDefinitionDTO2 dto = new WorkflowTaskDefinitionDTO2();
+    default WorkflowTaskDefinitionDTO toDto(DagConfigStepDTO entity) {
+        WorkflowTaskDefinitionDTO dto = new WorkflowTaskDefinitionDTO();
         BeanUtils.copyProperties(entity, dto);
         dto.setStepMeta(JacksonUtil.toObject(entity.getStepMeta(), WorkflowTaskDefinitionMeta.class));
         dto.setStepAttrs(JacksonUtil.toObject(entity.getStepMeta(), WorkflowTaskDefinitionAttrs.class));

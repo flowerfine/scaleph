@@ -24,7 +24,7 @@ import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
 import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO2;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowDefinitionListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.graph.Graph;
@@ -64,8 +64,8 @@ public class WorkflowController {
     @Logging
     @GetMapping("{workflowDefinitionId}")
     @Operation(summary = "查询 workflow 定义列表", description = "查询 workflow 定义列表")
-    public ResponseEntity<ResponseVO<Set<WorkflowTaskDefinitionDTO2>>> listWorkflowTaskDefinitions(@PathVariable("workflowDefinitionId") Long workflowDefinitionId) {
-        Graph<WorkflowTaskDefinitionDTO2> dag = workflowDefinitionService.getDag(workflowDefinitionId);
+    public ResponseEntity<ResponseVO<Set<WorkflowTaskDefinitionDTO>>> listWorkflowTaskDefinitions(@PathVariable("workflowDefinitionId") Long workflowDefinitionId) {
+        Graph<WorkflowTaskDefinitionDTO> dag = workflowDefinitionService.getDag(workflowDefinitionId);
         return new ResponseEntity<>(ResponseVO.success(dag.nodes()), HttpStatus.OK);
     }
 

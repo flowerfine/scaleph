@@ -24,7 +24,7 @@ import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO2;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowInstanceStateMachine;
 import com.google.common.graph.Graph;
@@ -83,7 +83,7 @@ public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanc
             WorkflowDefinitionDTO workflowDefinitionDTO = workflowInstanceDTO.getWorkflowDefinition();
 
             // 找到 root 节点，批量启动 root 节点
-            Graph<WorkflowTaskDefinitionDTO2> dag = workflowDefinitionService.getDag(workflowDefinitionDTO.getId());
+            Graph<WorkflowTaskDefinitionDTO> dag = workflowDefinitionService.getDag(workflowDefinitionDTO.getId());
             // 无节点，直接成功
             if (dag.nodes().size() == 0) {
                 stateMachine.onSuccess(workflowInstanceDTO);

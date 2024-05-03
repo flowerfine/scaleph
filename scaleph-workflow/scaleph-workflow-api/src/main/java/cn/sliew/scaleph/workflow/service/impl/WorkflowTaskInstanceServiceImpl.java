@@ -27,7 +27,7 @@ import cn.sliew.scaleph.workflow.manager.WorkflowTaskInstanceManager;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.service.convert.WorkflowTaskInstanceConvert;
 import cn.sliew.scaleph.workflow.service.convert.WorkflowTaskInstanceVOConvert;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO2;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowTaskInstanceListParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -75,7 +75,7 @@ public class WorkflowTaskInstanceServiceImpl implements WorkflowTaskInstanceServ
     }
 
     @Override
-    public Graph<WorkflowTaskInstanceDTO> getDag(Long workflowInstanceId, Graph<WorkflowTaskDefinitionDTO2> dag) {
+    public Graph<WorkflowTaskInstanceDTO> getDag(Long workflowInstanceId, Graph<WorkflowTaskDefinitionDTO> dag) {
         List<WorkflowTaskInstanceDTO> workflowTaskInstanceDTOS = list(workflowInstanceId);
         MutableGraph<WorkflowTaskInstanceDTO> graph = GraphBuilder.directed().build();
         Map<Long, WorkflowTaskInstanceDTO> stepMap = new HashMap<>();
@@ -83,9 +83,9 @@ public class WorkflowTaskInstanceServiceImpl implements WorkflowTaskInstanceServ
             stepMap.put(workflowTaskInstanceDTO.getStepId(), workflowTaskInstanceDTO);
             graph.addNode(workflowTaskInstanceDTO);
         }
-        for (EndpointPair<WorkflowTaskDefinitionDTO2> edge : dag.edges()) {
-            WorkflowTaskDefinitionDTO2 source = edge.source();
-            WorkflowTaskDefinitionDTO2 target = edge.target();
+        for (EndpointPair<WorkflowTaskDefinitionDTO> edge : dag.edges()) {
+            WorkflowTaskDefinitionDTO source = edge.source();
+            WorkflowTaskDefinitionDTO target = edge.target();
             graph.putEdge(stepMap.get(source.getId()), stepMap.get(target.getId()));
         }
         return graph;
@@ -140,9 +140,9 @@ public class WorkflowTaskInstanceServiceImpl implements WorkflowTaskInstanceServ
     }
 
     @Override
-    public Graph<WorkflowTaskInstanceDTO> initialize(Long workflowInstanceId, Graph<WorkflowTaskDefinitionDTO2> graph) {
+    public Graph<WorkflowTaskInstanceDTO> initialize(Long workflowInstanceId, Graph<WorkflowTaskDefinitionDTO> graph) {
         try {
-            for (WorkflowTaskDefinitionDTO2 node : graph.nodes()) {
+            for (WorkflowTaskDefinitionDTO node : graph.nodes()) {
                 createWorkflowTaskInstance(workflowInstanceId, node);
             }
             return getDag(workflowInstanceId, graph);
@@ -152,7 +152,7 @@ public class WorkflowTaskInstanceServiceImpl implements WorkflowTaskInstanceServ
         return null;
     }
 
-    private WorkflowTaskInstanceDTO createWorkflowTaskInstance(Long workflowInstanceId, WorkflowTaskDefinitionDTO2 node) {
+    private WorkflowTaskInstanceDTO createWorkflowTaskInstance(Long workflowInstanceId, WorkflowTaskDefinitionDTO node) {
         WorkflowTaskInstance record = new WorkflowTaskInstance();
         record.setWorkflowInstanceId(workflowInstanceId);
         record.setStepId(node.getId());
