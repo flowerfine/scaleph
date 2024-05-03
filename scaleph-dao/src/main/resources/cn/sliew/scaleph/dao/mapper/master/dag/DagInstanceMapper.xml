@@ -26,8 +26,13 @@
         <result column="create_time" property="createTime" />
         <result column="editor" property="editor" />
         <result column="update_time" property="updateTime" />
-        <result column="dag_meta" property="dagMeta" />
-        <result column="dag_attrs" property="dagAttrs" />
+        <result column="dag_config_id" property="dagConfigId" />
+        <result column="instance_id" property="instanceId" />
+        <result column="inputs" property="inputs" />
+        <result column="outputs" property="outputs" />
+        <result column="status" property="status" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -37,7 +42,7 @@
         create_time,
         editor,
         update_time,
-        dag_meta, dag_attrs
+        dag_config_id, instance_id, inputs, outputs, `status`, start_time, end_time
     </sql>
 
 </mapper>

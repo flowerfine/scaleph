@@ -21,35 +21,50 @@ package cn.sliew.scaleph.dao.entity.master.dag;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * DAG 步骤
  */
 @Data
 @TableName("dag_step")
+@Schema(name = "DagStep", description = "DAG 步骤")
 public class DagStep extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("dag_id")
-    private Long dagId;
+    @Schema(description = "DAG id")
+    @TableField("dag_instance_id")
+    private Long dagInstanceId;
 
-    @TableField("step_id")
-    private String stepId;
+    @Schema(description = "步骤id")
+    @TableField("dag_config_step_id")
+    private String dagConfigStepId;
 
-    @TableField("step_name")
-    private String stepName;
+    @Schema(description = "instance id")
+    @TableField("instance_id")
+    private String instanceId;
 
-    @TableField("position_x")
-    private Integer positionX;
+    @Schema(description = "输入参数")
+    @TableField("inputs")
+    private String inputs;
 
-    @TableField("position_y")
-    private Integer positionY;
+    @Schema(description = "输出参数")
+    @TableField("outputs")
+    private String outputs;
 
-    @TableField("step_meta")
-    private String stepMeta;
+    @Schema(description = "状态")
+    @TableField("`status`")
+    private String status;
 
-    @TableField("step_attrs")
-    private String stepAttrs;
+    @Schema(description = "启动时间")
+    @TableField("start_time")
+    private Date startTime;
+
+    @Schema(description = "结束时间")
+    @TableField("end_time")
+    private Date endTime;
 }

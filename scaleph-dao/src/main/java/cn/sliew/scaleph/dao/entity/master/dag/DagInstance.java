@@ -21,20 +21,46 @@ package cn.sliew.scaleph.dao.entity.master.dag;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * DAG 实例
  */
 @Data
 @TableName("dag_instance")
+@Schema(name = "DagInstance", description = "DAG 实例")
 public class DagInstance extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("dag_meta")
-    private String dagMeta;
+    @Schema(description = "DAG配置id")
+    @TableField("dag_config_id")
+    private Long dagConfigId;
 
-    @TableField("dag_attrs")
-    private String dagAttrs;
+    @Schema(description = "instance id")
+    @TableField("instance_id")
+    private String instanceId;
+
+    @Schema(description = "输入参数")
+    @TableField("inputs")
+    private String inputs;
+
+    @Schema(description = "输出参数")
+    @TableField("outputs")
+    private String outputs;
+
+    @Schema(description = "状态")
+    @TableField("`status`")
+    private String status;
+
+    @Schema(description = "启动时间")
+    @TableField("start_time")
+    private Date startTime;
+
+    @Schema(description = "结束时间")
+    @TableField("end_time")
+    private Date endTime;
 }

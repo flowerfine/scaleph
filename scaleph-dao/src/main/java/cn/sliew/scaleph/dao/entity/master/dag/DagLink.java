@@ -21,35 +21,50 @@ package cn.sliew.scaleph.dao.entity.master.dag;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * DAG 连线
  */
 @Data
 @TableName("dag_link")
+@Schema(name = "DagLink", description = "DAG 连线")
 public class DagLink extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("dag_id")
-    private Long dagId;
+    @Schema(description = "DAG id")
+    @TableField("dag_instance_id")
+    private Long dagInstanceId;
 
-    @TableField("link_id")
-    private String linkId;
+    @Schema(description = "连线id")
+    @TableField("dag_config_link_id")
+    private String dagConfigLinkId;
 
-    @TableField("link_name")
-    private String linkName;
+    @Schema(description = "instance id")
+    @TableField("instance_id")
+    private String instanceId;
 
-    @TableField("from_step_id")
-    private String fromStepId;
+    @Schema(description = "输入参数")
+    @TableField("inputs")
+    private String inputs;
 
-    @TableField("to_step_id")
-    private String toStepId;
+    @Schema(description = "输出参数")
+    @TableField("outputs")
+    private String outputs;
 
-    @TableField("link_meta")
-    private String linkMeta;
+    @Schema(description = "状态")
+    @TableField("`status`")
+    private String status;
 
-    @TableField("link_attrs")
-    private String linkAttrs;
+    @Schema(description = "启动时间")
+    @TableField("start_time")
+    private Date startTime;
+
+    @Schema(description = "结束时间")
+    @TableField("end_time")
+    private Date endTime;
 }
