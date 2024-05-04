@@ -18,17 +18,19 @@
 
 package cn.sliew.scaleph.dag.service;
 
+import cn.sliew.scaleph.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.scaleph.dag.service.dto.DagInstanceComplexDTO;
 import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
+import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
+import com.google.common.graph.Graph;
 
-/**
- * todo 增加 dag 方法
- */
 public interface DagInstanceComplexService {
 
-    DagInstanceComplexDTO selectOne(Long id);
+    DagInstanceComplexDTO selectOne(Long dagInstanceId);
 
-    DagInstanceDTO selectSimpleOne(Long id);
+    DagInstanceDTO selectSimpleOne(Long dagInstanceId);
+
+    Graph<DagStepDTO> getDag(Long dagInstanceId, Graph<DagConfigStepDTO> configDag);
 
     Long initialize(Long dagConfigId);
 }

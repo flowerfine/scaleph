@@ -18,25 +18,24 @@
 
 package cn.sliew.scaleph.dag.service.impl;
 
-import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
 import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dag.service.*;
 import cn.sliew.scaleph.dag.service.dto.*;
-import cn.sliew.scaleph.dag.service.param.DagSimpleAddParam;
-import cn.sliew.scaleph.dag.service.param.DagSimpleUpdateParam;
-import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
-import cn.sliew.scaleph.dag.service.vo.EdgeCellVO;
-import cn.sliew.scaleph.dag.service.vo.NodeCellVO;
+import com.google.common.graph.EndpointPair;
+import com.google.common.graph.Graph;
+import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.MutableGraph;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 @Service
 public class DagInstanceComplexServiceImpl implements DagInstanceComplexService {
@@ -51,18 +50,35 @@ public class DagInstanceComplexServiceImpl implements DagInstanceComplexService 
     private DagStepService dagStepService;
 
     @Override
-    public DagInstanceComplexDTO selectOne(Long id) {
+    public DagInstanceComplexDTO selectOne(Long dagInstanceId) {
         DagInstanceComplexDTO dagInstanceComplexDTO = new DagInstanceComplexDTO();
-        DagInstanceDTO instanceDTO = dagInstanceService.selectOne(id);
+        DagInstanceDTO instanceDTO = dagInstanceService.selectOne(dagInstanceId);
         BeanUtils.copyProperties(instanceDTO, dagInstanceComplexDTO);
-        dagInstanceComplexDTO.setLinks(dagLinkService.listLinks(id));
-        dagInstanceComplexDTO.setSteps(dagStepService.listSteps(id));
+        dagInstanceComplexDTO.setLinks(dagLinkService.listLinks(dagInstanceId));
+        dagInstanceComplexDTO.setSteps(dagStepService.listSteps(dagInstanceId));
         return dagInstanceComplexDTO;
     }
 
     @Override
-    public DagInstanceDTO selectSimpleOne(Long id) {
-        return dagInstanceService.selectOne(id);
+    public DagInstanceDTO selectSimpleOne(Long dagInstanceId) {
+        return dagInstanceService.selectOne(dagInstanceId);
+    }
+
+    @Override
+    public Graph<DagStepDTO> getDag(Long dagInstanceId, Graph<DagConfigStepDTO> configDag) {
+        List<DagStepDTO> dagStepDTOS = dagStepService.listSteps(dagInstanceId);
+        MutableGraph<DagStepDTO> graph = GraphBuilder.directed().build();
+        Map<Long, DagStepDTO> stepMap = new HashMap<>();
+        for (DagStepDTO dagStepDTO : dagStepDTOS) {
+            stepMap.put(dagStepDTO.getDagConfigStep().getId(), dagStepDTO);
+            graph.addNode(dagStepDTO);
+        }
+        for (EndpointPair<DagConfigStepDTO> edge : configDag.edges()) {
+            DagConfigStepDTO source = edge.source();
+            DagConfigStepDTO target = edge.target();
+            graph.putEdge(stepMap.get(source.getId()), stepMap.get(target.getId()));
+        }
+        return graph;
     }
 
     @Override

@@ -20,20 +20,21 @@ package cn.sliew.scaleph.dag.service;
 
 import cn.sliew.scaleph.dag.service.dto.DagConfigComplexDTO;
 import cn.sliew.scaleph.dag.service.dto.DagConfigDTO;
+import cn.sliew.scaleph.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.scaleph.dag.service.param.DagConfigSimpleAddParam;
 import cn.sliew.scaleph.dag.service.param.DagConfigSimpleUpdateParam;
 import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
+import com.google.common.graph.Graph;
 
 import java.util.List;
 
-/**
- * todo 增加 dag 方法
- */
 public interface DagConfigComplexService {
 
     DagConfigComplexDTO selectOne(Long dagId);
 
     DagConfigDTO selectSimpleOne(Long dagId);
+
+    Graph<DagConfigStepDTO> getDag(Long dagId);
 
     Long insert(DagConfigSimpleAddParam param);
 
