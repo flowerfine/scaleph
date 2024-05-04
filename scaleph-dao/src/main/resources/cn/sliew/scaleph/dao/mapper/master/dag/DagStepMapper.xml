@@ -36,6 +36,23 @@
         <result column="end_time" property="endTime" />
     </resultMap>
 
+    <resultMap id="DagStepVOMap" type="cn.sliew.scaleph.dao.entity.master.dag.DagStepVO">
+        <result column="id" property="id" />
+        <result column="creator" property="creator" />
+        <result column="create_time" property="createTime" />
+        <result column="editor" property="editor" />
+        <result column="update_time" property="updateTime" />
+        <result column="dag_instance_id" property="dagInstanceId" />
+        <result column="instance_id" property="instanceId" />
+        <result column="inputs" property="inputs" />
+        <result column="outputs" property="outputs" />
+        <result column="status" property="status" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+        <association column="dag_config_step_id" property="dagConfigStep"
+                     select="cn.sliew.scaleph.dao.mapper.master.dag.DagConfigStepMapper.selectById"/>
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
@@ -45,5 +62,13 @@
         update_time,
         dag_instance_id, dag_config_step_id, instance_id, inputs, outputs, `status`, start_time, end_time
     </sql>
+
+
+    <select id="listByDagInstanceId" resultMap="DagStepVOMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dag_step
+        where dag_instance_id = #{dagInstanceId}
+    </select>
 
 </mapper>

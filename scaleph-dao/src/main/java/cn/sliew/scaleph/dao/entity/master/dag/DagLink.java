@@ -38,7 +38,7 @@ public class DagLink extends BaseDO {
     private Long dagInstanceId;
 
     @TableField("dag_config_link_id")
-    private String dagConfigLinkId;
+    private Long dagConfigLinkId;
 
     @TableField("instance_id")
     private String instanceId;

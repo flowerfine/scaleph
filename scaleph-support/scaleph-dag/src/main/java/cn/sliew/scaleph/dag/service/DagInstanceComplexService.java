@@ -20,27 +20,15 @@ package cn.sliew.scaleph.dag.service;
 
 import cn.sliew.scaleph.dag.service.dto.DagInstanceComplexDTO;
 import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
-import cn.sliew.scaleph.dag.service.param.DagSimpleAddParam;
-import cn.sliew.scaleph.dag.service.param.DagSimpleUpdateParam;
-import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 
-import java.util.List;
+/**
+ * todo 增加 dag 方法
+ */
+public interface DagInstanceComplexService {
 
-public interface DagService {
+    DagInstanceComplexDTO selectOne(Long id);
 
-    DagInstanceComplexDTO selectOne(Long dagId);
+    DagInstanceDTO selectSimpleOne(Long id);
 
-    DagInstanceDTO selectSimpleOne(Long dagId);
-
-    Long insert(DagSimpleAddParam param);
-
-    int update(DagSimpleUpdateParam param);
-
-    void replace(Long dagId, DagGraphVO graph);
-
-    Long clone(Long dagId);
-
-    int delete(Long dagId);
-
-    int deleteBatch(List<Long> dagIds);
+    Long initialize(Long dagConfigId);
 }

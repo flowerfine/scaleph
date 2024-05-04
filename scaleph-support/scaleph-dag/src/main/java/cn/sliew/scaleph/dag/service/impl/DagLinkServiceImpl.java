@@ -18,17 +18,17 @@
 
 package cn.sliew.scaleph.dag.service.impl;
 
+import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
+import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dag.service.DagLinkService;
 import cn.sliew.scaleph.dag.service.convert.DagLinkConvert;
+import cn.sliew.scaleph.dag.service.convert.DagLinkVOConvert;
 import cn.sliew.scaleph.dag.service.dto.DagLinkDTO;
 import cn.sliew.scaleph.dao.entity.master.dag.DagLink;
+import cn.sliew.scaleph.dao.entity.master.dag.DagLinkVO;
 import cn.sliew.scaleph.dao.mapper.master.dag.DagLinkMapper;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -39,74 +39,22 @@ public class DagLinkServiceImpl implements DagLinkService {
     private DagLinkMapper dagLinkMapper;
 
     @Override
-    public List<DagLinkDTO> listLinks(Long dagId) {
-        LambdaQueryWrapper<DagLink> queryWrapper = Wrappers.lambdaQuery(DagLink.class)
-                .eq(DagLink::getDagId, dagId);
-        List<DagLink> dagLinks = dagLinkMapper.selectList(queryWrapper);
-        return DagLinkConvert.INSTANCE.toDto(dagLinks);
+    public List<DagLinkDTO> listLinks(Long dagInstanceId) {
+        List<DagLinkVO> dagLinkVOS = dagLinkMapper.listByDagInstanceId(dagInstanceId);
+        return DagLinkVOConvert.INSTANCE.toDto(dagLinkVOS);
     }
 
     @Override
     public int insert(DagLinkDTO linkDTO) {
         DagLink record = DagLinkConvert.INSTANCE.toDo(linkDTO);
+        record.setInstanceId(UUIDUtil.randomUUId());
+        record.setStatus(WorkflowTaskInstanceStage.PENDING.getValue());
         return dagLinkMapper.insert(record);
     }
 
     @Override
     public int update(DagLinkDTO linkDTO) {
-        LambdaUpdateWrapper<DagLink> updateWrapper = Wrappers.lambdaUpdate(DagLink.class)
-                .eq(DagLink::getDagId, linkDTO.getDagId())
-                .eq(DagLink::getLinkId, linkDTO.getLinkId());
         DagLink record = DagLinkConvert.INSTANCE.toDo(linkDTO);
-        return dagLinkMapper.update(record, updateWrapper);
-    }
-
-    @Override
-    public int upsert(DagLinkDTO linkDTO) {
-        LambdaQueryWrapper<DagLink> queryWrapper = Wrappers.lambdaQuery(DagLink.class)
-                .eq(DagLink::getDagId, linkDTO.getDagId())
-                .eq(DagLink::getLinkId, linkDTO.getLinkId());
-        if (dagLinkMapper.exists(queryWrapper)) {
-            return update(linkDTO);
-        } else {
-            return insert(linkDTO);
-        }
-    }
-
-    @Override
-    public int deleteByDag(Long dagId) {
-        LambdaUpdateWrapper<DagLink> updateWrapper = Wrappers.lambdaUpdate(DagLink.class)
-                .eq(DagLink::getDagId, dagId);
-        return dagLinkMapper.delete(updateWrapper);
-    }
-
-    @Override
-    public int deleteByDag(List<Long> dagIds) {
-        LambdaUpdateWrapper<DagLink> updateWrapper = Wrappers.lambdaUpdate(DagLink.class)
-                .in(DagLink::getDagId, dagIds);
-        return dagLinkMapper.delete(updateWrapper);
-    }
-
-    @Override
-    public int deleteSurplusLinks(Long dagId, List<String> linkIds) {
-        LambdaUpdateWrapper<DagLink> updateWrapper = Wrappers.lambdaUpdate(DagLink.class)
-                .eq(DagLink::getDagId, dagId)
-                .notIn(CollectionUtils.isEmpty(linkIds) == false, DagLink::getLinkId, linkIds);
-        return dagLinkMapper.delete(updateWrapper);
-    }
-
-    @Override
-    public int clone(Long sourceDagId, Long targetDagId) {
-        List<DagLinkDTO> sourceLinks = listLinks(sourceDagId);
-        sourceLinks.stream().forEach(linkDTO -> {
-            linkDTO.setDagId(targetDagId);
-            linkDTO.setId(null);
-            linkDTO.setCreator(null);
-            linkDTO.setCreateTime(null);
-            linkDTO.setEditor(null);
-            linkDTO.setUpdateTime(null);
-            dagLinkMapper.insert(DagLinkConvert.INSTANCE.toDo(linkDTO));
-        });
-        return sourceLinks.size();
+        return dagLinkMapper.updateById(record);
     }
 }

@@ -16,45 +16,45 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dag.service.dto;
+package cn.sliew.scaleph.dao.entity.master.dag;
 
-import cn.sliew.scaleph.system.model.BaseDTO;
-import com.fasterxml.jackson.databind.JsonNode;
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.util.Date;
 
 /**
- * DAG 连线
+ * DAG 步骤
  */
 @Data
-@Schema(name = "DagLink", description = "DAG 连线")
-public class DagLinkDTO extends BaseDTO {
+@TableName("dag_step")
+public class DagStepVO extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "DAG id")
+    @TableField("dag_instance_id")
     private Long dagInstanceId;
 
-    @Schema(description = "连线id")
-    private DagConfigLinkDTO dagConfigLink;
+    @TableField("dag_config_step_id")
+    private DagConfigStep dagConfigStep;
 
-    @Schema(description = "instance id")
+    @TableField("instance_id")
     private String instanceId;
 
-    @Schema(description = "输入参数")
-    private JsonNode inputs;
+    @TableField("inputs")
+    private String inputs;
 
-    @Schema(description = "输出参数")
-    private JsonNode outputs;
+    @TableField("outputs")
+    private String outputs;
 
-    @Schema(description = "状态")
+    @TableField("`status`")
     private String status;
 
-    @Schema(description = "启动时间")
+    @TableField("start_time")
     private Date startTime;
 
-    @Schema(description = "结束时间")
+    @TableField("end_time")
     private Date endTime;
 }

@@ -205,7 +205,7 @@ create table dag_step
 (
     id                 bigint      not null auto_increment comment '自增主键',
     dag_instance_id    bigint      not null comment 'DAG id',
-    dag_config_step_id varchar(36) not null comment '步骤id',
+    dag_config_step_id bigint      not null comment '步骤id',
     instance_id        varchar(36) not null comment 'instance id',
     inputs             text comment '输入参数',
     outputs            text comment '输出参数',
@@ -225,7 +225,7 @@ create table dag_link
 (
     id                 bigint      not null auto_increment comment '自增主键',
     dag_instance_id    bigint      not null comment 'DAG id',
-    dag_config_link_id varchar(36) not null comment '连线id',
+    dag_config_link_id bigint      not null comment '连线id',
     instance_id        varchar(36) not null comment 'instance id',
     inputs             text comment '输入参数',
     outputs            text comment '输出参数',

@@ -39,7 +39,7 @@ public class DagStepDTO extends BaseDTO {
     private Long dagInstanceId;
 
     @Schema(description = "步骤")
-    private DagConfigStep dagConfigStep;
+    private DagConfigStepDTO dagConfigStep;
 
     @Schema(description = "instance id")
     private String instanceId;

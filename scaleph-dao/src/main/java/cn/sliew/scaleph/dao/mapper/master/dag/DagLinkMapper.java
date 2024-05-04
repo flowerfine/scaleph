@@ -19,8 +19,12 @@
 package cn.sliew.scaleph.dao.mapper.master.dag;
 
 import cn.sliew.scaleph.dao.entity.master.dag.DagLink;
+import cn.sliew.scaleph.dao.entity.master.dag.DagLinkVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * DAG 连线 Mapper 接口
@@ -28,4 +32,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DagLinkMapper extends BaseMapper<DagLink> {
 
+    List<DagLinkVO> listByDagInstanceId(@Param("dagInstanceId") Long dagInstanceId);
 }

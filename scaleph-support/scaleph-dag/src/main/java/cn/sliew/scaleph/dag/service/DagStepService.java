@@ -24,21 +24,11 @@ import java.util.List;
 
 public interface DagStepService {
 
-    List<DagStepDTO> listSteps(Long dagId);
+    List<DagStepDTO> listSteps(Long dagInstanceId);
 
-    DagStepDTO selectOne(Long stepId);
+    DagStepDTO selectOne(Long id);
 
     int insert(DagStepDTO stepDTO);
 
     int update(DagStepDTO stepDTO);
-
-    int upsert(DagStepDTO stepDTO);
-
-    int deleteByDag(Long dagId);
-
-    int deleteByDag(List<Long> dagIds);
-
-    int deleteSurplusSteps(Long dagId, List<String> stepIds);
-
-    int clone(Long sourceDagId, Long targetDagId);
 }

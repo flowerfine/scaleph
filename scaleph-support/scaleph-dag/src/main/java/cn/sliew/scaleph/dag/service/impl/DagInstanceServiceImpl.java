@@ -26,8 +26,6 @@ import cn.sliew.scaleph.dao.mapper.master.dag.DagInstanceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class DagInstanceServiceImpl implements DagInstanceService {
 
@@ -35,8 +33,8 @@ public class DagInstanceServiceImpl implements DagInstanceService {
     private DagInstanceMapper dagInstanceMapper;
 
     @Override
-    public DagInstanceDTO selectOne(Long dagId) {
-        DagInstance record = dagInstanceMapper.selectById(dagId);
+    public DagInstanceDTO selectOne(Long dagInstanceId) {
+        DagInstance record = dagInstanceMapper.selectById(dagInstanceId);
         return DagInstanceConvert.INSTANCE.toDto(record);
     }
 
@@ -51,36 +49,5 @@ public class DagInstanceServiceImpl implements DagInstanceService {
     public int update(DagInstanceDTO instanceDTO) {
         DagInstance record = DagInstanceConvert.INSTANCE.toDo(instanceDTO);
         return dagInstanceMapper.updateById(record);
-    }
-
-    @Override
-    public void upsert(DagInstanceDTO instanceDTO) {
-        if (instanceDTO.getId() != null) {
-            update(instanceDTO);
-        } else {
-            insert(instanceDTO);
-        }
-    }
-
-    @Override
-    public int delete(Long dagId) {
-        return dagInstanceMapper.deleteById(dagId);
-    }
-
-    @Override
-    public int deleteBatch(List<Long> dagIds) {
-        return dagInstanceMapper.deleteBatchIds(dagIds);
-    }
-
-    @Override
-    public Long clone(Long dagId) {
-        DagInstanceDTO instanceDTO = selectOne(dagId);
-        instanceDTO.setId(null);
-        instanceDTO.setCreator(null);
-        instanceDTO.setCreateTime(null);
-        instanceDTO.setEditor(null);
-        instanceDTO.setUpdateTime(null);
-        dagInstanceMapper.insert(DagInstanceConvert.INSTANCE.toDo(instanceDTO));
-        return instanceDTO.getId();
     }
 }

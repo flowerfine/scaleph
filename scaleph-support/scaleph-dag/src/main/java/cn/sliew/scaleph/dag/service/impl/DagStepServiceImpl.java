@@ -20,15 +20,13 @@ package cn.sliew.scaleph.dag.service.impl;
 
 import cn.sliew.scaleph.dag.service.DagStepService;
 import cn.sliew.scaleph.dag.service.convert.DagStepConvert;
+import cn.sliew.scaleph.dag.service.convert.DagStepVOConvert;
 import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
 import cn.sliew.scaleph.dao.entity.master.dag.DagStep;
+import cn.sliew.scaleph.dao.entity.master.dag.DagStepVO;
 import cn.sliew.scaleph.dao.mapper.master.dag.DagStepMapper;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -41,17 +39,15 @@ public class DagStepServiceImpl implements DagStepService {
     private DagStepMapper dagStepMapper;
 
     @Override
-    public List<DagStepDTO> listSteps(Long dagId) {
-        LambdaQueryWrapper<DagStep> queryWrapper = Wrappers.lambdaQuery(DagStep.class)
-                .eq(DagStep::getDagId, dagId);
-        List<DagStep> dagSteps = dagStepMapper.selectList(queryWrapper);
-        return DagStepConvert.INSTANCE.toDto(dagSteps);
+    public List<DagStepDTO> listSteps(Long dagInstanceId) {
+        List<DagStepVO> dagStepVOS = dagStepMapper.listByDagInstanceId(dagInstanceId);
+        return DagStepVOConvert.INSTANCE.toDto(dagStepVOS);
     }
 
     @Override
-    public DagStepDTO selectOne(Long stepId) {
-        DagStep record = dagStepMapper.selectById(stepId);
-        checkState(record != null, () -> "dag step not exists for id: " + stepId);
+    public DagStepDTO selectOne(Long id) {
+        DagStep record = dagStepMapper.selectById(id);
+        checkState(record != null, () -> "dag step not exists for id: " + id);
         return DagStepConvert.INSTANCE.toDto(record);
     }
 
@@ -63,59 +59,7 @@ public class DagStepServiceImpl implements DagStepService {
 
     @Override
     public int update(DagStepDTO stepDTO) {
-        LambdaUpdateWrapper<DagStep> updateWrapper = Wrappers.lambdaUpdate(DagStep.class)
-                .eq(DagStep::getDagId, stepDTO.getDagId())
-                .eq(DagStep::getStepId, stepDTO.getStepId());
         DagStep record = DagStepConvert.INSTANCE.toDo(stepDTO);
-        return dagStepMapper.update(record, updateWrapper);
-    }
-
-    @Override
-    public int upsert(DagStepDTO stepDTO) {
-        LambdaQueryWrapper<DagStep> queryWrapper = Wrappers.lambdaQuery(DagStep.class)
-                .eq(DagStep::getDagId, stepDTO.getDagId())
-                .eq(DagStep::getStepId, stepDTO.getStepId());
-        if (dagStepMapper.exists(queryWrapper)) {
-            return update(stepDTO);
-        } else {
-            return insert(stepDTO);
-        }
-    }
-
-    @Override
-    public int deleteByDag(Long dagId) {
-        LambdaUpdateWrapper<DagStep> updateWrapper = Wrappers.lambdaUpdate(DagStep.class)
-                .eq(DagStep::getDagId, dagId);
-        return dagStepMapper.delete(updateWrapper);
-    }
-
-    @Override
-    public int deleteByDag(List<Long> dagIds) {
-        LambdaUpdateWrapper<DagStep> updateWrapper = Wrappers.lambdaUpdate(DagStep.class)
-                .in(DagStep::getDagId, dagIds);
-        return dagStepMapper.delete(updateWrapper);
-    }
-
-    @Override
-    public int deleteSurplusSteps(Long dagId, List<String> stepIds) {
-        LambdaUpdateWrapper<DagStep> updateWrapper = Wrappers.lambdaUpdate(DagStep.class)
-                .eq(DagStep::getDagId, dagId)
-                .notIn(CollectionUtils.isEmpty(stepIds) == false, DagStep::getStepId, stepIds);
-        return dagStepMapper.delete(updateWrapper);
-    }
-
-    @Override
-    public int clone(Long sourceDagId, Long targetDagId) {
-        List<DagStepDTO> sourceSteps = listSteps(sourceDagId);
-        sourceSteps.forEach(stepDTO -> {
-            stepDTO.setDagId(targetDagId);
-            stepDTO.setId(null);
-            stepDTO.setCreator(null);
-            stepDTO.setCreateTime(null);
-            stepDTO.setEditor(null);
-            stepDTO.setUpdateTime(null);
-            dagStepMapper.insert(DagStepConvert.INSTANCE.toDo(stepDTO));
-        });
-        return sourceSteps.size();
+        return dagStepMapper.updateById(record);
     }
 }
