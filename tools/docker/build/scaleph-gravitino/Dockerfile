@@ -21,19 +21,19 @@ ENV INSTALL_HOME=/opt/install
 RUN mkdir -p ${INSTALL_HOME}
 
 ## install mysql jdbc driver
-ENV JDBC_MYSQL_INSTALL_HOME=${INSTALL_HOME}/catalogs/jdbc-mysql/libs
-RUN mkdir -p ${JDBC_MYSQL_INSTALL_HOME}
-RUN --mount=type=cache,target=/root/.m2 mvn dependency:get -DgroupId=mysql -DartifactId=mysql-connector-java -Dversion=8.0.28 -Dtransitive=false -Ddest=${JDBC_MYSQL_INSTALL_HOME}
+ENV JDBC_MYSQL_LIBS=${INSTALL_HOME}/catalogs/jdbc-mysql/libs
+RUN mkdir -p ${JDBC_MYSQL_LIBS}
+RUN --mount=type=cache,target=/root/.m2 mvn dependency:get -DgroupId=mysql -DartifactId=mysql-connector-java -Dversion=8.0.28 -Dtransitive=false -Ddest=${JDBC_MYSQL_LIBS}
 
 ## install postgresql jdbc driver
-ENV JDBC_POSTGRESQL_INSTALL_HOME=${INSTALL_HOME}/catalogs/jdbc-postgresql/libs
-RUN mkdir -p ${JDBC_POSTGRESQL_INSTALL_HOME}
-RUN --mount=type=cache,target=/root/.m2 mvn dependency:get -DgroupId=org.postgresql -DartifactId=postgresql -Dversion=42.3.3 -Dtransitive=false -Ddest=${JDBC_POSTGRESQL_INSTALL_HOME}
+ENV JDBC_POSTGRESQL_LIBS=${INSTALL_HOME}/catalogs/jdbc-postgresql/libs
+RUN mkdir -p ${JDBC_POSTGRESQL_LIBS}
+RUN --mount=type=cache,target=/root/.m2 mvn dependency:get -DgroupId=org.postgresql -DartifactId=postgresql -Dversion=42.3.3 -Dtransitive=false -Ddest=${JDBC_POSTGRESQL_LIBS}
 
 FROM datastrato/gravitino:${GRAVITINO_VERSION} as release
 ENV INSTALL_HOME=/opt/install
-ENV JDBC_MYSQL_INSTALL_HOME=${INSTALL_HOME}/catalogs/jdbc-mysql/libs
-ENV JDBC_POSTGRESQL_INSTALL_HOME=${INSTALL_HOME}/catalogs/jdbc-postgresql/libs
+ENV JDBC_MYSQL_LIBS=${INSTALL_HOME}/catalogs/jdbc-mysql/libs
+ENV JDBC_POSTGRESQL_LIBS=${INSTALL_HOME}/catalogs/jdbc-postgresql/libs
 
-COPY --from=build ${JDBC_MYSQL_INSTALL_HOME}/*.jar ${HOME}/catalogs/jdbc-mysql/libs
-COPY --from=build ${JDBC_POSTGRESQL_INSTALL_HOME}/*.jar ${HOME}/catalogs/jdbc-postgresql/libs
+COPY --from=build ${JDBC_MYSQL_LIBS}/*.jar root/gravitino/catalogs/jdbc-mysql/libs
+COPY --from=build ${JDBC_POSTGRESQL_LIBS}/*.jar root/gravitino/catalogs/jdbc-postgresql/libs
