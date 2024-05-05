@@ -36,9 +36,6 @@ public interface WorkflowTaskInstanceConvert extends BaseConvert<WorkflowTaskIns
     default WorkflowTaskInstance toDo(WorkflowTaskInstanceDTO dto) {
         WorkflowTaskInstance entity = new WorkflowTaskInstance();
         BeanUtils.copyProperties(dto, entity);
-        if (dto.getWorkflowInstanceDTO() != null) {
-            entity.setWorkflowInstanceId(dto.getWorkflowInstanceDTO().getId());
-        }
         return entity;
     }
 
@@ -48,7 +45,6 @@ public interface WorkflowTaskInstanceConvert extends BaseConvert<WorkflowTaskIns
         BeanUtils.copyProperties(entity, dto);
         WorkflowInstanceDTO workflowInstanceDTO = new WorkflowInstanceDTO();
         workflowInstanceDTO.setId(entity.getWorkflowInstanceId());
-        dto.setWorkflowInstanceDTO(workflowInstanceDTO);
         return dto;
     }
 }

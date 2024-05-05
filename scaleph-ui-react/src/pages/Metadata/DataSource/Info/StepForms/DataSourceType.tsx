@@ -23,6 +23,12 @@ const DataSourceTypeWeb: React.FC<{ categoryId?: number, onTypeSelect: () => voi
   }, [categoryId, searchValue])
 
   const metas: ProListMetas<DsType> = {
+    title: {
+      dataIndex: "type",
+      render: (dom, entity, index, action, schema) => {
+        return entity.type.label
+      }
+    },
     content: {
       dataIndex: "logo",
       render: (dom, entity, index, action, schema) => {
@@ -50,6 +56,7 @@ const DataSourceTypeWeb: React.FC<{ categoryId?: number, onTypeSelect: () => voi
       }}
       pagination={false}
       grid={{gutter: 8, column: 6}}
+      split={true}
       onItem={(record) => {
         return {
           onClick: () => {
