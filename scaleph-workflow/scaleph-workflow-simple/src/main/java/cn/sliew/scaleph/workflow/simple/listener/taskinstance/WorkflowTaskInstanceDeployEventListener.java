@@ -21,6 +21,8 @@ package cn.sliew.scaleph.workflow.simple.listener.taskinstance;
 import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.scaleph.common.util.SpringApplicationContextUtil;
+import cn.sliew.scaleph.dag.service.DagConfigStepService;
+import cn.sliew.scaleph.dag.service.DagStepService;
 import cn.sliew.scaleph.queue.MessageListener;
 import cn.sliew.scaleph.workflow.engine.Engine;
 import cn.sliew.scaleph.workflow.engine.EngineBuilder;
@@ -30,8 +32,6 @@ import cn.sliew.scaleph.workflow.engine.action.ActionContextBuilder;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
 import cn.sliew.scaleph.workflow.engine.workflow.ParallelFlow;
 import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
-import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
-import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowTaskInstanceStateMachine;
@@ -57,7 +57,7 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
             if (throwable != null) {
                 onFailure(event.getWorkflowTaskInstanceId(), throwable);
             } else {
-                stateMachine.onSuccess(workflowTaskInstanceService.get(event.getWorkflowTaskInstanceId()));
+                stateMachine.onSuccess(dagStepService.selectOne(event.getWorkflowTaskInstanceId()));
             }
         });
         return future;
@@ -71,9 +71,9 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
         @RInject
         private String taskId;
         @Autowired
-        private WorkflowDefinitionService workflowDefinitionService;
+        private DagConfigStepService dagConfigStepService;
         @Autowired
-        private WorkflowTaskInstanceService workflowTaskInstanceService;
+        private DagStepService dagStepService;
 
         public DeployRunner(WorkflowTaskInstanceEventDTO event) {
             this.event = event;
@@ -81,6 +81,8 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
 
         @Override
         public void run() {
+
+
             workflowTaskInstanceService.updateTaskId(event.getWorkflowTaskInstanceId(), taskId);
             workflowTaskInstanceService.updateState(event.getWorkflowTaskInstanceId(), event.getState(), event.getNextState(), null);
 

@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.workflow.simple.listener.taskinstance;
 
-import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
+import cn.sliew.scaleph.dag.service.DagStepService;
 import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowInstanceStateMachine;
 import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowTaskInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ public abstract class AbstractWorkflowTaskInstanceEventListener implements Workf
     protected RScheduledExecutorService executorService;
 
     @Autowired
-    protected WorkflowTaskInstanceService workflowTaskInstanceService;
+    protected DagStepService dagStepService;
     @Autowired
     protected WorkflowInstanceStateMachine workflowInstanceStateMachine;
     @Autowired
@@ -69,7 +69,7 @@ public abstract class AbstractWorkflowTaskInstanceEventListener implements Workf
     }
 
     protected void onFailure(Long workflowTaskInstanceId, Throwable throwable) {
-        stateMachine.onFailure(workflowTaskInstanceService.get(workflowTaskInstanceId), throwable);
+        stateMachine.onFailure(dagStepService.selectOne(workflowTaskInstanceId), throwable);
     }
 
     protected abstract CompletableFuture handleEventAsync(WorkflowTaskInstanceEventDTO event);
