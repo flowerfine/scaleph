@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.workflow.simple.listener.taskinstance;
 
+import cn.sliew.scaleph.dag.service.DagInstanceComplexService;
 import cn.sliew.scaleph.dag.service.DagStepService;
 import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowInstanceStateMachine;
 import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowTaskInstanceStateMachine;
@@ -39,6 +40,8 @@ public abstract class AbstractWorkflowTaskInstanceEventListener implements Workf
     private BeanFactory beanFactory;
     protected RScheduledExecutorService executorService;
 
+    @Autowired
+    protected DagInstanceComplexService dagInstanceComplexService;
     @Autowired
     protected DagStepService dagStepService;
     @Autowired

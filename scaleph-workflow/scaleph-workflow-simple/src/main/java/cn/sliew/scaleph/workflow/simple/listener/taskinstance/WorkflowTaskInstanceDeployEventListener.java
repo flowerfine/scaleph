@@ -20,9 +20,12 @@ package cn.sliew.scaleph.workflow.simple.listener.taskinstance;
 
 import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.filter.ActionListener;
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.util.SpringApplicationContextUtil;
 import cn.sliew.scaleph.dag.service.DagConfigStepService;
 import cn.sliew.scaleph.dag.service.DagStepService;
+import cn.sliew.scaleph.dag.service.dto.DagConfigStepDTO;
+import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
 import cn.sliew.scaleph.queue.MessageListener;
 import cn.sliew.scaleph.workflow.engine.Engine;
 import cn.sliew.scaleph.workflow.engine.EngineBuilder;
@@ -32,8 +35,7 @@ import cn.sliew.scaleph.workflow.engine.action.ActionContextBuilder;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
 import cn.sliew.scaleph.workflow.engine.workflow.ParallelFlow;
 import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionMeta;
 import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowTaskInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.annotation.RInject;
@@ -41,6 +43,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ClassUtils;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 
 @MessageListener(topic = WorkflowTaskInstanceDeployEventListener.TOPIC, consumerGroup = WorkflowTaskInstanceStateMachine.CONSUMER_GROUP)
@@ -82,30 +85,32 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
         @Override
         public void run() {
 
+            DagStepDTO dagStepUpdateParam = new DagStepDTO();
+            dagStepUpdateParam.setId(event.getWorkflowTaskInstanceId());
+            dagStepUpdateParam.setStatus(event.getNextState().getValue());
+            dagStepUpdateParam.setStartTime(new Date());
+            dagStepService.update(dagStepUpdateParam);
 
-            workflowTaskInstanceService.updateTaskId(event.getWorkflowTaskInstanceId(), taskId);
-            workflowTaskInstanceService.updateState(event.getWorkflowTaskInstanceId(), event.getState(), event.getNextState(), null);
-
-            WorkflowTaskInstanceDTO workflowTaskInstanceDTO = workflowTaskInstanceService.get(event.getWorkflowTaskInstanceId());
-            WorkflowTaskDefinitionDTO taskDefinition = workflowDefinitionService.getTaskDefinition(workflowTaskInstanceDTO.getStepId());
-
+            DagStepDTO stepDTO = dagStepService.selectOne(event.getWorkflowTaskInstanceId());
+            DagConfigStepDTO configStepDTO = dagConfigStepService.selectOne(stepDTO.getDagConfigStep().getId());
+            WorkflowTaskDefinitionMeta workflowTaskDefinitionMeta = JacksonUtil.toObject(configStepDTO.getStepMeta(), WorkflowTaskDefinitionMeta.class);
             try {
-                Class<?> clazz = ClassUtils.forName(taskDefinition.getStepMeta().getHandler(), ClassUtils.getDefaultClassLoader());
+                Class<?> clazz = ClassUtils.forName(workflowTaskDefinitionMeta.getHandler(), ClassUtils.getDefaultClassLoader());
                 Action action = (Action) SpringApplicationContextUtil.getBean(clazz);
                 WorkFlow workFlow = ParallelFlow.newParallelFlow()
-                        .name(taskDefinition.getStepName())
+                        .name(configStepDTO.getStepName())
                         .execute(action)
                         .build();
-                ActionContext actionContext = buildActionContext(workflowTaskInstanceDTO);
+                ActionContext actionContext = buildActionContext(stepDTO);
                 engine.run(workFlow, actionContext, new ActionListener<ActionResult>() {
                     @Override
                     public void onResponse(ActionResult result) {
-                        log.debug("workflow task {} run success!", taskDefinition.getStepName());
+                        log.debug("workflow task {} run success!", configStepDTO.getStepName());
                     }
 
                     @Override
                     public void onFailure(Throwable e) {
-                        log.error("workflow task {} run failure!", taskDefinition.getStepName(), e);
+                        log.error("workflow task {} run failure!", configStepDTO.getStepName(), e);
                     }
                 });
             } catch (ClassNotFoundException e) {
@@ -113,12 +118,11 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
             }
         }
 
-        private ActionContext buildActionContext(WorkflowTaskInstanceDTO workflowTaskInstanceDTO) {
+        private ActionContext buildActionContext(DagStepDTO stepDTO) {
             return ActionContextBuilder.newBuilder()
-                    .withWorkflowDefinitionId(workflowTaskInstanceDTO.getWorkflowInstanceDTO().getWorkflowDefinition().getId())
-                    .withWorkflowInstanceId(workflowTaskInstanceDTO.getWorkflowInstanceDTO().getId())
-                    .withWorkflowTaskDefinitionId(workflowTaskInstanceDTO.getStepId())
-                    .withWorkflowTaskInstanceId(workflowTaskInstanceDTO.getId())
+                    .withWorkflowInstanceId(stepDTO.getDagInstanceId())
+                    .withWorkflowTaskDefinitionId(stepDTO.getDagConfigStep().getId())
+                    .withWorkflowTaskInstanceId(stepDTO.getId())
                     .validateAndBuild();
         }
     }
