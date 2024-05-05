@@ -20,6 +20,7 @@ package cn.sliew.scaleph.dag.service.convert;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
 import cn.sliew.scaleph.dao.entity.master.dag.DagStep;
 import org.mapstruct.Mapper;
@@ -36,11 +37,14 @@ public interface DagStepConvert extends BaseConvert<DagStep, DagStepDTO> {
     default DagStep toDo(DagStepDTO dto) {
         DagStep entity = new DagStep();
         BeanUtils.copyProperties(dto, entity);
-        if (dto.getStepMeta() != null) {
-            entity.setStepMeta(dto.getStepMeta().toString());
+        if (dto.getDagConfigStep() != null) {
+            entity.setDagConfigStepId(dto.getDagConfigStep().getId());
         }
-        if (dto.getStepAttrs() != null) {
-            entity.setStepAttrs(dto.getStepAttrs().toString());
+        if (dto.getInputs() != null) {
+            entity.setInputs(dto.getInputs().toString());
+        }
+        if (dto.getOutputs() != null) {
+            entity.setOutputs(dto.getOutputs().toString());
         }
         return entity;
     }
@@ -49,11 +53,14 @@ public interface DagStepConvert extends BaseConvert<DagStep, DagStepDTO> {
     default DagStepDTO toDto(DagStep entity) {
         DagStepDTO dto = new DagStepDTO();
         BeanUtils.copyProperties(entity, dto);
-        if (StringUtils.hasText(entity.getStepMeta())) {
-            dto.setStepMeta(JacksonUtil.toJsonNode(entity.getStepMeta()));
+        DagConfigStepDTO dagConfigStep = new DagConfigStepDTO();
+        dagConfigStep.setId(entity.getDagConfigStepId());
+        dto.setDagConfigStep(dagConfigStep);
+        if (StringUtils.hasText(entity.getInputs())) {
+            dto.setInputs(JacksonUtil.toJsonNode(entity.getInputs()));
         }
-        if (StringUtils.hasText(entity.getStepAttrs())) {
-            dto.setStepAttrs(JacksonUtil.toJsonNode(entity.getStepAttrs()));
+        if (StringUtils.hasText(entity.getOutputs())) {
+            dto.setOutputs(JacksonUtil.toJsonNode(entity.getOutputs()));
         }
         return dto;
     }

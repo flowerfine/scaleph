@@ -18,29 +18,19 @@
 
 package cn.sliew.scaleph.dag.service;
 
-import cn.sliew.scaleph.dag.service.dto.DagDTO;
+import cn.sliew.scaleph.dag.service.dto.DagConfigStepDTO;
+import cn.sliew.scaleph.dag.service.dto.DagInstanceComplexDTO;
 import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
-import cn.sliew.scaleph.dag.service.param.DagSimpleAddParam;
-import cn.sliew.scaleph.dag.service.param.DagSimpleUpdateParam;
-import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
+import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
+import com.google.common.graph.Graph;
 
-import java.util.List;
+public interface DagInstanceComplexService {
 
-public interface DagService {
+    DagInstanceComplexDTO selectOne(Long dagInstanceId);
 
-    DagDTO selectOne(Long dagId);
+    DagInstanceDTO selectSimpleOne(Long dagInstanceId);
 
-    DagInstanceDTO selectSimpleOne(Long dagId);
+    Graph<DagStepDTO> getDag(Long dagInstanceId, Graph<DagConfigStepDTO> configDag);
 
-    Long insert(DagSimpleAddParam param);
-
-    int update(DagSimpleUpdateParam param);
-
-    void replace(Long dagId, DagGraphVO graph);
-
-    Long clone(Long dagId);
-
-    int delete(Long dagId);
-
-    int deleteBatch(List<Long> dagIds);
+    Long initialize(Long dagConfigId);
 }

@@ -26,13 +26,31 @@
         <result column="create_time" property="createTime" />
         <result column="editor" property="editor" />
         <result column="update_time" property="updateTime" />
-        <result column="dag_id" property="dagId" />
-        <result column="step_id" property="stepId" />
-        <result column="step_name" property="stepName" />
-        <result column="position_x" property="positionX" />
-        <result column="position_y" property="positionY" />
-        <result column="step_meta" property="stepMeta" />
-        <result column="step_attrs" property="stepAttrs" />
+        <result column="dag_instance_id" property="dagInstanceId" />
+        <result column="dag_config_step_id" property="dagConfigStepId" />
+        <result column="instance_id" property="instanceId" />
+        <result column="inputs" property="inputs" />
+        <result column="outputs" property="outputs" />
+        <result column="status" property="status" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+    </resultMap>
+
+    <resultMap id="DagStepVOMap" type="cn.sliew.scaleph.dao.entity.master.dag.DagStepVO">
+        <result column="id" property="id" />
+        <result column="creator" property="creator" />
+        <result column="create_time" property="createTime" />
+        <result column="editor" property="editor" />
+        <result column="update_time" property="updateTime" />
+        <result column="dag_instance_id" property="dagInstanceId" />
+        <result column="instance_id" property="instanceId" />
+        <result column="inputs" property="inputs" />
+        <result column="outputs" property="outputs" />
+        <result column="status" property="status" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+        <association column="dag_config_step_id" property="dagConfigStep"
+                     select="cn.sliew.scaleph.dao.mapper.master.dag.DagConfigStepMapper.selectById"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -42,7 +60,15 @@
         create_time,
         editor,
         update_time,
-        dag_id, step_id, step_name, position_x, position_y, step_meta, step_attrs
+        dag_instance_id, dag_config_step_id, instance_id, inputs, outputs, `status`, start_time, end_time
     </sql>
+
+
+    <select id="listByDagInstanceId" resultMap="DagStepVOMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dag_step
+        where dag_instance_id = #{dagInstanceId}
+    </select>
 
 </mapper>

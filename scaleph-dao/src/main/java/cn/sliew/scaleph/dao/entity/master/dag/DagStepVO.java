@@ -16,23 +16,45 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service.dto;
+package cn.sliew.scaleph.dao.entity.master.dag;
 
-import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
-import cn.sliew.scaleph.system.model.BaseDTO;
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
+/**
+ * DAG 步骤
+ */
 @Data
-@EqualsAndHashCode
-public class WorkflowTaskInstanceDTO extends BaseDTO {
+@TableName("dag_step")
+public class DagStepVO extends BaseDO {
 
+    private static final long serialVersionUID = 1L;
 
-    @Schema(description = "step id")
-    private Long stepId;
+    @TableField("dag_instance_id")
+    private Long dagInstanceId;
 
+    @TableField("dag_config_step_id")
+    private DagConfigStep dagConfigStep;
 
+    @TableField("instance_id")
+    private String instanceId;
+
+    @TableField("inputs")
+    private String inputs;
+
+    @TableField("outputs")
+    private String outputs;
+
+    @TableField("`status`")
+    private String status;
+
+    @TableField("start_time")
+    private Date startTime;
+
+    @TableField("end_time")
+    private Date endTime;
 }

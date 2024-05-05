@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.workflow.service;
 
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO2;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowDefinitionListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.graph.Graph;
@@ -30,8 +30,8 @@ public interface WorkflowDefinitionService {
 
     WorkflowDefinitionDTO get(Long id);
 
-    Graph<WorkflowTaskDefinitionDTO2> getDag(Long id);
+    Graph<WorkflowTaskDefinitionDTO> getDag(Long id);
 
-    WorkflowTaskDefinitionDTO2 getTaskDefinition(Long workflowTaskDefinitionId);
+    WorkflowTaskDefinitionDTO getTaskDefinition(Long workflowTaskDefinitionId);
 
 }

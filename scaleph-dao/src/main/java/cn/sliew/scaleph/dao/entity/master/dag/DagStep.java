@@ -23,6 +23,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * DAG 步骤
  */
@@ -32,24 +34,27 @@ public class DagStep extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("dag_id")
-    private Long dagId;
+    @TableField("dag_instance_id")
+    private Long dagInstanceId;
 
-    @TableField("step_id")
-    private String stepId;
+    @TableField("dag_config_step_id")
+    private Long dagConfigStepId;
 
-    @TableField("step_name")
-    private String stepName;
+    @TableField("instance_id")
+    private String instanceId;
 
-    @TableField("position_x")
-    private Integer positionX;
+    @TableField("inputs")
+    private String inputs;
 
-    @TableField("position_y")
-    private Integer positionY;
+    @TableField("outputs")
+    private String outputs;
 
-    @TableField("step_meta")
-    private String stepMeta;
+    @TableField("`status`")
+    private String status;
 
-    @TableField("step_attrs")
-    private String stepAttrs;
+    @TableField("start_time")
+    private Date startTime;
+
+    @TableField("end_time")
+    private Date endTime;
 }

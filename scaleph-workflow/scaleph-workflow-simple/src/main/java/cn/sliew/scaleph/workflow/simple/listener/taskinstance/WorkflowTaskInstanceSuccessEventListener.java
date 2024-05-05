@@ -18,11 +18,14 @@
 
 package cn.sliew.scaleph.workflow.simple.listener.taskinstance;
 
+import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
+import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
+import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
 import cn.sliew.scaleph.queue.MessageListener;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowTaskInstanceStateMachine;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 
 @MessageListener(topic = WorkflowTaskInstanceSuccessEventListener.TOPIC, consumerGroup = WorkflowTaskInstanceStateMachine.CONSUMER_GROUP)
@@ -45,9 +48,15 @@ public class WorkflowTaskInstanceSuccessEventListener extends AbstractWorkflowTa
 
         @Override
         public void run() {
-            workflowTaskInstanceService.updateSuccess(workflowTaskInstanceId);
-            WorkflowTaskInstanceDTO workflowTaskInstanceDTO = workflowTaskInstanceService.get(workflowTaskInstanceId);
-            workflowInstanceStateMachine.onTaskChange(workflowTaskInstanceDTO.getWorkflowInstanceDTO());
+            DagStepDTO dagStepUpdateParam = new DagStepDTO();
+            dagStepUpdateParam.setId(workflowTaskInstanceId);
+            dagStepUpdateParam.setStatus(WorkflowTaskInstanceStage.SUCCESS.getValue());
+            dagStepUpdateParam.setEndTime(new Date());
+            dagStepService.update(dagStepUpdateParam);
+
+            DagStepDTO stepDTO = dagStepService.selectOne(workflowTaskInstanceId);
+            DagInstanceDTO instanceDTO = dagInstanceComplexService.selectSimpleOne(stepDTO.getDagInstanceId());
+            workflowInstanceStateMachine.onTaskChange(instanceDTO);
         }
     }
 

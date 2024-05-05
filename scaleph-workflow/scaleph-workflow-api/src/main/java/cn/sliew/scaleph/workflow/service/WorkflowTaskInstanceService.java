@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.workflow.service;
 
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO2;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowTaskInstanceListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -33,7 +33,7 @@ public interface WorkflowTaskInstanceService {
 
     List<WorkflowTaskInstanceDTO> list(Long workflowInstanceId);
 
-    Graph<WorkflowTaskInstanceDTO> getDag(Long workflowInstanceId, Graph<WorkflowTaskDefinitionDTO2> dag);
+    Graph<WorkflowTaskInstanceDTO> getDag(Long workflowInstanceId, Graph<WorkflowTaskDefinitionDTO> dag);
 
     WorkflowTaskInstanceDTO get(Long id);
 
@@ -45,7 +45,7 @@ public interface WorkflowTaskInstanceService {
 
     void updateTaskId(Long id, String taskId);
 
-    Graph<WorkflowTaskInstanceDTO> initialize(Long workflowInstanceId, Graph<WorkflowTaskDefinitionDTO2> graph);
+    Graph<WorkflowTaskInstanceDTO> initialize(Long workflowInstanceId, Graph<WorkflowTaskDefinitionDTO> graph);
 
     void deploy(Long id);
 

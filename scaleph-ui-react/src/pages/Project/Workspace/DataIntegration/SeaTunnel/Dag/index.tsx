@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {PageContainer} from '@ant-design/pro-components';
 import {useLocation} from '@umijs/max';
 import {

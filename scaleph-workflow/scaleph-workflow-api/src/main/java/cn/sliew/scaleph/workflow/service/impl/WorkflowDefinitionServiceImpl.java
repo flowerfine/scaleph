@@ -27,9 +27,9 @@ import cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowDefinitionMapper;
 import cn.sliew.scaleph.workflow.service.WorkflowDagService;
 import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
 import cn.sliew.scaleph.workflow.service.convert.WorkflowDefinitionVOConvert;
-import cn.sliew.scaleph.workflow.service.convert.WorkflowTaskDefinition2Convert;
+import cn.sliew.scaleph.workflow.service.convert.WorkflowTaskDefitionConvert;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO2;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowDefinitionListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.graph.Graph;
@@ -73,22 +73,22 @@ public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService 
     }
 
     @Override
-    public Graph<WorkflowTaskDefinitionDTO2> getDag(Long id) {
+    public Graph<WorkflowTaskDefinitionDTO> getDag(Long id) {
         WorkflowDefinitionDTO workflowDefinitionDTO = get(id);
         DagConfigComplexDTO dag = workflowDefinitionDTO.getDag();
         return buildGraph(id, dag);
     }
 
-    private MutableGraph<WorkflowTaskDefinitionDTO2> buildGraph(Long id, DagConfigComplexDTO dag) {
-        MutableGraph<WorkflowTaskDefinitionDTO2> graph = GraphBuilder.directed().build();
+    private MutableGraph<WorkflowTaskDefinitionDTO> buildGraph(Long id, DagConfigComplexDTO dag) {
+        MutableGraph<WorkflowTaskDefinitionDTO> graph = GraphBuilder.directed().build();
         List<DagConfigStepDTO> steps = dag.getSteps();
         List<DagConfigLinkDTO> links = dag.getLinks();
         if (CollectionUtils.isEmpty(steps)) {
             return graph;
         }
-        Map<String, WorkflowTaskDefinitionDTO2> stepMap = new HashMap<>();
+        Map<String, WorkflowTaskDefinitionDTO> stepMap = new HashMap<>();
         for (DagConfigStepDTO step : steps) {
-            WorkflowTaskDefinitionDTO2 taskDefinitionDTO = WorkflowTaskDefinition2Convert.INSTANCE.toDto(step);
+            WorkflowTaskDefinitionDTO taskDefinitionDTO = WorkflowTaskDefitionConvert.INSTANCE.toDto(step);
             taskDefinitionDTO.setWorkflowDefinitionId(id);
             graph.addNode(taskDefinitionDTO);
             stepMap.put(taskDefinitionDTO.getStepId(), taskDefinitionDTO);
@@ -98,8 +98,8 @@ public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService 
     }
 
     @Override
-    public WorkflowTaskDefinitionDTO2 getTaskDefinition(Long workflowTaskDefinitionId) {
+    public WorkflowTaskDefinitionDTO getTaskDefinition(Long workflowTaskDefinitionId) {
         DagConfigStepDTO step = workflowDagService.getStep(workflowTaskDefinitionId);
-        return WorkflowTaskDefinition2Convert.INSTANCE.toDto(step);
+        return WorkflowTaskDefitionConvert.INSTANCE.toDto(step);
     }
 }

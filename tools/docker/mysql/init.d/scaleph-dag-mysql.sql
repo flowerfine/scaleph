@@ -28,11 +28,13 @@ VALUES (2, 'SeaTunnel', 'fake', 'ewykdb10bd1e437346369e027a437473d483', NULL, NU
 INSERT INTO `dag_config`(`id`, `type`, `name`, `config_id`, `dag_meta`, `dag_attrs`, `remark`, `creator`, `editor`)
 VALUES (3, 'Flink-CDC', 'flink-cdc-example', 'nlly3ab39bb296a34c5888dd6509ffe588e4', NULL, NULL, NULL, 'sys', 'sys');
 INSERT INTO `dag_config`(`id`, `type`, `name`, `config_id`, `dag_meta`, `dag_attrs`, `remark`, `creator`, `editor`)
-VALUES (4, 'WorkFlow', 'FlinkSessionClusterStatusSyncJob', 'rnsp52fdd5edd77044a9acc0c2f24c42d760', NULL, NULL, NULL, 'sys', 'sys');
+VALUES (4, 'WorkFlow', 'FlinkSessionClusterStatusSyncJob', 'rnsp52fdd5edd77044a9acc0c2f24c42d760', NULL, NULL, NULL,
+        'sys', 'sys');
 INSERT INTO `dag_config`(`id`, `type`, `name`, `config_id`, `dag_meta`, `dag_attrs`, `remark`, `creator`, `editor`)
 VALUES (5, 'WorkFlow', 'FlinkJobStatusSyncJob', 'kvqfebc60efa8def410ebfe30f70fd8f1768', NULL, NULL, NULL, 'sys', 'sys');
 INSERT INTO `dag_config`(`id`, `type`, `name`, `config_id`, `dag_meta`, `dag_attrs`, `remark`, `creator`, `editor`)
-VALUES (6, 'WorkFlow', 'DorisOperatorInstanceStatusSyncJob', 'kepa00f4fdb5e8794cbb931067244caf5ef2', NULL, NULL, NULL, 'sys', 'sys');
+VALUES (6, 'WorkFlow', 'DorisOperatorInstanceStatusSyncJob', 'kepa00f4fdb5e8794cbb931067244caf5ef2', NULL, NULL, NULL,
+        'sys', 'sys');
 INSERT INTO `dag_config`(`id`, `type`, `name`, `config_id`, `dag_meta`, `dag_attrs`, `remark`, `creator`, `editor`)
 VALUES (7, 'WorkFlow', 'Demo', 'fssxbe099903bf174c11bf64b0d486383784', NULL, NULL, NULL, 'sys', 'sys');
 
@@ -182,50 +184,58 @@ VALUES (6, 7, '027db10b-9150-403d-9d11-e4a36c99e1db', NULL, '2c2cb6c8-794b-4cc1-
 drop table if exists dag_instance;
 create table dag_instance
 (
-    id          bigint not null auto_increment comment '自增主键',
-    dag_meta    varchar(128) comment 'DAG元信息',
-    dag_attrs   mediumtext comment 'DAG属性',
-    creator     varchar(32) comment '创建人',
-    create_time timestamp default current_timestamp comment '创建时间',
-    editor      varchar(32) comment '修改人',
-    update_time timestamp default current_timestamp on update current_timestamp comment '修改时间',
-    primary key (id)
+    id            bigint      not null auto_increment comment '自增主键',
+    dag_config_id bigint      not null comment 'DAG配置id',
+    instance_id   varchar(36) not null comment 'instance id',
+    inputs        text comment '输入参数',
+    outputs       text comment '输出参数',
+    status        varchar(8)  not null comment '状态',
+    start_time    timestamp   not null comment '启动时间',
+    end_time      timestamp comment '结束时间',
+    creator       varchar(32) comment '创建人',
+    create_time   timestamp default current_timestamp comment '创建时间',
+    editor        varchar(32) comment '修改人',
+    update_time   timestamp default current_timestamp on update current_timestamp comment '修改时间',
+    primary key (id),
+    key           idx_dag_config_id (`dag_config_id`)
 ) engine = innodb comment 'DAG 实例';
 
 drop table if exists dag_step;
 create table dag_step
 (
-    id          bigint      not null auto_increment comment '自增主键',
-    dag_id      bigint      not null comment 'DAG id',
-    step_id     varchar(36) not null comment '步骤id',
-    step_name   varchar(128) comment '步骤名称',
-    position_x  int         not null comment 'x坐标',
-    position_y  int         not null comment 'y坐标',
-    step_meta   varchar(128) comment '步骤元信息',
-    step_attrs  mediumtext comment '步骤属性',
-    creator     varchar(32) comment '创建人',
-    create_time timestamp default current_timestamp comment '创建时间',
-    editor      varchar(32) comment '修改人',
-    update_time timestamp default current_timestamp on update current_timestamp comment '修改时间',
+    id                 bigint      not null auto_increment comment '自增主键',
+    dag_instance_id    bigint      not null comment 'DAG id',
+    dag_config_step_id bigint      not null comment '步骤id',
+    instance_id        varchar(36) not null comment 'instance id',
+    inputs             text comment '输入参数',
+    outputs            text comment '输出参数',
+    status             varchar(8)  not null comment '状态',
+    start_time         timestamp   not null comment '启动时间',
+    end_time           timestamp comment '结束时间',
+    creator            varchar(32) comment '创建人',
+    create_time        timestamp default current_timestamp comment '创建时间',
+    editor             varchar(32) comment '修改人',
+    update_time        timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    unique key uniq_step (dag_id, step_id)
+    unique key uniq_step (dag_instance_id, dag_config_step_id)
 ) engine = innodb comment 'DAG 步骤';
 
 drop table if exists dag_link;
 create table dag_link
 (
-    id           bigint      not null auto_increment comment '自增主键',
-    dag_id       bigint      not null comment 'DAG id',
-    link_id      varchar(36) not null comment '连线id',
-    link_name    varchar(128) comment '连线名称',
-    from_step_id varchar(36) not null comment '源步骤id',
-    to_step_id   varchar(36) not null comment '目标步骤id',
-    link_meta    varchar(128) comment '连线元信息',
-    link_attrs   mediumtext comment '连线属性',
-    creator      varchar(32) comment '创建人',
-    create_time  timestamp default current_timestamp comment '创建时间',
-    editor       varchar(32) comment '修改人',
-    update_time  timestamp default current_timestamp on update current_timestamp comment '修改时间',
+    id                 bigint      not null auto_increment comment '自增主键',
+    dag_instance_id    bigint      not null comment 'DAG id',
+    dag_config_link_id bigint      not null comment '连线id',
+    instance_id        varchar(36) not null comment 'instance id',
+    inputs             text comment '输入参数',
+    outputs            text comment '输出参数',
+    status             varchar(8) comment '状态',
+    start_time         timestamp comment '启动时间',
+    end_time           timestamp comment '结束时间',
+    creator            varchar(32) comment '创建人',
+    create_time        timestamp default current_timestamp comment '创建时间',
+    editor             varchar(32) comment '修改人',
+    update_time        timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    unique key uniq_link (dag_id, link_id)
+    unique key uniq_link (dag_instance_id, dag_config_link_id)
 ) engine = innodb comment 'DAG 连线';

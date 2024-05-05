@@ -24,19 +24,9 @@ import java.util.List;
 
 public interface DagLinkService {
 
-    List<DagLinkDTO> listLinks(Long dagId);
+    List<DagLinkDTO> listLinks(Long dagInstanceId);
 
     int insert(DagLinkDTO linkDTO);
 
     int update(DagLinkDTO linkDTO);
-
-    int upsert(DagLinkDTO linkDTO);
-
-    int deleteByDag(Long dagId);
-
-    int deleteByDag(List<Long> dagIds);
-
-    int deleteSurplusLinks(Long dagId, List<String> linkIds);
-
-    int clone(Long sourceDagId, Long targetDagId);
 }

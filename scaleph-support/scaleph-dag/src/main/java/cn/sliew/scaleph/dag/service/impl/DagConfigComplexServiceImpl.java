@@ -32,11 +32,17 @@ import cn.sliew.scaleph.dag.service.param.DagConfigSimpleUpdateParam;
 import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
 import cn.sliew.scaleph.dag.service.vo.EdgeCellVO;
 import cn.sliew.scaleph.dag.service.vo.NodeCellVO;
+import com.google.common.graph.Graph;
+import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.MutableGraph;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,6 +68,24 @@ public class DagConfigComplexServiceImpl implements DagConfigComplexService {
     @Override
     public DagConfigDTO selectSimpleOne(Long dagId) {
         return dagConfigService.selectOne(dagId);
+    }
+
+    @Override
+    public Graph<DagConfigStepDTO> getDag(Long dagId) {
+        DagConfigComplexDTO dag = selectOne(dagId);
+        MutableGraph<DagConfigStepDTO> graph = GraphBuilder.directed().build();
+        List<DagConfigStepDTO> steps = dag.getSteps();
+        List<DagConfigLinkDTO> links = dag.getLinks();
+        if (CollectionUtils.isEmpty(steps)) {
+            return graph;
+        }
+        Map<String, DagConfigStepDTO> stepMap = new HashMap<>();
+        for (DagConfigStepDTO step : steps) {
+            graph.addNode(step);
+            stepMap.put(step.getStepId(), step);
+        }
+        links.forEach(link -> graph.putEdge(stepMap.get(link.getFromStepId()), stepMap.get(link.getToStepId())));
+        return graph;
     }
 
     @Override

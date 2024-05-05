@@ -24,17 +24,9 @@ import java.util.List;
 
 public interface DagInstanceService {
 
-    DagInstanceDTO selectOne(Long dagId);
+    DagInstanceDTO selectOne(Long dagInstanceId);
 
     Long insert(DagInstanceDTO instanceDTO);
 
     int update(DagInstanceDTO instanceDTO);
-
-    void upsert(DagInstanceDTO instanceDTO);
-
-    int delete(Long dagId);
-
-    int deleteBatch(List<Long> dagIds);
-
-    Long clone(Long dagId);
 }

@@ -18,34 +18,17 @@
 
 package cn.sliew.scaleph.workflow.service.dto;
 
-import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.util.Map;
+
 @Data
-public class WorkflowTaskDefinitionDTO2 extends BaseDTO {
+public class WorkflowTaskInstanceAttrs {
 
-    @Schema(description = "workflow definition id")
-    private Long workflowDefinitionId;
+    @Schema(description = "workflow task input params")
+    private Map<String, Object> inputs;
 
-    @Schema(description = "dag id")
-    private Long dagId;
-
-    @Schema(description = "步骤id")
-    private String stepId;
-
-    @Schema(description = "步骤名称")
-    private String stepName;
-
-    @Schema(description = "x坐标")
-    private Integer positionX;
-
-    @Schema(description = "y坐标")
-    private Integer positionY;
-
-    @Schema(description = "step meta")
-    private WorkflowTaskDefinitionMeta stepMeta;
-
-    @Schema(description = "step attrs")
-    private WorkflowTaskDefinitionAttrs stepAttrs;
+    @Schema(description = "workflow task output params")
+    private Map<String, Object> outputs;
 }

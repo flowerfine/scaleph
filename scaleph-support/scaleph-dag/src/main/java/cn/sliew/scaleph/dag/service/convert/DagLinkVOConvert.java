@@ -20,9 +20,8 @@ package cn.sliew.scaleph.dag.service.convert;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dag.service.dto.DagConfigLinkDTO;
 import cn.sliew.scaleph.dag.service.dto.DagLinkDTO;
-import cn.sliew.scaleph.dao.entity.master.dag.DagLink;
+import cn.sliew.scaleph.dao.entity.master.dag.DagLinkVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
@@ -30,15 +29,15 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface DagLinkConvert extends BaseConvert<DagLink, DagLinkDTO> {
-    DagLinkConvert INSTANCE = Mappers.getMapper(DagLinkConvert.class);
+public interface DagLinkVOConvert extends BaseConvert<DagLinkVO, DagLinkDTO> {
+    DagLinkVOConvert INSTANCE = Mappers.getMapper(DagLinkVOConvert.class);
 
     @Override
-    default DagLink toDo(DagLinkDTO dto) {
-        DagLink entity = new DagLink();
+    default DagLinkVO toDo(DagLinkDTO dto) {
+        DagLinkVO entity = new DagLinkVO();
         BeanUtils.copyProperties(dto, entity);
         if (dto.getDagConfigLink() != null) {
-            entity.setDagConfigLinkId(dto.getDagConfigLink().getId());
+            entity.setDagConfigLink(DagConfigLinkConvert.INSTANCE.toDo(dto.getDagConfigLink()));
         }
         if (dto.getInputs() != null) {
             entity.setInputs(dto.getInputs().toString());
@@ -50,12 +49,10 @@ public interface DagLinkConvert extends BaseConvert<DagLink, DagLinkDTO> {
     }
 
     @Override
-    default DagLinkDTO toDto(DagLink entity) {
+    default DagLinkDTO toDto(DagLinkVO entity) {
         DagLinkDTO dto = new DagLinkDTO();
         BeanUtils.copyProperties(entity, dto);
-        DagConfigLinkDTO dagConfigLink = new DagConfigLinkDTO();
-        dagConfigLink.setId(entity.getDagConfigLinkId());
-        dto.setDagConfigLink(dagConfigLink);
+        dto.setDagConfigLink(DagConfigLinkConvert.INSTANCE.toDto(entity.getDagConfigLink()));
         if (StringUtils.hasText(entity.getInputs())) {
             dto.setInputs(JacksonUtil.toJsonNode(entity.getInputs()));
         }

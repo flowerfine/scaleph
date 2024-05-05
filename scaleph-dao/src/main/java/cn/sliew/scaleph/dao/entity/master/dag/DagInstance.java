@@ -23,6 +23,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * DAG 实例
  */
@@ -32,9 +34,24 @@ public class DagInstance extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("dag_meta")
-    private String dagMeta;
+    @TableField("dag_config_id")
+    private Long dagConfigId;
 
-    @TableField("dag_attrs")
-    private String dagAttrs;
+    @TableField("instance_id")
+    private String instanceId;
+
+    @TableField("inputs")
+    private String inputs;
+
+    @TableField("outputs")
+    private String outputs;
+
+    @TableField("`status`")
+    private String status;
+
+    @TableField("start_time")
+    private Date startTime;
+
+    @TableField("end_time")
+    private Date endTime;
 }

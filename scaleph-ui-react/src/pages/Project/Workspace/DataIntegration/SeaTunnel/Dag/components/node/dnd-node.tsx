@@ -3,7 +3,7 @@ import {Button, Descriptions, Popover, Space, Tag, Typography} from 'antd';
 import {HolderOutlined, InfoCircleOutlined, MenuOutlined} from '@ant-design/icons';
 import {useIntl} from "@umijs/max";
 import {useDnd} from "@antv/xflow";
-import {Props} from "@/typings";
+import {Dict, Props} from "@/typings";
 import {DAG_NODE} from "./canvas-node";
 import './base-node.less';
 import {titleCase} from "./init-node";
@@ -49,7 +49,7 @@ export const DndNode: React.FC<Props<Record<string, any>>> = ({data}) => {
         </Descriptions>
           {data.health && <Tag color="red">{data.health?.label}</Tag>}
           {data.features &&
-            data.features.map((item) => {
+            data.features.map((item: Dict) => {
               return <Tag color="green">{item.label}</Tag>;
             })}
         </>

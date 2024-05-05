@@ -23,6 +23,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * DAG 连线
  */
@@ -32,24 +34,27 @@ public class DagLink extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("dag_id")
-    private Long dagId;
+    @TableField("dag_instance_id")
+    private Long dagInstanceId;
 
-    @TableField("link_id")
-    private String linkId;
+    @TableField("dag_config_link_id")
+    private Long dagConfigLinkId;
 
-    @TableField("link_name")
-    private String linkName;
+    @TableField("instance_id")
+    private String instanceId;
 
-    @TableField("from_step_id")
-    private String fromStepId;
+    @TableField("inputs")
+    private String inputs;
 
-    @TableField("to_step_id")
-    private String toStepId;
+    @TableField("outputs")
+    private String outputs;
 
-    @TableField("link_meta")
-    private String linkMeta;
+    @TableField("`status`")
+    private String status;
 
-    @TableField("link_attrs")
-    private String linkAttrs;
+    @TableField("start_time")
+    private Date startTime;
+
+    @TableField("end_time")
+    private Date endTime;
 }

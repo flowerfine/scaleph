@@ -26,13 +26,32 @@
         <result column="create_time" property="createTime" />
         <result column="editor" property="editor" />
         <result column="update_time" property="updateTime" />
-        <result column="dag_id" property="dagId" />
-        <result column="link_id" property="linkId" />
-        <result column="link_name" property="linkName" />
-        <result column="from_step_id" property="fromStepId" />
-        <result column="to_step_id" property="toStepId" />
-        <result column="link_meta" property="linkMeta" />
-        <result column="link_attrs" property="linkAttrs" />
+        <result column="dag_instance_id" property="dagInstanceId" />
+        <result column="dag_config_link_id" property="dagConfigLinkId" />
+        <result column="instance_id" property="instanceId" />
+        <result column="inputs" property="inputs" />
+        <result column="outputs" property="outputs" />
+        <result column="status" property="status" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+    </resultMap>
+
+    <resultMap id="DagLinkVOMap" type="cn.sliew.scaleph.dao.entity.master.dag.DagLinkVO">
+        <result column="id" property="id" />
+        <result column="creator" property="creator" />
+        <result column="create_time" property="createTime" />
+        <result column="editor" property="editor" />
+        <result column="update_time" property="updateTime" />
+        <result column="dag_instance_id" property="dagInstanceId" />
+        <result column="instance_id" property="instanceId" />
+        <result column="inputs" property="inputs" />
+        <result column="outputs" property="outputs" />
+        <result column="status" property="status" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+        <result column="dag_config_link_id" property="dagConfigLinkId" />
+        <association column="dag_config_link_id" property="dagConfigLink"
+                     select="cn.sliew.scaleph.dao.mapper.master.dag.DagConfigLinkMapper.selectById"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -42,7 +61,14 @@
         create_time,
         editor,
         update_time,
-        dag_id, link_id, link_name, from_step_id, to_step_id, link_meta, link_attrs
+        dag_instance_id, dag_config_link_id, instance_id, inputs, outputs, `status`, start_time, end_time
     </sql>
+
+    <select id="listByDagInstanceId" resultMap="DagLinkVOMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dag_link
+        where dag_instance_id = #{dagInstanceId}
+    </select>
 
 </mapper>

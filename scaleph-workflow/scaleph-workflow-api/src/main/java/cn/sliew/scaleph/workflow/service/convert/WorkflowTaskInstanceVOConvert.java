@@ -26,6 +26,7 @@ import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.BeanUtils;
 
+@Deprecated
 @Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface WorkflowTaskInstanceVOConvert extends BaseConvert<WorkflowTaskInstanceVO, WorkflowTaskInstanceDTO> {
     WorkflowTaskInstanceVOConvert INSTANCE = Mappers.getMapper(WorkflowTaskInstanceVOConvert.class);
@@ -34,7 +35,6 @@ public interface WorkflowTaskInstanceVOConvert extends BaseConvert<WorkflowTaskI
     default WorkflowTaskInstanceVO toDo(WorkflowTaskInstanceDTO dto) {
         WorkflowTaskInstanceVO entity = new WorkflowTaskInstanceVO();
         BeanUtils.copyProperties(dto, entity);
-        entity.setWorkflowInstance(WorkflowInstanceVOConvert.INSTANCE.toDo(dto.getWorkflowInstanceDTO()));
         return entity;
     }
 
@@ -42,7 +42,6 @@ public interface WorkflowTaskInstanceVOConvert extends BaseConvert<WorkflowTaskI
     default WorkflowTaskInstanceDTO toDto(WorkflowTaskInstanceVO entity) {
         WorkflowTaskInstanceDTO dto = new WorkflowTaskInstanceDTO();
         BeanUtils.copyProperties(entity, dto);
-        dto.setWorkflowInstanceDTO(WorkflowInstanceVOConvert.INSTANCE.toDto(entity.getWorkflowInstance()));
         return dto;
     }
 }

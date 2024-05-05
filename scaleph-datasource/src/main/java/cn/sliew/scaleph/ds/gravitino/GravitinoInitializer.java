@@ -18,18 +18,25 @@
 
 package cn.sliew.scaleph.ds.gravitino;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
+import cn.sliew.scaleph.ds.modal.AbstractDataSource;
+import cn.sliew.scaleph.ds.modal.jdbc.JdbcDataSource;
 import cn.sliew.scaleph.ds.service.DsInfoService;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
+import com.datastrato.gravitino.Catalog;
 import com.datastrato.gravitino.NameIdentifier;
 import com.datastrato.gravitino.client.GravitinoAdminClient;
 import com.datastrato.gravitino.client.GravitinoMetalake;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class GravitinoInitializer implements InitializingBean {
@@ -80,6 +87,7 @@ public class GravitinoInitializer implements InitializingBean {
         if (metalake.catalogExists(catalogName) == false) {
             switch (type) {
                 case MYSQL:
+                    initMySQL(metalake, catalogName, dsInfoDTO);
                     break;
                 case POSTGRESQL:
                     break;
@@ -96,5 +104,15 @@ public class GravitinoInitializer implements InitializingBean {
                 default:
             }
         }
+    }
+
+    private void initMySQL(GravitinoMetalake metalake, NameIdentifier catalogName, DsInfoDTO dsInfoDTO) {
+        JdbcDataSource dataSource = (JdbcDataSource) AbstractDataSource.fromDsInfo((ObjectNode) JacksonUtil.toJsonNode(dsInfoDTO));
+        Map<String, String> properties = new HashMap<>();
+        properties.put("jdbc-driver", dataSource.getDriverClassName());
+        properties.put("jdbc-url", dataSource.getUrl());
+        properties.put("jdbc-user", dataSource.getUser());
+        properties.put("jdbc-password", dataSource.getPassword());
+        metalake.createCatalog(catalogName, Catalog.Type.RELATIONAL, "jdbc-mysql", dataSource.getRemark(), properties);
     }
 }

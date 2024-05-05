@@ -18,12 +18,15 @@
 
 package cn.sliew.scaleph.workflow.simple.listener.workflowinstance;
 
+import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
+import cn.sliew.scaleph.dag.service.DagInstanceService;
+import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
 import cn.sliew.scaleph.queue.MessageListener;
-import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
 import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowInstanceStateMachine;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -33,7 +36,7 @@ public class WorkflowInstanceFailureEventListener extends AbstractWorkflowInstan
     public static final String TOPIC = "TOPIC_WORKFLOW_INSTANCE_PROCESS_FAILURE";
 
     @Autowired
-    private WorkflowInstanceService workflowInstanceService;
+    private DagInstanceService dagInstanceService;
 
     @Override
     protected CompletableFuture handleEventAsync(WorkflowInstanceEventDTO event) {
@@ -52,7 +55,11 @@ public class WorkflowInstanceFailureEventListener extends AbstractWorkflowInstan
 
         @Override
         public void run() {
-            workflowInstanceService.updateFailure(workflowInstanceId, throwable.orElse(null));
+            DagInstanceDTO dagInstanceUpdateParam = new DagInstanceDTO();
+            dagInstanceUpdateParam.setId(workflowInstanceId);
+            dagInstanceUpdateParam.setStatus(WorkflowInstanceState.FAILURE.getValue());
+            dagInstanceUpdateParam.setEndTime(new Date());
+            dagInstanceService.update(dagInstanceUpdateParam);
         }
     }
 }

@@ -30,4 +30,10 @@ public class WorkflowTaskDefinitionMeta {
 
     @Schema(description = "workflow task handler")
     private String handler;
+
+    @Schema(description = "refered workflow definition id")
+    private Long referenceWorkflowDefinitionId;
+
+    @Schema(description = "备注")
+    private String remark;
 }

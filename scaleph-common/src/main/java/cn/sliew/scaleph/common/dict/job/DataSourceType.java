@@ -28,54 +28,54 @@ import java.util.Arrays;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum DataSourceType implements DictInstance {
 
-    MYSQL("MySQL", "MySQL"),
-    ORACLE("Oracle", "Oracle"),
-    POSTGRESQL("PostgreSQL", "PostgreSQL"),
-    SQLSERVER("SQLServer", "SQLServer"),
-    DMDB("DmDB", "DmDB"),
-    GBASE8A("GBase8a", "GBase8a"),
-    GREENPLUM("Greenplum", "Greenplum"),
-    PHOENIX("Phoenix", "Phoenix"),
+    MYSQL("MySQL", "MySQL", "mysql remark"),
+    ORACLE("Oracle", "Oracle", null),
+    POSTGRESQL("PostgreSQL", "PostgreSQL", null),
+    SQLSERVER("SQLServer", "SQLServer", null),
+    DMDB("DmDB", "DmDB", null),
+    GBASE8A("GBase8a", "GBase8a", null),
+    GREENPLUM("Greenplum", "Greenplum", null),
+    PHOENIX("Phoenix", "Phoenix", null),
 
-    REDIS("Redis", "Redis"),
-    ELASTICSEARCH("Elasticsearch", "Elasticsearch"),
-    SOLR("Solr", "Solr"),
-    MONGODB("MongoDB", "MongoDB"),
-    TIDB("TiDB", "TiDB"),
-    CASSANDRA("Cassandra", "Cassandra"),
+    REDIS("Redis", "Redis", null),
+    ELASTICSEARCH("Elasticsearch", "Elasticsearch", null),
+    SOLR("Solr", "Solr", null),
+    MONGODB("MongoDB", "MongoDB", null),
+    TIDB("TiDB", "TiDB", null),
+    CASSANDRA("Cassandra", "Cassandra", null),
 
-    KAFKA("Kafka", "Kafka"),
-    PULSAR("Pulsar", "Pulsar"),
-    DATAHUB("DataHub", "DataHub"),
+    KAFKA("Kafka", "Kafka", null),
+    PULSAR("Pulsar", "Pulsar", null),
+    DATAHUB("DataHub", "DataHub", null),
 
-    FTP("Ftp", "Ftp"),
-    SFTP("Sftp", "Sftp"),
-    OSS("OSS", "OSS"),
-    OSSJINDO("OSSJindo", "OSSJindo"),
-    S3("S3", "S3"),
-    HDFS("HDFS", "HDFS"),
+    FTP("Ftp", "Ftp", null),
+    SFTP("Sftp", "Sftp", null),
+    OSS("OSS", "OSS", null),
+    OSSJINDO("OSSJindo", "OSSJindo", null),
+    S3("S3", "S3", null),
+    HDFS("HDFS", "HDFS", null),
 
-    HIVE("Hive", "Hive"),
-    HBASE("HBase", "HBase"),
-    IMPALA("Impala", "Impala"),
-    DORIS("Doris", "Doris"),
-    STARROCKS("StarRocks", "StarRocks"),
-    CLICKHOUSE("ClickHouse", "ClickHouse"),
-    KUDU("Kudu", "Kudu"),
-    KYLIN("Kylin", "Kylin"),
-    DRUID("Druid", "Druid"),
-    MAXCOMPUTE("MaxCompute", "MaxCompute"),
+    HIVE("Hive", "Hive", null),
+    HBASE("HBase", "HBase", null),
+    IMPALA("Impala", "Impala", null),
+    DORIS("Doris", "Doris", null),
+    STARROCKS("StarRocks", "StarRocks", null),
+    CLICKHOUSE("ClickHouse", "ClickHouse", null),
+    KUDU("Kudu", "Kudu", null),
+    KYLIN("Kylin", "Kylin", null),
+    DRUID("Druid", "Druid", null),
+    MAXCOMPUTE("MaxCompute", "MaxCompute", null),
 
-    IOTDB("IoTDB", "IoTDB"),
-    NEO4J("Neo4j", "Neo4j"),
+    IOTDB("IoTDB", "IoTDB", null),
+    NEO4J("Neo4j", "Neo4j", null),
 
-    HUDI("Hudi", "Hudi"),
-    ICEBERG("Iceberg", "Iceberg"),
+    HUDI("Hudi", "Hudi", null),
+    ICEBERG("Iceberg", "Iceberg", null),
 
-    INFLUXDB("InfluxDB", "InfluxDB"),
-    EMAIL("Email", "Email"),
-    SOCKET("Socket", "Socket"),
-    HTTP("Http", "Http"),
+    INFLUXDB("InfluxDB", "InfluxDB", null),
+    EMAIL("Email", "Email", null),
+    SOCKET("Socket", "Socket", null),
+    HTTP("Http", "Http", null),
     ;
 
     @JsonCreator
@@ -88,10 +88,12 @@ public enum DataSourceType implements DictInstance {
     @EnumValue
     private String value;
     private String label;
+    private String remark;
 
-    DataSourceType(String value, String label) {
+    DataSourceType(String value, String label, String remark) {
         this.value = value;
         this.label = label;
+        this.remark = remark;
     }
 
     @Override
@@ -102,5 +104,10 @@ public enum DataSourceType implements DictInstance {
     @Override
     public String getLabel() {
         return label;
+    }
+
+    @Override
+    public String getRemark() {
+        return remark;
     }
 }

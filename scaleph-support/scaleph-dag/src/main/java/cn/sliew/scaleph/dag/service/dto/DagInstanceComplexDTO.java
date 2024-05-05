@@ -28,7 +28,7 @@ import java.util.List;
  */
 @Data
 @Schema(name = "Dag", description = "DAG")
-public class DagDTO extends DagInstanceDTO {
+public class DagInstanceComplexDTO extends DagInstanceDTO {
 
     @Schema(description = "连线")
     private List<DagLinkDTO> links;
