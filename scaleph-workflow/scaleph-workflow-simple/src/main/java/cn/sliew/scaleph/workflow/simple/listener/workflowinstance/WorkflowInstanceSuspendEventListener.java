@@ -20,20 +20,15 @@ package cn.sliew.scaleph.workflow.simple.listener.workflowinstance;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.queue.MessageListener;
-import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
 import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
 @MessageListener(topic = WorkflowInstanceSuspendEventListener.TOPIC, consumerGroup = WorkflowInstanceStateMachine.CONSUMER_GROUP)
 public class WorkflowInstanceSuspendEventListener implements WorkflowInstanceEventListener {
 
     public static final String TOPIC = "TOPIC_WORKFLOW_INSTANCE_COMMAND_SUSPEND";
-
-    @Autowired
-    private WorkflowInstanceService workflowInstanceService;
-
+    
     @Override
     public void onEvent(WorkflowInstanceEventDTO event) {
         log.info("on event, {}", JacksonUtil.toJsonString(event));

@@ -18,9 +18,9 @@
 
 package cn.sliew.scaleph.workflow.simple.manager;
 
+import cn.sliew.scaleph.dag.service.DagStepService;
+import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
 import cn.sliew.scaleph.workflow.manager.WorkflowTaskInstanceManager;
-import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
 import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowTaskInstanceStateMachine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
 public class SimpleWorkflowTaskInstanceManager implements WorkflowTaskInstanceManager {
 
     @Autowired
-    private WorkflowTaskInstanceService workflowTaskInstanceService;
+    private DagStepService dagStepService;
     @Autowired
     private WorkflowTaskInstanceStateMachine stateMachine;
 
@@ -53,7 +53,7 @@ public class SimpleWorkflowTaskInstanceManager implements WorkflowTaskInstanceMa
         stateMachine.resume(get(id));
     }
 
-    private WorkflowTaskInstanceDTO get(Long id) {
-        return workflowTaskInstanceService.get(id);
+    private DagStepDTO get(Long id) {
+        return dagStepService.selectOne(id);
     }
 }

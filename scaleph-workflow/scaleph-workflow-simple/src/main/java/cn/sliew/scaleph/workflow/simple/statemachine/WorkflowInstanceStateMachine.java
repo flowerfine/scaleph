@@ -21,6 +21,7 @@ package cn.sliew.scaleph.workflow.simple.statemachine;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceEvent;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
+import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
 import cn.sliew.scaleph.queue.Message;
 import cn.sliew.scaleph.queue.Queue;
 import cn.sliew.scaleph.queue.QueueFactory;
@@ -136,31 +137,38 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
         }
     }
 
-    public void deploy(WorkflowInstanceDTO workflowInstanceDTO) {
-        stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.COMMAND_DEPLOY, Pair.of(workflowInstanceDTO.getId(), null));
+    public void deploy(DagInstanceDTO dagInstanceDTO) {
+        WorkflowInstanceState workflowInstanceState = WorkflowInstanceState.of(dagInstanceDTO.getStatus());
+        stateMachine.fireEvent(workflowInstanceState, WorkflowInstanceEvent.COMMAND_DEPLOY, Pair.of(dagInstanceDTO.getId(), null));
     }
 
-    public void shutdown(WorkflowInstanceDTO workflowInstanceDTO) {
-        stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.COMMAND_SHUTDOWN, Pair.of(workflowInstanceDTO.getId(), null));
+    public void shutdown(DagInstanceDTO dagInstanceDTO) {
+        WorkflowInstanceState workflowInstanceState = WorkflowInstanceState.of(dagInstanceDTO.getStatus());
+        stateMachine.fireEvent(workflowInstanceState, WorkflowInstanceEvent.COMMAND_SHUTDOWN, Pair.of(dagInstanceDTO.getId(), null));
     }
 
-    public void suspend(WorkflowInstanceDTO workflowInstanceDTO) {
-        stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.COMMAND_SUSPEND, Pair.of(workflowInstanceDTO.getId(), null));
+    public void suspend(DagInstanceDTO dagInstanceDTO) {
+        WorkflowInstanceState workflowInstanceState = WorkflowInstanceState.of(dagInstanceDTO.getStatus());
+        stateMachine.fireEvent(workflowInstanceState, WorkflowInstanceEvent.COMMAND_SUSPEND, Pair.of(dagInstanceDTO.getId(), null));
     }
 
-    public void resume(WorkflowInstanceDTO workflowInstanceDTO) {
-        stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.COMMAND_RESUME, Pair.of(workflowInstanceDTO.getId(), null));
+    public void resume(DagInstanceDTO dagInstanceDTO) {
+        WorkflowInstanceState workflowInstanceState = WorkflowInstanceState.of(dagInstanceDTO.getStatus());
+        stateMachine.fireEvent(workflowInstanceState, WorkflowInstanceEvent.COMMAND_RESUME, Pair.of(dagInstanceDTO.getId(), null));
     }
 
-    public void onTaskChange(WorkflowInstanceDTO workflowInstanceDTO) {
-        stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.PROCESS_TASK_CHANGE, Pair.of(workflowInstanceDTO.getId(), null));
+    public void onTaskChange(DagInstanceDTO dagInstanceDTO) {
+        WorkflowInstanceState workflowInstanceState = WorkflowInstanceState.of(dagInstanceDTO.getStatus());
+        stateMachine.fireEvent(workflowInstanceState, WorkflowInstanceEvent.PROCESS_TASK_CHANGE, Pair.of(dagInstanceDTO.getId(), null));
     }
 
-    public void onSuccess(WorkflowInstanceDTO workflowInstanceDTO) {
-        stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.PROCESS_SUCCESS, Pair.of(workflowInstanceDTO.getId(), null));
+    public void onSuccess(DagInstanceDTO dagInstanceDTO) {
+        WorkflowInstanceState workflowInstanceState = WorkflowInstanceState.of(dagInstanceDTO.getStatus());
+        stateMachine.fireEvent(workflowInstanceState, WorkflowInstanceEvent.PROCESS_SUCCESS, Pair.of(dagInstanceDTO.getId(), null));
     }
 
-    public void onFailure(WorkflowInstanceDTO workflowInstanceDTO, Throwable throwable) {
-        stateMachine.fireEvent(workflowInstanceDTO.getState(), WorkflowInstanceEvent.PROCESS_FAILURE, Pair.of(workflowInstanceDTO.getId(), throwable));
+    public void onFailure(DagInstanceDTO dagInstanceDTO, Throwable throwable) {
+        WorkflowInstanceState workflowInstanceState = WorkflowInstanceState.of(dagInstanceDTO.getStatus());
+        stateMachine.fireEvent(workflowInstanceState, WorkflowInstanceEvent.PROCESS_FAILURE, Pair.of(dagInstanceDTO.getId(), throwable));
     }
 }

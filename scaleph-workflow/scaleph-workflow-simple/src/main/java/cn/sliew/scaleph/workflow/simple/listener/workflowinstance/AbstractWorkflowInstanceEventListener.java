@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.workflow.simple.listener.workflowinstance;
 
-import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
+import cn.sliew.scaleph.dag.service.DagInstanceComplexService;
 import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RScheduledExecutorService;
@@ -39,7 +39,7 @@ public abstract class AbstractWorkflowInstanceEventListener implements WorkflowI
     protected RScheduledExecutorService executorService;
 
     @Autowired
-    protected WorkflowInstanceService workflowInstanceService;
+    protected DagInstanceComplexService dagInstanceComplexService;
     @Autowired
     protected WorkflowInstanceStateMachine stateMachine;
     @Autowired
@@ -66,7 +66,7 @@ public abstract class AbstractWorkflowInstanceEventListener implements WorkflowI
     }
 
     protected void onFailure(Long workflowInstanceId, Throwable throwable) {
-        stateMachine.onFailure(workflowInstanceService.get(workflowInstanceId), throwable);
+        stateMachine.onFailure(dagInstanceComplexService.selectSimpleOne(workflowInstanceId), throwable);
     }
 
     protected abstract CompletableFuture handleEventAsync(WorkflowInstanceEventDTO event);
