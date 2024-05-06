@@ -21,8 +21,6 @@ package cn.sliew.scaleph.api.controller.workflow;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
-import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
-import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowDefinitionListParam;
@@ -48,10 +46,6 @@ public class WorkflowController {
 
     @Autowired
     private WorkflowDefinitionService workflowDefinitionService;
-    @Autowired
-    private WorkflowInstanceService workflowInstanceService;
-    @Autowired
-    private WorkflowTaskInstanceService workflowTaskInstanceService;
 
     @Logging
     @GetMapping
