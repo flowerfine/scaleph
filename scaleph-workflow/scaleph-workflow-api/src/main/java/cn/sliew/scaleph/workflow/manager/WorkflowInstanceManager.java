@@ -20,7 +20,7 @@ package cn.sliew.scaleph.workflow.manager;
 
 public interface WorkflowInstanceManager {
 
-    void deploy(Long id);
+    void deploy(Long workflowDefinitionId);
 
     void shutdown(Long id);
 

@@ -21,14 +21,12 @@ package cn.sliew.scaleph.workflow.simple.listener.workflowinstance;
 import cn.sliew.scaleph.dag.service.DagConfigComplexService;
 import cn.sliew.scaleph.dag.service.DagInstanceComplexService;
 import cn.sliew.scaleph.dag.service.DagInstanceService;
-import cn.sliew.scaleph.dag.service.DagStepService;
 import cn.sliew.scaleph.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
 import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
 import cn.sliew.scaleph.queue.MessageListener;
-import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
+import cn.sliew.scaleph.workflow.manager.WorkflowTaskInstanceManager;
 import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowInstanceStateMachine;
-import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowTaskInstanceStateMachine;
 import com.google.common.graph.Graph;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.annotation.RInject;
@@ -73,7 +71,7 @@ public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanc
         @Autowired
         private WorkflowInstanceStateMachine stateMachine;
         @Autowired
-        private WorkflowTaskInstanceStateMachine taskInstanceStateMachine;
+        private WorkflowTaskInstanceManager workflowTaskInstanceManager;
 
         public DeployRunner(WorkflowInstanceEventDTO event) {
             this.event = event;
@@ -102,7 +100,7 @@ public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanc
             for (DagStepDTO dagStep : nodes) {
                 // root 节点
                 if (dagStepGraph.inDegree(dagStep) == 0) {
-                    taskInstanceStateMachine.deploy(dagStep);
+                    workflowTaskInstanceManager.deploy(dagStep.getId());
                 }
             }
         }
