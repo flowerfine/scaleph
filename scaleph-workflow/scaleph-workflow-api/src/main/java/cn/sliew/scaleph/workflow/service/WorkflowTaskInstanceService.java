@@ -18,34 +18,7 @@
 
 package cn.sliew.scaleph.workflow.service;
 
-import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
-import cn.sliew.scaleph.workflow.service.param.WorkflowTaskInstanceListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.common.graph.Graph;
-
-import java.util.List;
-
 public interface WorkflowTaskInstanceService {
-
-    Page<WorkflowTaskInstanceDTO> list(WorkflowTaskInstanceListParam param);
-
-    List<WorkflowTaskInstanceDTO> list(Long workflowInstanceId);
-
-    Graph<WorkflowTaskInstanceDTO> getDag(Long workflowInstanceId, Graph<WorkflowTaskDefinitionDTO> dag);
-
-    WorkflowTaskInstanceDTO get(Long id);
-
-    void updateState(Long id, WorkflowTaskInstanceStage stage, WorkflowTaskInstanceStage nextStage, String message);
-
-    void updateSuccess(Long id);
-
-    void updateFailure(Long id, Throwable throwable);
-
-    void updateTaskId(Long id, String taskId);
-
-    Graph<WorkflowTaskInstanceDTO> initialize(Long workflowInstanceId, Graph<WorkflowTaskDefinitionDTO> graph);
 
     void deploy(Long id);
 
