@@ -18,9 +18,11 @@
 
 package cn.sliew.scaleph.workflow.simple.manager;
 
-import cn.sliew.scaleph.dag.service.DagInstanceService;
+import cn.sliew.scaleph.dag.service.DagInstanceComplexService;
 import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
 import cn.sliew.scaleph.workflow.manager.WorkflowInstanceManager;
+import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowInstanceStateMachine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,13 +31,18 @@ import org.springframework.stereotype.Component;
 public class SimpleWorkflowInstanceManager implements WorkflowInstanceManager {
 
     @Autowired
-    private DagInstanceService dagInstanceService;
+    private WorkflowDefinitionService workflowDefinitionService;
+    @Autowired
+    private DagInstanceComplexService dagInstanceComplexService;
     @Autowired
     private WorkflowInstanceStateMachine stateMachine;
 
     @Override
-    public void deploy(Long id) {
-        stateMachine.deploy(get(id));
+    public void deploy(Long workflowDefinitionId) {
+        WorkflowDefinitionDTO workflowDefinitionDTO = workflowDefinitionService.get(workflowDefinitionId);
+        workflowDefinitionDTO.getDag().getId();
+        Long dagInstanceId = dagInstanceComplexService.initialize(workflowDefinitionDTO.getDag().getId());
+        stateMachine.deploy(get(dagInstanceId));
     }
 
     @Override
@@ -54,6 +61,6 @@ public class SimpleWorkflowInstanceManager implements WorkflowInstanceManager {
     }
 
     private DagInstanceDTO get(Long id) {
-        return dagInstanceService.selectOne(id);
+        return dagInstanceComplexService.selectSimpleOne(id);
     }
 }

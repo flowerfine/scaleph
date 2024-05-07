@@ -20,9 +20,7 @@ package cn.sliew.scaleph.workflow.scheduler.quartz;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowSchedule;
-import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
-import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
-import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
+import cn.sliew.scaleph.workflow.manager.WorkflowInstanceManager;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -34,9 +32,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 public class QuartzJobHandler extends QuartzJobBean {
 
     @Autowired
-    private WorkflowDefinitionService workflowDefinitionService;
-    @Autowired
-    private WorkflowInstanceService workflowInstanceService;
+    private WorkflowInstanceManager workflowInstanceManager;
 
     /**
      * 路由分发任务
@@ -49,7 +45,6 @@ public class QuartzJobHandler extends QuartzJobBean {
         JobDataMap dataMap = context.getMergedJobDataMap();
         String json = dataMap.getString(QuartzUtil.WORKFLOW_SCHEDULE);
         WorkflowSchedule workflowSchedule = JacksonUtil.parseJsonString(json, WorkflowSchedule.class);
-        WorkflowDefinitionDTO workflowDefinitionDTO = workflowDefinitionService.get(workflowSchedule.getWorkflowDefinitionId());
-        workflowInstanceService.deploy(workflowDefinitionDTO);
+        workflowInstanceManager.deploy(workflowSchedule.getWorkflowDefinitionId());
     }
 }
