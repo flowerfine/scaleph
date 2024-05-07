@@ -18,14 +18,12 @@ ARG FLINK_VERSION=1.16
 ARG BASE_RELEASE_IMAGE=flink:${FLINK_VERSION}
 FROM $BASE_RELEASE_IMAGE as release
 
-ARG SEATUNNEL_VERSION=2.3.4
+ARG SEATUNNEL_VERSION=2.3.5
 ARG TAR_FILE=apache-seatunnel-${SEATUNNEL_VERSION}-bin.tar.gz
 
 ENV SEATUNNEL_HOME=/opt/seatunnel
 RUN mkdir -p $SEATUNNEL_HOME
 
-# https://archive.apache.org/dist/seatunnel
-# https://dist.apache.org/repos/dist/dev/seatunnel
 RUN wget https://archive.apache.org/dist/seatunnel/${SEATUNNEL_VERSION}/$TAR_FILE ; \
     tar -zxf $TAR_FILE --strip 1 -C $SEATUNNEL_HOME ; \
     rm $TAR_FILE
@@ -39,16 +37,3 @@ COPY tools/docker/build/scaleph-seatunnel/install-plugin.sh $SEATUNNEL_HOME/bin
 
 RUN cd $SEATUNNEL_HOME ; \
     sh -x bin/install-plugin.sh ${SEATUNNEL_VERSION}
-
-# RUN cd ${SEATUNNEL_HOME}||sh bin/install-plugin.sh ${SEATUNNEL_VERSION}
-
-# BASE_RELEASE_IMAGE argument must be defined twice
-#ARG FLINK_VERSION=1.15
-#ARG BASE_RELEASE_IMAGE=flink:${FLINK_VERSION}
-#FROM $BASE_RELEASE_IMAGE as release
-#
-#ENV SEATUNNEL_HOME=/opt/seatunnel
-#
-#RUN mkdir -p $SEATUNNEL_HOME
-#
-#COPY --from=build $SCALEPH_HOME $SCALEPH_HOME/
