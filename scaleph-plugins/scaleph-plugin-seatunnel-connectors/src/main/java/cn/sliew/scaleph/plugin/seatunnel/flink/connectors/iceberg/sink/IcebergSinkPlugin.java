@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.iceberg.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.iceberg.sink;
 
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
 import com.google.auto.service.AutoService;
 
@@ -29,16 +29,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.SaveModeProperties.DATA_SAVE_MODE;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.SaveModeProperties.SCHEMA_SAVE_MODE;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.iceberg.IcebergProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.iceberg.source.IcebergSourceProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.iceberg.sink.IcebergSinkProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class IcebergSourcePlugin extends SeaTunnelConnectorPlugin {
+public class IcebergSinkPlugin extends SeaTunnelConnectorPlugin {
 
-    public IcebergSourcePlugin() {
+    public IcebergSinkPlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
                 "Apache Iceberg is an open table format for huge analytic datasets",
-                IcebergSourcePlugin.class.getName());
+                IcebergSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(CATALOG_NAME);
@@ -47,13 +49,16 @@ public class IcebergSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(ICEBERG_CATALOG_CONFIG);
         props.add(ICEBERG_HADOOP_CONF_PATH);
         props.add(HADOOP_CONFIG);
-        props.add(SCHEMA);
-        props.add(USE_SNAPSHOT_ID);
-        props.add(START_SNAPSHOT_ID);
-        props.add(END_SNAPSHOT_ID);
-        props.add(START_SNAPSHOT_TIMESTAMP);
-        props.add(USE_SNAPSHOT_TIMESTAMP);
-        props.add(STREAM_SCAN_STRATEGY);
+        props.add(CASE_SENSITIVE);
+        props.add(ICEBERG_TABEL_WRITE_PROPS);
+        props.add(ICEBERG_TABEL_AUTO_CREATE_PROPS);
+        props.add(ICEBERG_TABEL_PRIMARY_KEYS);
+        props.add(ICEBERG_TABEL_PARTITION_KEYS);
+        props.add(ICEBERG_TABEL_SCHEMA_EVOLUTION_ENABLED);
+        props.add(ICEBERG_TABEL_UPSERT_MODE_ENABLED);
+        props.add(ICEBERG_TABEL_COMMIT_BRANCH);
+        props.add(SCHEMA_SAVE_MODE);
+        props.add(DATA_SAVE_MODE);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
@@ -61,6 +66,6 @@ public class IcebergSourcePlugin extends SeaTunnelConnectorPlugin {
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SOURCE_ICEBERG;
+        return SeaTunnelPluginMapping.SINK_ICEBERG;
     }
 }
