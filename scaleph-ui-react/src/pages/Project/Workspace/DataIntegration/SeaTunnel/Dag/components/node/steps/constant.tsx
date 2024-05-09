@@ -32,6 +32,12 @@ export const ColumnParams = {
     readColumn: 'readColumn'
 }
 
+export const CommonConfigParams = {
+  commonConfig: '_common_config_',
+  commonConfigKey: '_common_config_key_',
+  commonConfigValue: '_common_config_value_'
+}
+
 export const FakeParams = {
     tablesConfigs: 'tables_configs',
     rows: 'rows',
@@ -260,13 +266,26 @@ export const HudiParams = {
 };
 
 export const IcebergParams = {
-    catalogType: 'catalog_type',
     catalogName: 'catalog_name',
     namespace: 'namespace',
     table: 'table',
-    uri: 'uri',
-    warehouse: 'warehouse',
+    catalogConfig: 'iceberg.catalog.config',
+    catalogConfigType: 'type',
+    catalogConfigUri: 'uri',
+    catalogConfigWarehouse: 'warehouse',
+    hadoopConfig: 'hadoop.config',
+    hadoopConfigKey: 'hadoopConfigKey',
+    hadoopConfigValue: 'hadoopConfigValue',
+    icebergHadoopConfPath: 'iceberg.hadoop-conf-path',
+    icebergTableWriteProps: 'iceberg.table.write-props',
+    icebergTableAutoCreateProps: 'iceberg.table.auto-create-props',
     caseSensitive: 'case_sensitive',
+    icebergTableSchemaEvolutionEnabled: 'iceberg.table.schema-evolution-enabled',
+    icebergTableUpsertModeEnabled: 'iceberg.table.upsert-mode-enabled',
+    icebergTablePrimaryKeys: 'iceberg.table.primary-keys',
+    icebergTablePartitionKeys: 'iceberg.table.partition-keys',
+    icebergTableCommitBranch: 'iceberg.table.commit-branch',
+
     fields: 'fields',
     useSnapshotId: 'use_snapshot_id',
     startSnapshotId: 'start_snapshot_id',

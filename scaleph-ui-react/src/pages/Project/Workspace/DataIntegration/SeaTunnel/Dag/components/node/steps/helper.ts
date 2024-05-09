@@ -2,13 +2,13 @@ import {
   CassandraParams,
   CDCParams,
   ClickHouseParams,
-  ColumnParams,
+  ColumnParams, CommonConfigParams,
   DorisParams,
   ElasticsearchParams,
   FieldMapperParams,
   FilterParams,
   HbaseParams,
-  HiveParams, HttpParams,
+  HiveParams, HttpParams, IcebergParams,
   InfluxDBParams,
   IoTDBParams,
   JdbcParams,
@@ -37,6 +37,15 @@ export const StepSchemaService = {
       columns.push(item[ColumnParams.readColumn])
     });
     values[ColumnParams.readColumns] = JSON.stringify(columns)
+    return values
+  },
+
+  formatCommonConfig: (values: Record<string, any>, param: string, prefix: string) => {
+    const configs: Record<string, any> = {}
+    values[prefix + CommonConfigParams.commonConfig]?.forEach(function (item: Record<string, any>) {
+      configs[item[prefix + CommonConfigParams.commonConfigKey]] = item[prefix + CommonConfigParams.commonConfigValue];
+    });
+    values[param] = JSON.stringify(configs)
     return values
   },
 
@@ -306,6 +315,15 @@ export const StepSchemaService = {
       paritionOffsets[item[RocketMQParams.specificPartition]] = item[RocketMQParams.specificPartitionOffset];
     });
     values[RocketMQParams.startModeOffsets] = JSON.stringify(paritionOffsets)
+    return values
+  },
+
+  formatIcebergCatalogConfig: (values: Record<string, any>) => {
+    const catalogConfig: Record<string, any> = {}
+    catalogConfig[IcebergParams.catalogConfigType] = values[IcebergParams.catalogConfigType]
+    catalogConfig[IcebergParams.catalogConfigUri] = values[IcebergParams.catalogConfigUri]
+    catalogConfig[IcebergParams.catalogConfigWarehouse] = values[IcebergParams.catalogConfigWarehouse]
+    values[IcebergParams.catalogConfig] = JSON.stringify(catalogConfig)
     return values
   },
 

@@ -29,7 +29,6 @@ public enum JdbcSourceProperties {
             .description("query statement")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
