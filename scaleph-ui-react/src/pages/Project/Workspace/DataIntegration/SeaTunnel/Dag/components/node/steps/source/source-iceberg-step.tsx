@@ -15,6 +15,9 @@ import {ModalFormProps} from '@/typings';
 import {IcebergParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from '../helper';
 import SchemaItem from "../schema";
+import {InfoCircleOutlined} from "@ant-design/icons";
+import CommonConfigItem
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/commonConfig";
 
 const SourceIcebergStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -41,6 +44,8 @@ const SourceIcebergStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, o
         }}
         onFinish={(values) => {
           if (onOK) {
+            StepSchemaService.formatIcebergCatalogConfig(values);
+            StepSchemaService.formatCommonConfig(values, IcebergParams.hadoopConfig, IcebergParams.hadoopConfig);
             StepSchemaService.formatSchema(values);
             onOK(values)
             return Promise.resolve(true)
@@ -53,31 +58,6 @@ const SourceIcebergStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, o
           label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
           rules={[{required: true}, {max: 120}]}
         />
-        <ProFormSelect
-          name={IcebergParams.catalogType}
-          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.catalogType'})}
-          rules={[{required: true}]}
-          valueEnum={{
-            hive: 'Hive',
-            hadoop: 'Hadoop',
-          }}
-        />
-        <ProFormDependency name={['catalog_type']}>
-          {({catalog_type}) => {
-            if (catalog_type == 'hive') {
-              return (
-                <ProFormGroup>
-                  <ProFormText
-                    name={IcebergParams.uri}
-                    label={intl.formatMessage({id: 'pages.project.di.step.iceberg.uri'})}
-                    rules={[{required: true}]}
-                  />
-                </ProFormGroup>
-              );
-            }
-            return <ProFormGroup/>;
-          }}
-        </ProFormDependency>
         <ProFormText
           name={IcebergParams.catalogName}
           label={intl.formatMessage({id: 'pages.project.di.step.iceberg.catalogName'})}
@@ -96,17 +76,60 @@ const SourceIcebergStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, o
           rules={[{required: true}]}
           colProps={{span: 12}}
         />
-        <ProFormText
-          name={IcebergParams.warehouse}
-          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.warehouse'})}
+        <ProFormSelect
+          name={IcebergParams.catalogConfigType}
+          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.catalogConfigType'})}
           rules={[{required: true}]}
+          valueEnum={{
+            hive: 'hive',
+            hadoop: 'hadoop',
+          }}
+        />
+        <ProFormDependency name={['type']}>
+          {({type}) => {
+            if (type == 'hive') {
+              return (
+                <ProFormGroup>
+                  <ProFormText
+                    name={IcebergParams.catalogConfigUri}
+                    label={intl.formatMessage({id: 'pages.project.di.step.iceberg.catalogConfigUri'})}
+                    placeholder={intl.formatMessage({id: 'pages.project.di.step.iceberg.catalogConfigUri.placeholder'})}
+                    rules={[{required: true}]}
+                  />
+                </ProFormGroup>
+              );
+            }
+            return <ProFormGroup/>;
+          }}
+        </ProFormDependency>
+
+        <ProFormText
+          name={IcebergParams.catalogConfigWarehouse}
+          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.catalogConfigWarehouse'})}
+          placeholder={intl.formatMessage({id: 'pages.project.di.step.iceberg.catalogConfigWarehouse.placeholder'})}
+          rules={[{required: true}]}
+        />
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.iceberg.hadoopConfig'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.iceberg.hadoopConfig.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          collapsible={true}
+          defaultCollapsed={true}
+        >
+          <CommonConfigItem data={IcebergParams.hadoopConfig}/>
+        </ProFormGroup>
+        <ProFormText
+          name={IcebergParams.icebergHadoopConfPath}
+          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.icebergHadoopConfPath'})}
+          placeholder={intl.formatMessage({id: 'pages.project.di.step.iceberg.icebergHadoopConfPath.placeholder'})}
         />
         <ProFormSwitch
           name={IcebergParams.caseSensitive}
           label={intl.formatMessage({id: 'pages.project.di.step.iceberg.caseSensitive'})}
           colProps={{span: 6}}
         />
-        <SchemaItem/>
         <ProFormSelect
           name={IcebergParams.streamScanStrategy}
           label={intl.formatMessage({id: 'pages.project.di.step.iceberg.streamScanStrategy'})}
@@ -121,6 +144,8 @@ const SourceIcebergStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, o
             TABLE_SCAN_THEN_INCREMENTAL: 'TABLE_SCAN_THEN_INCREMENTAL',
           }}
         />
+
+        <SchemaItem/>
 
         <ProFormSwitch
           name={'use_snapshot_id'}
