@@ -1,9 +1,7 @@
 import {
-  ClickHouseParams,
   ColumnParams,
   CommonConfigParams,
   CommonListParams,
-  DorisParams,
   ElasticsearchParams,
   FieldMapperParams,
   FilterParams,
@@ -61,9 +59,6 @@ export const StepSchemaService = {
     values[param] = JSON.stringify(configs)
     return values
   },
-
-
-
 
 
   formatHeader: (values: Record<string, any>) => {
@@ -156,15 +151,6 @@ export const StepSchemaService = {
     return values
   },
 
-  formatClickHouseConf: (values: Record<string, any>) => {
-    const config: Record<string, any> = {}
-    values[ClickHouseParams.clickhouseConfArray]?.forEach(function (item: Record<string, any>) {
-      config[item[ClickHouseParams.key]] = item[ClickHouseParams.value];
-    });
-    values[ClickHouseParams.clickhouseConf] = JSON.stringify(config)
-    return values
-  },
-
   formatHadoopS3Properties: (values: Record<string, any>) => {
     const properties: Record<string, any> = {}
     values.hadoopS3Properties?.forEach(function (item: Record<string, any>) {
@@ -226,15 +212,6 @@ export const StepSchemaService = {
       primaryKeys.push(item[IoTDBParams.keyMeasurementField])
     });
     values[IoTDBParams.keyMeasurementFields] = JSON.stringify(primaryKeys)
-    return values
-  },
-
-  formatDorisConfig: (values: Record<string, any>) => {
-    const config: Record<string, any> = {}
-    values[DorisParams.dorisConfigArray]?.forEach(function (item: Record<string, any>) {
-      config[item[DorisParams.dorisConfigProperty]] = item[DorisParams.dorisConfigValue];
-    });
-    values[DorisParams.dorisConfig] = JSON.stringify(config)
     return values
   },
 

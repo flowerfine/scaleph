@@ -681,7 +681,7 @@ export default {
   // doris
   'pages.project.di.step.doris.database': '数据库',
   'pages.project.di.step.doris.table': '表',
-  'pages.project.di.step.doris.sinkLabelPrefix': '标签前缀',
+  'pages.project.di.step.doris.sinkLabelPrefix': 'Label前缀',
   'pages.project.di.step.doris.sinkEnable2PC': '启用2PC',
   'pages.project.di.step.doris.sinkEnableDelete': '启用删除',
   'pages.project.di.step.doris.sinkCheckInterval': '异常检测频率',
@@ -704,22 +704,17 @@ export default {
       '    "replication_num" = "1"\n' +
       ');',
   'pages.project.di.step.doris.customSql': '自定义处理 SQL',
-  'pages.project.di.step.doris.dorisConfig': '流式加载配置',
-  'pages.project.di.step.doris.dorisConfig.list': '配置',
-  'pages.project.di.step.doris.dorisConfig.key': '配置',
-  'pages.project.di.step.doris.dorisConfig.key.placeholder': 'format',
-  'pages.project.di.step.doris.dorisConfig.value': '值',
-  'pages.project.di.step.doris.dorisConfig.value.placeholder': 'JSON',
+  'pages.project.di.step.doris.dorisConfig': 'Doris配置',
+  'pages.project.di.step.doris.dorisConfig.tooltip': 'Doris Stream Load 配置',
   'pages.project.di.step.doris.dorisReadField': '读取字段',
   'pages.project.di.step.doris.dorisReadField.placeholder': 'F_ID,F_INT,F_BIGINT,F_TINYINT,F_SMALLINT',
   'pages.project.di.step.doris.dorisFiterQuery': '字段过滤条件',
   'pages.project.di.step.doris.dorisFiterQuery.placeholder': 'F_ID > 2',
-  'pages.project.di.step.doris.dorisRequestQueryTimeoutS': '超时时间(秒)',
+  'pages.project.di.step.doris.dorisRequestConnectTimeoutMs': 'Connect 超时(毫秒)',
+  'pages.project.di.step.doris.dorisRequestQueryTimeoutS': 'Query 超时(秒)',
+  'pages.project.di.step.doris.dorisRequestReadTimeoutMs': 'Read 超时(毫秒)',
   'pages.project.di.step.doris.dorisExecMemLimit': 'Doris查询内存限制(字节)',
-  'pages.project.di.step.doris.dorisRequestConnectTimeoutMs': 'Connect 超时时间(毫秒)',
-  'pages.project.di.step.doris.dorisRequestReadTimeoutMs': '读取超时时间(毫秒)',
   'pages.project.di.step.doris.dorisRequestRetries': '重试次数',
-
 
   // starrocks
   'pages.project.di.step.starrocks.base-url': '基础连接地址',

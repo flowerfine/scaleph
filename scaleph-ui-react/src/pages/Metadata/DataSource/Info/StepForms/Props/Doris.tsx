@@ -1,7 +1,7 @@
 import {useIntl, useModel} from "@umijs/max";
 import {Form} from "antd";
 import {useEffect} from "react";
-import {ProCard, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
+import {ProCard, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import {DsCategoryService} from "@/services/datasource/category.service";
 
 const DorisForm: React.FC = () => {
@@ -76,6 +76,16 @@ const DorisForm: React.FC = () => {
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.doris.password'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
+        />
+        <ProFormDigit
+          name="queryPort"
+          label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.doris.queryPort'})}
+          colProps={{span: 21, offset: 1}}
+          initialValue={9030}
+          fieldProps={{
+            min: 0,
+            max: 65535
+          }}
         />
       </ProCard>
     </div>

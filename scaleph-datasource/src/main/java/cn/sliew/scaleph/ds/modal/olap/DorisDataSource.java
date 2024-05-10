@@ -30,6 +30,7 @@ import lombok.EqualsAndHashCode;
 import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,7 +50,7 @@ public class DorisDataSource extends AbstractDataSource {
     @Schema(description = "password")
     private String password;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "fenodes query port")
     private Integer queryPort;
 
