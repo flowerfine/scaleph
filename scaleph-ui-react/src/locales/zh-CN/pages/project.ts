@@ -768,9 +768,9 @@ export default {
   // amazon dynamodb
   'pages.project.di.step.dynamodb.url': 'URL',
   'pages.project.di.step.dynamodb.region': 'Region',
-  'pages.project.di.step.dynamodb.accessKeyId': '访问密钥ID',
-  'pages.project.di.step.dynamodb.secretAccessKey': '访问密钥',
-  'pages.project.di.step.dynamodb.table': '表格',
+  'pages.project.di.step.dynamodb.accessKeyId': 'Access Key Id',
+  'pages.project.di.step.dynamodb.secretAccessKey': 'Access Secret',
+  'pages.project.di.step.dynamodb.table': '表',
   'pages.project.di.step.dynamodb.schema': '模式',
   'pages.project.di.step.dynamodb.batchSize': '批量大小',
   'pages.project.di.step.dynamodb.batchIntervalMs': '批量间隔时间(毫秒)',
