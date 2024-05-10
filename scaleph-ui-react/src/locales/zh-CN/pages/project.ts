@@ -76,6 +76,9 @@ export default {
   'pages.project.di.step.column.tooltip': '数据源读取的列, 用户可以用来实现字段映射',
   'pages.project.di.step.column.field': '字段',
 
+  // common list
+  'pages.project.di.step.commonList': 'Item',
+
   // common config
   'pages.project.di.step.commonConfig': '配置',
   'pages.project.di.step.commonConfig.key': '配置项',
@@ -671,7 +674,6 @@ export default {
   'pages.project.di.step.cassandra.table': '表',
   'pages.project.di.step.cassandra.fields': '字段',
   'pages.project.di.step.cassandra.fields.tooltip': '字段',
-  'pages.project.di.step.cassandra.fields.field': '字段',
   'pages.project.di.step.cassandra.batchSize': '批处理大小',
   'pages.project.di.step.cassandra.batchType': '批处理类型',
   'pages.project.di.step.cassandra.asyncWrite': '启用异步写入',

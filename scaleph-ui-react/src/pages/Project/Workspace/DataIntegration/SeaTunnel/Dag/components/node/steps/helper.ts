@@ -1,18 +1,23 @@
 import {
-  CassandraParams,
   CDCParams,
   ClickHouseParams,
-  ColumnParams, CommonConfigParams,
+  ColumnParams,
+  CommonConfigParams,
+  CommonListParams,
   DorisParams,
   ElasticsearchParams,
   FieldMapperParams,
   FilterParams,
   HbaseParams,
-  HiveParams, HttpParams, IcebergParams,
+  HiveParams,
+  HttpParams,
+  IcebergParams,
   InfluxDBParams,
   IoTDBParams,
   JdbcParams,
-  KafkaParams, PulsarParams, RocketMQParams,
+  KafkaParams,
+  PulsarParams,
+  RocketMQParams,
   SchemaParams,
   SplitParams,
   StarRocksParams
@@ -40,6 +45,15 @@ export const StepSchemaService = {
     return values
   },
 
+  formatCommonList: (values: Record<string, any>, param: string, prefix: string) => {
+    const list: Array<string> = []
+    values[prefix + CommonListParams.commonList]?.forEach(function (item: Record<string, any>) {
+      list.push(item[prefix + CommonListParams.commonListItem])
+    });
+    values[param] = JSON.stringify(list)
+    return values
+  },
+
   formatCommonConfig: (values: Record<string, any>, param: string, prefix: string) => {
     const configs: Record<string, any> = {}
     values[prefix + CommonConfigParams.commonConfig]?.forEach(function (item: Record<string, any>) {
@@ -48,6 +62,7 @@ export const StepSchemaService = {
     values[param] = JSON.stringify(configs)
     return values
   },
+
 
   formatHeader: (values: Record<string, any>) => {
     const headers: Record<string, any> = {}
@@ -209,15 +224,6 @@ export const StepSchemaService = {
       primaryKeys.push(item[IoTDBParams.keyMeasurementField])
     });
     values[IoTDBParams.keyMeasurementFields] = JSON.stringify(primaryKeys)
-    return values
-  },
-
-  formatCassandraFields: (values: Record<string, any>) => {
-    const primaryKeys: Array<string> = []
-    values[CassandraParams.fieldArray]?.forEach(function (item: Record<string, any>) {
-      primaryKeys.push(item[CassandraParams.field])
-    });
-    values[CassandraParams.fields] = JSON.stringify(primaryKeys)
     return values
   },
 

@@ -32,6 +32,11 @@ export const ColumnParams = {
     readColumn: 'readColumn'
 }
 
+export const CommonListParams = {
+  commonList: '_common_list_',
+  commonListItem: '_common_config_item_',
+}
+
 export const CommonConfigParams = {
   commonConfig: '_common_config_',
   commonConfigKey: '_common_config_key_',
@@ -589,8 +594,6 @@ export const CassandraParams = {
     cql: 'cql',
     table: 'table',
     fields: 'fields',
-    fieldArray: 'fieldArray',
-    field: 'field',
     batchSize: 'batch_size',
     batchType: 'batch_type',
     asyncWrite: 'async_write'
