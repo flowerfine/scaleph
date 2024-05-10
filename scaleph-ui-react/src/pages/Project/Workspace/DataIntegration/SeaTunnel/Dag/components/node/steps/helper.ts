@@ -1,5 +1,4 @@
 import {
-  CDCParams,
   ClickHouseParams,
   ColumnParams,
   CommonConfigParams,
@@ -62,6 +61,9 @@ export const StepSchemaService = {
     values[param] = JSON.stringify(configs)
     return values
   },
+
+
+
 
 
   formatHeader: (values: Record<string, any>) => {
@@ -247,17 +249,6 @@ export const StepSchemaService = {
 
   formatKeyTags: (values: Record<string, any>) => {
     values[InfluxDBParams.keyTags] = JSON.stringify(values[InfluxDBParams.keyTagArray])
-    return values
-  },
-
-  formatDebeziumProperties: (values: Record<string, any>) => {
-    const properties: Record<string, any> = {}
-    values[CDCParams.debeziumProperties]?.forEach(function (item: Record<string, any>) {
-      properties[item[CDCParams.debeziumProperty]] = item[CDCParams.debeziumValue];
-    });
-    values[CDCParams.debeziums] = JSON.stringify(properties)
-    values[CDCParams.startupMode] = values.startupMode
-    values[CDCParams.stopMode] = values.stopMode
     return values
   },
 

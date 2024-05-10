@@ -86,6 +86,9 @@ public enum CDCSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    /**
+     * fixme support timestamp?
+     */
     public static final PropertyDescriptor<Long> STARTUP_TIMESTAMP = new PropertyDescriptor.Builder()
             .name("startup.timestamp")
             .description("Start from the specified epoch timestamp (in milliseconds).")
