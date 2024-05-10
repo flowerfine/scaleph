@@ -19,7 +19,8 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cdc.mongodb.source;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
-import com.fasterxml.jackson.databind.JsonNode;
+
+import java.util.List;
 
 public enum MongoDBCDCSourceProperties {
     ;
@@ -49,7 +50,7 @@ public enum MongoDBCDCSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<JsonNode> DATABASE = new PropertyDescriptor.Builder()
+    public static final PropertyDescriptor<List<String>> DATABASE = new PropertyDescriptor.Builder()
             .name("database")
             .description("Name of the database to watch for changes")
             .type(PropertyType.OBJECT)
@@ -58,7 +59,7 @@ public enum MongoDBCDCSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<JsonNode> COLLECTION = new PropertyDescriptor.Builder()
+    public static final PropertyDescriptor<List<String>> COLLECTION = new PropertyDescriptor.Builder()
             .name("collection")
             .description("Name of the collection in the database to watch for changes")
             .type(PropertyType.OBJECT)
