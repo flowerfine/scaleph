@@ -1,7 +1,7 @@
 import React from 'react';
 import {ProFormGroup, ProFormList, ProFormText} from "@ant-design/pro-components";
 import {getIntl, getLocale} from "@umijs/max";
-import {CommonConfigParams} from "./constant";
+import {CommonConfigParams} from "../../constant";
 import {Props} from "@/typings";
 
 const CommonConfigItem: React.FC<Props<string>> = ({data}) => {

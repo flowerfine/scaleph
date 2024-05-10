@@ -7,7 +7,7 @@ import {ModalFormProps} from '@/typings';
 import {STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from '../helper';
 import DataSourceItem from "../dataSource";
-import FileSourceItem from "../fileSource";
+import FileSourceItem from "../common/file/fileSource";
 
 const SourceOSSFileStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());

@@ -10,7 +10,7 @@ import {
 } from "@ant-design/pro-components";
 import {getIntl, getLocale} from "@umijs/max";
 import {BaseFileParams} from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/constant";
-import SchemaItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/schema";
+import SchemaItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/schema/schema";
 
 const FileSourceItem: React.FC = () => {
     const intl = getIntl(getLocale());

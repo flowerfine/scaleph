@@ -6,7 +6,7 @@ import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from '../helper';
-import FileSourceItem from "../fileSource";
+import FileSourceItem from "../common/file/fileSource";
 
 const SourceLocalFileStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());

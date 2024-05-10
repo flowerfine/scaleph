@@ -5,7 +5,7 @@ import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {STEP_ATTR_TYPE} from '../constant';
-import FileSinkItem from "../fileSink";
+import FileSinkItem from "../common/file/fileSink";
 
 const SinkLocalFileStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());

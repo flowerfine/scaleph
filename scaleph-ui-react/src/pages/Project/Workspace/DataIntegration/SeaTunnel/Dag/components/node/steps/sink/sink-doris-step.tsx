@@ -17,7 +17,7 @@ import {ModalFormProps} from '@/typings';
 import {DorisParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from "../helper";
 import DataSourceItem from "../dataSource";
-import SaveModeItem from "../saveMode";
+import SaveModeItem from "../common/saveMode";
 
 const SinkDorisStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
     const intl = getIntl(getLocale());

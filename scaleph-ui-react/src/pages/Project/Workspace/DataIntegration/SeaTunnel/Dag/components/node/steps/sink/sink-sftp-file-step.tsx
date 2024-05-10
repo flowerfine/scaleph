@@ -14,7 +14,7 @@ import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {BaseFileParams, STEP_ATTR_TYPE} from '../constant';
 import DataSourceItem from "../dataSource";
-import FileSinkItem from "../fileSink";
+import FileSinkItem from "../common/file/fileSink";
 
 const SinkSftpFileStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());

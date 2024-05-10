@@ -21,7 +21,7 @@ import {StepSchemaService} from "../helper";
 import {DsInfoParam} from "@/services/datasource/typings";
 import {DsInfoService} from "@/services/datasource/info.service";
 import {DictDataService} from "@/services/admin/dictData.service";
-import SaveModeItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/saveMode";
+import SaveModeItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/saveMode";
 
 const SinkJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());

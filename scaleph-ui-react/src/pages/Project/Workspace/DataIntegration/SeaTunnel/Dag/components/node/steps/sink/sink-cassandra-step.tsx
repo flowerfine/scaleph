@@ -78,9 +78,16 @@ const SinkCassandraStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, o
           label={intl.formatMessage({id: 'pages.project.di.step.cassandra.table'})}
           rules={[{required: true}]}
         />
+        <ProFormSwitch
+          name={CassandraParams.asyncWrite}
+          label={intl.formatMessage({id: 'pages.project.di.step.cassandra.asyncWrite'})}
+          colProps={{span: 8}}
+          initialValue={true}
+        />
         <ProFormSelect
           name={CassandraParams.batchType}
           label={intl.formatMessage({id: 'pages.project.di.step.cassandra.batchType'})}
+          colProps={{span: 8}}
           allowClear={false}
           initialValue={'UNLOGGED'}
           options={['LOGGED', 'UNLOGGED', 'COUNTER']}
@@ -88,26 +95,23 @@ const SinkCassandraStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, o
         <ProFormDigit
           name={CassandraParams.batchSize}
           label={intl.formatMessage({id: 'pages.project.di.step.cassandra.batchSize'})}
+          colProps={{span: 8}}
           initialValue={5000}
           fieldProps={{
             step: 1000,
             min: 0,
           }}
         />
-        <ProFormSwitch
-          name={CassandraParams.asyncWrite}
-          label={intl.formatMessage({id: 'pages.project.di.step.cassandra.asyncWrite'})}
-          initialValue={true}
-        />
-
-        <ProFormGroup label={intl.formatMessage({id: 'pages.project.di.step.cassandra.fields'})}>
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.cassandra.fields'})}
+          collapsible={true}
+          defaultCollapsed={true}
+        >
           <ProFormList
             name={CassandraParams.fieldArray}
             copyIconProps={false}
             creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({
-                id: 'pages.project.di.step.cassandra.fields.field',
-              }),
+              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.cassandra.fields.field'}),
               type: 'text',
             }}
           >

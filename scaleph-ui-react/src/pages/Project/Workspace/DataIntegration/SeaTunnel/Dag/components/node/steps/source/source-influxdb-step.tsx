@@ -6,7 +6,7 @@ import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {InfluxDBParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from '../helper';
-import FieldItem from "../fields";
+import FieldItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/schema/fields";
 import DataSourceItem from "../dataSource";
 
 const SourceInfluxDBStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {

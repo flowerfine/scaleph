@@ -14,10 +14,10 @@ import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {IcebergParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from '../helper';
-import SchemaItem from "../schema";
+import SchemaItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/schema/schema";
 import {InfoCircleOutlined} from "@ant-design/icons";
 import CommonConfigItem
-  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/commonConfig";
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/config/commonConfig";
 
 const SourceIcebergStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
