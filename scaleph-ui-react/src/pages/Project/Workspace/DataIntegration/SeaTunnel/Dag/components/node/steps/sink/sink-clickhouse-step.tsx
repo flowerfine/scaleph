@@ -6,7 +6,6 @@ import {
   ProFormDependency,
   ProFormDigit,
   ProFormGroup,
-  ProFormList,
   ProFormSwitch,
   ProFormText
 } from '@ant-design/pro-components';
@@ -16,6 +15,8 @@ import {ModalFormProps} from '@/typings';
 import {ClickHouseParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from "../helper";
 import DataSourceItem from "../dataSource";
+import CommonConfigItem
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/config/commonConfig";
 
 const SinkClickHouseStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -42,7 +43,7 @@ const SinkClickHouseStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, 
         }}
         onFinish={(values) => {
           if (onOK) {
-            StepSchemaService.formatClickHouseConf(values);
+            StepSchemaService.formatCommonConfig(values, ClickHouseParams.clickhouseConf, ClickHouseParams.clickhouseConf);
             onOK(values)
             return Promise.resolve(true)
           }
@@ -76,6 +77,17 @@ const SinkClickHouseStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, 
             title: intl.formatMessage({id: 'pages.project.di.step.clickhosue.splitMode.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
+          colProps={{span: 8}}
+        />
+        <ProFormSwitch
+          name={'support_upsert'}
+          label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.supportUpsert'})}
+          colProps={{span: 8}}
+        />
+        <ProFormSwitch
+          name={ClickHouseParams.allowExperimentalLightweightDelete}
+          label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.allowExperimentalLightweightDelete'})}
+          colProps={{span: 8}}
         />
         <ProFormDependency name={['split_mode']}>
           {({split_mode}) => {
@@ -91,10 +103,6 @@ const SinkClickHouseStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, 
             return <ProFormGroup/>;
           }}
         </ProFormDependency>
-        <ProFormSwitch
-          name={'support_upsert'}
-          label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.supportUpsert'})}
-        />
         <ProFormDependency name={['support_upsert']}>
           {({support_upsert}) => {
             if (support_upsert) {
@@ -109,40 +117,16 @@ const SinkClickHouseStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, 
             return <ProFormGroup/>;
           }}
         </ProFormDependency>
-        <ProFormSwitch
-          name={ClickHouseParams.allowExperimentalLightweightDelete}
-          label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.allowExperimentalLightweightDelete'})}
-        />
         <ProFormGroup
           title={intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf'})}
           tooltip={{
             title: intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
+          collapsible={true}
+          defaultCollapsed={true}
         >
-          <ProFormList
-            name={ClickHouseParams.clickhouseConfArray}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf.list'}),
-              type: 'text',
-            }}
-          >
-            <ProFormGroup>
-              <ProFormText
-                name={ClickHouseParams.key}
-                label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf.key'})}
-                placeholder={intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf.key.placeholder'})}
-                colProps={{span: 10, offset: 1}}
-              />
-              <ProFormText
-                name={ClickHouseParams.value}
-                label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf.value'})}
-                placeholder={intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf.value.placeholder'})}
-                colProps={{span: 10, offset: 1}}
-              />
-            </ProFormGroup>
-          </ProFormList>
+          <CommonConfigItem data={ClickHouseParams.clickhouseConf}/>
         </ProFormGroup>
       </DrawerForm>
     </XFlow>
