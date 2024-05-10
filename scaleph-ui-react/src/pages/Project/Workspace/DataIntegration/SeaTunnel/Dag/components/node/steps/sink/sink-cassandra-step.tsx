@@ -4,7 +4,6 @@ import {
   DrawerForm,
   ProFormDigit,
   ProFormGroup,
-  ProFormList,
   ProFormSelect,
   ProFormSwitch,
   ProFormText
@@ -15,6 +14,8 @@ import {ModalFormProps} from '@/typings';
 import {CassandraParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from "../helper";
 import DataSourceItem from "../dataSource";
+import CommonListItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/list";
+import {InfoCircleOutlined} from "@ant-design/icons";
 
 const SinkCassandraStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -41,7 +42,7 @@ const SinkCassandraStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, o
         }}
         onFinish={(values) => {
           if (onOK) {
-            StepSchemaService.formatCassandraFields(values);
+            StepSchemaService.formatCommonList(values, CassandraParams.fields, CassandraParams.fields);
             onOK(values)
             return Promise.resolve(true)
           }
@@ -78,9 +79,16 @@ const SinkCassandraStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, o
           label={intl.formatMessage({id: 'pages.project.di.step.cassandra.table'})}
           rules={[{required: true}]}
         />
+        <ProFormSwitch
+          name={CassandraParams.asyncWrite}
+          label={intl.formatMessage({id: 'pages.project.di.step.cassandra.asyncWrite'})}
+          colProps={{span: 8}}
+          initialValue={true}
+        />
         <ProFormSelect
           name={CassandraParams.batchType}
           label={intl.formatMessage({id: 'pages.project.di.step.cassandra.batchType'})}
+          colProps={{span: 8}}
           allowClear={false}
           initialValue={'UNLOGGED'}
           options={['LOGGED', 'UNLOGGED', 'COUNTER']}
@@ -88,31 +96,23 @@ const SinkCassandraStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, o
         <ProFormDigit
           name={CassandraParams.batchSize}
           label={intl.formatMessage({id: 'pages.project.di.step.cassandra.batchSize'})}
+          colProps={{span: 8}}
           initialValue={5000}
           fieldProps={{
             step: 1000,
             min: 0,
           }}
         />
-        <ProFormSwitch
-          name={CassandraParams.asyncWrite}
-          label={intl.formatMessage({id: 'pages.project.di.step.cassandra.asyncWrite'})}
-          initialValue={true}
-        />
-
-        <ProFormGroup label={intl.formatMessage({id: 'pages.project.di.step.cassandra.fields'})}>
-          <ProFormList
-            name={CassandraParams.fieldArray}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({
-                id: 'pages.project.di.step.cassandra.fields.field',
-              }),
-              type: 'text',
-            }}
-          >
-            <ProFormText name={CassandraParams.field}/>
-          </ProFormList>
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.cassandra.fields'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.cassandra.fields.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          collapsible={true}
+          defaultCollapsed={true}
+        >
+          <CommonListItem data={CassandraParams.fields}/>
         </ProFormGroup>
       </DrawerForm>
     </XFlow>

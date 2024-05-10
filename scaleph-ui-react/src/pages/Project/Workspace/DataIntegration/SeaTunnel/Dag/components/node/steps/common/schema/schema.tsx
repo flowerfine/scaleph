@@ -9,7 +9,7 @@ import {
     ProFormText
 } from "@ant-design/pro-components";
 import {getIntl, getLocale} from "@umijs/max";
-import {BaseFileParams, SchemaParams} from "./constant";
+import {BaseFileParams, SchemaParams} from "../../constant";
 
 const SchemaItem: React.FC = () => {
     const intl = getIntl(getLocale());

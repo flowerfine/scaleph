@@ -76,6 +76,14 @@ export default {
   'pages.project.di.step.column.tooltip': '数据源读取的列, 用户可以用来实现字段映射',
   'pages.project.di.step.column.field': '字段',
 
+  // common list
+  'pages.project.di.step.commonList': 'Item',
+
+  // common config
+  'pages.project.di.step.commonConfig': '配置',
+  'pages.project.di.step.commonConfig.key': '配置项',
+  'pages.project.di.step.commonConfig.value': '配置值',
+
   // saveMode
   'pages.project.di.step.saveMode.schemaSaveMode': 'Schema变更同步',
   'pages.project.di.step.saveMode.schemaSaveMode.tooltip': '当上游数据源发生 schema 变更时，同步 schema 变更方式',
@@ -311,9 +319,8 @@ export default {
 
   // feishu
   'pages.project.di.step.feishu.url': '飞书机器人URL',
-  'pages.project.di.step.feishu.headers': 'Header',
-  'pages.project.di.step.feishu.header': 'header',
-  'pages.project.di.step.feishu.value': 'value',
+  'pages.project.di.step.feishu.headers': 'Headers',
+  'pages.project.di.step.feishu.headers.tooltip': 'Http 请求 Headers',
 
   // dingtalk
   'pages.project.di.step.dingtalk.url': '钉钉机器人URL',
@@ -338,13 +345,30 @@ export default {
   'pages.project.di.step.hudi.kerberosPrincipalFile': 'Kerberos Principal File',
 
   // iceberg
-  'pages.project.di.step.iceberg.catalogType': 'Catalog类型',
   'pages.project.di.step.iceberg.catalogName': 'Catalog名称',
   'pages.project.di.step.iceberg.namespace': '命名空间',
   'pages.project.di.step.iceberg.table': '表名',
-  'pages.project.di.step.iceberg.uri': 'Hive Metadata thrift URI',
-  'pages.project.di.step.iceberg.warehouse': 'Warehouse',
+  'pages.project.di.step.iceberg.catalogConfigType': 'Catalog类型',
+  'pages.project.di.step.iceberg.catalogConfigUri': 'Hive Metadata thrift URI',
+  'pages.project.di.step.iceberg.catalogConfigUri.placeholder': 'eg. thrift://localhost:9083',
+  'pages.project.di.step.iceberg.catalogConfigWarehouse': 'Warehouse',
+  'pages.project.di.step.iceberg.catalogConfigWarehouse.placeholder': 'eg. hdfs://your_cluster//tmp/seatunnel/iceberg/',
+  'pages.project.di.step.iceberg.hadoopConfig': 'Hadoop 配置',
+  'pages.project.di.step.iceberg.hadoopConfig.tooltip': 'Hadoop 配置',
+  'pages.project.di.step.iceberg.icebergHadoopConfPath': 'Hadoop 配置文件路径',
+  'pages.project.di.step.iceberg.icebergHadoopConfPath.placeholder': '/path/to/core-site.xml、/path/to/hdfs-site.xml',
   'pages.project.di.step.iceberg.caseSensitive': '大小写敏感',
+  'pages.project.di.step.iceberg.icebergTableSchemaEvolutionEnabled': '启用 Schema Evolution',
+  'pages.project.di.step.iceberg.icebergTableUpsertModeEnabled': '启用 Upsert 模式',
+  'pages.project.di.step.iceberg.icebergTablePrimaryKeys': 'Primary Key',
+  'pages.project.di.step.iceberg.icebergTablePrimaryKeys.placeholder': 'key1, key2, key3',
+  'pages.project.di.step.iceberg.icebergTablePartitionKeys': 'Partition Key',
+  'pages.project.di.step.iceberg.icebergTablePartitionKeys.placeholder': 'key1, key2, key3',
+  'pages.project.di.step.iceberg.icebergTableCommitBranch': '默认提交分支',
+  'pages.project.di.step.iceberg.icebergTableWriteProps': 'Iceberg Writer 初始化参数',
+  'pages.project.di.step.iceberg.icebergTableWriteProps.tooltip': 'Iceberg Writer 初始化参数',
+  'pages.project.di.step.iceberg.icebergTableAutoCreateProps': '自动建表参数',
+  'pages.project.di.step.iceberg.icebergTableAutoCreateProps.tooltip': '自动建表参数',
   'pages.project.di.step.iceberg.fields': '字段列表',
   'pages.project.di.step.iceberg.useSnapshotId': '使用快照ID',
   'pages.project.di.step.iceberg.startSnapshotId': '起始快照ID',
@@ -587,14 +611,14 @@ export default {
   'pages.project.di.step.elasticsearch.password': '密码',
   'pages.project.di.step.elasticsearch.index': '索引',
   'pages.project.di.step.elasticsearch.primaryKeys': '主键',
-  'pages.project.di.step.elasticsearch.primaryKeys.list': '主键',
+  'pages.project.di.step.elasticsearch.primaryKeys.tooltip': '主键',
   'pages.project.di.step.elasticsearch.maxRetryCount': '最大重试次数',
   'pages.project.di.step.elasticsearch.maxBatchSize': '最大批处理数',
   'pages.project.di.step.elasticsearch.query': '查询语句',
   'pages.project.di.step.elasticsearch.scrollTime': '滚动时间',
   'pages.project.di.step.elasticsearch.scrollSize': '滚动大小',
   'pages.project.di.step.elasticsearch.source': '字段列表',
-  'pages.project.di.step.elasticsearch.source.field': '字段',
+  'pages.project.di.step.elasticsearch.source.tooltip': '字段列表',
 
   // neo4j
   'pages.project.di.step.neo4j.uri': 'URI',
@@ -649,7 +673,6 @@ export default {
   'pages.project.di.step.cassandra.table': '表',
   'pages.project.di.step.cassandra.fields': '字段',
   'pages.project.di.step.cassandra.fields.tooltip': '字段',
-  'pages.project.di.step.cassandra.fields.field': '字段',
   'pages.project.di.step.cassandra.batchSize': '批处理大小',
   'pages.project.di.step.cassandra.batchType': '批处理类型',
   'pages.project.di.step.cassandra.asyncWrite': '启用异步写入',
@@ -657,7 +680,7 @@ export default {
   // doris
   'pages.project.di.step.doris.database': '数据库',
   'pages.project.di.step.doris.table': '表',
-  'pages.project.di.step.doris.sinkLabelPrefix': '标签前缀',
+  'pages.project.di.step.doris.sinkLabelPrefix': 'Label前缀',
   'pages.project.di.step.doris.sinkEnable2PC': '启用2PC',
   'pages.project.di.step.doris.sinkEnableDelete': '启用删除',
   'pages.project.di.step.doris.sinkCheckInterval': '异常检测频率',
@@ -680,22 +703,17 @@ export default {
       '    "replication_num" = "1"\n' +
       ');',
   'pages.project.di.step.doris.customSql': '自定义处理 SQL',
-  'pages.project.di.step.doris.dorisConfig': '流式加载配置',
-  'pages.project.di.step.doris.dorisConfig.list': '配置',
-  'pages.project.di.step.doris.dorisConfig.key': '配置',
-  'pages.project.di.step.doris.dorisConfig.key.placeholder': 'format',
-  'pages.project.di.step.doris.dorisConfig.value': '值',
-  'pages.project.di.step.doris.dorisConfig.value.placeholder': 'JSON',
+  'pages.project.di.step.doris.dorisConfig': 'Doris配置',
+  'pages.project.di.step.doris.dorisConfig.tooltip': 'Doris Stream Load 配置',
   'pages.project.di.step.doris.dorisReadField': '读取字段',
   'pages.project.di.step.doris.dorisReadField.placeholder': 'F_ID,F_INT,F_BIGINT,F_TINYINT,F_SMALLINT',
   'pages.project.di.step.doris.dorisFiterQuery': '字段过滤条件',
   'pages.project.di.step.doris.dorisFiterQuery.placeholder': 'F_ID > 2',
-  'pages.project.di.step.doris.dorisRequestQueryTimeoutS': '超时时间(秒)',
+  'pages.project.di.step.doris.dorisRequestConnectTimeoutMs': 'Connect 超时(毫秒)',
+  'pages.project.di.step.doris.dorisRequestQueryTimeoutS': 'Query 超时(秒)',
+  'pages.project.di.step.doris.dorisRequestReadTimeoutMs': 'Read 超时(毫秒)',
   'pages.project.di.step.doris.dorisExecMemLimit': 'Doris查询内存限制(字节)',
-  'pages.project.di.step.doris.dorisRequestConnectTimeoutMs': 'Connect 超时时间(毫秒)',
-  'pages.project.di.step.doris.dorisRequestReadTimeoutMs': '读取超时时间(毫秒)',
   'pages.project.di.step.doris.dorisRequestRetries': '重试次数',
-
 
   // starrocks
   'pages.project.di.step.starrocks.base-url': '基础连接地址',
@@ -749,9 +767,9 @@ export default {
   // amazon dynamodb
   'pages.project.di.step.dynamodb.url': 'URL',
   'pages.project.di.step.dynamodb.region': 'Region',
-  'pages.project.di.step.dynamodb.accessKeyId': '访问密钥ID',
-  'pages.project.di.step.dynamodb.secretAccessKey': '访问密钥',
-  'pages.project.di.step.dynamodb.table': '表格',
+  'pages.project.di.step.dynamodb.accessKeyId': 'Access Key Id',
+  'pages.project.di.step.dynamodb.secretAccessKey': 'Access Secret',
+  'pages.project.di.step.dynamodb.table': '表',
   'pages.project.di.step.dynamodb.schema': '模式',
   'pages.project.di.step.dynamodb.batchSize': '批量大小',
   'pages.project.di.step.dynamodb.batchIntervalMs': '批量间隔时间(毫秒)',

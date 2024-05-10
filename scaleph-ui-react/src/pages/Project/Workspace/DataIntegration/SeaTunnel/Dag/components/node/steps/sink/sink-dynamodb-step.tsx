@@ -55,11 +55,13 @@ const SinkAmazonDynamodbStepForm: React.FC<ModalFormProps<Node>> = ({data, visib
         <ProFormText
           name={AmazonDynamoDBParams.accessKeyId}
           label={intl.formatMessage({id: 'pages.project.di.step.dynamodb.accessKeyId'})}
+          colProps={{span: 12}}
           rules={[{required: true}]}
         />
         <ProFormText
           name={AmazonDynamoDBParams.secretAccessKey}
           label={intl.formatMessage({id: 'pages.project.di.step.dynamodb.secretAccessKey'})}
+          colProps={{span: 12}}
           rules={[{required: true}]}
         />
         <ProFormText

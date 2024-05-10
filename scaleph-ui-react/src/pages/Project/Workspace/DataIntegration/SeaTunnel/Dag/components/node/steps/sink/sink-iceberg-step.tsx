@@ -3,7 +3,6 @@ import {Form} from 'antd';
 import {
   DrawerForm,
   ProFormDependency,
-  ProFormDigit,
   ProFormGroup,
   ProFormSelect,
   ProFormSwitch,
@@ -14,12 +13,12 @@ import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {IcebergParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from '../helper';
-import SchemaItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/schema/schema";
+import SaveModeItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/saveMode";
 import {InfoCircleOutlined} from "@ant-design/icons";
 import CommonConfigItem
   from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/config/commonConfig";
 
-const SourceIcebergStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
+const SinkIcebergStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
   const [form] = Form.useForm();
 
@@ -46,7 +45,8 @@ const SourceIcebergStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, o
           if (onOK) {
             StepSchemaService.formatIcebergCatalogConfig(values);
             StepSchemaService.formatCommonConfig(values, IcebergParams.hadoopConfig, IcebergParams.hadoopConfig);
-            StepSchemaService.formatSchema(values);
+            StepSchemaService.formatCommonConfig(values, IcebergParams.icebergTableWriteProps, IcebergParams.icebergTableWriteProps);
+            StepSchemaService.formatCommonConfig(values, IcebergParams.icebergTableAutoCreateProps, IcebergParams.icebergTableAutoCreateProps);
             onOK(values)
             return Promise.resolve(true)
           }
@@ -128,69 +128,63 @@ const SourceIcebergStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, o
         <ProFormSwitch
           name={IcebergParams.caseSensitive}
           label={intl.formatMessage({id: 'pages.project.di.step.iceberg.caseSensitive'})}
-          colProps={{span: 6}}
+          colProps={{span: 8}}
         />
-        <ProFormSelect
-          name={IcebergParams.streamScanStrategy}
-          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.streamScanStrategy'})}
-          colProps={{span: 18}}
-          allowClear={false}
-          initialValue={'FROM_LATEST_SNAPSHOT'}
-          valueEnum={{
-            FROM_LATEST_SNAPSHOT: 'FROM_LATEST_SNAPSHOT',
-            FROM_EARLIEST_SNAPSHOT: 'FROM_EARLIEST_SNAPSHOT',
-            FROM_SNAPSHOT_ID: 'FROM_SNAPSHOT_ID',
-            FROM_SNAPSHOT_TIMESTAMP: 'FROM_SNAPSHOT_TIMESTAMP',
-            TABLE_SCAN_THEN_INCREMENTAL: 'TABLE_SCAN_THEN_INCREMENTAL',
-          }}
-        />
-
-        <SchemaItem/>
-
         <ProFormSwitch
-          name={'use_snapshot_id'}
-          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.useSnapshotId'})}
+          name={IcebergParams.icebergTableSchemaEvolutionEnabled}
+          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.icebergTableSchemaEvolutionEnabled'})}
+          colProps={{span: 8}}
         />
-        <ProFormDependency name={['use_snapshot_id']}>
-          {({use_snapshot_id}) => {
-            if (use_snapshot_id) {
-              return (
-                <ProFormGroup>
-                  <ProFormDigit
-                    name={IcebergParams.startSnapshotId}
-                    label={intl.formatMessage({
-                      id: 'pages.project.di.step.iceberg.startSnapshotId',
-                    })}
-                    rules={[{required: true}]}
-                    colProps={{span: 12}}
-                  />
-                  <ProFormDigit
-                    name={IcebergParams.endSnapshotId}
-                    label={intl.formatMessage({
-                      id: 'pages.project.di.step.iceberg.endSnapshotId',
-                    })}
-                    rules={[{required: true}]}
-                    colProps={{span: 12}}
-                  />
-                </ProFormGroup>
-              );
-            }
-            return <ProFormGroup/>;
+        <ProFormSwitch
+          name={IcebergParams.icebergTableUpsertModeEnabled}
+          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.icebergTableUpsertModeEnabled'})}
+          colProps={{span: 8}}
+        />
+        <ProFormText
+          name={IcebergParams.icebergTablePrimaryKeys}
+          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.icebergTablePrimaryKeys'})}
+          placeholder={intl.formatMessage({id: 'pages.project.di.step.iceberg.icebergTablePrimaryKeys.placeholder'})}
+          colProps={{span: 8}}
+        />
+        <ProFormText
+          name={IcebergParams.icebergTablePartitionKeys}
+          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.icebergTablePartitionKeys'})}
+          placeholder={intl.formatMessage({id: 'pages.project.di.step.iceberg.icebergTablePartitionKeys.placeholder'})}
+          colProps={{span: 8}}
+        />
+        <ProFormText
+          name={IcebergParams.icebergTableCommitBranch}
+          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.icebergTableCommitBranch'})}
+          colProps={{span: 8}}
+        />
+
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.iceberg.icebergTableWriteProps'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.iceberg.icebergTableWriteProps.tooltip'}),
+            icon: <InfoCircleOutlined/>,
           }}
-        </ProFormDependency>
-        <ProFormDigit
-          name={IcebergParams.startSnapshotTimestamp}
-          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.startSnapshotTimestamp'})}
-          colProps={{span: 12}}
-        />
-        <ProFormDigit
-          name={IcebergParams.useSnapshotTimestamp}
-          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.useSnapshotTimestamp'})}
-          colProps={{span: 12}}
-        />
+          collapsible={true}
+          defaultCollapsed={true}
+        >
+          <CommonConfigItem data={IcebergParams.icebergTableWriteProps}/>
+        </ProFormGroup>
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.iceberg.icebergTableAutoCreateProps'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.iceberg.icebergTableAutoCreateProps.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          collapsible={true}
+          defaultCollapsed={true}
+        >
+          <CommonConfigItem data={IcebergParams.icebergTableAutoCreateProps}/>
+        </ProFormGroup>
+
+        <SaveModeItem/>
       </DrawerForm>
     </XFlow>
   );
 };
 
-export default SourceIcebergStepForm;
+export default SinkIcebergStepForm;

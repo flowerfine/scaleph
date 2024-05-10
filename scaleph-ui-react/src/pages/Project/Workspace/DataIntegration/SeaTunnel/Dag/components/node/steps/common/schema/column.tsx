@@ -2,7 +2,7 @@ import React from 'react';
 import {InfoCircleOutlined} from "@ant-design/icons";
 import {ProFormGroup, ProFormList, ProFormText} from "@ant-design/pro-components";
 import {getIntl, getLocale} from "@umijs/max";
-import {ColumnParams} from "./constant";
+import {ColumnParams} from "../../constant";
 
 const ColumnItem: React.FC = () => {
   const intl = getIntl(getLocale());

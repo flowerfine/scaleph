@@ -1,11 +1,14 @@
 import React, {useEffect} from 'react';
 import {Form} from 'antd';
-import {DrawerForm, ProFormGroup, ProFormList, ProFormText} from '@ant-design/pro-components';
+import {InfoCircleOutlined} from "@ant-design/icons";
+import {DrawerForm, ProFormGroup, ProFormText} from '@ant-design/pro-components';
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {FeishuParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from "../helper";
+import CommonConfigItem
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/config/commonConfig";
 
 const SinkFeishuStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -32,7 +35,7 @@ const SinkFeishuStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
         }}
         onFinish={(values) => {
           if (onOK) {
-            StepSchemaService.formatHeader(values);
+            StepSchemaService.formatCommonConfig(values, FeishuParams.headers, FeishuParams.headers);
             onOK(values)
             return Promise.resolve(true)
           }
@@ -50,28 +53,17 @@ const SinkFeishuStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
           label={intl.formatMessage({id: 'pages.project.di.step.feishu.url'})}
           rules={[{required: true}]}
         />
-        <ProFormList
-          name={FeishuParams.headerArray}
-          label={intl.formatMessage({id: 'pages.project.di.step.feishu.headers'})}
-          copyIconProps={false}
-          creatorButtonProps={{
-            creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.feishu.header'}),
-            type: 'text',
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.feishu.headers'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.feishu.headers.tooltip'}),
+            icon: <InfoCircleOutlined/>,
           }}
+          collapsible={true}
+          defaultCollapsed={true}
         >
-          <ProFormGroup>
-            <ProFormText
-              name={FeishuParams.header}
-              label={intl.formatMessage({id: 'pages.project.di.step.feishu.header'})}
-              colProps={{span: 10, offset: 1}}
-            />
-            <ProFormText
-              name={FeishuParams.headerValue}
-              label={intl.formatMessage({id: 'pages.project.di.step.feishu.value'})}
-              colProps={{span: 10, offset: 1}}
-            />
-          </ProFormGroup>
-        </ProFormList>
+          <CommonConfigItem data={FeishuParams.headers}/>
+        </ProFormGroup>
       </DrawerForm>
     </XFlow>
   );

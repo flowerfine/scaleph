@@ -1,18 +1,19 @@
 import {
-  CassandraParams,
-  CDCParams,
-  ClickHouseParams,
   ColumnParams,
-  DorisParams,
-  ElasticsearchParams,
+  CommonConfigParams,
+  CommonListParams,
   FieldMapperParams,
   FilterParams,
   HbaseParams,
-  HiveParams, HttpParams,
+  HiveParams,
+  HttpParams,
+  IcebergParams,
   InfluxDBParams,
   IoTDBParams,
   JdbcParams,
-  KafkaParams, PulsarParams, RocketMQParams,
+  KafkaParams,
+  PulsarParams,
+  RocketMQParams,
   SchemaParams,
   SplitParams,
   StarRocksParams
@@ -39,6 +40,25 @@ export const StepSchemaService = {
     values[ColumnParams.readColumns] = JSON.stringify(columns)
     return values
   },
+
+  formatCommonList: (values: Record<string, any>, param: string, prefix: string) => {
+    const list: Array<string> = []
+    values[prefix + CommonListParams.commonList]?.forEach(function (item: Record<string, any>) {
+      list.push(item[prefix + CommonListParams.commonListItem])
+    });
+    values[param] = JSON.stringify(list)
+    return values
+  },
+
+  formatCommonConfig: (values: Record<string, any>, param: string, prefix: string) => {
+    const configs: Record<string, any> = {}
+    values[prefix + CommonConfigParams.commonConfig]?.forEach(function (item: Record<string, any>) {
+      configs[item[prefix + CommonConfigParams.commonConfigKey]] = item[prefix + CommonConfigParams.commonConfigValue];
+    });
+    values[param] = JSON.stringify(configs)
+    return values
+  },
+
 
   formatHeader: (values: Record<string, any>) => {
     const headers: Record<string, any> = {}
@@ -130,15 +150,6 @@ export const StepSchemaService = {
     return values
   },
 
-  formatClickHouseConf: (values: Record<string, any>) => {
-    const config: Record<string, any> = {}
-    values[ClickHouseParams.clickhouseConfArray]?.forEach(function (item: Record<string, any>) {
-      config[item[ClickHouseParams.key]] = item[ClickHouseParams.value];
-    });
-    values[ClickHouseParams.clickhouseConf] = JSON.stringify(config)
-    return values
-  },
-
   formatHadoopS3Properties: (values: Record<string, any>) => {
     const properties: Record<string, any> = {}
     values.hadoopS3Properties?.forEach(function (item: Record<string, any>) {
@@ -176,48 +187,12 @@ export const StepSchemaService = {
     return values
   },
 
-  formatEsPrimaryKeys: (values: Record<string, any>) => {
-    const primaryKeys: Array<string> = []
-    values[ElasticsearchParams.primaryKeyArray]?.forEach(function (item: Record<string, any>) {
-      primaryKeys.push(item[ElasticsearchParams.primaryKey])
-    });
-    values[ElasticsearchParams.primaryKeys] = JSON.stringify(primaryKeys)
-    return values
-  },
-
-  formatEsSource: (values: Record<string, any>) => {
-    const source: Array<string> = []
-    values[ElasticsearchParams.sourceArray]?.forEach(function (item: Record<string, any>) {
-      source.push(item[ElasticsearchParams.sourceField])
-    });
-    values[ElasticsearchParams.source] = JSON.stringify(source)
-    return values
-  },
-
   formatMeasurementFields: (values: Record<string, any>) => {
     const primaryKeys: Array<string> = []
     values[IoTDBParams.keyMeasurementFieldArray]?.forEach(function (item: Record<string, any>) {
       primaryKeys.push(item[IoTDBParams.keyMeasurementField])
     });
     values[IoTDBParams.keyMeasurementFields] = JSON.stringify(primaryKeys)
-    return values
-  },
-
-  formatCassandraFields: (values: Record<string, any>) => {
-    const primaryKeys: Array<string> = []
-    values[CassandraParams.fieldArray]?.forEach(function (item: Record<string, any>) {
-      primaryKeys.push(item[CassandraParams.field])
-    });
-    values[CassandraParams.fields] = JSON.stringify(primaryKeys)
-    return values
-  },
-
-  formatDorisConfig: (values: Record<string, any>) => {
-    const config: Record<string, any> = {}
-    values[DorisParams.dorisConfigArray]?.forEach(function (item: Record<string, any>) {
-      config[item[DorisParams.dorisConfigProperty]] = item[DorisParams.dorisConfigValue];
-    });
-    values[DorisParams.dorisConfig] = JSON.stringify(config)
     return values
   },
 
@@ -232,17 +207,6 @@ export const StepSchemaService = {
 
   formatKeyTags: (values: Record<string, any>) => {
     values[InfluxDBParams.keyTags] = JSON.stringify(values[InfluxDBParams.keyTagArray])
-    return values
-  },
-
-  formatDebeziumProperties: (values: Record<string, any>) => {
-    const properties: Record<string, any> = {}
-    values[CDCParams.debeziumProperties]?.forEach(function (item: Record<string, any>) {
-      properties[item[CDCParams.debeziumProperty]] = item[CDCParams.debeziumValue];
-    });
-    values[CDCParams.debeziums] = JSON.stringify(properties)
-    values[CDCParams.startupMode] = values.startupMode
-    values[CDCParams.stopMode] = values.stopMode
     return values
   },
 
@@ -306,6 +270,15 @@ export const StepSchemaService = {
       paritionOffsets[item[RocketMQParams.specificPartition]] = item[RocketMQParams.specificPartitionOffset];
     });
     values[RocketMQParams.startModeOffsets] = JSON.stringify(paritionOffsets)
+    return values
+  },
+
+  formatIcebergCatalogConfig: (values: Record<string, any>) => {
+    const catalogConfig: Record<string, any> = {}
+    catalogConfig[IcebergParams.catalogConfigType] = values[IcebergParams.catalogConfigType]
+    catalogConfig[IcebergParams.catalogConfigUri] = values[IcebergParams.catalogConfigUri]
+    catalogConfig[IcebergParams.catalogConfigWarehouse] = values[IcebergParams.catalogConfigWarehouse]
+    values[IcebergParams.catalogConfig] = JSON.stringify(catalogConfig)
     return values
   },
 

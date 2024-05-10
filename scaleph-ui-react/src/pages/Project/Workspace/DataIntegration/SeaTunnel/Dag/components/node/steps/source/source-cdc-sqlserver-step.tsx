@@ -6,10 +6,10 @@ import {
   ProFormDependency,
   ProFormDigit,
   ProFormGroup,
-  ProFormList,
   ProFormSelect,
   ProFormSwitch,
-  ProFormText, ProFormTextArea,
+  ProFormText,
+  ProFormTextArea,
 } from '@ant-design/pro-components';
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
@@ -18,6 +18,8 @@ import {CDCParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from '../helper';
 import {DictDataService} from "@/services/admin/dictData.service";
 import {DICT_TYPE} from "@/constants/dictType";
+import CommonConfigItem
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/config/commonConfig";
 
 const SourceCDCSqlServerStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -44,7 +46,7 @@ const SourceCDCSqlServerStepForm: React.FC<ModalFormProps<Node>> = ({data, visib
         }}
         onFinish={(values) => {
           if (onOK) {
-            StepSchemaService.formatDebeziumProperties(values);
+            StepSchemaService.formatCommonConfig(values, CDCParams.debeziums, CDCParams.debeziums);
             onOK(values)
             return Promise.resolve(true)
           }
@@ -280,29 +282,7 @@ const SourceCDCSqlServerStepForm: React.FC<ModalFormProps<Node>> = ({data, visib
             icon: <InfoCircleOutlined/>,
           }}
         >
-          <ProFormList
-            name={CDCParams.debeziumProperties}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.cdc.debeziums.list'}),
-              type: 'text',
-            }}
-          >
-            <ProFormGroup>
-              <ProFormText
-                name={CDCParams.debeziumProperty}
-                label={intl.formatMessage({id: 'pages.project.di.step.cdc.debeziums.property'})}
-                placeholder={intl.formatMessage({id: 'pages.project.di.step.cdc.debeziums.property.placeholder'})}
-                colProps={{span: 10, offset: 1}}
-              />
-              <ProFormText
-                name={CDCParams.debeziumValue}
-                label={intl.formatMessage({id: 'pages.project.di.step.cdc.debeziums.value'})}
-                placeholder={intl.formatMessage({id: 'pages.project.di.step.cdc.debeziums.value.placeholder'})}
-                colProps={{span: 10, offset: 1}}
-              />
-            </ProFormGroup>
-          </ProFormList>
+          <CommonConfigItem data={CDCParams.debeziums}/>
         </ProFormGroup>
         <ProFormSelect
           name={CDCParams.format}

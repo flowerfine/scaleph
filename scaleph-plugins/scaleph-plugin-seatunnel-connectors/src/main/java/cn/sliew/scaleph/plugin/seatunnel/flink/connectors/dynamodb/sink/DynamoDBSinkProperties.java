@@ -22,7 +22,6 @@ import cn.sliew.scaleph.plugin.framework.property.Parsers;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.framework.property.PropertyType;
 import cn.sliew.scaleph.plugin.framework.property.Validators;
-import com.fasterxml.jackson.databind.JsonNode;
 
 public enum DynamoDBSinkProperties {
     ;
@@ -35,6 +34,9 @@ public enum DynamoDBSinkProperties {
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
+    /**
+     * fixme seatunnel support this?
+     */
     public static final PropertyDescriptor<Integer> BATCH_INTERVAL_MS = new PropertyDescriptor.Builder()
             .name("batch_interval_ms")
             .description("The batch interval of Amazon DynamoDB")
@@ -42,5 +44,5 @@ public enum DynamoDBSinkProperties {
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
-    
+
 }

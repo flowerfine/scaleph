@@ -159,10 +159,10 @@ create table ws_artifact_seatunnel
 ) engine = innodb comment 'artifact seatunnel';
 INSERT INTO ws_artifact_seatunnel (id, artifact_id, seatunnel_engine, flink_version, seatunnel_version, dag_id, current,
                                    creator, editor)
-VALUES (1, 4, 'seatunnel', '1.16.3', '2.3.4', 1, 1, 'sys', 'sys');
+VALUES (1, 4, 'seatunnel', '1.16.3', '2.3.5', 1, 1, 'sys', 'sys');
 INSERT INTO ws_artifact_seatunnel(id, artifact_id, seatunnel_engine, flink_version, seatunnel_version, dag_id, current,
                                   creator, editor)
-VALUES (2, 5, 'seatunnel', '1.16.3', '2.3.4', 2, 1, 'sys', 'sys');
+VALUES (2, 5, 'seatunnel', '1.16.3', '2.3.5', 2, 1, 'sys', 'sys');
 
 DROP TABLE IF EXISTS ws_flink_kubernetes_template;
 CREATE TABLE ws_flink_kubernetes_template

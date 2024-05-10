@@ -43,13 +43,13 @@ public class FakeSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(TABLES_CONFIGS);
         props.add(SCHEMA);
         props.add(ROW_NUM);
+        props.add(ROWS);
         props.add(SPLIT_NUM);
         props.add(SPLIT_READ_INTERVAL);
         props.add(MAP_SIZE);
         props.add(ARRAY_SIZE);
         props.add(BYTES_SIZE);
         props.add(STRING_SIZE);
-        props.add(ROWS);
 
         props.add(STRING_FAKE_MODE);
         props.add(STRING_TEMPLATE);

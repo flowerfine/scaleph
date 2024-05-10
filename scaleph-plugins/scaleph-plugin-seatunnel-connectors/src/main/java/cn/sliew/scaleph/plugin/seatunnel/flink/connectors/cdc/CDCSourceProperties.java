@@ -70,8 +70,8 @@ public enum CDCSourceProperties {
             .validateAndBuild();
 
     public static final PropertyDescriptor<JsonNode> TABLE_CONFIG = new PropertyDescriptor.Builder()
-            .name("table-names")
-            .description("Table name of the database to monitor.")
+            .name("table-names-config")
+            .description("Table config list.")
             .type(PropertyType.OBJECT)
             .parser(Parsers.JSON_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
@@ -86,6 +86,9 @@ public enum CDCSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    /**
+     * fixme support timestamp?
+     */
     public static final PropertyDescriptor<Long> STARTUP_TIMESTAMP = new PropertyDescriptor.Builder()
             .name("startup.timestamp")
             .description("Start from the specified epoch timestamp (in milliseconds).")
@@ -143,6 +146,9 @@ public enum CDCSourceProperties {
             .addValidator(Validators.POSITIVE_LONG_VALIDATOR)
             .validateAndBuild();
 
+    /**
+     * fixme does all jdbc cdc support this?
+     */
     public static final PropertyDescriptor<Integer> INCREMENTAL_PARALLELISM = new PropertyDescriptor.Builder()
             .name("incremental.parallelism")
             .description("The number of parallel readers in the incremental phase.")

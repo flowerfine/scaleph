@@ -67,6 +67,7 @@ public enum SeaTunnelPluginName implements DictInstance {
     JDBC("Jdbc", "Jdbc"),
     REDIS("Redis", "Redis"),
     ELASTICSEARCH("Elasticsearch", "Elasticsearch"),
+    EASYSEARCH("Easysearch", "Easysearch"),
     MONGODB("MongoDB", "MongoDB"),
     AMAZON_DYNAMODB("AmazonDynamodb", "AmazonDynamodb"),
     CASSANDRA("Cassandra", "Cassandra"),

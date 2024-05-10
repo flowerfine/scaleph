@@ -83,6 +83,7 @@ export default {
   'pages.metadata.dataSource.step.props.doris.nodeUrls.placeholder': '127.0.0.1:8030,127.0.0.2:8030',
   'pages.metadata.dataSource.step.props.doris.username': 'Username',
   'pages.metadata.dataSource.step.props.doris.password': 'Password',
+  'pages.metadata.dataSource.step.props.doris.queryPort': 'Query 端口号',
 
   'pages.metadata.dataSource.step.props.starrocks.nodeUrls': 'Node URLs',
   'pages.metadata.dataSource.step.props.starrocks.nodeUrls.placeholder': '127.0.0.1:8030,127.0.0.2:8030',

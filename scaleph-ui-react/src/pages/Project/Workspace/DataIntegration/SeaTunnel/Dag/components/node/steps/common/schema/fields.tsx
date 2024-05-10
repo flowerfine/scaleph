@@ -2,7 +2,7 @@ import React from 'react';
 import {InfoCircleOutlined} from "@ant-design/icons";
 import {ProFormGroup, ProFormList, ProFormText} from "@ant-design/pro-components";
 import {getIntl, getLocale} from "@umijs/max";
-import {SchemaParams} from "./constant";
+import {SchemaParams} from "../../constant";
 
 const FieldItem: React.FC = () => {
   const intl = getIntl(getLocale());
@@ -15,6 +15,7 @@ const FieldItem: React.FC = () => {
         icon: <InfoCircleOutlined/>,
       }}
       collapsible={true}
+      defaultCollapsed={true}
     >
       <ProFormList
         name={SchemaParams.fieldArray}
