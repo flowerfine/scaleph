@@ -1,20 +1,16 @@
 import React, {useEffect} from 'react';
 import {Form} from 'antd';
 import {InfoCircleOutlined} from "@ant-design/icons";
-import {
-  DrawerForm,
-  ProFormDigit,
-  ProFormGroup,
-  ProFormList,
-  ProFormText,
-  ProFormTextArea,
-} from '@ant-design/pro-components';
+import {DrawerForm, ProFormDigit, ProFormGroup, ProFormText, ProFormTextArea,} from '@ant-design/pro-components';
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
-import {ElasticsearchParams, SchemaParams, STEP_ATTR_TYPE} from '../constant';
+import {ElasticsearchParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from '../helper';
 import DataSourceItem from "../dataSource";
+import CommonListItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/list";
+import FieldItem
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/schema/fields";
 
 const SourceElasticsearchStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -41,7 +37,7 @@ const SourceElasticsearchStepForm: React.FC<ModalFormProps<Node>> = ({data, visi
         }}
         onFinish={(values) => {
           if (onOK) {
-            StepSchemaService.formatEsSource(values)
+            StepSchemaService.formatCommonList(values, ElasticsearchParams.source, ElasticsearchParams.source)
             StepSchemaService.formatSchema(values);
             onOK(values)
             return Promise.resolve(true)
@@ -82,51 +78,17 @@ const SourceElasticsearchStepForm: React.FC<ModalFormProps<Node>> = ({data, visi
           }}
         />
         <ProFormGroup
-          label={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.source'})}
-        >
-          <ProFormList
-            name={ElasticsearchParams.sourceArray}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.elasticsearch.source.field'}),
-              type: 'text',
-            }}
-          >
-            <ProFormText
-              name={ElasticsearchParams.sourceField}
-              colProps={{span: 16, offset: 4}}
-            />
-          </ProFormList>
-        </ProFormGroup>
-        <ProFormGroup
-          label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
+          title={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.source'})}
           tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
+            title: intl.formatMessage({id: 'pages.project.di.step.elasticsearch.source.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
+          collapsible={true}
+          defaultCollapsed={true}
         >
-          <ProFormList
-            name={SchemaParams.fields}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
-              type: 'text',
-            }}
-          >
-            <ProFormGroup>
-              <ProFormText
-                name={SchemaParams.field}
-                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
-                colProps={{span: 10, offset: 1}}
-              />
-              <ProFormText
-                name={SchemaParams.type}
-                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.type'})}
-                colProps={{span: 10, offset: 1}}
-              />
-            </ProFormGroup>
-          </ProFormList>
+          <CommonListItem data={ElasticsearchParams.source}/>
         </ProFormGroup>
+        <FieldItem/>
       </DrawerForm>
     </XFlow>
   );

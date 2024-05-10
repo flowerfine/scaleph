@@ -61,6 +61,9 @@ public enum ElasticsearchSourceProperties {
             .defaultValue(100)
             .validateAndBuild();
 
+    /**
+     * fixme support schema?
+     */
     public static final PropertyDescriptor<JsonNode> SCHEMA = new PropertyDescriptor.Builder()
             .name("schema")
             .description("The structure of the data, including field names and field types")

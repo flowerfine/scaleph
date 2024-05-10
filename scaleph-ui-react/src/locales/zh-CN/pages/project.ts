@@ -612,14 +612,14 @@ export default {
   'pages.project.di.step.elasticsearch.password': '密码',
   'pages.project.di.step.elasticsearch.index': '索引',
   'pages.project.di.step.elasticsearch.primaryKeys': '主键',
-  'pages.project.di.step.elasticsearch.primaryKeys.list': '主键',
+  'pages.project.di.step.elasticsearch.primaryKeys.tooltip': '主键',
   'pages.project.di.step.elasticsearch.maxRetryCount': '最大重试次数',
   'pages.project.di.step.elasticsearch.maxBatchSize': '最大批处理数',
   'pages.project.di.step.elasticsearch.query': '查询语句',
   'pages.project.di.step.elasticsearch.scrollTime': '滚动时间',
   'pages.project.di.step.elasticsearch.scrollSize': '滚动大小',
   'pages.project.di.step.elasticsearch.source': '字段列表',
-  'pages.project.di.step.elasticsearch.source.field': '字段',
+  'pages.project.di.step.elasticsearch.source.tooltip': '字段列表',
 
   // neo4j
   'pages.project.di.step.neo4j.uri': 'URI',

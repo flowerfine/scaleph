@@ -15,6 +15,7 @@ const FieldItem: React.FC = () => {
         icon: <InfoCircleOutlined/>,
       }}
       collapsible={true}
+      defaultCollapsed={true}
     >
       <ProFormList
         name={SchemaParams.fieldArray}

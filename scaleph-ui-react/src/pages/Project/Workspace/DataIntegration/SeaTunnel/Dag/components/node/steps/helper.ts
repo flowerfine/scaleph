@@ -2,7 +2,6 @@ import {
   ColumnParams,
   CommonConfigParams,
   CommonListParams,
-  ElasticsearchParams,
   FieldMapperParams,
   FilterParams,
   HbaseParams,
@@ -185,24 +184,6 @@ export const StepSchemaService = {
       primaryKeys.push(item[JdbcParams.primaryKey])
     });
     values[JdbcParams.primaryKeys] = JSON.stringify(primaryKeys)
-    return values
-  },
-
-  formatEsPrimaryKeys: (values: Record<string, any>) => {
-    const primaryKeys: Array<string> = []
-    values[ElasticsearchParams.primaryKeyArray]?.forEach(function (item: Record<string, any>) {
-      primaryKeys.push(item[ElasticsearchParams.primaryKey])
-    });
-    values[ElasticsearchParams.primaryKeys] = JSON.stringify(primaryKeys)
-    return values
-  },
-
-  formatEsSource: (values: Record<string, any>) => {
-    const source: Array<string> = []
-    values[ElasticsearchParams.sourceArray]?.forEach(function (item: Record<string, any>) {
-      source.push(item[ElasticsearchParams.sourceField])
-    });
-    values[ElasticsearchParams.source] = JSON.stringify(source)
     return values
   },
 
