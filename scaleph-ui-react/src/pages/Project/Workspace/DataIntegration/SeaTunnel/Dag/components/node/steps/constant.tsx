@@ -239,10 +239,7 @@ export const WeChatParams = {
 
 export const FeishuParams = {
   url: 'url',
-  headerArray: 'headerArray',
   headers: 'headers',
-  header: 'header',
-  headerValue: 'headerValue'
 };
 
 export const DingTalkParams = {

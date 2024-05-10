@@ -319,9 +319,8 @@ export default {
 
   // feishu
   'pages.project.di.step.feishu.url': '飞书机器人URL',
-  'pages.project.di.step.feishu.headers': 'Header',
-  'pages.project.di.step.feishu.header': 'header',
-  'pages.project.di.step.feishu.value': 'value',
+  'pages.project.di.step.feishu.headers': 'Headers',
+  'pages.project.di.step.feishu.headers.tooltip': 'Http 请求 Headers',
 
   // dingtalk
   'pages.project.di.step.dingtalk.url': '钉钉机器人URL',

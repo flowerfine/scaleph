@@ -83,9 +83,7 @@ const SinkEmailStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVis
                           <ProFormGroup>
                             <ProFormTextArea
                               name={EmailParams.emailAuthorizationCode}
-                              label={intl.formatMessage({
-                                id: 'pages.project.di.step.email.emailAuthorizationCode',
-                              })}
+                              label={intl.formatMessage({id: 'pages.project.di.step.email.emailAuthorizationCode'})}
                               rules={[{required: true}]}
                             />
                           </ProFormGroup>
