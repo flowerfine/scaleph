@@ -76,7 +76,7 @@ public class WsFlinkKubernetesTemplateController {
     @Logging
     @GetMapping("/flinkImageMappings")
     @Operation(summary = "查询 Flink 镜像映射", description = "查询 Flink 镜像映射")
-    public ResponseEntity<ResponseVO<List<FlinkImageOption>>> getFlinkVersionOptions(FlinkVersion flinkVersion) {
+    public ResponseEntity<ResponseVO<List<FlinkImageOption>>> getFlinkVersionOptions(@RequestParam("flinkVersion") FlinkVersion flinkVersion) {
         List<FlinkImageOption> options = wsFlinkKubernetesTemplateService.getFlinkImageOptions(flinkVersion);
         return new ResponseEntity(ResponseVO.success(options), HttpStatus.OK);
     }
