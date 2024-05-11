@@ -20,10 +20,9 @@ package cn.sliew.scaleph.resource.service.dto;
 
 import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import javax.validation.constraints.NotBlank;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
