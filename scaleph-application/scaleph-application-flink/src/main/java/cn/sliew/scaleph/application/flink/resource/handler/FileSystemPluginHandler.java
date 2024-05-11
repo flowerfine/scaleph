@@ -60,7 +60,7 @@ public class FileSystemPluginHandler {
     private void handlePodTemplate(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
         builder.editOrNewMetadata().withName(ResourceNames.POD_TEMPLATE_NAME)
                 .endMetadata();
-        PodFluent.SpecNested<PodBuilder> spec = builder.editOrNewSpec();
+        PodFluent<PodBuilder>.SpecNested<PodBuilder> spec = builder.editOrNewSpec();
 
         ContainerUtil.findFlinkMainContainer(spec)
                 .addAllToEnv(buildEnableFileSystemEnv(jobDTO))

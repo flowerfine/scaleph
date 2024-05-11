@@ -161,7 +161,6 @@
         <flink.base.version>1.18</flink.base.version>
         <flink-jdbc.version>3.1.2</flink-jdbc.version>
         <paimon.version>0.7.0-incubating</paimon.version>
-        <kubernetes.client.version>6.2.0</kubernetes.client.version>
         <spring-cloud-openfeign.version>3.1.7</spring-cloud-openfeign.version>
         <zjsonpatch.version>0.4.14</zjsonpatch.version>
         <kogito.version>2.44.0.Alpha</kogito.version>
@@ -616,12 +615,6 @@
                 <groupId>org.apache.flink</groupId>
                 <artifactId>flink-kubernetes</artifactId>
                 <version>${flink.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.fabric8</groupId>
-                <artifactId>kubernetes-client</artifactId>
-                <version>${kubernetes.client.version}</version>
             </dependency>
 
             <dependency>

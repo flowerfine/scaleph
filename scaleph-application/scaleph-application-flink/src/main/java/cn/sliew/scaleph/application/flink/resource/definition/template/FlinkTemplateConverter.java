@@ -38,7 +38,7 @@ public enum FlinkTemplateConverter implements ResourceConverter<WsFlinkKubernete
     @Override
     public FlinkTemplate convertTo(WsFlinkKubernetesTemplateDTO source) {
         FlinkTemplate template = new FlinkTemplate();
-        ObjectMetaBuilder builder = new ObjectMetaBuilder(true);
+        ObjectMetaBuilder builder = new ObjectMetaBuilder();
         FlinkTemplateSpec spec = new FlinkTemplateSpec();
 
         String name = StringUtils.hasText(source.getTemplateId()) ? source.getTemplateId() : source.getName();

@@ -34,7 +34,7 @@ public enum DorisClusterConverter implements ResourceConverter<WsDorisOperatorIn
     @Override
     public DorisCluster convertTo(WsDorisOperatorInstanceDTO source) {
         DorisCluster cluster = new DorisCluster();
-        ObjectMetaBuilder builder = new ObjectMetaBuilder(true);
+        ObjectMetaBuilder builder = new ObjectMetaBuilder();
         String name = StringUtils.hasText(source.getInstanceId()) ? source.getInstanceId() : source.getName();
         builder.withName(name);
         builder.withNamespace(source.getNamespace());

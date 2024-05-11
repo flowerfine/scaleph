@@ -72,7 +72,8 @@ public class FileFetcherHandler {
         builder.editOrNewMetadata()
                 .withName(ResourceNames.POD_TEMPLATE_NAME)
                 .endMetadata();
-        PodFluent.SpecNested<PodBuilder> spec = builder.editOrNewSpec();
+
+        PodFluent<PodBuilder>.SpecNested<PodBuilder> spec = builder.editOrNewSpec();
 
         spec.addAllToVolumes(buildVolume()); // add volumes
         ContainerUtil.findFlinkMainContainer(spec)

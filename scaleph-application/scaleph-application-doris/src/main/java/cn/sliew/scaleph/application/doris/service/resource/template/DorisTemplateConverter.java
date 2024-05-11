@@ -33,7 +33,7 @@ public enum DorisTemplateConverter implements ResourceConverter<WsDorisOperatorT
     @Override
     public DorisTemplate convertTo(WsDorisOperatorTemplateDTO source) {
         DorisTemplate template = new DorisTemplate();
-        ObjectMetaBuilder builder = new ObjectMetaBuilder(true);
+        ObjectMetaBuilder builder = new ObjectMetaBuilder();
         String name = StringUtils.hasText(source.getTemplateId()) ? source.getTemplateId() : source.getName();
         builder.withName(name);
         builder.addToLabels(ResourceLabels.SCALEPH_LABEL_NAME, source.getName());

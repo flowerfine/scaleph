@@ -25,10 +25,10 @@ import cn.sliew.scaleph.application.flink.operator.spec.TaskManagerSpec;
 import cn.sliew.scaleph.application.flink.operator.spec.JobManagerSpec;
 import io.fabric8.kubernetes.api.model.Pod;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 

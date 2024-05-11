@@ -22,9 +22,9 @@ import cn.sliew.scaleph.common.dict.flink.kubernetes.UpgradeMode;
 import cn.sliew.scaleph.application.flink.operator.spec.JobManagerSpec;
 import cn.sliew.scaleph.application.flink.operator.spec.TaskManagerSpec;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Data
