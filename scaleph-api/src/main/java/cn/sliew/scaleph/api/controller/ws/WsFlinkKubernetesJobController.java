@@ -79,7 +79,7 @@ public class WsFlinkKubernetesJobController {
     }
 
     @Logging
-    @PutMapping
+    @PutMapping("/")
     @Operation(summary = "创建 Job", description = "创建 Job")
     public ResponseEntity<ResponseVO> insert(@RequestBody @Valid WsFlinkKubernetesJobAddParam param) {
         wsFlinkKubernetesJobService.insert(param);
