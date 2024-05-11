@@ -20,12 +20,11 @@ package cn.sliew.scaleph.mail.service.vo;
 
 import cn.sliew.scaleph.common.constant.Constants;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.util.StringUtils;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 /**
  * 系统邮箱配置类

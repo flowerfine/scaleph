@@ -26,7 +26,10 @@ import cn.sliew.scaleph.mail.service.EmailService;
 import cn.sliew.scaleph.mail.service.vo.EmailConfigVO;
 import cn.sliew.scaleph.system.service.SysConfigService;
 import cn.sliew.scaleph.system.service.dto.SysConfigDTO;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
@@ -37,9 +40,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 
@@ -48,7 +48,7 @@ import java.util.Properties;
  */
 @Slf4j
 @Service
-public class EmailServiceImpl implements EmailService {
+public class EmailServiceImpl implements EmailService, InitializingBean {
 
     @Value("${spring.mail.username}")
     private String from;
@@ -63,8 +63,8 @@ public class EmailServiceImpl implements EmailService {
         this.from = from;
     }
 
-    @PostConstruct
-    void initEmailInfo() {
+    @Override
+    public void afterPropertiesSet() throws Exception {
         SysConfigDTO config = this.sysConfigService.selectByCode(Constants.CFG_EMAIL_CODE);
         if (config != null && !StrUtil.isEmpty(config.getCfgValue())) {
             EmailConfigVO emailInfo = JSONUtil.toBean(config.getCfgValue(), EmailConfigVO.class);
