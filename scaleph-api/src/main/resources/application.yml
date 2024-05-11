@@ -54,7 +54,7 @@ spring:
       connection-timeout: 10000
       connection-test-query: SELECT 1
       validation-timeout: 1000
-  redis:
+  data.redis:
     timeout: 5000
     lettuce:
       pool:
