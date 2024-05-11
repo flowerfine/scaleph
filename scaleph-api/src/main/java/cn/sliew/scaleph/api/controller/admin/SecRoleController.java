@@ -45,7 +45,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -136,7 +135,7 @@ public class SecRoleController {
     @Operation(summary = "用户授权角色", description = "用户授权角色")
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_ROLE_AUTHORIZE)")
-    public ResponseEntity<ResponseVO> grantRole(@NotNull Long roleId, @NotNull String userIds) {
+    public ResponseEntity<ResponseVO> grantRole(@RequestParam("roleId") Long roleId, @RequestParam("roleId") String userIds) {
         List<Long> userList = JSONUtil.toList(userIds, Long.class);
         List<SecUserRoleDTO> oldUserList = this.secUserRoleService.listByRoleId(roleId);
         List<Long> tmpList = new ArrayList<>(userList.size());
@@ -167,7 +166,7 @@ public class SecRoleController {
     @GetMapping("/dept")
     @Operation(summary = "查询部门对应角色列表", description = "查询部门对应角色列表")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_DEPT_SELECT)")
-    public ResponseEntity<List<SecRoleDTO>> listRoleByDept(String grant, @NotNull Long deptId) {
+    public ResponseEntity<List<SecRoleDTO>> listRoleByDept(String grant, @RequestParam("deptId") Long deptId) {
         List<SecRoleDTO> list = this.secRoleService.selectRoleByDept(grant, deptId);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
@@ -176,7 +175,7 @@ public class SecRoleController {
     @GetMapping("/dept/grant")
     @Operation(summary = "部门角色授权", description = "部门角色授权")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_DEPT_AUTHORIZE)")
-    public ResponseEntity<ResponseVO> grantDeptRole(@NotNull SecDeptRoleDTO deptRole) {
+    public ResponseEntity<ResponseVO> grantDeptRole(@RequestParam("deptRole") SecDeptRoleDTO deptRole) {
         this.secDeptRoleService.insert(deptRole);
         List<SecUserDTO> userList = this.secUserService.listByDept(deptRole.getDeptId(), "", "1");
         userList.forEach(user -> {
@@ -189,7 +188,7 @@ public class SecRoleController {
     @GetMapping("/dept/revoke")
     @Operation(summary = "回收部门角色权限", description = "回收部门角色权限")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_DEPT_UNAUTHORIZE)")
-    public ResponseEntity<ResponseVO> revokeDeptRole(@NotNull SecDeptRoleDTO deptRole) {
+    public ResponseEntity<ResponseVO> revokeDeptRole(@RequestParam("deptRole") SecDeptRoleDTO deptRole) {
         this.secDeptRoleService.delete(deptRole);
         List<SecUserDTO> userList = this.secUserService.listByDept(deptRole.getDeptId(), "", "1");
         userList.forEach(user -> {

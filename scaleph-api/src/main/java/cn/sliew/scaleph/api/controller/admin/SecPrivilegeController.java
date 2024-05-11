@@ -36,6 +36,7 @@ import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,8 +45,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -82,7 +81,7 @@ public class SecPrivilegeController {
     @GetMapping
     @Operation(summary = "查询权限树", description = "查询权限树")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).ROLE_GRANT)")
-    public ResponseEntity<List<Tree<Long>>> listAllPrivilege(@NotNull String resourceType) {
+    public ResponseEntity<List<Tree<Long>>> listAllPrivilege(@RequestParam("resourceType") String resourceType) {
         List<SecPrivilegeDTO> privilegeList = this.secPrivilegeService.listAll(resourceType);
         TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
         treeNodeConfig.setIdKey("privilegeId");
@@ -113,8 +112,8 @@ public class SecPrivilegeController {
     @GetMapping("/role")
     @Operation(summary = "查询权限树", description = "查询权限树")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).ROLE_GRANT)")
-    public ResponseEntity<List<SecPrivilegeDTO>> listPrivilege(@NotNull Long roleId,
-                                                               @NotNull String resourceType) {
+    public ResponseEntity<List<SecPrivilegeDTO>> listPrivilege(@RequestParam("roleId") Long roleId,
+                                                               @RequestParam("resourceType") String resourceType) {
         List<SecPrivilegeDTO> result = new ArrayList<>();
         this.secRolePrivilegeService.listByRoleId(roleId, resourceType).forEach(d -> {
             SecPrivilegeDTO p = new SecPrivilegeDTO();
@@ -129,9 +128,9 @@ public class SecPrivilegeController {
     @Operation(summary = "角色授权权限", description = "角色授权权限")
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).ROLE_GRANT)")
-    public ResponseEntity<ResponseVO> grantPrivilege(@NotNull Long roleId,
-                                                     @NotNull String privilegeIds,
-                                                     @NotNull String resourceType) {
+    public ResponseEntity<ResponseVO> grantPrivilege(@RequestParam("roleId") Long roleId,
+                                                     @RequestParam("privilegeIds") String privilegeIds,
+                                                     @RequestParam("resourceType") String resourceType) {
         List<Long> privilegeList = JSONUtil.toList(privilegeIds, Long.class);
         List<SecRolePrivilegeDTO> oldPrivilegeList =
                 this.secRolePrivilegeService.listByRoleId(roleId, resourceType);

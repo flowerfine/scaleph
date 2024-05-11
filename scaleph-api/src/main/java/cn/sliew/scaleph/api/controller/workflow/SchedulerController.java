@@ -28,13 +28,13 @@ import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleListParam;
 import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleUpdateParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;

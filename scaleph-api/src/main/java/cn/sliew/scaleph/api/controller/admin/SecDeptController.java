@@ -34,6 +34,7 @@ import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,8 +43,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -161,7 +160,7 @@ public class SecDeptController {
     @Operation(summary = "部门分配用户", description = "部门分配用户")
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_DEPT_AUTHORIZE)")
-    public ResponseEntity<ResponseVO> grantDept(@NotNull Long deptId, @NotNull String userIds) {
+    public ResponseEntity<ResponseVO> grantDept(@RequestParam("deptId") Long deptId, @RequestParam("userIds") String userIds) {
         List<Long> userList = JSONUtil.toList(userIds, Long.class);
         List<SecUserDeptDTO> oldUserList = this.secUserDeptService.listByDeptId(deptId);
         List<Long> tmpList = new ArrayList<>(userList.size());
