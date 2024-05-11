@@ -20,10 +20,9 @@ package cn.sliew.scaleph.workspace.project.service.param;
 
 import cn.sliew.scaleph.system.model.PaginationParam;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import javax.validation.constraints.NotNull;
 
 @Data
 @EqualsAndHashCode(callSuper = true)

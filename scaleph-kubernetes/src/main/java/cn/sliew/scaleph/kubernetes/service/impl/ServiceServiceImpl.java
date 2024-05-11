@@ -23,6 +23,9 @@ import cn.sliew.scaleph.kubernetes.service.KubernetesService;
 import cn.sliew.scaleph.kubernetes.service.ServiceService;
 import io.fabric8.kubernetes.api.model.*;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
+import io.fabric8.kubernetes.api.model.networking.v1.IngressLoadBalancerIngress;
+import io.fabric8.kubernetes.api.model.networking.v1.IngressLoadBalancerStatus;
+import io.fabric8.kubernetes.api.model.networking.v1.IngressPortStatus;
 import io.fabric8.kubernetes.client.NamespacedKubernetesClient;
 import io.fabric8.kubernetes.client.dsl.Resource;
 import org.apache.commons.lang3.text.StrSubstitutor;
@@ -128,6 +131,25 @@ public class ServiceServiceImpl implements ServiceService {
                 hostOrIp = ingress.getHostname();
             }
             for (PortStatus portStatus : ingress.getPorts()) {
+                return Optional.of(String.format("%s:%d", hostOrIp, portStatus.getPort()));
+            }
+            return Optional.ofNullable(hostOrIp);
+        }
+        return Optional.empty();
+    }
+
+    private Optional<String> formatHost(IngressLoadBalancerStatus loadBalancer) {
+        if (loadBalancer == null) {
+            return Optional.empty();
+        }
+        for (IngressLoadBalancerIngress ingress : loadBalancer.getIngress()) {
+            // Get by ip firstly
+            String hostOrIp = ingress.getIp();
+            if (!StringUtils.hasText(hostOrIp)) {
+                // If ip is empty, get by hostname
+                hostOrIp = ingress.getHostname();
+            }
+            for (IngressPortStatus portStatus : ingress.getPorts()) {
                 return Optional.of(String.format("%s:%d", hostOrIp, portStatus.getPort()));
             }
             return Optional.ofNullable(hostOrIp);
