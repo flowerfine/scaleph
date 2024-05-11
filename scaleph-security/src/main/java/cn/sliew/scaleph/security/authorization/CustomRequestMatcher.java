@@ -18,11 +18,10 @@
 
 package cn.sliew.scaleph.security.authorization;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Component
 public class CustomRequestMatcher implements RequestMatcher {

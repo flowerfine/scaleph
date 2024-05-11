@@ -18,13 +18,16 @@
 
 package cn.sliew.scaleph.security.util;
 
+import cn.hutool.core.net.NetUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.system.model.ResponseVO;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.util.WebUtils;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -42,5 +45,30 @@ public class WebUtil extends WebUtils {
             out.write(JacksonUtil.toJsonString(responseVO));
             out.flush();
         }
+    }
+
+    /**
+     * copied from hutool for javax -> jakarta
+     */
+    public static String getClientIP(HttpServletRequest request, String... otherHeaderNames) {
+        String[] headers = {"X-Forwarded-For", "X-Real-IP", "Proxy-Client-IP", "WL-Proxy-Client-IP", "HTTP_CLIENT_IP", "HTTP_X_FORWARDED_FOR"};
+        if (ArrayUtil.isNotEmpty(otherHeaderNames)) {
+            headers = ArrayUtil.addAll(headers, otherHeaderNames);
+        }
+
+        return getClientIPByHeader(request, headers);
+    }
+
+    public static String getClientIPByHeader(HttpServletRequest request, String... headerNames) {
+        String ip;
+        for (String header : headerNames) {
+            ip = request.getHeader(header);
+            if (false == NetUtil.isUnknown(ip)) {
+                return NetUtil.getMultistageReverseProxyIp(ip);
+            }
+        }
+
+        ip = request.getRemoteAddr();
+        return NetUtil.getMultistageReverseProxyIp(ip);
     }
 }

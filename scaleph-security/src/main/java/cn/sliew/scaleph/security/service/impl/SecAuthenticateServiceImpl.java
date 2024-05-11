@@ -34,9 +34,11 @@ import cn.sliew.scaleph.security.service.dto.SecCaptchaDTO;
 import cn.sliew.scaleph.security.service.dto.SecRoleDTO;
 import cn.sliew.scaleph.security.service.param.SecLoginParam;
 import cn.sliew.scaleph.security.util.SecurityUtil;
+import cn.sliew.scaleph.security.util.WebUtil;
 import cn.sliew.scaleph.security.web.OnlineUserService;
 import cn.sliew.scaleph.security.web.TokenProvider;
 import cn.sliew.scaleph.system.model.ResponseVO;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -47,8 +49,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.util.Date;
 import java.util.List;
@@ -106,7 +106,7 @@ public class SecAuthenticateServiceImpl implements SecAuthenticateService {
             authenticate(param);
             final UserDetailInfo userInfo = (UserDetailInfo) SecurityUtil.getCurrentUser();
             userInfo.setLoginTime(new Date());
-            userInfo.setLoginIpAddress(ServletUtil.getClientIP(request));
+            userInfo.setLoginIpAddress(WebUtil.getClientIP(request));
             userInfo.setRemember(param.getRemember());
             //查询用户权限信息，同时存储到redis onlineuser中
             List<SecRoleDTO> roles = secUserService.getAllPrivilegeByUserName(userInfo.getUsername());
