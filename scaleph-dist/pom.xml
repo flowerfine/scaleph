@@ -30,14 +30,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>cn.sliew</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-api</artifactId>
-            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>cn.sliew</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-plugin-datasource-api</artifactId>
-            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
 

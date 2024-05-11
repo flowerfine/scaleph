@@ -119,15 +119,15 @@
         <docker.build.skip>true</docker.build.skip>
         <docker.push.skip>true</docker.push.skip>
 
-        <spring.boot.version>2.7.17</spring.boot.version>
-        <spring.cloud.version>2021.0.7</spring.cloud.version>
+        <spring.boot.version>3.2.5</spring.boot.version>
+        <spring.cloud.version>2023.0.1</spring.cloud.version>
         <mybatis.plus.version>3.5.4.1</mybatis.plus.version>
         <org.mapstruct.extensions.spring.version>0.1.1</org.mapstruct.extensions.spring.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <mapstruct.lombok.binding.version>0.2.0</mapstruct.lombok.binding.version>
         <org.projectlombok.version>1.18.24</org.projectlombok.version>
         <velocity.engine.version>2.2</velocity.engine.version>
-        <knife4j.version>4.1.0</knife4j.version>
+        <knife4j.version>4.4.0</knife4j.version>
         <auto-service.version>1.0.1</auto-service.version>
         <hutool.version>5.8.27</hutool.version>
         <commons.lang3.version>3.12.0</commons.lang3.version>
@@ -174,13 +174,13 @@
 
     <dependencyManagement>
         <dependencies>
-            <!--<dependency>
+            <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring.cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>-->
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -188,13 +188,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-openfeign-dependencies</artifactId>
-                <version>${spring-cloud-openfeign.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.cloud</groupId>-->
+<!--                <artifactId>spring-cloud-openfeign-dependencies</artifactId>-->
+<!--                <version>${spring-cloud-openfeign.version}</version>-->
+<!--                <type>pom</type>-->
+<!--                <scope>import</scope>-->
+<!--            </dependency>-->
             <dependency>
                 <groupId>io.micrometer</groupId>
                 <artifactId>micrometer-bom</artifactId>
@@ -358,7 +358,7 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-plugin-datasource</artifactId>
+                <artifactId>scaleph-plugin-datasource-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -873,19 +873,10 @@
 
     <profiles>
         <profile>
-            <id>java11</id>
-            <activation>
-                <jdk>11</jdk>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <java.version>11</java.version>
-            </properties>
-        </profile>
-        <profile>
             <id>java17</id>
             <activation>
                 <jdk>17</jdk>
+                <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
                 <java.version>17</java.version>

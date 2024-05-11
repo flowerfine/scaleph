@@ -107,16 +107,6 @@
             <fileMode>0644</fileMode>
         </fileSet>
         <fileSet>
-            <directory>../scaleph-plugins/scaleph-plugin-datasource/scaleph-plugin-datasource-elasticsearch/target
-            </directory>
-            <includes>
-                <include>*.jar</include>
-                <include>dependencies/*.jar</include>
-            </includes>
-            <outputDirectory>plugins/datasource/elasticsearch</outputDirectory>
-            <fileMode>0644</fileMode>
-        </fileSet>
-        <fileSet>
             <directory>../scaleph-plugins/scaleph-plugin-datasource/scaleph-plugin-datasource-greenplum/target
             </directory>
             <includes>
