@@ -114,7 +114,6 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseVO> exception(Exception e,
-                                                HandlerMethod method,
                                                 HttpServletRequest request,
                                                 HttpServletResponse response) {
         String params = RequestParamUtil.formatRequestParams(request);
