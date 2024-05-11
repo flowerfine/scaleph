@@ -121,7 +121,7 @@
 
         <spring.boot.version>3.2.5</spring.boot.version>
         <spring.cloud.version>2023.0.1</spring.cloud.version>
-        <mybatis.plus.version>3.5.4.1</mybatis.plus.version>
+        <mybatis.plus.version>3.5.6</mybatis.plus.version>
         <org.mapstruct.extensions.spring.version>0.1.1</org.mapstruct.extensions.spring.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <mapstruct.lombok.binding.version>0.2.0</mapstruct.lombok.binding.version>
