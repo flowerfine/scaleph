@@ -19,9 +19,8 @@
 package cn.sliew.scaleph.workspace.flink.cdc.service.param;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
-import javax.validation.constraints.NotNull;
 
 @Data
 public class WsArtifactFlinkCDCSelectListParam {

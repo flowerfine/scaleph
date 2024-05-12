@@ -20,7 +20,7 @@ package cn.sliew.scaleph.security.config;
 
 import cn.sliew.scaleph.security.web.TokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.SecurityConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -32,18 +32,18 @@ import org.springframework.stereotype.Component;
  * @author gleiyu
  */
 @Component
-public class TokenConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
-
-    private TokenFilter tokenFilter;
+public class TokenConfigurer implements SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity> {
 
     @Autowired
-    public void setTokenFilter(TokenFilter tokenFilter) {
-        this.tokenFilter = tokenFilter;
+    private TokenFilter tokenFilter;
+
+    @Override
+    public void init(HttpSecurity builder) throws Exception {
+
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
         http.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

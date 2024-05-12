@@ -40,7 +40,7 @@ public enum FlinkSessionClusterConverter implements ResourceConverter<WsFlinkKub
     @Override
     public FlinkSessionCluster convertTo(WsFlinkKubernetesSessionClusterDTO source) {
         FlinkSessionCluster sessionCluster = new FlinkSessionCluster();
-        ObjectMetaBuilder builder = new ObjectMetaBuilder(true);
+        ObjectMetaBuilder builder = new ObjectMetaBuilder();
         FlinkSessionClusterSpec spec = new FlinkSessionClusterSpec();
 
         String name = StringUtils.hasText(source.getSessionClusterId()) ? source.getSessionClusterId() : source.getName();

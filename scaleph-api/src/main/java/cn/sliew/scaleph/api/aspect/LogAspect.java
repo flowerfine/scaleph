@@ -18,16 +18,6 @@
 
 package cn.sliew.scaleph.api.aspect;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.http.useragent.Browser;
 import cn.hutool.http.useragent.OS;
 import cn.hutool.http.useragent.UserAgent;
@@ -41,8 +31,12 @@ import cn.sliew.scaleph.log.service.LogLoginService;
 import cn.sliew.scaleph.log.service.dto.LogActionDTO;
 import cn.sliew.scaleph.log.service.dto.LogLoginDTO;
 import cn.sliew.scaleph.security.util.SecurityUtil;
+import cn.sliew.scaleph.security.util.WebUtil;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -54,6 +48,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.*;
 
 /**
  * 使用aop记录用户操作日志数据
@@ -116,7 +112,7 @@ public class LogAspect {
         long startTime = System.currentTimeMillis();
         Object result = joinPoint.proceed();
         insertLoginLog(result, startTime,
-            DictVO.toVO(DictConstants.LOGIN_TYPE, LoginTypeEnum.LOGIN.getValue()));
+                DictVO.toVO(DictConstants.LOGIN_TYPE, LoginTypeEnum.LOGIN.getValue()));
         return result;
     }
 
@@ -130,7 +126,7 @@ public class LogAspect {
         long startTime = System.currentTimeMillis();
         Object result = joinPoint.proceed();
         insertLoginLog(result, startTime,
-            DictVO.toVO(DictConstants.LOGIN_TYPE, LoginTypeEnum.LOGOUT.getValue()));
+                DictVO.toVO(DictConstants.LOGIN_TYPE, LoginTypeEnum.LOGOUT.getValue()));
         return result;
     }
 
@@ -141,7 +137,7 @@ public class LogAspect {
      */
     private HttpServletRequest getRequest() {
         ServletRequestAttributes sra =
-            (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         assert sra != null;
         return sra.getRequest();
     }
@@ -167,7 +163,7 @@ public class LogAspect {
         List<Object> argList = new ArrayList<>();
         for (Object o : args) {
             if (o instanceof ServletRequest || o instanceof ServletResponse ||
-                o instanceof MultipartFile) {
+                    o instanceof MultipartFile) {
                 continue;
             }
             argList.add(o);
@@ -192,7 +188,7 @@ public class LogAspect {
             UserAgent userAgent = UserAgentUtil.parse(agentStr);
             OS os = userAgent.getOs();
             Browser browser = userAgent.getBrowser();
-            log.setIpAddress(ServletUtil.getClientIP(request));
+            log.setIpAddress(WebUtil.getClientIP(request));
             log.setActionUrl(request.getRequestURL().toString());
             log.setToken(resolveToken(request));
             log.setClientInfo(userAgent.getPlatform().getName());
@@ -237,7 +233,7 @@ public class LogAspect {
             UserAgent userAgent = UserAgentUtil.parse(agentStr);
             OS os = userAgent.getOs();
             Browser browser = userAgent.getBrowser();
-            log.setIpAddress(ServletUtil.getClientIP(request));
+            log.setIpAddress(WebUtil.getClientIP(request));
             log.setLoginType(loginType);
             log.setClientInfo(userAgent.getPlatform().getName());
             log.setOsInfo(os.getName());

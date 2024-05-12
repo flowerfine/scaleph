@@ -42,7 +42,7 @@ public enum SqlScriptFactory implements ResourceCustomizer<WsFlinkKubernetesJobD
         builder.editOrNewMetadata()
                 .withName(ResourceNames.POD_TEMPLATE_NAME)
                 .endMetadata();
-        PodFluent.SpecNested<PodBuilder> spec = builder.editOrNewSpec();
+        PodFluent<PodBuilder>.SpecNested<PodBuilder> spec = builder.editOrNewSpec();
         spec.addAllToVolumes(buildVolume()); // add volumes
         if (spec.hasMatchingContainer(containerBuilder -> containerBuilder.getName().equals(ResourceNames.FLINK_MAIN_CONTAINER_NAME))) {
             spec.editMatchingContainer((containerBuilder -> containerBuilder.getName().equals(ResourceNames.FLINK_MAIN_CONTAINER_NAME)))

@@ -32,6 +32,7 @@ import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,8 +40,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -64,7 +63,7 @@ public class SecResourceWebController {
     @GetMapping
     @Operation(summary = "查询 Web 资源树", description = "查询 Web 资源树")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).ROLE_GRANT)")
-    public ResponseEntity<List<Tree<Long>>> listAllPrivilege(@NotNull ResourceType resourceType) {
+    public ResponseEntity<List<Tree<Long>>> listAllPrivilege(@RequestParam("resourceType") ResourceType resourceType) {
         List<SecResourceWebDTO> secResourceWebDTOS = secResourceWebService.listAll(resourceType);
         TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
         treeNodeConfig.setIdKey("id");

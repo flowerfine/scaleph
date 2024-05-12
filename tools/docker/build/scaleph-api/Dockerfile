@@ -1,4 +1,4 @@
-ARG BASE_RELEASE_IMAGE=eclipse-temurin:11-focal
+ARG BASE_RELEASE_IMAGE=eclipse-temurin:17-focal
 FROM $BASE_RELEASE_IMAGE as release
 
 ADD scaleph-dist/target/scaleph-*-bin.tar.gz /opt

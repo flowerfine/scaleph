@@ -20,9 +20,8 @@ package cn.sliew.scaleph.resource.service.param;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
-import javax.validation.constraints.NotNull;
 
 @Data
 public class SeaTunnelConnectorUploadParam {

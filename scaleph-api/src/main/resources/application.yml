@@ -54,7 +54,7 @@ spring:
       connection-timeout: 10000
       connection-test-query: SELECT 1
       validation-timeout: 1000
-  redis:
+  data.redis:
     timeout: 5000
     lettuce:
       pool:
@@ -63,7 +63,6 @@ spring:
         max-idle: 20
         min-idle: 0
   quartz:
-    scheduler-name: appScheduler
     job-store-type: jdbc
     jdbc.initialize-schema: never
     properties:

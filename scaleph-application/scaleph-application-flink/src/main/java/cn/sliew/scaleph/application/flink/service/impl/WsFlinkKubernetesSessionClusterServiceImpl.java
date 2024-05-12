@@ -44,13 +44,13 @@ import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResourceBuilder;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import org.apache.commons.lang3.EnumUtils;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Predicates;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -58,7 +58,7 @@ import java.util.stream.Collectors;
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
 @Service
-public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubernetesSessionClusterService {
+public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubernetesSessionClusterService, InitializingBean {
 
     @Autowired
     private WsFlinkKubernetesSessionClusterMapper wsFlinkKubernetesSessionClusterMapper;
@@ -72,8 +72,8 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
     /**
      * Start already exists sql-gateways on app startup.
      */
-    @PostConstruct
-    private void startExistsSqlGateways() {
+    @Override
+    public void afterPropertiesSet() throws Exception {
         getAllSqlGatewaySessionClusters().forEach(e -> {
             try {
                 wsFlinkSqlGatewayService.createCatalogManager(e.getClusterCredentialId(), e.getSessionClusterId());

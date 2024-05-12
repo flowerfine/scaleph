@@ -20,13 +20,13 @@ package cn.sliew.scaleph.security.authorization;
 
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.security.util.SecurityUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;

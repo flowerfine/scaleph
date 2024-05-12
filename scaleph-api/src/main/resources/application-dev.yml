@@ -41,7 +41,7 @@ spring:
             URL: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
             user: ${MYSQL_USERNAME:root}
             password: ${MYSQL_PASSWORD:123456}
-  redis:
+  data.redis:
     database: 0
     host: ${REDIS_HOST:127.0.0.1}
     port: ${REDIS_PORT:6379}

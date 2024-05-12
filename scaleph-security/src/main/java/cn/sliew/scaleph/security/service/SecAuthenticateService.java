@@ -21,8 +21,7 @@ package cn.sliew.scaleph.security.service;
 import cn.sliew.scaleph.security.service.dto.SecCaptchaDTO;
 import cn.sliew.scaleph.security.service.param.SecLoginParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
-
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public interface SecAuthenticateService {
 

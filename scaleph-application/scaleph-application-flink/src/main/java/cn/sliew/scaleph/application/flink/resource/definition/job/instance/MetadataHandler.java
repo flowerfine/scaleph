@@ -34,7 +34,7 @@ public class MetadataHandler {
 
     public ObjectMeta handle(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, ObjectMeta objectMeta) {
         ObjectMetaBuilder builder = Optional.ofNullable(objectMeta)
-                .map(meta -> new ObjectMetaBuilder(meta, true))
+                .map(meta -> new ObjectMetaBuilder(meta))
                 .orElse(new ObjectMetaBuilder());
 
         builder.withName(jobInstanceDTO.getInstanceId());

@@ -33,12 +33,12 @@ import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Tag(name = "Flink Kubernetes管理-模板管理")
@@ -76,7 +76,7 @@ public class WsFlinkKubernetesTemplateController {
     @Logging
     @GetMapping("/flinkImageMappings")
     @Operation(summary = "查询 Flink 镜像映射", description = "查询 Flink 镜像映射")
-    public ResponseEntity<ResponseVO<List<FlinkImageOption>>> getFlinkVersionOptions(FlinkVersion flinkVersion) {
+    public ResponseEntity<ResponseVO<List<FlinkImageOption>>> getFlinkVersionOptions(@RequestParam("flinkVersion") FlinkVersion flinkVersion) {
         List<FlinkImageOption> options = wsFlinkKubernetesTemplateService.getFlinkImageOptions(flinkVersion);
         return new ResponseEntity(ResponseVO.success(options), HttpStatus.OK);
     }

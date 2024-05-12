@@ -39,7 +39,7 @@ public enum FlinkDeploymentConverter implements ResourceConverter<WsFlinkKuberne
     @Override
     public FlinkDeployment convertTo(WsFlinkKubernetesDeploymentDTO source) {
         FlinkDeployment deployment = new FlinkDeployment();
-        ObjectMetaBuilder builder = new ObjectMetaBuilder(true);
+        ObjectMetaBuilder builder = new ObjectMetaBuilder();
         FlinkDeploymentSpec spec = new FlinkDeploymentSpec();
 
         String name = StringUtils.hasText(source.getDeploymentId()) ? source.getDeploymentId() : source.getName();

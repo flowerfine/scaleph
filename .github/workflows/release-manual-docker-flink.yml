@@ -66,4 +66,4 @@ jobs:
           build-args: FLINK_VERSION=${{ env.FLINK_VERSION }}
           platforms: linux/amd64,linux/arm64
           file: tools/docker/build/flink/Dockerfile
-          tags: ${{ env.HUB }}:${{ env.FLINK_VERSION }}_${{ env.SCALA_VERSION }}
+          tags: ${{ env.HUB }}:${{ env.FLINK_VERSION }}

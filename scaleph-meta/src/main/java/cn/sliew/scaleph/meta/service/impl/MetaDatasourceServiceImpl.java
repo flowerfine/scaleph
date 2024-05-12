@@ -37,12 +37,11 @@ import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.EnumSet;
 import java.util.List;
@@ -50,15 +49,15 @@ import java.util.Map;
 import java.util.Set;
 
 @Service
-public class MetaDatasourceServiceImpl implements MetaDatasourceService {
+public class MetaDatasourceServiceImpl implements MetaDatasourceService, InitializingBean {
 
     private DatasourceManager datasourceManager;
 
     @Autowired
     private MetaDatasourceMapper metaDatasourceMapper;
 
-    @PostConstruct
-    private void loadDatasourceManager() throws IOException {
+    @Override
+    public void afterPropertiesSet() throws Exception {
         Path datasourcePluginPath = SystemUtil.getDatasourcePluginDir();
         this.datasourceManager = new DatasourceManager(datasourcePluginPath);
     }
@@ -219,7 +218,7 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
                 }
             }
         } catch (IllegalAccessException | ClassNotFoundException | InstantiationException |
-                IllegalArgumentException e) {
+                 IllegalArgumentException e) {
             Rethrower.throwAs(e);
         }
         return false;

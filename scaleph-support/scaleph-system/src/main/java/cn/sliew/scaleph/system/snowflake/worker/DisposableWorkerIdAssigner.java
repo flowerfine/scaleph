@@ -26,9 +26,8 @@ import cn.sliew.scaleph.dao.mapper.master.snowflake.SnowflakeWorkerNodeMapper;
 import cn.sliew.scaleph.system.snowflake.utils.DockerUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
 
 /**
  * Represents an implementation of {@link WorkerIdAssigner},
@@ -37,7 +36,7 @@ import javax.annotation.Resource;
 @Slf4j
 public class DisposableWorkerIdAssigner implements WorkerIdAssigner {
 
-    @Resource
+    @Autowired
     private SnowflakeWorkerNodeMapper workerNodeDAO;
 
     /**

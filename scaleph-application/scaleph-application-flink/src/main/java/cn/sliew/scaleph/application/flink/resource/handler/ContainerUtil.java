@@ -26,7 +26,7 @@ import io.fabric8.kubernetes.api.model.PodSpecFluent;
 public enum ContainerUtil {
     ;
 
-    public static PodSpecFluent.ContainersNested<PodFluent.SpecNested<PodBuilder>> findFlinkMainContainer(PodFluent.SpecNested<PodBuilder> spec) {
+    public static PodSpecFluent<PodFluent<PodBuilder>.SpecNested<PodBuilder>>.ContainersNested<PodFluent<PodBuilder>.SpecNested<PodBuilder>> findFlinkMainContainer(PodFluent<PodBuilder>.SpecNested<PodBuilder> spec) {
         if (spec.hasMatchingContainer(containerBuilder -> containerBuilder.getName().equals(ResourceNames.FLINK_MAIN_CONTAINER_NAME))) {
             return spec.editMatchingContainer((containerBuilder -> containerBuilder.getName().equals(ResourceNames.FLINK_MAIN_CONTAINER_NAME)));
         } else {

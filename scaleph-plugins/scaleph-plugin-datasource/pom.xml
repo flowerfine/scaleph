@@ -22,9 +22,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>scaleph</artifactId>
+        <artifactId>scaleph-plugins</artifactId>
         <version>2.0.4-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>scaleph-plugin-datasource</artifactId>
     <packaging>pom</packaging>
@@ -39,7 +39,6 @@
         <module>scaleph-plugin-datasource-oracle</module>
         <module>scaleph-plugin-datasource-greenplum</module>
         <module>scaleph-plugin-datasource-druid</module>
-        <module>scaleph-plugin-datasource-elasticsearch</module>
         <module>scaleph-plugin-datasource-kafka</module>
     </modules>
 
