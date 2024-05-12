@@ -20,7 +20,7 @@ services:
     image: ghcr.io/flowerfine/scaleph/scaleph-api:latest
     container_name: scaleph-api
     environment:
-      - MINIO_ENDPOINT=http://${MINIO_IP}:9000
+      - MINIO_ENDPOINT=http://${MINIO_IP}:9000 # warning: replace MINIO_IO by valid minio ip, and port if necessary
     depends_on:
       mysql:
         condition: service_healthy
