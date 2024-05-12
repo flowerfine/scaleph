@@ -17,10 +17,6 @@
 name: CI-Maven
 
 on:
-  pull_request:
-    paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
-  push:
-    paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
   workflow_dispatch:
   workflow_call:
 

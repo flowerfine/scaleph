@@ -85,11 +85,10 @@ public class MybatisPlusGenerator {
      * @return GlobalConfig
      */
     private static void globalConfig(GlobalConfig.Builder builder) {
-        builder.fileOverride()
+        builder
             .outputDir(System.getProperty("user.dir") +
                 "/scaleph-support/scaleph-generator/src/main/java/")
             .author(AUTHOR)
-            .fileOverride()
             .enableSpringdoc()
             .dateType(DateType.ONLY_DATE)
             .commentDate("yyyy-MM-dd");
