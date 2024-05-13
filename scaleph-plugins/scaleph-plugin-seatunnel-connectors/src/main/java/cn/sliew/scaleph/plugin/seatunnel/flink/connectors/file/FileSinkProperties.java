@@ -64,14 +64,6 @@ public enum FileSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> FIELD_DELIMITER = new PropertyDescriptor.Builder<String>()
-            .name("field_delimiter")
-            .description("The separator between columns in a row of data. Only needed by text and csv file format")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
     public static final PropertyDescriptor<String> ROW_DELIMITER = new PropertyDescriptor.Builder<String>()
             .name("row_delimiter")
             .description("he separator between rows in a file. Only needed by text and csv file format.")

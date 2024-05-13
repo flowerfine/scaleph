@@ -38,8 +38,7 @@ import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSourceProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.HDFSProperties.FS_DEFAULT_FS;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.HDFSProperties.HDFS_SITE_PATH;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.HDFSProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class HDFSFileSourcePlugin extends SeaTunnelConnectorPlugin {
@@ -53,7 +52,10 @@ public class HDFSFileSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(PATH);
         props.add(SKIP_HEADER_ROW_NUMBER);
         props.add(SHEET_NAME);
+        props.add(XML_ROW_TAG);
+        props.add(XML_USE_ATTR_FORMAT);
         props.add(COMPRESS_CODEC);
+        props.add(ENCODING);
         props.add(FILE_FILTER_PATTERN);
         props.add(FILE_FORMAT_TYPE);
         props.add(READ_COLUMNS);
@@ -63,6 +65,7 @@ public class HDFSFileSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(DATE_FORMAT);
         props.add(TIME_FORMAT);
         props.add(DATETIME_FORMAT);
+        props.add(REMOTE_USER);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);

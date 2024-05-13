@@ -50,7 +50,11 @@ public class SftpFileSinkPlugin extends SeaTunnelConnectorPlugin {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(PATH);
         props.add(SHEET_NAME);
+        props.add(XML_ROOT_TAG);
+        props.add(XML_ROW_TAG);
+        props.add(XML_USE_ATTR_FORMAT);
         props.add(COMPRESS_CODEC);
+        props.add(ENCODING);
         props.add(TMP_PATH);
         props.add(FILE_FORMAT_TYPE);
         props.add(CUSTOM_FILENAME);

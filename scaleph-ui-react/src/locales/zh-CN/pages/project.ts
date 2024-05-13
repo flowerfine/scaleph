@@ -70,6 +70,11 @@ export default {
   'pages.project.di.step.schema.delimiter': '字段分隔符',
   'pages.project.di.step.schema.skipHeaderRowNumber': '跳过头部行号',
   'pages.project.di.step.schema.sheetName': 'Sheet',
+  'pages.project.di.step.schema.xmlRootTag': 'Root Tag',
+  'pages.project.di.step.schema.xmlRootTag.placeholder': 'RECORDS',
+  'pages.project.di.step.schema.xmlRowTag': 'Data Row Tag',
+  'pages.project.di.step.schema.xmlRowTag.placeholder': 'RECORD',
+  'pages.project.di.step.schema.xmlUseAttrFormat': 'Use Attr',
 
   // column
   'pages.project.di.step.column': '列',
@@ -227,6 +232,8 @@ export default {
   'pages.project.di.step.baseFile.schema': '结构',
   'pages.project.di.step.baseFile.delimiter': '字段分割符',
   'pages.project.di.step.baseFile.parsePartitionFromPath': '启用从路径解析分区',
+  'pages.project.di.step.baseFile.encoding': '编码格式',
+  'pages.project.di.step.baseFile.encoding.placeholder': 'UTF-8',
   'pages.project.di.step.baseFile.dateFormat': '日期格式',
   'pages.project.di.step.baseFile.timeFormat': '时间格式',
   'pages.project.di.step.baseFile.datetimeFormat': '日期时间格式',
@@ -249,8 +256,8 @@ export default {
   'pages.project.di.step.baseFile.enableHeaderWrite': '是否写入 Header',
 
   // hdfs file
-  'pages.project.di.step.hdfsFile.defaultFS': 'fs.defaultFS',
-  'pages.project.di.step.hdfsFile.defaultFS.tooltip': '格式:hdfs://namenode001',
+  'pages.project.di.step.hdfsFile.remoteUser': 'Remote User',
+  'pages.project.di.step.hdfsFile.remoteUser.tooltip': '连接 Hadoop 用户名，不会有权限',
 
   // ftp file
   'pages.project.di.step.ftpFile.host': '主机',

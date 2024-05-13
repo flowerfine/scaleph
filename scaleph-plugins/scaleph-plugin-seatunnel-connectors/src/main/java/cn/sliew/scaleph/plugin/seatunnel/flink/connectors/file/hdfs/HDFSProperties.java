@@ -23,6 +23,14 @@ import cn.sliew.scaleph.plugin.framework.property.*;
 public enum HDFSProperties {
     ;
 
+    public static final PropertyDescriptor<String> REMOTE_USER = new PropertyDescriptor.Builder<String>()
+            .name("remote_user")
+            .description("The login user used to connect to hadoop login name. It is intended to be used for remote users in RPC, it won't have any credentials.\n")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<String> FS_DEFAULT_FS = new PropertyDescriptor.Builder<String>()
             .name("fs.defaultFS")
             .description("Hdfs cluster address..")

@@ -40,9 +40,49 @@ public enum FileProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<String> XML_ROOT_TAG = new PropertyDescriptor.Builder()
+            .name("xml_root_tag")
+            .description("Specifies the tag name of the data rows within the XML file, only used when file_format is xml.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> XML_ROW_TAG = new PropertyDescriptor.Builder()
+            .name("xml_row_tag")
+            .description("Specifies the tag name of the data rows within the XML file, only used when file_format is xml.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Boolean> XML_USE_ATTR_FORMAT = new PropertyDescriptor.Builder()
+            .name("xml_use_attr_format")
+            .description("Specifies whether to process data using the tag attribute format, only used when file_format is xml.")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .addValidator(Validators.BOOLEAN_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> FIELD_DELIMITER = new PropertyDescriptor.Builder<String>()
+            .name("field_delimiter")
+            .description("The separator between columns in a row of data. Only needed by text and csv file format")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<String> COMPRESS_CODEC = new PropertyDescriptor.Builder()
             .name("compress_codec")
             .description("The compress codec of files")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> ENCODING = new PropertyDescriptor.Builder()
+            .name("encoding")
+            .description("Only used when file_format_type is json,text,csv,xml")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)

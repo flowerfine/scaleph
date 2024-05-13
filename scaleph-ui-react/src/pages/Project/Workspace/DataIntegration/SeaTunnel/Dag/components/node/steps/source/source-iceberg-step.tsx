@@ -14,7 +14,7 @@ import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {IcebergParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from '../helper';
-import SchemaItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/schema/schema";
+import SchemaItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/file/schema";
 import {InfoCircleOutlined} from "@ant-design/icons";
 import CommonConfigItem
   from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/config/commonConfig";

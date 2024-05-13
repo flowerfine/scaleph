@@ -9,7 +9,10 @@ import {
     ProFormText
 } from "@ant-design/pro-components";
 import {getIntl, getLocale} from "@umijs/max";
-import {BaseFileParams} from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/constant";
+import {
+  BaseFileParams,
+  SchemaParams
+} from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/constant";
 
 const FileSinkItem: React.FC = () => {
     const intl = getIntl(getLocale());
@@ -41,11 +44,16 @@ const FileSinkItem: React.FC = () => {
                 colProps={{span: 24}}
                 initialValue={"/tmp/seatunnel"}
             />
+          <ProFormText
+            name={BaseFileParams.encoding}
+            label={intl.formatMessage({id: 'pages.project.di.step.baseFile.encoding'})}
+            placeholder={intl.formatMessage({id: 'pages.project.di.step.baseFile.encoding.placeholder'})}
+          />
             <ProFormSelect
                 name={BaseFileParams.fileFormatType}
                 label={intl.formatMessage({id: 'pages.project.di.step.baseFile.fileFormat'})}
                 colProps={{span: 24}}
-                options={['json', 'parquet', 'orc', 'text', 'csv', 'excel']}
+                options={['json', 'parquet', 'orc', 'text', 'csv', 'excel', 'xml']}
             />
             <ProFormDependency name={[BaseFileParams.fileFormatType]}>
                 {({file_format_type}) => {
@@ -94,6 +102,29 @@ const FileSinkItem: React.FC = () => {
                             </ProFormGroup>
                         );
                     }
+                  if (file_format_type == 'xml') {
+                    return (
+                      <ProFormGroup>
+                        <ProFormText
+                          name={SchemaParams.xmlRootTag}
+                          label={intl.formatMessage({id: 'pages.project.di.step.schema.xmlRootTag'})}
+                          placeholder={intl.formatMessage({id: 'pages.project.di.step.schema.xmlRootTag.placeholder'})}
+                          colProps={{span: 8}}
+                        />
+                        <ProFormText
+                          name={SchemaParams.xmlRowTag}
+                          label={intl.formatMessage({id: 'pages.project.di.step.schema.xmlRowTag'})}
+                          placeholder={intl.formatMessage({id: 'pages.project.di.step.schema.xmlRowTag.placeholder'})}
+                          colProps={{span: 8}}
+                        />
+                        <ProFormSwitch
+                          name={SchemaParams.xmlUseAttrFormat}
+                          label={intl.formatMessage({id: 'pages.project.di.step.schema.xmlUseAttrFormat'})}
+                          colProps={{span: 8}}
+                        />
+                      </ProFormGroup>
+                    );
+                  }
                     return <ProFormGroup/>;
                 }}
             </ProFormDependency>

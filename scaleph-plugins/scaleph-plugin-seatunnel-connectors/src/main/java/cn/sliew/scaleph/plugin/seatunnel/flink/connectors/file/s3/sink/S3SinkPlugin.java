@@ -51,7 +51,11 @@ public class S3SinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(HADOOP_S3_PROPERTIES);
         props.add(PATH);
         props.add(SHEET_NAME);
+        props.add(XML_ROOT_TAG);
+        props.add(XML_ROW_TAG);
+        props.add(XML_USE_ATTR_FORMAT);
         props.add(COMPRESS_CODEC);
+        props.add(ENCODING);
         props.add(TMP_PATH);
         props.add(FILE_FORMAT_TYPE);
         props.add(CUSTOM_FILENAME);

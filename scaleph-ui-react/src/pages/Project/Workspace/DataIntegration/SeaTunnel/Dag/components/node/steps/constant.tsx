@@ -24,6 +24,9 @@ export const SchemaParams = {
   delimiter: 'delimiter',
   skipHeaderRowNumber: 'skip_header_row_number',
   sheetName: 'sheet_name',
+  xmlRootTag: 'xml_root_tag',
+  xmlRowTag: 'xml_row_tag',
+  xmlUseAttrFormat: 'xml_use_attr_format',
 }
 
 export const ColumnParams = {
@@ -163,13 +166,14 @@ export const BaseFileParams = {
   isEnableTransaction: 'is_enable_transaction',
   batchSize: 'batch_size',
   compressCodec: 'compress_codec',
+  encoding: 'encoding',
   maxRowsInMemory: 'max_rows_in_memory',
   sheetName: 'sheet_name',
   enableHeaderWrite: 'enable_header_write',
 };
 
 export const HDFSFileParams = {
-  defaultFS: 'fs.defaultFS',
+  remoteUser: 'remote_user',
 };
 
 export const FtpFileParams = {
