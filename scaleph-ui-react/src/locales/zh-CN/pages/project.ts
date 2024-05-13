@@ -873,8 +873,7 @@ export default {
   'pages.project.di.step.hbase.zookeeperQuorum': 'Zookeeper地址',
   'pages.project.di.step.hbase.table': '表名',
   'pages.project.di.step.hbase.familyName': '列族名',
-  'pages.project.di.step.hbase.rowkeyColumnArray': 'RowKey列',
-  'pages.project.di.step.hbase.rowkeyColumn': '列名',
+  'pages.project.di.step.hbase.rowkeyColumn': 'RowKey列',
   'pages.project.di.step.hbase.rowkeyDelimiter': 'RowKey分隔符',
   'pages.project.di.step.hbase.versionColumn': '版本列',
   'pages.project.di.step.hbase.nullMode': 'Null值处理方式',
@@ -883,9 +882,6 @@ export default {
   'pages.project.di.step.hbase.encoding': '编码方式',
   'pages.project.di.step.hbase.hbaseExtraConfig': 'HBase额外配置',
   'pages.project.di.step.hbase.hbaseExtraConfig.tooltip': 'HBase的额外配置信息',
-  'pages.project.di.step.hbase.hbaseExtraConfigMap': '配置项',
-  'pages.project.di.step.hbase.hbaseExtraConfigKey': '配置项名称',
-  'pages.project.di.step.hbase.hbaseExtraConfigValue': '配置项值',
 
   // paimon
   'pages.project.di.step.paimon.warehouse': 'Warehouse',

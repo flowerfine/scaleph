@@ -5,7 +5,6 @@ import {
   DrawerForm,
   ProFormDigit,
   ProFormGroup,
-  ProFormList,
   ProFormSelect,
   ProFormSwitch,
   ProFormText
@@ -15,6 +14,9 @@ import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {HbaseParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from "../helper";
+import CommonConfigItem
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/config/commonConfig";
+import CommonListItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/list";
 
 const SinkHbaseStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -41,8 +43,9 @@ const SinkHbaseStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVis
         }}
         onFinish={(values) => {
           if (onOK) {
-            StepSchemaService.formatRowKeyColumn(values)
-            StepSchemaService.formatHbaseExtraConfig(values)
+            StepSchemaService.formatCommonConfig(values, HbaseParams.familyName, HbaseParams.familyName)
+            StepSchemaService.formatCommonList(values, HbaseParams.rowkeyColumn, HbaseParams.rowkeyColumn)
+            StepSchemaService.formatCommonConfig(values, HbaseParams.hbaseExtraConfig, HbaseParams.hbaseExtraConfig)
             onOK(values)
             return Promise.resolve(true)
           }
@@ -65,27 +68,20 @@ const SinkHbaseStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVis
           label={intl.formatMessage({id: 'pages.project.di.step.hbase.table'})}
           rules={[{required: true}]}
         />
-        <ProFormText
-          name={HbaseParams.familyName}
-          label={intl.formatMessage({id: 'pages.project.di.step.hbase.familyName'})}
-          rules={[{required: true}]}
-        />
-        <ProFormList
-          name={HbaseParams.rowkeyColumnArray}
-          label={intl.formatMessage({id: 'pages.project.di.step.hbase.rowkeyColumnArray'})}
-          copyIconProps={false}
-          creatorButtonProps={{
-            creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.hbase.rowkeyColumn'}),
-            type: 'text',
-          }}
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.hbase.familyName'})}
+          collapsible={true}
+          defaultCollapsed={true}
         >
-          <ProFormGroup>
-            <ProFormText
-              name={HbaseParams.rowkeyColumnValue}
-              colProps={{span: 18, offset: 4}}
-            />
-          </ProFormGroup>
-        </ProFormList>
+          <CommonConfigItem data={HbaseParams.familyName}/>
+        </ProFormGroup>
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.hbase.rowkeyColumn'})}
+          collapsible={true}
+          defaultCollapsed={true}
+        >
+          <CommonListItem data={HbaseParams.rowkeyColumn}/>
+        </ProFormGroup>
         <ProFormText
           name={HbaseParams.rowkeyDelimiter}
           label={intl.formatMessage({id: 'pages.project.di.step.hbase.rowkeyDelimiter'})}
@@ -119,32 +115,18 @@ const SinkHbaseStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVis
           initialValue={"utf8"}
           options={["utf8", "gbk"]}
         />
-        <ProFormList
-          name={HbaseParams.hbaseExtraConfigMap}
-          label={intl.formatMessage({id: 'pages.project.di.step.hbase.hbaseExtraConfig'})}
+
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.hbase.hbaseExtraConfig'})}
           tooltip={{
             title: intl.formatMessage({id: 'pages.project.di.step.hbase.hbaseExtraConfig.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
-          copyIconProps={false}
-          creatorButtonProps={{
-            creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.hbase.hbaseExtraConfigMap'}),
-            type: 'text',
-          }}
+          collapsible={true}
+          defaultCollapsed={true}
         >
-          <ProFormGroup>
-            <ProFormText
-              name={HbaseParams.hbaseExtraConfigKey}
-              label={intl.formatMessage({id: 'pages.project.di.step.hbase.hbaseExtraConfigKey'})}
-              colProps={{span: 10, offset: 1}}
-            />
-            <ProFormText
-              name={HbaseParams.hbaseExtraConfigValue}
-              label={intl.formatMessage({id: 'pages.project.di.step.hbase.hbaseExtraConfigValue'})}
-              colProps={{span: 10, offset: 1}}
-            />
-          </ProFormGroup>
-        </ProFormList>
+          <CommonConfigItem data={HbaseParams.hbaseExtraConfig}/>
+        </ProFormGroup>
       </DrawerForm>
     </XFlow>
   );

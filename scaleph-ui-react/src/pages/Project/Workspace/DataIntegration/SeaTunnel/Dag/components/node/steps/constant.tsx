@@ -754,8 +754,6 @@ export const HbaseParams = {
   table: 'table',
   familyName: 'family_name',
   rowkeyColumn: 'rowkey_column',
-  rowkeyColumnArray: 'rowkeyColumnArray',
-  rowkeyColumnValue: 'rowkeyColumnArray',
   rowkeyDelimiter: 'rowkey_delimiter',
   versionColumn: 'version_column',
   nullMode: 'null_mode',
@@ -763,9 +761,6 @@ export const HbaseParams = {
   writeBufferSize: 'write_buffer_size',
   encoding: 'encoding',
   hbaseExtraConfig: 'hbase_extra_config',
-  hbaseExtraConfigMap: 'hbaseExtraConfigMap',
-  hbaseExtraConfigKey: 'hbaseExtraConfigKey',
-  hbaseExtraConfigValue: 'hbaseExtraConfigValue'
 }
 
 export const PaimonParams = {
