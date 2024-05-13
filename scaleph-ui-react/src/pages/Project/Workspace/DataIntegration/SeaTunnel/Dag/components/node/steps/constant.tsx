@@ -320,8 +320,6 @@ export const HiveParams = {
   tableName: 'table_name',
   metastoreUri: 'metastore_uri',
   readPartitions: 'read_partitions',
-  readPartitionArray: 'read_partitions',
-  readPartition: 'read_partition',
   abortDropPartitionMetadata: 'abort_drop_partition_metadata',
 };
 

@@ -4,7 +4,6 @@ import {
   CommonListParams,
   FieldMapperParams,
   FilterParams,
-  HiveParams,
   HttpParams,
   IcebergParams,
   InfluxDBParams,
@@ -233,15 +232,6 @@ export const StepSchemaService = {
       outputFields.push(item[SplitParams.outputField])
     });
     values[SplitParams.outputFields] = JSON.stringify(outputFields)
-    return values
-  },
-
-  formatPartitions: (values: Record<string, any>) => {
-    const partitions: Array<any> = []
-    values[HiveParams.readPartitionArray]?.forEach(function (item: Record<string, any>) {
-      partitions.push(item[HiveParams.readPartition])
-    });
-    values[HiveParams.readPartitions] = JSON.stringify(partitions)
     return values
   },
 

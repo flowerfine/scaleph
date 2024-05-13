@@ -413,7 +413,6 @@ export default {
   'pages.project.di.step.hive.metastoreUri': 'Hive Metastore URI',
   'pages.project.di.step.hive.metastoreUri.tooltip': '例如 : thrift://ctyun7:9083',
   'pages.project.di.step.hive.readParitions': '分区列表',
-  'pages.project.di.step.hive.readParition': '分区',
 
   // kudu
   'pages.project.di.step.kudu.master': 'Master',

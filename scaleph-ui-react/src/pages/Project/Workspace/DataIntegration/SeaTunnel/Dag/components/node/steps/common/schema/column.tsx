@@ -14,6 +14,8 @@ const ColumnItem: React.FC = () => {
         title: intl.formatMessage({id: 'pages.project.di.step.column.tooltip'}),
         icon: <InfoCircleOutlined/>,
       }}
+      collapsible={true}
+      defaultCollapsed={true}
     >
       <ProFormList
         name={ColumnParams.readColumnArray}
