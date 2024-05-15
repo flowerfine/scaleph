@@ -34,7 +34,7 @@ alertmanager:
     ## Only used if service.type is 'NodePort'
     nodePort: 30903
     ## Service type
-    type: NodeType
+    type: NodePort
 
 ## Using default values from https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
 ## Grafana isn't managed by prometheus
