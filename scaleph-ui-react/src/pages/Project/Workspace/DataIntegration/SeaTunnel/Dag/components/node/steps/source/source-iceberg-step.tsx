@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {Form} from 'antd';
+import {InfoCircleOutlined} from "@ant-design/icons";
 import {
   DrawerForm,
   ProFormDependency,
@@ -14,10 +15,10 @@ import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {IcebergParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from '../helper';
-import SchemaItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/file/schema";
-import {InfoCircleOutlined} from "@ant-design/icons";
 import CommonConfigItem
   from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/config/commonConfig";
+import FieldItem
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/schema/fields";
 
 const SourceIcebergStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -145,7 +146,7 @@ const SourceIcebergStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, o
           }}
         />
 
-        <SchemaItem/>
+        <FieldItem/>
 
         <ProFormSwitch
           name={'use_snapshot_id'}
