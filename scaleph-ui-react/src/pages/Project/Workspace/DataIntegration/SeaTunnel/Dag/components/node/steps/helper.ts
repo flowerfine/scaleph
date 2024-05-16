@@ -6,7 +6,6 @@ import {
   FilterParams,
   HttpParams,
   IcebergParams,
-  InfluxDBParams,
   IoTDBParams,
   JdbcParams,
   KafkaParams,
@@ -172,11 +171,6 @@ export const StepSchemaService = {
       values[item[StarRocksParams.starrocksConfigKey]] = item[StarRocksParams.starrocksConfigValue];
     });
     values[StarRocksParams.starrocksConfig] = JSON.stringify(config)
-    return values
-  },
-
-  formatKeyTags: (values: Record<string, any>) => {
-    values[InfluxDBParams.keyTags] = JSON.stringify(values[InfluxDBParams.keyTagArray])
     return values
   },
 

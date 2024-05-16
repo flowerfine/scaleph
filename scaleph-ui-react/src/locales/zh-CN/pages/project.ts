@@ -660,8 +660,8 @@ export default {
   'pages.project.di.step.influxdb.queryTimeoutSec': '查询超时时间（秒）',
   'pages.project.di.step.influxdb.connectTimeoutMs': '连接超时时间（毫秒）',
   'pages.project.di.step.influxdb.measurement': '测量值',
-  'pages.project.di.step.influxdb.keyKime': '关键时间',
-  'pages.project.di.step.influxdb.keyTags': '关键标签',
+  'pages.project.di.step.influxdb.keyKime': 'Key时间',
+  'pages.project.di.step.influxdb.keyTags': 'Key标签',
   'pages.project.di.step.influxdb.batchSize': '批量大小',
   'pages.project.di.step.influxdb.batchIntervalMs': '批量间隔时间（毫秒）',
   'pages.project.di.step.influxdb.maxRetries': '最大重试次数',
@@ -693,15 +693,15 @@ export default {
   'pages.project.di.step.doris.saveModeCreateTemplate': 'Schema 创建模板',
   'pages.project.di.step.doris.saveModeCreateTemplate.tooltip': '同步上游 Schema 时，创建 Doris 表模板',
   'pages.project.di.step.doris.saveModeCreateTemplate.placeholder': 'CREATE TABLE IF NOT EXISTS `${database}`.`${table_name}`\n' +
-      '(   \n' +
-      '    id,\n' +
-      '    ${rowtype_fields}\n' +
-      ') ENGINE = OLAP UNIQUE KEY (${rowtype_primary_key})\n' +
-      '    DISTRIBUTED BY HASH (${rowtype_primary_key})\n' +
-      '    PROPERTIES\n' +
-      '(\n' +
-      '    "replication_num" = "1"\n' +
-      ');',
+    '(   \n' +
+    '    id,\n' +
+    '    ${rowtype_fields}\n' +
+    ') ENGINE = OLAP UNIQUE KEY (${rowtype_primary_key})\n' +
+    '    DISTRIBUTED BY HASH (${rowtype_primary_key})\n' +
+    '    PROPERTIES\n' +
+    '(\n' +
+    '    "replication_num" = "1"\n' +
+    ');',
   'pages.project.di.step.doris.customSql': '自定义处理 SQL',
   'pages.project.di.step.doris.dorisConfig': 'Doris配置',
   'pages.project.di.step.doris.dorisConfig.tooltip': 'Doris Stream Load 配置',
