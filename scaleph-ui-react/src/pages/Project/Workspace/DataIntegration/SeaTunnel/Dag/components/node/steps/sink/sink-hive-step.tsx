@@ -1,11 +1,12 @@
 import React, {useEffect} from 'react';
 import {Form} from 'antd';
-import {DrawerForm, ProFormText} from '@ant-design/pro-components';
+import {DrawerForm, ProFormSwitch, ProFormText} from '@ant-design/pro-components';
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {BaseFileParams, HiveParams, STEP_ATTR_TYPE} from '../constant';
 import DataSourceItem from "../dataSource";
+import {InfoCircleOutlined} from "@ant-design/icons";
 
 const SinkHiveStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -53,6 +54,15 @@ const SinkHiveStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisi
         <ProFormText
           name={BaseFileParams.compressCodec}
           label={intl.formatMessage({id: 'pages.project.di.step.baseFile.compressCodec'})}
+        />
+        <ProFormSwitch
+          name={HiveParams.abortDropPartitionMetadata}
+          label={intl.formatMessage({id: 'pages.project.di.step.hive.abortDropPartitionMetadata'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.hive.abortDropPartitionMetadata.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          initialValue={true}
         />
       </DrawerForm>
     </XFlow>

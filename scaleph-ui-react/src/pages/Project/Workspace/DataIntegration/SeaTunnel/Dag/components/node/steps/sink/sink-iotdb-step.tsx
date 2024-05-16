@@ -1,19 +1,14 @@
 import React, {useEffect} from 'react';
 import {Form} from 'antd';
-import {
-  DrawerForm,
-  ProFormDigit,
-  ProFormGroup,
-  ProFormList,
-  ProFormSwitch,
-  ProFormText
-} from '@ant-design/pro-components';
+import {InfoCircleOutlined} from "@ant-design/icons";
+import {DrawerForm, ProFormDigit, ProFormGroup, ProFormSwitch, ProFormText} from '@ant-design/pro-components';
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {IoTDBParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from "../helper";
 import DataSourceItem from "../dataSource";
+import CommonListItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/list";
 
 const SinkIoTDBStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -40,7 +35,7 @@ const SinkIoTDBStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVis
         }}
         onFinish={(values) => {
           if (onOK) {
-            StepSchemaService.formatMeasurementFields(values);
+            StepSchemaService.formatCommonList(values, IoTDBParams.keyMeasurementFields, IoTDBParams.keyMeasurementFields);
             onOK(values)
             return Promise.resolve(true)
           }
@@ -64,17 +59,14 @@ const SinkIoTDBStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVis
         />
         <ProFormGroup
           title={intl.formatMessage({id: 'pages.project.di.step.iotdb.keyMeasurementFields'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.iotdb.keyMeasurementFields.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          collapsible={true}
+          defaultCollapsed={true}
         >
-          <ProFormList
-            name={IoTDBParams.keyMeasurementFieldArray}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.iotdb.keyMeasurementFields.field'}),
-              type: 'text',
-            }}
-          >
-            <ProFormText name={IoTDBParams.keyMeasurementField}/>
-          </ProFormList>
+          <CommonListItem data={IoTDBParams.keyMeasurementFields}/>
         </ProFormGroup>
         <ProFormText
           name={IoTDBParams.storageGroup}

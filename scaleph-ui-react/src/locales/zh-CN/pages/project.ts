@@ -70,6 +70,11 @@ export default {
   'pages.project.di.step.schema.delimiter': '字段分隔符',
   'pages.project.di.step.schema.skipHeaderRowNumber': '跳过头部行号',
   'pages.project.di.step.schema.sheetName': 'Sheet',
+  'pages.project.di.step.schema.xmlRootTag': 'Root Tag',
+  'pages.project.di.step.schema.xmlRootTag.placeholder': 'RECORDS',
+  'pages.project.di.step.schema.xmlRowTag': 'Data Row Tag',
+  'pages.project.di.step.schema.xmlRowTag.placeholder': 'RECORD',
+  'pages.project.di.step.schema.xmlUseAttrFormat': 'Use Attr',
 
   // column
   'pages.project.di.step.column': '列',
@@ -227,6 +232,8 @@ export default {
   'pages.project.di.step.baseFile.schema': '结构',
   'pages.project.di.step.baseFile.delimiter': '字段分割符',
   'pages.project.di.step.baseFile.parsePartitionFromPath': '启用从路径解析分区',
+  'pages.project.di.step.baseFile.encoding': '编码格式',
+  'pages.project.di.step.baseFile.encoding.placeholder': 'UTF-8',
   'pages.project.di.step.baseFile.dateFormat': '日期格式',
   'pages.project.di.step.baseFile.timeFormat': '时间格式',
   'pages.project.di.step.baseFile.datetimeFormat': '日期时间格式',
@@ -249,8 +256,8 @@ export default {
   'pages.project.di.step.baseFile.enableHeaderWrite': '是否写入 Header',
 
   // hdfs file
-  'pages.project.di.step.hdfsFile.defaultFS': 'fs.defaultFS',
-  'pages.project.di.step.hdfsFile.defaultFS.tooltip': '格式:hdfs://namenode001',
+  'pages.project.di.step.hdfsFile.remoteUser': 'Remote User',
+  'pages.project.di.step.hdfsFile.remoteUser.tooltip': '连接 Hadoop 用户名，不会有权限',
 
   // ftp file
   'pages.project.di.step.ftpFile.host': '主机',
@@ -280,28 +287,22 @@ export default {
   'pages.project.di.step.http.method': '请求方式',
   'pages.project.di.step.http.url': '请求URL',
   'pages.project.di.step.http.headers': '请求Header',
-  'pages.project.di.step.http.header': 'header',
+  'pages.project.di.step.http.headers.tooltip': 'Http Header',
   'pages.project.di.step.http.connectTimeoutMs': '连接超时(毫秒)',
   'pages.project.di.step.http.socketTimeoutMs': 'Socket超时(毫秒)',
   'pages.project.di.step.http.params': '请求Param',
-  'pages.project.di.step.http.param': 'param',
+  'pages.project.di.step.http.params.tooltip': '请求Param',
   'pages.project.di.step.http.body': '请求Body',
-  'pages.project.di.step.http.value': 'value',
   'pages.project.di.step.http.format': '格式',
   'pages.project.di.step.http.enableMultiLines': '多行 Http 响应结果',
   'pages.project.di.step.http.schema': '结构',
   'pages.project.di.step.http.contentField': '内容JsonPath',
   'pages.project.di.step.http.contentField.placeholder': '$.store.book.*',
   'pages.project.di.step.http.fieldJson': '字段JsonPath',
-  'pages.project.di.step.http.fieldJson.list': 'JsonPath',
-  'pages.project.di.step.http.fieldJson.key': '字段',
-  'pages.project.di.step.http.fieldJson.key.placeholder': 'category',
-  'pages.project.di.step.http.fieldJson.path': 'JsonPath',
-  'pages.project.di.step.http.fieldJson.path.placeholder': '$.store.book[*].category',
+  'pages.project.di.step.http.fieldJson.tooltip': '自定义 Json 数据提取',
   'pages.project.di.step.http.pollIntervalMs': '拉取间隔(毫秒)',
   'pages.project.di.step.http.retry': '重试次数',
-  'pages.project.di.step.http.retryBackoffMultiplierMs':
-    '重试间隔(Retry-Backoff)时间(毫秒)倍数',
+  'pages.project.di.step.http.retryBackoffMultiplierMs': '重试间隔时间倍数',
   'pages.project.di.step.http.retryBackoffMaxMs': '最大重试间隔(毫秒)',
   'pages.project.di.step.http.pagingPageField': '分页字段名',
   'pages.project.di.step.http.pagingTotalPageSize': '总数据量',
@@ -406,7 +407,6 @@ export default {
   'pages.project.di.step.hive.metastoreUri': 'Hive Metastore URI',
   'pages.project.di.step.hive.metastoreUri.tooltip': '例如 : thrift://ctyun7:9083',
   'pages.project.di.step.hive.readParitions': '分区列表',
-  'pages.project.di.step.hive.readParition': '分区',
 
   // kudu
   'pages.project.di.step.kudu.master': 'Master',
@@ -522,7 +522,7 @@ export default {
   'pages.project.di.step.iotdb.keyDevice': '设备',
   'pages.project.di.step.iotdb.keyTimestamp': '时间戳',
   'pages.project.di.step.iotdb.keyMeasurementFields': 'Measurement Fields',
-  'pages.project.di.step.iotdb.keyMeasurementFields.field': '字段',
+  'pages.project.di.step.iotdb.keyMeasurementFields.tooltip': 'Measurement Fields',
   'pages.project.di.step.iotdb.storageGroup': 'Storage Group',
 
   // mongodb
@@ -660,8 +660,8 @@ export default {
   'pages.project.di.step.influxdb.queryTimeoutSec': '查询超时时间（秒）',
   'pages.project.di.step.influxdb.connectTimeoutMs': '连接超时时间（毫秒）',
   'pages.project.di.step.influxdb.measurement': '测量值',
-  'pages.project.di.step.influxdb.keyKime': '关键时间',
-  'pages.project.di.step.influxdb.keyTags': '关键标签',
+  'pages.project.di.step.influxdb.keyKime': 'Key时间',
+  'pages.project.di.step.influxdb.keyTags': 'Key标签',
   'pages.project.di.step.influxdb.batchSize': '批量大小',
   'pages.project.di.step.influxdb.batchIntervalMs': '批量间隔时间（毫秒）',
   'pages.project.di.step.influxdb.maxRetries': '最大重试次数',
@@ -693,15 +693,15 @@ export default {
   'pages.project.di.step.doris.saveModeCreateTemplate': 'Schema 创建模板',
   'pages.project.di.step.doris.saveModeCreateTemplate.tooltip': '同步上游 Schema 时，创建 Doris 表模板',
   'pages.project.di.step.doris.saveModeCreateTemplate.placeholder': 'CREATE TABLE IF NOT EXISTS `${database}`.`${table_name}`\n' +
-      '(   \n' +
-      '    id,\n' +
-      '    ${rowtype_fields}\n' +
-      ') ENGINE = OLAP UNIQUE KEY (${rowtype_primary_key})\n' +
-      '    DISTRIBUTED BY HASH (${rowtype_primary_key})\n' +
-      '    PROPERTIES\n' +
-      '(\n' +
-      '    "replication_num" = "1"\n' +
-      ');',
+    '(   \n' +
+    '    id,\n' +
+    '    ${rowtype_fields}\n' +
+    ') ENGINE = OLAP UNIQUE KEY (${rowtype_primary_key})\n' +
+    '    DISTRIBUTED BY HASH (${rowtype_primary_key})\n' +
+    '    PROPERTIES\n' +
+    '(\n' +
+    '    "replication_num" = "1"\n' +
+    ');',
   'pages.project.di.step.doris.customSql': '自定义处理 SQL',
   'pages.project.di.step.doris.dorisConfig': 'Doris配置',
   'pages.project.di.step.doris.dorisConfig.tooltip': 'Doris Stream Load 配置',
@@ -866,8 +866,7 @@ export default {
   'pages.project.di.step.hbase.zookeeperQuorum': 'Zookeeper地址',
   'pages.project.di.step.hbase.table': '表名',
   'pages.project.di.step.hbase.familyName': '列族名',
-  'pages.project.di.step.hbase.rowkeyColumnArray': 'RowKey列',
-  'pages.project.di.step.hbase.rowkeyColumn': '列名',
+  'pages.project.di.step.hbase.rowkeyColumn': 'RowKey列',
   'pages.project.di.step.hbase.rowkeyDelimiter': 'RowKey分隔符',
   'pages.project.di.step.hbase.versionColumn': '版本列',
   'pages.project.di.step.hbase.nullMode': 'Null值处理方式',
@@ -876,9 +875,6 @@ export default {
   'pages.project.di.step.hbase.encoding': '编码方式',
   'pages.project.di.step.hbase.hbaseExtraConfig': 'HBase额外配置',
   'pages.project.di.step.hbase.hbaseExtraConfig.tooltip': 'HBase的额外配置信息',
-  'pages.project.di.step.hbase.hbaseExtraConfigMap': '配置项',
-  'pages.project.di.step.hbase.hbaseExtraConfigKey': '配置项名称',
-  'pages.project.di.step.hbase.hbaseExtraConfigValue': '配置项值',
 
   // paimon
   'pages.project.di.step.paimon.warehouse': 'Warehouse',

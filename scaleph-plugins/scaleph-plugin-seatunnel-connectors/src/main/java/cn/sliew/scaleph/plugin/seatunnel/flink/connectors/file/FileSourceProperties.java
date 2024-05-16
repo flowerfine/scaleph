@@ -73,14 +73,6 @@ public enum FileSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> FIELD_DELIMITER = new PropertyDescriptor.Builder<String>()
-            .name("field_delimiter")
-            .description("The separator between columns in a row of data. Only needed by text and csv file format")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
     public static final PropertyDescriptor<Boolean> PARSE_PARTITION_FROM_PATH = new PropertyDescriptor.Builder()
             .name("parse_partition_from_path")
             .description("Control whether parse the partition keys and values from file path")

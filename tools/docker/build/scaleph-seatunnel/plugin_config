@@ -1,6 +1,7 @@
 connector-http-base
 connector-cdc-mysql
 connector-jdbc
+connector-elasticsearch
 connector-kafka
 connector-hudi
 connector-iceberg

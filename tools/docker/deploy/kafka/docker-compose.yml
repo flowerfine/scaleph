@@ -52,7 +52,6 @@ services:
     image: canal/canal-server:v1.1.5
     container_name: canal-server
     depends_on:
-      - mysql
       - kafka
     ports:
       - 11111:11111

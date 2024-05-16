@@ -16,46 +16,39 @@
 
 services:
   docker-fe:
-    image: "freeoneplus/apache-doris:1.1.0-perview2-fe"
-    container_name: "doris-fe"
+    image: apache/doris:doris-all-in-one-2.1.0
+    container_name: doris-fe
     tty: true
-    hostname: "fe"
-    restart: always
+    hostname: fe
+    environment:
+      - FE_SERVERS=fe:172.20.80.2:9010
+      - FE_ID=1
+    restart: unless-stopped
     ports:
       - 8030:8030
       - 9030:9030
     networks:
       doris_net:
         ipv4_address: 172.20.80.2
+
   docker-be:
-    image: "freeoneplus/apache-doris:1.1.0-perview2-be"
-    container_name: "doris-be"
+    image: apache/doris:doris-all-in-one-2.1.0
+    container_name: doris-be
     tty: true
-    hostname: "fe"
-    restart: always
+    hostname: be
+    environment:
+      - FE_SERVERS=fe:172.20.80.2:9010
+      - BE_ADDR=172.20.80.3:9050
+    restart: unless-stopped
     ports:
       - 8040:8040
       - 9050:9050
     networks:
       doris_net:
         ipv4_address: 172.20.80.3
-  register:
-    image: "freeoneplus/apache-doris:register"
-    container_name: "doris-register"
-    hostname: "register"
-    privileged: true
-    command: ["sh","-c","/root/register.sh"]
-    depends_on:
-      - docker-fe
-      - docker-be
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      doris_net:
-        ipv4_address: 172.20.80.4
+
 networks:
   doris_net:
     ipam:
       config:
-      - subnet: 172.20.80.0/16
+      - subnet: 172.20.80.0/24

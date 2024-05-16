@@ -51,7 +51,10 @@ public class OSSJindoSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(PATH);
         props.add(SKIP_HEADER_ROW_NUMBER);
         props.add(SHEET_NAME);
+        props.add(XML_ROW_TAG);
+        props.add(XML_USE_ATTR_FORMAT);
         props.add(COMPRESS_CODEC);
+        props.add(ENCODING);
         props.add(FILE_FILTER_PATTERN);
         props.add(FILE_FORMAT_TYPE);
         props.add(READ_COLUMNS);

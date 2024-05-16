@@ -16,16 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.sink;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
 
-public enum HiveSourceProperties {
+public enum HiveSinkProperties {
     ;
 
-    public static final PropertyDescriptor<String> ABORT_DROP_PARTITION_METADATA = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<Boolean> ABORT_DROP_PARTITION_METADATA = new PropertyDescriptor.Builder()
             .name("abort_drop_partition_metadata")
-            .description("Flag to decide whether to drop partition metadata from Hive Metastore during an abort operation")
+            .description("Target Hive table name eg: db1.table1")
             .type(PropertyType.BOOLEAN)
             .parser(Parsers.BOOLEAN_PARSER)
             .addValidator(Validators.BOOLEAN_VALIDATOR)

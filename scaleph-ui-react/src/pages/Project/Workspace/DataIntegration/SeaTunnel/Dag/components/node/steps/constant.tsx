@@ -24,6 +24,9 @@ export const SchemaParams = {
   delimiter: 'delimiter',
   skipHeaderRowNumber: 'skip_header_row_number',
   sheetName: 'sheet_name',
+  xmlRootTag: 'xml_root_tag',
+  xmlRowTag: 'xml_row_tag',
+  xmlUseAttrFormat: 'xml_use_attr_format',
 }
 
 export const ColumnParams = {
@@ -163,13 +166,14 @@ export const BaseFileParams = {
   isEnableTransaction: 'is_enable_transaction',
   batchSize: 'batch_size',
   compressCodec: 'compress_codec',
+  encoding: 'encoding',
   maxRowsInMemory: 'max_rows_in_memory',
   sheetName: 'sheet_name',
   enableHeaderWrite: 'enable_header_write',
 };
 
 export const HDFSFileParams = {
-  defaultFS: 'fs.defaultFS',
+  remoteUser: 'remote_user',
 };
 
 export const FtpFileParams = {
@@ -198,26 +202,11 @@ export const S3FileParams = {
 export const HttpParams = {
   method: 'method',
   url: 'url',
-  headerArray: 'headerArray',
-  header: 'header',
-  headerValue: 'headerValue',
   connectTimeoutMs: 'connect_timeout_ms',
   socketTimeoutMs: 'socket_timeout_ms',
-  paramArray: 'paramArray',
-  param: 'param',
-  paramValue: 'paramValue',
+  headers: 'headers',
+  params: 'params',
   body: 'body',
-  format: 'format',
-  enableMultiLines: 'enable_multi_lines',
-  schema: 'schema',
-  contentField: 'content_field',
-  jsonField: 'jsonField',
-  key: 'key',
-  path: 'path',
-  pollIntervalMs: 'poll_interval_ms',
-  retry: 'retry',
-  retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms',
-  retryBackoffMaxMs: 'retry_backoff_max_ms',
   pageing: 'pageing',
   pagingPageField: 'pageing.page_field',
   pagingTotalPageSize: 'pageing.total_page_size',
@@ -225,6 +214,15 @@ export const HttpParams = {
   pageField: 'page_field',
   totalPageSize: 'total_page_size',
   batchSize: 'batch_size',
+  enableMultiLines: 'enable_multi_lines',
+  contentField: 'content_field',
+  format: 'format',
+  schema: 'schema',
+  jsonField: 'json_field',
+  pollIntervalMs: 'poll_interval_ms',
+  retry: 'retry',
+  retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms',
+  retryBackoffMaxMs: 'retry_backoff_max_ms',
 };
 
 export const WeChatParams = {
@@ -316,8 +314,6 @@ export const HiveParams = {
   tableName: 'table_name',
   metastoreUri: 'metastore_uri',
   readPartitions: 'read_partitions',
-  readPartitionArray: 'read_partitions',
-  readPartition: 'read_partition',
   abortDropPartitionMetadata: 'abort_drop_partition_metadata',
 };
 
@@ -397,8 +393,6 @@ export const IoTDBParams = {
   keyDevice: 'key_device',
   keyTimestamp: 'key_timestamp',
   keyMeasurementFields: 'key_measurement_fields',
-  keyMeasurementFieldArray: 'keyMeasurementFieldArray',
-  keyMeasurementField: 'keyMeasurementField',
   storageGroup: 'storage_group',
 };
 
@@ -574,7 +568,6 @@ export const InfluxDBParams = {
   connectTimeoutMs: 'connect_timeout_ms',
   measurement: 'measurement',
   keyKime: 'key_time',
-  keyTagArray: 'keyTagArray',
   keyTags: 'key_tags',
   batchSize: 'batch_size',
   batchIntervalMs: 'batch_interval_ms',
@@ -750,8 +743,6 @@ export const HbaseParams = {
   table: 'table',
   familyName: 'family_name',
   rowkeyColumn: 'rowkey_column',
-  rowkeyColumnArray: 'rowkeyColumnArray',
-  rowkeyColumnValue: 'rowkeyColumnArray',
   rowkeyDelimiter: 'rowkey_delimiter',
   versionColumn: 'version_column',
   nullMode: 'null_mode',
@@ -759,9 +750,6 @@ export const HbaseParams = {
   writeBufferSize: 'write_buffer_size',
   encoding: 'encoding',
   hbaseExtraConfig: 'hbase_extra_config',
-  hbaseExtraConfigMap: 'hbaseExtraConfigMap',
-  hbaseExtraConfigKey: 'hbaseExtraConfigKey',
-  hbaseExtraConfigValue: 'hbaseExtraConfigValue'
 }
 
 export const PaimonParams = {

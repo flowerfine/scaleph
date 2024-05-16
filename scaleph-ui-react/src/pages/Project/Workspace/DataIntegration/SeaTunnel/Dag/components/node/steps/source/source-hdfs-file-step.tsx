@@ -4,10 +4,11 @@ import {DrawerForm, ProFormText,} from '@ant-design/pro-components';
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
-import {STEP_ATTR_TYPE} from '../constant';
+import {HDFSFileParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from '../helper';
 import DataSourceItem from "../dataSource";
 import FileSourceItem from "../common/file/fileSource";
+import {InfoCircleOutlined} from "@ant-design/icons";
 
 const SourceHdfsFileStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -47,6 +48,14 @@ const SourceHdfsFileStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, 
           rules={[{required: true}, {max: 120}]}
         />
         <DataSourceItem dataSource={'HDFS'}/>
+        <ProFormText
+          name={HDFSFileParams.remoteUser}
+          label={intl.formatMessage({id: 'pages.project.di.step.hdfsFile.remoteUser'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.hdfsFile.remoteUser.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+        />
         <FileSourceItem/>
       </DrawerForm>
     </XFlow>

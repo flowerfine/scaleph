@@ -4,12 +4,8 @@ import {
   CommonListParams,
   FieldMapperParams,
   FilterParams,
-  HbaseParams,
-  HiveParams,
   HttpParams,
   IcebergParams,
-  InfluxDBParams,
-  IoTDBParams,
   JdbcParams,
   KafkaParams,
   PulsarParams,
@@ -56,25 +52,6 @@ export const StepSchemaService = {
       configs[item[prefix + CommonConfigParams.commonConfigKey]] = item[prefix + CommonConfigParams.commonConfigValue];
     });
     values[param] = JSON.stringify(configs)
-    return values
-  },
-
-
-  formatHeader: (values: Record<string, any>) => {
-    const headers: Record<string, any> = {}
-    values.headerArray?.forEach(function (item: Record<string, any>) {
-      headers[item.header] = item.headerValue;
-    });
-    values.headers = JSON.stringify(headers)
-    return values
-  },
-
-  formatParam: (values: Record<string, any>) => {
-    const params: Record<string, any> = {}
-    values.paramArray?.forEach(function (item: Record<string, any>) {
-      params[item.param] = item.paramValue;
-    });
-    values.params = JSON.stringify(params)
     return values
   },
 
@@ -159,15 +136,6 @@ export const StepSchemaService = {
     return values
   },
 
-  formatJsonField: (values: Record<string, any>) => {
-    const jsonFields: Record<string, any> = {}
-    values.jsonField?.forEach(function (item: Record<string, any>) {
-      jsonFields[item.key] = item.path;
-    });
-    values.json_field = JSON.stringify(jsonFields)
-    return values
-  },
-
   formatPaging: (values: Record<string, any>) => {
     const paging: Record<string, any> = {}
     paging[HttpParams.pageField] = values[HttpParams.pagingPageField]
@@ -187,26 +155,12 @@ export const StepSchemaService = {
     return values
   },
 
-  formatMeasurementFields: (values: Record<string, any>) => {
-    const primaryKeys: Array<string> = []
-    values[IoTDBParams.keyMeasurementFieldArray]?.forEach(function (item: Record<string, any>) {
-      primaryKeys.push(item[IoTDBParams.keyMeasurementField])
-    });
-    values[IoTDBParams.keyMeasurementFields] = JSON.stringify(primaryKeys)
-    return values
-  },
-
   formatStarRocksConfig: (values: Record<string, any>) => {
     const config: Record<string, any> = {}
     values[StarRocksParams.starrocksConfigMap]?.forEach(function (item: Record<string, any>) {
       values[item[StarRocksParams.starrocksConfigKey]] = item[StarRocksParams.starrocksConfigValue];
     });
     values[StarRocksParams.starrocksConfig] = JSON.stringify(config)
-    return values
-  },
-
-  formatKeyTags: (values: Record<string, any>) => {
-    values[InfluxDBParams.keyTags] = JSON.stringify(values[InfluxDBParams.keyTagArray])
     return values
   },
 
@@ -234,33 +188,6 @@ export const StepSchemaService = {
       outputFields.push(item[SplitParams.outputField])
     });
     values[SplitParams.outputFields] = JSON.stringify(outputFields)
-    return values
-  },
-
-  formatPartitions: (values: Record<string, any>) => {
-    const partitions: Array<any> = []
-    values[HiveParams.readPartitionArray]?.forEach(function (item: Record<string, any>) {
-      partitions.push(item[HiveParams.readPartition])
-    });
-    values[HiveParams.readPartitions] = JSON.stringify(partitions)
-    return values
-  },
-
-  formatRowKeyColumn: (values: Record<string, any>) => {
-    const columns: Array<any> = []
-    values[HbaseParams.rowkeyColumnArray]?.forEach(function (item: Record<string, any>) {
-      columns.push(item[HbaseParams.rowkeyColumnValue])
-    });
-    values[HbaseParams.rowkeyColumn] = JSON.stringify(columns)
-    return values
-  },
-
-  formatHbaseExtraConfig: (values: Record<string, any>) => {
-    const configs: Record<string, any> = {}
-    values[HbaseParams.hbaseExtraConfigMap]?.forEach(function (item: Record<string, any>) {
-      configs[item[HbaseParams.hbaseExtraConfigKey]] = item[HbaseParams.hbaseExtraConfigValue];
-    });
-    values[HbaseParams.hbaseExtraConfig] = JSON.stringify(configs)
     return values
   },
 

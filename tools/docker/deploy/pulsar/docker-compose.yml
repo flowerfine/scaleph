@@ -23,9 +23,6 @@ services:
       - 8080:8080
     command: 'bin/pulsar standalone'
     restart: unless-stopped
-#    volumes:
-#      - data:/pulsar/data
-#      - pulsarconf:/pulsar/conf
     networks:
       - scaleph
 
