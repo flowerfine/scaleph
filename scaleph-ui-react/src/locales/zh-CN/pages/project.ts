@@ -522,7 +522,7 @@ export default {
   'pages.project.di.step.iotdb.keyDevice': '设备',
   'pages.project.di.step.iotdb.keyTimestamp': '时间戳',
   'pages.project.di.step.iotdb.keyMeasurementFields': 'Measurement Fields',
-  'pages.project.di.step.iotdb.keyMeasurementFields.field': '字段',
+  'pages.project.di.step.iotdb.keyMeasurementFields.tooltip': 'Measurement Fields',
   'pages.project.di.step.iotdb.storageGroup': 'Storage Group',
 
   // mongodb

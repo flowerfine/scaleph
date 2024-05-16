@@ -393,8 +393,6 @@ export const IoTDBParams = {
   keyDevice: 'key_device',
   keyTimestamp: 'key_timestamp',
   keyMeasurementFields: 'key_measurement_fields',
-  keyMeasurementFieldArray: 'keyMeasurementFieldArray',
-  keyMeasurementField: 'keyMeasurementField',
   storageGroup: 'storage_group',
 };
 
