@@ -57,25 +57,6 @@ export const StepSchemaService = {
     return values
   },
 
-
-  formatHeader: (values: Record<string, any>) => {
-    const headers: Record<string, any> = {}
-    values.headerArray?.forEach(function (item: Record<string, any>) {
-      headers[item.header] = item.headerValue;
-    });
-    values.headers = JSON.stringify(headers)
-    return values
-  },
-
-  formatParam: (values: Record<string, any>) => {
-    const params: Record<string, any> = {}
-    values.paramArray?.forEach(function (item: Record<string, any>) {
-      params[item.param] = item.paramValue;
-    });
-    values.params = JSON.stringify(params)
-    return values
-  },
-
   formatUserIds: (values: Record<string, any>) => {
     const userIds: Array<any> = []
     values.mentionedArray?.forEach(function (item: any) {
@@ -154,15 +135,6 @@ export const StepSchemaService = {
       properties[item.key] = item.value;
     });
     values.hadoop_s3_properties = JSON.stringify(properties)
-    return values
-  },
-
-  formatJsonField: (values: Record<string, any>) => {
-    const jsonFields: Record<string, any> = {}
-    values.jsonField?.forEach(function (item: Record<string, any>) {
-      jsonFields[item.key] = item.path;
-    });
-    values.json_field = JSON.stringify(jsonFields)
     return values
   },
 

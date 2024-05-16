@@ -1,12 +1,15 @@
 import React, {useEffect} from 'react';
 import {Form} from 'antd';
-import {DrawerForm, ProFormDigit, ProFormGroup, ProFormList, ProFormText} from '@ant-design/pro-components';
+import {InfoCircleOutlined} from "@ant-design/icons";
+import {DrawerForm, ProFormDigit, ProFormGroup, ProFormText} from '@ant-design/pro-components';
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {HttpParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from "../helper";
 import DataSourceItem from "../dataSource";
+import CommonConfigItem
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/config/commonConfig";
 
 const SinkHttpStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -33,8 +36,8 @@ const SinkHttpStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisi
         }}
         onFinish={(values) => {
           if (onOK) {
-            StepSchemaService.formatHeader(values);
-            StepSchemaService.formatParam(values);
+            StepSchemaService.formatCommonConfig(values, HttpParams.headers, HttpParams.headers);
+            StepSchemaService.formatCommonConfig(values, HttpParams.params, HttpParams.params);
             onOK(values)
             return Promise.resolve(true)
           }
@@ -48,6 +51,31 @@ const SinkHttpStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisi
           colProps={{span: 24}}
         />
         <DataSourceItem dataSource={'Http'}/>
+
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.http.headers'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.http.headers.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          collapsible={true}
+          defaultCollapsed={true}
+        >
+          <CommonConfigItem data={HttpParams.headers}/>
+        </ProFormGroup>
+
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.http.params'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.http.params.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          collapsible={true}
+          defaultCollapsed={true}
+        >
+          <CommonConfigItem data={HttpParams.params}/>
+        </ProFormGroup>
+
         <ProFormDigit
           name={HttpParams.socketTimeoutMs}
           label={intl.formatMessage({id: 'pages.project.di.step.http.socketTimeoutMs'})}
@@ -68,50 +96,7 @@ const SinkHttpStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisi
             min: 1
           }}
         />
-        <ProFormList
-          name={HttpParams.headerArray}
-          label={intl.formatMessage({id: 'pages.project.di.step.http.headers'})}
-          copyIconProps={false}
-          creatorButtonProps={{
-            creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.http.headers'}),
-            type: 'text',
-          }}
-        >
-          <ProFormGroup>
-            <ProFormText
-              name={HttpParams.header}
-              label={intl.formatMessage({id: 'pages.project.di.step.http.header'})}
-              colProps={{span: 10, offset: 1}}
-            />
-            <ProFormText
-              name={HttpParams.headerValue}
-              label={intl.formatMessage({id: 'pages.project.di.step.http.value'})}
-              colProps={{span: 10, offset: 1}}
-            />
-          </ProFormGroup>
-        </ProFormList>
-        <ProFormList
-          name={HttpParams.paramArray}
-          label={intl.formatMessage({id: 'pages.project.di.step.http.params'})}
-          copyIconProps={false}
-          creatorButtonProps={{
-            creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.http.params'}),
-            type: 'text',
-          }}
-        >
-          <ProFormGroup>
-            <ProFormText
-              name={HttpParams.param}
-              label={intl.formatMessage({id: 'pages.project.di.step.http.param'})}
-              colProps={{span: 10, offset: 1}}
-            />
-            <ProFormText
-              name={HttpParams.paramValue}
-              label={intl.formatMessage({id: 'pages.project.di.step.http.value'})}
-              colProps={{span: 10, offset: 1}}
-            />
-          </ProFormGroup>
-        </ProFormList>
+
         <ProFormDigit
           name={HttpParams.retry}
           label={intl.formatMessage({id: 'pages.project.di.step.http.retry'})}
