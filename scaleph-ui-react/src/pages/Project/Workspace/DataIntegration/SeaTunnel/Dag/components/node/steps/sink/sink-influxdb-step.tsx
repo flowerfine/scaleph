@@ -1,12 +1,14 @@
 import React, {useEffect} from 'react';
 import {Form} from 'antd';
-import {DrawerForm, ProFormDigit, ProFormSelect, ProFormText} from '@ant-design/pro-components';
+import {InfoCircleOutlined} from "@ant-design/icons";
+import {DrawerForm, ProFormDigit, ProFormGroup, ProFormSelect, ProFormText} from '@ant-design/pro-components';
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {InfluxDBParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from "../helper";
 import DataSourceItem from "../dataSource";
+import CommonListItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/list";
 
 const SinkInfluxDBStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -33,7 +35,7 @@ const SinkInfluxDBStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, on
         }}
         onFinish={(values) => {
           if (onOK) {
-            StepSchemaService.formatKeyTags(values);
+            StepSchemaService.formatCommonList(values, InfluxDBParams.keyTags, InfluxDBParams.keyTags);
             onOK(values)
             return Promise.resolve(true)
           }
@@ -60,13 +62,18 @@ const SinkInfluxDBStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, on
           name={InfluxDBParams.keyKime}
           label={intl.formatMessage({id: 'pages.project.di.step.influxdb.keyKime'})}
         />
-        <ProFormSelect
-          name={InfluxDBParams.keyTagArray}
-          label={intl.formatMessage({id: 'pages.project.di.step.influxdb.keyTags'})}
-          fieldProps={{
-            mode: 'tags',
+
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.influxdb.keyTags'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.influxdb.keyTags.tooltip'}),
+            icon: <InfoCircleOutlined/>,
           }}
-        />
+          collapsible={true}
+          defaultCollapsed={true}
+        >
+          <CommonListItem data={InfluxDBParams.keyTags}/>
+        </ProFormGroup>
         <ProFormDigit
           name={InfluxDBParams.batchSize}
           label={intl.formatMessage({id: 'pages.project.di.step.influxdb.batchSize'})}

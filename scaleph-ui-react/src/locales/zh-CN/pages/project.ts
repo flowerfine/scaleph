@@ -287,28 +287,22 @@ export default {
   'pages.project.di.step.http.method': '请求方式',
   'pages.project.di.step.http.url': '请求URL',
   'pages.project.di.step.http.headers': '请求Header',
-  'pages.project.di.step.http.header': 'header',
+  'pages.project.di.step.http.headers.tooltip': 'Http Header',
   'pages.project.di.step.http.connectTimeoutMs': '连接超时(毫秒)',
   'pages.project.di.step.http.socketTimeoutMs': 'Socket超时(毫秒)',
   'pages.project.di.step.http.params': '请求Param',
-  'pages.project.di.step.http.param': 'param',
+  'pages.project.di.step.http.params.tooltip': '请求Param',
   'pages.project.di.step.http.body': '请求Body',
-  'pages.project.di.step.http.value': 'value',
   'pages.project.di.step.http.format': '格式',
   'pages.project.di.step.http.enableMultiLines': '多行 Http 响应结果',
   'pages.project.di.step.http.schema': '结构',
   'pages.project.di.step.http.contentField': '内容JsonPath',
   'pages.project.di.step.http.contentField.placeholder': '$.store.book.*',
   'pages.project.di.step.http.fieldJson': '字段JsonPath',
-  'pages.project.di.step.http.fieldJson.list': 'JsonPath',
-  'pages.project.di.step.http.fieldJson.key': '字段',
-  'pages.project.di.step.http.fieldJson.key.placeholder': 'category',
-  'pages.project.di.step.http.fieldJson.path': 'JsonPath',
-  'pages.project.di.step.http.fieldJson.path.placeholder': '$.store.book[*].category',
+  'pages.project.di.step.http.fieldJson.tooltip': '自定义 Json 数据提取',
   'pages.project.di.step.http.pollIntervalMs': '拉取间隔(毫秒)',
   'pages.project.di.step.http.retry': '重试次数',
-  'pages.project.di.step.http.retryBackoffMultiplierMs':
-    '重试间隔(Retry-Backoff)时间(毫秒)倍数',
+  'pages.project.di.step.http.retryBackoffMultiplierMs': '重试间隔时间倍数',
   'pages.project.di.step.http.retryBackoffMaxMs': '最大重试间隔(毫秒)',
   'pages.project.di.step.http.pagingPageField': '分页字段名',
   'pages.project.di.step.http.pagingTotalPageSize': '总数据量',
@@ -528,7 +522,7 @@ export default {
   'pages.project.di.step.iotdb.keyDevice': '设备',
   'pages.project.di.step.iotdb.keyTimestamp': '时间戳',
   'pages.project.di.step.iotdb.keyMeasurementFields': 'Measurement Fields',
-  'pages.project.di.step.iotdb.keyMeasurementFields.field': '字段',
+  'pages.project.di.step.iotdb.keyMeasurementFields.tooltip': 'Measurement Fields',
   'pages.project.di.step.iotdb.storageGroup': 'Storage Group',
 
   // mongodb
@@ -666,8 +660,8 @@ export default {
   'pages.project.di.step.influxdb.queryTimeoutSec': '查询超时时间（秒）',
   'pages.project.di.step.influxdb.connectTimeoutMs': '连接超时时间（毫秒）',
   'pages.project.di.step.influxdb.measurement': '测量值',
-  'pages.project.di.step.influxdb.keyKime': '关键时间',
-  'pages.project.di.step.influxdb.keyTags': '关键标签',
+  'pages.project.di.step.influxdb.keyKime': 'Key时间',
+  'pages.project.di.step.influxdb.keyTags': 'Key标签',
   'pages.project.di.step.influxdb.batchSize': '批量大小',
   'pages.project.di.step.influxdb.batchIntervalMs': '批量间隔时间（毫秒）',
   'pages.project.di.step.influxdb.maxRetries': '最大重试次数',
@@ -699,15 +693,15 @@ export default {
   'pages.project.di.step.doris.saveModeCreateTemplate': 'Schema 创建模板',
   'pages.project.di.step.doris.saveModeCreateTemplate.tooltip': '同步上游 Schema 时，创建 Doris 表模板',
   'pages.project.di.step.doris.saveModeCreateTemplate.placeholder': 'CREATE TABLE IF NOT EXISTS `${database}`.`${table_name}`\n' +
-      '(   \n' +
-      '    id,\n' +
-      '    ${rowtype_fields}\n' +
-      ') ENGINE = OLAP UNIQUE KEY (${rowtype_primary_key})\n' +
-      '    DISTRIBUTED BY HASH (${rowtype_primary_key})\n' +
-      '    PROPERTIES\n' +
-      '(\n' +
-      '    "replication_num" = "1"\n' +
-      ');',
+    '(   \n' +
+    '    id,\n' +
+    '    ${rowtype_fields}\n' +
+    ') ENGINE = OLAP UNIQUE KEY (${rowtype_primary_key})\n' +
+    '    DISTRIBUTED BY HASH (${rowtype_primary_key})\n' +
+    '    PROPERTIES\n' +
+    '(\n' +
+    '    "replication_num" = "1"\n' +
+    ');',
   'pages.project.di.step.doris.customSql': '自定义处理 SQL',
   'pages.project.di.step.doris.dorisConfig': 'Doris配置',
   'pages.project.di.step.doris.dorisConfig.tooltip': 'Doris Stream Load 配置',

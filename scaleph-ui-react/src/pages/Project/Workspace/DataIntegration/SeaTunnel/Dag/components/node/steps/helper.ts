@@ -6,8 +6,6 @@ import {
   FilterParams,
   HttpParams,
   IcebergParams,
-  InfluxDBParams,
-  IoTDBParams,
   JdbcParams,
   KafkaParams,
   PulsarParams,
@@ -54,25 +52,6 @@ export const StepSchemaService = {
       configs[item[prefix + CommonConfigParams.commonConfigKey]] = item[prefix + CommonConfigParams.commonConfigValue];
     });
     values[param] = JSON.stringify(configs)
-    return values
-  },
-
-
-  formatHeader: (values: Record<string, any>) => {
-    const headers: Record<string, any> = {}
-    values.headerArray?.forEach(function (item: Record<string, any>) {
-      headers[item.header] = item.headerValue;
-    });
-    values.headers = JSON.stringify(headers)
-    return values
-  },
-
-  formatParam: (values: Record<string, any>) => {
-    const params: Record<string, any> = {}
-    values.paramArray?.forEach(function (item: Record<string, any>) {
-      params[item.param] = item.paramValue;
-    });
-    values.params = JSON.stringify(params)
     return values
   },
 
@@ -157,15 +136,6 @@ export const StepSchemaService = {
     return values
   },
 
-  formatJsonField: (values: Record<string, any>) => {
-    const jsonFields: Record<string, any> = {}
-    values.jsonField?.forEach(function (item: Record<string, any>) {
-      jsonFields[item.key] = item.path;
-    });
-    values.json_field = JSON.stringify(jsonFields)
-    return values
-  },
-
   formatPaging: (values: Record<string, any>) => {
     const paging: Record<string, any> = {}
     paging[HttpParams.pageField] = values[HttpParams.pagingPageField]
@@ -185,26 +155,12 @@ export const StepSchemaService = {
     return values
   },
 
-  formatMeasurementFields: (values: Record<string, any>) => {
-    const primaryKeys: Array<string> = []
-    values[IoTDBParams.keyMeasurementFieldArray]?.forEach(function (item: Record<string, any>) {
-      primaryKeys.push(item[IoTDBParams.keyMeasurementField])
-    });
-    values[IoTDBParams.keyMeasurementFields] = JSON.stringify(primaryKeys)
-    return values
-  },
-
   formatStarRocksConfig: (values: Record<string, any>) => {
     const config: Record<string, any> = {}
     values[StarRocksParams.starrocksConfigMap]?.forEach(function (item: Record<string, any>) {
       values[item[StarRocksParams.starrocksConfigKey]] = item[StarRocksParams.starrocksConfigValue];
     });
     values[StarRocksParams.starrocksConfig] = JSON.stringify(config)
-    return values
-  },
-
-  formatKeyTags: (values: Record<string, any>) => {
-    values[InfluxDBParams.keyTags] = JSON.stringify(values[InfluxDBParams.keyTagArray])
     return values
   },
 

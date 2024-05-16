@@ -6,7 +6,6 @@ import {
   ProFormDependency,
   ProFormDigit,
   ProFormGroup,
-  ProFormList,
   ProFormSelect,
   ProFormSwitch,
   ProFormText,
@@ -18,7 +17,10 @@ import {ModalFormProps} from '@/typings';
 import {HttpParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from '../helper';
 import DataSourceItem from "../dataSource";
-import FieldItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/schema/fields";
+import FieldItem
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/schema/fields";
+import CommonConfigItem
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/config/commonConfig";
 
 const SourceHttpStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -46,10 +48,10 @@ const SourceHttpStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
         onFinish={(values) => {
           if (onOK) {
             StepSchemaService.formatSchema(values);
-            StepSchemaService.formatHeader(values);
-            StepSchemaService.formatParam(values);
-            StepSchemaService.formatJsonField(values);
             StepSchemaService.formatPaging(values);
+            StepSchemaService.formatCommonConfig(values, HttpParams.headers, HttpParams.headers);
+            StepSchemaService.formatCommonConfig(values, HttpParams.params, HttpParams.params);
+            StepSchemaService.formatCommonConfig(values, HttpParams.jsonField, HttpParams.jsonField);
             onOK(values)
             return Promise.resolve(true)
           }
@@ -62,70 +64,30 @@ const SourceHttpStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
           rules={[{required: true}, {max: 120}]}
         />
         <DataSourceItem dataSource={'Http'}/>
-        <ProFormDigit
-          name={HttpParams.socketTimeoutMs}
-          label={intl.formatMessage({id: 'pages.project.di.step.http.socketTimeoutMs'})}
-          colProps={{span: 12}}
-          initialValue={60000}
-          fieldProps={{
-            step: 1000,
-            min: 1
+
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.http.headers'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.http.headers.tooltip'}),
+            icon: <InfoCircleOutlined/>,
           }}
-        />
-        <ProFormDigit
-          name={HttpParams.connectTimeoutMs}
-          label={intl.formatMessage({id: 'pages.project.di.step.http.connectTimeoutMs'})}
-          colProps={{span: 12}}
-          initialValue={12000}
-          fieldProps={{
-            step: 1000,
-            min: 1
-          }}
-        />
-        <ProFormList
-          name={HttpParams.headerArray}
-          label={intl.formatMessage({id: 'pages.project.di.step.http.headers'})}
-          copyIconProps={false}
-          creatorButtonProps={{
-            creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.http.headers'}),
-            type: 'text',
-          }}
+          collapsible={true}
+          defaultCollapsed={true}
         >
-          <ProFormGroup>
-            <ProFormText
-              name={HttpParams.header}
-              label={intl.formatMessage({id: 'pages.project.di.step.http.header'})}
-              colProps={{span: 10, offset: 1}}
-            />
-            <ProFormText
-              name={HttpParams.headerValue}
-              label={intl.formatMessage({id: 'pages.project.di.step.http.value'})}
-              colProps={{span: 10, offset: 1}}
-            />
-          </ProFormGroup>
-        </ProFormList>
-        <ProFormList
-          name={HttpParams.paramArray}
-          label={intl.formatMessage({id: 'pages.project.di.step.http.params'})}
-          copyIconProps={false}
-          creatorButtonProps={{
-            creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.http.params'}),
-            type: 'text',
+          <CommonConfigItem data={HttpParams.headers}/>
+        </ProFormGroup>
+
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.http.params'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.http.params.tooltip'}),
+            icon: <InfoCircleOutlined/>,
           }}
+          collapsible={true}
+          defaultCollapsed={true}
         >
-          <ProFormGroup>
-            <ProFormText
-              name={HttpParams.param}
-              label={intl.formatMessage({id: 'pages.project.di.step.http.param'})}
-              colProps={{span: 10, offset: 1}}
-            />
-            <ProFormText
-              name={HttpParams.paramValue}
-              label={intl.formatMessage({id: 'pages.project.di.step.http.value'})}
-              colProps={{span: 10, offset: 1}}
-            />
-          </ProFormGroup>
-        </ProFormList>
+          <CommonConfigItem data={HttpParams.params}/>
+        </ProFormGroup>
         <ProFormTextArea
           name={HttpParams.body}
           label={intl.formatMessage({id: 'pages.project.di.step.http.body'})}
@@ -155,6 +117,11 @@ const SourceHttpStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
             min: 1
           }}
         />
+        <ProFormText
+          name={HttpParams.contentField}
+          label={intl.formatMessage({id: 'pages.project.di.step.http.contentField'})}
+          placeholder={intl.formatMessage({id: 'pages.project.di.step.http.contentField.placeholder'})}
+        />
         <ProFormSelect
           name={'format'}
           label={intl.formatMessage({id: 'pages.project.di.step.http.format'})}
@@ -179,48 +146,41 @@ const SourceHttpStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
           label={intl.formatMessage({id: 'pages.project.di.step.http.enableMultiLines'})}
           initialValue={false}
         />
-        <ProFormText
-          name={HttpParams.contentField}
-          label={intl.formatMessage({id: 'pages.project.di.step.http.contentField'})}
-          placeholder={intl.formatMessage({
-            id: 'pages.project.di.step.http.contentField.placeholder',
-          })}
-        />
-        <ProFormGroup label={intl.formatMessage({id: 'pages.project.di.step.http.fieldJson'})}>
-          <ProFormList
-            name={HttpParams.jsonField}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({
-                id: 'pages.project.di.step.http.fieldJson.list',
-              }),
-              type: 'text',
-            }}
-          >
-            <ProFormGroup>
-              <ProFormText
-                name={HttpParams.key}
-                label={intl.formatMessage({id: 'pages.project.di.step.http.fieldJson.key'})}
-                placeholder={intl.formatMessage({
-                  id: 'pages.project.di.step.http.fieldJson.key.placeholder',
-                })}
-                colProps={{span: 10, offset: 1}}
-              />
-              <ProFormText
-                name={HttpParams.path}
-                label={intl.formatMessage({id: 'pages.project.di.step.http.fieldJson.path'})}
-                placeholder={intl.formatMessage({
-                  id: 'pages.project.di.step.http.fieldJson.path.placeholder',
-                })}
-                colProps={{span: 10, offset: 1}}
-              />
-            </ProFormGroup>
-          </ProFormList>
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.http.fieldJson'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.http.fieldJson.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          collapsible={true}
+          defaultCollapsed={true}
+        >
+          <CommonConfigItem data={HttpParams.jsonField}/>
         </ProFormGroup>
+        <ProFormDigit
+          name={HttpParams.socketTimeoutMs}
+          label={intl.formatMessage({id: 'pages.project.di.step.http.socketTimeoutMs'})}
+          colProps={{span: 8}}
+          initialValue={60000}
+          fieldProps={{
+            step: 1000,
+            min: 1
+          }}
+        />
+        <ProFormDigit
+          name={HttpParams.connectTimeoutMs}
+          label={intl.formatMessage({id: 'pages.project.di.step.http.connectTimeoutMs'})}
+          colProps={{span: 8}}
+          initialValue={12000}
+          fieldProps={{
+            step: 1000,
+            min: 1
+          }}
+        />
         <ProFormDigit
           name={HttpParams.pollIntervalMs}
           label={intl.formatMessage({id: 'pages.project.di.step.http.pollIntervalMs'})}
-          colProps={{span: 24}}
+          colProps={{span: 8}}
         />
         <ProFormDigit
           name={HttpParams.retry}
