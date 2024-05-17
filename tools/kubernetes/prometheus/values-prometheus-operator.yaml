@@ -133,6 +133,22 @@ prometheus:
   ## Settings affecting prometheusSpec
   ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#prometheusspec
   prometheusSpec:
+    ## ServiceMonitors to be selected for target discovery.
+    ## If {}, select all ServiceMonitors
+    serviceMonitorSelector: {}
+      ## Example which selects ServiceMonitors with label "prometheus" set to "somelabel"
+#      matchLabels:
+#        group: flink-jobs
+#        platform: scaleph
+
+    ## PodMonitors to be selected for target discovery.
+    ## If {}, select all PodMonitors
+    podMonitorSelector: {}
+      ## Example which selects PodMonitors with label "prometheus" set to "somelabel"
+#      matchLabels:
+#        group: flink-jobs
+#        platform: scaleph
+
     ## Interval between consecutive scrapes.
     ## Defaults to 30s.
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/release-0.44/pkg/prometheus/promcfg.go#L180-L183
