@@ -188,18 +188,22 @@ prometheus:
 
   additionalServiceMonitors:
     ## Name of the ServiceMonitor to create
-    - name: flink-jobs
+    - name: flink-kubernetes-operator-job-metrics
       ## Additional labels to set used for the ServiceMonitorSelector. Together with standard labels from
       ## the chart
       additionalLabels:
-        group: flink-jobs
+        group: flink-kubernetes-operator-job-metrics
         platform: scaleph
       ## labels to transfer from the kubernetes pods to the target
+      ## todo 后续在 scaleph 可以增加更多的 labels 到 flink pods 中，通过这种方式传到 prometheus 和 grafana 中去
       podTargetLabels:
-        - type=flink-native-kubernetes
+        - app
+        - component
       ## Label selector for services to which this ServiceMonitor applies
       selector:
-        prometheus.io/scrape: true
+        app: flink-metrics
+        component: metrics
+        platform: scaleph
       ## Endpoints of the selected service to be monitored
       endpoints:
       ## Name of the endpoint's service port
