@@ -201,9 +201,10 @@ prometheus:
         - component
       ## Label selector for services to which this ServiceMonitor applies
       selector:
-        app: flink-metrics
-        component: metrics
-        platform: scaleph
+        matchLabels:
+          app: flink-metrics
+          component: metrics
+          platform: scaleph
       ## Endpoints of the selected service to be monitored
       endpoints:
       ## Name of the endpoint's service port
