@@ -179,10 +179,9 @@ public enum FlinkDefaultTemplateFactory {
 
     private static Map<String, String> createMetricsReporterConfiguration() {
         Map<String, String> flinkConfiguration = new HashMap<>();
-        flinkConfiguration.put(MetricOptions.REPORTERS_LIST.key(), "prom");
-//        flinkConfiguration.put(MetricOptions.REPORTERS_LIST.key(), "jmx, prom");
-//        flinkConfiguration.put("metrics.reporter.jmx.factory.class", "org.apache.flink.metrics.jmx.JMXReporterFactory");
-//        flinkConfiguration.put("metrics.reporter.jmx.port", "8789");
+        flinkConfiguration.put(MetricOptions.REPORTERS_LIST.key(), "jmx, prom");
+        flinkConfiguration.put("metrics.reporter.jmx.factory.class", "org.apache.flink.metrics.jmx.JMXReporterFactory");
+        flinkConfiguration.put("metrics.reporter.jmx.port", "8789");
         flinkConfiguration.put("metrics.reporter.prom.factory.class", "org.apache.flink.metrics.prometheus.PrometheusReporterFactory");
         flinkConfiguration.put("metrics.reporter.prom.port", "9249");
 
