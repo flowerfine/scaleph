@@ -185,3 +185,69 @@ prometheus:
       requests:
         cpu: 100m
         memory: 100Mi
+
+  additionalServiceMonitors:
+    ## Name of the ServiceMonitor to create
+    - name: flink-jobs
+      ## Additional labels to set used for the ServiceMonitorSelector. Together with standard labels from
+      ## the chart
+      additionalLabels:
+        group: flink-jobs
+        platform: scaleph
+      ## labels to transfer from the kubernetes pods to the target
+      podTargetLabels:
+        - type=flink-native-kubernetes
+      ## Label selector for services to which this ServiceMonitor applies
+      selector:
+        prometheus.io/scrape: true
+      ## Endpoints of the selected service to be monitored
+      endpoints:
+      ## Name of the endpoint's service port
+        - port: prom-metrics
+          interval: 10s
+      ## HTTP path to scrape for metrics
+      # path: /metrics
+
+
+  additionalPodMonitors: []
+    ## Name of the PodMonitor to create
+    ##
+    # - name: ""
+
+    ## Additional labels to set used for the PodMonitorSelector. Together with standard labels from
+    ## the chart
+    ##
+    # additionalLabels: {}
+
+    ## Pod label for use in assembling a job name of the form <label value>-<port>
+    ## If no label is specified, the pod endpoint name is used.
+    ##
+    # jobLabel: ""
+
+    ## Label selector for pods to which this PodMonitor applies
+    ##
+    # selector: {}
+
+    ## PodTargetLabels transfers labels on the Kubernetes Pod onto the target.
+    ##
+    # podTargetLabels: {}
+
+    ## SampleLimit defines per-scrape limit on number of scraped samples that will be accepted.
+    ##
+    # sampleLimit: 0
+
+    ## Namespaces from which pods are selected
+    ##
+    # namespaceSelector:
+    ## Match any namespace
+    ##
+    # any: false
+
+    ## Explicit list of namespace names to select
+    ##
+    # matchNames: []
+
+    ## Endpoints of the selected pods to be monitored
+    ## https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#podmetricsendpoint
+    ##
+    # podMetricsEndpoints: []
