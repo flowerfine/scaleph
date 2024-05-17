@@ -179,11 +179,16 @@ public enum FlinkDefaultTemplateFactory {
 
     private static Map<String, String> createMetricsReporterConfiguration() {
         Map<String, String> flinkConfiguration = new HashMap<>();
-        flinkConfiguration.put(MetricOptions.REPORTERS_LIST.key(), "jmx, prom");
-        flinkConfiguration.put("metrics.reporter.jmx.factory.class", "org.apache.flink.metrics.jmx.JMXReporterFactory");
-        flinkConfiguration.put("metrics.reporter.jmx.port", "8789");
+        flinkConfiguration.put(MetricOptions.REPORTERS_LIST.key(), "prom");
+//        flinkConfiguration.put(MetricOptions.REPORTERS_LIST.key(), "jmx, prom");
+//        flinkConfiguration.put("metrics.reporter.jmx.factory.class", "org.apache.flink.metrics.jmx.JMXReporterFactory");
+//        flinkConfiguration.put("metrics.reporter.jmx.port", "8789");
         flinkConfiguration.put("metrics.reporter.prom.factory.class", "org.apache.flink.metrics.prometheus.PrometheusReporterFactory");
         flinkConfiguration.put("metrics.reporter.prom.port", "9249");
+
+        // 多个值配置方式：a1:v1,a2:v2
+        flinkConfiguration.put(KubernetesConfigOptions.JOB_MANAGER_ANNOTATIONS.key(), "prometheus.io/port:9249,prometheus.io/scrape:true");
+        flinkConfiguration.put(KubernetesConfigOptions.TASK_MANAGER_ANNOTATIONS.key(), "prometheus.io/port:9249,prometheus.io/scrape:true");
         return flinkConfiguration;
     }
 
