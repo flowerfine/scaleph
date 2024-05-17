@@ -202,7 +202,7 @@ prometheus:
       ## Label selector for services to which this ServiceMonitor applies
       selector:
         matchLabels:
-          app: flink-metrics
+          app: flink-kubernetes-operator-job-metrics
           component: metrics
           platform: scaleph
       ## Endpoints of the selected service to be monitored
