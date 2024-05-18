@@ -16,13 +16,10 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workspace.seatunnel.service.constant;
+package cn.sliew.scaleph.workspace.flink.cdc.service.constant;
 
-public enum GraphConstants {
+public enum FlinkCDCConstant {
     ;
 
-    public static final String NODE_TYPE = "_node_type";
-    public static final String NODE_ID = "_node_id";
-    public static final String TABLE_PREFIX = "_seatunnel_table_";
-    public static String DND_RENDER_ID = "DND_NODE";
+    public static final String PIPELINE = "pipeline";
 }

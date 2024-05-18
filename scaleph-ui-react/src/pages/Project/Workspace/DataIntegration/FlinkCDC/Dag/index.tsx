@@ -23,6 +23,7 @@ import {
 } from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/canvas-node";
 import {Dnd} from "@/pages/Project/Workspace/DataIntegration/FlinkCDC/Dag/components/dnd/dnd";
 import {CustomMenubar} from "@/pages/Project/Workspace/DataIntegration/FlinkCDC/Dag/components/menubar";
+import {InitShape} from "@/pages/Project/Workspace/DataIntegration/FlinkCDC/Dag/components/node/init-node";
 
 const DataIntegrationFlinkCDCDagWeb: React.FC = () => {
   const intl = useIntl();
@@ -65,7 +66,7 @@ const DataIntegrationFlinkCDCDagWeb: React.FC = () => {
                     zIndex: -1,
                   }}
                 />
-                {/*<InitShape data={data}/>*/}
+                <InitShape data={data}/>
 
                 <Grid type="mesh" options={{color: '#ccc', thickness: 1}}/>
                 <Snapline/>

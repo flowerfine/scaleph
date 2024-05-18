@@ -3,9 +3,9 @@ import {useIntl} from '@umijs/max';
 import {useGraphStore} from '@antv/xflow';
 import {EdgeOptions, NodeOptions} from "@antv/xflow/src/types";
 import {Props} from "@/typings";
-import {WsArtifactFlinkCDC, WsArtifactSeaTunnel} from "@/services/project/typings";
+import {WsArtifactFlinkCDC} from "@/services/project/typings";
 import {DAG_EDGE, DAG_NODE} from './canvas-node';
-import {WsArtifactSeaTunnelService} from "@/services/project/WsArtifactSeaTunnelService";
+import {WsArtifactFlinkCDCService} from "@/services/project/WsArtifactFlinkCDCService";
 
 const titleCase = (title: string) => {
   let tmpStrArr: string[] = title.split(' ');
@@ -21,7 +21,7 @@ const InitShape: React.FC<Props<WsArtifactFlinkCDC>> = ({data}) => {
     const addEdges = useGraphStore((state) => state.addEdges);
 
     useEffect(() => {
-      WsArtifactSeaTunnelService.selectOne(data.id).then((response) => {
+      WsArtifactFlinkCDCService.selectOne(data.id).then((response) => {
         let jobInfo = response;
         let nodes: NodeOptions[] = [];
         let edges: EdgeOptions[] = [];
@@ -76,7 +76,7 @@ const InitShape: React.FC<Props<WsArtifactFlinkCDC>> = ({data}) => {
           id: stepCode + '-top',
           group: 'top'
         }]
-      } else if (type === 'transform') {
+      } else if (type === 'route') {
         [
           {
             id: stepCode + '-top',
