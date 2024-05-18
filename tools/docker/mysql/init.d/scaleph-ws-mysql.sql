@@ -138,7 +138,7 @@ create table ws_artifact_flink_cdc
 ) engine = innodb comment 'artifact flink-cdc';
 INSERT INTO `ws_artifact_flink_cdc`(`id`, `artifact_id`, `flink_version`, `flink_cdc_version`, `dag_id`,
                                     `current`, `creator`, `editor`)
-VALUES (1, 10, '1.18.1', '3.0.0', 3, '1', 'sys', 'sys');
+VALUES (1, 10, '1.18.1', '3.1.0', 3, '1', 'sys', 'sys');
 
 drop table if exists ws_artifact_seatunnel;
 create table ws_artifact_seatunnel
