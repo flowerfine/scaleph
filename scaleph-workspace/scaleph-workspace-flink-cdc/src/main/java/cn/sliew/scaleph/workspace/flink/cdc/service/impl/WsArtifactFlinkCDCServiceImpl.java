@@ -55,6 +55,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import com.google.common.graph.EndpointPair;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
@@ -68,6 +69,9 @@ import static cn.sliew.milky.common.check.Ensures.checkState;
 
 @Service
 public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService {
+
+    // todo 迁移到 JacksonUtil
+    private YAMLMapper yamlMapper = new YAMLMapper();
 
     @Autowired
     private WsArtifactFlinkCDCMapper wsArtifactFlinkCDCMapper;
@@ -147,7 +151,7 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
         buildEdges(graph.edges());
         // remove utilty fields
         clearUtiltyField(graph.nodes());
-        return conf.toPrettyString();
+        return yamlMapper.writeValueAsString(conf);
     }
 
     private void buildEnvs(ObjectNode conf, String jobName, JsonNode dagAttrs) {
@@ -193,8 +197,9 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
 
     private void buildNodes(ObjectNode conf, Set<ObjectNode> nodes) {
         ArrayNode sourceConf = JacksonUtil.createArrayNode();
-        ArrayNode transformConf = JacksonUtil.createArrayNode();
         ArrayNode sinkConf = JacksonUtil.createArrayNode();
+        ArrayNode transformConf = JacksonUtil.createArrayNode();
+        ArrayNode routeConf = JacksonUtil.createArrayNode();
 
         nodes.forEach(node -> {
             String nodeType = node.get(GraphConstants.NODE_TYPE).asText();
@@ -209,13 +214,21 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
                 case TRANSFORM:
                     transformConf.add(node);
                     break;
+                case ROUTE:
+                    routeConf.add(node);
+                    break;
                 default:
             }
         });
 
         conf.set(FlinkCDCPluginType.SOURCE.getValue(), sourceConf);
-        conf.set(FlinkCDCPluginType.TRANSFORM.getValue(), transformConf);
         conf.set(FlinkCDCPluginType.SINK.getValue(), sinkConf);
+        if (transformConf.isEmpty() == false) {
+            conf.set(FlinkCDCPluginType.TRANSFORM.getValue(), transformConf);
+        }
+        if (routeConf.isEmpty() == false) {
+            conf.set(FlinkCDCPluginType.ROUTE.getValue(), routeConf);
+        }
     }
 
     private void buildEdges(Set<EndpointPair<ObjectNode>> edges) {
