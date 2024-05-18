@@ -19,28 +19,35 @@
 package cn.sliew.scaleph.application.flink.resource.handler;
 
 import cn.sliew.scaleph.application.flink.operator.spec.FlinkDeploymentSpec;
+import cn.sliew.scaleph.application.flink.resource.definition.job.instance.MetadataHandler;
+import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobInstanceDTO;
+import cn.sliew.scaleph.config.kubernetes.resource.ResourceAnnotations;
 import cn.sliew.scaleph.config.kubernetes.resource.ResourceNames;
 import io.fabric8.kubernetes.api.model.ContainerPort;
 import io.fabric8.kubernetes.api.model.ContainerPortBuilder;
 import io.fabric8.kubernetes.api.model.PodBuilder;
 import io.fabric8.kubernetes.api.model.PodFluent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Component
-public class FlinkMetricsHandler {
+public class FlinkMainContainerHandler {
 
-    public void handle(FlinkDeploymentSpec spec) {
+    @Autowired
+    private MetadataHandler metadataHandler;
+
+    public void handle(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
         PodBuilder podBuilder = Optional.ofNullable(spec.getPodTemplate()).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
-        handlePodTemplate(podBuilder);
+        handlePodTemplate(jobInstanceDTO, podBuilder);
         spec.setPodTemplate(podBuilder.build());
     }
 
-    private void handlePodTemplate(PodBuilder builder) {
+    private void handlePodTemplate(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, PodBuilder builder) {
         builder.editOrNewMetadata().withName(ResourceNames.POD_TEMPLATE_NAME)
+                .addToAnnotations(buildAnnotations())
+                .addToLabels(buildLabels(jobInstanceDTO))
                 .endMetadata();
         PodFluent<PodBuilder>.SpecNested<PodBuilder> spec = builder.editOrNewSpec();
 
@@ -58,4 +65,14 @@ public class FlinkMetricsHandler {
         return ports;
     }
 
+    private Map<String, String> buildAnnotations() {
+        Map<String, String> annotations = new HashMap<>();
+        annotations.put(ResourceAnnotations.PROMETHEUS_ANNOTATION_PORT, ResourceAnnotations.PROMETHEUS_ANNOTATION_PORT_VALUE);
+        annotations.put(ResourceAnnotations.PROMETHEUS_ANNOTATION_SCRAPE, ResourceAnnotations.PROMETHEUS_ANNOTATION_SCRAPE_VALUE);
+        return Collections.emptyMap();
+    }
+
+    private Map<String, String> buildLabels(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO) {
+        return metadataHandler.generateLables(jobInstanceDTO);
+    }
 }
