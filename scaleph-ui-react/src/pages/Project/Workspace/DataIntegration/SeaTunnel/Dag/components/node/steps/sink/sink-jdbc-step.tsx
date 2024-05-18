@@ -6,7 +6,6 @@ import {
   ProFormDependency,
   ProFormDigit,
   ProFormGroup,
-  ProFormList,
   ProFormSelect,
   ProFormSwitch,
   ProFormText,
@@ -21,7 +20,11 @@ import {StepSchemaService} from "../helper";
 import {DsInfoParam} from "@/services/datasource/typings";
 import {DsInfoService} from "@/services/datasource/info.service";
 import {DictDataService} from "@/services/admin/dictData.service";
-import SaveModeItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/saveMode";
+import SaveModeItem
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/saveMode";
+import CommonListItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/list";
+import CommonConfigItem
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/config/commonConfig";
 
 const SinkJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -48,7 +51,8 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisi
         }}
         onFinish={(values) => {
           if (onOK) {
-            StepSchemaService.formatPrimaryKeys(values);
+            StepSchemaService.formatCommonList(values, JdbcParams.primaryKeys, JdbcParams.primaryKeys);
+            StepSchemaService.formatCommonConfig(values, JdbcParams.properties, JdbcParams.properties);
             onOK(values)
             return Promise.resolve(true)
           }
@@ -102,6 +106,15 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisi
           fieldProps={{
             min: 0
           }}
+        />
+        <ProFormSwitch
+          name={JdbcParams.useCopyStatement}
+          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.useCopyStatement'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.useCopyStatement.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          initialValue={false}
         />
         <ProFormSwitch
           name={"generate_sink_sql"}
@@ -158,9 +171,9 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisi
         />
         <ProFormSwitch
           name={"support_upsert_by_query_primary_key_exist"}
-          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.supportUpsert'})}
+          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.supportUpsertByQueryPrimaryKeyExist'})}
           tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.supportUpsert.tooltip'}),
+            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.supportUpsertByQueryPrimaryKeyExist.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
           colProps={{span: 12}}
@@ -170,25 +183,15 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisi
             if (support_upsert_by_query_primary_key_exist) {
               return (
                 <ProFormGroup
-                  label={intl.formatMessage({id: 'pages.project.di.step.jdbc.primaryKeys'})}
+                  title={intl.formatMessage({id: 'pages.project.di.step.jdbc.primaryKeys'})}
                   tooltip={{
                     title: intl.formatMessage({id: 'pages.project.di.step.jdbc.primaryKeys.tooltip'}),
                     icon: <InfoCircleOutlined/>,
                   }}
+                  collapsible={true}
+                  defaultCollapsed={true}
                 >
-                  <ProFormList
-                    name={JdbcParams.primaryKeyArray}
-                    copyIconProps={false}
-                    creatorButtonProps={{
-                      creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.jdbc.primaryKeys.list'}),
-                      type: 'text',
-                    }}
-                  >
-                    <ProFormText
-                      name={JdbcParams.primaryKey}
-                      colProps={{span: 16, offset: 4}}
-                    />
-                  </ProFormList>
+                  <CommonListItem data={JdbcParams.primaryKeys}/>
                 </ProFormGroup>
               );
             }
@@ -294,6 +297,17 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisi
             }
           }}
         </ProFormDependency>
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.jdbc.properties'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.properties.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          collapsible={true}
+          defaultCollapsed={true}
+        >
+          <CommonConfigItem data={JdbcParams.properties}/>
+        </ProFormGroup>
       </DrawerForm>
     </XFlow>
   );

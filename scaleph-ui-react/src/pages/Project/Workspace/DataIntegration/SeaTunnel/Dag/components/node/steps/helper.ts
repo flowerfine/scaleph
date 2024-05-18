@@ -6,7 +6,6 @@ import {
   FilterParams,
   HttpParams,
   IcebergParams,
-  JdbcParams,
   KafkaParams,
   PulsarParams,
   RocketMQParams,
@@ -143,15 +142,6 @@ export const StepSchemaService = {
     paging[HttpParams.batchSize] = values[HttpParams.pagingBatchSize]
 
     values[HttpParams.pageing] = paging
-    return values
-  },
-
-  formatPrimaryKeys: (values: Record<string, any>) => {
-    const primaryKeys: Array<string> = []
-    values[JdbcParams.primaryKeyArray]?.forEach(function (item: Record<string, any>) {
-      primaryKeys.push(item[JdbcParams.primaryKey])
-    });
-    values[JdbcParams.primaryKeys] = JSON.stringify(primaryKeys)
     return values
   },
 

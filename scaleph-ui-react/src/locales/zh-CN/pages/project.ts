@@ -112,8 +112,8 @@ export default {
   'pages.project.di.step.jdbc.table.tooltip': '优先级高于SQL',
   'pages.project.di.step.jdbc.enableUpsert': '启用Upsert',
   'pages.project.di.step.jdbc.enableUpsert.tooltip': '数据不存在重复时，关闭 Upsert 功能可提高同步性能',
-  'pages.project.di.step.jdbc.supportUpsert': '支持Upsert',
-  'pages.project.di.step.jdbc.supportUpsert.tooltip': '根据主键字段实现 Upsert 功能',
+  'pages.project.di.step.jdbc.supportUpsertByQueryPrimaryKeyExist': '根据主键字段实现 Upsert 功能',
+  'pages.project.di.step.jdbc.supportUpsertByQueryPrimaryKeyExist.tooltip': '根据主键字段实现 Upsert 功能',
   'pages.project.di.step.jdbc.generateSinkSql': '自动生成 SQL',
   'pages.project.di.step.jdbc.generateSinkSql.tooltip': '根据 database 和 table 自动生成插入 SQL 语句',
   'pages.project.di.step.jdbc.primaryKeys': '主键',
@@ -175,6 +175,10 @@ export default {
   'pages.project.di.step.jdbc.autoCommit': '自动提交',
   'pages.project.di.step.jdbc.fieldIde': '大小写转换',
   'pages.project.di.step.jdbc.customSql': '自定义处理 SQL',
+  'pages.project.di.step.jdbc.useCopyStatement': '使用 COPY ${table} FROM STDIN 语句',
+  'pages.project.di.step.jdbc.useCopyStatement.tooltip': 'Driver 需支持 getCopyAPI() 方法，如 Postgresql',
+  'pages.project.di.step.jdbc.properties': 'Jdbc 连接参数',
+  'pages.project.di.step.jdbc.properties.tooltip': '连接参数和 URL 优先级取决于驱动实现，eg. MySQL 连接参数优先级高于 URL',
 
   // fake
   'pages.project.di.step.fake.tablesConfigs': '多表配置',

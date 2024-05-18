@@ -166,4 +166,11 @@ public enum JdbcSinkProperties {
             .type(PropertyType.BOOLEAN)
             .parser(Parsers.BOOLEAN_PARSER)
             .validateAndBuild();
+
+    public static final PropertyDescriptor<Boolean> USE_COPY_STATEMENT = new PropertyDescriptor.Builder<Boolean>()
+            .name("use_copy_statement")
+            .description("Use COPY ${table} FROM STDIN statement to import data. Only drivers with getCopyAPI() method connections are supported. e.g.: Postgresql driver org.postgresql.Driver..")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .validateAndBuild();
 }

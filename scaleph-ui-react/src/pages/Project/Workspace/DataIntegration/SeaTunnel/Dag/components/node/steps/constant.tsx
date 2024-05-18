@@ -111,8 +111,6 @@ export const JdbcParams = {
   supportUpsert: 'support_upsert_by_query_primary_key_exist',
   generateSinkSql: 'generate_sink_sql',
   primaryKeys: 'primary_keys',
-  primaryKeyArray: 'primaryKeyArray',
-  primaryKey: 'key',
   enableUpsert: 'enable_upsert',
   query: 'query',
   tablePath: 'table_path',
@@ -138,7 +136,9 @@ export const JdbcParams = {
   fieldIde: 'field_ide',
   schemaSaveMode: 'schema_save_mode',
   dataSaveMode: 'data_save_mode',
-  customSql: 'custom_sql'
+  customSql: 'custom_sql',
+  useCopyStatement: 'use_copy_statement',
+  properties: 'properties',
 }
 
 export const BaseFileParams = {
