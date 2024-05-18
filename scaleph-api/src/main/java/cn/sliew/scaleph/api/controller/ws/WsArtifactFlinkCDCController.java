@@ -26,7 +26,6 @@ import cn.sliew.scaleph.workspace.flink.cdc.service.FlinkCDCDagService;
 import cn.sliew.scaleph.workspace.flink.cdc.service.WsArtifactFlinkCDCService;
 import cn.sliew.scaleph.workspace.flink.cdc.service.dto.WsArtifactFlinkCDCDTO;
 import cn.sliew.scaleph.workspace.flink.cdc.service.param.*;
-import cn.sliew.scaleph.workspace.seatunnel.service.param.WsArtifactSeaTunnelGraphParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
