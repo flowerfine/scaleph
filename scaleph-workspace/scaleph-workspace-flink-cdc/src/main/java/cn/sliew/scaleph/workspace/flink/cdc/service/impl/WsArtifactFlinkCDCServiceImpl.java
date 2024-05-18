@@ -176,7 +176,7 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
         MutableGraph<ObjectNode> graph = GraphBuilder.directed().build();
         List<DagConfigStepDTO> steps = dag.getSteps();
         List<DagConfigLinkDTO> links = dag.getLinks();
-        if (CollectionUtils.isEmpty(steps) || CollectionUtils.isEmpty(links)) {
+        if (CollectionUtils.isEmpty(steps)) {
             return graph;
         }
         Map<String, ObjectNode> stepMap = new HashMap<>();
