@@ -1,0 +1,36 @@
+.base-node {
+  display: flex;
+  width: 200px;
+  height: 32px;
+  align-items: center;
+  padding: 0 8px;
+  border: 1px solid #d4d7da;
+  border-radius: 4px;
+  margin: 0 4px;
+  background-color: #fff;
+  color: rgb(0 10 26 / 68%);
+  font-size: 12px;
+
+  &:hover {
+    background-color: #fff;
+    border: 1px solid #3057e3;
+    box-shadow: 0 0 3px 3px rgba(48, 86, 227, 0.15);
+    cursor: move;
+  }
+
+  .icon {
+    display: flex;
+    width: 32px;
+  }
+
+  .label {
+    width: 116px;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+  }
+
+  .status {
+    width: 32px;
+  }
+}

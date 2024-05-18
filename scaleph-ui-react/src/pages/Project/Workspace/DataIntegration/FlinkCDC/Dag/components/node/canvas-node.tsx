@@ -6,16 +6,16 @@ import type {Node} from '@antv/xflow';
 import {Graph, Path, register, XFlow} from '@antv/xflow';
 import {Dropdown, Menu} from '@antv/x6-react-components';
 import './base-node.less';
-import SeaTunnnelConnectorForm from "./steps/step-form";
-import {STEP_ATTR_TYPE} from "./steps/constant";
+import FlinkCDCConnectorForm from "./steps/step-form";
+import {STEP_ATTR_TYPE} from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/constant";
 
 const {Item: MenuItem, Divider} = Menu;
 
-const DAG_NODE = 'seatunnel-dag-node';
-const DAG_EDGE = 'seatunnel-dag-edge';
-const DAG_CONNECTOR = 'seatunnel-dag-connector';
+const DAG_NODE = 'flinkcdc-dag-node';
+const DAG_EDGE = 'flinkcdc-dag-edge';
+const DAG_CONNECTOR = 'flinkcdc-dag-connector';
 
-const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
+const FlinkCDCConnectorDagNode = ({node}: { node: Node }) => {
   const intl = getIntl(getLocale())
   const [drawerForm, setDrawerForm] = useState<{
     visible: boolean,
@@ -64,7 +64,7 @@ const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
       >
         <Popover title={<div>
           <Typography.Text>{node.data.label}</Typography.Text>
-          <a href="https://seatunnel.apache.org/docs/2.3.5/about/" target="_blank">
+          <a href="https://nightlies.apache.org/flink/flink-cdc-docs-stable/" target="_blank">
             <Button shape="default" type="link" icon={<InfoCircleOutlined/>}/>
           </a>
         </div>}
@@ -89,7 +89,7 @@ const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
         </Popover>
       </Dropdown>
       {drawerForm.visible && (
-        <SeaTunnnelConnectorForm
+        <FlinkCDCConnectorForm
           visible={drawerForm.visible}
           onCancel={() => {
             setDrawerForm({visible: false, data: node});
@@ -119,7 +119,7 @@ register({
   shape: DAG_NODE,
   width: 180,
   height: 36,
-  component: SeaTunnelConnectorDagNode,
+  component: FlinkCDCConnectorDagNode,
   effect: ['data'],
   ports: {
     groups: {
@@ -188,4 +188,4 @@ Graph.registerEdge(
   true,
 );
 
-export {DAG_NODE, DAG_EDGE, DAG_CONNECTOR, SeaTunnelConnectorDagNode};
+export {DAG_NODE, DAG_EDGE, DAG_CONNECTOR, FlinkCDCConnectorDagNode};
