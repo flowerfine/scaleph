@@ -133,6 +133,22 @@ prometheus:
   ## Settings affecting prometheusSpec
   ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#prometheusspec
   prometheusSpec:
+    ## ServiceMonitors to be selected for target discovery.
+    ## If {}, select all ServiceMonitors
+    serviceMonitorSelector: {}
+      ## Example which selects ServiceMonitors with label "prometheus" set to "somelabel"
+#      matchLabels:
+#        group: flink-jobs
+#        platform: scaleph
+
+    ## PodMonitors to be selected for target discovery.
+    ## If {}, select all PodMonitors
+    podMonitorSelector: {}
+      ## Example which selects PodMonitors with label "prometheus" set to "somelabel"
+#      matchLabels:
+#        group: flink-jobs
+#        platform: scaleph
+
     ## Interval between consecutive scrapes.
     ## Defaults to 30s.
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/release-0.44/pkg/prometheus/promcfg.go#L180-L183
@@ -169,3 +185,74 @@ prometheus:
       requests:
         cpu: 100m
         memory: 100Mi
+
+  additionalServiceMonitors:
+    ## Name of the ServiceMonitor to create
+    - name: flink-kubernetes-operator-job-metrics
+      ## Additional labels to set used for the ServiceMonitorSelector. Together with standard labels from
+      ## the chart
+      additionalLabels:
+        group: flink-kubernetes-operator-job-metrics
+        platform: scaleph
+      ## labels to transfer from the kubernetes pods to the target
+      ## todo 后续在 scaleph 可以增加更多的 labels 到 flink pods 中，通过这种方式传到 prometheus 和 grafana 中去
+      podTargetLabels:
+        - app
+        - component
+      ## Label selector for services to which this ServiceMonitor applies
+      selector:
+        matchLabels:
+          app: flink-kubernetes-operator-job-metrics
+          component: metrics
+          platform: scaleph
+      ## Endpoints of the selected service to be monitored
+      endpoints:
+      ## Name of the endpoint's service port
+        - port: prom-metrics
+          interval: 10s
+      ## HTTP path to scrape for metrics
+      # path: /metrics
+
+
+  additionalPodMonitors: []
+    ## Name of the PodMonitor to create
+    ##
+    # - name: ""
+
+    ## Additional labels to set used for the PodMonitorSelector. Together with standard labels from
+    ## the chart
+    ##
+    # additionalLabels: {}
+
+    ## Pod label for use in assembling a job name of the form <label value>-<port>
+    ## If no label is specified, the pod endpoint name is used.
+    ##
+    # jobLabel: ""
+
+    ## Label selector for pods to which this PodMonitor applies
+    ##
+    # selector: {}
+
+    ## PodTargetLabels transfers labels on the Kubernetes Pod onto the target.
+    ##
+    # podTargetLabels: {}
+
+    ## SampleLimit defines per-scrape limit on number of scraped samples that will be accepted.
+    ##
+    # sampleLimit: 0
+
+    ## Namespaces from which pods are selected
+    ##
+    # namespaceSelector:
+    ## Match any namespace
+    ##
+    # any: false
+
+    ## Explicit list of namespace names to select
+    ##
+    # matchNames: []
+
+    ## Endpoints of the selected pods to be monitored
+    ## https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#podmetricsendpoint
+    ##
+    # podMetricsEndpoints: []
