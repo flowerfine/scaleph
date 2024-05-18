@@ -173,6 +173,8 @@ export type WsArtifactFlinkCDC = {
   artifact?: WsArtifact;
   flinkVersion?: Dict;
   flinkCDCVersion?: Dict;
+  dagId?: number;
+  dag?: Dag;
   current?: Dict;
   createTime?: Date;
   updateTime?: Date;
@@ -201,6 +203,12 @@ export type WsArtifactFlinkCDCAddParam = {
 };
 
 export type WsArtifactFlinkCDCUpdateParam = {
+  id: number;
+  name?: string;
+  remark?: string;
+};
+
+export type WsArtifactFlinkCDCGraphUpdateParam = {
   id: number;
   name?: string;
   remark?: string;

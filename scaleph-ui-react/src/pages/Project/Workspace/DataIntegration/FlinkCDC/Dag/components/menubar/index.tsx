@@ -7,8 +7,14 @@ import {useGraphEvent, useGraphInstance, useGraphStore,} from '@antv/xflow';
 import {Menubar} from "@antv/x6-react-components";
 import {FlinkCDCConfModal} from "./flinkcdc";
 import {Props} from "@/typings";
-import {WsArtifactFlinkCDC, WsArtifactSeaTunnelGraphParam, WsDiJob} from "@/services/project/typings";
+import {
+  WsArtifactFlinkCDC,
+  WsArtifactFlinkCDCGraphUpdateParam,
+  WsArtifactSeaTunnelGraphParam,
+  WsDiJob
+} from "@/services/project/typings";
 import {JSONDebugModal} from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/menubar/json";
+import {WsArtifactFlinkCDCService} from "@/services/project/WsArtifactFlinkCDCService";
 
 const CustomMenubar: React.FC<Props<WsArtifactFlinkCDC>> = ({data}) => {
   const intl = useIntl();
@@ -66,14 +72,14 @@ const CustomMenubar: React.FC<Props<WsArtifactFlinkCDC>> = ({data}) => {
       return result
     });
 
-    let param: WsArtifactSeaTunnelGraphParam = {
+    let param: WsArtifactFlinkCDCGraphUpdateParam = {
       id: data.id,
       jobGraph: {
         nodes: nodes,
         edges: unique(edges),
       }
     }
-    // WsArtifactSeaTunnelService.updateGraph(param)
+    WsArtifactFlinkCDCService.updateGraph(param)
   };
 
   function unique(arr: any[]) {

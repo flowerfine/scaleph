@@ -3,7 +3,7 @@ import {Drawer} from "antd";
 import Editor, {useMonaco} from "@monaco-editor/react";
 import {ModalFormProps} from "@/typings";
 import {WsArtifactFlinkCDC} from "@/services/project/typings";
-import {WsArtifactSeaTunnelService} from "@/services/project/WsArtifactSeaTunnelService";
+import {WsArtifactFlinkCDCService} from "@/services/project/WsArtifactFlinkCDCService";
 
 const FlinkCDCConfModal: React.FC<ModalFormProps<WsArtifactFlinkCDC>> = ({
                                                                            visible,
@@ -29,7 +29,7 @@ const FlinkCDCConfModal: React.FC<ModalFormProps<WsArtifactFlinkCDC>> = ({
   }
 
   useEffect(() => {
-    WsArtifactSeaTunnelService.preview(data.id).then((reponse) => {
+    WsArtifactFlinkCDCService.preview(data.id).then((reponse) => {
       setConf(reponse.data)
     })
   }, []);

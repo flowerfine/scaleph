@@ -18,11 +18,13 @@
 
 package cn.sliew.scaleph.workspace.flink.cdc.service.impl;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCVersion;
 import cn.sliew.scaleph.common.exception.ScalephException;
+import cn.sliew.scaleph.dag.service.dto.DagConfigComplexDTO;
 import cn.sliew.scaleph.dao.entity.master.ws.WsArtifactFlinkCDC;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsArtifactFlinkCDCMapper;
 import cn.sliew.scaleph.workspace.flink.cdc.service.FlinkCDCDagService;
@@ -35,10 +37,12 @@ import cn.sliew.scaleph.workspace.project.service.dto.WsArtifactDTO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -95,13 +99,25 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
     public WsArtifactFlinkCDCDTO selectOne(Long id) {
         WsArtifactFlinkCDC record = wsArtifactFlinkCDCMapper.selectOne(id);
         checkState(record != null, () -> "artifact flink-cdc not exists for id: " + id);
-        return WsArtifactFlinkCDCConvert.INSTANCE.toDto(record);
+        WsArtifactFlinkCDCDTO dto = WsArtifactFlinkCDCConvert.INSTANCE.toDto(record);
+        dto.setDag(flinkCDCDagService.getDag(dto.getDagId()));
+        return dto;
     }
 
     @Override
     public WsArtifactFlinkCDCDTO selectCurrent(Long artifactId) {
         WsArtifactFlinkCDC record = wsArtifactFlinkCDCMapper.selectCurrent(artifactId);
         return WsArtifactFlinkCDCConvert.INSTANCE.toDto(record);
+    }
+
+    @Override
+    public String buildConfig(Long id, Optional<String> jobName) throws Exception {
+        WsArtifactFlinkCDCDTO dto = selectOne(id);
+        ObjectNode conf = JacksonUtil.createObjectNode();
+        DagConfigComplexDTO dag = dto.getDag();
+        // source, sink, transform
+//        MutableGraph<ObjectNode> graph = buildGraph(dag);
+        return conf.toPrettyString();
     }
 
     @Override
@@ -135,6 +151,12 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
         record.setId(param.getId());
         record.setCurrent(YesOrNo.YES);
         return wsArtifactFlinkCDCMapper.updateById(record);
+    }
+
+    @Override
+    public void updateGraph(WsArtifactFlinkCDCGraphParam param) {
+        WsArtifactFlinkCDCDTO wsArtifactFlinkCDCDTO = selectOne(param.getId());
+        flinkCDCDagService.update(wsArtifactFlinkCDCDTO.getDagId(), param.getJobGraph());
     }
 
     @Override

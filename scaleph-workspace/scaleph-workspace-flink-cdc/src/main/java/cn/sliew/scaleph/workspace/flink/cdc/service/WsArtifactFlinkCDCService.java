@@ -24,6 +24,7 @@ import cn.sliew.scaleph.workspace.flink.cdc.service.param.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface WsArtifactFlinkCDCService {
 
@@ -39,9 +40,13 @@ public interface WsArtifactFlinkCDCService {
 
     WsArtifactFlinkCDCDTO selectCurrent(Long artifactId);
 
+    String buildConfig(Long id, Optional<String> jobName) throws Exception;
+
     WsArtifactFlinkCDCDTO insert(WsArtifactFlinkCDCAddParam param);
 
     int update(WsArtifactFlinkCDCUpdateParam param);
+
+    void updateGraph(WsArtifactFlinkCDCGraphParam param);
 
     int delete(Long id) throws ScalephException;
 
