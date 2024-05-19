@@ -19,11 +19,14 @@
 package cn.sliew.scaleph.application.flink.resource.handler;
 
 import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobInstanceDTO;
-import cn.sliew.scaleph.config.kubernetes.resource.ResourceNames;
 import cn.sliew.scaleph.application.flink.operator.spec.FlinkDeploymentSpec;
+import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobInstanceDTO;
+import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelJobMode;
+import cn.sliew.scaleph.config.kubernetes.resource.ResourceNames;
 import cn.sliew.scaleph.workspace.seatunnel.service.WsArtifactSeaTunnelService;
 import io.fabric8.kubernetes.api.model.*;
+import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -44,8 +47,12 @@ public class SeaTunnelConfHandler {
         spec.setPodTemplate(podBuilder.build());
     }
 
-    public ConfigMap buildSeaTunnelConf(String instanceId, Long artifactSeaTunnelId, ObjectMeta objectMeta) throws Exception {
-        String prettyJson = wsArtifactSeaTunnelService.buildConfig(artifactSeaTunnelId, Optional.of(instanceId));
+    public ConfigMap buildSeaTunnelConf(String instanceId, Long artifactSeaTunnelId, FlinkRuntimeExecutionMode executionMode, ObjectMeta objectMeta) throws Exception {
+        Optional<String> jobMode = Optional.empty();
+        if (EnumUtils.isValidEnum(SeaTunnelJobMode.class, executionMode.getValue())) {
+            jobMode = Optional.ofNullable(EnumUtils.getEnum(SeaTunnelJobMode.class, executionMode.getValue()).getValue());
+        }
+        String prettyJson = wsArtifactSeaTunnelService.buildConfig(artifactSeaTunnelId, Optional.of(instanceId), jobMode);
         String plainJson = JacksonUtil.toJsonNode(prettyJson).toString();
 
         ConfigMapBuilder builder = new ConfigMapBuilder();

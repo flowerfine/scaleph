@@ -133,7 +133,7 @@ public class WsArtifactSeaTunnelController {
     @GetMapping("{id}/preview")
     @Operation(summary = "预览 seatunnel 配置", description = "预览 seatunnel 配置")
     public ResponseEntity<ResponseVO<String>> previewJob(@PathVariable("id") Long id) throws Exception {
-        String conf = wsArtifactSeaTunnelService.buildConfig(id, Optional.empty());
+        String conf = wsArtifactSeaTunnelService.buildConfig(id, Optional.empty(), Optional.empty());
         return new ResponseEntity<>(ResponseVO.success(conf), HttpStatus.OK);
     }
 }

@@ -39,6 +39,7 @@ services:
       - KAFKA_BROKER_ID=1
       - ALLOW_PLAINTEXT_LISTENER=yes
       - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
+      # CLIENT://kafka:9092 有问题，不然 flink 在获取 kafka 地址的时候，会获取到 kafka，识别不出来
       - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092, EXTERNAL://localhost:9093
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
@@ -56,11 +57,12 @@ services:
     ports:
       - 11111:11111
     volumes:
-      - ../canal/canal.properties:/home/admin/canal-server/conf/canal.properties
-      - ../canal/instance.properties:/home/admin/canal-server/conf/data_service/instance.properties
+      - ../../canal/canal.properties:/home/admin/canal-server/conf/canal.properties
+      - ../../canal/instance.properties:/home/admin/canal-server/conf/data_service/instance.properties
     networks:
       - scaleph
 
 networks:
   scaleph:
-    driver: bridge
+    external: true
+    name: local_scaleph
