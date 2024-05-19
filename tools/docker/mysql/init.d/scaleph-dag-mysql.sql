@@ -37,6 +37,10 @@ VALUES (6, 'WorkFlow', 'DorisOperatorInstanceStatusSyncJob', 'kepa00f4fdb5e8794c
         'sys', 'sys');
 INSERT INTO `dag_config`(`id`, `type`, `name`, `config_id`, `dag_meta`, `dag_attrs`, `remark`, `creator`, `editor`)
 VALUES (7, 'WorkFlow', 'Demo', 'fssxbe099903bf174c11bf64b0d486383784', NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `dag_config`(`id`, `type`, `name`, `config_id`, `dag_meta`, `dag_attrs`, `intput_options`, `output_options`,
+                         `version`, `remark`, `creator`, `editor`)
+VALUES (8, 'SeaTunnel', 'mysql_binlog_kafka_es', 'zzbk202837c4529d47d2ab09fa7ccf84fd81', NULL, NULL, NULL, NULL, 0,
+        NULL, 'sys', 'sys');
 
 drop table if exists dag_config_history;
 create table dag_config_history
@@ -146,6 +150,30 @@ INSERT INTO `dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position
 VALUES (13, 7, '027db10b-9150-403d-9d11-e4a36c99e1db', 'FlinkJobStatus-3-2', 460, 400, NULL, NULL,
         '{\"handler\":\"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepThreeTwo\",\"type\":\"1\"}',
         NULL, 'sys', 'sys');
+INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                              `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (14, 8, 'cfddc076-db37-41b1-a0f5-26430184805d', 'Kafka Source', 640, 160, NULL, NULL,
+        '{\"name\":\"Kafka\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
+        '{\"stepTitle\":\"Kafka Source\",\"dataSourceType\":\"Kafka\",\"dataSource\":7,\"topic\":\"binlog_data_service\",\"pattern\":false,\"consumer.group\":\"SeaTunnel-Consumer-Group\",\"commit_on_checkpoint\":true,\"format_error_handle_way\":\"fail\",\"format\":\"canal_json\",\"start_mode\":\"earliest\",\"schema\":\"{\\\"fields\\\":{}}\",\"kafka.config\":\"{}\"}',
+        'sys', 'sys');
+INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                              `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (15, 8, '8ababac2-725c-46c4-96b7-75ebc94621db', 'Elasticsearch Sink', 640, 334, NULL, NULL,
+        '{\"name\":\"Elasticsearch\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
+        '{\"stepTitle\":\"Elasticsearch Sink\",\"dataSourceType\":\"Elasticsearch\",\"dataSource\":8,\"index\":\"binlog_data_service\",\"schema_save_mode\":\"CREATE_SCHEMA_WHEN_NOT_EXIST\",\"data_save_mode\":\"APPEND_DATA\",\"max_batch_size\":10,\"max_retry_count\":3,\"primary_keys\":\"[]\"}',
+        'sys', 'sys');
+INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                              `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (16, 8, 'c2e9413a-3aa8-4e04-82ec-77da8f6c12eb', 'Kafka Source', 210, 160, NULL, NULL,
+        '{\"name\":\"Kafka\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
+        '{\"stepTitle\":\"Kafka Source\",\"dataSourceType\":\"Kafka\",\"dataSource\":7,\"topic\":\"binlog_data_service\",\"pattern\":false,\"consumer.group\":\"SeaTunnel-Consumer-Group\",\"commit_on_checkpoint\":true,\"format_error_handle_way\":\"fail\",\"format\":\"canal_json\",\"start_mode\":\"earliest\",\"schema\":\"{\\\"fields\\\":{}}\",\"kafka.config\":\"{}\"}',
+        'sys', 'sys');
+INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                              `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (17, 8, '7cc271ae-d7e9-4d8c-8568-c2a50492ab77', 'Kafka Sink', 210, 334, NULL, NULL,
+        '{\"name\":\"Kafka\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
+        '{\"stepTitle\":\"Kafka Sink\",\"dataSourceType\":\"Kafka\",\"dataSource\":7,\"topic\":\"binlog_data_service_duplicate\",\"semantic\":\"AT_LEAST_ONCE\",\"format\":\"canal_json\",\"schema\":\"{\\\"fields\\\":{}}\",\"kafka.config\":\"{}\",\"partition_key_fields\":\"[]\",\"assign_partitions\":\"[]\"}',
+        'sys', 'sys');
 
 drop table if exists dag_config_link;
 create table dag_config_link
@@ -188,6 +216,14 @@ INSERT INTO `dag_config_link` (`id`, `dag_id`, `link_id`, `link_name`, `from_ste
                                `link_meta`, `link_attrs`, `creator`, `editor`)
 VALUES (6, 7, '027db10b-9150-403d-9d11-e4a36c99e1db', NULL, '2c2cb6c8-794b-4cc1-8258-cd1898912744',
         '027db10b-9150-403d-9d11-e4a36c99e1db', NULL, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `dag_config_link`(`id`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`, `shape`, `style`,
+                              `link_meta`, `link_attrs`, `creator`, `editor`)
+VALUES (7, 8, '0c46e06b-31fe-458c-b27e-5b8a6fe5c70e', NULL, 'cfddc076-db37-41b1-a0f5-26430184805d',
+        '8ababac2-725c-46c4-96b7-75ebc94621db', NULL, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `dag_config_link`(`id`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`, `shape`, `style`,
+                              `link_meta`, `link_attrs`, `creator`, `editor`)
+VALUES (8, 8, 'f64150b7-7374-4fdc-a71b-26f4cda4abe7', NULL, 'c2e9413a-3aa8-4e04-82ec-77da8f6c12eb',
+        '7cc271ae-d7e9-4d8c-8568-c2a50492ab77', NULL, NULL, NULL, NULL, 'sys', 'sys');
 
 drop table if exists dag_instance;
 create table dag_instance
