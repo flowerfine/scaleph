@@ -137,12 +137,12 @@ public class WsArtifactSeaTunnelServiceImpl implements WsArtifactSeaTunnelServic
     }
 
     @Override
-    public String buildConfig(Long id, Optional<String> jobName) throws Exception {
+    public String buildConfig(Long id, Optional<String> jobName, Optional<String> jobMode) throws Exception {
         WsArtifactSeaTunnelDTO dto = selectOne(id);
         ObjectNode conf = JacksonUtil.createObjectNode();
         DagConfigComplexDTO dag = dto.getDag();
         // env
-        buildEnvs(conf, jobName.isPresent() ? jobName.get() : dto.getArtifact().getName(), dag.getDagAttrs());
+        buildEnvs(conf, jobName.isPresent() ? jobName.get() : dto.getArtifact().getName(), jobMode, dag.getDagAttrs());
         // source, sink, transform
         MutableGraph<ObjectNode> graph = buildGraph(dag);
         buildNodes(conf, graph.nodes());
@@ -222,13 +222,14 @@ public class WsArtifactSeaTunnelServiceImpl implements WsArtifactSeaTunnelServic
         return wsArtifactSeaTunnelMapper.deleteById(cdc.getId());
     }
 
-    private void buildEnvs(ObjectNode conf, String jobName, JsonNode dagAttrs) {
-        conf.set(SeaTunnelConstant.ENV, buildEnv(jobName, dagAttrs));
+    private void buildEnvs(ObjectNode conf, String jobName, Optional<String> jobMode, JsonNode dagAttrs) {
+        conf.set(SeaTunnelConstant.ENV, buildEnv(jobName, jobMode, dagAttrs));
     }
 
-    private ObjectNode buildEnv(String jobName, JsonNode dagAttrs) {
+    private ObjectNode buildEnv(String jobName, Optional<String> jobMode, JsonNode dagAttrs) {
         ObjectNode env = JacksonUtil.createObjectNode();
         env.put(JobNameProperties.JOB_NAME.getName(), jobName);
+        jobMode.ifPresent(mode -> env.put(JobNameProperties.JOB_MODE.getName(), mode));
         if (dagAttrs == null || dagAttrs.isEmpty()) {
             return env;
         }
@@ -314,7 +315,8 @@ public class WsArtifactSeaTunnelServiceImpl implements WsArtifactSeaTunnelServic
         edges.forEach(edge -> {
             ObjectNode source = edge.source();
             ObjectNode target = edge.target();
-            String pluginName = source.get(SeaTunnelConstant.PLUGIN_NAME).asText().toLowerCase();
+            // 部分 connector 如 MySQL-CDC 中间的 - 转换成的 table_name 会抛异常
+            String pluginName = source.get(SeaTunnelConstant.PLUGIN_NAME).asText().toLowerCase().replace("-", "_");
             String nodeId = source.get(GraphConstants.NODE_ID).asText();
             source.put(RESULT_TABLE_NAME.getName(), GraphConstants.TABLE_PREFIX + pluginName + "_" + nodeId);
             target.put(SOURCE_TABLE_NAME.getName(), GraphConstants.TABLE_PREFIX + pluginName + "_" + nodeId);

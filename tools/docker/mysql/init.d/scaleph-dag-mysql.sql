@@ -167,7 +167,7 @@ VALUES (15, 8, '8ababac2-725c-46c4-96b7-75ebc94621db', 'Elasticsearch Sink', 640
         '{\"stepTitle\":\"Elasticsearch Sink\",\"dataSourceType\":\"Elasticsearch\",\"dataSource\":8,\"index\":\"binlog_data_service\",\"schema_save_mode\":\"CREATE_SCHEMA_WHEN_NOT_EXIST\",\"data_save_mode\":\"APPEND_DATA\",\"max_batch_size\":10,\"max_retry_count\":3,\"primary_keys\":\"[]\"}',
         'sys', 'sys');
 INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
-                              `step_meta`, `step_attrs`, `creator`, `editor`)
+                              `step_meta`, `step_attrs`, `creator`, `editor`)po
 VALUES (16, 8, 'c2e9413a-3aa8-4e04-82ec-77da8f6c12eb', 'Kafka Source', 210, 160, NULL, NULL,
         '{\"name\":\"Kafka\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
         '{\"stepTitle\":\"Kafka Source\",\"dataSourceType\":\"Kafka\",\"dataSource\":7,\"topic\":\"binlog_data_service\",\"pattern\":false,\"consumer.group\":\"SeaTunnel-Consumer-Group-1\",\"commit_on_checkpoint\":true,\"format_error_handle_way\":\"fail\",\"format\":\"canal_json\",\"start_mode\":\"earliest\",\"schema\":\"{\\\"fields\\\":{}}\",\"kafka.config\":\"{}\"}',
@@ -182,7 +182,7 @@ INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_
                               `step_meta`, `step_attrs`, `creator`, `editor`)
 VALUES (18, 9, '297d303d-faa8-4405-b104-b438847e35c9', 'MySQL-CDC Source', 370, 110, NULL, NULL,
         '{\"name\":\"MySQL-CDC\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
-        '{\"stepTitle\":\"MySQL-CDC Source\",\"base-url\":\"jdbc:mysql://localhost:3306/data_service\",\"username\":\"root\",\"password\":\"123456\",\"database-names\":\"data_service\",\"table-names\":\"sample_data_e_commerce\",\"startupMode\":\"earliest\",\"stopMode\":\"never\",\"snapshot.split.size\":8096,\"snapshot.fetch.size\":1024,\"incremental.parallelism\":1,\"server-time-zone\":\"UTC\",\"connection.pool.size\":20,\"connect.timeout\":\"30s\",\"connect.max-retries\":3,\"chunk-key.even-distribution.factor.lower-bound\":0.05,\"chunk-key.even-distribution.factor.upper-bound\":1000,\"sample-sharding.threshold\":1000,\"inverse-sampling.rate\":1000,\"exactly_once\":true,\"format\":\"DEFAULT\",\"debezium\":\"{}\"}',
+        '{\"stepTitle\":\"MySQL-CDC Source\",\"base-url\":\"jdbc:mysql://localhost:3306/data_service\",\"username\":\"root\",\"password\":\"123456\",\"database-names\":\"data_service\",\"table-names\":\"data_service.sample_data_e_commerce\",\"startupMode\":\"earliest\",\"stopMode\":\"never\",\"snapshot.split.size\":8096,\"snapshot.fetch.size\":1024,\"incremental.parallelism\":1,\"server-time-zone\":\"UTC\",\"connection.pool.size\":20,\"connect.timeout\":\"30s\",\"connect.max-retries\":3,\"chunk-key.even-distribution.factor.lower-bound\":0.05,\"chunk-key.even-distribution.factor.upper-bound\":1000,\"sample-sharding.threshold\":1000,\"inverse-sampling.rate\":1000,\"exactly_once\":true,\"format\":\"DEFAULT\",\"debezium\":\"{}\"}',
         'sys', 'sys');
 INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
                               `step_meta`, `step_attrs`, `creator`, `editor`)

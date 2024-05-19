@@ -26,12 +26,21 @@ import cn.sliew.scaleph.plugin.framework.property.Validators;
 public enum JobNameProperties {
     ;
 
-    public static final PropertyDescriptor<String> JOB_NAME = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<String> JOB_NAME = new PropertyDescriptor.Builder()
             .name("job.name")
             .description("The pipeline name")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .defaultValue("seatunnel")
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> JOB_MODE = new PropertyDescriptor.Builder()
+            .name("job.mode")
+            .description(" batch mode or stream mode")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .defaultValue("BATCH")
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 }

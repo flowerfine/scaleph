@@ -60,7 +60,7 @@ public class FlinkDeploymentJobInstanceConverter implements FlinkJobInstanceConv
                 case FLINK_CDC:
                     return Serialization.asYaml(deployment);
                 case SEATUNNEL:
-                    ConfigMap configMap = seaTunnelConfHandler.buildSeaTunnelConf(jobInstanceDTO.getInstanceId(), jobInstanceDTO.getWsFlinkKubernetesJob().getArtifactSeaTunnel().getId(), deployment.getMetadata());
+                    ConfigMap configMap = seaTunnelConfHandler.buildSeaTunnelConf(jobInstanceDTO.getInstanceId(), jobInstanceDTO.getWsFlinkKubernetesJob().getArtifactSeaTunnel().getId(), jobInstanceDTO.getWsFlinkKubernetesJob().getExecutionMode(), deployment.getMetadata());
                     return Serialization.asYaml(deployment) + Serialization.asYaml(configMap);
                 default:
                     throw new IllegalStateException("unknown flink job type for " + jobInstanceDTO.getWsFlinkKubernetesJob().getType().getValue());

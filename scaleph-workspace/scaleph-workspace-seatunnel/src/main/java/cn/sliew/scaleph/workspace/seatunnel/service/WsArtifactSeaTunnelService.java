@@ -39,7 +39,7 @@ public interface WsArtifactSeaTunnelService {
 
     WsArtifactSeaTunnelDTO selectCurrent(Long artifactId);
 
-    String buildConfig(Long id, Optional<String> jobName) throws Exception;
+    String buildConfig(Long id, Optional<String> jobName, Optional<String> jobMode) throws Exception;
 
     WsArtifactSeaTunnelDTO insert(WsArtifactSeaTunnelAddParam param);
 
