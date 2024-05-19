@@ -158,7 +158,7 @@ INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_
                               `step_meta`, `step_attrs`, `creator`, `editor`)
 VALUES (14, 8, 'cfddc076-db37-41b1-a0f5-26430184805d', 'Kafka Source', 640, 160, NULL, NULL,
         '{\"name\":\"Kafka\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
-        '{\"stepTitle\":\"Kafka Source\",\"dataSourceType\":\"Kafka\",\"dataSource\":7,\"topic\":\"binlog_data_service\",\"pattern\":false,\"consumer.group\":\"SeaTunnel-Consumer-Group\",\"commit_on_checkpoint\":true,\"format_error_handle_way\":\"fail\",\"format\":\"canal_json\",\"start_mode\":\"earliest\",\"schema\":\"{\\\"fields\\\":{}}\",\"kafka.config\":\"{}\"}',
+        '{\"stepTitle\":\"Kafka Source\",\"dataSourceType\":\"Kafka\",\"dataSource\":7,\"topic\":\"binlog_data_service\",\"pattern\":false,\"consumer.group\":\"SeaTunnel-Consumer-Group-1\",\"commit_on_checkpoint\":true,\"format_error_handle_way\":\"fail\",\"format\":\"canal_json\",\"start_mode\":\"earliest\",\"schema\":\"{\\\"fields\\\":{}}\",\"kafka.config\":\"{}\"}',
         'sys', 'sys');
 INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
                               `step_meta`, `step_attrs`, `creator`, `editor`)
@@ -170,7 +170,7 @@ INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_
                               `step_meta`, `step_attrs`, `creator`, `editor`)
 VALUES (16, 8, 'c2e9413a-3aa8-4e04-82ec-77da8f6c12eb', 'Kafka Source', 210, 160, NULL, NULL,
         '{\"name\":\"Kafka\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
-        '{\"stepTitle\":\"Kafka Source\",\"dataSourceType\":\"Kafka\",\"dataSource\":7,\"topic\":\"binlog_data_service\",\"pattern\":false,\"consumer.group\":\"SeaTunnel-Consumer-Group\",\"commit_on_checkpoint\":true,\"format_error_handle_way\":\"fail\",\"format\":\"canal_json\",\"start_mode\":\"earliest\",\"schema\":\"{\\\"fields\\\":{}}\",\"kafka.config\":\"{}\"}',
+        '{\"stepTitle\":\"Kafka Source\",\"dataSourceType\":\"Kafka\",\"dataSource\":7,\"topic\":\"binlog_data_service\",\"pattern\":false,\"consumer.group\":\"SeaTunnel-Consumer-Group-1\",\"commit_on_checkpoint\":true,\"format_error_handle_way\":\"fail\",\"format\":\"canal_json\",\"start_mode\":\"earliest\",\"schema\":\"{\\\"fields\\\":{}}\",\"kafka.config\":\"{}\"}',
         'sys', 'sys');
 INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
                               `step_meta`, `step_attrs`, `creator`, `editor`)
