@@ -34,7 +34,6 @@ import com.google.auto.service.AutoService;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kafka.KafkaProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kafka.sink.KafkaSinkProperties.*;
@@ -61,7 +60,6 @@ public class KafkaSinkPlugin extends SeaTunnelConnectorPlugin {
         supportedProperties = Collections.unmodifiableList(props);
     }
 
-
     @Override
     public List<ResourceProperty> getRequiredResources() {
         return Collections.singletonList(ResourceProperties.DATASOURCE_RESOURCE);
@@ -73,11 +71,6 @@ public class KafkaSinkPlugin extends SeaTunnelConnectorPlugin {
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
         KafkaDataSource dataSource = (KafkaDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
         conf.putPOJO(BOOTSTRAP_SERVERS.getName(), dataSource.getBootstrapServers());
-        for (Map.Entry<String, Object> entry : properties.toMap().entrySet()) {
-            if (entry.getKey().startsWith(KAFKA_CONFIG.getName())) {
-                conf.putPOJO(entry.getKey(), entry.getValue());
-            }
-        }
         return conf;
     }
 

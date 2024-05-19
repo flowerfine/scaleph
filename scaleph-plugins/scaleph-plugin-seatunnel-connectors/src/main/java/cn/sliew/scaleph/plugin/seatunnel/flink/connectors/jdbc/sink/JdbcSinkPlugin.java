@@ -47,14 +47,13 @@ public class JdbcSinkPlugin extends SeaTunnelConnectorPlugin {
                 JdbcSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(CONNECTION_CHECK_TIMEOUT_SEC);
-        props.add(COMPATIBLE_MODE);
         props.add(DATABASE);
         props.add(TABLE);
-        props.add(SUPPORT_UPSERT_BY_QUERY_PRIMARY_KEY_EXIST);
         props.add(GENERATE_SINK_SQL);
         props.add(PRIMARY_KEYS);
+        props.add(SUPPORT_UPSERT_BY_QUERY_PRIMARY_KEY_EXIST);
         props.add(ENABLE_UPSERT);
+        props.add(USE_COPY_STATEMENT);
         props.add(QUERY);
         props.add(MAX_RETRIES);
         props.add(BATCH_SIZE);
@@ -63,10 +62,13 @@ public class JdbcSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(MAX_COMMIT_ATTEMPTS);
         props.add(TRANSACTION_TIMEOUT_SEC);
         props.add(AUTO_COMMIT);
-        props.add(FIELD_IDE);
         props.add(SCHEMA_SAVE_MODE);
         props.add(DATA_SAVE_MODE);
         props.add(CUSTOM_SQL);
+        props.add(CONNECTION_CHECK_TIMEOUT_SEC);
+        props.add(PROPERTIES);
+        props.add(COMPATIBLE_MODE);
+        props.add(FIELD_IDE);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);

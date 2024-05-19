@@ -37,6 +37,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Tag(name = "Artifact管理-Flink-CDC")
 @RestController
@@ -97,6 +98,14 @@ public class WsArtifactFlinkCDCController {
     }
 
     @Logging
+    @PostMapping("graph")
+    @Operation(summary = "修改 flink cdc graph", description = "修改 flink cdc graph")
+    public ResponseEntity<ResponseVO> updateGraph(@RequestBody @Valid WsArtifactFlinkCDCGraphParam param) {
+        wsArtifactFlinkCDCService.updateGraph(param);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
     @DeleteMapping("{id}")
     @Operation(summary = "删除 fink cdc", description = "删除 fink cdc")
     public ResponseEntity<ResponseVO> deleteJob(@PathVariable("id") Long id) throws ScalephException {
@@ -126,5 +135,13 @@ public class WsArtifactFlinkCDCController {
     public ResponseEntity<ResponseVO<List<DndDTO>>> loadNodeMeta() {
         List<DndDTO> dnds = flinkCDCDagService.getDnds();
         return new ResponseEntity<>(ResponseVO.success(dnds), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("{id}/preview")
+    @Operation(summary = "预览 flink cdc 配置", description = "预览 flink cdc 配置")
+    public ResponseEntity<ResponseVO<String>> previewJob(@PathVariable("id") Long id) throws Exception {
+        String conf = wsArtifactFlinkCDCService.buildConfig(id, Optional.empty());
+        return new ResponseEntity<>(ResponseVO.success(conf), HttpStatus.OK);
     }
 }

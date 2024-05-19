@@ -105,6 +105,14 @@ VALUES (4, 2, 'f08143b4-34dc-4190-8723-e8d8ce49738f', 'Console Sink', 360, 290, 
         '{"name":"Console","type":"sink","engine":"seatunnel"}', '{"stepTitle":"Console Sink"}', 'sys', 'sys');
 INSERT INTO `dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
                                `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (5, 3, '1d0b15ba-12b9-4698-ab21-4c5cfe0b2e64', 'MySQL Source', 380, 140, NULL, NULL,
+        '{\"name\":\"MySQL\",\"type\":\"source\"}', '{\"stepTitle\":\"MySQL Source\"}', 'sys', 'sys');
+INSERT INTO `dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                               `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (6, 3, '640069cb-4f12-4c84-aefb-2731d4a82d78', 'Doris Sink', 360, 290, NULL, NULL,
+        '{\"name\":\"Doris\",\"type\":\"sink\"}', '{\"stepTitle\":\"Doris Sink\"}', 'sys', 'sys');
+INSERT INTO `dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                               `step_meta`, `step_attrs`, `creator`, `editor`)
 VALUES (7, 4, '7f7ced76-7771-4870-91d9-435ef1c4e623', 'FlinkSessionClusterStatus', 460, 400, NULL, NULL,
         '{\"handler\":\"cn.sliew.scaleph.application.flink.action.FlinkSessionClusterStatusSyncJob\",\"type\":\"1\"}',
         NULL, 'sys', 'sys');

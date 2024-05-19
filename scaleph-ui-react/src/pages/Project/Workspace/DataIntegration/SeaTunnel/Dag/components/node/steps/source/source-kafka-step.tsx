@@ -6,7 +6,6 @@ import {
   ProFormDependency,
   ProFormDigit,
   ProFormGroup,
-  ProFormList,
   ProFormSelect,
   ProFormSwitch,
   ProFormText,
@@ -16,8 +15,11 @@ import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {KafkaParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from '../helper';
-import FieldItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/schema/fields";
+import FieldItem
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/schema/fields";
 import DataSourceItem from "../dataSource";
+import CommonConfigItem
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/config/commonConfig";
 
 const SourceKafkaStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -45,7 +47,7 @@ const SourceKafkaStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onV
         onFinish={(values) => {
           if (onOK) {
             StepSchemaService.formatSchema(values)
-            StepSchemaService.formatKafkaConf(values)
+            StepSchemaService.formatCommonConfig(values, KafkaParams.kafkaConfig, KafkaParams.kafkaConfig)
             onOK(values)
             return Promise.resolve(true)
           }
@@ -170,35 +172,15 @@ const SourceKafkaStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onV
         </ProFormDependency>
 
         <ProFormGroup
-          label={intl.formatMessage({id: 'pages.project.di.step.kafka.conf'})}
+          title={intl.formatMessage({id: 'pages.project.di.step.kafka.conf'})}
           tooltip={{
             title: intl.formatMessage({id: 'pages.project.di.step.kafka.conf.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
+          collapsible={true}
+          defaultCollapsed={true}
         >
-          <ProFormList
-            name={KafkaParams.kafkaConf}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.kafka.conf.list'}),
-              type: 'text',
-            }}
-          >
-            <ProFormGroup>
-              <ProFormText
-                name={KafkaParams.key}
-                label={intl.formatMessage({id: 'pages.project.di.step.kafka.conf.key'})}
-                placeholder={intl.formatMessage({id: 'pages.project.di.step.kafka.conf.key.placeholder'})}
-                colProps={{span: 10, offset: 1}}
-              />
-              <ProFormText
-                name={KafkaParams.value}
-                label={intl.formatMessage({id: 'pages.project.di.step.kafka.conf.value'})}
-                placeholder={intl.formatMessage({id: 'pages.project.di.step.kafka.conf.value.placeholder'})}
-                colProps={{span: 10, offset: 1}}
-              />
-            </ProFormGroup>
-          </ProFormList>
+          <CommonConfigItem data={KafkaParams.kafkaConfig}/>
         </ProFormGroup>
       </DrawerForm>
     </XFlow>

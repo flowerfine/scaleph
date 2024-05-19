@@ -30,6 +30,7 @@ public enum FlinkCDCPluginType implements DictInstance {
 
     SOURCE("source", "Source"),
     SINK("sink", "Sink"),
+    TRANSFORM("transform", "Transform"),
     ROUTE("route", "Route"),
     ;
 

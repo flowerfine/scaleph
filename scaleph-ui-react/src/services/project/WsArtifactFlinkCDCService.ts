@@ -3,6 +3,7 @@ import {request} from '@umijs/max';
 import {
   WsArtifactFlinkCDC,
   WsArtifactFlinkCDCAddParam,
+  WsArtifactFlinkCDCGraphUpdateParam,
   WsArtifactFlinkCDCHistoryParam,
   WsArtifactFlinkCDCParam,
   WsArtifactFlinkCDCSelectListParam,
@@ -55,6 +56,12 @@ export const WsArtifactFlinkCDCService = {
     });
   },
 
+  preview: async (id: number) => {
+    return request<ResponseBody<string>>(`${WsArtifactFlinkCDCService.url}/${id}/preview`, {
+      method: 'GET',
+    });
+  },
+
   add: async (row: WsArtifactFlinkCDCAddParam) => {
     return request<ResponseBody<any>>(`${WsArtifactFlinkCDCService.url}`, {
       method: 'PUT',
@@ -66,6 +73,13 @@ export const WsArtifactFlinkCDCService = {
     return request<ResponseBody<any>>(`${WsArtifactFlinkCDCService.url}`, {
       method: 'POST',
       data: row,
+    });
+  },
+
+  updateGraph: async (param: WsArtifactFlinkCDCGraphUpdateParam) => {
+    return request<ResponseBody<any>>(`${WsArtifactFlinkCDCService.url}/graph`, {
+      method: 'POST',
+      data: param,
     });
   },
 

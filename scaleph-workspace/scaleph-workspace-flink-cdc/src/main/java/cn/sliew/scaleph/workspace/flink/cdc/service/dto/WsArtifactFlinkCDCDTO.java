@@ -21,6 +21,7 @@ package cn.sliew.scaleph.workspace.flink.cdc.service.dto;
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCVersion;
+import cn.sliew.scaleph.dag.service.dto.DagConfigComplexDTO;
 import cn.sliew.scaleph.workspace.project.service.dto.WsArtifactDTO;
 import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -41,6 +42,9 @@ public class WsArtifactFlinkCDCDTO extends BaseDTO {
 
     @Schema(description = "dag id")
     private Long dagId;
+
+    @Schema(description = "dag")
+    private DagConfigComplexDTO dag;
 
     @Schema(description = "`current`")
     private YesOrNo current;

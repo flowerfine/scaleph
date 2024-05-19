@@ -25,7 +25,11 @@ import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCPluginType;
 import cn.sliew.scaleph.plugin.flink.cdc.util.FlinkCDCPluginUtil;
 import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.plugin.framework.resource.ResourceProperty;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import java.util.Collections;
+import java.util.List;
 
 public abstract class FlinkCDCPipilineConnectorPlugin extends AbstractPlugin {
 
@@ -49,6 +53,10 @@ public abstract class FlinkCDCPipilineConnectorPlugin extends AbstractPlugin {
             }
         }
         return objectNode;
+    }
+
+    public List<ResourceProperty> getRequiredResources() {
+        return Collections.emptyList();
     }
 
     protected abstract FlinkCDCPluginMapping getPluginMapping();

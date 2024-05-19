@@ -111,8 +111,6 @@ export const JdbcParams = {
   supportUpsert: 'support_upsert_by_query_primary_key_exist',
   generateSinkSql: 'generate_sink_sql',
   primaryKeys: 'primary_keys',
-  primaryKeyArray: 'primaryKeyArray',
-  primaryKey: 'key',
   enableUpsert: 'enable_upsert',
   query: 'query',
   tablePath: 'table_path',
@@ -138,7 +136,9 @@ export const JdbcParams = {
   fieldIde: 'field_ide',
   schemaSaveMode: 'schema_save_mode',
   dataSaveMode: 'data_save_mode',
-  customSql: 'custom_sql'
+  customSql: 'custom_sql',
+  useCopyStatement: 'use_copy_statement',
+  properties: 'properties',
 }
 
 export const BaseFileParams = {
@@ -345,9 +345,6 @@ export const KafkaParams = {
   pattern: 'pattern',
   partitionDiscoveryIntervalMillis: 'partition-discovery.interval-millis',
   kafkaConfig: 'kafka.config',
-  kafkaConf: 'kafkaConf',
-  key: 'key',
-  value: 'value',
   consumerGroup: 'consumer.group',
   commit_on_checkpoint: 'commit_on_checkpoint',
   format: 'format',
@@ -356,12 +353,8 @@ export const KafkaParams = {
   fieldDelimiter: 'field_delimiter',
   semantic: 'semantic',
   partitionKeyFields: 'partition_key_fields',
-  partitionKeyArray: 'partitionKeyArray',
-  partitionKey: 'partitionKey',
   partition: 'partition',
   assignPartitions: 'assign_partitions',
-  assignPartitionArray: 'assignPartitionArray',
-  assignPartition: 'assignPartition',
   transactionPrefix: 'transaction_prefix',
   startModeTimestamp: 'start_mode.timestamp',
   startModeOffsets: 'start_mode.offsets',

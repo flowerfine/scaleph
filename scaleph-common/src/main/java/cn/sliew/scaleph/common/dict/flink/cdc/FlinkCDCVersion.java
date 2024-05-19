@@ -29,6 +29,7 @@ import java.util.Arrays;
 public enum FlinkCDCVersion implements DictInstance {
 
     V_3_0_0("3.0.0", "3.0.0"),
+    V_3_1_0("3.1.0", "3.1.0"),
     ;
 
     @JsonCreator

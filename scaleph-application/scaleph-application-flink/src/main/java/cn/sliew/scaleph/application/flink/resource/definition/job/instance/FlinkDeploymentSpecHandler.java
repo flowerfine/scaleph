@@ -47,7 +47,7 @@ public class FlinkDeploymentSpecHandler {
     @Autowired
     private LoggingHandler loggingHandler;
     @Autowired
-    private FlinkMetricsHandler flinkMetricsHandler;
+    private FlinkMainContainerHandler flinkMainContainerHandler;
     @Autowired
     private PodTemplateHandler podTemplateHandler;
 
@@ -61,7 +61,7 @@ public class FlinkDeploymentSpecHandler {
         addService(spec);
         addImage(jobInstanceDTO, spec);
         addLogging(jobInstanceDTO, spec);
-        addMetricsPort(spec);
+        customFlinkMainContainer(jobInstanceDTO, spec);
 
         mergeJobInstance(jobInstanceDTO, spec);
         return spec;
@@ -99,8 +99,8 @@ public class FlinkDeploymentSpecHandler {
         loggingHandler.handle(jobInstanceDTO.getWsFlinkKubernetesJob().getFlinkDeployment().getLogConfiguration(), spec);
     }
 
-    private void addMetricsPort(FlinkDeploymentSpec spec) {
-        flinkMetricsHandler.handle(spec);
+    private void customFlinkMainContainer(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
+        flinkMainContainerHandler.handle(jobInstanceDTO, spec);
     }
 
     private void mergeJobInstance(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {

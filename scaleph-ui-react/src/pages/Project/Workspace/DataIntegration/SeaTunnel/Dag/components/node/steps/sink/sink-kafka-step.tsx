@@ -6,7 +6,6 @@ import {
   ProFormDependency,
   ProFormDigit,
   ProFormGroup,
-  ProFormList,
   ProFormSelect,
   ProFormText
 } from '@ant-design/pro-components';
@@ -16,6 +15,9 @@ import {ModalFormProps} from '@/typings';
 import {KafkaParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from "../helper";
 import DataSourceItem from "../dataSource";
+import CommonConfigItem
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/config/commonConfig";
+import CommonListItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/list";
 
 const SinkKafkaStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -43,9 +45,9 @@ const SinkKafkaStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVis
         onFinish={(values) => {
           if (onOK) {
             StepSchemaService.formatSchema(values);
-            StepSchemaService.formatKafkaConf(values);
-            StepSchemaService.formatKafkaPartitionKeyFields(values);
-            StepSchemaService.formatAssginPartitions(values);
+            StepSchemaService.formatCommonConfig(values, KafkaParams.kafkaConfig, KafkaParams.kafkaConfig);
+            StepSchemaService.formatCommonList(values, KafkaParams.partitionKeyFields, KafkaParams.partitionKeyFields);
+            StepSchemaService.formatCommonList(values, KafkaParams.assignPartitions, KafkaParams.assignPartitions);
             onOK(values)
             return Promise.resolve(true)
           }
@@ -87,17 +89,14 @@ const SinkKafkaStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVis
         </ProFormDependency>
         <ProFormGroup
           title={intl.formatMessage({id: 'pages.project.di.step.kafka.partitionKeyFields'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.kafka.partitionKeyFields.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          collapsible={true}
+          defaultCollapsed={true}
         >
-          <ProFormList
-            name={KafkaParams.partitionKeyArray}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.kafka.partitionKey'}),
-              type: 'text',
-            }}
-          >
-            <ProFormText name={KafkaParams.partitionKey}/>
-          </ProFormList>
+          <CommonListItem data={KafkaParams.partitionKeyFields}/>
         </ProFormGroup>
         <ProFormDigit
           name={KafkaParams.partition}
@@ -106,17 +105,14 @@ const SinkKafkaStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVis
         />
         <ProFormGroup
           title={intl.formatMessage({id: 'pages.project.di.step.kafka.assignPartitions'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.kafka.assignPartitions.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          collapsible={true}
+          defaultCollapsed={true}
         >
-          <ProFormList
-            name={KafkaParams.assignPartitionArray}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.kafka.assignPartition'}),
-              type: 'text',
-            }}
-          >
-            <ProFormText name={KafkaParams.assignPartition}/>
-          </ProFormList>
+          <CommonListItem data={KafkaParams.assignPartitions}/>
         </ProFormGroup>
         <ProFormSelect
           name={'format'}
@@ -145,31 +141,10 @@ const SinkKafkaStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVis
             title: intl.formatMessage({id: 'pages.project.di.step.kafka.conf.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
+          collapsible={true}
+          defaultCollapsed={true}
         >
-          <ProFormList
-            name={KafkaParams.kafkaConf}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.kafka.conf.list'}),
-              type: 'text',
-            }}
-          >
-            <ProFormGroup>
-              <ProFormText
-                name={KafkaParams.key}
-                label={intl.formatMessage({id: 'pages.project.di.step.kafka.conf.key'})}
-                placeholder={intl.formatMessage({id: 'pages.project.di.step.kafka.conf.key.placeholder'})}
-                colProps={{span: 10, offset: 1}}
-                addonBefore={'kafka.'}
-              />
-              <ProFormText
-                name={KafkaParams.value}
-                label={intl.formatMessage({id: 'pages.project.di.step.kafka.conf.value'})}
-                placeholder={intl.formatMessage({id: 'pages.project.di.step.kafka.conf.value.placeholder'})}
-                colProps={{span: 10, offset: 1}}
-              />
-            </ProFormGroup>
-          </ProFormList>
+          <CommonConfigItem data={KafkaParams.kafkaConfig}/>
         </ProFormGroup>
       </DrawerForm>
     </XFlow>
