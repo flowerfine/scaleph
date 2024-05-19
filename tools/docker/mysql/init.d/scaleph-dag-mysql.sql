@@ -41,6 +41,10 @@ INSERT INTO `dag_config`(`id`, `type`, `name`, `config_id`, `dag_meta`, `dag_att
                          `version`, `remark`, `creator`, `editor`)
 VALUES (8, 'SeaTunnel', 'mysql_binlog_kafka_es', 'zzbk202837c4529d47d2ab09fa7ccf84fd81', NULL, NULL, NULL, NULL, 0,
         NULL, 'sys', 'sys');
+INSERT INTO `dag_config`(`id`, `type`, `name`, `config_id`, `dag_meta`, `dag_attrs`, `intput_options`, `output_options`,
+                         `version`, `remark`, `creator`, `editor`)
+VALUES (9, 'SeaTunnel', 'mysql_binlog_cdc_kafka', 'vbhp505d7884833344fbac6111a9923a1f28', NULL, NULL, NULL, NULL, 0,
+        NULL, 'sys', 'sys');
 
 drop table if exists dag_config_history;
 create table dag_config_history
@@ -174,6 +178,18 @@ VALUES (17, 8, '7cc271ae-d7e9-4d8c-8568-c2a50492ab77', 'Kafka Sink', 210, 334, N
         '{\"name\":\"Kafka\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
         '{\"stepTitle\":\"Kafka Sink\",\"dataSourceType\":\"Kafka\",\"dataSource\":7,\"topic\":\"binlog_data_service_duplicate\",\"semantic\":\"AT_LEAST_ONCE\",\"format\":\"canal_json\",\"schema\":\"{\\\"fields\\\":{}}\",\"kafka.config\":\"{}\",\"partition_key_fields\":\"[]\",\"assign_partitions\":\"[]\"}',
         'sys', 'sys');
+INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                              `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (18, 9, '297d303d-faa8-4405-b104-b438847e35c9', 'MySQL-CDC Source', 370, 110, NULL, NULL,
+        '{\"name\":\"MySQL-CDC\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
+        '{\"stepTitle\":\"MySQL-CDC Source\",\"base-url\":\"jdbc:mysql://localhost:3306/data_service\",\"username\":\"root\",\"password\":\"123456\",\"database-names\":\"data_service\",\"table-names\":\"sample_data_e_commerce\",\"startupMode\":\"earliest\",\"stopMode\":\"never\",\"snapshot.split.size\":8096,\"snapshot.fetch.size\":1024,\"incremental.parallelism\":1,\"server-time-zone\":\"UTC\",\"connection.pool.size\":20,\"connect.timeout\":\"30s\",\"connect.max-retries\":3,\"chunk-key.even-distribution.factor.lower-bound\":0.05,\"chunk-key.even-distribution.factor.upper-bound\":1000,\"sample-sharding.threshold\":1000,\"inverse-sampling.rate\":1000,\"exactly_once\":true,\"format\":\"DEFAULT\",\"debezium\":\"{}\"}',
+        'sys', 'sys');
+INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                              `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (19, 9, 'b125d246-a5ae-44cb-8280-ee4f8bfe9f1e', 'Kafka Sink', 370, 250, NULL, NULL,
+        '{\"name\":\"Kafka\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
+        '{\"stepTitle\":\"Kafka Sink\",\"dataSourceType\":\"Kafka\",\"dataSource\":7,\"topic\":\"binlog_cdc_sample_data_e_commerce\",\"semantic\":\"AT_LEAST_ONCE\",\"format\":\"debezium_json\",\"schema\":\"{\\\"fields\\\":{}}\",\"kafka.config\":\"{}\",\"partition_key_fields\":\"[]\",\"assign_partitions\":\"[]\"}',
+        'sys', 'sys');
 
 drop table if exists dag_config_link;
 create table dag_config_link
@@ -224,6 +240,10 @@ INSERT INTO `dag_config_link`(`id`, `dag_id`, `link_id`, `link_name`, `from_step
                               `link_meta`, `link_attrs`, `creator`, `editor`)
 VALUES (8, 8, 'f64150b7-7374-4fdc-a71b-26f4cda4abe7', NULL, 'c2e9413a-3aa8-4e04-82ec-77da8f6c12eb',
         '7cc271ae-d7e9-4d8c-8568-c2a50492ab77', NULL, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `dag_config_link`(`id`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`, `shape`, `style`,
+                              `link_meta`, `link_attrs`, `creator`, `editor`)
+VALUES (9, 9, 'eca3a0ef-70eb-4f77-b474-768bdbf68477', NULL, '297d303d-faa8-4405-b104-b438847e35c9',
+        'b125d246-a5ae-44cb-8280-ee4f8bfe9f1e', NULL, NULL, NULL, NULL, 'sys', 'sys');
 
 drop table if exists dag_instance;
 create table dag_instance
