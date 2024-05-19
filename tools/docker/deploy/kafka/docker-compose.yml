@@ -56,11 +56,12 @@ services:
     ports:
       - 11111:11111
     volumes:
-      - ../canal/canal.properties:/home/admin/canal-server/conf/canal.properties
-      - ../canal/instance.properties:/home/admin/canal-server/conf/data_service/instance.properties
+      - ../../canal/canal.properties:/home/admin/canal-server/conf/canal.properties
+      - ../../canal/instance.properties:/home/admin/canal-server/conf/data_service/instance.properties
     networks:
       - scaleph
 
 networks:
   scaleph:
-    driver: bridge
+    external: true
+    name: local_scaleph
