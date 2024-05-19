@@ -1,5 +1,9 @@
 # 使用注意
 
+通过 `zookeeper`、`kafka` 和 `canal-server` 建立了一个简易的 demo，通过 `canal-server` 读取 `mysql` 的 `data_service` 数据库的 binlog 数据，发送至 `kafka` 中的 `binlog_data_service` 数据。
+
+用户可以在 scaleph 预定义的 `data_service` 数据中修改表中的数据，观察 `kafka` 中数据的变化。
+
 通过 `docker exec -it kafka bin/bash` 进入 kafka 容器
 
 ```shell

@@ -259,7 +259,7 @@ CREATE TABLE `ds_info`
     editor           VARCHAR(32),
     update_time      DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
-    KEY idx_datasource (`name`)
+    KEY              idx_datasource (`name`)
 ) ENGINE = InnoDB COMMENT ='data source info';
 
 INSERT INTO `ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`, `editor`)
@@ -285,6 +285,10 @@ INSERT INTO `ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additiona
 VALUES (6, 20, NULL, 'local_minio',
         'eyJhY2Nlc3NTZWNyZXQiOiJFbmNyeXB0ZWQ6Y0dGemMzZHZjbVE9IiwiYnVja2V0IjoiczNuOi8vbG9jYWxob3N0OjkwMDAvc2NhbGVwaCIsImFjY2Vzc0tleSI6IkVuY3J5cHRlZDpZV1J0YVc0PSJ9',
         NULL, NULL, 'sys', 'sys');
+INSERT INTO `ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`, `editor`)
+VALUES (7, 14, NULL, 'local_kafka', 'eyJib290c3RyYXBTZXJ2ZXJzIjoibG9jYWxob3N0OjkwOTIifQ==', NULL, NULL, 'sys', 'sys');
+INSERT INTO `ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`, `editor`)
+VALUES (8, 10, NULL, 'local_elasticsearch', 'eyJob3N0cyI6ImxvY2FsaG9zdDo5MjAwIn0=', NULL, NULL, 'sys', 'sys');
 
 /* 元数据-数据源连接信息 */
 drop table if exists meta_datasource;
@@ -295,11 +299,11 @@ create TABLE meta_datasource
     datasource_type  varchar(32) not null comment '数据源类型',
     props            text COMMENT '数据源支持的属性',
     additional_props text COMMENT '数据源支持的额外属性',
-    remark           varchar(256)     DEFAULT NULL COMMENT '备注描述',
-    creator          varchar(32)      DEFAULT NULL COMMENT '创建人',
-    create_time      timestamp   NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    editor           varchar(32)      DEFAULT NULL COMMENT '修改人',
-    update_time      timestamp   NULL DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP COMMENT '修改时间',
+    remark           varchar(256) DEFAULT NULL COMMENT '备注描述',
+    creator          varchar(32)  DEFAULT NULL COMMENT '创建人',
+    create_time      timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    editor           varchar(32)  DEFAULT NULL COMMENT '修改人',
+    update_time      timestamp NULL DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (id),
     unique key (datasource_type, datasource_name)
 ) ENGINE = InnoDB COMMENT ='元数据-数据源信息';
