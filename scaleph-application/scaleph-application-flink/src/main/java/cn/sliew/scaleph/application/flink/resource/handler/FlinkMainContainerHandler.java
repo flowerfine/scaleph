@@ -19,14 +19,13 @@
 package cn.sliew.scaleph.application.flink.resource.handler;
 
 import cn.sliew.scaleph.application.flink.operator.spec.FlinkDeploymentSpec;
+import cn.sliew.scaleph.application.flink.resource.definition.job.instance.FlinkJobInstanceConverterFactory;
 import cn.sliew.scaleph.application.flink.resource.definition.job.instance.MetadataHandler;
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobInstanceDTO;
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.config.kubernetes.resource.ResourceAnnotations;
 import cn.sliew.scaleph.config.kubernetes.resource.ResourceNames;
-import io.fabric8.kubernetes.api.model.ContainerPort;
-import io.fabric8.kubernetes.api.model.ContainerPortBuilder;
-import io.fabric8.kubernetes.api.model.PodBuilder;
-import io.fabric8.kubernetes.api.model.PodFluent;
+import io.fabric8.kubernetes.api.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -53,16 +52,10 @@ public class FlinkMainContainerHandler {
 
         ContainerUtil.findFlinkMainContainer(spec)
                 .addAllToPorts(buildMetricsPorts())
+                .addAllToEnv(buildEnv())
                 .endContainer();
 
         spec.endSpec();
-    }
-
-    private List<ContainerPort> buildMetricsPorts() {
-        List<ContainerPort> ports = new ArrayList<>();
-        ports.add(new ContainerPortBuilder().withName("jmx-metrics").withContainerPort(8789).withProtocol("TCP").build());
-        ports.add(new ContainerPortBuilder().withName("prom-metrics").withContainerPort(9249).withProtocol("TCP").build());
-        return ports;
     }
 
     private Map<String, String> buildAnnotations() {
@@ -74,5 +67,18 @@ public class FlinkMainContainerHandler {
 
     private Map<String, String> buildLabels(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO) {
         return metadataHandler.generateLables(jobInstanceDTO);
+    }
+
+    private List<ContainerPort> buildMetricsPorts() {
+        List<ContainerPort> ports = new ArrayList<>();
+        ports.add(new ContainerPortBuilder().withName("jmx-metrics").withContainerPort(8789).withProtocol("TCP").build());
+        ports.add(new ContainerPortBuilder().withName("prom-metrics").withContainerPort(9249).withProtocol("TCP").build());
+        return ports;
+    }
+
+    private List<EnvVar> buildEnv() {
+        List<EnvVar> envs = new ArrayList<>();
+        envs.add(new EnvVarBuilder().withName("TZ").withValue("Asia/Shanghai").build());
+        return envs;
     }
 }

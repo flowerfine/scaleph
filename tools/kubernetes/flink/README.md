@@ -20,8 +20,8 @@ helm install flink-kubernetes-operator flink-kubernetes-operator-1.8.0/flink-kub
 使用 `--repo` 安装
 
 ```shell
-helm install flink-kubernetes-operator flink-kubernetes-operator-1.8.0/flink-kubernetes-operator \
+helm upgrade --install flink-kubernetes-operator flink-kubernetes-operator-1.8.0 \
 	--repo https://archive.apache.org/dist/flink/flink-kubernetes-operator-1.8.0/ \
-	--values values.yaml
+	--values tools/kubernetes/flink/values.yaml
 ```
 
