@@ -881,6 +881,16 @@ export default {
   'pages.project.di.step.paimon.table': 'Table',
   'pages.project.di.step.paimon.hdfsSitePath': 'hdfs-site.xml 路径',
   'pages.project.di.step.paimon.hdfsSitePath.placeholder': '/path/to/hdfs-site.xml',
+  'pages.project.di.step.paimon.paimonHadoopConfPath': 'Hadoop 配置文件路径',
+  'pages.project.di.step.paimon.paimonHadoopConfPath.tooltip': '/path/to/hdfs-site.xml、core-site.xml',
+  'pages.project.di.step.paimon.paimonHadoopConf': 'Hadoop 配置',
+  'pages.project.di.step.paimon.paimonHadoopConf.tooltip': 'Hadoop 配置',
+  'pages.project.di.step.paimon.paimonTablePrimaryKeys': 'Primary Key',
+  'pages.project.di.step.paimon.paimonTablePrimaryKeys.tooltip': '以逗号（,）分割，需包含 Partition Key',
+  'pages.project.di.step.paimon.paimonTablePartitionKeys': 'Partition Key',
+  'pages.project.di.step.paimon.paimonTablePartitionKeys.tooltip': '以逗号（,）分割',
+  'pages.project.di.step.paimon.paimonTableWriteProps': '表属性',
+  'pages.project.di.step.paimon.paimonTableWriteProps.tooltip': '表属性',
 
   // copy
   'pages.project.di.step.copy.srcField': '源字段',

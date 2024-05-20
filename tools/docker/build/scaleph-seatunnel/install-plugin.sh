@@ -38,6 +38,8 @@ ${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=mysql -DartifactId=mysql-connect
 mkdir -p ${SEATUNNEL_HOME}/plugins/iceberg/lib
 ${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=org.apache.hive -DartifactId=hive-exec -Dversion=3.1.3 -Dtransitive=false -Ddest=${SEATUNNEL_HOME}/plugins/iceberg/lib
 ${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=org.apache.thrift -DartifactId=libfb303 -Dversion=0.9.3 -Dtransitive=false -Ddest=${SEATUNNEL_HOME}/plugins/iceberg/lib
+mkdir -p ${SEATUNNEL_HOME}/plugins/paimon/lib
+${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=org.apache.hadoop -DartifactId=hadoop-aws -Dversion=3.3.4 -Dtransitive=false -Ddest=${SEATUNNEL_HOME}/plugins/paimon/lib
 
 echo "Install SeaTunnel connectors plugins, usage version is ${version}"
 

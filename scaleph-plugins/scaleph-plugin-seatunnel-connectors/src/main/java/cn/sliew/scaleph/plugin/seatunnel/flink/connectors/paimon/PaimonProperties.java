@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.paimon;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public enum PaimonProperties {
     ;
@@ -55,6 +56,22 @@ public enum PaimonProperties {
             .description("The file path of hdfs-site.xml")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> PAIMON_HADOOP_CONF_PATH = new PropertyDescriptor.Builder()
+            .name("paimon.hadoop.conf-path")
+            .description("The specified loading path for the 'core-site.xml', 'hdfs-site.xml', 'hive-site.xml' files")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> PAIMON_HADOOP_CONF = new PropertyDescriptor.Builder()
+            .name("paimon.hadoop.conf")
+            .description("Properties in hadoop conf")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

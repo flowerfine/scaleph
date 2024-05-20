@@ -29,7 +29,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.SaveModeProperties.DATA_SAVE_MODE;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.SaveModeProperties.SCHEMA_SAVE_MODE;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.paimon.PaimonProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.paimon.sink.PaimonSinkProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class PaimonSinkPlugin extends SeaTunnelConnectorPlugin {
@@ -43,7 +46,13 @@ public class PaimonSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(WAREHOUSE);
         props.add(DATABASE);
         props.add(TABLE);
-        props.add(HDFS_SITE_PATH);
+        props.add(PAIMON_HADOOP_CONF_PATH);
+        props.add(PAIMON_HADOOP_CONF);
+        props.add(PAIMON_TABLE_PRIMARY_KEYS);
+        props.add(PAIMON_TABLE_PARTITION_KEYS);
+        props.add(PAIMON_TABLE_WRITE_PROPS);
+        props.add(SCHEMA_SAVE_MODE);
+        props.add(DATA_SAVE_MODE);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
