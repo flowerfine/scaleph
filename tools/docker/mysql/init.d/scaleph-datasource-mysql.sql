@@ -289,6 +289,10 @@ INSERT INTO `ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additiona
 VALUES (7, 14, NULL, 'local_kafka', 'eyJib290c3RyYXBTZXJ2ZXJzIjoibG9jYWxob3N0OjkwOTIifQ==', NULL, NULL, 'sys', 'sys');
 INSERT INTO `ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`, `editor`)
 VALUES (8, 10, NULL, 'local_elasticsearch', 'eyJob3N0cyI6ImxvY2FsaG9zdDo5MjAwIn0=', NULL, NULL, 'sys', 'sys');
+INSERT INTO `ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`, `editor`)
+VALUES (9, 25, NULL, 'local_doris',
+        'eyJwYXNzd29yZCI6IkVuY3J5cHRlZDpjR0Z6YzNkdmNtUT0iLCJxdWVyeVBvcnQiOjkwMzAsIm5vZGVVcmxzIjoibG9jYWxob3N0OjgwMzAiLCJ1c2VybmFtZSI6InJvb3QifQ==',
+        NULL, NULL, 'sys', 'sys');
 
 /* 元数据-数据源连接信息 */
 drop table if exists meta_datasource;
