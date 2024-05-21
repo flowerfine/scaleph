@@ -59,6 +59,12 @@ INSERT INTO `ws_artifact`(`id`, `project_id`, `type`, `name`, `remark`, `creator
 VALUES (11, 1, '2', 'mysql_binlog_kafka_es', NULL, 'sys', 'sys');
 INSERT INTO `ws_artifact`(`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (12, 1, '2', 'mysql_binlog_cdc_kafka', NULL, 'sys', 'sys');
+INSERT INTO `ws_artifact`(`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+VALUES (13, 1, '2', 'mysql_binlog_cdc_paimon', NULL, 'sys', 'sys');
+INSERT INTO `ws_artifact`(`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+VALUES (14, 1, '2', 'mysql_binlog_cdc_kafka_doris', NULL, 'sys', 'sys');
+INSERT INTO `ws_artifact`(`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+VALUES (15, 1, '2', 'mysql_binlog_cdc_iceberg', NULL, 'sys', 'sys');
 
 drop table if exists ws_artifact_flink_jar;
 create table ws_artifact_flink_jar
@@ -173,6 +179,15 @@ VALUES (3, 11, 'seatunnel', '1.16.3', '2.3.5', 8, 1, 'sys', 'sys');
 INSERT INTO ws_artifact_seatunnel(id, artifact_id, seatunnel_engine, flink_version, seatunnel_version, dag_id, current,
                                   creator, editor)
 VALUES (4, 12, 'seatunnel', '1.16.3', '2.3.5', 9, '1', 'sys', 'sys');
+INSERT INTO `ws_artifact_seatunnel`(`id`, `artifact_id`, `seatunnel_engine`, `flink_version`, `seatunnel_version`,
+                                    `dag_id`, `current`, `creator`, `editor`)
+VALUES (5, 13, 'seatunnel', '1.16.3', '2.3.5', 10, '1', 'sys', 'sys');
+INSERT INTO `ws_artifact_seatunnel`(`id`, `artifact_id`, `seatunnel_engine`, `flink_version`, `seatunnel_version`,
+                                    `dag_id`, `current`, `creator`, `editor`)
+VALUES (6, 14, 'seatunnel', '1.16.3', '2.3.5', 11, '1', 'sys', 'sys');
+INSERT INTO `ws_artifact_seatunnel`(`id`, `artifact_id`, `seatunnel_engine`, `flink_version`, `seatunnel_version`,
+                                    `dag_id`, `current`, `creator`, `editor`)
+VALUES (7, 15, 'seatunnel', '1.16.3', '2.3.5', 12, '1', 'sys', 'sys');
 
 DROP TABLE IF EXISTS ws_flink_kubernetes_template;
 CREATE TABLE ws_flink_kubernetes_template

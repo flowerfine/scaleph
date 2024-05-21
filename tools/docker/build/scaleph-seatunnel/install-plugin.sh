@@ -38,6 +38,12 @@ ${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=mysql -DartifactId=mysql-connect
 mkdir -p ${SEATUNNEL_HOME}/plugins/iceberg/lib
 ${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=org.apache.hive -DartifactId=hive-exec -Dversion=3.1.3 -Dtransitive=false -Ddest=${SEATUNNEL_HOME}/plugins/iceberg/lib
 ${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=org.apache.thrift -DartifactId=libfb303 -Dversion=0.9.3 -Dtransitive=false -Ddest=${SEATUNNEL_HOME}/plugins/iceberg/lib
+mkdir -p ${SEATUNNEL_HOME}/plugins/paimon/lib
+${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=org.apache.hadoop -DartifactId=hadoop-aws -Dversion=3.3.4 -Dtransitive=false -Ddest=${SEATUNNEL_HOME}/plugins/paimon/lib
+${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=org.apache.hadoop -DartifactId=hadoop-common -Dversion=3.3.4 -Dtransitive=false -Ddest=${SEATUNNEL_HOME}/plugins/paimon/lib
+${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=org.apache.hadoop.thirdparty -DartifactId=hadoop-shaded-guava -Dversion=1.1.1 -Dtransitive=false -Ddest=${SEATUNNEL_HOME}/plugins/paimon/lib
+# ${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=com.amazonaws -DartifactId=aws-java-jdk-bundle -Dversion=1.12.262 -Dtransitive=false -Ddest=${SEATUNNEL_HOME}/plugins/paimon/lib
+wget https://repo.maven.apache.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.726/aws-java-sdk-bundle-1.12.726.jar -O ${SEATUNNEL_HOME}/plugins/paimon/lib/aws-java-sdk-bundle-1.12.726.jar
 
 echo "Install SeaTunnel connectors plugins, usage version is ${version}"
 

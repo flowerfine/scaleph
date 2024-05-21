@@ -47,6 +47,8 @@ const SourceCDCMySQLStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, 
         onFinish={(values) => {
           if (onOK) {
             StepSchemaService.formatCommonConfig(values, CDCParams.debeziums, CDCParams.debeziums);
+            values[CDCParams.startupMode] = values.startupMode
+            values[CDCParams.stopMode] = values.stopMode
             onOK(values)
             return Promise.resolve(true)
           }

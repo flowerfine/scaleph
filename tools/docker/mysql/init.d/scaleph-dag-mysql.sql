@@ -45,6 +45,18 @@ INSERT INTO `dag_config`(`id`, `type`, `name`, `config_id`, `dag_meta`, `dag_att
                          `version`, `remark`, `creator`, `editor`)
 VALUES (9, 'SeaTunnel', 'mysql_binlog_cdc_kafka', 'vbhp505d7884833344fbac6111a9923a1f28', NULL, NULL, NULL, NULL, 0,
         NULL, 'sys', 'sys');
+INSERT INTO `dag_config`(`id`, `type`, `name`, `config_id`, `dag_meta`, `dag_attrs`, `intput_options`, `output_options`,
+                         `version`, `remark`, `creator`, `editor`)
+VALUES (10, 'SeaTunnel', 'mysql_binlog_cdc_paimon', 'upyq0705acb88edf430f85dba099a08ff31e', NULL, NULL, NULL, NULL, 0,
+        NULL, 'sys', 'sys');
+INSERT INTO `dag_config`(`id`, `type`, `name`, `config_id`, `dag_meta`, `dag_attrs`, `intput_options`, `output_options`,
+                         `version`, `remark`, `creator`, `editor`)
+VALUES (11, 'SeaTunnel', 'mysql_binlog_cdc_kafka_doris', 'zvux4b76b0255a1b4a4f946821d2c0c9d77c', NULL, NULL, NULL, NULL,
+        0, NULL, 'sys', 'sys');
+INSERT INTO `dag_config`(`id`, `type`, `name`, `config_id`, `dag_meta`, `dag_attrs`, `intput_options`, `output_options`,
+                         `version`, `remark`, `creator`, `editor`)
+VALUES (12, 'SeaTunnel', 'mysql_binlog_cdc_iceberg', 'qygebf7fdfc91e5f49ceadea025b0d6139a4', NULL, NULL, NULL, NULL, 0,
+        NULL, 'sys', 'sys');
 
 drop table if exists dag_config_history;
 create table dag_config_history
@@ -167,7 +179,7 @@ VALUES (15, 8, '8ababac2-725c-46c4-96b7-75ebc94621db', 'Elasticsearch Sink', 640
         '{\"stepTitle\":\"Elasticsearch Sink\",\"dataSourceType\":\"Elasticsearch\",\"dataSource\":8,\"index\":\"binlog_data_service\",\"schema_save_mode\":\"CREATE_SCHEMA_WHEN_NOT_EXIST\",\"data_save_mode\":\"APPEND_DATA\",\"max_batch_size\":10,\"max_retry_count\":3,\"primary_keys\":\"[]\"}',
         'sys', 'sys');
 INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
-                              `step_meta`, `step_attrs`, `creator`, `editor`)po
+                              `step_meta`, `step_attrs`, `creator`, `editor`)
 VALUES (16, 8, 'c2e9413a-3aa8-4e04-82ec-77da8f6c12eb', 'Kafka Source', 210, 160, NULL, NULL,
         '{\"name\":\"Kafka\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
         '{\"stepTitle\":\"Kafka Source\",\"dataSourceType\":\"Kafka\",\"dataSource\":7,\"topic\":\"binlog_data_service\",\"pattern\":false,\"consumer.group\":\"SeaTunnel-Consumer-Group-1\",\"commit_on_checkpoint\":true,\"format_error_handle_way\":\"fail\",\"format\":\"canal_json\",\"start_mode\":\"earliest\",\"schema\":\"{\\\"fields\\\":{}}\",\"kafka.config\":\"{}\"}',
@@ -182,13 +194,61 @@ INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_
                               `step_meta`, `step_attrs`, `creator`, `editor`)
 VALUES (18, 9, '297d303d-faa8-4405-b104-b438847e35c9', 'MySQL-CDC Source', 370, 110, NULL, NULL,
         '{\"name\":\"MySQL-CDC\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
-        '{\"stepTitle\":\"MySQL-CDC Source\",\"base-url\":\"jdbc:mysql://localhost:3306/data_service\",\"username\":\"root\",\"password\":\"123456\",\"database-names\":\"data_service\",\"table-names\":\"data_service.sample_data_e_commerce\",\"startupMode\":\"earliest\",\"stopMode\":\"never\",\"snapshot.split.size\":8096,\"snapshot.fetch.size\":1024,\"incremental.parallelism\":1,\"server-time-zone\":\"UTC\",\"connection.pool.size\":20,\"connect.timeout\":\"30s\",\"connect.max-retries\":3,\"chunk-key.even-distribution.factor.lower-bound\":0.05,\"chunk-key.even-distribution.factor.upper-bound\":1000,\"sample-sharding.threshold\":1000,\"inverse-sampling.rate\":1000,\"exactly_once\":true,\"format\":\"DEFAULT\",\"debezium\":\"{}\"}',
+        '{\"stepTitle\":\"MySQL-CDC Source\",\"base-url\":\"jdbc:mysql://localhost:3306/data_service\",\"username\":\"root\",\"password\":\"123456\",\"database-names\":\"data_service\",\"table-names\":\"data_service.sample_data_e_commerce\",\"startupMode\":\"initial\",\"stopMode\":\"never\",\"snapshot.split.size\":8096,\"snapshot.fetch.size\":1024,\"incremental.parallelism\":1,\"server-time-zone\":\"UTC\",\"connection.pool.size\":20,\"connect.timeout\":\"30s\",\"connect.max-retries\":3,\"chunk-key.even-distribution.factor.lower-bound\":0.05,\"chunk-key.even-distribution.factor.upper-bound\":1000,\"sample-sharding.threshold\":1000,\"inverse-sampling.rate\":1000,\"exactly_once\":true,\"format\":\"DEFAULT\",\"debezium\":\"{}\"}',
         'sys', 'sys');
 INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
                               `step_meta`, `step_attrs`, `creator`, `editor`)
 VALUES (19, 9, 'b125d246-a5ae-44cb-8280-ee4f8bfe9f1e', 'Kafka Sink', 370, 250, NULL, NULL,
         '{\"name\":\"Kafka\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
         '{\"stepTitle\":\"Kafka Sink\",\"dataSourceType\":\"Kafka\",\"dataSource\":7,\"topic\":\"binlog_cdc_sample_data_e_commerce\",\"semantic\":\"AT_LEAST_ONCE\",\"format\":\"debezium_json\",\"schema\":\"{\\\"fields\\\":{}}\",\"kafka.config\":\"{}\",\"partition_key_fields\":\"[]\",\"assign_partitions\":\"[]\"}',
+        'sys', 'sys');
+INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                              `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (20, 10, '65a74232-1d62-4a48-951c-606c62c4bc20', 'MySQL-CDC Source', 430, 190, NULL, NULL,
+        '{\"name\":\"MySQL-CDC\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
+        '{\"stepTitle\":\"MySQL-CDC Source\",\"base-url\":\"jdbc:mysql://localhost:3306/data_service\",\"username\":\"root\",\"password\":\"123456\",\"table-names\":\"data_service.sample_data_e_commerce\",\"startupMode\":\"initial\",\"stopMode\":\"never\",\"snapshot.split.size\":8096,\"snapshot.fetch.size\":1024,\"incremental.parallelism\":1,\"server-time-zone\":\"UTC\",\"connection.pool.size\":20,\"connect.timeout\":\"30s\",\"connect.max-retries\":3,\"chunk-key.even-distribution.factor.lower-bound\":0.05,\"chunk-key.even-distribution.factor.upper-bound\":1000,\"sample-sharding.threshold\":1000,\"inverse-sampling.rate\":1000,\"exactly_once\":true,\"format\":\"DEFAULT\",\"debezium\":\"{}\"}',
+        'sys', 'sys');
+INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                              `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (21, 10, '75e6ddb1-5146-46c1-9cfe-39f3a1be196a', 'Paimon Sink', 430, 325, NULL, NULL,
+        '{\"name\":\"Paimon\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
+        '{\"stepTitle\":\"Paimon Sink\",\"warehouse\":\"s3a:///scaleph/seatunnel/paimon/\",\"database\":\"mysql_data_service\",\"table\":\"sample_data_e_commerce\",\"paimon.hadoop.conf_common_config_\":[{\"paimon.hadoop.conf_common_config_key_\":\"s3.endpoint\",\"paimon.hadoop.conf_common_config_value_\":\"http://localhost:9000\"},{\"paimon.hadoop.conf_common_config_key_\":\"s3.access-key\",\"paimon.hadoop.conf_common_config_value_\":\"admin\"},{\"paimon.hadoop.conf_common_config_key_\":\"s3.secret-key\",\"paimon.hadoop.conf_common_config_value_\":\"password\"},{\"paimon.hadoop.conf_common_config_key_\":\"s3.path.style.access\",\"paimon.hadoop.conf_common_config_value_\":\"true\"}],\"schema_save_mode\":\"CREATE_SCHEMA_WHEN_NOT_EXIST\",\"data_save_mode\":\"APPEND_DATA\",\"paimon.hadoop.conf\":\"{\\\"s3.endpoint\\\":\\\"http://localhost:9000\\\",\\\"s3.access-key\\\":\\\"admin\\\",\\\"s3.secret-key\\\":\\\"password\\\",\\\"s3.path.style.access\\\":\\\"true\\\"}\",\"paimon.table.write-props\":\"{}\"}',
+        'sys', 'sys');
+INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                              `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (22, 11, 'ffa948e5-d728-4b1a-abb1-b4058f353118', 'MySQL-CDC Source', 380, 40, NULL, NULL,
+        '{\"name\":\"MySQL-CDC\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
+        '{\"stepTitle\":\"MySQL-CDC Source\",\"base-url\":\"jdbc:mysql://localhost:3306/data_service\",\"username\":\"root\",\"password\":\"123456\",\"table-names\":\"data_service.sample_data_e_commerce\",\"startupMode\":\"initial\",\"stopMode\":\"never\",\"snapshot.split.size\":8096,\"snapshot.fetch.size\":1024,\"incremental.parallelism\":1,\"server-time-zone\":\"UTC\",\"connection.pool.size\":20,\"connect.timeout\":\"30s\",\"connect.max-retries\":3,\"chunk-key.even-distribution.factor.lower-bound\":0.05,\"chunk-key.even-distribution.factor.upper-bound\":1000,\"sample-sharding.threshold\":1000,\"inverse-sampling.rate\":1000,\"exactly_once\":true,\"format\":\"DEFAULT\",\"debezium\":\"{}\"}',
+        'sys', 'sys');
+INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                              `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (23, 11, '6faa1187-093e-4a1f-867c-ebe5c6ed1251', 'Kafka Sink', 380, 163, NULL, NULL,
+        '{\"name\":\"Kafka\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
+        '{\"stepTitle\":\"Kafka Sink\",\"dataSourceType\":\"Kafka\",\"dataSource\":7,\"topic\":\"sample_data_e_commerce\",\"semantic\":\"AT_LEAST_ONCE\",\"format\":\"debezium_json\",\"schema\":\"{\\\"fields\\\":{}}\",\"kafka.config\":\"{}\",\"partition_key_fields\":\"[]\",\"assign_partitions\":\"[]\"}',
+        'sys', 'sys');
+INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                              `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (24, 11, '66e6337a-e9e3-49ff-90ae-28672147c938', 'Kafka Source', 380, 266, NULL, NULL,
+        '{\"name\":\"Kafka\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
+        '{\"stepTitle\":\"Kafka Source\",\"dataSourceType\":\"Kafka\",\"dataSource\":7,\"topic\":\"sample_data_e_commerce\",\"pattern\":false,\"consumer.group\":\"SeaTunnel-Consumer-Group-678\",\"commit_on_checkpoint\":true,\"format_error_handle_way\":\"fail\",\"format\":\"debezium_json\",\"start_mode\":\"earliest\",\"schema\":\"{\\\"fields\\\":{}}\",\"kafka.config\":\"{}\"}',
+        'sys', 'sys');
+INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                              `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (25, 11, 'ed9c7440-e6b6-47c7-bf97-1051392174eb', 'Doris Sink', 380, 383, NULL, NULL,
+        '{\"name\":\"Doris\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
+        '{\"stepTitle\":\"Doris Sink\",\"dataSourceType\":\"Doris\",\"dataSource\":9,\"database\":\"ods\",\"table\":\"ods_data_service_mysql_data_service\",\"sink.label-prefix\":\"scaelph_seatunnel_\",\"sink.enable-2pc\":true,\"sink.enable-delete\":false,\"needs_unsupported_type_casting\":false,\"sink.check-interval\":10000,\"sink.max-retries\":3,\"sink.buffer-size\":262144,\"sink.buffer-count\":3,\"doris.batch.size\":1024,\"schema_save_mode\":\"CREATE_SCHEMA_WHEN_NOT_EXIST\",\"data_save_mode\":\"APPEND_DATA\",\"doris.config\":\"{}\"}',
+        'sys', 'sys');
+INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                              `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (26, 12, '1a7dc268-5620-4f17-974a-8b22e51690a5', 'MySQL-CDC Source', 420, 80, NULL, NULL,
+        '{\"name\":\"MySQL-CDC\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
+        '{\"stepTitle\":\"MySQL-CDC Source\",\"base-url\":\"jdbc:mysql://localhost:3306/data_service\",\"username\":\"root\",\"password\":\"123456\",\"table-names\":\"data_service.sample_data_e_commerce\",\"startupMode\":\"initial\",\"stopMode\":\"never\",\"snapshot.split.size\":8096,\"snapshot.fetch.size\":1024,\"incremental.parallelism\":1,\"server-time-zone\":\"UTC\",\"connection.pool.size\":20,\"connect.timeout\":\"30s\",\"connect.max-retries\":3,\"chunk-key.even-distribution.factor.lower-bound\":0.05,\"chunk-key.even-distribution.factor.upper-bound\":1000,\"sample-sharding.threshold\":1000,\"inverse-sampling.rate\":1000,\"exactly_once\":true,\"format\":\"DEFAULT\",\"debezium\":\"{}\"}',
+        'sys', 'sys');
+INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
+                              `step_meta`, `step_attrs`, `creator`, `editor`)
+VALUES (27, 12, '763e5f0a-fea0-400b-a5d0-42f72fed63f9', 'Iceberg Sink', 420, 210, NULL, NULL,
+        '{\"name\":\"Iceberg\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
+        '{\"stepTitle\":\"Iceberg Sink\",\"catalog_name\":\"ods\",\"namespace\":\"data_service\",\"table\":\"sample_data_e_commerce\",\"type\":\"hadoop\",\"warehouse\":\"s3a:///tmp/seatunnel/iceberg/scaleph/\",\"schema_save_mode\":\"CREATE_SCHEMA_WHEN_NOT_EXIST\",\"data_save_mode\":\"APPEND_DATA\",\"iceberg.catalog.config\":\"{\\\"type\\\":\\\"hadoop\\\",\\\"warehouse\\\":\\\"s3a:///tmp/seatunnel/iceberg/scaleph/\\\"}\",\"hadoop.config\":\"{}\",\"iceberg.table.write-props\":\"{}\",\"iceberg.table.auto-create-props\":\"{}\"}',
         'sys', 'sys');
 
 drop table if exists dag_config_link;
@@ -244,6 +304,22 @@ INSERT INTO `dag_config_link`(`id`, `dag_id`, `link_id`, `link_name`, `from_step
                               `link_meta`, `link_attrs`, `creator`, `editor`)
 VALUES (9, 9, 'eca3a0ef-70eb-4f77-b474-768bdbf68477', NULL, '297d303d-faa8-4405-b104-b438847e35c9',
         'b125d246-a5ae-44cb-8280-ee4f8bfe9f1e', NULL, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `dag_config_link`(`id`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`, `shape`, `style`,
+                              `link_meta`, `link_attrs`, `creator`, `editor`)
+VALUES (10, 10, '7d6d6f11-b7eb-4d03-97a1-2c6f7bf38d83', NULL, '65a74232-1d62-4a48-951c-606c62c4bc20',
+        '75e6ddb1-5146-46c1-9cfe-39f3a1be196a', NULL, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `dag_config_link`(`id`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`, `shape`, `style`,
+                              `link_meta`, `link_attrs`, `creator`, `editor`)
+VALUES (11, 11, '9e4d5226-d393-43ab-b724-18f12daef4e7', NULL, 'ffa948e5-d728-4b1a-abb1-b4058f353118',
+        '6faa1187-093e-4a1f-867c-ebe5c6ed1251', NULL, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `dag_config_link`(`id`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`, `shape`, `style`,
+                              `link_meta`, `link_attrs`, `creator`, `editor`)
+VALUES (12, 11, 'edf4ad48-58b7-4a0e-9e63-f4e74c5a3516', NULL, '66e6337a-e9e3-49ff-90ae-28672147c938',
+        'ed9c7440-e6b6-47c7-bf97-1051392174eb', NULL, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `dag_config_link`(`id`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`, `shape`, `style`,
+                              `link_meta`, `link_attrs`, `creator`, `editor`)
+VALUES (13, 12, 'ac8ac824-3a43-4f0b-ba44-bd2dfbf45282', NULL, '1a7dc268-5620-4f17-974a-8b22e51690a5',
+        '763e5f0a-fea0-400b-a5d0-42f72fed63f9', NULL, NULL, NULL, NULL, 'sys', 'sys');
 
 drop table if exists dag_instance;
 create table dag_instance

@@ -749,7 +749,12 @@ export const PaimonParams = {
   warehouse: 'warehouse',
   database: 'database',
   table: 'table',
-  hdfsSitePath: 'hdfs_site_path'
+  hdfsSitePath: 'hdfs_site_path',
+  paimonHadoopConfPath: 'paimon.hadoop.conf-path',
+  paimonHadoopConf: 'paimon.hadoop.conf',
+  paimonTablePrimaryKeys: 'paimon.table.primary-keys',
+  paimonTablePartitionKeys: 'paimon.table.partition-keys',
+  paimonTableWriteProps: 'paimon.table.write-props',
 }
 
 export const CopyParams = {

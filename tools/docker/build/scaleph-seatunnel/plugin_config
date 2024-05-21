@@ -3,6 +3,7 @@ connector-cdc-mysql
 connector-jdbc
 connector-elasticsearch
 connector-kafka
+connector-hive
 connector-hudi
 connector-iceberg
 connector-paimon
