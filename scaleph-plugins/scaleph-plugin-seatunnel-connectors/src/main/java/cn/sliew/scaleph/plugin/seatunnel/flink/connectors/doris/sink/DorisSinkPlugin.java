@@ -85,6 +85,8 @@ public class DorisSinkPlugin extends SeaTunnelConnectorPlugin {
         }
         if (StringUtils.hasText(dataSource.getPassword())) {
             conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
+        } else {
+            conf.putPOJO(PASSWORD.getName(), "");
         }
         if (dataSource.getQueryPort() != null) {
             conf.putPOJO(QUERY_PORT.getName(), dataSource.getQueryPort());

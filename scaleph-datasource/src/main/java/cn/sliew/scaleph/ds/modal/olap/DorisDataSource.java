@@ -46,7 +46,6 @@ public class DorisDataSource extends AbstractDataSource {
     @Schema(description = "username")
     private String username;
 
-    @NotBlank
     @Schema(description = "password")
     private String password;
 

@@ -75,7 +75,6 @@ const DorisForm: React.FC = () => {
           name="password"
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.doris.password'})}
           colProps={{span: 21, offset: 1}}
-          rules={[{required: true}]}
         />
         <ProFormDigit
           name="queryPort"

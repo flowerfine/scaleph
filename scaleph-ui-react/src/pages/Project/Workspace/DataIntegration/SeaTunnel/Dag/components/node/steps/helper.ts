@@ -6,7 +6,6 @@ import {
   FilterParams,
   HttpParams,
   IcebergParams,
-  KafkaParams,
   PulsarParams,
   RocketMQParams,
   SchemaParams,
@@ -41,7 +40,9 @@ export const StepSchemaService = {
     values[prefix + CommonListParams.commonList]?.forEach(function (item: Record<string, any>) {
       list.push(item[prefix + CommonListParams.commonListItem])
     });
-    values[param] = JSON.stringify(list)
+    if (list.length > 0) {
+      values[param] = JSON.stringify(list)
+    }
     return values
   },
 
@@ -50,7 +51,9 @@ export const StepSchemaService = {
     values[prefix + CommonConfigParams.commonConfig]?.forEach(function (item: Record<string, any>) {
       configs[item[prefix + CommonConfigParams.commonConfigKey]] = item[prefix + CommonConfigParams.commonConfigValue];
     });
-    values[param] = JSON.stringify(configs)
+    if (isRecordNotEmpty(configs)) {
+      values[param] = JSON.stringify(configs)
+    }
     return values
   },
 
@@ -78,33 +81,6 @@ export const StepSchemaService = {
       mappings[item.field] = item.position;
     });
     values.queryParamPosition = JSON.stringify(mappings)
-    return values
-  },
-
-  formatKafkaConf: (values: Record<string, any>) => {
-    const config: Record<string, any> = {}
-    values[KafkaParams.kafkaConf]?.forEach(function (item: Record<string, any>) {
-      config[item[KafkaParams.key]] = item[KafkaParams.value];
-    });
-    values[KafkaParams.kafkaConfig] = JSON.stringify(config)
-    return values
-  },
-
-  formatKafkaPartitionKeyFields: (values: Record<string, any>) => {
-    const partitionKeyFields: Array<string> = []
-    values.partitionKeyArray?.forEach(function (item: Record<string, any>) {
-      partitionKeyFields.push(item.partitionKey)
-    });
-    values[KafkaParams.partitionKeyFields] = JSON.stringify(partitionKeyFields)
-    return values
-  },
-
-  formatAssginPartitions: (values: Record<string, any>) => {
-    const assignPartitions: Array<string> = []
-    values.assignPartitionArray?.forEach(function (item: Record<string, any>) {
-      assignPartitions.push(item.assignPartition)
-    });
-    values[KafkaParams.assignPartitions] = JSON.stringify(assignPartitions)
     return values
   },
 
@@ -200,3 +176,12 @@ export const StepSchemaService = {
   },
 
 };
+
+function isRecordNotEmpty<T>(record: Record<string, T>): boolean {
+  for (const key in record) {
+    if (record.hasOwnProperty(key)) {
+      return true;
+    }
+  }
+  return false;
+}
