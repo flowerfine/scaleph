@@ -39,4 +39,5 @@ services:
 
 networks:
   scaleph:
-    driver: bridge
+    external: true
+    name: local_scaleph
