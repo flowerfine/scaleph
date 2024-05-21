@@ -69,23 +69,23 @@ export default [
       {
         name: 'project.engine',
         path: '/workspace/engine',
-        icon: 'deploymentUnit',
+        icon: 'oneToOne',
         routes: [
           {
             name: 'lake',
             path: '/workspace/engine/lake',
-            icon: 'apartment',
+            icon: 'rest',
             routes: [
               {
                 name: 'iceberg',
                 path: '/workspace/engine/lake/iceberg',
-                icon: 'apartment',
+                icon: 'robot',
                 component: './Project/Workspace/Engine/Lake/Iceberg',
               },
               {
                 name: 'paimon',
                 path: '/workspace/engine/lake/paimon',
-                icon: 'apartment',
+                icon: 'totateLeft',
                 component: './Project/Workspace/Engine/Lake/Paimon',
               }
             ]
@@ -93,7 +93,7 @@ export default [
           {
             name: 'olap',
             path: '/workspace/engine/olap',
-            icon: 'apartment',
+            icon: 'rocket',
             routes: [
               {
                 name: 'doris',
@@ -139,7 +139,7 @@ export default [
           {
             name: 'compute',
             path: '/workspace/engine/compute',
-            icon: 'apartment',
+            icon: 'sisternode',
             routes: [
               {
                 name: 'flink',
@@ -202,12 +202,12 @@ export default [
       {
         name: 'project.data-integration',
         path: '/workspace/data-integration',
-        icon: 'deploymentUnit',
+        icon: 'thunderbolt',
         routes: [
           {
             name: 'seatunnel',
             path: '/workspace/data-integration/seatunnel',
-            icon: 'apartment',
+            icon: 'safety',
             component: './Project/Workspace/DataIntegration/SeaTunnel',
           },
           {
@@ -217,7 +217,7 @@ export default [
           {
             name: 'flink-cdc',
             path: '/workspace/data-integration/flink-cdc',
-            icon: 'apartment',
+            icon: 'sun',
             component: './Project/Workspace/DataIntegration/FlinkCDC',
           },
           {
@@ -229,12 +229,12 @@ export default [
       {
         name: 'project.data-develop',
         path: '/workspace/data-develop',
-        icon: 'deploymentUnit',
+        icon: 'consoleSql',
         routes: [
           {
             name: 'flink-jar',
             path: '/workspace/data-develop/flink/jar',
-            icon: 'apartment',
+            icon: 'send',
             component: './Project/Workspace/DataDevelop/Flink/Jar',
           },
           {
@@ -244,7 +244,7 @@ export default [
           {
             name: 'flink-sql',
             path: '/workspace/data-develop/flink/sql',
-            icon: 'apartment',
+            icon: 'transaction',
             component: './Project/Workspace/DataDevelop/Flink/SQL',
           },
           {
@@ -256,12 +256,12 @@ export default [
       {
         name: 'project.dag-scheduler',
         path: '/workspace/dag-scheduler',
-        icon: 'deploymentUnit',
+        icon: 'schedule',
       },
       {
         name: 'project.data-service',
         path: '/workspace/data-service',
-        icon: 'solution',
+        icon: 'read',
         routes: [
           {
             name: 'config',
@@ -353,12 +353,12 @@ export default [
       {
         name: 'data-source',
         path: '/metadata/data-source',
-        icon: 'group',
+        icon: 'fundView',
         routes: [
           {
             name: 'info',
             path: '/metadata/data-source/info',
-            icon: 'group',
+            icon: 'hdd',
             component: './Metadata/DataSource/Info',
           },
           {
@@ -370,12 +370,12 @@ export default [
       {
         name: 'gravitino',
         path: '/metadata/gravitino',
-        icon: 'group',
+        icon: 'gateway',
         routes: [
           {
             name: 'catalog',
             path: '/metadata/gravitino/catelog',
-            icon: 'group',
+            icon: 'mergeCells',
             component: './Metadata/Gravitino/Catalog',
           },
         ]
