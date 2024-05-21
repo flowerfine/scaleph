@@ -200,7 +200,7 @@ INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_
                               `step_meta`, `step_attrs`, `creator`, `editor`)
 VALUES (19, 9, 'b125d246-a5ae-44cb-8280-ee4f8bfe9f1e', 'Kafka Sink', 370, 250, NULL, NULL,
         '{\"name\":\"Kafka\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
-        '{\"stepTitle\":\"Kafka Sink\",\"dataSourceType\":\"Kafka\",\"dataSource\":7,\"topic\":\"binlog_cdc_sample_data_e_commerce\",\"semantic\":\"AT_LEAST_ONCE\",\"format\":\"debezium_json\",\"schema\":\"{\\\"fields\\\":{}}\",\"kafka.config\":\"{}\",\"partition_key_fields\":\"[]\",\"assign_partitions\":\"[]\"}',
+        '{\"stepTitle\":\"Kafka Sink\",\"dataSourceType\":\"Kafka\",\"dataSource\":7,\"topic\":\"binlog_cdc_sample_data_e_commerce\",\"semantic\":\"AT_LEAST_ONCE\",\"format\":\"debezium_json\",\"schema\":\"{\\\"fields\\\":{}}\",\"kafka.config\":\"{}\"}',
         'sys', 'sys');
 INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
                               `step_meta`, `step_attrs`, `creator`, `editor`)
