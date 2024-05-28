@@ -24,12 +24,12 @@ services:
     hostname: fe
     environment:
       - TZ=Asia/Shanghai
-      - FE_SERVERS=fe1:${IP}:9010
+      - MASTER_FE_IP=${IP}
       - FE_ID=1
-    restart: unless-stopped
-    ports:
-      - 8030:8030
-      - 9030:9030
+      - PRIORITY_NETWORKS=129.204.156.150
+#    ports:
+#      - 8030:8030
+#      - 9030:9030
     network_mode: host
 
   docker-be:
@@ -41,10 +41,10 @@ services:
     hostname: be
     environment:
       - TZ=Asia/Shanghai
-      - FE_SERVERS=fe1:${IP}:9010
-      - BE_ADDR=${IP}:9050
-    restart: unless-stopped
-    ports:
-      - 8040:8040
-      - 9050:9050
+      - MASTER_FE_IP=${IP}
+      - CURRENT_BE_IP=${IP}
+      - PRIORITY_NETWORKS=129.204.156.150
+#    ports:
+#      - 8040:8040
+#      - 9050:9050
     network_mode: host
