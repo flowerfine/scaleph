@@ -18,33 +18,37 @@ services:
   docker-fe:
     image: apache/doris:doris-all-in-one-2.1.0
     container_name: doris-fe
-    privileged: true
-    command: sysctl -w vm.max_map_count=2000000
     tty: true
     hostname: fe
     environment:
-      - TZ=Asia/Shanghai
-      - FE_SERVERS=fe1:${IP}:9010
+      - FE_SERVERS=fe:172.20.80.2:9010
       - FE_ID=1
     restart: unless-stopped
     ports:
       - 8030:8030
       - 9030:9030
-    network_mode: host
+    networks:
+      doris_net:
+        ipv4_address: 172.20.80.2
 
   docker-be:
     image: apache/doris:doris-all-in-one-2.1.0
     container_name: doris-be
-    privileged: true
-    command: sysctl -w vm.max_map_count=2000000
     tty: true
     hostname: be
     environment:
-      - TZ=Asia/Shanghai
-      - FE_SERVERS=fe1:${IP}:9010
-      - BE_ADDR=${IP}:9050
+      - FE_SERVERS=fe:172.20.80.2:9010
+      - BE_ADDR=172.20.80.3:9050
     restart: unless-stopped
     ports:
       - 8040:8040
       - 9050:9050
-    network_mode: host
+    networks:
+      doris_net:
+        ipv4_address: 172.20.80.3
+
+networks:
+  doris_net:
+    ipam:
+      config:
+      - subnet: 172.20.80.0/24
