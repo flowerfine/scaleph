@@ -5,17 +5,19 @@ import {
   DrawerForm,
   ProFormDependency,
   ProFormDigit,
-  ProFormGroup, ProFormList,
+  ProFormGroup,
   ProFormSelect,
   ProFormText,
 } from '@ant-design/pro-components';
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
-import {PulsarParams, SchemaParams, STEP_ATTR_TYPE} from '../constant';
+import {PulsarParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from '../helper';
 import DataSourceItem from "../dataSource";
-import FieldItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/schema/fields";
+import CommonListItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/list";
+import CommonConfigItem
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/config/commonConfig";
 
 const SinkPulsarStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -42,8 +44,8 @@ const SinkPulsarStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
         }}
         onFinish={(values) => {
           if (onOK) {
-            StepSchemaService.formatPulsarConf(values);
-            StepSchemaService.formatPulsarPartitionKeyFields(values);
+            StepSchemaService.formatCommonConfig(values, PulsarParams.pulsarConfig, PulsarParams.pulsarConfig);
+            StepSchemaService.formatCommonList(values, PulsarParams.partitionKeyFields, PulsarParams.partitionKeyFields);
             onOK(values)
             return Promise.resolve(true)
           }
@@ -123,22 +125,9 @@ const SinkPulsarStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
             icon: <InfoCircleOutlined/>,
           }}
           collapsible={true}
+          defaultCollapsed={true}
         >
-          <ProFormList
-            name={PulsarParams.partitionKeyFieldArray}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.pulsar.partitionKeyField'}),
-              type: 'text',
-            }}
-          >
-            <ProFormGroup>
-              <ProFormText
-                name={PulsarParams.partitionKeyField}
-                colProps={{span: 23, offset: 1}}
-              />
-            </ProFormGroup>
-          </ProFormList>
+          <CommonListItem data={PulsarParams.partitionKeyFields}/>
         </ProFormGroup>
 
         <ProFormGroup
@@ -148,31 +137,10 @@ const SinkPulsarStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
             icon: <InfoCircleOutlined/>,
           }}
           collapsible={true}
+          defaultCollapsed={true}
         >
-          <ProFormList
-            name={PulsarParams.pulsarConfigMap}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.pulsar.pulsarConfig.item'}),
-              type: 'text',
-            }}
-          >
-            <ProFormGroup>
-              <ProFormText
-                name={PulsarParams.pulsarConfigKey}
-                label={intl.formatMessage({id: 'pages.project.di.step.pulsar.pulsarConfigKey'})}
-                colProps={{span: 10, offset: 1}}
-              />
-              <ProFormText
-                name={PulsarParams.pulsarConfigValue}
-                label={intl.formatMessage({id: 'pages.project.di.step.pulsar.pulsarConfigValue'})}
-                colProps={{span: 10, offset: 1}}
-              />
-            </ProFormGroup>
-          </ProFormList>
+          <CommonConfigItem data={PulsarParams.pulsarConfig}/>
         </ProFormGroup>
-
-
       </DrawerForm>
     </XFlow>
   );

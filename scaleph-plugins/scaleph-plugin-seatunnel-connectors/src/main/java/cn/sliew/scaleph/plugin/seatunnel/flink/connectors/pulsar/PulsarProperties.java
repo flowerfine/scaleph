@@ -84,6 +84,9 @@ public enum PulsarProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    /**
+     * todo does this in use ?
+     */
     public static final PropertyDescriptor<String> FIELD_DELIMITER = new PropertyDescriptor.Builder<String>()
             .name("field_delimiter")
             .description("The separator between columns in a row of data. Only needed by text and csv file format")

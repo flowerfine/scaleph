@@ -53,8 +53,7 @@ public class KuduSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(CLIENT_WORKER_COUNT);
         props.add(CLIENT_DEFAULT_OPERATION_TIMEOUT_MS);
         props.add(CLIENT_DEFAULT_ADMIN_OPERATION_TIMEOUT_MS);
-        props.add(KUDU_TABLE);
-        props.add(COLUMNS_LIST);
+        props.add(TABLE_NAME);
         props.add(SCAN_TOKEN_QUERY_TIMEOUT);
         props.add(SCAN_TOKEN_BATCH_SIZE_BYTES);
         props.add(SCHEMA);

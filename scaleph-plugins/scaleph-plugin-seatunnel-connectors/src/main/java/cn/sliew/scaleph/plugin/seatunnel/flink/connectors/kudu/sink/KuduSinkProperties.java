@@ -23,15 +23,6 @@ import cn.sliew.scaleph.plugin.framework.property.*;
 public enum KuduSinkProperties {
     ;
 
-    public static final PropertyDescriptor<String> TABLE_NAME = new PropertyDescriptor.Builder()
-            .name("table_name")
-            .description("The name of kudu table.")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
     public static final PropertyDescriptor<String> SAVE_MODE = new PropertyDescriptor.Builder()
             .name("save_mode")
             .description("Storage mode, we need support overwrite and append")

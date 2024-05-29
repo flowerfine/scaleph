@@ -227,12 +227,8 @@ export const HttpParams = {
 
 export const WeChatParams = {
   url: 'url',
-  mentionedArray: 'mentionedArray',
   mentionedList: 'mentioned_list',
-  userId: 'userId',
-  mentionedMobileArray: 'mentionedMobileArray',
   mentionedMobileList: 'mentioned_mobile_list',
-  mobile: 'mobile',
 };
 
 export const FeishuParams = {
@@ -447,12 +443,7 @@ export const PulsarParams = {
   transactionTimeout: 'transaction_timeout',
   messageRoutingMode: 'message.routing.mode',
   partitionKeyFields: 'partition_key_fields',
-  partitionKeyFieldArray: 'partitionKeyFieldArray',
-  partitionKeyField: 'partitionKeyField',
   pulsarConfig: 'pulsar.config',
-  pulsarConfigMap: 'pulsarConfigMap',
-  pulsarConfigKey: 'pulsarConfigKey',
-  pulsarConfigValue: 'pulsarConfigValue',
 };
 
 export const DatahubParams = {
@@ -483,9 +474,6 @@ export const RocketMQParams = {
   startModeField: 'startModeField',
   startModeTimestamp: 'start.mode.timestamp',
   startModeOffsets: 'start.mode.offsets',
-  startModeOffsetsList: 'startModeOffsetsList',
-  specificPartition: 'specificPartition',
-  specificPartitionOffset: 'specificPartitionOffset',
   batchSize: 'batch.size',
   consumerPollTimeoutMillis: 'consumer.poll.timeout.millis',
 
@@ -623,9 +611,6 @@ export const StarRocksParams = {
   saveModeCreateTemplate: 'save_mode_create_template',
   customSql: 'custom_sql',
   starrocksConfig: 'starrocks.config',
-  starrocksConfigMap: 'starrocksConfigMap',
-  starrocksConfigKey: 'starrocksConfigKey',
-  starrocksConfigValue: 'starrocksConfigValue',
   scanFilter: 'scan_filter',
   scanConnectTimeoutMs: 'scan_connect_timeout_ms',
   scanQueryTimeoutSec: 'scan_query_timeout_sec',

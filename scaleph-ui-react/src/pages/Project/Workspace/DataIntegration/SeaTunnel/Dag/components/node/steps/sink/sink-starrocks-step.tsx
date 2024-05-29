@@ -2,10 +2,10 @@ import React, {useEffect} from 'react';
 import {Form} from 'antd';
 import {InfoCircleOutlined} from "@ant-design/icons";
 import {
-  DrawerForm, ProFormDependency,
+  DrawerForm,
+  ProFormDependency,
   ProFormDigit,
   ProFormGroup,
-  ProFormList,
   ProFormSwitch,
   ProFormText,
   ProFormTextArea
@@ -13,10 +13,13 @@ import {
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
-import {DorisParams, StarRocksParams, STEP_ATTR_TYPE} from '../constant';
+import {StarRocksParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from "../helper";
 import DataSourceItem from "../dataSource";
-import SaveModeItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/saveMode";
+import SaveModeItem
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/saveMode";
+import CommonConfigItem
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/config/commonConfig";
 
 const SinkStarRocksStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -43,7 +46,7 @@ const SinkStarRocksStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, o
         }}
         onFinish={(values) => {
           if (onOK) {
-            StepSchemaService.formatStarRocksConfig(values);
+            StepSchemaService.formatCommonConfig(values, StarRocksParams.starrocksConfig, StarRocksParams.starrocksConfig);
             onOK(values)
             return Promise.resolve(true)
           }
@@ -190,30 +193,9 @@ const SinkStarRocksStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, o
             icon: <InfoCircleOutlined/>,
           }}
           collapsible={true}
+          defaultCollapsed={true}
         >
-          <ProFormList
-            name={StarRocksParams.starrocksConfigMap}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.starrocks.starrocksConfig.list'}),
-              type: 'text',
-            }}
-          >
-            <ProFormGroup>
-              <ProFormText
-                name={StarRocksParams.starrocksConfigKey}
-                label={intl.formatMessage({id: 'pages.project.di.step.starrocks.starrocksConfigKey'})}
-                placeholder={intl.formatMessage({id: 'pages.project.di.step.starrocks.starrocksConfigKey.placeholder'})}
-                colProps={{span: 10, offset: 1}}
-              />
-              <ProFormText
-                name={StarRocksParams.starrocksConfigValue}
-                label={intl.formatMessage({id: 'pages.project.di.step.starrocks.starrocksConfigValue'})}
-                placeholder={intl.formatMessage({id: 'pages.project.di.step.starrocks.starrocksConfigValue.placeholder'})}
-                colProps={{span: 10, offset: 1}}
-              />
-            </ProFormGroup>
-          </ProFormList>
+          <CommonConfigItem data={StarRocksParams.starrocksConfig}/>
         </ProFormGroup>
       </DrawerForm>
     </XFlow>

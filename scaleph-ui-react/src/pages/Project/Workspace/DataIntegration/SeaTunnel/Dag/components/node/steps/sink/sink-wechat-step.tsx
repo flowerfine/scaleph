@@ -7,6 +7,7 @@ import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {STEP_ATTR_TYPE, WeChatParams} from '../constant';
 import {StepSchemaService} from "../helper";
+import CommonListItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/list";
 
 const SinkWeChatStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -33,8 +34,8 @@ const SinkWeChatStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
         }}
         onFinish={(values) => {
           if (onOK) {
-            StepSchemaService.formatUserIds(values);
-            StepSchemaService.formatMobiles(values);
+            StepSchemaService.formatCommonList(values, WeChatParams.mentionedList, WeChatParams.mentionedList);
+            StepSchemaService.formatCommonList(values, WeChatParams.mentionedMobileList, WeChatParams.mentionedMobileList);
             onOK(values)
             return Promise.resolve(true)
           }
@@ -52,41 +53,29 @@ const SinkWeChatStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
           label={intl.formatMessage({id: 'pages.project.di.step.wechat.url'})}
           rules={[{required: true}]}
         />
-        <ProFormList
-          name={WeChatParams.mentionedArray}
-          label={intl.formatMessage({id: 'pages.project.di.step.wechat.mentionedList'})}
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.wechat.mentionedList'})}
           tooltip={{
             title: intl.formatMessage({id: 'pages.project.di.step.wechat.mentionedList.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
-          copyIconProps={false}
-          creatorButtonProps={{
-            creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.wechat.userId'}),
-            type: 'text',
-          }}
+          collapsible={true}
+          defaultCollapsed={true}
         >
-          <ProFormGroup>
-            <ProFormText name={WeChatParams.userId} colProps={{span: 20, offset: 1}}/>
-          </ProFormGroup>
-        </ProFormList>
+          <CommonListItem data={WeChatParams.mentionedList}/>
+        </ProFormGroup>
 
-        <ProFormList
-          name={WeChatParams.mentionedMobileArray}
-          label={intl.formatMessage({id: 'pages.project.di.step.wechat.mentionedMobileList'})}
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.wechat.mentionedMobileList'})}
           tooltip={{
             title: intl.formatMessage({id: 'pages.project.di.step.wechat.mentionedMobileList.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
-          copyIconProps={false}
-          creatorButtonProps={{
-            creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.wechat.mobile'}),
-            type: 'text',
-          }}
+          collapsible={true}
+          defaultCollapsed={true}
         >
-          <ProFormGroup>
-            <ProFormText name={WeChatParams.mobile} colProps={{span: 20, offset: 1}}/>
-          </ProFormGroup>
-        </ProFormList>
+          <CommonListItem data={WeChatParams.mentionedMobileList}/>
+        </ProFormGroup>
       </DrawerForm>
     </XFlow>
   );

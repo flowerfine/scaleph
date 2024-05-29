@@ -57,10 +57,10 @@ const SinkKuduStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisi
           label={intl.formatMessage({id: 'pages.project.di.step.kudu.table'})}
           rules={[{required: true}]}
         />
-
         <ProFormGroup
           title={intl.formatMessage({id: 'pages.project.di.step.kudu.client'})}
           collapsible={true}
+          defaultCollapsed={true}
         >
           <ProFormDigit
             name={KuduParams.clientWorkerCount}
@@ -97,6 +97,7 @@ const SinkKuduStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisi
         <ProFormGroup
           title={intl.formatMessage({id: 'pages.project.di.step.kudu.write'})}
           collapsible={true}
+          defaultCollapsed={true}
         >
           <ProFormSelect
             name={KuduParams.sessionFlushMode}

@@ -55,7 +55,6 @@ public class S3RedshiftSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(JDBC_USER);
         props.add(JDBC_PASSWORD);
         props.add(EXECUTE_SQL);
-        props.add(BUCKET);
 
         props.add(HADOOP_S3_PROPERTIES);
         props.add(PATH);

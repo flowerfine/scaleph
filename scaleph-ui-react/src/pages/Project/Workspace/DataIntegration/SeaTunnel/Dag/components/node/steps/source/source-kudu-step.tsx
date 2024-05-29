@@ -1,13 +1,14 @@
 import React, {useEffect} from 'react';
 import {Form} from 'antd';
 import {InfoCircleOutlined} from "@ant-design/icons";
-import {DrawerForm, ProFormDigit, ProFormGroup, ProFormText,} from '@ant-design/pro-components';
+import {DrawerForm, ProFormDigit, ProFormGroup, ProFormText, ProFormTextArea,} from '@ant-design/pro-components';
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {KuduParams, STEP_ATTR_TYPE} from '../constant';
 import DataSourceItem from "../dataSource";
-import FieldItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/schema/fields";
+import FieldItem
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/schema/fields";
 import {StepSchemaService} from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/helper";
 
 const SourceKuduStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
@@ -56,6 +57,7 @@ const SourceKuduStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
         <ProFormGroup
           title={intl.formatMessage({id: 'pages.project.di.step.kudu.client'})}
           collapsible={true}
+          defaultCollapsed={true}
         >
           <ProFormDigit
             name={KuduParams.clientWorkerCount}
@@ -91,6 +93,7 @@ const SourceKuduStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
         <ProFormGroup
           title={intl.formatMessage({id: 'pages.project.di.step.kudu.scan'})}
           collapsible={true}
+          defaultCollapsed={true}
         >
           <ProFormDigit
             name={KuduParams.scanTokenQueryTimeout}
@@ -117,6 +120,14 @@ const SourceKuduStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVi
           />
         </ProFormGroup>
         <FieldItem/>
+        <ProFormTextArea
+          name={KuduParams.tableList}
+          label={intl.formatMessage({id: 'pages.project.di.step.kudu.tableList'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.kudu.tableList.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+        />
       </DrawerForm>
     </XFlow>
   );

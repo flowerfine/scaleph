@@ -24,24 +24,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 public enum KuduSourceProperties {
     ;
 
-    public static final PropertyDescriptor<String> KUDU_TABLE = new PropertyDescriptor.Builder()
-            .name("kudu_table")
-            .description("The name of kudu table")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> COLUMNS_LIST = new PropertyDescriptor.Builder()
-            .name("columnsList")
-            .description("Specifies the column names of the table")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
     public static final PropertyDescriptor<Long> SCAN_TOKEN_QUERY_TIMEOUT = new PropertyDescriptor.Builder()
             .name("scan_token_query_timeout")
             .description("The timeout for connecting scan token.")

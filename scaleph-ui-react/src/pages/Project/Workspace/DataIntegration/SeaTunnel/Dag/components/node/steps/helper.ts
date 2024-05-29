@@ -6,11 +6,8 @@ import {
   FilterParams,
   HttpParams,
   IcebergParams,
-  PulsarParams,
-  RocketMQParams,
   SchemaParams,
-  SplitParams,
-  StarRocksParams
+  SplitParams
 } from "./constant";
 
 export const StepSchemaService = {
@@ -57,48 +54,12 @@ export const StepSchemaService = {
     return values
   },
 
-  formatUserIds: (values: Record<string, any>) => {
-    const userIds: Array<any> = []
-    values.mentionedArray?.forEach(function (item: any) {
-      userIds.push(item.userId)
-    });
-    values.mentioned_list = JSON.stringify(userIds)
-    return values
-  },
-
-  formatMobiles: (values: Record<string, any>) => {
-    const mobiles: Array<any> = []
-    values.mentionedMobileArray?.forEach(function (item: any) {
-      mobiles.push(item.mobile)
-    });
-    values.mentioned_mobile_list = JSON.stringify(mobiles)
-    return values
-  },
-
   formatPositionMapping: (values: Record<string, any>) => {
     const mappings: Record<string, any> = {}
     values.queryParamPositionArray?.forEach(function (item: Record<string, any>) {
       mappings[item.field] = item.position;
     });
     values.queryParamPosition = JSON.stringify(mappings)
-    return values
-  },
-
-  formatPulsarConf: (values: Record<string, any>) => {
-    const config: Record<string, any> = {}
-    values[PulsarParams.pulsarConfigMap]?.forEach(function (item: Record<string, any>) {
-      config[item[PulsarParams.pulsarConfigKey]] = item[PulsarParams.pulsarConfigValue];
-    });
-    values[PulsarParams.pulsarConfig] = JSON.stringify(config)
-    return values
-  },
-
-  formatPulsarPartitionKeyFields: (values: Record<string, any>) => {
-    const partitionKeyFields: Array<string> = []
-    values[PulsarParams.partitionKeyFieldArray]?.forEach(function (item: Record<string, any>) {
-      partitionKeyFields.push(item[PulsarParams.partitionKeyField])
-    });
-    values[PulsarParams.partitionKeyFields] = JSON.stringify(partitionKeyFields)
     return values
   },
 
@@ -118,15 +79,6 @@ export const StepSchemaService = {
     paging[HttpParams.batchSize] = values[HttpParams.pagingBatchSize]
 
     values[HttpParams.pageing] = paging
-    return values
-  },
-
-  formatStarRocksConfig: (values: Record<string, any>) => {
-    const config: Record<string, any> = {}
-    values[StarRocksParams.starrocksConfigMap]?.forEach(function (item: Record<string, any>) {
-      values[item[StarRocksParams.starrocksConfigKey]] = item[StarRocksParams.starrocksConfigValue];
-    });
-    values[StarRocksParams.starrocksConfig] = JSON.stringify(config)
     return values
   },
 
@@ -154,15 +106,6 @@ export const StepSchemaService = {
       outputFields.push(item[SplitParams.outputField])
     });
     values[SplitParams.outputFields] = JSON.stringify(outputFields)
-    return values
-  },
-
-  formatRocketMQPartitionOffsets: (values: Record<string, any>) => {
-    const paritionOffsets: Record<string, any> = {}
-    values[RocketMQParams.startModeOffsetsList]?.forEach(function (item: Record<string, any>) {
-      paritionOffsets[item[RocketMQParams.specificPartition]] = item[RocketMQParams.specificPartitionOffset];
-    });
-    values[RocketMQParams.startModeOffsets] = JSON.stringify(paritionOffsets)
     return values
   },
 

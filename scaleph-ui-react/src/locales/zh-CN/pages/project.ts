@@ -317,10 +317,8 @@ export default {
   'pages.project.di.step.wechat.url': '微信机器人URL',
   'pages.project.di.step.wechat.mentionedList': '提及的(@)用户ID列表',
   'pages.project.di.step.wechat.mentionedList.tooltip': '使用"@all"提及所有人',
-  'pages.project.di.step.wechat.userId': '用户ID',
   'pages.project.di.step.wechat.mentionedMobileList': '提及的(@)手机号',
   'pages.project.di.step.wechat.mentionedMobileList.tooltip': '使用"@all"提及所有人',
-  'pages.project.di.step.wechat.mobile': '手机号',
 
   // feishu
   'pages.project.di.step.feishu.url': '飞书机器人URL',
@@ -431,6 +429,8 @@ export default {
   'pages.project.di.step.kudu.scanTokenQueryTimeout': 'Scan查询超时时间(毫秒)',
   'pages.project.di.step.kudu.scanTokenBatchSizeBytes': 'Scan批次数据量(byte)',
   'pages.project.di.step.kudu.filter': 'Scan过滤表达式',
+  'pages.project.di.step.kudu.tableList': '多表配置',
+  'pages.project.di.step.kudu.tableList.tooltip': '如果要一次读取多表数据，可以通过此选项配置',
 
   // kafka
   'pages.project.di.step.kafka.topic': 'Topic',
@@ -483,9 +483,6 @@ export default {
   'pages.project.di.step.rocketmq.startModeTimestamp': 'Consumer 时间戳位点',
   'pages.project.di.step.rocketmq.startModeOffsets': 'Consumer 分区位点',
   'pages.project.di.step.rocketmq.startModeOffsets.tooltip': '指定 Topic 每个分区位点',
-  'pages.project.di.step.rocketmq.startModeOffsetsList': '分区',
-  'pages.project.di.step.rocketmq.specificPartition': '分区',
-  'pages.project.di.step.rocketmq.specificPartitionOffset': '位点',
   'pages.project.di.step.rocketmq.topic': 'Topic',
   'pages.project.di.step.rocketmq.producerGroup': 'Producer Group',
   'pages.project.di.step.rocketmq.exactlyOnce': '启用 Exactly Once 语义（事务保证）',
@@ -587,12 +584,8 @@ export default {
   'pages.project.di.step.pulsar.messageRoutingMode': '消息路由模式',
   'pages.project.di.step.pulsar.partitionKeyFields': '分区字段',
   'pages.project.di.step.pulsar.partitionKeyFields.tooltip': '配置 Pulsar 消息分区字段',
-  'pages.project.di.step.pulsar.partitionKeyField': '字段',
   'pages.project.di.step.pulsar.pulsarConfig': 'Pulsar 配置',
   'pages.project.di.step.pulsar.pulsarConfig.tooltip': '添加额外 Pulsar Producer 配置',
-  'pages.project.di.step.pulsar.pulsarConfig.item': '配置项',
-  'pages.project.di.step.pulsar.pulsarConfigKey': '配置',
-  'pages.project.di.step.pulsar.pulsarConfigValue': '值',
 
   // datahub
   'pages.project.di.step.datahub.endpoint': '终端节点',
@@ -742,10 +735,6 @@ export default {
   'pages.project.di.step.starrocks.starrocksConfig': 'StarRocks 配置',
   'pages.project.di.step.starrocks.starrocksConfig.tooltip': '流式加载参数',
   'pages.project.di.step.starrocks.starrocksConfig.list': '配置项',
-  'pages.project.di.step.starrocks.starrocksConfigKey': '键',
-  'pages.project.di.step.starrocks.starrocksConfigKey.placeholder': 'format',
-  'pages.project.di.step.starrocks.starrocksConfigValue': '值',
-  'pages.project.di.step.starrocks.starrocksConfigValue.placeholder': 'JSON',
   'pages.project.di.step.starrocks.scanFilter': 'StarRocks 扫描过滤器',
   'pages.project.di.step.starrocks.scanConnectTimeoutMs': '扫描连接超时时间(毫秒)',
   'pages.project.di.step.starrocks.scanQueryTimeoutSec': '扫描查询超时时间(秒)',
