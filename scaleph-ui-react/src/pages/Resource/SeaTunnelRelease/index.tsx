@@ -2,7 +2,7 @@ import {history, useAccess, useIntl} from '@umijs/max';
 import {useRef, useState} from 'react';
 import {Button, message, Modal, Space, Tooltip} from 'antd';
 import {DeleteOutlined, DownloadOutlined, FolderOpenOutlined} from '@ant-design/icons';
-import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
+import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {DICT_TYPE} from '@/constants/dictType';
 import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
 import {DictDataService} from '@/services/admin/dictData.service';
@@ -126,7 +126,7 @@ const SeaTunnelReleaseResource: React.FC = () => {
   ];
 
   return (
-    <div>
+    <PageContainer title={false}>
       <ProTable<SeaTunnelRelease>
         search={{
           labelWidth: 'auto',
@@ -200,7 +200,7 @@ const SeaTunnelReleaseResource: React.FC = () => {
           data={seatunnelReleaseFormData.data}
         />
       )}
-    </div>
+    </PageContainer>
   );
 };
 

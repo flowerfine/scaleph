@@ -1,7 +1,7 @@
 import React, {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
-import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
+import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {history, useAccess, useIntl} from "@umijs/max";
 import {WORKSPACE_CONF} from "@/constants/constant";
 import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
@@ -127,7 +127,7 @@ const DataServiceConfigWeb: React.FC = () => {
     },
   ];
 
-  return (<div>
+  return (<PageContainer title={false}>
     <ProTable<DataserviceConfig>
       search={{
         labelWidth: 'auto',
@@ -192,7 +192,7 @@ const DataServiceConfigWeb: React.FC = () => {
       tableAlertRender={false}
       tableAlertOptionRender={false}
     />
-  </div>);
+  </PageContainer>);
 }
 
 export default DataServiceConfigWeb;

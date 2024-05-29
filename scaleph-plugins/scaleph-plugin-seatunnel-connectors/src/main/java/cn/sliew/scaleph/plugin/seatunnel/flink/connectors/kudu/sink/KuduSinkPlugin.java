@@ -46,6 +46,13 @@ public class KuduSinkPlugin extends SeaTunnelConnectorPlugin {
                 "Write data to Kudu.",
                 KuduSinkPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
+        props.add(ENABLE_KERBEROS);
+        props.add(KERBEROS_PRINCIPAL);
+        props.add(KERBEROS_KEYTAB);
+        props.add(KERBEROS_KRB5CONF);
+        props.add(CLIENT_WORKER_COUNT);
+        props.add(CLIENT_DEFAULT_OPERATION_TIMEOUT_MS);
+        props.add(CLIENT_DEFAULT_ADMIN_OPERATION_TIMEOUT_MS);
         props.add(TABLE_NAME);
         props.add(SAVE_MODE);
         props.add(SESSION_FLUSH_MODE);

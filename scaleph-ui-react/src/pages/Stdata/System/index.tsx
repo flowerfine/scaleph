@@ -2,7 +2,7 @@ import {useAccess, useIntl} from "@umijs/max";
 import {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
+import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {MetaSystem} from "@/services/stdata/typings";
 import {MetaSystemService} from "@/services/stdata/system.service";
@@ -108,7 +108,7 @@ const MetaSystemWeb: React.FC = () => {
     },
   ];
   return (
-    <div>
+    <PageContainer title={false}>
       <ProTable<MetaSystem>
         search={{
           labelWidth: 'auto',
@@ -180,7 +180,7 @@ const MetaSystemWeb: React.FC = () => {
           data={metaSystemFormData.data}
         />
       )}
-    </div>
+    </PageContainer>
   );
 }
 

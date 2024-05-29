@@ -23,7 +23,7 @@ import cn.sliew.scaleph.plugin.framework.property.*;
 public enum KuduProperties {
     ;
     public static final PropertyDescriptor<String> KUDU_MASTER = new PropertyDescriptor.Builder()
-            .name("kudu_master")
+            .name("kudu_masters")
             .description("The address of kudu master")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
@@ -60,6 +60,15 @@ public enum KuduProperties {
             .description("Kerberos krb5 conf.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> TABLE_NAME = new PropertyDescriptor.Builder()
+            .name("table_name")
+            .description("The name of kudu table")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

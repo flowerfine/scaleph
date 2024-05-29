@@ -37,14 +37,16 @@
             <artifactId>scaleph-resource</artifactId>
         </dependency>
 
-        <!--<dependency>
+        <dependency>
             <groupId>com.datastrato.gravitino</groupId>
             <artifactId>client-java-runtime</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.datastrato.gravitino</groupId>
             <artifactId>client-java</artifactId>
-        </dependency>-->
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
 </project>

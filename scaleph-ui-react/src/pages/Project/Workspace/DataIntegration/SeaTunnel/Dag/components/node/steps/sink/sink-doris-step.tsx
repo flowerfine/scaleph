@@ -47,7 +47,7 @@ const SinkDorisStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVis
           if (onOK) {
             StepSchemaService.formatCommonConfig(values, DorisParams.dorisConfig, DorisParams.dorisConfig);
             // doris.config 是必需参数
-            if (!values.has(DorisParams.dorisConfig)) {
+            if (!values.hasOwnProperty(DorisParams.dorisConfig)) {
               values[DorisParams.dorisConfig] = JSON.stringify({})
             }
             onOK(values)

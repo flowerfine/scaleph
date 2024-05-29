@@ -2,7 +2,7 @@ import {useAccess, useIntl} from "@umijs/max";
 import {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
+import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {MetaDataMap} from "@/services/stdata/typings";
 import {RefdataService} from "@/services/stdata/refdata.service";
@@ -137,7 +137,7 @@ const RefDataMapWeb: React.FC = () => {
   ];
 
   return (
-    <div>
+    <PageContainer title={false}>
       <ProTable<MetaDataMap>
         search={{
           labelWidth: 'auto',
@@ -210,7 +210,7 @@ const RefDataMapWeb: React.FC = () => {
           data={metaDataMapFormData.data}
         />
       )}
-    </div>
+    </PageContainer>
   );
 }
 

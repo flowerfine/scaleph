@@ -6,7 +6,6 @@ import {
   ProFormDependency,
   ProFormDigit,
   ProFormGroup,
-  ProFormList,
   ProFormSelect,
   ProFormSwitch,
   ProFormText,
@@ -16,7 +15,10 @@ import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {RocketMQParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from '../helper';
-import FieldItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/schema/fields";
+import FieldItem
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/schema/fields";
+import CommonConfigItem
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/config/commonConfig";
 
 const SourceRocketMQStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -46,7 +48,7 @@ const SourceRocketMQStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, 
             values[RocketMQParams.aclEnabled] = values[RocketMQParams.aclEnabledField]
             values[RocketMQParams.startMode] = values[RocketMQParams.startModeField]
             StepSchemaService.formatSchema(values)
-            StepSchemaService.formatRocketMQPartitionOffsets(values)
+            StepSchemaService.formatCommonConfig(values, RocketMQParams.startModeOffsets, RocketMQParams.startModeOffsets)
             onOK(values)
             return Promise.resolve(true)
           }
@@ -190,33 +192,13 @@ const SourceRocketMQStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, 
             }
             if (startModeField == 'CONSUME_FROM_SPECIFIC_OFFSETS') {
               return <ProFormGroup
-                label={intl.formatMessage({id: 'pages.project.di.step.rocketmq.startModeOffsets'})}
+                title={intl.formatMessage({id: 'pages.project.di.step.rocketmq.startModeOffsets'})}
                 tooltip={{
                   title: intl.formatMessage({id: 'pages.project.di.step.rocketmq.startModeOffsets.tooltip'}),
                   icon: <InfoCircleOutlined/>,
                 }}
               >
-                <ProFormList
-                  name={RocketMQParams.startModeOffsetsList}
-                  copyIconProps={false}
-                  creatorButtonProps={{
-                    creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.rocketmq.startModeOffsetsList'}),
-                    type: 'text',
-                  }}
-                >
-                  <ProFormGroup>
-                    <ProFormText
-                      name={RocketMQParams.specificPartition}
-                      label={intl.formatMessage({id: 'pages.project.di.step.rocketmq.specificPartition'})}
-                      colProps={{span: 10, offset: 1}}
-                    />
-                    <ProFormDigit
-                      name={RocketMQParams.specificPartitionOffset}
-                      label={intl.formatMessage({id: 'pages.project.di.step.rocketmq.specificPartitionOffset'})}
-                      colProps={{span: 10, offset: 1}}
-                    />
-                  </ProFormGroup>
-                </ProFormList>
+                <CommonConfigItem data={RocketMQParams.startModeOffsets}/>
               </ProFormGroup>;
             }
             return <ProFormGroup/>;

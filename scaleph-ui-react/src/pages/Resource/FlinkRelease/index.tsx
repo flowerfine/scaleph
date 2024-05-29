@@ -2,7 +2,7 @@ import {useAccess, useIntl} from '@umijs/max';
 import {useRef, useState} from 'react';
 import {Button, message, Modal, Space, Tooltip} from 'antd';
 import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
-import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
+import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {DICT_TYPE} from '@/constants/dictType';
 import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
 import {DictDataService} from '@/services/admin/dictData.service';
@@ -112,7 +112,7 @@ const FlinkReleaseResource: React.FC = () => {
   ];
 
   return (
-    <div>
+    <PageContainer title={false}>
       <ProTable<FlinkRelease>
         search={{
           labelWidth: 'auto',
@@ -188,7 +188,7 @@ const FlinkReleaseResource: React.FC = () => {
           data={flinkReleaseFormData.data}
         />
       )}
-    </div>
+    </PageContainer>
   );
 };
 
