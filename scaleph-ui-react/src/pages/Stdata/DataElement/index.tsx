@@ -2,7 +2,7 @@ import {useAccess, useIntl} from "@umijs/max";
 import {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
+import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {MetaDataElement} from "@/services/stdata/typings";
 import {MetaDataElementService} from "@/services/stdata/data-element.service";
@@ -162,7 +162,7 @@ const DataElementWeb: React.FC = () => {
 
 
   return (
-    <div>
+    <PageContainer title={false}>
       <ProTable<MetaDataElement>
         search={{
           labelWidth: 'auto',
@@ -234,7 +234,7 @@ const DataElementWeb: React.FC = () => {
           data={metaDataElementFormData.data}
         />
       )}
-    </div>);
+    </PageContainer>);
 }
 
 export default DataElementWeb;

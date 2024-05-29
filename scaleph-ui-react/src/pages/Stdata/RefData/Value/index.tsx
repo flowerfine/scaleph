@@ -2,7 +2,7 @@ import {useAccess, useIntl, useLocation, history} from "@umijs/max";
 import {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
+import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {MetaDataSet, MetaDataSetType} from "@/services/stdata/typings";
 import {RefdataService} from "@/services/stdata/refdata.service";
@@ -131,7 +131,7 @@ const RefDataSetValue: React.FC = () => {
   ];
 
   return (
-    <div>
+    <PageContainer title={false}>
       <ProTable<MetaDataSet>
         headerTitle={
           <Button key="return" type="default" onClick={() => history.back()}>
@@ -208,7 +208,7 @@ const RefDataSetValue: React.FC = () => {
           data={metaDataSetFormData.data}
         />
       )}
-    </div>
+    </PageContainer>
   );
 }
 
