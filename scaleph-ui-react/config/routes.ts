@@ -217,7 +217,7 @@ export default [
           {
             name: 'flink-cdc',
             path: '/workspace/data-integration/flink-cdc',
-            icon: 'sun',
+            icon: 'fieldNumber',
             component: './Project/Workspace/DataIntegration/FlinkCDC',
           },
           {
