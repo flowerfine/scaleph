@@ -21,6 +21,7 @@ package cn.sliew.scaleph.application.flink.resource.definition.job.instance;
 import cn.sliew.scaleph.application.flink.resource.definition.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.application.flink.operator.spec.AbstractFlinkSpec;
 import cn.sliew.scaleph.application.flink.operator.spec.FlinkSessionJobSpec;
+import cn.sliew.scaleph.application.flink.resource.handler.FileSystemParamHandler;
 import cn.sliew.scaleph.application.flink.resource.handler.FlinkRuntimeModeHandler;
 import cn.sliew.scaleph.application.flink.resource.handler.FlinkStateStorageHandler;
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobInstanceDTO;
@@ -38,6 +39,8 @@ public class FlinkSessionJobSpecHandler {
     private ArtifactConverterFactory artifactConverterFactory;
     @Autowired
     private FlinkStateStorageHandler flinkStateStorageHandler;
+    @Autowired
+    private FileSystemParamHandler fileSystemParamHandler;
 
     public FlinkSessionJobSpec handle(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkSessionCluster flinkSessionCluster, FlinkSessionJobSpec flinkSessionJobSpec) throws Exception {
         FlinkSessionJobSpec spec = Optional.ofNullable(flinkSessionJobSpec).orElse(new FlinkSessionJobSpec());
@@ -45,6 +48,7 @@ public class FlinkSessionJobSpecHandler {
         setRuntimeMode(jobInstanceDTO, spec);
         addArtifact(jobInstanceDTO, spec);
         enableFlinkStateStore(jobInstanceDTO, spec);
+        setFileSystemParam(spec);
         return spec;
     }
 
@@ -62,6 +66,10 @@ public class FlinkSessionJobSpecHandler {
 
     private void enableFlinkStateStore(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkSessionJobSpec spec) {
         flinkStateStorageHandler.handle(jobInstanceDTO.getInstanceId(), spec);
+    }
+
+    private void setFileSystemParam(FlinkSessionJobSpec spec) {
+        fileSystemParamHandler.handle(spec);
     }
 
 }
