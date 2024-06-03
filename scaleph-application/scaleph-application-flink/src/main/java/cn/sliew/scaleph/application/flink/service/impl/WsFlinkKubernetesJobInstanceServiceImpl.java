@@ -22,10 +22,7 @@ import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.application.flink.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.application.flink.operator.spec.JobState;
-import cn.sliew.scaleph.application.flink.operator.status.FlinkDeploymentStatus;
-import cn.sliew.scaleph.application.flink.operator.status.JobStatus;
-import cn.sliew.scaleph.application.flink.operator.status.Savepoint;
-import cn.sliew.scaleph.application.flink.operator.status.SavepointInfo;
+import cn.sliew.scaleph.application.flink.operator.status.*;
 import cn.sliew.scaleph.application.flink.operator.util.TemplateMerger;
 import cn.sliew.scaleph.application.flink.resource.definition.job.instance.FlinkJobInstanceConverterFactory;
 import cn.sliew.scaleph.application.flink.resource.definition.job.instance.MetadataHandler;
@@ -375,7 +372,35 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
         return wsFlinkKubernetesJobInstanceMapper.updateById(record);
     }
 
-    private void updateSavepoint(Long id, FlinkDeploymentStatus status) {
+    @Override
+    public int updateStatus(Long id, FlinkSessionJobStatus status) {
+        if (status == null) {
+            return -1;
+        }
+        WsFlinkKubernetesJobInstance record = WsFlinkKubernetesJobInstanceConvert.INSTANCE.toDo(selectOne(id));
+        record.setState(EnumUtils.getEnum(ResourceLifecycleState.class, status.getLifecycleState().name()));
+        if (status.getJobStatus() != null) {
+            JobStatus jobStatus = status.getJobStatus();
+            if (jobStatus.getState() != null) {
+                record.setJobState(FlinkJobState.of(jobStatus.getState()));
+            }
+            if (record.getJobState() == FlinkJobState.FAILED
+                    || record.getJobState() == FlinkJobState.CANCELED
+                    || record.getJobState() == FlinkJobState.FINISHED
+                    || record.getJobState() == FlinkJobState.SUSPENDED) {
+                record.setEndTime(new Date(Long.parseLong(jobStatus.getUpdateTime())));
+            }
+            if (jobStatus.getStartTime() != null) {
+                record.setStartTime(new Date(Long.parseLong(jobStatus.getStartTime())));
+                record.setDuration(Long.parseLong(jobStatus.getUpdateTime()) - Long.parseLong(jobStatus.getStartTime()));
+            }
+        }
+        record.setError(status.getError());
+        updateSavepoint(id, status);
+        return wsFlinkKubernetesJobInstanceMapper.updateById(record);
+    }
+
+    private void updateSavepoint(Long id, CommonStatus status) {
         SavepointInfo savepointInfo = status.getJobStatus().getSavepointInfo();
         if (savepointInfo == null) {
             return;

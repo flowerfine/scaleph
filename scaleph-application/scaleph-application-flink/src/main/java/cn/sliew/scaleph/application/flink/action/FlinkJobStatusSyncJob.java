@@ -21,9 +21,11 @@ package cn.sliew.scaleph.application.flink.action;
 import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.application.flink.operator.status.FlinkDeploymentStatus;
+import cn.sliew.scaleph.application.flink.operator.status.FlinkSessionJobStatus;
 import cn.sliew.scaleph.application.flink.service.WsFlinkKubernetesJobInstanceService;
 import cn.sliew.scaleph.application.flink.service.WsFlinkKubernetesJobService;
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobInstanceDTO;
+import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
 import cn.sliew.scaleph.workflow.engine.workflow.AbstractWorkFlow;
@@ -65,17 +67,40 @@ public class FlinkJobStatusSyncJob extends AbstractWorkFlow {
             if (jobInstanceDTOOptional.isEmpty()) {
                 return;
             }
-            WsFlinkKubernetesJobInstanceDTO jobInstanceDTO = jobInstanceDTOOptional.get();
+            WsFlinkKubernetesJobInstanceDTO jobInstanceDTO = wsFlinkKubernetesJobInstanceService.selectOne(jobInstanceDTOOptional.get().getId());
             Optional<GenericKubernetesResource> optional = wsFlinkKubernetesJobInstanceService.getStatus(jobInstanceDTO.getId());
-            if (optional.isPresent()) {
-                String json = JacksonUtil.toJsonString(optional.get().get("status"));
-                FlinkDeploymentStatus status = JacksonUtil.parseJsonString(json, FlinkDeploymentStatus.class);
-                wsFlinkKubernetesJobInstanceService.updateStatus(jobInstanceDTO.getId(), status);
-            } else {
-                wsFlinkKubernetesJobInstanceService.clearStatus(jobInstanceDTO.getId());
+            DeploymentKind deploymentKind = jobInstanceDTO.getWsFlinkKubernetesJob().getDeploymentKind();
+            switch (deploymentKind) {
+                case FLINK_DEPLOYMENT:
+                    doProcessFlinkDeployment(jobInstanceDTO, optional);
+                    break;
+                case FLINK_SESSION_JOB:
+                    doProcessFlinkSessionJob(jobInstanceDTO, optional);
+                    break;
+                default:
             }
         } catch (Exception e) {
             log.error("update flink kubernetes job status error! id: {}", jobId, e);
+        }
+    }
+
+    private void doProcessFlinkDeployment(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, Optional<GenericKubernetesResource> optional) {
+        if (optional.isPresent()) {
+            String json = JacksonUtil.toJsonString(optional.get().get("status"));
+            FlinkDeploymentStatus status = JacksonUtil.parseJsonString(json, FlinkDeploymentStatus.class);
+            wsFlinkKubernetesJobInstanceService.updateStatus(jobInstanceDTO.getId(), status);
+        } else {
+            wsFlinkKubernetesJobInstanceService.clearStatus(jobInstanceDTO.getId());
+        }
+    }
+
+    private void doProcessFlinkSessionJob(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, Optional<GenericKubernetesResource> optional) {
+        if (optional.isPresent()) {
+            String json = JacksonUtil.toJsonString(optional.get().get("status"));
+            FlinkSessionJobStatus status = JacksonUtil.parseJsonString(json, FlinkSessionJobStatus.class);
+            wsFlinkKubernetesJobInstanceService.updateStatus(jobInstanceDTO.getId(), status);
+        } else {
+            wsFlinkKubernetesJobInstanceService.clearStatus(jobInstanceDTO.getId());
         }
     }
 
