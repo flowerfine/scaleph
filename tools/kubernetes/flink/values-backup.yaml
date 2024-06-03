@@ -1,0 +1,17 @@
+
+webhook:
+  create: false
+
+image:
+  repository: apache/flink-kubernetes-operator
+
+# set TimeZone from UTC to Asia/Shanghai
+operatorPod:
+  env:
+    - name: TZ
+      value: Asia/Shanghai
+
+# add flink FileSystem plugins
+postStart:
+  exec:
+    command: ["/bin/sh", "-c", "mkdir /opt/flink/plugins/flink-s3-fs-hadoop && wget https://repo.maven.apache.org/maven2/org/apache/flink/flink-s3-fs-hadoop/1.18.1/flink-s3-fs-hadoop-1.18.1.jar -O /opt/flink/plugins/flink-s3-fs-hadoop/flink-s3-fs-hadoop.jar"]
