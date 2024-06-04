@@ -17,5 +17,7 @@
 ARG FLINK_KUBERNETES_OPERATOR_VERSION=1.8.0
 FROM apache/flink-kubernetes-operator:${FLINK_KUBERNETES_OPERATOR_VERSION} as release
 
+ARG FLINK_VERSION=1.18.1
+
 RUN mkdir /opt/flink/plugins/flink-s3-fs-hadoop && \
-    wget https://repo.maven.apache.org/maven2/org/apache/flink/flink-s3-fs-hadoop/1.18.1/flink-s3-fs-hadoop-1.18.1.jar -O /opt/flink/plugins/flink-s3-fs-hadoop/flink-s3-fs-hadoop.jar
+    wget https://repo.maven.apache.org/maven2/org/apache/flink/flink-s3-fs-hadoop/${FLINK_VERSION}/flink-s3-fs-hadoop-${FLINK_VERSION}.jar -O /opt/flink/plugins/flink-s3-fs-hadoop/flink-s3-fs-hadoop.jar
