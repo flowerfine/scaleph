@@ -3,31 +3,7 @@ webhook:
   create: false
 
 image:
-  repository: ghcr.io/flowerfine/flink-kubernetes-operator
-  tag: 1.8.0
-
-defaultConfiguration:
-  # If set to true, creates ConfigMaps/VolumeMounts. If set to false, no configuration will be created.
-  # All below fields will be ignored if create is set to false.
-  create: true
-  # If set to true,
-  #      (1) loads the built-in default configuration
-  #      (2) appends the below flink-conf and logging configuration overrides
-  # If set to false, loads just the overrides as in (2).
-  # This option has not effect, if create is equal to false.
-  append: true
-  flink-conf.yaml: |+
-    # Flink Config Overrides
-    kubernetes.operator.metrics.reporter.slf4j.factory.class: org.apache.flink.metrics.slf4j.Slf4jReporterFactory
-    kubernetes.operator.metrics.reporter.slf4j.interval: 5 MINUTE
-
-    kubernetes.operator.reconcile.interval: 15 s
-    kubernetes.operator.observer.progress-check.interval: 5 s
-    
-    s3.endpoint: http://10.10.18.163:9000
-    s3.access-key: admin
-    s3.secret-key: password
-    s3.path.style.access: true
+  repository: apache/flink-kubernetes-operator
 
 # set TimeZone from UTC to Asia/Shanghai
 operatorPod:
