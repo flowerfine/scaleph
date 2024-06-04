@@ -41,6 +41,7 @@ public class FileSystemPluginHandler {
     private static final String S3_ACCESS_KEY = "s3.access-key";
     private static final String S3_SECRET_KEY = "s3.secret-key";
     private static final String S3_PATH_STYLE_ACCESS = "s3.path.style.access";
+    private static final String FS_ALLOWED_FALLBACK_FILESYSTEM = "fs.allowed-fallback-filesystems";
 
     private static final String FILE_SYSTEM_ENV_NAME = "ENABLE_BUILT_IN_PLUGINS";
     private static final String S3_FILE_SYSTEM_TEMPLATE = "flink-s3-fs-hadoop-%s.jar";
@@ -69,12 +70,13 @@ public class FileSystemPluginHandler {
         spec.endSpec();
     }
 
-    private void addFileSystemConfigOption(Map<String, String> flinkConfiguration) {
+    void addFileSystemConfigOption(Map<String, String> flinkConfiguration) {
         if (s3FileSystemProperties != null) {
             flinkConfiguration.put(S3_ENDPOINT, NetUtils.replaceLocalhost(s3FileSystemProperties.getEndpoint()));
             flinkConfiguration.put(S3_ACCESS_KEY, s3FileSystemProperties.getAccessKey());
             flinkConfiguration.put(S3_SECRET_KEY, s3FileSystemProperties.getSecretKey());
             flinkConfiguration.put(S3_PATH_STYLE_ACCESS, "true"); // container
+            flinkConfiguration.put(FS_ALLOWED_FALLBACK_FILESYSTEM, "s3"); // container
         }
     }
 

@@ -22,6 +22,7 @@ import cn.sliew.scaleph.application.flink.factory.FlinkDeploymentFactory;
 import cn.sliew.scaleph.application.flink.resource.definition.deployment.FlinkDeployment;
 import cn.sliew.scaleph.application.flink.resource.definition.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.application.flink.service.FlinkKubernetesOperatorService;
+import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesDeploymentDTO;
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobInstanceDTO;
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesSessionClusterDTO;
@@ -77,27 +78,37 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
 
     @Override
     public Optional<GenericKubernetesResource> getJob(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO) throws Exception {
+        WsFlinkKubernetesJobDTO jobDto = jobInstanceDTO.getWsFlinkKubernetesJob();
+        switch (jobDto.getDeploymentKind()) {
+            case FLINK_DEPLOYMENT:
+                return getFlinkDeployment(jobInstanceDTO);
+            case FLINK_SESSION_JOB:
+                return getFlinkSessionJob(jobInstanceDTO);
+            default:
+                return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<GenericKubernetesResource> getFlinkDeployment(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO) throws Exception {
+        WsFlinkKubernetesDeploymentDTO flinkDeployment = jobInstanceDTO.getWsFlinkKubernetesJob().getFlinkDeployment();
         VersionGroupKind versionAndGroup = new VersionGroupKind();
         versionAndGroup.setApiVersion(Constant.API_VERSION);
         versionAndGroup.setKind(Constant.FLINK_DEPLOYMENT);
         versionAndGroup.setName(jobInstanceDTO.getInstanceId());
+        versionAndGroup.setNamespace(flinkDeployment.getNamespace());
+        return objectService.getResource(flinkDeployment.getClusterCredentialId(), versionAndGroup);
+    }
 
-        final WsFlinkKubernetesJobDTO jobDto = jobInstanceDTO.getWsFlinkKubernetesJob();
-        Long clusterCredentialId = null;
-        String namespace = null;
-        switch (jobDto.getDeploymentKind()) {
-            case FLINK_DEPLOYMENT:
-                clusterCredentialId = jobDto.getFlinkDeployment().getClusterCredentialId();
-                namespace = jobDto.getFlinkDeployment().getNamespace();
-                break;
-            case FLINK_SESSION_JOB:
-                clusterCredentialId = jobDto.getFlinkSessionCluster().getClusterCredentialId();
-                namespace = jobDto.getFlinkSessionCluster().getNamespace();
-                break;
-            default:
-        }
-        versionAndGroup.setNamespace(namespace);
-        return objectService.getResource(clusterCredentialId, versionAndGroup);
+    @Override
+    public Optional<GenericKubernetesResource> getFlinkSessionJob(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO) throws Exception {
+        WsFlinkKubernetesSessionClusterDTO flinkSessionCluster = jobInstanceDTO.getWsFlinkKubernetesJob().getFlinkSessionCluster();
+        VersionGroupKind versionAndGroup = new VersionGroupKind();
+        versionAndGroup.setApiVersion(Constant.API_VERSION);
+        versionAndGroup.setKind(Constant.FLINK_SESSION_JOB);
+        versionAndGroup.setName(jobInstanceDTO.getInstanceId());
+        versionAndGroup.setNamespace(flinkSessionCluster.getNamespace());
+        return objectService.getResource(flinkSessionCluster.getClusterCredentialId(), versionAndGroup);
     }
 
     @Override

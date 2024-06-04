@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.application.flink.service;
 
+import cn.sliew.scaleph.application.flink.operator.status.FlinkSessionJobStatus;
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobInstanceDTO;
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobInstanceSavepointDTO;
 import cn.sliew.scaleph.application.flink.service.param.WsFlinkKubernetesJobInstanceDeployParam;
@@ -63,6 +64,8 @@ public interface WsFlinkKubernetesJobInstanceService {
     Optional<GenericKubernetesResource> getJobWithoutStatus(Long id);
 
     int updateStatus(Long id, FlinkDeploymentStatus status);
+
+    int updateStatus(Long id, FlinkSessionJobStatus status);
 
     int clearStatus(Long id);
 }

@@ -35,6 +35,8 @@ mkdir -p ${SEATUNNEL_HOME}/plugins/mysql-cdc/lib
 ${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=mysql -DartifactId=mysql-connector-java -Dversion=8.0.28 -Dtransitive=false -Ddest=${SEATUNNEL_HOME}/plugins/mysql-cdc/lib
 mkdir -p ${SEATUNNEL_HOME}/plugins/jdbc/lib
 ${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=mysql -DartifactId=mysql-connector-java -Dversion=8.0.28 -Dtransitive=false -Ddest=${SEATUNNEL_HOME}/plugins/jdbc/lib
+mkdir -p ${SEATUNNEL_HOME}/plugins/doris/lib
+${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=mysql -DartifactId=mysql-connector-java -Dversion=8.0.28 -Dtransitive=false -Ddest=${SEATUNNEL_HOME}/plugins/doris/lib
 mkdir -p ${SEATUNNEL_HOME}/plugins/iceberg/lib
 ${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=org.apache.hive -DartifactId=hive-exec -Dversion=3.1.3 -Dtransitive=false -Ddest=${SEATUNNEL_HOME}/plugins/iceberg/lib
 ${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=org.apache.thrift -DartifactId=libfb303 -Dversion=0.9.3 -Dtransitive=false -Ddest=${SEATUNNEL_HOME}/plugins/iceberg/lib
