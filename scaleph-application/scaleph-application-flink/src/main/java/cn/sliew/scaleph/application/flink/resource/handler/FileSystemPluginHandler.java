@@ -18,13 +18,15 @@
 
 package cn.sliew.scaleph.application.flink.resource.handler;
 
+import cn.sliew.scaleph.application.flink.operator.spec.FlinkDeploymentSpec;
+import cn.sliew.scaleph.application.flink.operator.spec.FlinkSessionClusterSpec;
+import cn.sliew.scaleph.application.flink.resource.definition.job.instance.FlinkJobInstanceConverterFactory;
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobDTO;
+import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.util.NetUtils;
 import cn.sliew.scaleph.config.kubernetes.resource.ResourceNames;
 import cn.sliew.scaleph.config.storage.S3FileSystemProperties;
-import cn.sliew.scaleph.application.flink.operator.spec.FlinkDeploymentSpec;
-import cn.sliew.scaleph.application.flink.resource.definition.job.instance.FlinkJobInstanceConverterFactory;
 import io.fabric8.kubernetes.api.model.EnvVar;
 import io.fabric8.kubernetes.api.model.EnvVarBuilder;
 import io.fabric8.kubernetes.api.model.PodBuilder;
@@ -51,20 +53,30 @@ public class FileSystemPluginHandler {
 
     public void handle(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentSpec spec) {
         PodBuilder podBuilder = Optional.ofNullable(spec.getPodTemplate()).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
-        handlePodTemplate(jobDTO, podBuilder);
+        handlePodTemplate(FlinkJobInstanceConverterFactory.getFlinkVersion(jobDTO), podBuilder);
         spec.setPodTemplate(podBuilder.build());
 
         Map<String, String> flinkConfiguration = Optional.ofNullable(spec.getFlinkConfiguration()).orElse(new HashMap<>());
         addFileSystemConfigOption(flinkConfiguration);
     }
 
-    private void handlePodTemplate(WsFlinkKubernetesJobDTO jobDTO, PodBuilder builder) {
+    public void handle(WsFlinkKubernetesSessionClusterDTO sessionClusterDTO, FlinkSessionClusterSpec spec) {
+        PodBuilder podBuilder = Optional.ofNullable(spec.getPodTemplate()).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
+        FlinkVersion flinkVersion = FlinkVersion.of(sessionClusterDTO.getKubernetesOptions().getFlinkVersion());
+        handlePodTemplate(flinkVersion, podBuilder);
+        spec.setPodTemplate(podBuilder.build());
+
+        Map<String, String> flinkConfiguration = Optional.ofNullable(spec.getFlinkConfiguration()).orElse(new HashMap<>());
+        addFileSystemConfigOption(flinkConfiguration);
+    }
+
+    private void handlePodTemplate(FlinkVersion flinkVersion, PodBuilder builder) {
         builder.editOrNewMetadata().withName(ResourceNames.POD_TEMPLATE_NAME)
                 .endMetadata();
         PodFluent<PodBuilder>.SpecNested<PodBuilder> spec = builder.editOrNewSpec();
 
         ContainerUtil.findFlinkMainContainer(spec)
-                .addAllToEnv(buildEnableFileSystemEnv(jobDTO))
+                .addAllToEnv(buildEnableFileSystemEnv(flinkVersion))
                 .endContainer();
 
         spec.endSpec();
@@ -80,10 +92,9 @@ public class FileSystemPluginHandler {
         }
     }
 
-    private List<EnvVar> buildEnableFileSystemEnv(WsFlinkKubernetesJobDTO jobDTO) {
+    private List<EnvVar> buildEnableFileSystemEnv(FlinkVersion flinkVersion) {
         EnvVarBuilder builder = new EnvVarBuilder();
         builder.withName(FILE_SYSTEM_ENV_NAME);
-        FlinkVersion flinkVersion = FlinkJobInstanceConverterFactory.getFlinkVersion(jobDTO);
         builder.withValue(String.format(S3_FILE_SYSTEM_TEMPLATE, flinkVersion.getValue()));
         return Collections.singletonList(builder.build());
     }

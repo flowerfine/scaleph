@@ -24,7 +24,7 @@ defaultConfiguration:
     kubernetes.operator.reconcile.interval: 15 s
     kubernetes.operator.observer.progress-check.interval: 5 s
     
-    s3.endpoint: http://192.168.1.3:9000
+    s3.endpoint: http://10.10.18.163:9000
     s3.access-key: admin
     s3.secret-key: password
     s3.path.style.access: true

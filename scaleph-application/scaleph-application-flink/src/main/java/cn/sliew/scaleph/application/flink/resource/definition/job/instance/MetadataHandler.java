@@ -20,6 +20,7 @@ package cn.sliew.scaleph.application.flink.resource.definition.job.instance;
 
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobInstanceDTO;
+import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.config.kubernetes.resource.ResourceLabels;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
@@ -42,8 +43,23 @@ public class MetadataHandler {
         return builder.build();
     }
 
+    public ObjectMeta handle(WsFlinkKubernetesSessionClusterDTO sessionClusterDTO, ObjectMeta objectMeta) {
+        ObjectMetaBuilder builder = Optional.ofNullable(objectMeta)
+                .map(meta -> new ObjectMetaBuilder(meta))
+                .orElse(new ObjectMetaBuilder());
+
+        builder.withName(sessionClusterDTO.getSessionClusterId());
+        addSessionClusterLables(sessionClusterDTO, builder);
+        return builder.build();
+    }
+
     private void addJobLables(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, ObjectMetaBuilder builder) {
         Map<String, String> lables = generateLables(jobInstanceDTO);
+        builder.addToLabels(lables);
+    }
+
+    private void addSessionClusterLables(WsFlinkKubernetesSessionClusterDTO sessionClusterDTO, ObjectMetaBuilder builder) {
+        Map<String, String> lables = generateLables(sessionClusterDTO);
         builder.addToLabels(lables);
     }
 
@@ -60,6 +76,17 @@ public class MetadataHandler {
         labels.put(ResourceLabels.SCALEPH_LABEL_JOB_INSTANCE_ID, jobInstanceDTO.getInstanceId());
         labels.put(ResourceLabels.SCALEPH_LABEL_CREATOR, jobInstanceDTO.getCreator());
         labels.put(ResourceLabels.SCALEPH_LABEL_EDITOR, jobInstanceDTO.getEditor());
+        return labels;
+    }
+
+    public Map<String, String> generateLables(WsFlinkKubernetesSessionClusterDTO sessionClusterDTO) {
+        Map<String, String> labels = new HashMap<>();
+
+        labels.put(ResourceLabels.SCALEPH_LABEL_PLATFROM, ResourceLabels.SCALEPH);
+        labels.put(ResourceLabels.SCALEPH_LABEL_NAME, sessionClusterDTO.getName());
+        labels.put(ResourceLabels.SCALEPH_LABEL_SESSION_CLUSTER_ID, sessionClusterDTO.getSessionClusterId());
+        labels.put(ResourceLabels.SCALEPH_LABEL_CREATOR, sessionClusterDTO.getCreator());
+        labels.put(ResourceLabels.SCALEPH_LABEL_EDITOR, sessionClusterDTO.getEditor());
         return labels;
     }
 

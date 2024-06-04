@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.application.flink.resource.handler;
 
 import cn.sliew.scaleph.application.flink.operator.spec.FlinkDeploymentSpec;
+import cn.sliew.scaleph.application.flink.operator.spec.FlinkSessionClusterSpec;
 import cn.sliew.scaleph.application.flink.operator.util.TemplateMerger;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -31,6 +32,16 @@ import java.util.Optional;
 public class LoggingHandler {
 
     public void handle(Map<String, String> logConfiguration, FlinkDeploymentSpec spec) {
+        Map<String, String> configuration = Optional.ofNullable(spec.getFlinkConfiguration()).orElse(new HashMap<>());
+        Map<String, String> merge = TemplateMerger.merge(configuration, logConfiguration, Map.class);
+        if (CollectionUtils.isEmpty(merge) == false) {
+            spec.setLogConfiguration(null);
+        } else {
+            spec.setLogConfiguration(merge);
+        }
+    }
+
+    public void handle(Map<String, String> logConfiguration, FlinkSessionClusterSpec spec) {
         Map<String, String> configuration = Optional.ofNullable(spec.getFlinkConfiguration()).orElse(new HashMap<>());
         Map<String, String> merge = TemplateMerger.merge(configuration, logConfiguration, Map.class);
         if (CollectionUtils.isEmpty(merge) == false) {
