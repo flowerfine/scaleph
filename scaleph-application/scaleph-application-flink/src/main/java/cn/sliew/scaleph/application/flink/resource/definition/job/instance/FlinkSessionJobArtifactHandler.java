@@ -23,9 +23,15 @@ import cn.sliew.scaleph.application.flink.operator.spec.JobSpec;
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobInstanceDTO;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
+import cn.sliew.scaleph.common.util.SeaTunnelReleaseUtil;
+import cn.sliew.scaleph.config.kubernetes.resource.ResourceNames;
 import cn.sliew.scaleph.dao.entity.master.ws.WsArtifactFlinkJar;
+import cn.sliew.scaleph.dao.entity.master.ws.WsArtifactSeaTunnel;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class FlinkSessionJobArtifactHandler implements ArtifactHandler {
@@ -40,6 +46,10 @@ public class FlinkSessionJobArtifactHandler implements ArtifactHandler {
         switch (flinkJobType) {
             case JAR:
                 return true;
+            case SEATUNNEL:
+                return true;
+            case SQL:
+                return false;
             default:
                 return false;
         }
@@ -51,6 +61,11 @@ public class FlinkSessionJobArtifactHandler implements ArtifactHandler {
             case JAR:
                 addJarArtifact(jobInstanceDTO, flinkSessionJobSpec);
                 break;
+            case SEATUNNEL:
+                addSeaTunnelArtifact(jobInstanceDTO, flinkSessionJobSpec);
+                break;
+            case SQL:
+                break;
             default:
         }
     }
@@ -61,6 +76,16 @@ public class FlinkSessionJobArtifactHandler implements ArtifactHandler {
         jobSpec.setJarURI(artifactFlinkJar.getPath());
         jobSpec.setEntryClass(artifactFlinkJar.getEntryClass());
         jobSpec.setArgs(StringUtils.split(artifactFlinkJar.getJarParams(), " "));
+        spec.setJob(jobSpec);
+    }
+
+    private void addSeaTunnelArtifact(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkSessionJobSpec spec) {
+        WsArtifactSeaTunnel artifactSeaTunnel = jobInstanceDTO.getWsFlinkKubernetesJob().getArtifactSeaTunnel();
+        JobSpec jobSpec = new JobSpec();
+        jobSpec.setJarURI(SeaTunnelReleaseUtil.seatunnelStarterUrl(SeaTunnelReleaseUtil.STARTER_REPO_URL, artifactSeaTunnel.getSeaTunnelVersion().getValue()));
+        jobSpec.setEntryClass(SeaTunnelReleaseUtil.SEATUNNEL_MAIN_CLASS);
+        List<String> args = Arrays.asList("--config", ResourceNames.SEATUNNEL_CONF_FILE_PATH);
+        jobSpec.setArgs(args.toArray(new String[2]));
         spec.setJob(jobSpec);
     }
 }

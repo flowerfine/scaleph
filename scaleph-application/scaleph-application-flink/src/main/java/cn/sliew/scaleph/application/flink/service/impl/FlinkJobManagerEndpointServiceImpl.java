@@ -57,7 +57,7 @@ public class FlinkJobManagerEndpointServiceImpl implements FlinkJobManagerEndpoi
         switch (jobDTO.getDeploymentKind()) {
             case FLINK_SESSION_JOB:
                 WsFlinkKubernetesSessionClusterDTO sessionClusterDTO = jobDTO.getFlinkSessionCluster();
-                return getJobManagerEndpoint(sessionClusterDTO.getNamespace(), name, sessionClusterDTO.getClusterCredentialId()).orElse(null);
+                return getSessionClusterJobManagerEndpoint(sessionClusterDTO.getId());
             case FLINK_DEPLOYMENT:
                 WsFlinkKubernetesDeploymentDTO deploymentDTO = jobDTO.getFlinkDeployment();
                 return getJobManagerEndpoint(deploymentDTO.getNamespace(), name, deploymentDTO.getClusterCredentialId()).orElse(null);
