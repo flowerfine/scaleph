@@ -25,7 +25,7 @@ ENV FLINK_HOME /opt/flink
 
 # download from flink release page
 RUN mkdir -p $FLINK_HOME ; cd $FLINK_HOME ; \
-    curl -LSO https://archive.apache.org/dist/flink/flink-${FLINK_VERSION}/$TAR_FILE ; \
+    curl -LSOo $FLINK_HOME https://archive.apache.org/dist/flink/flink-${FLINK_VERSION}/$TAR_FILE ; \
     tar -zxf $TAR_FILE --strip 1 -C . ; \
     rm $TAR_FILE
 

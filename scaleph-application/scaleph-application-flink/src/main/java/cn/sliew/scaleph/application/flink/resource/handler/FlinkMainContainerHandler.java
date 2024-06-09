@@ -19,10 +19,10 @@
 package cn.sliew.scaleph.application.flink.resource.handler;
 
 import cn.sliew.scaleph.application.flink.operator.spec.FlinkDeploymentSpec;
-import cn.sliew.scaleph.application.flink.resource.definition.job.instance.FlinkJobInstanceConverterFactory;
+import cn.sliew.scaleph.application.flink.operator.spec.FlinkSessionClusterSpec;
 import cn.sliew.scaleph.application.flink.resource.definition.job.instance.MetadataHandler;
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobInstanceDTO;
-import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
+import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.config.kubernetes.resource.ResourceAnnotations;
 import cn.sliew.scaleph.config.kubernetes.resource.ResourceNames;
 import io.fabric8.kubernetes.api.model.*;
@@ -39,15 +39,26 @@ public class FlinkMainContainerHandler {
 
     public void handle(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
         PodBuilder podBuilder = Optional.ofNullable(spec.getPodTemplate()).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
-        handlePodTemplate(jobInstanceDTO, podBuilder);
+        podBuilder.editOrNewMetadata().withName(ResourceNames.POD_TEMPLATE_NAME)
+                .addToAnnotations(buildAnnotations())
+                .addToLabels(metadataHandler.generateLables(jobInstanceDTO))
+                .endMetadata();
+
+        handlePodTemplate(podBuilder);
         spec.setPodTemplate(podBuilder.build());
     }
 
-    private void handlePodTemplate(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, PodBuilder builder) {
-        builder.editOrNewMetadata().withName(ResourceNames.POD_TEMPLATE_NAME)
+    public void handle(WsFlinkKubernetesSessionClusterDTO sessionClusterDTO, FlinkSessionClusterSpec spec) {
+        PodBuilder podBuilder = Optional.ofNullable(spec.getPodTemplate()).map(pod -> new PodBuilder(pod)).orElse(new PodBuilder());
+        podBuilder.editOrNewMetadata().withName(ResourceNames.POD_TEMPLATE_NAME)
                 .addToAnnotations(buildAnnotations())
-                .addToLabels(buildLabels(jobInstanceDTO))
+                .addToLabels(metadataHandler.generateLables(sessionClusterDTO))
                 .endMetadata();
+        handlePodTemplate(podBuilder);
+        spec.setPodTemplate(podBuilder.build());
+    }
+
+    private void handlePodTemplate(PodBuilder builder) {
         PodFluent<PodBuilder>.SpecNested<PodBuilder> spec = builder.editOrNewSpec();
 
         ContainerUtil.findFlinkMainContainer(spec)
@@ -63,10 +74,6 @@ public class FlinkMainContainerHandler {
         annotations.put(ResourceAnnotations.PROMETHEUS_ANNOTATION_PORT, ResourceAnnotations.PROMETHEUS_ANNOTATION_PORT_VALUE);
         annotations.put(ResourceAnnotations.PROMETHEUS_ANNOTATION_SCRAPE, ResourceAnnotations.PROMETHEUS_ANNOTATION_SCRAPE_VALUE);
         return Collections.emptyMap();
-    }
-
-    private Map<String, String> buildLabels(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO) {
-        return metadataHandler.generateLables(jobInstanceDTO);
     }
 
     private List<ContainerPort> buildMetricsPorts() {

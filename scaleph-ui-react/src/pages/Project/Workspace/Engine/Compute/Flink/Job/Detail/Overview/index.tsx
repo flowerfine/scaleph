@@ -1,8 +1,6 @@
 import React from "react";
 import {ProCard} from "@ant-design/pro-components";
 import {useIntl} from "@umijs/max";
-import ArtifactFlinkJarWeb
-  from "@/pages/Project/Workspace/Engine/Compute/Flink/Job/Detail/Overview/ArtifactFlinkJarWeb";
 import FlinkKubernetesJobResourceWeb
   from "@/pages/Project/Workspace/Engine/Compute/Flink/Job/Detail/Overview/FlinkKubernetesJobResourceWeb";
 import FlinkKubernetesJobDetailConfigurationWeb

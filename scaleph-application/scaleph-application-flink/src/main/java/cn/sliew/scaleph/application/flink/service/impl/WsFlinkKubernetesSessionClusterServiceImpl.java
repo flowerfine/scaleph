@@ -20,6 +20,15 @@ package cn.sliew.scaleph.application.flink.service.impl;
 
 import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.application.flink.operator.status.FlinkDeploymentStatus;
+import cn.sliew.scaleph.application.flink.resource.definition.sessioncluster.FlinkSessionCluster;
+import cn.sliew.scaleph.application.flink.resource.definition.sessioncluster.FlinkSessionClusterConverterFactory;
+import cn.sliew.scaleph.application.flink.service.FlinkKubernetesOperatorService;
+import cn.sliew.scaleph.application.flink.service.WsFlinkKubernetesSessionClusterService;
+import cn.sliew.scaleph.application.flink.service.WsFlinkKubernetesTemplateService;
+import cn.sliew.scaleph.application.flink.service.convert.WsFlinkKubernetesSessionClusterConvert;
+import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesSessionClusterDTO;
+import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesTemplateDTO;
 import cn.sliew.scaleph.application.flink.service.param.WsFlinkKubernetesSessionClusterListParam;
 import cn.sliew.scaleph.application.flink.service.param.WsFlinkKubernetesSessionClusterSelectListParam;
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
@@ -27,15 +36,6 @@ import cn.sliew.scaleph.common.dict.flink.kubernetes.ResourceLifecycleState;
 import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesSessionCluster;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesSessionClusterMapper;
-import cn.sliew.scaleph.application.flink.operator.status.FlinkDeploymentStatus;
-import cn.sliew.scaleph.application.flink.resource.definition.sessioncluster.FlinkSessionCluster;
-import cn.sliew.scaleph.application.flink.resource.definition.sessioncluster.FlinkSessionClusterConverter;
-import cn.sliew.scaleph.application.flink.service.FlinkKubernetesOperatorService;
-import cn.sliew.scaleph.application.flink.service.WsFlinkKubernetesSessionClusterService;
-import cn.sliew.scaleph.application.flink.service.WsFlinkKubernetesTemplateService;
-import cn.sliew.scaleph.application.flink.service.convert.WsFlinkKubernetesSessionClusterConvert;
-import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesSessionClusterDTO;
-import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesTemplateDTO;
 import cn.sliew.scaleph.engine.sql.gateway.services.WsFlinkSqlGatewayService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -68,6 +68,8 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
     private FlinkKubernetesOperatorService flinkKubernetesOperatorService;
     @Autowired
     private WsFlinkSqlGatewayService wsFlinkSqlGatewayService;
+    @Autowired
+    private FlinkSessionClusterConverterFactory flinkSessionClusterConverterFactory;
 
     /**
      * Start already exists sql-gateways on app startup.
@@ -143,8 +145,8 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
     }
 
     @Override
-    public FlinkSessionCluster asYAML(WsFlinkKubernetesSessionClusterDTO dto) {
-        return FlinkSessionClusterConverter.INSTANCE.convertTo(dto);
+    public FlinkSessionCluster asYaml(WsFlinkKubernetesSessionClusterDTO dto) {
+        return flinkSessionClusterConverterFactory.convert(dto);
     }
 
     @Override
@@ -261,7 +263,7 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
     @Override
     public void deploy(Long id) throws Exception {
         WsFlinkKubernetesSessionClusterDTO sessionClusterDTO = selectOne(id);
-        flinkKubernetesOperatorService.deploySessionCluster(sessionClusterDTO.getClusterCredentialId(), asYAML(sessionClusterDTO));
+        flinkKubernetesOperatorService.deploySessionCluster(sessionClusterDTO.getClusterCredentialId(), asYaml(sessionClusterDTO));
         WsFlinkKubernetesSessionCluster record = new WsFlinkKubernetesSessionCluster();
         record.setId(sessionClusterDTO.getId());
         record.setDeployed(YesOrNo.YES);
@@ -272,7 +274,7 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
     public void shutdown(Long id) throws Exception {
         WsFlinkKubernetesSessionClusterDTO sessionClusterDTO = selectOne(id);
         if (sessionClusterDTO.getDeployed() == YesOrNo.YES) {
-            flinkKubernetesOperatorService.shutdownSessionCluster(sessionClusterDTO.getClusterCredentialId(), asYAML(sessionClusterDTO));
+            flinkKubernetesOperatorService.shutdownSessionCluster(sessionClusterDTO.getClusterCredentialId(), asYaml(sessionClusterDTO));
         }
     }
 

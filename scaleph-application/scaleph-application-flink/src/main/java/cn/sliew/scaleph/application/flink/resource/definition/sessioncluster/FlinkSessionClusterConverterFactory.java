@@ -16,26 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.application.flink.resource.handler;
+package cn.sliew.scaleph.application.flink.resource.definition.sessioncluster;
 
-import cn.sliew.scaleph.application.flink.operator.spec.FlinkDeploymentSpec;
-import cn.sliew.scaleph.application.flink.operator.spec.FlinkSessionClusterSpec;
-import cn.sliew.scaleph.application.flink.operator.util.TemplateMerger;
-import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobDTO;
+import cn.sliew.scaleph.application.flink.resource.definition.job.instance.MetadataHandler;
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesSessionClusterDTO;
-import io.fabric8.kubernetes.api.model.Pod;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PodTemplateHandler {
+public class FlinkSessionClusterConverterFactory {
 
-    public void handle(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentSpec spec) {
-        Pod merge = TemplateMerger.merge(spec.getPodTemplate(), jobDTO.getFlinkDeployment().getPodTemplate(), Pod.class);
-        spec.setPodTemplate(merge);
+    @Autowired
+    private MetadataHandler metadataHandlerl;
+    @Autowired
+    private FlinkSessionClusterSpecHandler flinkSessionClusterSpecHandler;
+
+    public FlinkSessionCluster convert(WsFlinkKubernetesSessionClusterDTO sessionClusterDTO) {
+        FlinkSessionCluster flinkSessionCluster = FlinkSessionClusterConverter.INSTANCE.convertTo(sessionClusterDTO);
+        flinkSessionCluster.setMetadata(metadataHandlerl.handle(sessionClusterDTO, flinkSessionCluster.getMetadata()));
+        flinkSessionCluster.setSpec(flinkSessionClusterSpecHandler.handle(sessionClusterDTO, flinkSessionCluster.getSpec()));
+        return flinkSessionCluster;
     }
 
-    public void handle(WsFlinkKubernetesSessionClusterDTO sessionClusterDTO, FlinkSessionClusterSpec spec) {
-        Pod merge = TemplateMerger.merge(spec.getPodTemplate(), sessionClusterDTO.getPodTemplate(), Pod.class);
-        spec.setPodTemplate(merge);
-    }
 }

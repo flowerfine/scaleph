@@ -141,6 +141,48 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
             </Button>
           </Popconfirm>
 
+          <Popconfirm
+            title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
+            disabled={!(props.flinkKubernetesJobDetail.job?.jobInstance?.state?.value == ResourceLifecycleState.STABLE
+              && props.flinkKubernetesJobDetail.job?.jobInstance?.jobState?.value == FlinkJobState.RUNNING)}
+            onConfirm={() => {
+              WsFlinkKubernetesJobService.suspend(props.flinkKubernetesJobDetail.job.jobInstance.id).then(response => {
+                if (response.success) {
+                  message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
+                }
+              })
+            }}
+          >
+            <Button
+              type="default"
+              icon={<RedoOutlined/>}
+              disabled={!(props.flinkKubernetesJobDetail.job?.jobInstance?.state?.value == ResourceLifecycleState.STABLE
+                && props.flinkKubernetesJobDetail.job?.jobInstance?.jobState?.value == FlinkJobState.RUNNING)}
+            >
+              {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.suspend'})}
+            </Button>
+          </Popconfirm>
+
+          <Popconfirm
+            title={intl.formatMessage({id: 'app.common.operate.submit.confirm.title'})}
+            disabled={!(props.flinkKubernetesJobDetail.job?.jobInstance?.state?.value == ResourceLifecycleState.SUSPENDED)}
+            onConfirm={() => {
+              WsFlinkKubernetesJobService.resume(props.flinkKubernetesJobDetail.job.jobInstance.id).then(response => {
+                if (response.success) {
+                  message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
+                }
+              })
+            }}
+          >
+            <Button
+              type="default"
+              icon={<RedoOutlined/>}
+              disabled={!(props.flinkKubernetesJobDetail.job?.jobInstance?.state?.value == ResourceLifecycleState.SUSPENDED)}
+            >
+              {intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.resume'})}
+            </Button>
+          </Popconfirm>
+
           <Button
             icon={<CloseOutlined/>}
             disabled={!props.flinkKubernetesJobDetail.job?.jobInstance?.state}

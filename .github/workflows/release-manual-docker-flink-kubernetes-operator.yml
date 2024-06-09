@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Release-Docker-Flink-CDC
+name: Release-Docker-Flink-Kubernetes-Operator
 
 on:
   workflow_dispatch:
@@ -26,10 +26,18 @@ on:
         type: choice
         options:
           - 1.8.0
+      flinkVersion:
+        description: 'flink version'
+        required: true
+        default: '1.18.1'
+        type: choice
+        options:
+          - 1.18.1
 
 env:
   HUB: ghcr.io/flowerfine/flink-kubernetes-operator
   FLINK_KUBERNETES_OPERATOR_VERSION: ${{ inputs.flinkKubernetesOperatorVersion }}
+  FLINK_VERSION: ${{ inputs.flinkVersion }}
 
 jobs:
   build:
@@ -65,6 +73,7 @@ jobs:
           context: .
           build-args: |
             FLINK_KUBERNETES_OPERATOR_VERSION=${{ env.FLINK_KUBERNETES_OPERATOR_VERSION }}
+            FLINK_VERSION=${{ env.FLINK_VERSION }}
           platforms: linux/amd64,linux/arm64
           file: tools/docker/build/flink-kubernetes-operator/Dockerfile
           tags: ${{ env.HUB }}:${{ env.FLINK_KUBERNETES_OPERATOR_VERSION }}

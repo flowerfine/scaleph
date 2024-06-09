@@ -47,7 +47,8 @@ public enum SeaTunnelReleaseUtil {
 
     public static final String STARTER_REPO_URL = "https://repo1.maven.org/maven2/org/apache/seatunnel";
 
-    public static final String STARTER_JAR_NAME = "seatunnel-flink-15-starter.jar";
+    public static final String STARTER_NAME = "seatunnel-flink-15-starter";
+    public static final String STARTER_JAR_NAME = STARTER_NAME + ".jar";
     public static final String SEATUNNEL_MAIN_CLASS = "org.apache.seatunnel.core.starter.flink.SeaTunnelFlink";
 
     public static final String SEATUNNEL_PLUGIN_MAPPING = "plugin-mapping.properties";
@@ -109,6 +110,20 @@ public enum SeaTunnelReleaseUtil {
 
     public static Path seatunnelConnector(Path rootDir, String connector) {
         return seatunnelConnectorsRootDir(rootDir).resolve(connector);
+    }
+
+    public static String seatunnelStarterUrl(String repoUrl, String version) {
+        if (StringUtils.endsWithIgnoreCase(repoUrl, "/")) {
+            repoUrl = StringUtils.removeEndIgnoreCase(repoUrl, "/");
+        }
+        Map<String, String> variables = Map.of(
+                "repoUrl", repoUrl,
+                "version", version,
+                "connector", STARTER_NAME,
+                "jar", convertToJar(version, STARTER_NAME));
+        StrSubstitutor substitutor = new StrSubstitutor(variables);
+        String template = "${repoUrl}/${connector}/${version}/${jar}";
+        return substitutor.replace(template);
     }
 
     public static String seatunnelConnectorUrl(String repoUrl, String version, String connector) {

@@ -79,7 +79,7 @@ public class WsFlinkKubernetesSessionClusterController {
     @PostMapping("asYAML")
     @Operation(summary = "转换 SessionCluster", description = "转换 SessionCluster")
     public ResponseEntity<ResponseVO<FlinkSessionCluster>> asYAML(@RequestBody WsFlinkKubernetesSessionClusterDTO dto) {
-        FlinkSessionCluster sessionCluster = wsFlinkKubernetesSessionClusterService.asYAML(dto);
+        FlinkSessionCluster sessionCluster = wsFlinkKubernetesSessionClusterService.asYaml(dto);
         return new ResponseEntity(ResponseVO.success(sessionCluster), HttpStatus.OK);
     }
 
