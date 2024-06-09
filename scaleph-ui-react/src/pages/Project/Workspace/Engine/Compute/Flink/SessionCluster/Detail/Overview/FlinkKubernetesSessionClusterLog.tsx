@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {connect, useAccess, useIntl} from "@umijs/max";
 
-const FlinkKubernetesSessinClusterDetailPodTemplateWeb: React.FC = (props: any) => {
+const FlinkKubernetesSessionClusterDetailLogWeb: React.FC = (props: any) => {
   const intl = useIntl();
   const access = useAccess();
 
@@ -11,10 +11,11 @@ const FlinkKubernetesSessinClusterDetailPodTemplateWeb: React.FC = (props: any) 
     }
   }, [props.flinkKubernetesSessionClusterDetail.sessionCluster]);
 
+
   return (
-    <div>FlinkKubernetesSessinClusterDetailPodTemplateWeb</div>
+    <div>FlinkKubernetesSessinClusterDetailLogWeb</div>
   );
 }
 
 const mapModelToProps = ({flinkKubernetesSessionClusterDetail}: any) => ({flinkKubernetesSessionClusterDetail})
-export default connect(mapModelToProps)(FlinkKubernetesSessinClusterDetailPodTemplateWeb);
+export default connect(mapModelToProps)(FlinkKubernetesSessionClusterDetailLogWeb);

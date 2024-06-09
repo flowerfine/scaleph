@@ -7,7 +7,7 @@ type Config = {
   value?: any;
 };
 
-const FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb: React.FC = (props: any) => {
+const FlinkKubernetesSessionClusterDetailConfigurationWeb: React.FC = (props: any) => {
   const intl = useIntl();
   const access = useAccess();
   const [dataSource, setDataSource] = useState<Config[]>([])
@@ -49,4 +49,4 @@ const FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb: React.FC = (props
 }
 
 const mapModelToProps = ({flinkKubernetesSessionClusterDetail}: any) => ({flinkKubernetesSessionClusterDetail})
-export default connect(mapModelToProps)(FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb);
+export default connect(mapModelToProps)(FlinkKubernetesSessionClusterDetailConfigurationWeb);

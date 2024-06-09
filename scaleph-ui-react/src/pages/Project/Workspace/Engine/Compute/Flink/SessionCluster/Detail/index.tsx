@@ -16,13 +16,8 @@ import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
 import FlinkKubernetesSessionClusterDetailYAMLWeb
   from "@/pages/Project/Workspace/Engine/Compute/Flink/SessionCluster/Detail/YAML";
-import FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb
-  from "@/pages/Project/Workspace/Engine/Compute/Flink/SessionCluster/Detail/Configuration";
-import FlinkKubernetesSessinClusterDetailOptionsWeb
-  from "@/pages/Project/Workspace/Engine/Compute/Flink/SessionCluster/Detail/Options";
-import FlinkKubernetesSessinClusterDetailLogWeb from "@/pages/Project/Workspace/Engine/Compute/Flink/SessionCluster/Detail/Log";
-import FlinkKubernetesSessinClusterDetailPodTemplateWeb
-  from "@/pages/Project/Workspace/Engine/Compute/Flink/SessionCluster/Detail/PodTemplate";
+import FlinkKubernetesSessinClusterDetailOverviewWeb
+  from "@/pages/Project/Workspace/Engine/Compute/Flink/SessionCluster/Detail/Overview";
 
 const FlinkKubernetesSessionClusterDetailWeb: React.FC = (props: any) => {
   const urlParams = useLocation();
@@ -169,24 +164,9 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = (props: any) => {
 
   const items = [
     {
-      label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.options'}),
-      key: 'options',
-      children: <FlinkKubernetesSessinClusterDetailOptionsWeb/>
-    },
-    {
-      label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.configuration'}),
-      key: 'configuration',
-      children: <FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb/>
-    },
-    {
-      label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.log'}),
-      key: 'log',
-      children: <FlinkKubernetesSessinClusterDetailLogWeb/>
-    },
-    {
-      label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.pod'}),
-      key: 'pod',
-      children: <FlinkKubernetesSessinClusterDetailPodTemplateWeb/>
+      label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.overview'}),
+      key: 'overview',
+      children: <FlinkKubernetesSessinClusterDetailOverviewWeb/>
     },
     {
       label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.yaml'}),
@@ -196,15 +176,17 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = (props: any) => {
   ]
 
   return (
-    <PageContainer title={intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail'})}>
+    <PageContainer title={false}>
       <ProCard.Group direction={'column'}>
         <ProCard extra={buttons}>
           <ProDescriptions
-            column={2}
+            column={3}
+            bordered={true}
             dataSource={props.flinkKubernetesSessionClusterDetail.sessionCluster}
             columns={descriptionColumns}
           />
         </ProCard>
+
         <ProCard>
           <Tabs
             type="card"
