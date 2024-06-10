@@ -40,7 +40,7 @@ body:
   - type: textarea
     attributes:
       label: Scaleph Version or Branch
-      description: Provide SeaTunnel version or branch.
+      description: Provide Carp version or branch.
       placeholder: >
         Please provide the version or branch of Scaleph.
     validations:
