@@ -160,12 +160,12 @@ INSERT INTO `dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position
                                `step_meta`, `step_attrs`, `creator`, `editor`)
 VALUES (12, 7, 'd82a947b-f414-4273-973a-06f20fe33f0d', 'FlinkJobStatus-3-1', 460, 400, NULL, NULL,
         '{\"handler\":\"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepThreeOne\",\"type\":\"1\"}',
-        '{"key3":"value3"}', 'sys', 'sys');
+        '{"key3-1":"value3-1"}', 'sys', 'sys');
 INSERT INTO `dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
                                `step_meta`, `step_attrs`, `creator`, `editor`)
 VALUES (13, 7, '027db10b-9150-403d-9d11-e4a36c99e1db', 'FlinkJobStatus-3-2', 460, 400, NULL, NULL,
         '{\"handler\":\"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepThreeTwo\",\"type\":\"1\"}',
-        '{"key4":"value4"}', 'sys', 'sys');
+        '{"key3-2":"value3-2"}', 'sys', 'sys');
 INSERT INTO `dag_config_step`(`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`, `style`,
                               `step_meta`, `step_attrs`, `creator`, `editor`)
 VALUES (14, 8, 'cfddc076-db37-41b1-a0f5-26430184805d', 'Kafka Source', 640, 160, NULL, NULL,

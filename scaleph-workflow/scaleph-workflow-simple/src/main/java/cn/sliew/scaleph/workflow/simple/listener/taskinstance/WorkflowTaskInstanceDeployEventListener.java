@@ -47,7 +47,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ClassUtils;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 @MessageListener(topic = WorkflowTaskInstanceDeployEventListener.TOPIC, consumerGroup = WorkflowTaskInstanceStateMachine.CONSUMER_GROUP)
@@ -63,8 +65,6 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
         future.whenCompleteAsync((unused, throwable) -> {
             if (throwable != null) {
                 onFailure(event.getWorkflowTaskInstanceId(), throwable);
-            } else {
-                stateMachine.onSuccess(dagStepService.selectOne(event.getWorkflowTaskInstanceId()));
             }
         });
         return future;
@@ -83,6 +83,8 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
         private DagConfigStepService dagConfigStepService;
         @Autowired
         private DagStepService dagStepService;
+        @Autowired
+        protected WorkflowTaskInstanceStateMachine stateMachine;
 
         public DeployRunner(WorkflowTaskInstanceEventDTO event) {
             this.event = event;
@@ -113,11 +115,21 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
                     @Override
                     public void onResponse(ActionResult result) {
                         log.debug("workflow task {} run success!", configStepDTO.getStepName());
+                        // 记录输出
+                        ActionContext context = result.getContext();
+                        DagStepDTO dagStepSuccessParam = new DagStepDTO();
+                        dagStepSuccessParam.setId(event.getWorkflowTaskInstanceId());
+                        dagStepSuccessParam.setOutputs(JacksonUtil.toJsonNode(context.getOutputs()));
+                        dagStepService.update(dagStepSuccessParam);
+                        // 通知成功
+                        stateMachine.onSuccess(dagStepService.selectOne(event.getWorkflowTaskInstanceId()));
                     }
 
                     @Override
                     public void onFailure(Throwable e) {
                         log.error("workflow task {} run failure!", configStepDTO.getStepName(), e);
+                        // 通知失败
+                        stateMachine.onFailure(dagStepService.selectOne(event.getWorkflowTaskInstanceId()), e);
                     }
                 });
             } catch (ClassNotFoundException e) {
@@ -126,15 +138,21 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
         }
 
         private ActionContext buildActionContext(DagInstanceDTO dagInstanceDTO, DagStepDTO stepDTO) {
-            JsonNode dagInstanceInputs = dagInstanceDTO.getInputs();
-            JsonNode dagStepInputs = stepDTO.getInputs();
-            JsonNode mergedInputs = JsonMerger.doMerge(dagInstanceInputs, dagStepInputs);
+            Map<String, Object> globalInputs = Collections.emptyMap();
+            if (dagInstanceDTO.getInputs() != null && dagInstanceDTO.getInputs().isObject()) {
+                globalInputs = JacksonUtil.toMap(dagInstanceDTO.getInputs());
+            }
+            Map<String, Object> inputs = Collections.emptyMap();
+            if (stepDTO.getInputs() != null && stepDTO.getInputs().isObject()) {
+                inputs = JacksonUtil.toMap(stepDTO.getInputs());
+            }
             return ActionContextBuilder.newBuilder()
                     .withWorkflowDefinitionId(dagInstanceDTO.getDagConfig().getId())
                     .withWorkflowInstanceId(stepDTO.getDagInstanceId())
                     .withWorkflowTaskDefinitionId(stepDTO.getDagConfigStep().getId())
                     .withWorkflowTaskInstanceId(stepDTO.getId())
-                    .withParams(JacksonUtil.toMap(mergedInputs))
+                    .withGlobalInputs(globalInputs)
+                    .withInputs(inputs)
                     .validateAndBuild();
         }
     }
