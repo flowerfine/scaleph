@@ -19,9 +19,7 @@
 package cn.sliew.scaleph.workflow.engine.workflow;
 
 import cn.sliew.milky.common.filter.ActionListener;
-import cn.sliew.scaleph.workflow.engine.action.Action;
-import cn.sliew.scaleph.workflow.engine.action.ActionContext;
-import cn.sliew.scaleph.workflow.engine.action.ActionResult;
+import cn.sliew.scaleph.workflow.engine.action.*;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.ArrayList;
@@ -53,7 +51,7 @@ public class SequentialFlow extends AbstractWorkFlow {
         action.execute(context, new ActionListener<ActionResult>() {
             @Override
             public void onResponse(ActionResult result) {
-                if (index == actions.size()) {
+                if (index + 1 == actions.size()) {
                     listener.onResponse(result);
                 } else {
                     sequentialExecute(index + 1, context, listener);

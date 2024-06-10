@@ -22,6 +22,8 @@ import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
+import cn.sliew.scaleph.workflow.engine.action.ActionStatus;
+import cn.sliew.scaleph.workflow.engine.action.DefaultActionResult;
 import cn.sliew.scaleph.workflow.engine.workflow.AbstractWorkFlow;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -38,14 +40,15 @@ public class FlinkJobStatusSyncJobStepTwo extends AbstractWorkFlow {
 
     @Override
     protected Runnable doExecute(ActionContext context, ActionListener<ActionResult> listener) {
-        return () -> process(context);
+        return () -> process(context, listener);
     }
 
-    private void process(ActionContext context) {
+    private void process(ActionContext context, ActionListener<ActionResult> listener) {
         log.info("update flink kubernetes job status step-2,  globalInputs: {}, inputs: {}",
                 JacksonUtil.toJsonString(context.getGlobalInputs()), JacksonUtil.toJsonString(context.getInputs()));
         Map<String, Object> outputs = context.getOutputs();
         outputs.put("output2", "value2");
+        listener.onResponse(new DefaultActionResult(ActionStatus.SUCCESS, context));
     }
 
 }

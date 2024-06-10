@@ -37,6 +37,7 @@ import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import cn.sliew.scaleph.workflow.engine.action.ActionContextBuilder;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
 import cn.sliew.scaleph.workflow.engine.workflow.ParallelFlow;
+import cn.sliew.scaleph.workflow.engine.workflow.SequentialFlow;
 import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionMeta;
 import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowTaskInstanceStateMachine;
@@ -106,7 +107,7 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
             try {
                 Class<?> clazz = ClassUtils.forName(workflowTaskDefinitionMeta.getHandler(), ClassUtils.getDefaultClassLoader());
                 Action action = (Action) SpringApplicationContextUtil.getBean(clazz);
-                WorkFlow workFlow = ParallelFlow.newParallelFlow()
+                WorkFlow workFlow = SequentialFlow.newSequentialFlow()
                         .name(configStepDTO.getStepName())
                         .execute(action)
                         .build();
@@ -114,15 +115,20 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
                 engine.run(workFlow, actionContext, new ActionListener<ActionResult>() {
                     @Override
                     public void onResponse(ActionResult result) {
-                        log.debug("workflow task {} run success!", configStepDTO.getStepName());
-                        // 记录输出
-                        ActionContext context = result.getContext();
-                        DagStepDTO dagStepSuccessParam = new DagStepDTO();
-                        dagStepSuccessParam.setId(event.getWorkflowTaskInstanceId());
-                        dagStepSuccessParam.setOutputs(JacksonUtil.toJsonNode(context.getOutputs()));
-                        dagStepService.update(dagStepSuccessParam);
-                        // 通知成功
-                        stateMachine.onSuccess(dagStepService.selectOne(event.getWorkflowTaskInstanceId()));
+                        try {
+                            ActionContext context = result.getContext();
+                            log.debug("workflow task {} run success!, globalInputs: {}, inputs: {}, outputs: {}",
+                                    configStepDTO.getStepName(), JacksonUtil.toJsonString(context.getGlobalInputs()), JacksonUtil.toJsonString(context.getInputs()), JacksonUtil.toJsonString(context.getOutputs()));
+                            // 记录输出
+                            DagStepDTO dagStepSuccessParam = new DagStepDTO();
+                            dagStepSuccessParam.setId(event.getWorkflowTaskInstanceId());
+                            dagStepSuccessParam.setOutputs(JacksonUtil.toJsonNode(context.getOutputs()));
+                            dagStepService.update(dagStepSuccessParam);
+                            // 通知成功
+                            stateMachine.onSuccess(dagStepService.selectOne(event.getWorkflowTaskInstanceId()));
+                        } catch (Exception e) {
+                            onFailure(e);
+                        }
                     }
 
                     @Override

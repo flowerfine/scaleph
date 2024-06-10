@@ -24,6 +24,8 @@ import cn.sliew.scaleph.application.doris.service.WsDorisOperatorInstanceService
 import cn.sliew.scaleph.application.doris.operator.status.DorisClusterStatus;
 import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
+import cn.sliew.scaleph.workflow.engine.action.ActionStatus;
+import cn.sliew.scaleph.workflow.engine.action.DefaultActionResult;
 import cn.sliew.scaleph.workflow.engine.workflow.AbstractWorkFlow;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 import lombok.extern.slf4j.Slf4j;
@@ -46,13 +48,14 @@ public class DorisOperatorInstanceStatusSyncJob extends AbstractWorkFlow {
 
     @Override
     protected Runnable doExecute(ActionContext context, ActionListener<ActionResult> listener) {
-        return () -> process();
+        return () -> process(context, listener);
     }
 
-    private void process() {
+    private void process(ActionContext context, ActionListener<ActionResult> listener) {
         List<Long> ids = wsDorisOperatorInstanceService.listAll();
         ids.forEach(this::doProcess);
         log.debug("update doris operator instance status success! update size: {}", ids.size());
+        listener.onResponse(new DefaultActionResult(ActionStatus.SUCCESS, context));
     }
 
     private void doProcess(Long id) {
