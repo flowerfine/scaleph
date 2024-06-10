@@ -19,9 +19,9 @@
 package cn.sliew.scaleph.application.flink.resource.definition.job.instance;
 
 import cn.sliew.scaleph.application.flink.operator.spec.*;
-import cn.sliew.scaleph.application.flink.operator.util.TemplateMerger;
 import cn.sliew.scaleph.application.flink.resource.handler.*;
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobInstanceDTO;
+import cn.sliew.scaleph.common.jackson.JsonMerger;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -104,9 +104,9 @@ public class FlinkDeploymentSpecHandler {
     }
 
     private void mergeJobInstance(WsFlinkKubernetesJobInstanceDTO jobInstanceDTO, FlinkDeploymentSpec spec) {
-        spec.setJobManager(TemplateMerger.merge(spec.getJobManager(), jobInstanceDTO.getJobManager(), JobManagerSpec.class));
-        spec.setTaskManager(TemplateMerger.merge(spec.getTaskManager(), jobInstanceDTO.getTaskManager(), TaskManagerSpec.class));
-        spec.setFlinkConfiguration(TemplateMerger.merge(spec.getFlinkConfiguration(), jobInstanceDTO.getUserFlinkConfiguration(), Map.class));
+        spec.setJobManager(JsonMerger.merge(spec.getJobManager(), jobInstanceDTO.getJobManager(), JobManagerSpec.class));
+        spec.setTaskManager(JsonMerger.merge(spec.getTaskManager(), jobInstanceDTO.getTaskManager(), TaskManagerSpec.class));
+        spec.setFlinkConfiguration(JsonMerger.merge(spec.getFlinkConfiguration(), jobInstanceDTO.getUserFlinkConfiguration(), Map.class));
         JobSpec job = spec.getJob();
         if (jobInstanceDTO.getParallelism() != null) {
             job.setParallelism(jobInstanceDTO.getParallelism());

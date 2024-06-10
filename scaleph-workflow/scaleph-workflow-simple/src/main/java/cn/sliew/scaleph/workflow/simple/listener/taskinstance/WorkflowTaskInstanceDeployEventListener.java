@@ -21,10 +21,13 @@ package cn.sliew.scaleph.workflow.simple.listener.taskinstance;
 import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.common.jackson.JsonMerger;
 import cn.sliew.scaleph.common.util.SpringApplicationContextUtil;
 import cn.sliew.scaleph.dag.service.DagConfigStepService;
+import cn.sliew.scaleph.dag.service.DagInstanceComplexService;
 import cn.sliew.scaleph.dag.service.DagStepService;
 import cn.sliew.scaleph.dag.service.dto.DagConfigStepDTO;
+import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
 import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
 import cn.sliew.scaleph.queue.MessageListener;
 import cn.sliew.scaleph.workflow.engine.Engine;
@@ -37,6 +40,7 @@ import cn.sliew.scaleph.workflow.engine.workflow.ParallelFlow;
 import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionMeta;
 import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowTaskInstanceStateMachine;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.annotation.RInject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +78,8 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
         @RInject
         private String taskId;
         @Autowired
+        private DagInstanceComplexService dagInstanceComplexService;
+        @Autowired
         private DagConfigStepService dagConfigStepService;
         @Autowired
         private DagStepService dagStepService;
@@ -92,6 +98,7 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
             dagStepService.update(dagStepUpdateParam);
 
             DagStepDTO stepDTO = dagStepService.selectOne(event.getWorkflowTaskInstanceId());
+            DagInstanceDTO dagInstanceDTO = dagInstanceComplexService.selectSimpleOne(stepDTO.getDagInstanceId());
             DagConfigStepDTO configStepDTO = dagConfigStepService.selectOne(stepDTO.getDagConfigStep().getId());
             WorkflowTaskDefinitionMeta workflowTaskDefinitionMeta = JacksonUtil.toObject(configStepDTO.getStepMeta(), WorkflowTaskDefinitionMeta.class);
             try {
@@ -101,7 +108,7 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
                         .name(configStepDTO.getStepName())
                         .execute(action)
                         .build();
-                ActionContext actionContext = buildActionContext(stepDTO);
+                ActionContext actionContext = buildActionContext(dagInstanceDTO, stepDTO);
                 engine.run(workFlow, actionContext, new ActionListener<ActionResult>() {
                     @Override
                     public void onResponse(ActionResult result) {
@@ -118,11 +125,16 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
             }
         }
 
-        private ActionContext buildActionContext(DagStepDTO stepDTO) {
+        private ActionContext buildActionContext(DagInstanceDTO dagInstanceDTO, DagStepDTO stepDTO) {
+            JsonNode dagInstanceInputs = dagInstanceDTO.getInputs();
+            JsonNode dagStepInputs = stepDTO.getInputs();
+            JsonNode mergedInputs = JsonMerger.doMerge(dagInstanceInputs, dagStepInputs);
             return ActionContextBuilder.newBuilder()
+                    .withWorkflowDefinitionId(dagInstanceDTO.getDagConfig().getId())
                     .withWorkflowInstanceId(stepDTO.getDagInstanceId())
                     .withWorkflowTaskDefinitionId(stepDTO.getDagConfigStep().getId())
                     .withWorkflowTaskInstanceId(stepDTO.getId())
+                    .withParams(JacksonUtil.toMap(mergedInputs))
                     .validateAndBuild();
         }
     }

@@ -19,16 +19,9 @@
 package cn.sliew.scaleph.application.flink.service.impl;
 
 import cn.sliew.scaleph.application.flink.factory.FlinkDefaultTemplateFactory;
-import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
-import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
-import cn.sliew.scaleph.common.util.UUIDUtil;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesTemplate;
-import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesTemplateMapper;
 import cn.sliew.scaleph.application.flink.operator.spec.IngressSpec;
 import cn.sliew.scaleph.application.flink.operator.spec.JobManagerSpec;
 import cn.sliew.scaleph.application.flink.operator.spec.TaskManagerSpec;
-import cn.sliew.scaleph.application.flink.operator.util.TemplateMerger;
 import cn.sliew.scaleph.application.flink.resource.definition.template.FlinkTemplate;
 import cn.sliew.scaleph.application.flink.resource.definition.template.FlinkTemplateConverter;
 import cn.sliew.scaleph.application.flink.resource.handler.FlinkImageMapping;
@@ -43,6 +36,13 @@ import cn.sliew.scaleph.application.flink.service.param.WsFlinkKubernetesTemplat
 import cn.sliew.scaleph.application.flink.service.param.WsFlinkKubernetesTemplateListParam;
 import cn.sliew.scaleph.application.flink.service.param.WsFlinkKubernetesTemplateUpdateParam;
 import cn.sliew.scaleph.application.flink.service.vo.KubernetesOptionsVO;
+import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
+import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
+import cn.sliew.scaleph.common.jackson.JsonMerger;
+import cn.sliew.scaleph.common.util.UUIDUtil;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesTemplate;
+import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesTemplateMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.fabric8.kubernetes.api.model.Pod;
@@ -140,14 +140,14 @@ public class WsFlinkKubernetesTemplateServiceImpl implements WsFlinkKubernetesTe
         WsFlinkKubernetesTemplateDTO result = new WsFlinkKubernetesTemplateDTO();
         result.setName(dto.getName());
         result.setNamespace(StringUtils.hasText(dto.getNamespace()) ? dto.getNamespace() : globalDefault.getNamespace());
-        result.setKubernetesOptions(TemplateMerger.merge(globalDefault.getKubernetesOptions(), dto.getKubernetesOptions(), KubernetesOptionsVO.class));
-        result.setJobManager(TemplateMerger.merge(globalDefault.getJobManager(), dto.getJobManager(), JobManagerSpec.class));
-        result.setTaskManager(TemplateMerger.merge(globalDefault.getTaskManager(), dto.getTaskManager(), TaskManagerSpec.class));
-        result.setPodTemplate(TemplateMerger.merge(globalDefault.getPodTemplate(), dto.getPodTemplate(), Pod.class));
-        result.setFlinkConfiguration(TemplateMerger.merge(globalDefault.getFlinkConfiguration(), dto.getFlinkConfiguration(), Map.class));
-        result.setLogConfiguration(TemplateMerger.merge(globalDefault.getLogConfiguration(), dto.getLogConfiguration(), Map.class));
-        result.setIngress(TemplateMerger.merge(globalDefault.getIngress(), dto.getIngress(), IngressSpec.class));
-        result.setAdditionalDependencies(TemplateMerger.merge(globalDefault.getAdditionalDependencies(), dto.getAdditionalDependencies(), List.class));
+        result.setKubernetesOptions(JsonMerger.merge(globalDefault.getKubernetesOptions(), dto.getKubernetesOptions(), KubernetesOptionsVO.class));
+        result.setJobManager(JsonMerger.merge(globalDefault.getJobManager(), dto.getJobManager(), JobManagerSpec.class));
+        result.setTaskManager(JsonMerger.merge(globalDefault.getTaskManager(), dto.getTaskManager(), TaskManagerSpec.class));
+        result.setPodTemplate(JsonMerger.merge(globalDefault.getPodTemplate(), dto.getPodTemplate(), Pod.class));
+        result.setFlinkConfiguration(JsonMerger.merge(globalDefault.getFlinkConfiguration(), dto.getFlinkConfiguration(), Map.class));
+        result.setLogConfiguration(JsonMerger.merge(globalDefault.getLogConfiguration(), dto.getLogConfiguration(), Map.class));
+        result.setIngress(JsonMerger.merge(globalDefault.getIngress(), dto.getIngress(), IngressSpec.class));
+        result.setAdditionalDependencies(JsonMerger.merge(globalDefault.getAdditionalDependencies(), dto.getAdditionalDependencies(), List.class));
         result.setRemark(StringUtils.hasText(dto.getRemark()) ? dto.getRemark() : globalDefault.getRemark());
         return result;
     }

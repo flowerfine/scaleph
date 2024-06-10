@@ -82,6 +82,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.flipkart.zjsonpatch</groupId>
+            <artifactId>zjsonpatch</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.lmax</groupId>
             <artifactId>disruptor</artifactId>
             <scope>test</scope>

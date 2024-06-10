@@ -20,6 +20,7 @@ package cn.sliew.scaleph.dag.service.impl;
 
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
+import cn.sliew.scaleph.common.jackson.JsonMerger;
 import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dag.service.*;
 import cn.sliew.scaleph.dag.service.dto.*;
@@ -99,7 +100,7 @@ public class DagInstanceComplexServiceImpl implements DagInstanceComplexService 
                 dagStepDTO.setDagInstanceId(dagInstanceId);
                 dagStepDTO.setDagConfigStep(dagConfigStepDTO);
                 dagStepDTO.setInstanceId(UUIDUtil.randomUUId());
-                dagStepDTO.setInputs(dagConfigStepDTO.getStepAttrs());
+                dagStepDTO.setInputs(JsonMerger.doMerge(dagInstanceDTO.getInputs(), dagConfigStepDTO.getStepAttrs()));
                 dagStepDTO.setStatus(WorkflowTaskInstanceStage.PENDING.getValue());
                 dagStepDTO.setStartTime(new Date());
                 dagStepService.insert(dagStepDTO);
