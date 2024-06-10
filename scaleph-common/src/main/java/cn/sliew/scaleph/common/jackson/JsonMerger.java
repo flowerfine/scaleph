@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.application.flink.operator.util;
+package cn.sliew.scaleph.common.jackson;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -28,7 +28,7 @@ import com.flipkart.zjsonpatch.JsonPatch;
 
 import java.util.EnumSet;
 
-public enum TemplateMerger {
+public enum JsonMerger {
     ;
 
     public static <T> T merge(T template, T target, Class<T> clazz) {
@@ -38,11 +38,11 @@ public enum TemplateMerger {
         return JacksonUtil.toObject(merged, clazz);
     }
 
-    private static JsonNode doMerge(JsonNode source, JsonNode target) {
-        if (source.isNull()) {
+    public static JsonNode doMerge(JsonNode source, JsonNode target) {
+        if (source == null || source.isNull()) {
             return target;
         }
-        if (target.isNull()) {
+        if (target == null || target.isNull()) {
             return source;
         }
         EnumSet<DiffFlags> flags = DiffFlags.dontNormalizeOpIntoMoveAndCopy().clone();

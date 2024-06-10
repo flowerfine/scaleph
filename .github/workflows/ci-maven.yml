@@ -39,12 +39,9 @@ jobs:
           java-version: ${{ matrix.jdk }}
           distribution: temurin
           cache: maven
-      - name: Build scaleph-dist
-        timeout-minutes: 360
-        run: mvn -B -U -T 4C clean package -Pdist -DskipTests -Dfast
       - name: Build with Maven
         timeout-minutes: 360
-        run: mvn -B -U -T 4C clean package
+        run: mvn -B -U -T 4C clean package -Pdist -Dfast
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:

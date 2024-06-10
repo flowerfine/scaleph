@@ -24,7 +24,6 @@ import cn.sliew.scaleph.application.flink.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.application.flink.operator.spec.FlinkSessionJobSpec;
 import cn.sliew.scaleph.application.flink.operator.spec.JobState;
 import cn.sliew.scaleph.application.flink.operator.status.*;
-import cn.sliew.scaleph.application.flink.operator.util.TemplateMerger;
 import cn.sliew.scaleph.application.flink.resource.definition.job.instance.FlinkJobInstanceConverterFactory;
 import cn.sliew.scaleph.application.flink.resource.definition.job.instance.MetadataHandler;
 import cn.sliew.scaleph.application.flink.service.FlinkKubernetesOperatorService;
@@ -44,6 +43,7 @@ import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.ResourceLifecycleState;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.SavepointFormatType;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.SavepointTriggerType;
+import cn.sliew.scaleph.common.jackson.JsonMerger;
 import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstance;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstanceSavepoint;
@@ -168,7 +168,7 @@ public class WsFlinkKubernetesJobInstanceServiceImpl implements WsFlinkKubernete
             case FLINK_DEPLOYMENT:
                 clusterCredentialId = jobDTO.getFlinkDeployment().getClusterCredentialId();
                 Map<String, String> flinkConfiguration = jobDTO.getFlinkDeployment().getFlinkConfiguration();
-                Map<String, String> mergedFlinkConfiguration = TemplateMerger.merge(flinkConfiguration, param.getUserFlinkConfiguration(), Map.class);
+                Map<String, String> mergedFlinkConfiguration = JsonMerger.merge(flinkConfiguration, param.getUserFlinkConfiguration(), Map.class);
                 record.setMergedFlinkConfiguration(JacksonUtil.toJsonString(mergedFlinkConfiguration));
                 resource = Constant.FLINK_DEPLOYMENT;
                 callbackHandler = flinkDeploymentWatchCallbackHandler;

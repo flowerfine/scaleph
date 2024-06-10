@@ -28,6 +28,8 @@ import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobInstan
 import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
+import cn.sliew.scaleph.workflow.engine.action.ActionStatus;
+import cn.sliew.scaleph.workflow.engine.action.DefaultActionResult;
 import cn.sliew.scaleph.workflow.engine.workflow.AbstractWorkFlow;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 import lombok.extern.slf4j.Slf4j;
@@ -52,13 +54,14 @@ public class FlinkJobStatusSyncJob extends AbstractWorkFlow {
 
     @Override
     protected Runnable doExecute(ActionContext context, ActionListener<ActionResult> listener) {
-        return () -> process();
+        return () -> process(context, listener);
     }
 
-    private void process() {
+    private void process(ActionContext context, ActionListener<ActionResult> listener) {
         List<Long> jobIds = wsFlinkKubernetesJobService.listAll();
         jobIds.forEach(this::doProcess);
         log.debug("update flink kubernetes job status success! update size: {}", jobIds.size());
+        listener.onResponse(new DefaultActionResult(ActionStatus.SUCCESS, context));
     }
 
     private void doProcess(Long jobId) {

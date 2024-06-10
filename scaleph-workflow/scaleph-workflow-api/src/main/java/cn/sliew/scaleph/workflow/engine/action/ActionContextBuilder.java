@@ -70,8 +70,14 @@ public class ActionContextBuilder {
         return this;
     }
 
-    public ActionContextBuilder withParams(Map<String, Object> params) {
-        context.setParams(params);
+    public ActionContextBuilder withGlobalInputs(Map<String, Object> globalInputs) {
+        context.setGlobalInputs(globalInputs);
+        return this;
+    }
+
+
+    public ActionContextBuilder withInputs(Map<String, Object> inputs) {
+        context.setInputs(inputs);
         return this;
     }
 

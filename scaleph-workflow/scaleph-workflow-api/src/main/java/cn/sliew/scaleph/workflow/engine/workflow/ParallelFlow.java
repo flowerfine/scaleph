@@ -54,6 +54,7 @@ public class ParallelFlow extends AbstractWorkFlow {
                         }
                     });
                 }
+                // fixme
                 listener.onResponse(new ParallelActionResult(context, results));
             } catch (Exception e) {
                 listener.onFailure(e);

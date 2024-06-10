@@ -20,9 +20,9 @@ package cn.sliew.scaleph.application.flink.resource.handler;
 
 import cn.sliew.scaleph.application.flink.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.application.flink.operator.spec.FlinkSessionClusterSpec;
-import cn.sliew.scaleph.application.flink.operator.util.TemplateMerger;
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.application.flink.service.dto.WsFlinkKubernetesSessionClusterDTO;
+import cn.sliew.scaleph.common.jackson.JsonMerger;
 import io.fabric8.kubernetes.api.model.Pod;
 import org.springframework.stereotype.Component;
 
@@ -30,12 +30,12 @@ import org.springframework.stereotype.Component;
 public class PodTemplateHandler {
 
     public void handle(WsFlinkKubernetesJobDTO jobDTO, FlinkDeploymentSpec spec) {
-        Pod merge = TemplateMerger.merge(spec.getPodTemplate(), jobDTO.getFlinkDeployment().getPodTemplate(), Pod.class);
+        Pod merge = JsonMerger.merge(spec.getPodTemplate(), jobDTO.getFlinkDeployment().getPodTemplate(), Pod.class);
         spec.setPodTemplate(merge);
     }
 
     public void handle(WsFlinkKubernetesSessionClusterDTO sessionClusterDTO, FlinkSessionClusterSpec spec) {
-        Pod merge = TemplateMerger.merge(spec.getPodTemplate(), sessionClusterDTO.getPodTemplate(), Pod.class);
+        Pod merge = JsonMerger.merge(spec.getPodTemplate(), sessionClusterDTO.getPodTemplate(), Pod.class);
         spec.setPodTemplate(merge);
     }
 }
