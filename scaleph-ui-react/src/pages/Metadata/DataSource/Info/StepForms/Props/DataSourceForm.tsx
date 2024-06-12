@@ -25,6 +25,7 @@ import CassandraForm from "@/pages/Metadata/DataSource/Info/StepForms/Props/Cass
 import DorisForm from "@/pages/Metadata/DataSource/Info/StepForms/Props/Doris";
 import StarRocksForm from "@/pages/Metadata/DataSource/Info/StepForms/Props/StarRocks";
 import MaxComputeForm from "@/pages/Metadata/DataSource/Info/StepForms/Props/MaxCompute";
+import GenericForm from "@/pages/Metadata/DataSource/Info/StepForms/Props/Generic";
 
 const DataSourceForm: React.FC = () => {
 
@@ -93,7 +94,7 @@ const DataSourceForm: React.FC = () => {
         case 'Http':
           return <HttpForm/>
         default:
-          return <div>开发中</div>
+          return <GenericForm/>
       }
     }
     return <div>动态渲染数据源表单失败</div>

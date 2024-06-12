@@ -66,11 +66,13 @@ services:
       - scaleph
 
   gravitino:
-    image: datastrato/gravitino:0.5.0
+    image: datastrato/gravitino:0.5.1
     container_name: gravitino
     ports:
       - 8090:8090
-    restart: unless-stopped
+    volumes:
+      - /path/to/mysql.jar:/root/gravitino/catalogs/jdbc-mysql/libs/mysql.jar
+      - /path/to/mysql.jar:/root/gravitino/catalogs/jdbc-doris/libs/mysql.jar
     networks:
       - scaleph
 
