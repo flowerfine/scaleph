@@ -24,6 +24,7 @@ ARG TAR_FILE=flink-cdc-${FLINK_CDC_VERSION}-bin.tar.gz
 ENV FLINK_CDC_HOME=/opt/flink-cdc
 RUN mkdir -p $FLINK_CDC_HOME
 
-RUN wget https://dlcdn.apache.org/flink/flink-cdc-${FLINK_CDC_VERSION}/$TAR_FILE ; \
+# 本地构建时，可以切换成国内镜像：https://mirrors.cloud.tencent.com/apache/flink/flink-cdc-${FLINK_CDC_VERSION}/$TAR_FILE
+RUN wget https://archive.apache.org/dist/flink/flink-cdc-${FLINK_CDC_VERSION}/$TAR_FILE ; \
     tar -zxf $TAR_FILE --strip 1 -C $FLINK_CDC_HOME ; \
     rm $TAR_FILE
