@@ -18,12 +18,12 @@ ARG FLINK_VERSION=1.18
 
 FROM flink:${FLINK_VERSION}
 
-ARG FLINK_CDC_VERSION=3.0.0
+ARG FLINK_CDC_VERSION=3.1.0
 ARG TAR_FILE=flink-cdc-${FLINK_CDC_VERSION}-bin.tar.gz
 
 ENV FLINK_CDC_HOME=/opt/flink-cdc
 RUN mkdir -p $FLINK_CDC_HOME
 
-RUN wget https://github.com/ververica/flink-cdc-connectors/releases/download/release-${FLINK_CDC_VERSION}/$TAR_FILE ; \
+RUN wget https://dlcdn.apache.org/flink/flink-cdc-${FLINK_CDC_VERSION}/$TAR_FILE ; \
     tar -zxf $TAR_FILE --strip 1 -C $FLINK_CDC_HOME ; \
     rm $TAR_FILE
