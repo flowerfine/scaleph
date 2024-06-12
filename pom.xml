@@ -169,7 +169,7 @@
         <cola.version>4.3.2</cola.version>
         <fury.version>0.4.1</fury.version>
         <jgrapht.version>1.5.2</jgrapht.version>
-        <gravitino.version>0.5.0</gravitino.version>
+        <gravitino.version>0.5.1</gravitino.version>
     </properties>
 
     <dependencyManagement>
