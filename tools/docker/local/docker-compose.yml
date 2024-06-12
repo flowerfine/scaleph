@@ -70,7 +70,9 @@ services:
     container_name: gravitino
     ports:
       - 8090:8090
-    restart: unless-stopped
+    volumes:
+      - /Users/xinxuan/Documents/software/jdbc-driver/mysql-connector-j-8.2.0.jar:/root/gravitino/catalogs/jdbc-mysql/libs/mysql.jar
+      - /Users/xinxuan/Documents/software/jdbc-driver/mysql-connector-j-8.2.0.jar:/root/gravitino/catalogs/jdbc-doris/libs/mysql.jar
     networks:
       - scaleph
 
