@@ -40,7 +40,6 @@ import cn.sliew.scaleph.plugin.framework.exception.PluginException;
 import cn.sliew.scaleph.plugin.framework.resource.ResourceProperty;
 import cn.sliew.scaleph.resource.service.ResourceService;
 import cn.sliew.scaleph.workspace.flink.cdc.service.FlinkCDCConnectorService;
-import cn.sliew.scaleph.workspace.flink.cdc.service.FlinkCDCDagService;
 import cn.sliew.scaleph.workspace.flink.cdc.service.WsArtifactFlinkCDCService;
 import cn.sliew.scaleph.workspace.flink.cdc.service.constant.FlinkCDCConstant;
 import cn.sliew.scaleph.workspace.flink.cdc.service.convert.WsArtifactFlinkCDCConvert;
@@ -77,8 +76,6 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
     private WsArtifactFlinkCDCMapper wsArtifactFlinkCDCMapper;
     @Autowired
     private WsArtifactService wsArtifactService;
-    @Autowired
-    private FlinkCDCDagService flinkCDCDagService;
     @Autowired
     private FlinkCDCConnectorService flinkCDCConnectorService;
     @Autowired
@@ -127,9 +124,7 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
     public WsArtifactFlinkCDCDTO selectOne(Long id) {
         WsArtifactFlinkCDC record = wsArtifactFlinkCDCMapper.selectOne(id);
         checkState(record != null, () -> "artifact flink-cdc not exists for id: " + id);
-        WsArtifactFlinkCDCDTO dto = WsArtifactFlinkCDCConvert.INSTANCE.toDto(record);
-        dto.setDag(flinkCDCDagService.getDag(dto.getDagId()));
-        return dto;
+        return WsArtifactFlinkCDCConvert.INSTANCE.toDto(record);
     }
 
     @Override
@@ -142,15 +137,7 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
     public String buildConfig(Long id, Optional<String> jobName) throws Exception {
         WsArtifactFlinkCDCDTO dto = selectOne(id);
         ObjectNode conf = JacksonUtil.createObjectNode();
-        DagConfigComplexDTO dag = dto.getDag();
-        buildEnvs(conf, jobName.isPresent() ? jobName.get() : dto.getArtifact().getName(), dag.getDagAttrs());
-        // source, sink, transform
-        MutableGraph<ObjectNode> graph = buildGraph(dag);
-        buildNodes(conf, graph.nodes());
-        // append source_table_name and result_table_name
-        buildEdges(graph.edges());
-        // remove utilty fields
-        clearUtiltyField(graph.nodes());
+
         return yamlMapper.writeValueAsString(conf);
     }
 
@@ -280,7 +267,6 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
         record.setArtifactId(artifactDTO.getId());
         record.setFlinkVersion(FlinkVersion.current());
         record.setFlinkCDCVersion(FlinkCDCVersion.current());
-        record.setDagId(flinkCDCDagService.initialize(param.getName(), param.getRemark()));
         record.setCurrent(YesOrNo.YES);
         wsArtifactFlinkCDCMapper.insert(record);
         return selectOne(record.getId());
@@ -299,12 +285,6 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
         record.setId(param.getId());
         record.setCurrent(YesOrNo.YES);
         return wsArtifactFlinkCDCMapper.updateById(record);
-    }
-
-    @Override
-    public void updateGraph(WsArtifactFlinkCDCGraphParam param) {
-        WsArtifactFlinkCDCDTO wsArtifactFlinkCDCDTO = selectOne(param.getId());
-        flinkCDCDagService.update(wsArtifactFlinkCDCDTO.getDagId(), param.getJobGraph());
     }
 
     @Override
@@ -332,7 +312,6 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
     }
 
     private int doDelete(WsArtifactFlinkCDCDTO cdc) {
-        flinkCDCDagService.destroy(cdc.getDagId());
         return wsArtifactFlinkCDCMapper.deleteById(cdc.getId());
     }
 }

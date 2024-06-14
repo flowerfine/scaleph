@@ -46,8 +46,6 @@ public interface WsArtifactFlinkCDCService {
 
     int update(WsArtifactFlinkCDCUpdateParam param);
 
-    void updateGraph(WsArtifactFlinkCDCGraphParam param);
-
     int delete(Long id) throws ScalephException;
 
     int deleteBatch(List<Long> ids) throws ScalephException;

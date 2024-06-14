@@ -21,9 +21,9 @@ package cn.sliew.scaleph.workspace.flink.cdc.service.dto;
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCVersion;
-import cn.sliew.scaleph.dag.service.dto.DagConfigComplexDTO;
-import cn.sliew.scaleph.workspace.project.service.dto.WsArtifactDTO;
 import cn.sliew.scaleph.system.model.BaseDTO;
+import cn.sliew.scaleph.workspace.project.service.dto.WsArtifactDTO;
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -40,11 +40,29 @@ public class WsArtifactFlinkCDCDTO extends BaseDTO {
     @Schema(description = "flink cdc 版本")
     private FlinkCDCVersion flinkCDCVersion;
 
-    @Schema(description = "dag id")
-    private Long dagId;
+    @Schema(description = "全局并行度")
+    private Integer parallelism;
 
-    @Schema(description = "dag")
-    private DagConfigComplexDTO dag;
+    @Schema(description = "时区")
+    private String localTimeZone;
+
+    @Schema(description = "来源-数据源id")
+    private Long fromDsId;
+
+    @Schema(description = "来源-数据源配置")
+    private JsonNode fromDsConfig;
+
+    @Schema(description = "去向-数据源id")
+    private Long toDsId;
+
+    @Schema(description = "去向-数据源配置")
+    private JsonNode toDsConfig;
+
+    @Schema(description = "transform")
+    private JsonNode transform;
+
+    @Schema(description = "route")
+    private JsonNode route;
 
     @Schema(description = "`current`")
     private YesOrNo current;
