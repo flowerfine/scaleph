@@ -6,7 +6,15 @@ const MetadataGravitinoCatalogWeb: React.FC = () => {
   const access = useAccess();
 
   return (
-    <PageContainer title={false}>待开发</PageContainer>
+    <PageContainer title={false}>
+      <iframe
+        src={"http://localhost:8090"}
+        width="100%"
+        style={{
+          height:"75vh"
+        }}
+      />
+    </PageContainer>
   );
 }
 
