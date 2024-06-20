@@ -28,7 +28,14 @@
         <result column="artifact_id" property="artifactId"/>
         <result column="flink_version" property="flinkVersion"/>
         <result column="flink_cdc_version" property="flinkCDCVersion"/>
-        <result column="dag_id" property="dagId"/>
+        <result column="parallelism" property="parallelism"/>
+        <result column="local_time_zone" property="localTimeZone"/>
+        <result column="from_ds_id" property="fromDsId"/>
+        <result column="from_ds_config" property="fromDsConfig"/>
+        <result column="to_ds_id" property="toDsId"/>
+        <result column="to_ds_config" property="toDsConfig"/>
+        <result column="transform" property="transform"/>
+        <result column="route" property="route"/>
         <result column="current" property="current"/>
         <association column="artifact_id" property="artifact"
                      select="cn.sliew.scaleph.dao.mapper.master.ws.WsArtifactMapper.selectById"/>
@@ -37,7 +44,9 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        artifact_id, flink_version, flink_cdc_version, dag_id, `current`
+        artifact_id, flink_version, flink_cdc_version,
+        parallelism, local_time_zone, from_ds_id, from_ds_config,
+        to_ds_id, to_ds_config, `transform`, route, `current`
     </sql>
 
     <select id="list" resultMap="FlinkArtifactCDCMap">

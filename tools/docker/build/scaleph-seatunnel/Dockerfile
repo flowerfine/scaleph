@@ -24,6 +24,7 @@ ARG TAR_FILE=apache-seatunnel-${SEATUNNEL_VERSION}-bin.tar.gz
 ENV SEATUNNEL_HOME=/opt/seatunnel
 RUN mkdir -p $SEATUNNEL_HOME
 
+# 本地构建时，可以切换成国内镜像：https://mirrors.cloud.tencent.com/apache/seatunnel/${SEATUNNEL_VERSION}/$TAR_FILE
 RUN wget https://archive.apache.org/dist/seatunnel/${SEATUNNEL_VERSION}/$TAR_FILE ; \
     tar -zxf $TAR_FILE --strip 1 -C $SEATUNNEL_HOME ; \
     rm $TAR_FILE

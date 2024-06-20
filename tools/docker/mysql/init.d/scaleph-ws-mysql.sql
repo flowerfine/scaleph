@@ -17,7 +17,7 @@ create table ws_project
 ) engine = innodb comment '项目信息';
 
 insert into ws_project(id, project_code, project_name, remark, creator, editor)
-values (1, 'seatunnel', 'seatunnel-examples', null, 'sys', 'sys');
+values (1, 'example', 'examples', null, 'sys', 'sys');
 
 drop table if exists ws_artifact;
 create table ws_artifact
@@ -131,24 +131,31 @@ VALUES (7, 9, '1.18.0',
         '1', 'sys', 'sys');
 
 drop table if exists ws_artifact_flink_cdc;
-create table ws_artifact_flink_cdc
+CREATE TABLE `ws_artifact_flink_cdc`
 (
-    id                bigint      not null auto_increment comment '自增主键',
-    artifact_id       bigint      not null comment '作业 artifact id',
-    flink_version     varchar(32) not null comment 'flink 版本',
-    flink_cdc_version varchar(32) not null comment 'flink cdc 版本',
-    dag_id            bigint      not null,
-    current           varchar(16) not null comment 'current artifact',
-    creator           varchar(32) comment '创建人',
-    create_time       timestamp default current_timestamp comment '创建时间',
-    editor            varchar(32) comment '修改人',
-    update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
-    primary key (id),
-    key               idx_artifact (artifact_id)
-) engine = innodb comment 'artifact flink-cdc';
-INSERT INTO `ws_artifact_flink_cdc`(`id`, `artifact_id`, `flink_version`, `flink_cdc_version`, `dag_id`,
+    `id`                bigint      NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+    `artifact_id`       bigint      NOT NULL COMMENT '作业 artifact id',
+    `flink_version`     varchar(32) NOT NULL COMMENT 'flink 版本',
+    `flink_cdc_version` varchar(32) NOT NULL COMMENT 'flink cdc 版本',
+    `parallelism`       int         NOT NULL DEFAULT '1' COMMENT '全局并行度',
+    `local_time_zone`   varchar(16)          DEFAULT NULL COMMENT '时区',
+    `from_ds_id`        bigint      NOT NULL COMMENT '来源-数据源',
+    `from_ds_config`    text COMMENT '来源-数据源配置',
+    `to_ds_id`          bigint      NOT NULL COMMENT '去向-数据源',
+    `to_ds_config`      text COMMENT '去向-数据源配置',
+    `transform`         text COMMENT 'transform 配置',
+    `route`             text COMMENT 'route 配置',
+    `current`           varchar(16) NOT NULL COMMENT 'current artifact',
+    `creator`           varchar(32)          DEFAULT NULL COMMENT '创建人',
+    `create_time`       timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `editor`            varchar(32)          DEFAULT NULL COMMENT '修改人',
+    `update_time`       timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (`id`),
+    KEY                 `idx_artifact` (`artifact_id`)
+) ENGINE=InnoDB COMMENT='artifact flink-cdc';
+INSERT INTO `ws_artifact_flink_cdc`(`id`, `artifact_id`, `flink_version`, `flink_cdc_version`, `from_ds_id`, `to_ds_id`,
                                     `current`, `creator`, `editor`)
-VALUES (1, 10, '1.18.1', '3.1.0', 3, '1', 'sys', 'sys');
+VALUES (1, 10, '1.18.1', '3.1.0', 1, 1, '1', 'sys', 'sys');
 
 drop table if exists ws_artifact_seatunnel;
 create table ws_artifact_seatunnel

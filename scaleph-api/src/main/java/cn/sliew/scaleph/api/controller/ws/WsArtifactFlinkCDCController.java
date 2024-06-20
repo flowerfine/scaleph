@@ -20,9 +20,7 @@ package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.exception.ScalephException;
-import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
 import cn.sliew.scaleph.system.model.ResponseVO;
-import cn.sliew.scaleph.workspace.flink.cdc.service.FlinkCDCDagService;
 import cn.sliew.scaleph.workspace.flink.cdc.service.WsArtifactFlinkCDCService;
 import cn.sliew.scaleph.workspace.flink.cdc.service.dto.WsArtifactFlinkCDCDTO;
 import cn.sliew.scaleph.workspace.flink.cdc.service.param.*;
@@ -44,8 +42,6 @@ import java.util.Optional;
 @RequestMapping(path = "/api/artifact/flink/cdc")
 public class WsArtifactFlinkCDCController {
 
-    @Autowired
-    private FlinkCDCDagService flinkCDCDagService;
     @Autowired
     private WsArtifactFlinkCDCService wsArtifactFlinkCDCService;
 
@@ -98,14 +94,6 @@ public class WsArtifactFlinkCDCController {
     }
 
     @Logging
-    @PostMapping("graph")
-    @Operation(summary = "修改 flink cdc graph", description = "修改 flink cdc graph")
-    public ResponseEntity<ResponseVO> updateGraph(@RequestBody @Valid WsArtifactFlinkCDCGraphParam param) {
-        wsArtifactFlinkCDCService.updateGraph(param);
-        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
-    }
-
-    @Logging
     @DeleteMapping("{id}")
     @Operation(summary = "删除 fink cdc", description = "删除 fink cdc")
     public ResponseEntity<ResponseVO> deleteJob(@PathVariable("id") Long id) throws ScalephException {
@@ -127,14 +115,6 @@ public class WsArtifactFlinkCDCController {
     public ResponseEntity<ResponseVO> deleteArtifact(@PathVariable("artifactId") Long artifactId) throws ScalephException {
         wsArtifactFlinkCDCService.deleteArtifact(artifactId);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
-    }
-
-    @Logging
-    @GetMapping("/dag/dnd")
-    @Operation(summary = "查询DAG节点元信息", description = "后端统一返回节点信息")
-    public ResponseEntity<ResponseVO<List<DndDTO>>> loadNodeMeta() {
-        List<DndDTO> dnds = flinkCDCDagService.getDnds();
-        return new ResponseEntity<>(ResponseVO.success(dnds), HttpStatus.OK);
     }
 
     @Logging

@@ -14,17 +14,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG FLINK_VERSION=1.18
-
-FROM flink:${FLINK_VERSION}
-
-ARG FLINK_CDC_VERSION=3.1.0
-ARG TAR_FILE=flink-cdc-${FLINK_CDC_VERSION}-bin.tar.gz
-
-ENV FLINK_CDC_HOME=/opt/flink-cdc
-RUN mkdir -p $FLINK_CDC_HOME
-
-# 本地构建时，可以切换成国内镜像：https://mirrors.cloud.tencent.com/apache/flink/flink-cdc-${FLINK_CDC_VERSION}/$TAR_FILE
-RUN wget https://archive.apache.org/dist/flink/flink-cdc-${FLINK_CDC_VERSION}/$TAR_FILE ; \
-    tar -zxf $TAR_FILE --strip 1 -C $FLINK_CDC_HOME ; \
-    rm $TAR_FILE
+services:
+  doris:
+    image: yagagagaga/doris-standalone:2.1.3
+    container_name: doris
+    privileged: true
+    command: sysctl -w vm.max_map_count=2000000
+    tty: true
+    environment:
+      - TZ=Asia/Shanghai
+#    ports:
+#      - 8030:8030
+#      - 8040:8040
+#      - 9030:9030
+    network_mode: host

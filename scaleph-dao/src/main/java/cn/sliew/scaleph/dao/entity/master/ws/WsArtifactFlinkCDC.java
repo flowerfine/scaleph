@@ -47,8 +47,29 @@ public class WsArtifactFlinkCDC extends BaseDO {
     @TableField("flink_cdc_version")
     private FlinkCDCVersion flinkCDCVersion;
 
-    @TableField("dag_id")
-    private Long dagId;
+    @TableField("parallelism")
+    private Integer parallelism;
+
+    @TableField("local_time_zone")
+    private String localTimeZone;
+
+    @TableField("from_ds_id")
+    private Long fromDsId;
+
+    @TableField("from_ds_config")
+    private String fromDsConfig;
+
+    @TableField("to_ds_id")
+    private Long toDsId;
+
+    @TableField("to_ds_config")
+    private String toDsConfig;
+
+    @TableField("transform")
+    private String transform;
+
+    @TableField("route")
+    private String route;
 
     @TableField("`current`")
     private YesOrNo current;

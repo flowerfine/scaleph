@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.workspace.flink.cdc.service.convert;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.ws.WsArtifactFlinkCDC;
 import cn.sliew.scaleph.workspace.flink.cdc.service.dto.WsArtifactFlinkCDCDTO;
@@ -26,6 +27,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.StringUtils;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface WsArtifactFlinkCDCConvert extends BaseConvert<WsArtifactFlinkCDC, WsArtifactFlinkCDCDTO> {
@@ -37,6 +39,18 @@ public interface WsArtifactFlinkCDCConvert extends BaseConvert<WsArtifactFlinkCD
         BeanUtils.copyProperties(dto, entity);
         entity.setArtifact(WsArtifactConvert.INSTANCE.toDo(dto.getArtifact()));
         entity.setArtifactId(dto.getArtifact().getId());
+        if (dto.getFromDsConfig() != null) {
+            entity.setFromDsConfig(dto.getFromDsConfig().toString());
+        }
+        if (dto.getToDsConfig() != null) {
+            entity.setToDsConfig(dto.getToDsConfig().toString());
+        }
+        if (dto.getTransform() != null) {
+            entity.setTransform(dto.getTransform().toString());
+        }
+        if (dto.getRoute() != null) {
+            entity.setRoute(dto.getRoute().toString());
+        }
         return entity;
     }
 
@@ -45,6 +59,18 @@ public interface WsArtifactFlinkCDCConvert extends BaseConvert<WsArtifactFlinkCD
         WsArtifactFlinkCDCDTO dto = new WsArtifactFlinkCDCDTO();
         BeanUtils.copyProperties(entity, dto);
         dto.setArtifact(WsArtifactConvert.INSTANCE.toDto(entity.getArtifact()));
+        if (StringUtils.hasText(entity.getFromDsConfig())) {
+            dto.setFromDsConfig(JacksonUtil.toJsonNode(entity.getFromDsConfig()));
+        }
+        if (StringUtils.hasText(entity.getToDsConfig())) {
+            dto.setToDsConfig(JacksonUtil.toJsonNode(entity.getToDsConfig()));
+        }
+        if (StringUtils.hasText(entity.getTransform())) {
+            dto.setTransform(JacksonUtil.toJsonNode(entity.getTransform()));
+        }
+        if (StringUtils.hasText(entity.getRoute())) {
+            dto.setRoute(JacksonUtil.toJsonNode(entity.getRoute()));
+        }
         return dto;
     }
 }
