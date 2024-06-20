@@ -250,7 +250,7 @@ const FlinkKubernetesJobDetailWeb: React.FC = (props: any) => {
     {
       label: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.overview'}),
       key: 'overview',
-      children: <FlinkKubernetesJobDetailOverviewWeb data={props.flinkKubernetesJobDetail.job}/>
+      children: <FlinkKubernetesJobDetailOverviewWeb/>
     },
     {
       label: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.savepoint'}),

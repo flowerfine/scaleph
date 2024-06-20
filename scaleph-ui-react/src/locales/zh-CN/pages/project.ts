@@ -919,6 +919,17 @@ export default {
   // Sql
   'pages.project.di.step.sql.query': 'SQL',
 
+  'pages.project.di.flink-cdc.step.base': '基础信息',
+  'pages.project.di.flink-cdc.step.base.parallelism': '并行度',
+  'pages.project.di.flink-cdc.step.base.localTimeZone': '时区',
+  'pages.project.di.flink-cdc.step.config': '同步配置',
+  'pages.project.di.flink-cdc.step.config.dataSource': '选择数据源',
+  'pages.project.di.flink-cdc.step.config.dataSource.from': '来源',
+  'pages.project.di.flink-cdc.step.config.dataSource.to': '去向',
+  'pages.project.di.flink-cdc.step.config.route': '数据路由',
+  'pages.project.di.flink-cdc.step.config.transform': 'Transform',
+  'pages.project.di.flink-cdc.step.yaml': 'YAML',
+
   'pages.project.flink.kubernetes.template': 'Template',
   'pages.project.flink.kubernetes.template.name': '名称',
   'pages.project.flink.kubernetes.template.deploymentKind': '部署模式',
