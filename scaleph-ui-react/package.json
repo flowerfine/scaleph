@@ -47,7 +47,7 @@
   ],
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
-    "@ant-design/pro-components": "^2.3.47",
+    "@ant-design/pro-components": "^2.7.10",
     "@antv/xflow": "^2.0.4",
     "@antv/xflow-diff": "^1.0.0",
     "@antv/layout": "^0.3.2",
