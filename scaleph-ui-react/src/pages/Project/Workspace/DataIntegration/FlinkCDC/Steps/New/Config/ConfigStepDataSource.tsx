@@ -1,9 +1,10 @@
 import React, {useState} from "react";
-import {TreeSelectProps} from "antd";
+import {Divider, TreeSelectProps} from "antd";
 import {SwapRightOutlined} from "@ant-design/icons";
-import {ProCard, ProFormGroup, ProFormTreeSelect} from "@ant-design/pro-components";
+import {ProCard, ProFormDependency, ProFormGroup, ProFormTreeSelect} from "@ant-design/pro-components";
 import {useIntl} from "@umijs/max";
 import {DsInfoService} from "@/services/datasource/info.service";
+import ConnectorForm from "@/pages/Project/Workspace/DataIntegration/FlinkCDC/Steps/Connector/ConnectorForm";
 
 const DataIntegrationFlinkCDCStepConfigDataSource: React.FC = () => {
     const intl = useIntl();
@@ -67,6 +68,24 @@ const DataIntegrationFlinkCDCStepConfigDataSource: React.FC = () => {
                         loadData: loadToDataSource
                     }}
                 />
+
+                <ProFormDependency name={["fromDsId"]}>
+                    {({fromDsId}) => {
+                        return <ProFormGroup colProps={{span: 11, offset: 1}}>
+                            <Divider plain>{intl.formatMessage({id: 'pages.project.di.flink-cdc.step.config.dataSource.fromDsConfig'})}</Divider>
+                            <ConnectorForm type={'source'} name={'MySQL'}/>
+                        </ProFormGroup>
+                    }}
+                </ProFormDependency>
+                <Divider type={"vertical"}/>
+                <ProFormDependency name={["toDsId"]}>
+                    {({toDsId}) => {
+                        return <ProFormGroup colProps={{span: 11}}>
+                            <Divider plain>{intl.formatMessage({id: 'pages.project.di.flink-cdc.step.config.dataSource.toDsConfig'})}</Divider>
+                            <ConnectorForm type={'sink'} name={'Doris'}/>
+                        </ProFormGroup>
+                    }}
+                </ProFormDependency>
             </ProFormGroup>
         </ProCard>);
 }

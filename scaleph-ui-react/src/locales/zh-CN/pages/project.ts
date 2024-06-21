@@ -925,7 +925,9 @@ export default {
   'pages.project.di.flink-cdc.step.config': '同步配置',
   'pages.project.di.flink-cdc.step.config.dataSource': '选择数据源',
   'pages.project.di.flink-cdc.step.config.dataSource.from': '来源',
+  'pages.project.di.flink-cdc.step.config.dataSource.fromDsConfig': '来源配置',
   'pages.project.di.flink-cdc.step.config.dataSource.to': '去向',
+  'pages.project.di.flink-cdc.step.config.dataSource.toDsConfig': '去向配置',
   'pages.project.di.flink-cdc.step.config.route': '库表路由',
   'pages.project.di.flink-cdc.step.config.route.list': '路由',
   'pages.project.di.flink-cdc.step.config.route.source': '源表',
@@ -939,6 +941,10 @@ export default {
   'pages.project.di.flink-cdc.step.config.transform.partitionKeys': '分区键',
   'pages.project.di.flink-cdc.step.config.transform.tableOptions': '表配置',
   'pages.project.di.flink-cdc.step.yaml': 'YAML',
+
+  'pages.project.di.flink-cdc.step.connector.mysql.tables': '表',
+  'pages.project.di.flink-cdc.step.connector.mysql.tablesExclude': '排除表',
+  'pages.project.di.flink-cdc.step.connector.mysql.schemaChangeEnabled': '启用 Schema 变更',
 
   'pages.project.flink.kubernetes.template': 'Template',
   'pages.project.flink.kubernetes.template.name': '名称',
