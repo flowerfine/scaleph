@@ -21,7 +21,6 @@ package cn.sliew.scaleph.dao.entity.master.security;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -29,7 +28,6 @@ import lombok.Data;
  */
 @Data
 @TableName("sec_resource_web_role")
-@Schema(name = "SecResourceWebRole对象", description = "资源-web与角色关联表")
 public class SecResourceWebRole extends BaseDO {
 
     private static final long serialVersionUID = 1L;
