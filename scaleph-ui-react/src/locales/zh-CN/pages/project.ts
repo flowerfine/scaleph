@@ -931,6 +931,7 @@ export default {
   'pages.project.di.flink-cdc.step.config.route.source': '源表',
   'pages.project.di.flink-cdc.step.config.route.sink': '目标表',
   'pages.project.di.flink-cdc.step.config.transform': 'Transform',
+  'pages.project.di.flink-cdc.step.config.transform.list': '转换',
   'pages.project.di.flink-cdc.step.config.transform.sourceTable': '表',
   'pages.project.di.flink-cdc.step.config.transform.projection': '字段映射',
   'pages.project.di.flink-cdc.step.config.transform.filter': '过滤',

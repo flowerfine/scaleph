@@ -24,7 +24,15 @@ const DataIntegrationFlinkCDCNewSteps: React.FC = () => {
                         rowProps: {gutter: [16, 8]}
                     }}
                     onFinish={(values: Record<string, any>) => {
-                        console.log('onFinish', values)
+                        const param = {
+                            name: values.name,
+                            parallelism: values.parallelism,
+                            localTimeZone: values.localTimeZone,
+                            fromDsId: values.fromDsId,
+                            toDsId: values.toDsId,
+                            transform: values.transform,
+                            route: values.route
+                        }
                         return Promise.resolve(true)
                     }}
                 >

@@ -10,34 +10,34 @@ const DataIntegrationFlinkCDCStepConfigRoute: React.FC = () => {
             title={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.config.route'})}
             bordered
         >
-            <ProFormGroup>
-                <ProFormList
-                    name={"route"}
-                    copyIconProps={false}
-                    creatorButtonProps={{
-                        creatorButtonText: intl.formatMessage({id: 'pages.project.di.flink-cdc.step.config.route.list'}),
-                        type: 'text'
-                    }}
-                >
-                    <ProFormGroup>
-                        <ProFormText
-                            name={"sourceTable"}
-                            label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.config.route.source'})}
-                            colProps={{span: 9, offset: 1}}
-                        />
-                        <ProFormText
-                            name={"sinkTable"}
-                            label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.config.route.sink'})}
-                            colProps={{span: 9, offset: 1}}
-                        />
-                        <ProFormText
-                            name={"description"}
-                            label={intl.formatMessage({id: 'app.common.data.remark'})}
-                            colProps={{span: 3, offset: 1}}
-                        />
-                    </ProFormGroup>
-                </ProFormList>
-            </ProFormGroup>
+            <ProFormList
+                name={"route"}
+                copyIconProps={false}
+                creatorButtonProps={{
+                    creatorButtonText: intl.formatMessage({id: 'pages.project.di.flink-cdc.step.config.route.list'}),
+                    type: 'text'
+                }}
+            >
+                <ProFormGroup>
+                    <ProFormText
+                        name={"sourceTable"}
+                        label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.config.route.source'})}
+                        colProps={{span: 9, offset: 1}}
+                        rules={[{required: true}]}
+                    />
+                    <ProFormText
+                        name={"sinkTable"}
+                        label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.config.route.sink'})}
+                        colProps={{span: 9, offset: 1}}
+                        rules={[{required: true}]}
+                    />
+                    <ProFormText
+                        name={"description"}
+                        label={intl.formatMessage({id: 'app.common.data.remark'})}
+                        colProps={{span: 3, offset: 1}}
+                    />
+                </ProFormGroup>
+            </ProFormList>
         </ProCard>);
 }
 
