@@ -1,3 +1,4 @@
+import {useIntl} from "@umijs/max";
 import SourceMySQLConnectorForm
     from "@/pages/Project/Workspace/DataIntegration/FlinkCDC/Steps/Connector/Source/SourceMySQLConnector";
 
@@ -7,6 +8,7 @@ type ConnectorProps = {
 };
 
 const FlinkCDCConnectorForm: React.FC<ConnectorProps> = ({type, name}) => {
+    const intl = useIntl();
 
     const switchStep = () => {
         if (type === 'source' && name === 'MySQL') {

@@ -72,8 +72,9 @@ const DataIntegrationFlinkCDCStepConfigDataSource: React.FC = () => {
                 <ProFormDependency name={["fromDsId"]}>
                     {({fromDsId}) => {
                         return <ProFormGroup colProps={{span: 11, offset: 1}}>
-                            <Divider plain>{intl.formatMessage({id: 'pages.project.di.flink-cdc.step.config.dataSource.fromDsConfig'})}</Divider>
-                            <ConnectorForm type={'source'} name={'MySQL'}/>
+                            <Divider
+                                plain>{intl.formatMessage({id: 'pages.project.di.flink-cdc.step.config.dataSource.fromDsConfig'})}</Divider>
+                            <ConnectorForm type={'source'} name={'Kafka'}/>
                         </ProFormGroup>
                     }}
                 </ProFormDependency>
@@ -81,8 +82,9 @@ const DataIntegrationFlinkCDCStepConfigDataSource: React.FC = () => {
                 <ProFormDependency name={["toDsId"]}>
                     {({toDsId}) => {
                         return <ProFormGroup colProps={{span: 11}}>
-                            <Divider plain>{intl.formatMessage({id: 'pages.project.di.flink-cdc.step.config.dataSource.toDsConfig'})}</Divider>
-                            <ConnectorForm type={'sink'} name={'Doris'}/>
+                            <Divider
+                                plain>{intl.formatMessage({id: 'pages.project.di.flink-cdc.step.config.dataSource.toDsConfig'})}</Divider>
+                            <ConnectorForm type={'sink'} name={'StarRocks'}/>
                         </ProFormGroup>
                     }}
                 </ProFormDependency>
