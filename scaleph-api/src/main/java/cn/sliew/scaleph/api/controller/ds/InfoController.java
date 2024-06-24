@@ -61,7 +61,7 @@ public class InfoController {
     }
 
     @Logging
-    @GetMapping("/{id}")
+    @GetMapping("/detail/{id}")
     @Operation(summary = "获取数据源详情", description = "获取数据源详情")
     public ResponseEntity<ResponseVO<DsInfoDTO>> get(@PathVariable("id") Long id) {
         final DsInfoDTO result = dsInfoService.selectOne(id, false);

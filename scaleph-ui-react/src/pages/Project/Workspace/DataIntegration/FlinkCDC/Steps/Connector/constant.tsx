@@ -1,0 +1,23 @@
+export const MySQLParams = {
+  tables: 'tables',
+  tablesExclude: 'tables.exclude',
+  schemaChangeEnabled: 'schema-change.enabled',
+  serverId: 'server-id',
+  scanIncrementalSnapshotChunkSize: 'scan.incremental.snapshot.chunk.size',
+  scanSnapshotFetchSize: 'scan.snapshot.fetch.size',
+  scanIncrementalCloseIdleReaderEnabled: 'scan.incremental.close-idle-reader.enabled',
+  scanStartupMode: 'scan.startup.mode',
+  startupMode: 'scanStartupMode',
+  scanStartupSpecificOffsetFile: 'scan.startup.specific-offset.file',
+  scanStartupSpecificOffsetPos: 'scan.startup.specific-offset.pos',
+  scanStartupSpecificOffsetGtidSet: 'scan.startup.specific-offset.gtid-set',
+  scanStartupSpecificOffsetSkipEvents: 'scan.startup.specific-offset.skip-events',
+  scanStartupSpecificOffsetSkipRows: 'scan.startup.specific-offset.skip-rows',
+  connectTimeout: 'connect.timeout',
+  connectMaxRetries: 'connect.max-retries',
+  connectionPoolSize: 'connection.pool.size',
+  heartbeatInterval: 'heartbeat.interval',
+  jdbcProperties: 'jdbc.properties',
+  debezium: 'debezium',
+}
+

@@ -1,25 +1,38 @@
-import {useIntl} from "@umijs/max";
+import {useEffect, useState} from "react";
+import {DsInfoService} from "@/services/datasource/info.service";
 import SourceMySQLConnectorForm
-    from "@/pages/Project/Workspace/DataIntegration/FlinkCDC/Steps/Connector/Source/SourceMySQLConnector";
+  from "@/pages/Project/Workspace/DataIntegration/FlinkCDC/Steps/Connector/Source/SourceMySQLConnector";
 
 type ConnectorProps = {
-    type: string;
-    name: string;
+  type: string;
+  dsId: number;
 };
 
-const FlinkCDCConnectorForm: React.FC<ConnectorProps> = ({type, name}) => {
-    const intl = useIntl();
+const FlinkCDCConnectorForm: React.FC<ConnectorProps> = ({type, dsId}) => {
 
-    const switchStep = () => {
-        if (type === 'source' && name === 'MySQL') {
-            return (<SourceMySQLConnectorForm/>);
-        } else if (type === 'sink' && name === 'Doris') {
-            return (<SourceMySQLConnectorForm/>);
-        } else {
-            return <></>;
+  const [content, setConstent] = useState(<></>)
+
+  useEffect(() => {
+    switchStep()
+  }, [type, dsId])
+
+  const switchStep = () => {
+    if (type && dsId) {
+      DsInfoService.selectOne(dsId).then((response) => {
+        if (response.data) {
+          if (type === 'source' && response.data.dsType.type.value == 'MySQL') {
+            setConstent(<SourceMySQLConnectorForm/>)
+          } else if (type === 'sink' && response.data.dsType.type.value === 'Doris') {
+            setConstent(<SourceMySQLConnectorForm/>)
+          }
         }
-    };
-    return (<div>{switchStep()}</div>);
+      })
+    } else {
+      setConstent(<></>)
+    }
+  };
+
+  return (<div>{content}</div>);
 }
 
 export default FlinkCDCConnectorForm;
