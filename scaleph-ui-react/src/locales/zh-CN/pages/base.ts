@@ -52,6 +52,7 @@ export default {
   'app.common.operate.query.label': '查询',
   'app.common.operate.reset.label': '重置',
   'app.common.operate.confirm.label': '确定',
+  'app.common.operate.save.label': '保存',
   'app.common.operate.submit.label': '提交',
   'app.common.operate.submit.success': '提交成功',
   'app.common.operate.submit.confirm.title': '确定提交？',

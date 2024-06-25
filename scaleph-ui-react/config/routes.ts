@@ -221,9 +221,13 @@ export default [
             component: './Project/Workspace/DataIntegration/FlinkCDC',
           },
           {
-            path: '/workspace/data-integration/flink-cdc/dag',
-            component: './Project/Workspace/DataIntegration/FlinkCDC/Dag',
-          }
+            path: '/workspace/data-integration/flink-cdc/steps/new',
+            component: './Project/Workspace/DataIntegration/FlinkCDC/Steps/New',
+          },
+          {
+            path: '/workspace/data-integration/flink-cdc/steps/update',
+            component: './Project/Workspace/DataIntegration/FlinkCDC/Steps/Update',
+          },
         ]
       },
       {

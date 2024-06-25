@@ -26,6 +26,12 @@ export const DsInfoService = {
     });
   },
 
+  selectOne: async (id: number | string) => {
+    return request<ResponseBody<DsInfo>>(`${DsInfoService.url}//detail/${id}`, {
+      method: 'GET',
+    });
+  },
+
   add: async (param: any) => {
     return request<ResponseBody<any>>(`${DsInfoService.url}`, {
       method: 'PUT',

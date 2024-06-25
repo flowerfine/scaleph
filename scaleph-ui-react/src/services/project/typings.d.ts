@@ -173,8 +173,14 @@ export type WsArtifactFlinkCDC = {
   artifact?: WsArtifact;
   flinkVersion?: Dict;
   flinkCDCVersion?: Dict;
-  dagId?: number;
-  dag?: Dag;
+  parallelism?: number;
+  localTimeZone?: string;
+  fromDsId?: number;
+  fromDsConfig?: Record<string, any>;
+  toDsId?: number;
+  toDsConfig?: Record<string, any>;
+  transform?: Array<Record<string, any>>;
+  route?: Array<Record<string, any>>;
   current?: Dict;
   createTime?: Date;
   updateTime?: Date;

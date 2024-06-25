@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import {Button, message, Modal, Space, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined, FolderOpenOutlined} from "@ant-design/icons";
 import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
@@ -9,20 +9,12 @@ import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {DictDataService} from '@/services/admin/dictData.service';
 import {WsArtifactFlinkCDC} from '@/services/project/typings';
 import {WsArtifactFlinkCDCService} from "@/services/project/WsArtifactFlinkCDCService";
-import DataIntegrationFlinkCDCForm from "./DataIntegrationFlinkCDCForm";
 
 const DataIntegrationFlinkCDCWeb: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [artifactFlinkCDCFormData, setArtifactFlinkCDCFormData] = useState<{
-    visiable: boolean;
-    data: WsArtifactFlinkCDC
-  }>({
-    visiable: false,
-    data: {},
-  });
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
   const tableColumns: ProColumns<WsArtifactFlinkCDC>[] = [
@@ -94,7 +86,7 @@ const DataIntegrationFlinkCDCWeb: React.FC = () => {
                   type="link"
                   icon={<EditOutlined/>}
                   onClick={() => {
-                    setArtifactFlinkCDCFormData({visiable: true, data: record});
+                    history.push('/workspace/data-integration/flink-cdc/steps/update', record);
                   }}
                 />
               </Tooltip>
@@ -165,7 +157,7 @@ const DataIntegrationFlinkCDCWeb: React.FC = () => {
                 key="new"
                 type="primary"
                 onClick={() => {
-                  setArtifactFlinkCDCFormData({visiable: true, data: {}});
+                  history.push('/workspace/data-integration/flink-cdc/steps/new');
                 }}
               >
                 {intl.formatMessage({id: 'app.common.operate.new.label'})}
@@ -177,19 +169,6 @@ const DataIntegrationFlinkCDCWeb: React.FC = () => {
         tableAlertRender={false}
         tableAlertOptionRender={false}
       />
-      {artifactFlinkCDCFormData.visiable && (
-        <DataIntegrationFlinkCDCForm
-          data={artifactFlinkCDCFormData.data}
-          visible={artifactFlinkCDCFormData.visiable}
-          onCancel={() => {
-            setArtifactFlinkCDCFormData({visiable: false, data: {}});
-          }}
-          onVisibleChange={(visiable) => {
-            setArtifactFlinkCDCFormData({visiable: visiable, data: {}});
-            actionRef.current?.reload();
-          }}
-        />
-      )}
     </PageContainer>
   );
 };

@@ -30,7 +30,7 @@ const AdvancedAdditionalDependencies: React.FC = () => {
               return {label: item.path, value: item.id, item: item}
             })
           }
-          return Promise.any()
+          return Promise.resolve()
         })
       }}
     />
