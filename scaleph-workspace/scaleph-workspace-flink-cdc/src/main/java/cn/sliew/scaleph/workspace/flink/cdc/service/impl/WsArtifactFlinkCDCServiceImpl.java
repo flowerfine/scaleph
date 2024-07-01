@@ -267,6 +267,22 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
         record.setArtifactId(artifactDTO.getId());
         record.setFlinkVersion(FlinkVersion.current());
         record.setFlinkCDCVersion(FlinkCDCVersion.current());
+        record.setParallelism(param.getParallelism());
+        record.setLocalTimeZone(param.getLocalTimeZone());
+        record.setFromDsId(param.getFromDsId());
+        if (param.getFromDsConfig() != null) {
+            record.setFromDsConfig(param.getFromDsConfig().toString());
+        }
+        record.setToDsId(param.getToDsId());
+        if (param.getToDsConfig() != null) {
+            record.setToDsConfig(param.getToDsConfig().toString());
+        }
+        if (param.getTransform() != null) {
+            record.setTransform(param.getTransform().toString());
+        }
+        if (param.getRoute() != null) {
+            record.setRoute(param.getRoute().toString());
+        }
         record.setCurrent(YesOrNo.YES);
         wsArtifactFlinkCDCMapper.insert(record);
         return selectOne(record.getId());

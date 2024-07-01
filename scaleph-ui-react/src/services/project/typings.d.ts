@@ -205,6 +205,14 @@ export type WsArtifactFlinkCDCSelectListParam = {
 export type WsArtifactFlinkCDCAddParam = {
   projectId: number;
   name?: string;
+  parallelism?: number;
+  localTimeZone?: string;
+  fromDsId: number;
+  fromDsConfig?: Record<string, any>;
+  toDsId: number;
+  toDsConfig?: Record<string, any>;
+  transform?: Array<any>;
+  route?: Array<any>;
   remark?: string;
 };
 

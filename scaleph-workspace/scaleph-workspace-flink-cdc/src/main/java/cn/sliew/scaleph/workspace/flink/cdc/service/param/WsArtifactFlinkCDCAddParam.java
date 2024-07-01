@@ -19,9 +19,34 @@
 package cn.sliew.scaleph.workspace.flink.cdc.service.param;
 
 import cn.sliew.scaleph.workspace.project.service.param.AbstractWsArtifactAddParam;
+import com.fasterxml.jackson.databind.JsonNode;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
 public class WsArtifactFlinkCDCAddParam extends AbstractWsArtifactAddParam {
 
+    @Schema(description = "并行度。默认 1")
+    private Integer parallelism;
+
+    @Schema(description = "时区")
+    private String localTimeZone;
+
+    @Schema(description = "来源 数据源ID")
+    private Long fromDsId;
+
+    @Schema(description = "来源 数据元配置")
+    private JsonNode fromDsConfig;
+
+    @Schema(description = "去向 数据源ID")
+    private Long toDsId;
+
+    @Schema(description = "去向 数据源配置")
+    private JsonNode toDsConfig;
+
+    @Schema(description = "转换")
+    private JsonNode transform;
+
+    @Schema(description = "路由")
+    private JsonNode route;
 }

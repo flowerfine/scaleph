@@ -53,10 +53,7 @@ const DataIntegrationFlinkCDCStepConfigDataSource: React.FC = () => {
           fieldProps={{
             treeDataSimpleMode: true,
             treeData: fromTreeData,
-            loadData: loadFromDataSource,
-            onSelect: (value, option) => {
-              console.log('onSelect', value, option)
-            }
+            loadData: loadFromDataSource
           }}
         />
         <SwapRightOutlined/>
