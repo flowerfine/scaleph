@@ -1,13 +1,13 @@
 import {PageResponse, ResponseBody} from '@/typings';
 import {request} from '@umijs/max';
 import {
+  KubernetesOptionsVO,
   WsArtifactFlinkCDC,
   WsArtifactFlinkCDCAddParam,
-  WsArtifactFlinkCDCGraphUpdateParam,
   WsArtifactFlinkCDCHistoryParam,
   WsArtifactFlinkCDCParam,
   WsArtifactFlinkCDCSelectListParam,
-  WsArtifactFlinkCDCUpdateParam
+  WsArtifactFlinkCDCUpdateParam, WsFlinkKubernetesTemplate
 } from "@/services/project/typings";
 
 export const WsArtifactFlinkCDCService = {
@@ -56,9 +56,10 @@ export const WsArtifactFlinkCDCService = {
     });
   },
 
-  preview: async (id: number) => {
-    return request<ResponseBody<string>>(`${WsArtifactFlinkCDCService.url}/${id}/preview`, {
-      method: 'GET',
+  preview: async (param: WsArtifactFlinkCDC) => {
+    return request<ResponseBody<string>>(`${WsArtifactFlinkCDCService.url}/preview`, {
+      method: 'POST',
+      data: param
     });
   },
 
@@ -73,13 +74,6 @@ export const WsArtifactFlinkCDCService = {
     return request<ResponseBody<any>>(`${WsArtifactFlinkCDCService.url}`, {
       method: 'POST',
       data: row,
-    });
-  },
-
-  updateGraph: async (param: WsArtifactFlinkCDCGraphUpdateParam) => {
-    return request<ResponseBody<any>>(`${WsArtifactFlinkCDCService.url}/graph`, {
-      method: 'POST',
-      data: param,
     });
   },
 
@@ -103,9 +97,12 @@ export const WsArtifactFlinkCDCService = {
     });
   },
 
-  getDnds: async () => {
-    return request<ResponseBody<Array<Record<string, any>>>>(`${WsArtifactFlinkCDCService.url}/dag/dnd`, {
-      method: 'GET',
-    });
+  formatData: (data: WsArtifactFlinkCDC, value: Record<string, any>) => {
+    data.fromDsId = value.fromDsId
+    data.toDsId = value.toDsId
+    data.transform = value.transform
+    data.route = value.route
+    return data;
   },
+
 };

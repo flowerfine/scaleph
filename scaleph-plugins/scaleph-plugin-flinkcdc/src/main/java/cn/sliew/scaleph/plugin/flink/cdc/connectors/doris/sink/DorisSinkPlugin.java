@@ -41,19 +41,19 @@ public class DorisSinkPlugin extends FlinkCDCPipilineConnectorPlugin {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(CommonProperties.NAME);
         props.add(CommonProperties.TYPE);
-        props.add(FENODES);
-        props.add(BENODES);
-        props.add(JDBC_URL);
-        props.add(USERNAME);
-        props.add(PASSWORD);
-        props.add(AUTO_REDIRECT);
-        props.add(SINK_ENABLE_BATCH_MODE);
-        props.add(SINK_FLUSH_QUEUE_SIZE);
-        props.add(SINK_BUFFER_FLUSH_MAX_ROWS);
-        props.add(SINK_BUFFER_FLUSH_MAX_BYTES);
-        props.add(SINK_BUFFER_FLUSH_INTERVAL);
-        props.add(SINK_PROPERTIES);
-        props.add(TABLE_CREATE_PROPERTIES);
+//        props.add(FENODES);
+//        props.add(BENODES);
+//        props.add(JDBC_URL);
+//        props.add(USERNAME);
+//        props.add(PASSWORD);
+//        props.add(AUTO_REDIRECT);
+//        props.add(SINK_ENABLE_BATCH_MODE);
+//        props.add(SINK_FLUSH_QUEUE_SIZE);
+//        props.add(SINK_BUFFER_FLUSH_MAX_ROWS);
+//        props.add(SINK_BUFFER_FLUSH_MAX_BYTES);
+//        props.add(SINK_BUFFER_FLUSH_INTERVAL);
+//        props.add(SINK_PROPERTIES);
+//        props.add(TABLE_CREATE_PROPERTIES);
         this.supportedProperties = Collections.unmodifiableList(props);
     }
 

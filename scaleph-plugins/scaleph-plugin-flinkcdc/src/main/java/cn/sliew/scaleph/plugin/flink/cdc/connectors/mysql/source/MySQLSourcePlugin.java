@@ -41,11 +41,11 @@ public class MySQLSourcePlugin extends FlinkCDCPipilineConnectorPlugin {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(CommonProperties.NAME);
         props.add(CommonProperties.TYPE);
-        props.add(HOSTNAME);
-        props.add(PORT);
-        props.add(USERNAME);
-        props.add(PASSWORD);
-        props.add(TABLES);
+//        props.add(HOSTNAME);
+//        props.add(PORT);
+//        props.add(USERNAME);
+//        props.add(PASSWORD);
+//        props.add(TABLES);
         props.add(SCHEMA_CHANGE_ENABLED);
         props.add(SERVER_ID);
         props.add(SCAN_INCREMENTAL_CLOSE_IDLE_READER_ENABLED);

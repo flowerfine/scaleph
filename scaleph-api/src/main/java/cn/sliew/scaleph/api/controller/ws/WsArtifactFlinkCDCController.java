@@ -35,7 +35,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Tag(name = "Artifact管理-Flink-CDC")
 @RestController
@@ -118,10 +117,10 @@ public class WsArtifactFlinkCDCController {
     }
 
     @Logging
-    @GetMapping("{id}/preview")
+    @PostMapping("preview")
     @Operation(summary = "预览 flink cdc 配置", description = "预览 flink cdc 配置")
-    public ResponseEntity<ResponseVO<String>> previewJob(@PathVariable("id") Long id) throws Exception {
-        String conf = wsArtifactFlinkCDCService.buildConfig(id, Optional.empty());
+    public ResponseEntity<ResponseVO<String>> previewJob(@RequestBody WsArtifactFlinkCDCDTO dto) throws Exception {
+        String conf = wsArtifactFlinkCDCService.buildConfig(dto);
         return new ResponseEntity<>(ResponseVO.success(conf), HttpStatus.OK);
     }
 }

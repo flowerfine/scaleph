@@ -222,12 +222,6 @@ export type WsArtifactFlinkCDCUpdateParam = {
   remark?: string;
 };
 
-export type WsArtifactFlinkCDCGraphUpdateParam = {
-  id: number;
-  name?: string;
-  remark?: string;
-};
-
 export type WsArtifactFlinkJar = {
   id?: number;
   artifact?: WsArtifact;

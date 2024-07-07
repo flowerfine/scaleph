@@ -28,10 +28,12 @@ import java.util.Arrays;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum FlinkCDCPluginName implements DictInstance {
 
-    MYSQL("MySQL", "MySQL"),
+    MYSQL("mysql", "MySQL"),
 
-    DORIS("Doris", "Doris"),
-    STARROCKS("StarRocks", "StarRocks"),
+    KAFKA("kafka", "Kafka"),
+    DORIS("doris", "Doris"),
+    STARROCKS("starrocks", "StarRocks"),
+    PAIMON("paimon", "Paimon"),
 
     ROUTE("Route", "Route"),
     ;

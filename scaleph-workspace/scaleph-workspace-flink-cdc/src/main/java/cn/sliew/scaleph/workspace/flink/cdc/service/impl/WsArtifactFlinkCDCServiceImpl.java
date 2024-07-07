@@ -25,16 +25,15 @@ import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCPluginName;
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCPluginType;
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCVersion;
+import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.common.util.PropertyUtil;
-import cn.sliew.scaleph.dag.constant.GraphConstants;
-import cn.sliew.scaleph.dag.service.dto.DagConfigComplexDTO;
-import cn.sliew.scaleph.dag.service.dto.DagConfigLinkDTO;
-import cn.sliew.scaleph.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.scaleph.dao.entity.master.ws.WsArtifactFlinkCDC;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsArtifactFlinkCDCMapper;
 import cn.sliew.scaleph.ds.service.DsInfoService;
+import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.plugin.flink.cdc.FlinkCDCPipilineConnectorPlugin;
+import cn.sliew.scaleph.plugin.flink.cdc.connectors.CommonProperties;
 import cn.sliew.scaleph.plugin.flink.cdc.pipeline.PipelineProperties;
 import cn.sliew.scaleph.plugin.flink.cdc.util.FlinkCDCPluginUtil;
 import cn.sliew.scaleph.plugin.framework.exception.PluginException;
@@ -42,7 +41,6 @@ import cn.sliew.scaleph.plugin.framework.resource.ResourceProperty;
 import cn.sliew.scaleph.resource.service.ResourceService;
 import cn.sliew.scaleph.workspace.flink.cdc.service.FlinkCDCConnectorService;
 import cn.sliew.scaleph.workspace.flink.cdc.service.WsArtifactFlinkCDCService;
-import cn.sliew.scaleph.workspace.flink.cdc.service.constant.FlinkCDCConstant;
 import cn.sliew.scaleph.workspace.flink.cdc.service.convert.WsArtifactFlinkCDCConvert;
 import cn.sliew.scaleph.workspace.flink.cdc.service.dto.WsArtifactFlinkCDCDTO;
 import cn.sliew.scaleph.workspace.flink.cdc.service.param.*;
@@ -53,17 +51,16 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import com.google.common.graph.EndpointPair;
-import com.google.common.graph.GraphBuilder;
-import com.google.common.graph.MutableGraph;
+import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Properties;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -137,14 +134,17 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
     }
 
     @Override
-    public String buildConfig(Long id, Optional<String> jobName) throws Exception {
-        WsArtifactFlinkCDCDTO dto = selectOne(id);
+    public String buildConfig(WsArtifactFlinkCDCDTO dto) throws Exception {
         ObjectNode conf = JacksonUtil.createObjectNode();
         conf.set("pipeline", buildPipeline(dto));
-        conf.set("source", buildPipeline(dto));
-        conf.set("sink", buildPipeline(dto));
-        conf.set("transform", buildPipeline(dto));
-        conf.set("route", buildPipeline(dto));
+        if (dto.getFromDsId() != null) {
+            conf.set("source", buildSourceOrSink(FlinkCDCPluginType.SOURCE, dto));
+        }
+        if (dto.getToDsId() != null) {
+            conf.set("sink", buildSourceOrSink(FlinkCDCPluginType.SINK, dto));
+        }
+        conf.set("transform", dto.getTransform());
+        conf.set("route", dto.getRoute());
         return yamlMapper.writeValueAsString(conf);
     }
 
@@ -156,42 +156,38 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
         return pipeline;
     }
 
-    private ObjectNode buildSourceOrSink(FlinkCDCPluginType pluginType, WsArtifactFlinkCDCDTO dto) {
-        ObjectNode connector = JacksonUtil.createObjectNode();
+    private ObjectNode buildSourceOrSink(FlinkCDCPluginType pluginType, WsArtifactFlinkCDCDTO dto) throws PluginException {
         Properties properties = new Properties();
+        DsInfoDTO dsInfoDTO = null;
+        FlinkCDCPluginName pluginName = null;
         switch (pluginType) {
             case SOURCE:
-                properties = mergeJobAttrs(pluginType, stepName, dto.getFromDsConfig());
+                dsInfoDTO = dsInfoService.selectOne(dto.getFromDsId(), false);
+                pluginName = convertPluginName(dsInfoDTO).get();
+                properties = mergeJobAttrs(pluginType, pluginName, dsInfoDTO, dto.getFromDsConfig());
                 break;
             case SINK:
-                properties = mergeJobAttrs(pluginType, stepName, dto.getToDsConfig());
+                dsInfoDTO = dsInfoService.selectOne(dto.getToDsId(), false);
+                pluginName = convertPluginName(dsInfoDTO).get();
+                properties = mergeJobAttrs(pluginType, pluginName, dsInfoDTO, dto.getToDsConfig());
                 break;
             default:
         }
-        FlinkCDCPipilineConnectorPlugin connectorPlugin = flinkCDCConnectorService.newConnector(FlinkCDCPluginUtil.getIdentity(pluginType, stepName), properties);
+        FlinkCDCPipilineConnectorPlugin connectorPlugin = flinkCDCConnectorService.newConnector(FlinkCDCPluginUtil.getIdentity(pluginType, pluginName), properties);
         return connectorPlugin.createConf();
     }
 
-    private Properties mergeJobAttrs(FlinkCDCPluginType pluginType, FlinkCDCPluginName stepName, JsonNode config) throws PluginException {
-        Properties properties = PropertyUtil.mapToProperties(JacksonUtil.toObject(config, new TypeReference<Map<String, Object>>() {
-        }));
-        FlinkCDCPipilineConnectorPlugin connector = flinkCDCConnectorService.getConnector(pluginType, stepName);
-        for (ResourceProperty resource : connector.getRequiredResources()) {
-            String name = resource.getProperty().getName();
-            if (properties.containsKey(name)) {
-                Object property = properties.get(name);
-                // fixme force conform property to resource id
-                Object value = resourceService.getRaw(resource.getType(), Long.valueOf(property.toString()));
-                properties.put(name, JacksonUtil.toJsonString(value));
-            }
-        }
-        return properties;
+    private Optional<FlinkCDCPluginName> convertPluginName(DsInfoDTO dsInfoDTO) {
+        DataSourceType type = dsInfoDTO.getDsType().getType();
+        return Optional.ofNullable(EnumUtils.getEnumIgnoreCase(FlinkCDCPluginName.class, type.name()));
     }
 
-    private Properties mergeJobAttrs(FlinkCDCPluginType pluginType, FlinkCDCPluginName stepName, JsonNode config) throws PluginException {
+    private Properties mergeJobAttrs(FlinkCDCPluginType pluginType, FlinkCDCPluginName pluginName, DsInfoDTO dsInfoDTO, JsonNode config) throws PluginException {
         Properties properties = PropertyUtil.mapToProperties(JacksonUtil.toObject(config, new TypeReference<Map<String, Object>>() {
         }));
-        FlinkCDCPipilineConnectorPlugin connector = flinkCDCConnectorService.getConnector(pluginType, stepName);
+        properties.put(CommonProperties.TYPE.getName(), pluginName.getValue());
+        properties.put(CommonProperties.NAME.getName(), dsInfoDTO.getName());
+        FlinkCDCPipilineConnectorPlugin connector = flinkCDCConnectorService.getConnector(pluginType, pluginName);
         for (ResourceProperty resource : connector.getRequiredResources()) {
             String name = resource.getProperty().getName();
             if (properties.containsKey(name)) {
