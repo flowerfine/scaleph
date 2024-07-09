@@ -25,15 +25,15 @@ import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCPluginName;
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCPluginType;
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCVersion;
+import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.common.util.PropertyUtil;
-import cn.sliew.scaleph.dag.constant.GraphConstants;
-import cn.sliew.scaleph.dag.service.dto.DagConfigComplexDTO;
-import cn.sliew.scaleph.dag.service.dto.DagConfigLinkDTO;
-import cn.sliew.scaleph.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.scaleph.dao.entity.master.ws.WsArtifactFlinkCDC;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsArtifactFlinkCDCMapper;
+import cn.sliew.scaleph.ds.service.DsInfoService;
+import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.plugin.flink.cdc.FlinkCDCPipilineConnectorPlugin;
+import cn.sliew.scaleph.plugin.flink.cdc.connectors.CommonProperties;
 import cn.sliew.scaleph.plugin.flink.cdc.pipeline.PipelineProperties;
 import cn.sliew.scaleph.plugin.flink.cdc.util.FlinkCDCPluginUtil;
 import cn.sliew.scaleph.plugin.framework.exception.PluginException;
@@ -41,7 +41,6 @@ import cn.sliew.scaleph.plugin.framework.resource.ResourceProperty;
 import cn.sliew.scaleph.resource.service.ResourceService;
 import cn.sliew.scaleph.workspace.flink.cdc.service.FlinkCDCConnectorService;
 import cn.sliew.scaleph.workspace.flink.cdc.service.WsArtifactFlinkCDCService;
-import cn.sliew.scaleph.workspace.flink.cdc.service.constant.FlinkCDCConstant;
 import cn.sliew.scaleph.workspace.flink.cdc.service.convert.WsArtifactFlinkCDCConvert;
 import cn.sliew.scaleph.workspace.flink.cdc.service.dto.WsArtifactFlinkCDCDTO;
 import cn.sliew.scaleph.workspace.flink.cdc.service.param.*;
@@ -52,17 +51,16 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import com.google.common.graph.EndpointPair;
-import com.google.common.graph.GraphBuilder;
-import com.google.common.graph.MutableGraph;
+import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Properties;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -80,6 +78,8 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
     private FlinkCDCConnectorService flinkCDCConnectorService;
     @Autowired
     private ResourceService resourceService;
+    @Autowired
+    private DsInfoService dsInfoService;
 
     @Override
     public Page<WsArtifactFlinkCDCDTO> list(WsArtifactFlinkCDCListParam param) {
@@ -134,115 +134,60 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
     }
 
     @Override
-    public String buildConfig(Long id, Optional<String> jobName) throws Exception {
-        WsArtifactFlinkCDCDTO dto = selectOne(id);
+    public String buildConfig(WsArtifactFlinkCDCDTO dto) throws Exception {
         ObjectNode conf = JacksonUtil.createObjectNode();
-
+        conf.set("pipeline", buildPipeline(dto));
+        if (dto.getFromDsId() != null) {
+            conf.set("source", buildSourceOrSink(FlinkCDCPluginType.SOURCE, dto));
+        }
+        if (dto.getToDsId() != null) {
+            conf.set("sink", buildSourceOrSink(FlinkCDCPluginType.SINK, dto));
+        }
+        conf.set("transform", dto.getTransform());
+        conf.set("route", dto.getRoute());
         return yamlMapper.writeValueAsString(conf);
     }
 
-    private void buildEnvs(ObjectNode conf, String jobName, JsonNode dagAttrs) {
-        conf.set(FlinkCDCConstant.PIPELINE, buildEnv(jobName, dagAttrs));
+    private ObjectNode buildPipeline(WsArtifactFlinkCDCDTO dto) {
+        ObjectNode pipeline = JacksonUtil.createObjectNode();
+        pipeline.put(PipelineProperties.NAME.getName(), dto.getArtifact().getName());
+        pipeline.put(PipelineProperties.PARALLELISM.getName(), dto.getParallelism());
+        pipeline.put(PipelineProperties.LOCAL_TIME_ZONE.getName(), dto.getLocalTimeZone());
+        return pipeline;
     }
 
-    private ObjectNode buildEnv(String jobName, JsonNode dagAttrs) {
-        ObjectNode env = JacksonUtil.createObjectNode();
-        env.put(PipelineProperties.NAME.getName(), jobName);
-        if (dagAttrs == null || dagAttrs.isEmpty()) {
-            return env;
+    private ObjectNode buildSourceOrSink(FlinkCDCPluginType pluginType, WsArtifactFlinkCDCDTO dto) throws PluginException {
+        Properties properties = new Properties();
+        DsInfoDTO dsInfoDTO = null;
+        FlinkCDCPluginName pluginName = null;
+        switch (pluginType) {
+            case SOURCE:
+                dsInfoDTO = dsInfoService.selectOne(dto.getFromDsId(), false);
+                pluginName = convertPluginName(dsInfoDTO).get();
+                properties = mergeJobAttrs(pluginType, pluginName, dsInfoDTO, dto.getFromDsConfig());
+                break;
+            case SINK:
+                dsInfoDTO = dsInfoService.selectOne(dto.getToDsId(), false);
+                pluginName = convertPluginName(dsInfoDTO).get();
+                properties = mergeJobAttrs(pluginType, pluginName, dsInfoDTO, dto.getToDsConfig());
+                break;
+            default:
         }
-        Iterator<Map.Entry<String, JsonNode>> fields = dagAttrs.fields();
-        while (fields.hasNext()) {
-            Map.Entry<String, JsonNode> entry = fields.next();
-            env.put(entry.getKey(), entry.getValue());
-        }
-        return env;
+        FlinkCDCPipilineConnectorPlugin connectorPlugin = flinkCDCConnectorService.newConnector(FlinkCDCPluginUtil.getIdentity(pluginType, pluginName), properties);
+        return connectorPlugin.createConf();
     }
 
-    private MutableGraph<ObjectNode> buildGraph(DagConfigComplexDTO dag) throws PluginException {
-        MutableGraph<ObjectNode> graph = GraphBuilder.directed().build();
-        List<DagConfigStepDTO> steps = dag.getSteps();
-        List<DagConfigLinkDTO> links = dag.getLinks();
-        if (CollectionUtils.isEmpty(steps)) {
-            return graph;
-        }
-        Map<String, ObjectNode> stepMap = new HashMap<>();
-        for (DagConfigStepDTO step : steps) {
-            Properties properties = mergeJobAttrs(step);
-            FlinkCDCPluginType stepType = FlinkCDCPluginType.of(step.getStepMeta().get("type").asText());
-            FlinkCDCPluginName stepName = FlinkCDCPluginName.of(step.getStepMeta().get("name").asText());
-            FlinkCDCPipilineConnectorPlugin connector = flinkCDCConnectorService.newConnector(FlinkCDCPluginUtil.getIdentity(stepType, stepName), properties);
-            ObjectNode stepConf = connector.createConf();
-            stepConf.put(GraphConstants.NODE_ID, step.getId());
-            stepConf.put(GraphConstants.NODE_TYPE, stepType.getValue());
-            stepMap.put(step.getStepId(), stepConf);
-            graph.addNode(stepConf);
-        }
-        links.forEach(link -> graph.putEdge(stepMap.get(link.getFromStepId()), stepMap.get(link.getToStepId())));
-        return graph;
+    private Optional<FlinkCDCPluginName> convertPluginName(DsInfoDTO dsInfoDTO) {
+        DataSourceType type = dsInfoDTO.getDsType().getType();
+        return Optional.ofNullable(EnumUtils.getEnumIgnoreCase(FlinkCDCPluginName.class, type.name()));
     }
 
-    private void buildNodes(ObjectNode conf, Set<ObjectNode> nodes) {
-        ArrayNode sourceConf = JacksonUtil.createArrayNode();
-        ArrayNode sinkConf = JacksonUtil.createArrayNode();
-        ArrayNode transformConf = JacksonUtil.createArrayNode();
-        ArrayNode routeConf = JacksonUtil.createArrayNode();
-
-        nodes.forEach(node -> {
-            String nodeType = node.get(GraphConstants.NODE_TYPE).asText();
-            FlinkCDCPluginType stepType = FlinkCDCPluginType.of(nodeType);
-            switch (stepType) {
-                case SOURCE:
-                    sourceConf.add(node);
-                    break;
-                case SINK:
-                    sinkConf.add(node);
-                    break;
-                case TRANSFORM:
-                    transformConf.add(node);
-                    break;
-                case ROUTE:
-                    routeConf.add(node);
-                    break;
-                default:
-            }
-        });
-
-        conf.set(FlinkCDCPluginType.SOURCE.getValue(), sourceConf);
-        conf.set(FlinkCDCPluginType.SINK.getValue(), sinkConf);
-        if (transformConf.isEmpty() == false) {
-            conf.set(FlinkCDCPluginType.TRANSFORM.getValue(), transformConf);
-        }
-        if (routeConf.isEmpty() == false) {
-            conf.set(FlinkCDCPluginType.ROUTE.getValue(), routeConf);
-        }
-    }
-
-    private void buildEdges(Set<EndpointPair<ObjectNode>> edges) {
-//        edges.forEach(edge -> {
-//            ObjectNode source = edge.source();
-//            ObjectNode target = edge.target();
-//            String pluginName = source.get(SeaTunnelConstant.PLUGIN_NAME).asText().toLowerCase();
-//            String nodeId = source.get(GraphConstants.NODE_ID).asText();
-//            source.put(RESULT_TABLE_NAME.getName(), GraphConstants.TABLE_PREFIX + pluginName + "_" + nodeId);
-//            target.put(SOURCE_TABLE_NAME.getName(), GraphConstants.TABLE_PREFIX + pluginName + "_" + nodeId);
-//        });
-    }
-
-    private void clearUtiltyField(Set<ObjectNode> nodes) {
-        nodes.forEach(node -> {
-            node.remove(GraphConstants.NODE_TYPE);
-            node.remove(GraphConstants.NODE_ID);
-        });
-    }
-
-    private Properties mergeJobAttrs(DagConfigStepDTO step) throws PluginException {
-        Properties properties = PropertyUtil.mapToProperties(JacksonUtil.toObject(step.getStepAttrs(), new TypeReference<Map<String, Object>>() {
+    private Properties mergeJobAttrs(FlinkCDCPluginType pluginType, FlinkCDCPluginName pluginName, DsInfoDTO dsInfoDTO, JsonNode config) throws PluginException {
+        Properties properties = PropertyUtil.mapToProperties(JacksonUtil.toObject(config, new TypeReference<Map<String, Object>>() {
         }));
-        FlinkCDCPluginType pluginType = FlinkCDCPluginType.of(step.getStepMeta().get("type").asText());
-        FlinkCDCPluginName stepName = FlinkCDCPluginName.of(step.getStepMeta().get("name").asText());
-
-        FlinkCDCPipilineConnectorPlugin connector = flinkCDCConnectorService.getConnector(pluginType, stepName);
+        properties.put(CommonProperties.TYPE.getName(), pluginName.getValue());
+        properties.put(CommonProperties.NAME.getName(), dsInfoDTO.getName());
+        FlinkCDCPipilineConnectorPlugin connector = flinkCDCConnectorService.getConnector(pluginType, pluginName);
         for (ResourceProperty resource : connector.getRequiredResources()) {
             String name = resource.getProperty().getName();
             if (properties.containsKey(name)) {
@@ -267,6 +212,22 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
         record.setArtifactId(artifactDTO.getId());
         record.setFlinkVersion(FlinkVersion.current());
         record.setFlinkCDCVersion(FlinkCDCVersion.current());
+        record.setParallelism(param.getParallelism());
+        record.setLocalTimeZone(param.getLocalTimeZone());
+        record.setFromDsId(param.getFromDsId());
+        if (param.getFromDsConfig() != null) {
+            record.setFromDsConfig(param.getFromDsConfig().toString());
+        }
+        record.setToDsId(param.getToDsId());
+        if (param.getToDsConfig() != null) {
+            record.setToDsConfig(param.getToDsConfig().toString());
+        }
+        if (param.getTransform() != null) {
+            record.setTransform(param.getTransform().toString());
+        }
+        if (param.getRoute() != null) {
+            record.setRoute(param.getRoute().toString());
+        }
         record.setCurrent(YesOrNo.YES);
         wsArtifactFlinkCDCMapper.insert(record);
         return selectOne(record.getId());

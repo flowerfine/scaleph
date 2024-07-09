@@ -1,6 +1,5 @@
 import React from "react";
 import {ProCard} from "@ant-design/pro-components";
-import {useIntl} from "@umijs/max";
 import DataIntegrationFlinkCDCStepConfigDataSource
   from "@/pages/Project/Workspace/DataIntegration/FlinkCDC/Steps/New/Config/ConfigStepDataSource";
 import DataIntegrationFlinkCDCStepConfigRoute
@@ -9,7 +8,6 @@ import DataIntegrationFlinkCDCStepConfigTransform
   from "@/pages/Project/Workspace/DataIntegration/FlinkCDC/Steps/New/Config/ConfigStepTransform";
 
 const DataIntegrationFlinkCDCStepConfig: React.FC = () => {
-  const intl = useIntl();
 
   return (
     <ProCard.Group direction={"column"}>

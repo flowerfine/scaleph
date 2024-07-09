@@ -9,12 +9,12 @@ import ConnectorForm from "@/pages/Project/Workspace/DataIntegration/FlinkCDC/St
 const DataIntegrationFlinkCDCStepConfigDataSource: React.FC = () => {
   const intl = useIntl();
   const [fromTreeData, setFromTreeData] = useState<any[]>([
-    {id: -1, pId: 0, title: 'MySQL', value: -1, selectable: false, isLeaf: false},
-    {id: -2, pId: 0, title: 'Kafka', value: -2, selectable: false, isLeaf: false}
+    {id: -1, pId: 0, title: 'MySQL', value: -1, selectable: false, isLeaf: false}
   ]);
   const [toTreeData, setToTreeData] = useState<any[]>([
     {id: -1000, pId: 0, title: 'Doris', value: -1000, selectable: false, isLeaf: false},
     {id: -1001, pId: 0, title: 'StarRocks', value: -1001, selectable: false, isLeaf: false},
+    {id: -1002, pId: 0, title: 'Kafka', value: -1002, selectable: false, isLeaf: false}
   ]);
 
   const loadFromDataSource: TreeSelectProps['loadData'] = ({id, title}) => {
@@ -53,10 +53,7 @@ const DataIntegrationFlinkCDCStepConfigDataSource: React.FC = () => {
           fieldProps={{
             treeDataSimpleMode: true,
             treeData: fromTreeData,
-            loadData: loadFromDataSource,
-            onSelect: (value, option) => {
-              console.log('onSelect', value, option)
-            }
+            loadData: loadFromDataSource
           }}
         />
         <SwapRightOutlined/>

@@ -40,7 +40,7 @@ public interface WsArtifactFlinkCDCService {
 
     WsArtifactFlinkCDCDTO selectCurrent(Long artifactId);
 
-    String buildConfig(Long id, Optional<String> jobName) throws Exception;
+    String buildConfig(WsArtifactFlinkCDCDTO dto) throws Exception;
 
     WsArtifactFlinkCDCDTO insert(WsArtifactFlinkCDCAddParam param);
 
