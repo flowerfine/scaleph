@@ -3,22 +3,22 @@ import {useIntl} from "@umijs/max";
 import {ProFormDigit, ProFormGroup, ProFormSwitch, ProFormText} from "@ant-design/pro-components";
 import {StarRocksParams} from "@/pages/Project/Workspace/DataIntegration/FlinkCDC/Steps/Connector/constant";
 
-const SinkStarRocksConnectorForm: React.FC = () => {
+const SinkStarRocksConnectorForm: React.FC<{prefix: string}> = ({prefix}) => {
   const intl = useIntl();
 
   return (
     <ProFormGroup>
       <ProFormText
-        name={StarRocksParams.sinkLabelPrefix}
+        name={[prefix, StarRocksParams.sinkLabelPrefix]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.starrocks.sinkLabelPrefix'})}
       />
       <ProFormText
-        name={StarRocksParams.tableSchemaChangeTimeout}
+        name={[prefix, StarRocksParams.tableSchemaChangeTimeout]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.starrocks.tableSchemaChangeTimeout'})}
         initialValue={'30min'}
       />
       <ProFormDigit
-        name={StarRocksParams.sinkConnectTimeoutMs}
+        name={[prefix, StarRocksParams.sinkConnectTimeoutMs]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.starrocks.sinkConnectTimeoutMs'})}
         initialValue={30000}
         fieldProps={{
@@ -28,7 +28,7 @@ const SinkStarRocksConnectorForm: React.FC = () => {
         }}
       />
       <ProFormDigit
-        name={StarRocksParams.sinkWaitForContinueTimeoutMs}
+        name={[prefix, StarRocksParams.sinkWaitForContinueTimeoutMs]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.starrocks.sinkWaitForContinueTimeoutMs'})}
         initialValue={30000}
         fieldProps={{
@@ -38,7 +38,7 @@ const SinkStarRocksConnectorForm: React.FC = () => {
         }}
       />
       <ProFormDigit
-        name={StarRocksParams.sinkBufferFlushMaxBytes}
+        name={[prefix, StarRocksParams.sinkBufferFlushMaxBytes]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.starrocks.sinkBufferFlushMaxBytes'})}
         colProps={{span: 12}}
         initialValue={1024 * 1024 * 150}
@@ -49,7 +49,7 @@ const SinkStarRocksConnectorForm: React.FC = () => {
         }}
       />
       <ProFormDigit
-        name={StarRocksParams.sinkBufferFlushIntervalMs}
+        name={[prefix, StarRocksParams.sinkBufferFlushIntervalMs]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.starrocks.sinkBufferFlushIntervalMs'})}
         colProps={{span: 12}}
         initialValue={300000}
@@ -59,7 +59,7 @@ const SinkStarRocksConnectorForm: React.FC = () => {
         }}
       />
       <ProFormDigit
-        name={StarRocksParams.sinkScanFrequencyMs}
+        name={[prefix, StarRocksParams.sinkScanFrequencyMs]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.starrocks.sinkScanFrequencyMs'})}
         initialValue={50}
         fieldProps={{
@@ -68,7 +68,7 @@ const SinkStarRocksConnectorForm: React.FC = () => {
         }}
       />
       <ProFormDigit
-        name={StarRocksParams.sinkIoThreadCount}
+        name={[prefix, StarRocksParams.sinkIoThreadCount]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.starrocks.sinkIoThreadCount'})}
         initialValue={2}
         fieldProps={{
@@ -77,12 +77,12 @@ const SinkStarRocksConnectorForm: React.FC = () => {
         }}
       />
       <ProFormSwitch
-        name={StarRocksParams.sinkAtLeastOnceUseTransactionStreamLoad}
+        name={[prefix, StarRocksParams.sinkAtLeastOnceUseTransactionStreamLoad]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.starrocks.sinkAtLeastOnceUseTransactionStreamLoad'})}
         initialValue={true}
       />
       <ProFormDigit
-        name={StarRocksParams.tableCreateNumBuckets}
+        name={[prefix, StarRocksParams.tableCreateNumBuckets]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.starrocks.tableCreateNumBuckets'})}
       />
     </ProFormGroup>

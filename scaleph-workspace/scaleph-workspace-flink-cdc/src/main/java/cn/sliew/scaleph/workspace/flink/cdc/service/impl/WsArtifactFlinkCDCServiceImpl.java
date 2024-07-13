@@ -37,8 +37,7 @@ import cn.sliew.scaleph.plugin.flink.cdc.connectors.CommonProperties;
 import cn.sliew.scaleph.plugin.flink.cdc.pipeline.PipelineProperties;
 import cn.sliew.scaleph.plugin.flink.cdc.util.FlinkCDCPluginUtil;
 import cn.sliew.scaleph.plugin.framework.exception.PluginException;
-import cn.sliew.scaleph.plugin.framework.resource.ResourceProperty;
-import cn.sliew.scaleph.resource.service.ResourceService;
+import cn.sliew.scaleph.plugin.framework.resource.ResourceProperties;
 import cn.sliew.scaleph.workspace.flink.cdc.service.FlinkCDCConnectorService;
 import cn.sliew.scaleph.workspace.flink.cdc.service.WsArtifactFlinkCDCService;
 import cn.sliew.scaleph.workspace.flink.cdc.service.convert.WsArtifactFlinkCDCConvert;
@@ -52,7 +51,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,17 +65,12 @@ import static cn.sliew.milky.common.check.Ensures.checkState;
 @Service
 public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService {
 
-    // todo 迁移到 JacksonUtil
-    private YAMLMapper yamlMapper = new YAMLMapper();
-
     @Autowired
     private WsArtifactFlinkCDCMapper wsArtifactFlinkCDCMapper;
     @Autowired
     private WsArtifactService wsArtifactService;
     @Autowired
     private FlinkCDCConnectorService flinkCDCConnectorService;
-    @Autowired
-    private ResourceService resourceService;
     @Autowired
     private DsInfoService dsInfoService;
 
@@ -134,7 +127,7 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
     }
 
     @Override
-    public String buildConfig(WsArtifactFlinkCDCDTO dto) throws Exception {
+    public JsonNode buildConfig(WsArtifactFlinkCDCDTO dto) throws Exception {
         ObjectNode conf = JacksonUtil.createObjectNode();
         conf.set("pipeline", buildPipeline(dto));
         if (dto.getFromDsId() != null) {
@@ -145,7 +138,7 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
         }
         conf.set("transform", dto.getTransform());
         conf.set("route", dto.getRoute());
-        return yamlMapper.writeValueAsString(conf);
+        return conf;
     }
 
     private ObjectNode buildPipeline(WsArtifactFlinkCDCDTO dto) {
@@ -187,16 +180,7 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
         }));
         properties.put(CommonProperties.TYPE.getName(), pluginName.getValue());
         properties.put(CommonProperties.NAME.getName(), dsInfoDTO.getName());
-        FlinkCDCPipilineConnectorPlugin connector = flinkCDCConnectorService.getConnector(pluginType, pluginName);
-        for (ResourceProperty resource : connector.getRequiredResources()) {
-            String name = resource.getProperty().getName();
-            if (properties.containsKey(name)) {
-                Object property = properties.get(name);
-                // fixme force conform property to resource id
-                Object value = resourceService.getRaw(resource.getType(), Long.valueOf(property.toString()));
-                properties.put(name, JacksonUtil.toJsonString(value));
-            }
-        }
+        properties.put(ResourceProperties.DATASOURCE.getName(), JacksonUtil.toJsonString(dsInfoDTO));
         return properties;
     }
 

@@ -22,6 +22,7 @@ import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.workspace.flink.cdc.service.dto.WsArtifactFlinkCDCDTO;
 import cn.sliew.scaleph.workspace.flink.cdc.service.param.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +41,7 @@ public interface WsArtifactFlinkCDCService {
 
     WsArtifactFlinkCDCDTO selectCurrent(Long artifactId);
 
-    String buildConfig(WsArtifactFlinkCDCDTO dto) throws Exception;
+    JsonNode buildConfig(WsArtifactFlinkCDCDTO dto) throws Exception;
 
     WsArtifactFlinkCDCDTO insert(WsArtifactFlinkCDCAddParam param);
 

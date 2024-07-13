@@ -18,13 +18,22 @@
 
 package cn.sliew.scaleph.plugin.flink.cdc.connectors.mysql.source;
 
+import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCPluginMapping;
+import cn.sliew.scaleph.ds.modal.AbstractDataSource;
+import cn.sliew.scaleph.ds.modal.jdbc.MySQLDataSource;
 import cn.sliew.scaleph.plugin.flink.cdc.FlinkCDCPipilineConnectorPlugin;
 import cn.sliew.scaleph.plugin.flink.cdc.connectors.CommonProperties;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.plugin.framework.resource.ResourceProperties;
+import cn.sliew.scaleph.plugin.framework.resource.ResourceProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,11 +50,7 @@ public class MySQLSourcePlugin extends FlinkCDCPipilineConnectorPlugin {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(CommonProperties.NAME);
         props.add(CommonProperties.TYPE);
-//        props.add(HOSTNAME);
-//        props.add(PORT);
-//        props.add(USERNAME);
-//        props.add(PASSWORD);
-//        props.add(TABLES);
+        props.add(TABLES);
         props.add(SCHEMA_CHANGE_ENABLED);
         props.add(SERVER_ID);
         props.add(SCAN_INCREMENTAL_CLOSE_IDLE_READER_ENABLED);
@@ -64,6 +69,29 @@ public class MySQLSourcePlugin extends FlinkCDCPipilineConnectorPlugin {
         props.add(JDBC_PROPERTIES);
         props.add(DEBEZIUM);
         this.supportedProperties = Collections.unmodifiableList(props);
+    }
+
+    @Override
+    public List<ResourceProperty> getRequiredResources() {
+        return Collections.singletonList(ResourceProperties.DATASOURCE_RESOURCE);
+    }
+
+    @Override
+    public ObjectNode createConf() {
+        try {
+            ObjectNode conf = super.createConf();
+            JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
+            MySQLDataSource dataSource = (MySQLDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+            URI url = new URI(dataSource.getUrl().replace("jdbc:", ""));
+            conf.putPOJO(HOSTNAME.getName(), url.getHost());
+            conf.putPOJO(PORT.getName(), url.getPort());
+            conf.putPOJO(USERNAME.getName(), dataSource.getUser());
+            conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
+            return conf;
+        } catch (URISyntaxException e) {
+            Rethrower.throwAs(e);
+            return null;
+        }
     }
 
     @Override

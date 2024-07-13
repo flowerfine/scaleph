@@ -1,13 +1,12 @@
 import {PageResponse, ResponseBody} from '@/typings';
 import {request} from '@umijs/max';
 import {
-  KubernetesOptionsVO,
   WsArtifactFlinkCDC,
   WsArtifactFlinkCDCAddParam,
   WsArtifactFlinkCDCHistoryParam,
   WsArtifactFlinkCDCParam,
   WsArtifactFlinkCDCSelectListParam,
-  WsArtifactFlinkCDCUpdateParam, WsFlinkKubernetesTemplate
+  WsArtifactFlinkCDCUpdateParam
 } from "@/services/project/typings";
 
 export const WsArtifactFlinkCDCService = {
@@ -57,7 +56,7 @@ export const WsArtifactFlinkCDCService = {
   },
 
   preview: async (param: WsArtifactFlinkCDC) => {
-    return request<ResponseBody<string>>(`${WsArtifactFlinkCDCService.url}/preview`, {
+    return request<ResponseBody<any>>(`${WsArtifactFlinkCDCService.url}/preview`, {
       method: 'POST',
       data: param
     });
@@ -99,7 +98,9 @@ export const WsArtifactFlinkCDCService = {
 
   formatData: (data: WsArtifactFlinkCDC, value: Record<string, any>) => {
     data.fromDsId = value.fromDsId
+    data.fromDsConfig = value.fromDsConfig
     data.toDsId = value.toDsId
+    data.toDsConfig = value.toDsConfig
     data.transform = value.transform
     data.route = value.route
     return data;
