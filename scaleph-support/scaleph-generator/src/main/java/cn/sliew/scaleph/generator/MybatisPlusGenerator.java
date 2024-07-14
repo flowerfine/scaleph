@@ -44,7 +44,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MybatisPlusGenerator {
 
     private final static String AUTHOR = "wangqi";
-    private final static String URL = "jdbc:mysql://127.0.0.1:3306/scaleph";
+    private final static String URL = "jdbc:mysql://127.0.0.1:3306/carp";
     private final static String USERNAME = "root";
     private final static String PASSWORD = "123456"; //NOSONAR
     private static final String BASE_PACKAGE = "cn.sliew";
@@ -54,7 +54,7 @@ public class MybatisPlusGenerator {
     /**
      * just add table names here and run the {@link #main(String[])} method.
      */
-    private static final String[] TABLES = {"dag_instance", "dag_link", "dag_step"};
+    private static final String[] TABLES = {"sec_application"};
 
     public static void main(String[] args) {
         //自动生成配置

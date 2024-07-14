@@ -19,16 +19,24 @@
 package cn.sliew.scaleph.plugin.flink.cdc.connectors.starrocks.sink;
 
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCPluginMapping;
+import cn.sliew.scaleph.ds.modal.AbstractDataSource;
+import cn.sliew.scaleph.ds.modal.olap.StarRocksDataSource;
 import cn.sliew.scaleph.plugin.flink.cdc.FlinkCDCPipilineConnectorPlugin;
 import cn.sliew.scaleph.plugin.flink.cdc.connectors.CommonProperties;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.plugin.framework.resource.ResourceProperties;
+import cn.sliew.scaleph.plugin.framework.resource.ResourceProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static cn.sliew.scaleph.plugin.flink.cdc.connectors.mysql.source.MySQLSourceProperties.PASSWORD;
+import static cn.sliew.scaleph.plugin.flink.cdc.connectors.mysql.source.MySQLSourceProperties.USERNAME;
 import static cn.sliew.scaleph.plugin.flink.cdc.connectors.starrocks.sink.StarRocksSinkProperties.*;
 
 @AutoService(FlinkCDCPipilineConnectorPlugin.class)
@@ -41,10 +49,6 @@ public class StarRocksSinkPlugin extends FlinkCDCPipilineConnectorPlugin {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(CommonProperties.NAME);
         props.add(CommonProperties.TYPE);
-        props.add(JDBC_URL);
-        props.add(LOAD_URL);
-        props.add(USERNAME);
-        props.add(PASSWORD);
         props.add(SINK_LABEL_PREFIX);
         props.add(SINK_CONNECT_TIMEOUT_MS);
         props.add(SINK_WAIT_FOR_CONTINUE_TIMEOUT_MS);
@@ -58,6 +62,23 @@ public class StarRocksSinkPlugin extends FlinkCDCPipilineConnectorPlugin {
         props.add(TABLE_SCHEMA_CHANGE_TIMEOUT);
         props.add(TABLE_CREATE_PROPERTIES);
         this.supportedProperties = Collections.unmodifiableList(props);
+    }
+
+    @Override
+    public List<ResourceProperty> getRequiredResources() {
+        return Collections.singletonList(ResourceProperties.DATASOURCE_RESOURCE);
+    }
+
+    @Override
+    public ObjectNode createConf() {
+        ObjectNode conf = super.createConf();
+        JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
+        StarRocksDataSource dataSource = (StarRocksDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.putPOJO(JDBC_URL.getName(), dataSource.getNodeUrls());
+        conf.putPOJO(LOAD_URL.getName(), dataSource.getNodeUrls());
+        conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
+        conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
+        return conf;
     }
 
     @Override

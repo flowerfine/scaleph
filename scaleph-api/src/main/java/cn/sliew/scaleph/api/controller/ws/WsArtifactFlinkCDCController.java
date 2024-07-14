@@ -25,6 +25,7 @@ import cn.sliew.scaleph.workspace.flink.cdc.service.WsArtifactFlinkCDCService;
 import cn.sliew.scaleph.workspace.flink.cdc.service.dto.WsArtifactFlinkCDCDTO;
 import cn.sliew.scaleph.workspace.flink.cdc.service.param.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -119,8 +120,8 @@ public class WsArtifactFlinkCDCController {
     @Logging
     @PostMapping("preview")
     @Operation(summary = "预览 flink cdc 配置", description = "预览 flink cdc 配置")
-    public ResponseEntity<ResponseVO<String>> previewJob(@RequestBody WsArtifactFlinkCDCDTO dto) throws Exception {
-        String conf = wsArtifactFlinkCDCService.buildConfig(dto);
+    public ResponseEntity<ResponseVO<JsonNode>> previewJob(@RequestBody WsArtifactFlinkCDCDTO dto) throws Exception {
+        JsonNode conf = wsArtifactFlinkCDCService.buildConfig(dto);
         return new ResponseEntity<>(ResponseVO.success(conf), HttpStatus.OK);
     }
 }

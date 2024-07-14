@@ -19,10 +19,16 @@
 package cn.sliew.scaleph.plugin.flink.cdc.connectors.doris.sink;
 
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCPluginMapping;
+import cn.sliew.scaleph.ds.modal.AbstractDataSource;
+import cn.sliew.scaleph.ds.modal.olap.DorisDataSource;
 import cn.sliew.scaleph.plugin.flink.cdc.FlinkCDCPipilineConnectorPlugin;
 import cn.sliew.scaleph.plugin.flink.cdc.connectors.CommonProperties;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.plugin.framework.resource.ResourceProperties;
+import cn.sliew.scaleph.plugin.framework.resource.ResourceProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
 
 import java.util.ArrayList;
@@ -30,6 +36,8 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.flink.cdc.connectors.doris.sink.DorisSinkProperties.*;
+import static cn.sliew.scaleph.plugin.flink.cdc.connectors.mysql.source.MySQLSourceProperties.PASSWORD;
+import static cn.sliew.scaleph.plugin.flink.cdc.connectors.mysql.source.MySQLSourceProperties.USERNAME;
 
 @AutoService(FlinkCDCPipilineConnectorPlugin.class)
 public class DorisSinkPlugin extends FlinkCDCPipilineConnectorPlugin {
@@ -41,20 +49,31 @@ public class DorisSinkPlugin extends FlinkCDCPipilineConnectorPlugin {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(CommonProperties.NAME);
         props.add(CommonProperties.TYPE);
-//        props.add(FENODES);
-//        props.add(BENODES);
-//        props.add(JDBC_URL);
-//        props.add(USERNAME);
-//        props.add(PASSWORD);
-//        props.add(AUTO_REDIRECT);
-//        props.add(SINK_ENABLE_BATCH_MODE);
-//        props.add(SINK_FLUSH_QUEUE_SIZE);
-//        props.add(SINK_BUFFER_FLUSH_MAX_ROWS);
-//        props.add(SINK_BUFFER_FLUSH_MAX_BYTES);
-//        props.add(SINK_BUFFER_FLUSH_INTERVAL);
-//        props.add(SINK_PROPERTIES);
-//        props.add(TABLE_CREATE_PROPERTIES);
+        props.add(AUTO_REDIRECT);
+        props.add(SINK_ENABLE_BATCH_MODE);
+        props.add(SINK_FLUSH_QUEUE_SIZE);
+        props.add(SINK_BUFFER_FLUSH_MAX_ROWS);
+        props.add(SINK_BUFFER_FLUSH_MAX_BYTES);
+        props.add(SINK_BUFFER_FLUSH_INTERVAL);
+        props.add(SINK_PROPERTIES);
+        props.add(TABLE_CREATE_PROPERTIES);
         this.supportedProperties = Collections.unmodifiableList(props);
+    }
+
+    @Override
+    public List<ResourceProperty> getRequiredResources() {
+        return Collections.singletonList(ResourceProperties.DATASOURCE_RESOURCE);
+    }
+
+    @Override
+    public ObjectNode createConf() {
+        ObjectNode conf = super.createConf();
+        JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
+        DorisDataSource dataSource = (DorisDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.putPOJO(FENODES.getName(), dataSource.getNodeUrls());
+        conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
+        conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
+        return conf;
     }
 
     @Override

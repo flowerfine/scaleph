@@ -10,26 +10,26 @@ import {
 } from "@ant-design/pro-components";
 import {MySQLParams} from "@/pages/Project/Workspace/DataIntegration/FlinkCDC/Steps/Connector/constant";
 
-const SourceMySQLConnectorForm: React.FC = () => {
+const SourceMySQLConnectorForm: React.FC<{ prefix: string }> = ({prefix}) => {
   const intl = useIntl();
 
   return (
     <ProFormGroup>
       <ProFormText
-        name={MySQLParams.tables}
+        name={[prefix, MySQLParams.tables]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.mysql.tables'})}
         rules={[{required: true}]}
       />
       <ProFormText
-        name={MySQLParams.tablesExclude}
+        name={[prefix, MySQLParams.tablesExclude]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.mysql.tablesExclude'})}
       />
       <ProFormText
-        name={MySQLParams.serverId}
+        name={[prefix, MySQLParams.serverId]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.mysql.serverId'})}
       />
       <ProFormDigit
-        name={MySQLParams.scanIncrementalSnapshotChunkSize}
+        name={[prefix, MySQLParams.scanIncrementalSnapshotChunkSize]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.mysql.scanIncrementalSnapshotChunkSize'})}
         colProps={{span: 12}}
         fieldProps={{
@@ -37,7 +37,7 @@ const SourceMySQLConnectorForm: React.FC = () => {
         }}
       />
       <ProFormDigit
-        name={MySQLParams.scanSnapshotFetchSize}
+        name={[prefix, MySQLParams.scanSnapshotFetchSize]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.mysql.scanSnapshotFetchSize'})}
         colProps={{span: 12}}
         fieldProps={{
@@ -45,17 +45,17 @@ const SourceMySQLConnectorForm: React.FC = () => {
         }}
       />
       <ProFormSwitch
-        name={MySQLParams.scanIncrementalCloseIdleReaderEnabled}
+        name={[prefix, MySQLParams.scanIncrementalCloseIdleReaderEnabled]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.mysql.scanIncrementalCloseIdleReaderEnabled'})}
         colProps={{span: 12}}
       />
       <ProFormSwitch
-        name={MySQLParams.schemaChangeEnabled}
+        name={[prefix, MySQLParams.schemaChangeEnabled]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.mysql.schemaChangeEnabled'})}
         colProps={{span: 12}}
       />
       <ProFormSelect
-        name={MySQLParams.startupMode}
+        name={[prefix, MySQLParams.startupMode]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.mysql.scanStartupMode'})}
         initialValue={'initial'}
         options={['initial', 'earliest-offset', 'latest-offset', 'specific-offset', 'timestamp']}
@@ -65,12 +65,12 @@ const SourceMySQLConnectorForm: React.FC = () => {
           if (scanStartupMode == 'specific-offset') {
             return <ProFormGroup>
               <ProFormText
-                name={MySQLParams.scanStartupSpecificOffsetFile}
+                name={[prefix, MySQLParams.scanStartupSpecificOffsetFile]}
                 label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.mysql.scanStartupSpecificOffsetFile'})}
                 colProps={{span: 8}}
               />
               <ProFormDigit
-                name={MySQLParams.scanStartupSpecificOffsetPos}
+                name={[prefix, MySQLParams.scanStartupSpecificOffsetPos]}
                 label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.mysql.scanStartupSpecificOffsetPos'})}
                 colProps={{span: 8}}
                 fieldProps={{
@@ -78,7 +78,7 @@ const SourceMySQLConnectorForm: React.FC = () => {
                 }}
               />
               <ProFormText
-                name={MySQLParams.scanStartupSpecificOffsetGtidSet}
+                name={[prefix, MySQLParams.scanStartupSpecificOffsetGtidSet]}
                 label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.mysql.scanStartupSpecificOffsetGtidSet'})}
                 colProps={{span: 8}}
               />
@@ -89,7 +89,7 @@ const SourceMySQLConnectorForm: React.FC = () => {
       </ProFormDependency>
 
       <ProFormDigit
-        name={MySQLParams.scanStartupSpecificOffsetSkipEvents}
+        name={[prefix, MySQLParams.scanStartupSpecificOffsetSkipEvents]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.mysql.scanStartupSpecificOffsetSkipEvents'})}
         colProps={{span: 12}}
         fieldProps={{
@@ -97,7 +97,7 @@ const SourceMySQLConnectorForm: React.FC = () => {
         }}
       />
       <ProFormDigit
-        name={MySQLParams.scanStartupSpecificOffsetSkipRows}
+        name={[prefix, MySQLParams.scanStartupSpecificOffsetSkipRows]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.mysql.scanStartupSpecificOffsetSkipRows'})}
         colProps={{span: 12}}
         fieldProps={{
@@ -110,13 +110,13 @@ const SourceMySQLConnectorForm: React.FC = () => {
         defaultCollapsed={true}
       >
         <ProFormText
-          name={MySQLParams.connectTimeout}
+          name={[prefix, MySQLParams.connectTimeout]}
           label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.mysql.connectTimeout'})}
           colProps={{span: 8}}
           initialValue={'30s'}
         />
         <ProFormDigit
-          name={MySQLParams.connectMaxRetries}
+          name={[prefix, MySQLParams.connectMaxRetries]}
           label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.mysql.connectMaxRetries'})}
           colProps={{span: 8}}
           initialValue={3}
@@ -125,7 +125,7 @@ const SourceMySQLConnectorForm: React.FC = () => {
           }}
         />
         <ProFormDigit
-          name={MySQLParams.connectionPoolSize}
+          name={[prefix, MySQLParams.connectionPoolSize]}
           label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.mysql.connectionPoolSize'})}
           colProps={{span: 8}}
           initialValue={20}
@@ -135,7 +135,7 @@ const SourceMySQLConnectorForm: React.FC = () => {
         />
       </ProFormGroup>
       <ProFormText
-        name={MySQLParams.heartbeatInterval}
+        name={[prefix, MySQLParams.heartbeatInterval]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.mysql.heartbeatInterval'})}
         initialValue={'30s'}
       />

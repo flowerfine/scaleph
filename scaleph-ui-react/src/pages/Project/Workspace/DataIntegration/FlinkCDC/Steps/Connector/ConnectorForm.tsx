@@ -6,15 +6,16 @@ import SinkDorisConnectorForm
   from "@/pages/Project/Workspace/DataIntegration/FlinkCDC/Steps/Connector/Sink/SinkDorisConnector";
 import SinkStarRocksConnectorForm
   from "@/pages/Project/Workspace/DataIntegration/FlinkCDC/Steps/Connector/Sink/SinkStarRocksConnector";
-import SourceKafkaConnectorForm
-  from "@/pages/Project/Workspace/DataIntegration/FlinkCDC/Steps/Connector/Source/SourceKafkaConnector";
+import SinkKafkaConnectorForm
+  from "@/pages/Project/Workspace/DataIntegration/FlinkCDC/Steps/Connector/Sink/SinkKafkaConnector";
 
 type ConnectorProps = {
+  prefix: string;
   type: string;
   dsId: number;
 };
 
-const FlinkCDCConnectorForm: React.FC<ConnectorProps> = ({type, dsId}) => {
+const FlinkCDCConnectorForm: React.FC<ConnectorProps> = ({prefix, type, dsId}) => {
 
   const [content, setConstent] = useState(<></>)
 
@@ -27,13 +28,13 @@ const FlinkCDCConnectorForm: React.FC<ConnectorProps> = ({type, dsId}) => {
       DsInfoService.selectOne(dsId).then((response) => {
         if (response.data) {
           if (type === 'source' && response.data.dsType.type.value == 'MySQL') {
-            setConstent(<SourceMySQLConnectorForm/>)
+            setConstent(<SourceMySQLConnectorForm prefix={prefix} />)
           } else if (type === 'sink' && response.data.dsType.type.value === 'Doris') {
-            setConstent(<SinkDorisConnectorForm/>)
+            setConstent(<SinkDorisConnectorForm prefix={prefix} />)
           } else if (type === 'sink' && response.data.dsType.type.value === 'StarRocks') {
-            setConstent(<SinkStarRocksConnectorForm/>)
+            setConstent(<SinkStarRocksConnectorForm prefix={prefix} />)
           } else if (type === 'sink' && response.data.dsType.type.value === 'Kafka') {
-            setConstent(<SinkStarRocksConnectorForm/>)
+            setConstent(<SinkKafkaConnectorForm prefix={prefix} />)
           }
         }
       })

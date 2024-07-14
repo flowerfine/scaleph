@@ -1,42 +1,39 @@
 import React from 'react';
 import {useIntl} from "@umijs/max";
-import {ProFormDigit, ProFormGroup, ProFormSelect, ProFormSwitch, ProFormText} from "@ant-design/pro-components";
-import {
-  KafkaParams,
-  StarRocksParams
-} from "@/pages/Project/Workspace/DataIntegration/FlinkCDC/Steps/Connector/constant";
+import {ProFormGroup, ProFormSelect, ProFormSwitch, ProFormText} from "@ant-design/pro-components";
+import {KafkaParams} from "@/pages/Project/Workspace/DataIntegration/FlinkCDC/Steps/Connector/constant";
 
-const SourceKafkaConnectorForm: React.FC = () => {
+const SinkKafkaConnectorForm: React.FC<{prefix: string}> = ({prefix}) => {
   const intl = useIntl();
 
   return (
     <ProFormGroup>
       <ProFormText
-        name={KafkaParams.propertiesBootstrapServers}
+        name={[prefix, KafkaParams.propertiesBootstrapServers]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.kafka.propertiesBootstrapServers'})}
         rules={[{required: true}]}
       />
       <ProFormText
-        name={KafkaParams.topic}
+        name={[prefix, KafkaParams.topic]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.kafka.topic'})}
       />
       <ProFormSelect
-        name={KafkaParams.valueFormat}
+        name={[prefix, KafkaParams.valueFormat]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.kafka.valueFormat'})}
         allowClear={false}
         initialValue={'debezium-json'}
         options={['debezium-json', 'canal-json']}
       />
       <ProFormSwitch
-        name={KafkaParams.sinkAddTableIdToHeaderEnabled}
+        name={[prefix, KafkaParams.sinkAddTableIdToHeaderEnabled]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.kafka.sinkAddTableIdToHeaderEnabled'})}
       />
       <ProFormText
-        name={KafkaParams.sinkCustomHeader}
+        name={[prefix, KafkaParams.sinkCustomHeader]}
         label={intl.formatMessage({id: 'pages.project.di.flink-cdc.step.connector.kafka.sinkCustomHeader'})}
       />
     </ProFormGroup>
   );
 };
 
-export default SourceKafkaConnectorForm;
+export default SinkKafkaConnectorForm;

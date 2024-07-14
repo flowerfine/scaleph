@@ -74,7 +74,7 @@ const DataIntegrationFlinkCDCStepConfigDataSource: React.FC = () => {
             return <ProFormGroup colProps={{span: 11, offset: 1}}>
               <Divider
                 plain>{intl.formatMessage({id: 'pages.project.di.flink-cdc.step.config.dataSource.fromDsConfig'})}</Divider>
-              <ConnectorForm type={'source'} dsId={fromDsId}/>
+              <ConnectorForm prefix={"fromDsConfig"} type={'source'} dsId={fromDsId}/>
             </ProFormGroup>
           }}
         </ProFormDependency>
@@ -84,7 +84,7 @@ const DataIntegrationFlinkCDCStepConfigDataSource: React.FC = () => {
             return <ProFormGroup colProps={{span: 11}}>
               <Divider
                 plain>{intl.formatMessage({id: 'pages.project.di.flink-cdc.step.config.dataSource.toDsConfig'})}</Divider>
-              <ConnectorForm type={'sink'} dsId={toDsId}/>
+              <ConnectorForm prefix={"toDsConfig"} type={'sink'} dsId={toDsId}/>
             </ProFormGroup>
           }}
         </ProFormDependency>

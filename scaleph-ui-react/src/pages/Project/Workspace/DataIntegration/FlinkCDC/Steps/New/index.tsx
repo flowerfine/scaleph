@@ -33,6 +33,7 @@ const DataIntegrationFlinkCDCNewSteps: React.FC = (props: any) => {
 
   const onConfigStepFinish = (values: Record<string, any>) => {
     try {
+      console.log('onConfigStepFinish', values)
       const instance: WsArtifactFlinkCDC = WsArtifactFlinkCDCService.formatData(props.flinkCDCSteps.instance, values)
       editFlinkCDCConfig(instance)
     } catch (unused) {
@@ -68,7 +69,7 @@ const DataIntegrationFlinkCDCNewSteps: React.FC = (props: any) => {
               transform: values.transform,
               route: values.route
             }
-            return WsArtifactFlinkCDCService.add(param);
+            return WsArtifactFlinkCDCService.add(param).then(response => response.success);
           }}
         >
           <StepsForm.StepForm
