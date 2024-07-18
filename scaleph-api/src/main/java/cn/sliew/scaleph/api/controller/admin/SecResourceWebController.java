@@ -42,7 +42,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+//@RestController
 @RequestMapping("/api/admin/resource/web")
 @Tag(name = "系统管理-资源管理-Web")
 public class SecResourceWebController {

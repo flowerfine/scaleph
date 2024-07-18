@@ -38,7 +38,7 @@ import org.springframework.stereotype.Service;
  * @author liyu
  * @since 2021-08-01
  */
-@Service
+//@Service
 public class SecUserRoleServiceImpl implements SecUserRoleService {
 
     @Autowired

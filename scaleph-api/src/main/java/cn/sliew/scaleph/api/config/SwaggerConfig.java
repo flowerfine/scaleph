@@ -29,7 +29,8 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Map;
 
-@Configuration
+// fixme 这里要用 scaleph 自己的，不能用 carp 的
+//@Configuration
 public class SwaggerConfig {
 
     /**

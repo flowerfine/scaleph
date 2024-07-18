@@ -38,7 +38,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
-@Service
+//@Service
 public class SecResourceWebServiceImpl implements SecResourceWebService {
 
     @Autowired

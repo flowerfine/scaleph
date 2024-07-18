@@ -31,7 +31,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 /**
  * @author gleiyu
  */
-@Configuration
+//@Configuration
 public class I18nConfig {
     /**
      * 配置默认解析器
@@ -51,7 +51,7 @@ public class I18nConfig {
      *
      * @return WebMvcConfigurer
      */
-    @Bean
+//    @Bean
     public WebMvcConfigurer localeInterceptor() {
         return new WebMvcConfigurer() {
             @Override

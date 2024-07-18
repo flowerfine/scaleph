@@ -57,10 +57,10 @@ import java.util.Set;
 /**
  * https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
  */
-@Configuration
-@EnableWebSecurity
-@EnableRedisHttpSession(redisNamespace = "${spring.application.name}")
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+//@Configuration
+//@EnableWebSecurity
+//@EnableRedisHttpSession(redisNamespace = "${spring.application.name}")
+//@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfig {
 
     @Autowired

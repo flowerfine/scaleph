@@ -26,8 +26,8 @@ import org.redisson.spring.starter.RedissonAutoConfigurationCustomizer;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
-@AutoConfigureBefore(RedissonAutoConfiguration.class)
+//@Configuration
+//@AutoConfigureBefore(RedissonAutoConfiguration.class)
 public class RedissionConfig implements RedissonAutoConfigurationCustomizer {
 
     @Override

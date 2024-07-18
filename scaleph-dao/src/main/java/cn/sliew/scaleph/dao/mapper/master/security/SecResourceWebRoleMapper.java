@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * 资源-web与角色关联表 Mapper 接口
  */
-@Repository
+//@Repository
 public interface SecResourceWebRoleMapper extends BaseMapper<SecResourceWebRole> {
 
     /**

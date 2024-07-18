@@ -37,7 +37,7 @@ import org.springframework.stereotype.Repository;
  * @author liyu
  * @since 2021-08-01
  */
-@Repository
+//@Repository
 public interface SecUserMapper extends BaseMapper<SecUser> {
 
     /**

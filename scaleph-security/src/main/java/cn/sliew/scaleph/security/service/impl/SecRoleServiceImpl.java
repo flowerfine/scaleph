@@ -50,7 +50,7 @@ import java.util.List;
  * @author liyu
  * @since 2021-08-01
  */
-@Service
+//@Service
 public class SecRoleServiceImpl implements SecRoleService {
 
     @Autowired

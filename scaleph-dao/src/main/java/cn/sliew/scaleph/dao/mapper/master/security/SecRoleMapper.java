@@ -34,7 +34,7 @@ import java.util.List;
  * @author liyu
  * @since 2021-08-01
  */
-@Repository
+//@Repository
 public interface SecRoleMapper extends BaseMapper<SecRole> {
 
     /**

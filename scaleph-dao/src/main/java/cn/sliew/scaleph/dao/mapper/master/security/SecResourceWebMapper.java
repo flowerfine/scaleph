@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * 资源-web Mapper 接口
  */
-@Repository
+//@Repository
 public interface SecResourceWebMapper extends BaseMapper<SecResourceWeb> {
 
     List<SecResourceWeb> listByPidAndUserId(@Param("pid") Long pid, @Param("userId") Long userId, @Param("name") String name, @Param("layout") Boolean layout);

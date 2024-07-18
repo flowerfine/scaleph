@@ -47,7 +47,7 @@ import org.springframework.web.method.HandlerMethod;
  * @author gleiyu
  */
 @Slf4j
-@ControllerAdvice
+//@ControllerAdvice
 public class GlobalExceptionHandler {
 
     /**

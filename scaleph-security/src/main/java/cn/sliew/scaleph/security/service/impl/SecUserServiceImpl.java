@@ -48,7 +48,7 @@ import java.util.Map;
  * @author liyu
  * @since 2021-08-01
  */
-@Service
+//@Service
 public class SecUserServiceImpl implements SecUserService {
 
     @Autowired
