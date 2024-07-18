@@ -49,10 +49,6 @@ public class OnlineUserService {
     private SecurityProperties properties;
     @Autowired
     private RedisUtil redisUtil;
-    @Autowired
-    private SecUserService secUserService;
-    @Autowired
-    private SecRoleService secRoleService;
 
     /**
      * 存储登录用户信息到redis中
@@ -127,58 +123,13 @@ public class OnlineUserService {
 
 
     public OnlineUserVO getAllPrivilegeByToken(String token) {
-        OnlineUserVO onlineUser =
-            (OnlineUserVO) this.redisUtil.get(Constants.ONLINE_TOKEN_KEY + token);
-        long now = System.currentTimeMillis();
-        long time = this.redisUtil.getExipre(Constants.ONLINE_TOKEN_KEY + token);
-        if (onlineUser != null && onlineUser.getPrivileges() != null &&
-            onlineUser.getRoles() != null) {
-            onlineUser.setExpireTime((time * 1000) + now);
-            return onlineUser;
-        } else if (onlineUser != null) {
-            //缓存中信息失效，从数据库中获取权限信息并刷新缓存
-            String userName = onlineUser.getUserName();
-            List<SecRoleDTO> roleList = this.secUserService.getAllPrivilegeByUserName(userName);
-            Set<String> roles = new TreeSet<>();
-            Set<String> privileges = new TreeSet<>();
-            for (SecRoleDTO role : roleList) {
-                roles.add(role.getCode().toLowerCase());
-                if (role.getPrivileges() == null) {
-                    continue;
-                }
-                for (SecPrivilegeDTO privilege : role.getPrivileges()) {
-                    privileges.add(privilege.getPrivilegeCode().toLowerCase());
-                }
-            }
-            onlineUser.setRoles(new ArrayList<>(roles));
-            onlineUser.setPrivileges(new ArrayList<>(privileges));
-            onlineUser.setExpireTime((time * 1000) + now);
-            return onlineUser;
-        } else {
-            return null;
-        }
+        return null;
     }
 
 
     @Async
     public void disableOnlineCacheRole(Long roleId) {
-        SecRoleDTO secRoleDTO = secRoleService.selectOne(roleId);
-        if (!StringUtils.isEmpty(secRoleDTO.getCode())) {
-            List<String> keys = redisUtil.scan(Constants.ONLINE_TOKEN_KEY + "*");
-            for (String key : keys) {
-                OnlineUserVO onlineUser = (OnlineUserVO) redisUtil.get(key);
-                if (onlineUser != null && onlineUser.getRoles() != null) {
-                    for (String r : onlineUser.getRoles()) {
-                        if (secRoleDTO.getCode().equalsIgnoreCase(r)) {
-                            //清空权限数据
-                            onlineUser.setPrivileges(null);
-                            onlineUser.setRoles(null);
-                            redisUtil.set(key, onlineUser);
-                        }
-                    }
-                }
-            }
-        }
+
     }
 
 

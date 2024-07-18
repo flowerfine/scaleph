@@ -18,15 +18,22 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services.impl;
 
-import java.time.Duration;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
+import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.dao.DataSourceConstants;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkSqlGatewayCatalog;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkSqlGatewaySession;
+import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkSqlGatewayCatalogMapper;
+import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkSqlGatewaySessionMapper;
+import cn.sliew.scaleph.engine.sql.gateway.services.SessionService;
+import cn.sliew.scaleph.engine.sql.gateway.services.dto.FlinkSqlGatewaySession;
+import cn.sliew.scaleph.engine.sql.gateway.util.CatalogUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.LoadingCache;
+import com.github.benmanes.caffeine.cache.RemovalCause;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.table.catalog.Catalog;
 import org.apache.flink.table.gateway.api.endpoint.EndpointVersion;
@@ -41,32 +48,18 @@ import org.apache.flink.table.gateway.service.operation.OperationManager;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.benmanes.caffeine.cache.LoadingCache;
-import com.github.benmanes.caffeine.cache.RemovalCause;
-import com.zaxxer.hikari.HikariDataSource;
+import javax.sql.DataSource;
+import java.time.Duration;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkSqlGatewayCatalog;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkSqlGatewaySession;
-import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkSqlGatewayCatalogMapper;
-import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkSqlGatewaySessionMapper;
-import cn.sliew.scaleph.engine.sql.gateway.services.SessionService;
-import cn.sliew.scaleph.engine.sql.gateway.services.dto.FlinkSqlGatewaySession;
-import cn.sliew.scaleph.engine.sql.gateway.util.CatalogUtil;
-import lombok.extern.slf4j.Slf4j;
-
-import static cn.sliew.scaleph.engine.sql.gateway.store.JdbcCatalogStoreOptions.DRIVER;
-import static cn.sliew.scaleph.engine.sql.gateway.store.JdbcCatalogStoreOptions.JDBC_URL;
-import static cn.sliew.scaleph.engine.sql.gateway.store.JdbcCatalogStoreOptions.PASSWORD;
-import static cn.sliew.scaleph.engine.sql.gateway.store.JdbcCatalogStoreOptions.USERNAME;
+import static cn.sliew.scaleph.engine.sql.gateway.store.JdbcCatalogStoreOptions.*;
 import static cn.sliew.scaleph.engine.sql.gateway.store.ScalephCatalogStoreOptions.IDENTIFIER;
 import static cn.sliew.scaleph.engine.sql.gateway.store.ScalephCatalogStoreOptions.SESSION_HANDLE;
 import static org.apache.flink.table.catalog.CommonCatalogOptions.TABLE_CATALOG_STORE_KIND;
@@ -88,8 +81,9 @@ public class SessionServiceImpl implements SessionService, InitializingBean, Dis
     @Autowired
     private WsFlinkSqlGatewayCatalogMapper wsFlinkSqlGatewayCatalogMapper;
 
+    @Qualifier(DataSourceConstants.MASTER_DATA_SOURCE_FACTORY)
     @Autowired
-    private HikariDataSource dataSource;
+    private DataSource dataSource;
 
     // TODO Initialize cache by settings
     private final LoadingCache<SessionHandle, FlinkSqlGatewaySession> sessions = Caffeine.newBuilder()
@@ -245,16 +239,17 @@ public class SessionServiceImpl implements SessionService, InitializingBean, Dis
         Map<String, String> sessionConfig = new HashMap<>();
         if (StringUtils.hasText(record.getSessionConfig())) {
             sessionConfig = JacksonUtil.parseJsonString(
-                    record.getSessionConfig(), new TypeReference<HashMap<String, String>>() {});
+                    record.getSessionConfig(), new TypeReference<HashMap<String, String>>() {
+                    });
         }
         // Set catalog store configuration
         final String catalogStoreOptionPrefix = TABLE_CATALOG_STORE_OPTION_PREFIX + IDENTIFIER + ".";
         sessionConfig.put(TABLE_CATALOG_STORE_KIND.key(), IDENTIFIER);
         sessionConfig.put(catalogStoreOptionPrefix + SESSION_HANDLE.key(), sessionId.toString());
-        sessionConfig.put(catalogStoreOptionPrefix + DRIVER.key(), dataSource.getDriverClassName());
-        sessionConfig.put(catalogStoreOptionPrefix + JDBC_URL.key(), dataSource.getJdbcUrl());
-        sessionConfig.put(catalogStoreOptionPrefix + USERNAME.key(), dataSource.getUsername());
-        sessionConfig.put(catalogStoreOptionPrefix + PASSWORD.key(), dataSource.getPassword());
+//        sessionConfig.put(catalogStoreOptionPrefix + DRIVER.key(), dataSource.getDriverClassName());
+//        sessionConfig.put(catalogStoreOptionPrefix + JDBC_URL.key(), dataSource.getJdbcUrl());
+//        sessionConfig.put(catalogStoreOptionPrefix + USERNAME.key(), dataSource.getUsername());
+//        sessionConfig.put(catalogStoreOptionPrefix + PASSWORD.key(), dataSource.getPassword());
 
         session.setSessionConfig(sessionConfig);
 

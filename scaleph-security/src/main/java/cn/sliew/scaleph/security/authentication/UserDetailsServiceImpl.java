@@ -45,48 +45,8 @@ import java.util.List;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private SecUserService secUserService;
-
-    /**
-     * 根据用户名查询登录用户信息
-     *
-     * @param userName 用户名
-     * @return 用户信息
-     * @throws UsernameNotFoundException UsernameNotFoundException
-     */
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        try {
-            SecUserDTO secUserDTO = secUserService.selectOne(userName);
-            if (secUserDTO == null) {
-                throw new BadCredentialsException(I18nUtil.get("response.error.login.password"));
-            }
-
-            if (secUserDTO.getStatus() != UserStatus.ENABLED) {
-                throw new BadCredentialsException(I18nUtil.get("response.error.login.disable"));
-            }
-
-            UserDetailInfo user = new UserDetailInfo();
-            user.setUser(secUserDTO);
-            //查询用户角色权限信息
-            List<SecRoleDTO> privileges = secUserService.getAllPrivilegeByUserName(userName);
-            user.setAuthorities(toGrantedAuthority(privileges));
-            return user;
-        } catch (Exception e) {
-            log.error("获取用户信息异常! userName: {}", userName, e);
-            throw new UsernameNotFoundException(e.getMessage(), e);
-        }
-    }
-
-    private List<GrantedAuthority> toGrantedAuthority(List<SecRoleDTO> roles) {
-        if (CollectionUtils.isEmpty(roles)) {
-            return Collections.emptyList();
-        }
-        String[] privileges = roles.stream()
-                .flatMap(role -> role.getPrivileges().stream())
-                .map(SecPrivilegeDTO::getPrivilegeCode)
-                .toArray(length -> new String[length]);
-        return AuthorityUtils.createAuthorityList(privileges);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
     }
 }

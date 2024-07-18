@@ -31,7 +31,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-@Configuration
+//@Configuration
 public class MybatisConfig {
 
     @Bean
