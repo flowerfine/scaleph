@@ -35,6 +35,56 @@ alertmanager:
     nodePort: 30903
     ## Service type
     type: NodePort
+  ## Configuration for creating a ServiceMonitor for AlertManager
+  serviceMonitor:
+    ## If true, a ServiceMonitor will be created for the AlertManager service.
+    selfMonitor: false
+  ## Alertmanager configuration directives
+  ## ref: https://prometheus.io/docs/alerting/configuration/#configuration-file
+  ##      https://prometheus.io/webtools/alerting/routing-tree-editor/
+  config:
+    inhibit_rules:
+      - source_matchers:
+          - 'severity = critical'
+        target_matchers:
+          - 'severity =~ warning|info'
+        equal:
+          - 'namespace'
+          - 'alertname'
+      - source_matchers:
+          - 'severity = warning'
+        target_matchers:
+          - 'severity = info'
+        equal:
+          - 'namespace'
+          - 'alertname'
+      - source_matchers:
+          - 'alertname = InfoInhibitor'
+        target_matchers:
+          - 'severity = info'
+        equal:
+          - 'namespace'
+      - target_matchers:
+          - 'alertname = InfoInhibitor'
+    route:
+      group_by: ['namespace']
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 12h
+      receiver: 'wechat'
+      routes:
+        - receiver: 'wechat'
+          matchers:
+            - alertname = "Watchdog"
+    receivers:
+      - name: 'wechat'
+        webhook-configs:
+          send-resolved: true
+          # 替换企微机器人的真正key
+#          url: https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=<wechat-robot-key>
+
+    templates:
+      - '/etc/alertmanager/config/*.tmpl'
 
 ## Using default values from https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
 ## Grafana isn't managed by prometheus
