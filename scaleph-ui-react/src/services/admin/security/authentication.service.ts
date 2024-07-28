@@ -12,28 +12,34 @@ export const AuthenticationService = {
   },
 
   login: async (loginInfo: LoginInfo) => {
-    return request<ResponseBody<any>>(`${AuthenticationService.url}/login`, {
+    return request<ResponseBody<OnlineUserInfo>>(`${AuthenticationService.url}/login`, {
       method: 'POST',
       data: loginInfo,
     });
   },
 
-
-  setSession: async (userInfo: OnlineUserInfo) => {
+  storeSession: async (userInfo: OnlineUserInfo) => {
     localStorage.setItem(USER_AUTH.userInfo, JSON.stringify(userInfo));
     let pCodes: string[] = [];
-    if (userInfo.roles != null && userInfo.roles != undefined) {
-      userInfo.roles.forEach((d) => {
-        pCodes.push(d);
+    if (userInfo.roles) {
+      userInfo.roles.forEach((role) => {
+        pCodes.push(role.code);
       });
     }
-    if (userInfo.privileges != null && userInfo.privileges != undefined) {
-      userInfo.privileges.forEach((d) => {
-        pCodes.push(d);
+
+    if (userInfo.resourceWebs) {
+      userInfo.resourceWebs.forEach((resourceWeb) => {
+        pCodes.push(resourceWeb.name);
       });
     }
-    localStorage.setItem(USER_AUTH.expireTime, userInfo.expireTime + '');
+
     localStorage.setItem(USER_AUTH.pCodes, JSON.stringify(pCodes));
+  },
+
+  getOnlineUserInfo: async () => {
+    return request<ResponseBody<OnlineUserInfo>>(`${AuthenticationService.url}/onlineUser`, {
+      method: 'GET',
+    });
   },
 
   logout: async () => {

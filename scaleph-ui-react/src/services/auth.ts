@@ -3,12 +3,6 @@ import {AuthCode, LoginInfo, OnlineUserInfo, RegisterInfo, ResponseBody} from '@
 import {request} from '@umijs/max';
 
 export const AuthService = {
-  login: async (loginInfo: LoginInfo) => {
-    return request<ResponseBody<any>>('/api/user/login', {
-      method: 'POST',
-      data: loginInfo,
-    });
-  },
 
   menuRoutes: async () => {
     return request<ResponseBody<any>>('/api/admin/authorize/routes', {
@@ -21,27 +15,6 @@ export const AuthService = {
       method: 'GET',
       params: {d: new Date().getTime()},
     });
-  },
-
-  setSession: async (userInfo: OnlineUserInfo) => {
-    localStorage.setItem(USER_AUTH.userInfo, JSON.stringify(userInfo));
-    let pCodes: string[] = [];
-    if (userInfo.roles != null && userInfo.roles != undefined) {
-      userInfo.roles.forEach((d) => {
-        pCodes.push(d);
-      });
-    }
-    if (userInfo.privileges != null && userInfo.privileges != undefined) {
-      userInfo.privileges.forEach((d) => {
-        pCodes.push(d);
-      });
-    }
-    localStorage.setItem(USER_AUTH.expireTime, userInfo.expireTime + '');
-    localStorage.setItem(USER_AUTH.pCodes, JSON.stringify(pCodes));
-  },
-
-  isUserLoggedIn: async () => {
-    return localStorage.getItem(USER_AUTH.token) ? true : false;
   },
 
   hasPrivilege: async (code: string) => {

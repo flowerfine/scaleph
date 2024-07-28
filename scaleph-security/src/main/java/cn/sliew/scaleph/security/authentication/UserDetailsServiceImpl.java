@@ -42,7 +42,7 @@ import java.util.List;
  * @author gleiyu
  */
 @Slf4j
-@Service
+//@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override

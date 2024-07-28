@@ -51,23 +51,20 @@ const Login: React.FC = () => {
       form.validateFields().then((values: LoginInfo) => {
         const params: LoginInfo = {...values, uuid: authCode?.uuid as string,};
         AuthenticationService.login(params).then(async (resp) => {
-          if (resp.success) {
-            localStorage.setItem(USER_AUTH.token, resp.data);
+          if (resp.success && resp.data) {
+            const onlineUserInfo = resp.data
+            localStorage.setItem(USER_AUTH.token, onlineUserInfo.token);
             message.success(intl.formatMessage({id: "pages.user.login.success"}));
-            UserService.getOnlineUserInfo(resp.data).then(async (response) => {
-              if (response.success && response.data) {
-                await flushSync(() => {
-                  setInitialState((state) => ({
-                    ...state,
-                    currentUser: response.data,
-                  }));
-                });
-                AuthService.setSession(response.data)
-                setTimeout(() => {
-                  navigate("/");
-                }, 500);
-              }
-            })
+            await flushSync(() => {
+              setInitialState((state) => ({
+                ...state,
+                currentUser: onlineUserInfo,
+              }));
+            });
+            AuthenticationService.storeSession(onlineUserInfo)
+            setTimeout(() => {
+              navigate("/");
+            }, 500);
           } else {
             refreshAuthCode();
           }
