@@ -22,7 +22,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import cn.sliew.scaleph.dao.entity.master.security.SecUserRole;
-import cn.sliew.scaleph.dao.mapper.master.security.SecUserRoleMapper;
 import cn.sliew.scaleph.security.service.SecUserRoleService;
 import cn.sliew.scaleph.security.service.convert.SecUserRoleConvert;
 import cn.sliew.scaleph.security.service.dto.SecUserRoleDTO;
@@ -38,36 +37,26 @@ import org.springframework.stereotype.Service;
  * @author liyu
  * @since 2021-08-01
  */
-@Service
+//@Service
 public class SecUserRoleServiceImpl implements SecUserRoleService {
-
-    @Autowired
-    private SecUserRoleMapper secUserRoleMapper;
 
     @Override
     public int insert(SecUserRoleDTO secUserRoleDTO) {
-        SecUserRole secUserRole = SecUserRoleConvert.INSTANCE.toDo(secUserRoleDTO);
-        return this.secUserRoleMapper.insert(secUserRole);
+        return 0;
     }
 
     @Override
     public int deleteByRoleId(Serializable roleId) {
-        return this.secUserRoleMapper.delete(new LambdaQueryWrapper<SecUserRole>()
-            .eq(SecUserRole::getRoleId, roleId));
+        return 0;
     }
 
     @Override
     public int delete(SecUserRoleDTO secUserRoleDTO) {
-        return this.secUserRoleMapper.delete(new LambdaQueryWrapper<SecUserRole>()
-            .eq(SecUserRole::getRoleId, secUserRoleDTO.getRoleId())
-            .eq(SecUserRole::getUserId, secUserRoleDTO.getUserId())
-        );
+        return 0;
     }
 
     @Override
     public List<SecUserRoleDTO> listByRoleId(Serializable roleId) {
-        List<SecUserRole> list = this.secUserRoleMapper.selectList(new LambdaQueryWrapper<SecUserRole>()
-            .eq(SecUserRole::getRoleId, roleId));
-        return SecUserRoleConvert.INSTANCE.toDto(list);
+        return null;
     }
 }

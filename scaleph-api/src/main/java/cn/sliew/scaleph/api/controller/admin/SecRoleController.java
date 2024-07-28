@@ -56,7 +56,7 @@ import java.util.stream.Collectors;
  *
  * @author liyu
  */
-@RestController
+//@RestController
 @RequestMapping("/api/admin/role")
 @Tag(name = "系统管理-角色管理")
 public class SecRoleController {

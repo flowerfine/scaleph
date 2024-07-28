@@ -47,7 +47,7 @@ import java.util.List;
  *
  * @author gleiyu
  */
-@Component
+//@Component
 public class TokenFilter extends GenericFilterBean {
 
     @Autowired

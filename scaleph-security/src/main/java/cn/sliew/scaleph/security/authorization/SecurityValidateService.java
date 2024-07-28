@@ -18,19 +18,14 @@
 
 package cn.sliew.scaleph.security.authorization;
 
-import cn.sliew.scaleph.common.constant.Constants;
-import cn.sliew.scaleph.security.util.SecurityUtil;
+import cn.sliew.carp.module.security.spring.authorization.CarpSecurityValidateService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 /**
  * @author gleiyu
@@ -38,37 +33,18 @@ import java.util.stream.Collectors;
 @Service(value = "svs")
 public class SecurityValidateService {
 
-    /**
-     * 自定义权限拦截逻辑。避免权限硬编码，从而实现页面动态调整角色权限，动态生效
-     */
+    @Autowired
+    private CarpSecurityValidateService carpSecurityValidateService;
+
     public boolean support(HttpServletRequest request) {
-        return false;
+        return carpSecurityValidateService.support(request);
     }
 
-    /**
-     * 自定义权限认证逻辑。避免权限硬编码，从而实现页面动态调整角色权限，动态生效
-     */
     public boolean access(Supplier<Authentication> authentication, RequestAuthorizationContext context) {
-        return false;
+        return carpSecurityValidateService.access(authentication, context);
     }
 
-    /**
-     * 检查用户角色权限，有权限则放行。
-     * 如果是SUPER ADMIN角色则直接放行
-     *
-     * @param privileges 权限标识字符串
-     * @return true/false
-     */
     public boolean validate(String... privileges) {
-        UserDetails userDetails = SecurityUtil.getCurrentUser();
-        if (userDetails == null) {
-            return false;
-        }
-
-        List<String> privilegeList = userDetails.getAuthorities().stream()
-                        .map(GrantedAuthority::getAuthority)
-                        .collect(Collectors.toList());
-        return privilegeList.contains(Constants.ROLE_SYS_ADMIN) ||
-                Arrays.stream(privileges).anyMatch(privilegeList::contains);
+        return carpSecurityValidateService.validate(privileges);
     }
 }

@@ -1,3 +1,5 @@
+import {SecResourceWeb, SecRole} from "@/services/admin/typings";
+
 declare module "slash2";
 declare module "*.css";
 declare module "*.less";
@@ -101,9 +103,16 @@ type RegisterInfo = {
 };
 
 export type OnlineUserInfo = {
+  token: string;
+  userId?: number;
+  type?: string;
+  status?: string;
   userName?: string;
+  nickName?: string;
+  roles?: Array<SecRole>;
+  resourceWebs?: Array<SecResourceWeb>;
+
   email?: string;
-  token?: string;
   privileges?: string[];
   roles?: string[];
   expireTime?: bigint;

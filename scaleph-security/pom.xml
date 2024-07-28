@@ -53,6 +53,11 @@
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-data-redis</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-module-security-spring</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

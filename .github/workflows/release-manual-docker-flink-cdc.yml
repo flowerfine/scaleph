@@ -22,10 +22,10 @@ on:
       flinkCDCVersion:
         description: 'flink-cdc version'
         required: true
-        default: '3.0.0'
+        default: '3.1.1'
         type: choice
         options:
-          - 3.0.0
+          - 3.1.1
       flinkVersion:
         description: 'flink version'
         required: true

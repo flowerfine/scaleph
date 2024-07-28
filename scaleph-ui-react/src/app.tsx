@@ -13,6 +13,7 @@ import Icon from './icon';
 import {OnlineUserInfo, ResponseBody} from "@/typings";
 import {UserService} from "@/services/admin/user.service";
 import {AuthService} from "@/services/auth";
+import {AuthenticationService} from "@/services/admin/security/authentication.service";
 
 const isDev = process.env.NODE_ENV === "development";
 const whiteList: string[] = ["/user/login", "/user/register"];
@@ -30,7 +31,7 @@ export async function getInitialState(): Promise<{
   const fetchUserInfo = async () => {
     let user: OnlineUserInfo = {};
     try {
-      await UserService.getOnlineUserInfo(localStorage.getItem(USER_AUTH.token)).then((resp) => {
+      await AuthenticationService.getOnlineUserInfo().then((resp) => {
         if (resp.success && resp.data) {
           user = resp.data;
         } else {
@@ -100,7 +101,7 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
       return (<>{defaultDom}</>);
     },
     rightContentRender: () => <RightContent/>,
-    menuDataRender: () => defaultMenus,
+    // menuDataRender: () => defaultMenus,
     menuItemRender: (menuItemProps: any, defaultDom: any) => {
       return (
         <Space align="end" size={5}>

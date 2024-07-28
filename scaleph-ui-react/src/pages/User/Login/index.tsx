@@ -9,6 +9,7 @@ import {AuthService} from "@/services/auth";
 import {UserService} from "@/services/admin/user.service";
 import styles from "../index.less";
 import { AuthCode,LoginInfo } from "@/typings";
+import {AuthenticationService} from "@/services/admin/security/authentication.service";
 
 const Lang = () => {
   const langClassName = useEmotionCss(({token}) => {
@@ -42,31 +43,28 @@ const Login: React.FC = () => {
   }, []);
 
   const refreshAuthCode = async () => {
-    AuthService.refreshAuthImage().then((data) => setAuthCode(data))
+    AuthenticationService.getAuthImage().then((response) => setAuthCode(response.data))
   };
 
   const handleSubmit = async () => {
     try {
       form.validateFields().then((values: LoginInfo) => {
         const params: LoginInfo = {...values, uuid: authCode?.uuid as string,};
-        AuthService.login(params).then(async (resp) => {
-          if (resp.success) {
-            localStorage.setItem(USER_AUTH.token, resp.data);
+        AuthenticationService.login(params).then(async (resp) => {
+          if (resp.success && resp.data) {
+            const onlineUserInfo = resp.data
+            localStorage.setItem(USER_AUTH.token, onlineUserInfo.token);
             message.success(intl.formatMessage({id: "pages.user.login.success"}));
-            UserService.getOnlineUserInfo(resp.data).then(async (response) => {
-              if (response.success && response.data) {
-                await flushSync(() => {
-                  setInitialState((state) => ({
-                    ...state,
-                    currentUser: response.data,
-                  }));
-                });
-                AuthService.setSession(response.data)
-                setTimeout(() => {
-                  navigate("/");
-                }, 500);
-              }
-            })
+            await flushSync(() => {
+              setInitialState((state) => ({
+                ...state,
+                currentUser: onlineUserInfo,
+              }));
+            });
+            AuthenticationService.storeSession(onlineUserInfo)
+            setTimeout(() => {
+              navigate("/");
+            }, 500);
           } else {
             refreshAuthCode();
           }

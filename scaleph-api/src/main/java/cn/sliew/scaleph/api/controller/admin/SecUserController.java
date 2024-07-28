@@ -73,7 +73,7 @@ import java.util.Map;
  *
  * @author liyu
  */
-@RestController
+//@RestController
 @RequestMapping("/api")
 @Tag(name = "系统管理-用户管理")
 public class SecUserController {

@@ -50,7 +50,9 @@ import java.util.List;
 import java.util.Set;
 
 @Slf4j
-@Configuration
+
+
+//@Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Autowired
@@ -90,7 +92,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
      * 这玩意会造成异步请求结果无法响应，换成{@code AsyncHandlerInterceptor}就一切正常了
      */
     @Slf4j
-    @Component
+//    @Component
     public static class RequestResponseCacheFilter extends OncePerRequestFilter implements Ordered {
 
         @Override
