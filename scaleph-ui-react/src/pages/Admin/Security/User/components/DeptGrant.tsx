@@ -1,4 +1,4 @@
-import { DeptService } from '@/services/admin/dept.service';
+import { DeptService } from '@/services/admin/security/dept.service';
 import { SecDept, SecUser } from '@/services/admin/typings';
 import { UserService } from '@/services/admin/user.service';
 import { message, Modal, Transfer } from 'antd';

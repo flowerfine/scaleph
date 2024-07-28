@@ -3,7 +3,7 @@ import {Form, Input, message, Modal, Select} from 'antd';
 import {useIntl} from '@umijs/max';
 import {DICT_TYPE} from '@/constants/dictType';
 import {DictDataService} from '@/services/admin/dictData.service';
-import {RoleService} from '@/services/admin/role.service';
+import {RoleService} from '@/services/admin/security/role.service';
 import {SecRole} from '@/services/admin/typings';
 import {Dict, ModalFormProps} from '@/typings';
 

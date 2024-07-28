@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {message, Modal, Transfer} from 'antd';
 import {useIntl} from '@umijs/max';
-import {RoleService} from '@/services/admin/role.service';
+import {RoleService} from '@/services/admin/security/role.service';
 import {SecRole, SecUser} from '@/services/admin/typings';
 import {UserService} from '@/services/admin/user.service';
 import {ModalFormProps} from '@/typings';

@@ -4,7 +4,7 @@ import {ProForm, ProFormDigit, ProFormSelect, ProFormText} from "@ant-design/pro
 import {DICT_TYPE} from "@/constants/dictType";
 import {SecRole} from "@/services/admin/typings";
 import {DictDataService} from "@/services/admin/dictData.service";
-import {RoleService} from "@/services/admin/role.service";
+import {RoleService} from "@/services/admin/security/role.service";
 import { ModalFormProps } from '@/typings';
 
 const RoleForm: React.FC<ModalFormProps<SecRole>> = ({data, visible, onVisibleChange, onCancel}) => {

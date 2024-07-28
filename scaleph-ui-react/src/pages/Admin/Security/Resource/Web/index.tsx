@@ -1,121 +1,105 @@
-import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
-import {DICT_TYPE} from '@/constants/dictType';
-import RoleForm from '@/pages/Admin/Role/components/RoleForm';
-import {DictDataService} from '@/services/admin/dictData.service';
-import {RoleService} from '@/services/admin/role.service';
-import {SecRole} from '@/services/admin/typings';
-import {DeleteOutlined, EditOutlined, FormOutlined, SelectOutlined} from '@ant-design/icons';
-import {
-  ActionType,
-  PageContainer,
-  ProColumns,
-  ProFormInstance,
-  ProFormSelect,
-  ProTable,
-} from '@ant-design/pro-components';
-import {Button, message, Modal, Space, Tag, Tooltip} from 'antd';
 import React, {useRef, useState} from 'react';
+import {Button, message, Modal, Space, Switch, Tag, Tooltip} from 'antd';
+import {DeleteOutlined, EditOutlined, FormOutlined, PlusOutlined} from '@ant-design/icons';
+import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {useAccess, useIntl} from '@umijs/max';
-import WebAssugnRoles from './components/WebAssugnRoles';
-import ResourceWebs from './components/ResourceWebs';
+import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
+import WebAssugnRoles from '@/pages/Admin/Security/Resource/Web/components/WebAssugnRoles';
+import WebResourceForm from '@/pages/Admin/Security/Resource/Web/components/WebResourceForm';
+import {PrivilegeService} from '@/services/admin/privilege.service';
+import {ResourceWebService} from '@/services/admin/resourceWeb.service';
+import {SecResourceWeb} from '@/services/admin/typings';
+import {isEmpty} from 'lodash';
 
-const RoleWeb: React.FC = () => {
+const WebResourceWeb: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<SecRole[]>([]);
-  const [roleFormData, setRoleFormData] = useState<{
+  const [selectedRows, setSelectedRows] = useState<SecResourceWeb[]>([]);
+  const [webResourceFormData, setWebResourceFormData] = useState<{
     visiable: boolean;
-    data: SecRole;
-  }>({visiable: false, data: {}});
-
+    parent: SecResourceWeb;
+    data: SecResourceWeb;
+  }>({visiable: false, parent: {}, data: {}});
   const [webAssignRoles, setWebAssignRoles] = useState<{
     visiable: boolean;
-    data: SecRole;
+    data: SecResourceWeb;
   }>({visiable: false, parent: {}, data: {}});
 
-  const [resourceWebs, setResourceWebs] = useState<{
-    visiable: boolean;
-    data: SecRole;
-  }>({visiable: false, parent: {}, data: {}});
+  const onExpand = (expanded: boolean, record: SecResourceWeb) => {
+    if (expanded && record.children && isEmpty(record.children)) {
+      PrivilegeService.listByPid(record.id).then((response) => {
+        record.children = response.data;
+      });
+    }
+  };
 
-  const tableColumns: ProColumns<SecRole>[] = [
+  const tableColumns: ProColumns<SecResourceWeb>[] = [
     {
-      title: intl.formatMessage({id: 'pages.admin.role.name'}),
-      dataIndex: 'name',
-      width: 200,
-    },
-    {
-      title: intl.formatMessage({id: 'pages.admin.role.code'}),
-      dataIndex: 'code',
-      hideInSearch: true,
-      width: 200,
-    },
-    {
-      title: intl.formatMessage({id: 'pages.admin.role.type'}),
+      title: intl.formatMessage({id: 'pages.admin.resource.type'}),
       dataIndex: 'type',
+      width: 120,
       render: (dom, entity) => {
         return <Tag>{entity.type?.label}</Tag>;
       },
-      renderFormItem: (item, {defaultRender, ...rest}, form) => {
-        return (
-          <ProFormSelect
-            showSearch={false}
-            allowClear={true}
-            request={() => DictDataService.listDictDataByType2(DICT_TYPE.roleType)}
-          />
-        );
-      },
-      width: 200,
+      fixed: 'left',
+      hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.role.status'}),
-      dataIndex: 'status',
-      render: (dom, entity) => {
-        return <Tag>{entity.status?.label}</Tag>;
-      },
-      renderFormItem: (item, {defaultRender, ...rest}, form) => {
-        return (
-          <ProFormSelect
-            showSearch={false}
-            allowClear={true}
-            request={() => DictDataService.listDictDataByType2(DICT_TYPE.roleStatus)}
-          />
-        );
-      },
-      width: 200,
+      title: intl.formatMessage({id: 'pages.admin.resource.web.name'}),
+      dataIndex: 'name',
+    },
+    {
+      title: intl.formatMessage({id: 'pages.admin.resource.web.menuName'}),
+      dataIndex: 'menuName',
+      hideInSearch: true,
+    },
+    {
+      title: intl.formatMessage({id: 'pages.admin.resource.web.layout'}),
+      dataIndex: 'layout',
+      hideInSearch: true,
+      render: (dom, entity, index, action, schema) => {
+        return <Switch value={entity.layout}/>
+      }
+    },
+    {
+      title: intl.formatMessage({id: 'pages.admin.resource.web.path'}),
+      dataIndex: 'path',
+      hideInSearch: true,
+    },
+    {
+      title: intl.formatMessage({id: 'pages.admin.resource.web.redirect'}),
+      dataIndex: 'redirect',
+      hideInSearch: true,
+    },
+    {
+      title: intl.formatMessage({id: 'pages.admin.resource.web.icon'}),
+      dataIndex: 'icon',
+      hideInSearch: true,
+    },
+    {
+      title: intl.formatMessage({id: 'pages.admin.resource.web.component'}),
+      dataIndex: 'component',
+      hideInSearch: true,
     },
     {
       title: intl.formatMessage({id: 'app.common.data.remark'}),
       dataIndex: 'remark',
       hideInSearch: true,
-      width: 180,
-    },
-    {
-      title: intl.formatMessage({id: 'app.common.data.createTime'}),
-      dataIndex: 'createTime',
-      hideInSearch: true,
-      width: 180,
-    },
-    {
-      title: intl.formatMessage({id: 'app.common.data.updateTime'}),
-      dataIndex: 'updateTime',
-      hideInSearch: true,
-      width: 180,
     },
     {
       title: intl.formatMessage({id: 'app.common.operate.label'}),
       dataIndex: 'actions',
       align: 'center',
-      width: 120,
+      width: 160,
       fixed: 'right',
       valueType: 'option',
       render: (_, record) => (
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.new.user'})}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.new.roles'})}>
                 <Button
                   shape="default"
                   type="link"
@@ -125,27 +109,30 @@ const RoleWeb: React.FC = () => {
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.new.webs'})}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.new.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<SelectOutlined/>}
-                  onClick={() => setResourceWebs({visiable: true, data: record})}
+                  icon={<PlusOutlined/>}
+                  onClick={() =>
+                    setWebResourceFormData({visiable: true, parent: record, data: {}})
+                  }
                 />
               </Tooltip>
             )}
-            {access.canAccess(PRIVILEGE_CODE.roleEdit) && (
+            {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
               <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
                 <Button
                   shape="default"
                   type="link"
                   icon={<EditOutlined/>}
-                  disabled={record.type.value == '01'}
-                  onClick={() => setRoleFormData({visiable: true, data: record})}
+                  onClick={() =>
+                    setWebResourceFormData({visiable: true, parent: {}, data: record})
+                  }
                 ></Button>
               </Tooltip>
             )}
-            {access.canAccess(PRIVILEGE_CODE.roleDelete) && (
+            {access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
               <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
                 <Button
                   shape="default"
@@ -153,9 +140,7 @@ const RoleWeb: React.FC = () => {
                   icon={<DeleteOutlined/>}
                   onClick={() => {
                     Modal.confirm({
-                      title: intl.formatMessage({
-                        id: 'app.common.operate.delete.confirm.title',
-                      }),
+                      title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
                       content: intl.formatMessage({
                         id: 'app.common.operate.delete.confirm.content',
                       }),
@@ -163,7 +148,7 @@ const RoleWeb: React.FC = () => {
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
-                        RoleService.deleteRole(record).then((d) => {
+                        ResourceWebService.deleteOne(record).then((d) => {
                           if (d.success) {
                             message.success(
                               intl.formatMessage({id: 'app.common.operate.delete.success'}),
@@ -185,7 +170,7 @@ const RoleWeb: React.FC = () => {
 
   return (
     <PageContainer title={false}>
-      <ProTable<SecRole>
+      <ProTable<SecResourceWeb>
         search={{
           labelWidth: 'auto',
           span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -196,20 +181,20 @@ const RoleWeb: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return RoleService.listByPage({...params});
+          return ResourceWebService.listByPage({...params, pid: 0});
         }}
         toolbar={{
           actions: [
-            access.canAccess(PRIVILEGE_CODE.roleAdd) && (
+            access.canAccess(PRIVILEGE_CODE.datadevResourceAdd) && (
               <Button
                 key="new"
                 type="primary"
-                onClick={() => setRoleFormData({visiable: true, data: {}})}
+                onClick={() => setWebResourceFormData({visiable: true, parent: null, data: {}})}
               >
                 {intl.formatMessage({id: 'app.common.operate.new.label'})}
               </Button>
             ),
-            access.canAccess(PRIVILEGE_CODE.roleDelete) && (
+            access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
               <Button
                 key="del"
                 type="default"
@@ -224,7 +209,7 @@ const RoleWeb: React.FC = () => {
                     okButtonProps: {danger: true},
                     cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                     onOk() {
-                      RoleService.deleteBatch(selectedRows).then((d) => {
+                      ResourceWebService.deleteBatch(selectedRows).then((d) => {
                         if (d.success) {
                           message.success(
                             intl.formatMessage({id: 'app.common.operate.delete.success'}),
@@ -248,18 +233,21 @@ const RoleWeb: React.FC = () => {
         }}
         tableAlertRender={false}
         tableAlertOptionRender={false}
+        scroll={{x: 1500, y: 'calc( 100vh - 385px )'}}
       />
-      {roleFormData.visiable && (
-        <RoleForm
-          visible={roleFormData.visiable}
-          onCancel={() => setRoleFormData({visiable: false, data: {}})}
+      {webResourceFormData.visiable && (
+        <WebResourceForm
+          visible={webResourceFormData.visiable}
+          onCancel={() => setWebResourceFormData({visiable: false, parent: {}, data: {}})}
           onVisibleChange={(visiable) => {
-            setRoleFormData({visiable: visiable, data: {}});
+            setWebResourceFormData({visiable: visiable, parent: {}, data: {}});
             actionRef.current?.reload();
           }}
-          data={roleFormData.data}
+          parent={webResourceFormData.parent}
+          data={webResourceFormData.data}
         />
       )}
+
       {webAssignRoles.visiable && (
         <WebAssugnRoles
           visible={webAssignRoles.visiable}
@@ -271,19 +259,8 @@ const RoleWeb: React.FC = () => {
           data={webAssignRoles.data}
         />
       )}
-      {resourceWebs.visiable && (
-        <ResourceWebs
-          visible={resourceWebs.visiable}
-          onCancel={() => setResourceWebs({visiable: false, data: {}})}
-          onVisibleChange={(visiable) => {
-            setResourceWebs({visiable: visiable, data: {}});
-            actionRef.current?.reload();
-          }}
-          data={resourceWebs.data}
-        />
-      )}
     </PageContainer>
   );
 };
 
-export default RoleWeb;
+export default WebResourceWeb;

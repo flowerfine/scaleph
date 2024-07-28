@@ -12,9 +12,9 @@ import {
 } from '@ant-design/pro-components';
 import {DICT_TYPE} from '@/constants/dictType';
 import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
-import {DeptService} from '@/services/admin/dept.service';
+import {DeptService} from '@/services/admin/security/dept.service';
 import {DictDataService} from '@/services/admin/dictData.service';
-import {RoleService} from '@/services/admin/role.service';
+import {RoleService} from '@/services/admin/security/role.service';
 import {SecDept, SecRole, SecUser} from '@/services/admin/typings';
 import {UserService} from '@/services/admin/user.service';
 import DeptGrant from './components/DeptGrant';
