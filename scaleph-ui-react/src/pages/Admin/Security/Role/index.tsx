@@ -237,10 +237,7 @@ const RoleWeb: React.FC = () => {
         <WebAssugnRoles
           visible={webAssignRoles.visiable}
           onCancel={() => setWebAssignRoles({visiable: false, data: {}})}
-          onVisibleChange={(visiable) => {
-            setWebAssignRoles({visiable: visiable, data: {}});
-            actionRef.current?.reload();
-          }}
+          onOK={(values) => setWebAssignRoles({visiable: false, data: {}})}
           data={webAssignRoles.data}
         />
       )}

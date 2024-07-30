@@ -1,28 +1,14 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {Card, Form, message} from 'antd';
+import {Card, message, Modal} from 'antd';
 import {useIntl} from '@umijs/max';
 import mainHeight from '@/models/useMainSize';
 import TableTransfer from '@/pages/Admin/Security/Resource/Web/components/TransferTable';
-import {SecResourceWeb} from '@/services/admin/typings';
+import {SecRole} from '@/services/admin/typings';
 import {AuthService} from '@/services/auth';
 import {AuthorizationService} from "@/services/admin/security/authorization.service";
-import {ModalForm} from "@ant-design/pro-components";
+import {ModalFormProps} from "@/typings";
 
-// 定义组件 Props 类型
-interface ModalFormParentProps<T> {
-  data: T;
-  visible: boolean;
-  onVisibleChange?: (visible: boolean) => void;
-  onCancel: () => void;
-  onOK?: (values: any) => void;
-}
-
-const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
-                                                                           data,
-                                                                           visible,
-                                                                           onVisibleChange,
-                                                                           onCancel
-                                                                         }) => {
+const WebResourceForm: React.FC<ModalFormProps<SecRole>> = ({data, visible, onCancel, onOK}) => {
   const intl = useIntl();
   const containerInfo = mainHeight('.ant-layout-content');
   const [roleLists, setRoleLists] = useState<Role[]>([]);
@@ -117,42 +103,38 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
   );
 
   return (
-    <ModalForm
-      title={data.id ? `${intl.formatMessage({id: 'pages.admin.security.authorization.role2users'})}: ${data.name}` : ''}
+    <Modal
+      title={`${intl.formatMessage({id: 'pages.admin.security.authorization.role2users'})}: ${data?.name}`}
       open={visible}
-      onOpenChange={onVisibleChange}
+      onCancel={onCancel}
+      onOk={onOK}
       width={1100}
-      modalProps={{
-        destroyOnClose: true,
-        closeIcon: false,
-        centered: true
-      }}
+      destroyOnClose={true}
+      closeIcon={false}
+      centered={true}
     >
-      <div>
-        <Card
-          styles={{
-            body: {minHeight: `${containerInfo.height - 200}px`}
+      <Card
+        styles={{
+          body: {minHeight: `${containerInfo.height - 200}px`}
+        }}
+      >
+        <TableTransfer
+          containerHeight={containerInfo.height}
+          titles={[intl.formatMessage({id: 'app.common.operate.new.notAccreditUser'}), intl.formatMessage({id: 'app.common.operate.new.accreditUser'})]}
+          dataSource={roleLists}
+          targetKeys={originTargetKeys}
+          showSearch={true}
+          rowKey={(record: { id: any }) => record.id}
+          onChange={handleChange}
+          filterOption={handleFilter}
+          listStyle={{
+            width: 500,
           }}
-        >
-
-          <TableTransfer
-            containerHeight={containerInfo.height}
-            titles={[intl.formatMessage({id: 'app.common.operate.new.notAccreditUser'}), intl.formatMessage({id: 'app.common.operate.new.accreditUser'})]}
-            dataSource={roleLists}
-            targetKeys={originTargetKeys}
-            showSearch={true}
-            rowKey={(record: { id: any }) => record.id}
-            onChange={handleChange}
-            filterOption={handleFilter}
-            listStyle={{
-              width: 500,
-            }}
-            leftColumns={tableColumns}
-            rightColumns={tableColumns}
-          />
-        </Card>
-      </div>
-    </ModalForm>
+          leftColumns={tableColumns}
+          rightColumns={tableColumns}
+        />
+      </Card>
+    </Modal>
   );
 };
 
