@@ -29,30 +29,7 @@ Scaleph is driven by personal interest and evolves actively through faithful dev
 
 ## Documentation
 
-Whenever people want to explore Scaleph system, they want a running Scaleph application, then people can interact with Scaleph through Scaleph Admin.
-
-Firstly, read documentation website [quick start](https://flowerfine.github.io/scaleph-repress-site/quick-start/) and begin to bootstrap scaleph.
-
-Secondly, take followed steps.
-
-* **Install Docker and Kubernetes on your machine**. Reference: [Prepare](https://flowerfine.github.io/scaleph-repress-site/quick-start/prepare/index.html)
-* Clone the repository
-* Use Docker Compose and Scaleph Docker image quickly install and run Scaleph.
-
-```shell
-git clone https://github.com/flowerfine/scaleph.git --depth 1
-
-cd scaleph
-git fetch origin 2.0.5
-git checkout 2.0.5
-
-# 将镜像 tag 切换到 v2.0.5。latest 为开发中的最新版本
-# 注意替换 MINIO_ENDPOINT 中的 IP
-cd scaleph/tools/docker/deploy/scaleph
-docker-compose up
-```
-
-Once all containers have started, the UI is ready to go at [http://localhost:8096](http://localhost:8096/), user can login by `sys_admin/123456`.
+Learn more about Scaleph at https://github.com/flowerfine/scaleph
 
 ## Code of Conduct
 
