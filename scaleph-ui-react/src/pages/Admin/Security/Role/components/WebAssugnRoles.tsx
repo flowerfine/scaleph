@@ -1,10 +1,12 @@
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {Card, Form, message} from 'antd';
+import {useIntl} from '@umijs/max';
 import mainHeight from '@/models/useMainSize';
 import TableTransfer from '@/pages/Admin/Security/Resource/Web/components/TransferTable';
-import { SecResourceWeb } from '@/services/admin/typings';
-import { AuthService } from '@/services/auth';
-import { Button, Card, Form, message, Modal, Space } from 'antd';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useIntl } from '@umijs/max';
+import {SecResourceWeb} from '@/services/admin/typings';
+import {AuthService} from '@/services/auth';
+import {AuthorizationService} from "@/services/admin/security/authorization.service";
+import {ModalForm} from "@ant-design/pro-components";
 
 // 定义组件 Props 类型
 interface ModalFormParentProps<T> {
@@ -16,26 +18,25 @@ interface ModalFormParentProps<T> {
 }
 
 const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
-  data,
-  visible,
-  onVisibleChange,
-  onCancel,
-}) => {
+                                                                           data,
+                                                                           visible,
+                                                                           onVisibleChange,
+                                                                           onCancel
+                                                                         }) => {
   const intl = useIntl();
-  const [form] = Form.useForm();
   const containerInfo = mainHeight('.ant-layout-content');
   const [roleLists, setRoleLists] = useState<Role[]>([]);
 
   // 角色表格列配置
   const tableColumns = [
     {
-      dataIndex: 'userName',
-      title: '用户名',
+      dataIndex: 'nickName',
+      title: intl.formatMessage({id: 'pages.admin.user.nickName'}),
       width: 300,
     },
     {
-      dataIndex: 'summary',
-      title: '自我介绍',
+      dataIndex: 'remark',
+      title: intl.formatMessage({id: 'app.common.data.remark'}),
       width: 300,
     },
   ];
@@ -62,10 +63,10 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
   // 异步获取数据
   const fetchData = useCallback(async () => {
     try {
-      const res1 = await AuthService.requestUnauthorizedUsers({ roleId: data?.id });
-      const res2 = await AuthService.requestAuthorizedUsers({ roleId: data?.id });
-      if (res1?.records && res2?.records) {
-        const mergedArray = mergeArrays(res1.records, res2.records);
+      const res1 = await AuthorizationService.requestUnauthorizedUsers({roleId: data?.id});
+      const res2 = await AuthorizationService.requestAuthorizedUsers({roleId: data?.id});
+      if (res1?.success && res1?.data && res2?.success && res2?.data) {
+        const mergedArray = mergeArrays(res1?.data?.records, res2?.data?.records);
         setRoleLists(mergedArray);
       }
     } catch (error) {
@@ -78,15 +79,6 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
       fetchData();
     }
   }, [data, fetchData]);
-
-  // 页面标题
-  const returnTitle = useMemo(() => {
-    return (
-      <Space direction="vertical">
-        <span>{` ${intl.formatMessage({ id: `${data?.name}` })}-${intl.formatMessage({ id: 'app.common.operate.new.rolesUser' })}`}</span>
-      </Space>
-    );
-  }, [data, intl]);
 
   // 获取选中角色的 id 数组
   const originTargetKeys = useMemo(() => {
@@ -110,13 +102,13 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
         // 批量为角色绑定用户
         await AuthService.rolesUser(params).then((res) => {
           if (res?.success) {
-            message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }), 2);
+            message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}), 2);
           }
         });
       } else {
         // 批量为角色解除用户绑定
         await AuthService.deleteRolesUser(params).then((res) => {
-          message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }), 2);
+          message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}), 2);
         });
       }
       fetchData();
@@ -125,30 +117,27 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
   );
 
   return (
-    <Modal
+    <ModalForm
+      title={data.id ? `${intl.formatMessage({id: 'pages.admin.security.authorization.role2users'})}: ${data.name}` : ''}
       open={visible}
-      title={data.id ? intl.formatMessage({ id: 'app.common.operate.new.rolesUser' }) : ''}
+      onOpenChange={onVisibleChange}
       width={1100}
-      destroyOnClose={true}
-      onCancel={onCancel}
-      cancelText={intl.formatMessage({ id: 'app.common.operate.close.label' })}
-      centered
-      footer={[
-        <Button type="primary" onClick={onCancel}>
-          {intl.formatMessage({ id: 'app.common.operate.close.label' })}
-        </Button>,
-      ]}
+      modalProps={{
+        destroyOnClose: true,
+        closeIcon: false,
+        centered: true
+      }}
     >
       <div>
         <Card
-          bodyStyle={{
-            minHeight: `${containerInfo.height - 200}px`,
+          styles={{
+            body: {minHeight: `${containerInfo.height - 200}px`}
           }}
-          title={returnTitle}
         >
+
           <TableTransfer
             containerHeight={containerInfo.height}
-            titles={[intl.formatMessage({ id: 'app.common.operate.new.notAccreditUser' }), intl.formatMessage({ id: 'app.common.operate.new.accreditUser' })]}
+            titles={[intl.formatMessage({id: 'app.common.operate.new.notAccreditUser'}), intl.formatMessage({id: 'app.common.operate.new.accreditUser'})]}
             dataSource={roleLists}
             targetKeys={originTargetKeys}
             showSearch={true}
@@ -163,7 +152,7 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
           />
         </Card>
       </div>
-    </Modal>
+    </ModalForm>
   );
 };
 

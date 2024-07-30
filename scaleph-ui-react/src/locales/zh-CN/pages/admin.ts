@@ -44,7 +44,7 @@ export default {
   'pages.admin.resource.pid': '父级资源',
   'pages.admin.resource.data': '数据资源',
 
-
+  'pages.admin.security.authorization.role2users': '角色分配用户',
 
   'pages.admin.dept': '部门管理',
   'pages.admin.dept.deptName': '名称',

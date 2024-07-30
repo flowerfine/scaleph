@@ -27,6 +27,10 @@ const RoleForm: React.FC<ModalFormProps<SecRole>> = ({data, visible, onVisibleCh
       layout={"horizontal"}
       labelCol={{span: 6}}
       wrapperCol={{span: 16}}
+      modalProps={{
+        destroyOnClose: true,
+        closeIcon: false,
+      }}
       initialValues={{
         id: data.id,
         code: data.code,
