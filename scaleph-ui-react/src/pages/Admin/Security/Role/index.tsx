@@ -1,21 +1,14 @@
+import React, {useRef, useState} from 'react';
+import {Button, message, Modal, Space, Tag, Tooltip} from 'antd';
+import {DeleteOutlined, EditOutlined, FormOutlined, SelectOutlined} from '@ant-design/icons';
+import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable,} from '@ant-design/pro-components';
+import {useAccess, useIntl} from '@umijs/max';
 import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
 import {DICT_TYPE} from '@/constants/dictType';
-import RoleForm from '@/pages/Admin/Security/Role/components/RoleForm';
 import {DictDataService} from '@/services/admin/dictData.service';
 import {RoleService} from '@/services/admin/security/role.service';
 import {SecRole} from '@/services/admin/typings';
-import {DeleteOutlined, EditOutlined, FormOutlined, SelectOutlined} from '@ant-design/icons';
-import {
-  ActionType,
-  PageContainer,
-  ProColumns,
-  ProFormInstance,
-  ProFormSelect,
-  ProTable,
-} from '@ant-design/pro-components';
-import {Button, message, Modal, Space, Tag, Tooltip} from 'antd';
-import React, {useRef, useState} from 'react';
-import {useAccess, useIntl} from '@umijs/max';
+import RoleForm from '@/pages/Admin/Security/Role/components/RoleForm';
 import WebAssugnRoles from './components/WebAssugnRoles';
 import ResourceWebs from './components/ResourceWebs';
 
@@ -58,14 +51,8 @@ const RoleWeb: React.FC = () => {
       render: (dom, entity) => {
         return <Tag>{entity.type?.label}</Tag>;
       },
-      renderFormItem: (item, {defaultRender, ...rest}, form) => {
-        return (
-          <ProFormSelect
-            showSearch={false}
-            allowClear={true}
-            request={() => DictDataService.listDictDataByType2(DICT_TYPE.roleType)}
-          />
-        );
+      request: (params, props) => {
+        return DictDataService.listDictDataByType2(DICT_TYPE.roleType)
       },
       width: 200,
     },
@@ -75,14 +62,8 @@ const RoleWeb: React.FC = () => {
       render: (dom, entity) => {
         return <Tag>{entity.status?.label}</Tag>;
       },
-      renderFormItem: (item, {defaultRender, ...rest}, form) => {
-        return (
-          <ProFormSelect
-            showSearch={false}
-            allowClear={true}
-            request={() => DictDataService.listDictDataByType2(DICT_TYPE.roleStatus)}
-          />
-        );
+      request: (params, props) => {
+        return DictDataService.listDictDataByType2(DICT_TYPE.roleStatus)
       },
       width: 200,
     },
@@ -154,21 +135,15 @@ const RoleWeb: React.FC = () => {
                   icon={<DeleteOutlined/>}
                   onClick={() => {
                     Modal.confirm({
-                      title: intl.formatMessage({
-                        id: 'app.common.operate.delete.confirm.title',
-                      }),
-                      content: intl.formatMessage({
-                        id: 'app.common.operate.delete.confirm.content',
-                      }),
+                      title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                      content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
                       okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
                         RoleService.deleteRole(record).then((d) => {
                           if (d.success) {
-                            message.success(
-                              intl.formatMessage({id: 'app.common.operate.delete.success'}),
-                            );
+                            message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();
                           }
                         });
@@ -214,22 +189,19 @@ const RoleWeb: React.FC = () => {
               <Button
                 key="del"
                 type="default"
+                danger
                 disabled={selectedRows.length < 1}
                 onClick={() => {
                   Modal.confirm({
                     title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
-                    content: intl.formatMessage({
-                      id: 'app.common.operate.delete.confirm.content',
-                    }),
+                    content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
                     okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
                     okButtonProps: {danger: true},
                     cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                     onOk() {
                       RoleService.deleteBatch(selectedRows).then((d) => {
                         if (d.success) {
-                          message.success(
-                            intl.formatMessage({id: 'app.common.operate.delete.success'}),
-                          );
+                          message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                           actionRef.current?.reload();
                         }
                       });

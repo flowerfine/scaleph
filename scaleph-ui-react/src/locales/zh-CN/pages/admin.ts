@@ -21,7 +21,7 @@ export default {
   'pages.admin.user.awaitGrant': '待授权',
   'pages.admin.user.granted': '已授权',
 
-  'pages.admin.role': '角色管理',
+  'pages.admin.role': '角色',
   'pages.admin.role.code': '角色编码',
   'pages.admin.role.name': '角色名称',
   'pages.admin.role.type': '角色类型',

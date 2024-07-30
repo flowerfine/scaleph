@@ -28,19 +28,19 @@ export const RoleService = {
 
   addRole: async (row: SecRole) => {
     return request<ResponseBody<any>>(`${RoleService.url}`, {
-      method: 'POST',
+      method: 'PUT',
       data: row,
     });
   },
   updateRole: async (row: SecRole) => {
     return request<ResponseBody<any>>(`${RoleService.url}`, {
-      method: 'PUT',
+      method: 'POST',
       data: row,
     });
   },
 
   deleteRole: async (row: SecRole) => {
-    return request<ResponseBody<any>>(`${RoleService.url}/` + row.id, {
+    return request<ResponseBody<any>>(`${RoleService.url}/${row.id}`, {
       method: 'DELETE',
     });
   },

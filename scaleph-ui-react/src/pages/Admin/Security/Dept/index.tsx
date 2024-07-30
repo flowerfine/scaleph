@@ -145,6 +145,7 @@ const DeptWeb: React.FC = () => {
               <Button
                 key="del"
                 type="default"
+                danger
                 disabled={selectedRows.length < 1}
                 onClick={() => {
                   Modal.confirm({

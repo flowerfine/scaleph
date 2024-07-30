@@ -47,7 +47,7 @@ const DeptForm: React.FC<ModalFormParentProps<SecDeptTree>> = ({parent, data, vi
         deptStatus: data.deptStatus?.value
       }}
       onFinish={(values: Record<string, any>) => {
-        return data.id
+        return values.id
           ? DeptService.updateDept({...values}).then((response) => {
             if (response.success) {
               message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}));
