@@ -45,11 +45,26 @@ create table carp_sec_user
     key (update_time)
 ) engine = innodb comment = 'security user';
 
-insert into carp_sec_user (id, type, user_name, nick_name, avatar, email, phone, password,
-                      `salt`, `order`, `status`, remark, creator, editor)
-values (1, '0', 'sys_admin', '超级管理员', null, 'test@admin.com', null,
-        'dfed150b0806844c2533c9c0ed70df51', 'ce5gT8lVxGdFN8RnSNAcjFUz8dMrRd7B',
-        0, '0', null, 'sys', 'sys');
+insert into carp_sec_user (id, type, user_name, nick_name, avatar, email, phone, password, `salt`, `order`, `status`,
+                           remark, creator, editor)
+values (1, '0', 'sys_admin', '超级管理员', null, 'test@admin.com', null, 'dfed150b0806844c2533c9c0ed70df51',
+        'ce5gT8lVxGdFN8RnSNAcjFUz8dMrRd7B', 0, '0', null, 'sys', 'sys');
+insert into `carp_sec_user` (`id`, `type`, `user_name`, `nick_name`, `avatar`, `email`, `phone`, `password`, `salt`,
+                             `order`, `status`, `remark`, `creator`, `editor`)
+values (2, '1', 'kalencaya', '王奇', null, '1942460489@qq.com', null, '4a84974911765dc9b3591076581feeb6',
+        '06qyF4E9U7XM5QIZmATZjnmTG1b3X1uN', 1, '0', null, 'sys', 'sys');
+insert into `carp_sec_user` (`id`, `type`, `user_name`, `nick_name`, `avatar`, `email`, `phone`, `password`, `salt`,
+                             `order`, `status`, `remark`, `creator`, `editor`)
+values (3, '1', 'gleiyu', '耿雷雨', null, 'gleiyu@sina.cn', null, '2407140fcdd211fa971a73f11cf99af3',
+        'SVnSHgI82hUXzLTdhNjD1YrpkgnSjSsi', 2, '0', null, 'sys', 'sys');
+insert into `carp_sec_user` (`id`, `type`, `user_name`, `nick_name`, `avatar`, `email`, `phone`, `password`, `salt`,
+                             `order`, `status`, `remark`, `creator`, `editor`)
+values (4, '1', 'LiuBodong', 'LiuBodong', null, 'liubodong2010@126.com', null, '84ca56252f9843ef538b59e265a344e9',
+        'Lsv4doPPAuciFmcFLqfcj8fXZK7ef421', 3, '0', null, 'sys', 'sys');
+insert into `carp_sec_user` (`id`, `type`, `user_name`, `nick_name`, `avatar`, `email`, `phone`, `password`, `salt`,
+                             `order`, `status`, `remark`, `creator`, `editor`)
+values (5, '1', 'bailongsen1027', 'bailongsen1027', null, null, null, 'c5c336e804c91da5d943df05a8dc2a17',
+        '3qgmeXlVYQGPfalaaOUDA5iuT45A6eMK', 4, '0', null, 'sys', 'sys');
 
 /* 角色表 */
 drop table if exists carp_sec_role;

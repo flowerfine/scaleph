@@ -1,13 +1,13 @@
 import {Form, message, Modal} from 'antd';
-import {ProForm, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
+import {ProForm, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import {useIntl} from '@umijs/max';
 import {DICT_TYPE} from '@/constants/dictType';
 import {DictDataService} from '@/services/admin/dictData.service';
 import {SecUser} from '@/services/admin/typings';
-import {UserService} from '@/services/admin/user.service';
+import {UserService} from '@/services/admin/security/user.service';
 import {ModalFormProps} from '@/typings';
 
-const UserForm: React.FC<ModalFormProps<SecUser>> = ({data, visible, onVisibleChange, onCancel}) => {
+const UserForm: React.FC<ModalFormProps<SecUser>> = ({data, visible, onOK, onCancel}) => {
   const intl = useIntl();
   const [form] = Form.useForm();
 
@@ -30,26 +30,26 @@ const UserForm: React.FC<ModalFormProps<SecUser>> = ({data, visible, onVisibleCh
             id: values.id,
             type: values.type,
             userName: values.userName,
+            password: values.password,
             nickName: values.nickName,
-            avater: values.avater,
+            avatar: values.avatar,
             email: values.email,
             phone: values.phone,
-            gender: values.gender,
             status: values.status,
-            address: values.address,
-            summary: values.summary,
+            order: values.order,
+            remark: values.remark,
           };
           data.id
-            ? UserService.updateUser({...user}).then((d) => {
-              if (d.success) {
+            ? UserService.updateUser({...user}).then((resp) => {
+              if (resp.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}));
-                onVisibleChange(false);
+                onOK(values);
               }
             })
-            : UserService.addUser({...user}).then((d) => {
-              if (d.success) {
+            : UserService.add({...user}).then((resp) => {
+              if (resp.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
-                onVisibleChange(false);
+                onOK(false);
               }
             });
         });
@@ -69,9 +69,9 @@ const UserForm: React.FC<ModalFormProps<SecUser>> = ({data, visible, onVisibleCh
           avatar: data.avatar,
           email: data.email,
           phone: data.phone,
-          gender: data.gender?.value,
-          address: data.address,
-          summary: data.summary,
+          status: data.status?.value,
+          order: data.order,
+          remark: data.remark,
         }}
       >
         <ProFormText name="id" hidden/>
@@ -95,49 +95,26 @@ const UserForm: React.FC<ModalFormProps<SecUser>> = ({data, visible, onVisibleCh
             {
               pattern: /^[a-zA-Z0-9_]+$/,
               message: intl.formatMessage({id: 'app.common.validate.characterWord'}),
-            },
-            {
-              validator: (rule, value, callback) => {
-                data.id
-                  ? callback()
-                  : UserService.isUserExists(value).then((resp) => {
-                    if (resp) {
-                      callback();
-                    } else {
-                      callback(
-                        intl.formatMessage({id: 'app.common.validate.sameUserName'}),
-                      );
-                    }
-                  });
-              },
-            },
+            }
           ]}
+        />
+        <ProFormText.Password
+          name="password"
+          label={intl.formatMessage({id: 'pages.admin.user.password'})}
+          hidden={data.id ? true : false}
+          rules={[{required: true}, {max: 50}]}
         />
         <ProFormText
           name="nickName"
           label={intl.formatMessage({id: 'pages.admin.user.nickName'})}
-          rules={[{max: 50}]}
+          rules={[{required: true}, {max: 50}]}
         />
         <ProFormText
           name="email"
           label={intl.formatMessage({id: 'pages.admin.user.email'})}
           rules={[
-            {required: true},
             {max: 100},
-            {type: 'email'},
-            {
-              validator: (rule, value, callback) => {
-                data.id
-                  ? callback()
-                  : UserService.isEmailExists(value).then((resp) => {
-                    if (resp) {
-                      callback();
-                    } else {
-                      callback(intl.formatMessage({id: 'app.common.validate.sameEmail'}));
-                    }
-                  });
-              },
-            },
+            {type: 'email'}
           ]}
         />
         <ProFormText
@@ -146,17 +123,22 @@ const UserForm: React.FC<ModalFormProps<SecUser>> = ({data, visible, onVisibleCh
           rules={[{max: 30}]}
         />
         <ProFormSelect
-          name="gender"
-          label={intl.formatMessage({id: 'pages.admin.user.gender'})}
-          rules={[{max: 30}]}
+          name="status"
+          label={intl.formatMessage({id: 'pages.admin.user.status'})}
+          rules={[{required: true}]}
           request={() => {
-            return DictDataService.listDictDataByType2(DICT_TYPE.gender)
+            return DictDataService.listDictDataByType2(DICT_TYPE.userStatus)
           }}
         />
+        <ProFormDigit
+          name="order"
+          label={intl.formatMessage({id: 'pages.admin.user.order'})}
+          initialValue={0}
+          min={0}
+        />
         <ProFormTextArea
-          name="summary"
-          label={intl.formatMessage({id: 'pages.admin.user.summary'})}
-          rules={[{max: 500}]}
+          name={"remark"}
+          label={intl.formatMessage({id: 'app.common.data.remark'})}
         />
       </ProForm>
     </Modal>

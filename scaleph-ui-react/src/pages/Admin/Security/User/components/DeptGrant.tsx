@@ -1,6 +1,6 @@
 import { DeptService } from '@/services/admin/security/dept.service';
 import { SecDept, SecUser } from '@/services/admin/typings';
-import { UserService } from '@/services/admin/user.service';
+import { UserService } from '@/services/admin/security/user.service';
 import { message, Modal, Transfer } from 'antd';
 import { useEffect, useState } from 'react';
 import { useIntl } from '@umijs/max';

@@ -86,14 +86,14 @@ const WebResourceForm: React.FC<ModalFormProps<SecRole>> = ({data, visible, onCa
       };
       if (direction === 'right') {
         // 批量为角色绑定用户
-        await AuthService.rolesUser(params).then((res) => {
+        await AuthorizationService.rolesUser(params).then((res) => {
           if (res?.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}), 2);
           }
         });
       } else {
         // 批量为角色解除用户绑定
-        await AuthService.deleteRolesUser(params).then((res) => {
+        await AuthorizationService.deleteRolesUser(params).then((res) => {
           message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}), 2);
         });
       }

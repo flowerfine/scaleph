@@ -1,48 +1,50 @@
-import {OnlineUserInfo, PageResponse, ResponseBody, TransferData} from '@/typings';
+import {PageResponse, ResponseBody, TransferData} from '@/typings';
 import {request} from '@umijs/max';
-import {SecUser, SecUserParam} from './typings';
+import {SecUser, SecUserParam} from '../typings';
 
 export const UserService = {
-  url: '/api/admin/user',
+  url: '/api/carp/security/user',
 
   listUserByPage: async (queryParam: SecUserParam) => {
-    return request<PageResponse<SecUser>>(`${UserService.url}`, {
+    return request<ResponseBody<PageResponse<SecUser>>>(`${UserService.url}/page`, {
       method: 'GET',
       params: queryParam,
     }).then((res) => {
       const result = {
-        data: res.records,
-        total: res.total,
-        pageSize: res.size,
-        current: res.current,
+        data: res.data?.records,
+        total: res.data?.total,
+        pageSize: res.data?.size,
+        current: res.data?.current,
       };
       return result;
     });
   },
 
-  deleteUserRow: async (row: SecUser) => {
-    return request<ResponseBody<any>>(`${UserService.url}/` + row.id, {
-      method: 'DELETE',
-    });
-  },
-  deleteUserBatch: async (rows: SecUser[]) => {
-    const params = rows.map((row) => row.id);
-    return request<ResponseBody<any>>(`${UserService.url}/` + 'batch', {
-      method: 'POST',
-      data: {...params},
-    });
-  },
-  addUser: async (row: SecUser) => {
+  add: async (row: SecUser) => {
     return request<ResponseBody<any>>(`${UserService.url}`, {
-      method: 'POST',
+      method: 'PUT',
       data: row,
     });
   },
 
   updateUser: async (row: SecUser) => {
     return request<ResponseBody<any>>(`${UserService.url}`, {
-      method: 'PUT',
+      method: 'POST',
       data: row,
+    });
+  },
+
+  delete: async (row: SecUser) => {
+    return request<ResponseBody<any>>(`${UserService.url}/` + row.id, {
+      method: 'DELETE',
+    });
+  },
+
+  deleteBatch: async (rows: SecUser[]) => {
+    const params = rows.map((row) => row.id);
+    return request<ResponseBody<any>>(`${UserService.url}/batch`, {
+      method: 'DELETE',
+      data: params,
     });
   },
 
@@ -71,12 +73,6 @@ export const UserService = {
       method: 'POST',
       data: {userName: userName, roleId: roleId, direction: direction},
       headers: {'Content-Type': 'multipart/form-data'},
-    });
-  },
-
-  getOnlineUserInfo: async (token: string) => {
-    return request<ResponseBody<OnlineUserInfo>>('/api/user/get/' + token, {
-      method: 'GET',
     });
   },
 

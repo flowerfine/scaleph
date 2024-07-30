@@ -5,7 +5,7 @@ import {Helmet, SelectLang, useIntl, useModel, useNavigate} from "@umijs/max";
 import {PATTERNS} from "@/constants";
 import AppsLogo from "@/components/AppLogoComponent";
 import {AuthService} from "@/services/auth";
-import {UserService} from "@/services/admin/user.service";
+import {UserService} from "@/services/admin/security/user.service";
 import styles from "../index.less";
 import {AuthCode, RegisterInfo} from "@/typings";
 

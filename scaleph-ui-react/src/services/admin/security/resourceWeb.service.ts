@@ -1,6 +1,6 @@
 import {PageResponse, ResponseBody} from '@/typings';
 import {request} from '@umijs/max';
-import {SecResourceWeb, SecResourceWebAddParam, SecResourceWebParam, SecResourceWebUpdateParam} from './typings';
+import {SecResourceWeb, SecResourceWebAddParam, SecResourceWebParam, SecResourceWebUpdateParam} from '../typings';
 
 export const ResourceWebService = {
   url: '/api/admin/resource/web',

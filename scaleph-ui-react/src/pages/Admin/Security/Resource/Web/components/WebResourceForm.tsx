@@ -4,7 +4,7 @@ import {ProForm, ProFormDigit, ProFormSelect, ProFormSwitch, ProFormText} from "
 import {SecResourceWeb} from "@/services/admin/typings";
 import {DictDataService} from "@/services/admin/dictData.service";
 import {DICT_TYPE} from "@/constants/dictType";
-import {ResourceWebService} from "@/services/admin/resourceWeb.service";
+import {ResourceWebService} from "@/services/admin/security/resourceWeb.service";
 
 interface ModalFormParentProps<T> {
   parent: T;

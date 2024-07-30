@@ -7,7 +7,7 @@ import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
 import WebAssugnRoles from '@/pages/Admin/Security/Resource/Web/components/WebAssugnRoles';
 import WebResourceForm from '@/pages/Admin/Security/Resource/Web/components/WebResourceForm';
 import {PrivilegeService} from '@/services/admin/privilege.service';
-import {ResourceWebService} from '@/services/admin/resourceWeb.service';
+import {ResourceWebService} from '@/services/admin/security/resourceWeb.service';
 import {SecResourceWeb} from '@/services/admin/typings';
 import {isEmpty} from 'lodash';
 

@@ -1,5 +1,5 @@
 import { ModalFormProps } from '@/typings';
-import { UserService } from '@/services/admin/user.service';
+import { UserService } from '@/services/admin/security/user.service';
 import { Button, Col, Form, Input, message, Modal, Row } from 'antd';
 import { useState } from 'react';
 import { useIntl } from '@umijs/max';

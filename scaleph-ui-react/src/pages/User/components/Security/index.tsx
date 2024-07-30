@@ -1,5 +1,5 @@
 import { SecUser } from '@/services/admin/typings';
-import { UserService } from '@/services/admin/user.service';
+import { UserService } from '@/services/admin/security/user.service';
 import { Button, List, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import { useIntl } from '@umijs/max';
