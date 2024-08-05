@@ -46,8 +46,8 @@
     "not ie <= 10"
   ],
   "dependencies": {
-    "@ant-design/icons": "^4.7.0",
-    "@ant-design/pro-components": "^2.7.10",
+    "@ant-design/icons": "^5.4.0",
+    "@ant-design/pro-components": "^2.7.14",
     "@antv/xflow": "^2.0.4",
     "@antv/xflow-diff": "^1.0.0",
     "@antv/layout": "^0.3.2",
@@ -59,7 +59,7 @@
     "@umijs/route-utils": "^2.1.3",
     "ag-grid-community": "^29.2.0",
     "ag-grid-react": "^29.2.0",
-    "antd": "^5.0.0",
+    "antd": "^5.20.0",
     "classnames": "^2.3.2",
     "highlight.js": "^10.7.3",
     "lodash": "^4.17.21",

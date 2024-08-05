@@ -38,8 +38,8 @@ export type SecUser = {
   order?: number;
   status?: Dict;
   remark?: string;
-  createTime: Date;
-  updateTime: Date;
+  createTime?: Date;
+  updateTime?: Date;
 };
 
 export type SecUserParam = QueryParam & {

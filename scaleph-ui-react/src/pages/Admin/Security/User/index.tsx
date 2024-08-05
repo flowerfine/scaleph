@@ -265,7 +265,7 @@ const User: React.FC = () => {
           }}
           onOK={(values) => {
             setUserFormData({visible: false, data: {}});
-            actionRef.current?.reload()
+            actionRef.current?.reload();
           }}
           data={userFormData.data}
         />

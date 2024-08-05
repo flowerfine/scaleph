@@ -1,5 +1,13 @@
+import React from "react";
 import {Form, message, Modal} from 'antd';
-import {ProForm, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
+import {
+  ProForm,
+  ProFormDependency,
+  ProFormDigit,
+  ProFormSelect,
+  ProFormText,
+  ProFormTextArea
+} from "@ant-design/pro-components";
 import {useIntl} from '@umijs/max';
 import {DICT_TYPE} from '@/constants/dictType';
 import {DictDataService} from '@/services/admin/dictData.service';
@@ -43,13 +51,17 @@ const UserForm: React.FC<ModalFormProps<SecUser>> = ({data, visible, onOK, onCan
             ? UserService.updateUser({...user}).then((resp) => {
               if (resp.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}));
-                onOK(values);
+                if (onOK) {
+                  onOK(values);
+                }
               }
             })
             : UserService.add({...user}).then((resp) => {
               if (resp.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
-                onOK(false);
+                if (onOK) {
+                  onOK(values);
+                }
               }
             });
         });
@@ -98,12 +110,18 @@ const UserForm: React.FC<ModalFormProps<SecUser>> = ({data, visible, onOK, onCan
             }
           ]}
         />
-        <ProFormText.Password
-          name="password"
-          label={intl.formatMessage({id: 'pages.admin.user.password'})}
-          hidden={data.id ? true : false}
-          rules={[{required: true}, {max: 50}]}
-        />
+        <ProFormDependency name={["id"]}>
+          {({id}) => {
+            if (id) {
+              return (<></>)
+            }
+            return <ProFormText.Password
+              name="password"
+              label={intl.formatMessage({id: 'pages.admin.user.password'})}
+              rules={[{required: true}, {max: 50}]}
+            />;
+          }}
+        </ProFormDependency>
         <ProFormText
           name="nickName"
           label={intl.formatMessage({id: 'pages.admin.user.nickName'})}
