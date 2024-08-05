@@ -29,9 +29,17 @@ export default {
   'pages.admin.resource': '资源管理',
   'pages.admin.resource.type': '资源类型',
   'pages.admin.resource.web': 'Web 资源',
+  'pages.admin.resource.web.value': '标识',
+  'pages.admin.resource.web.label': '名称',
+  'pages.admin.resource.web.path': '路径',
+  'pages.admin.resource.web.order': '排序',
+  'pages.admin.resource.web.status': '状态',
+
+
+
   'pages.admin.resource.web.name': '名称',
   'pages.admin.resource.web.menuName': '目录',
-  'pages.admin.resource.web.path': '路径',
+
   'pages.admin.resource.web.redirect': 'Redirect',
   'pages.admin.resource.web.layout': 'Layout',
   'pages.admin.resource.web.icon': 'Icon',

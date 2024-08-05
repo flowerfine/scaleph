@@ -14,6 +14,7 @@ interface ModalFormParentProps<T> {
   onCancel: () => void;
   onOK?: (values: any) => void;
 };
+
 const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
                                                                            parent,
                                                                            data,
@@ -93,33 +94,28 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
           rules={[{required: true}]}
         />
         <ProFormText
-          name={"name"}
-          label={intl.formatMessage({id: 'pages.admin.resource.web.name'})}
+          name={"value"}
+          label={intl.formatMessage({id: 'pages.admin.resource.web.value'})}
         />
         <ProFormText
-          name={"menuName"}
-          label={intl.formatMessage({id: 'pages.admin.resource.web.menuName'})}
+          name={"label"}
+          label={intl.formatMessage({id: 'pages.admin.resource.web.label'})}
         />
         <ProFormText
           name={"path"}
           label={intl.formatMessage({id: 'pages.admin.resource.web.path'})}
         />
-        <ProFormText
-          name={"redirect"}
-          label={intl.formatMessage({id: 'pages.admin.resource.web.redirect'})}
+        <ProFormDigit
+          name={"order"}
+          label={intl.formatMessage({id: 'pages.admin.resource.web.order'})}
+          min={0}
         />
-        <ProFormSwitch
-          name={"layout"}
-          label={intl.formatMessage({id: 'pages.admin.resource.web.layout'})}
-          initialValue={true}
-        />
-        <ProFormText
-          name={"icon"}
-          label={intl.formatMessage({id: 'pages.admin.resource.web.icon'})}
-        />
-        <ProFormText
-          name={"component"}
-          label={intl.formatMessage({id: 'pages.admin.resource.web.component'})}
+        <ProFormSelect
+          name={"status"}
+          label={intl.formatMessage({id: 'pages.admin.resource.web.status'})}
+          request={() => DictDataService.listDictDataByType2(DICT_TYPE.resourceType)}
+          allowClear={false}
+          rules={[{required: true}]}
         />
         <ProFormText
           name={"remark"}
