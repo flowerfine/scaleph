@@ -1,5 +1,30 @@
 import {Dict, QueryParam} from "@/typings";
 
+export type SysDictDefinition = {
+  code: string;
+  name: string;
+  provider: string;
+  remark?: string;
+};
+
+export type SysDictDefinitionParam = QueryParam & {
+  code?: string;
+  name?: string;
+};
+
+export type SysDictInstance = {
+  value?: string;
+  label?: string;
+  remark?: string;
+  valid?: boolean;
+};
+
+export type SysDictInstanceParam = QueryParam & {
+  dictDefinitionCode?: string;
+  value?: string;
+  label?: string;
+};
+
 export type SysDictType = {
   code: string;
   name: string;
@@ -144,13 +169,11 @@ export type SecResourceWeb = {
   id: number;
   type: Dict;
   pid: number;
-  name: string;
-  menuName?: string;
+  value: string;
+  label: string;
   path: string;
-  redirect?: string;
-  layout?: boolean;
-  icon?: string;
-  component?: string;
+  order?: number;
+  status: Dict;
   remark?: string;
   children?: SecResourceWeb[]
 };

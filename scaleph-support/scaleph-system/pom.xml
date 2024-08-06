@@ -40,6 +40,11 @@
         </dependency>
 
         <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-module-system</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.mapstruct.extensions.spring</groupId>
             <artifactId>mapstruct-spring-annotations</artifactId>
         </dependency>

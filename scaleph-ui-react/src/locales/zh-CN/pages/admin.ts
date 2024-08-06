@@ -33,7 +33,7 @@ export default {
   'pages.admin.resource.web.label': '名称',
   'pages.admin.resource.web.path': '路径',
   'pages.admin.resource.web.order': '排序',
-  'pages.admin.resource.web.status': '状态',
+  'pages.admin.resource.status': '状态',
 
 
 

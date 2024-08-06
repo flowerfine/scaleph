@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {Button, message, Modal, Space, Switch, Tag, Tooltip} from 'antd';
+import {Button, message, Modal, Space, Tag, Tooltip} from 'antd';
 import {DeleteOutlined, EditOutlined, FormOutlined, PlusOutlined} from '@ant-design/icons';
 import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {useAccess, useIntl} from '@umijs/max';
@@ -47,21 +47,12 @@ const WebResourceWeb: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.resource.web.name'}),
-      dataIndex: 'name',
+      title: intl.formatMessage({id: 'pages.admin.resource.web.value'}),
+      dataIndex: 'value',
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.resource.web.menuName'}),
-      dataIndex: 'menuName',
-      hideInSearch: true,
-    },
-    {
-      title: intl.formatMessage({id: 'pages.admin.resource.web.layout'}),
-      dataIndex: 'layout',
-      hideInSearch: true,
-      render: (dom, entity, index, action, schema) => {
-        return <Switch value={entity.layout}/>
-      }
+      title: intl.formatMessage({id: 'pages.admin.resource.web.label'}),
+      dataIndex: 'label',
     },
     {
       title: intl.formatMessage({id: 'pages.admin.resource.web.path'}),
@@ -69,18 +60,17 @@ const WebResourceWeb: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.resource.web.redirect'}),
-      dataIndex: 'redirect',
+      title: intl.formatMessage({id: 'pages.admin.resource.web.order'}),
+      dataIndex: 'order',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.resource.web.icon'}),
-      dataIndex: 'icon',
-      hideInSearch: true,
-    },
-    {
-      title: intl.formatMessage({id: 'pages.admin.resource.web.component'}),
-      dataIndex: 'component',
+      title: intl.formatMessage({id: 'pages.admin.resource.status'}),
+      dataIndex: 'status',
+      width: 120,
+      render: (dom, entity) => {
+        return <Tag>{entity.status?.label}</Tag>;
+      },
       hideInSearch: true,
     },
     {
@@ -137,6 +127,7 @@ const WebResourceWeb: React.FC = () => {
                 <Button
                   shape="default"
                   type="link"
+                  danger
                   icon={<DeleteOutlined/>}
                   onClick={() => {
                     Modal.confirm({
@@ -198,22 +189,19 @@ const WebResourceWeb: React.FC = () => {
               <Button
                 key="del"
                 type="default"
+                danger
                 disabled={selectedRows.length < 1}
                 onClick={() => {
                   Modal.confirm({
                     title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
-                    content: intl.formatMessage({
-                      id: 'app.common.operate.delete.confirm.content',
-                    }),
+                    content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
                     okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
                     okButtonProps: {danger: true},
                     cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                     onOk() {
                       ResourceWebService.deleteBatch(selectedRows).then((d) => {
                         if (d.success) {
-                          message.success(
-                            intl.formatMessage({id: 'app.common.operate.delete.success'}),
-                          );
+                          message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                           actionRef.current?.reload();
                         }
                       });

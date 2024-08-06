@@ -1,5 +1,16 @@
 export const DICT_TYPE = {
   yesNo: 'yes_or_no',
+
+  carpSecApplicationType: 'sec_application_type',
+  carpSecApplicationStatus: 'sec_application_status',
+  carpSecRoleType: 'sec_role_type',
+  carpSecRoleStatus: 'sec_role_status',
+  carpSecUserType: 'sec_user_type',
+  carpSecUserStatus: 'sec_user_status',
+  carpSecResourceWebType: 'sec_resource_web_type',
+  carpSecResourceDataType: 'sec_resource_data_type',
+  carpSecResourceStatus: 'sec_resource_status',
+
   roleType: 'role_type',
   roleStatus: 'role_status',
   userType: 'user_type',
