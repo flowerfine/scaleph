@@ -1,6 +1,6 @@
+import React from 'react';
 import { Table, Transfer } from 'antd';
 import { difference } from 'lodash'; // 注意这里改为大写的Difference
-import React from 'react';
 
 // 定义组件的Props类型
 interface Props {

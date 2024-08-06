@@ -18,6 +18,7 @@ export default {
   'app.common.operate.label': '操作',
   'app.common.operate.success': '操作成功',
   'app.common.operate.new.label': '新增',
+
   'app.common.operate.new.roles': '分配角色',
   'app.common.operate.new.rolesUser': '角色分配用户',
   'app.common.operate.new.rolesWeb': '角色配置web资源',
@@ -28,6 +29,7 @@ export default {
   'app.common.operate.new.notAccreditUser': '未授权用户',
   'app.common.operate.new.notAccreditRoles': '未授权角色',
   'app.common.operate.new.assets': '权限配置',
+
   'app.common.operate.new.success': '新增成功',
   'app.common.operate.new.failure': '新增失败',
   'app.common.operate.new.directive': '没有？去创建',

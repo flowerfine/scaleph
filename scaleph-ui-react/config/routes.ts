@@ -432,31 +432,38 @@ export default [
     routes: [
       {
         path: '/admin',
-        redirect: '/admin/dept',
+        redirect: '/admin/security/dept',
       },
       {
-        name: 'dept',
-        path: '/admin/dept',
+        name: 'security',
+        path: '/admin/security',
         icon: 'apartment',
-        component: './Admin/Dept',
-      },
-      {
-        name: 'role',
-        path: '/admin/role',
-        icon: 'safety',
-        component: './Admin/Role',
-      },
-      {
-        name: 'user',
-        path: '/admin/user',
-        icon: 'user',
-        component: './Admin/User',
-      },
-      {
-        name: 'resource.web',
-        path: '/admin/resource/web',
-        icon: 'team',
-        component: './Admin/Resource/Web',
+        routes: [
+          {
+            name: 'dept',
+            path: '/admin/security/dept',
+            icon: 'apartment',
+            component: './Admin/Security/Dept',
+          },
+          {
+            name: 'role',
+            path: '/admin/security/role',
+            icon: 'safety',
+            component: './Admin/Security/Role',
+          },
+          {
+            name: 'user',
+            path: '/admin/security/user',
+            icon: 'user',
+            component: './Admin/Security/User',
+          },
+          {
+            name: 'resource.web',
+            path: '/admin/security/resource/web',
+            icon: 'team',
+            component: './Admin/Security/Resource/Web',
+          },
+        ]
       },
       {
         name: 'quartz',

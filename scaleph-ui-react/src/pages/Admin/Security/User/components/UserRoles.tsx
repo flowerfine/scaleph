@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, Card, Form, message, Modal, Space } from 'antd';
 import { useIntl } from '@umijs/max';
 import mainHeight from '@/models/useMainSize';
-import TableTransfer from '@/pages/Admin/Resource/Web/components/TransferTable';
+import TableTransfer from '@/pages/Admin/Security/Resource/Web/components/TransferTable';
 import { SecResourceWeb } from '@/services/admin/typings';
 import { AuthService } from '@/services/auth';
 

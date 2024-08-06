@@ -1,4 +1,4 @@
-import { DeptService } from '@/services/admin/dept.service';
+import { DeptService } from '@/services/admin/security/dept.service';
 import { SecDept } from '@/services/admin/typings';
 import { Form, Input, message, Modal, TreeSelect } from 'antd';
 import { useIntl } from '@umijs/max';

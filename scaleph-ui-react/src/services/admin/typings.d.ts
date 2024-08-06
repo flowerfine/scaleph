@@ -1,4 +1,4 @@
-import {Dict} from "@/typings";
+import {Dict, QueryParam} from "@/typings";
 
 export type SysDictType = {
   code: string;
@@ -35,16 +35,11 @@ export type SecUser = {
   email?: string;
   phone?: string;
   password?: string;
-  gender?: Dict;
-  address?: string;
-  summary?: string;
   order?: number;
   status?: Dict;
-  roleCode?: string;
-  deptCode?: string;
   remark?: string;
-  createTime: Date;
-  updateTime: Date;
+  createTime?: Date;
+  updateTime?: Date;
 };
 
 export type SecUserParam = QueryParam & {

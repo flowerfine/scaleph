@@ -2,7 +2,7 @@ import { Dict } from '@/app.d';
 import { DICT_TYPE } from '@/constants/dictType';
 import { DictDataService } from '@/services/admin/dictData.service';
 import { SecUser } from '@/services/admin/typings';
-import { UserService } from '@/services/admin/user.service';
+import { UserService } from '@/services/admin/security/user.service';
 import { Button, Card, Col, DatePicker, Form, Input, message, Row, Select } from 'antd';
 import moment from 'moment';
 import { useLayoutEffect, useState } from 'react';

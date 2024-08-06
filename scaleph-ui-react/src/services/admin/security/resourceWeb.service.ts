@@ -1,20 +1,20 @@
 import {PageResponse, ResponseBody} from '@/typings';
 import {request} from '@umijs/max';
-import {SecResourceWeb, SecResourceWebAddParam, SecResourceWebParam, SecResourceWebUpdateParam} from './typings';
+import {SecResourceWeb, SecResourceWebAddParam, SecResourceWebParam, SecResourceWebUpdateParam} from '../typings';
 
 export const ResourceWebService = {
-  url: '/api/admin/resource/web',
+  url: '/api/carp/security/resource/web',
 
   listByPage: async (param: SecResourceWebParam) => {
-    return request<PageResponse<SecResourceWeb>>(`${ResourceWebService.url}/list`, {
+    return request<ResponseBody<PageResponse<SecResourceWeb>>>(`${ResourceWebService.url}/page`, {
       method: 'GET',
       params: param,
     }).then((res) => {
       const result = {
-        data: res.records,
-        total: res.total,
-        pageSize: res.size,
-        current: res.current,
+        data: res.data?.records,
+        total: res.data?.total,
+        pageSize: res.data?.size,
+        current: res.data?.current,
       };
       return result;
     });

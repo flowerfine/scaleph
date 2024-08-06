@@ -11,7 +11,7 @@ import {errorConfig} from "./requestErrorConfig";
 import {USER_AUTH} from "@/constants";
 import Icon from './icon';
 import {OnlineUserInfo, ResponseBody} from "@/typings";
-import {UserService} from "@/services/admin/user.service";
+import {UserService} from "@/services/admin/security/user.service";
 import {AuthService} from "@/services/auth";
 import {AuthenticationService} from "@/services/admin/security/authentication.service";
 

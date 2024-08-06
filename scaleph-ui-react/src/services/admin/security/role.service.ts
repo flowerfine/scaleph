@@ -1,20 +1,20 @@
 import {PageResponse, ResponseBody} from '@/typings';
 import {request} from '@umijs/max';
-import {SecRole, SecRoleParam} from './typings';
+import {SecRole, SecRoleParam} from '../typings';
 
 export const RoleService = {
-  url: '/api/admin/role',
+  url: '/api/carp/security/role',
 
   listByPage: async (param: SecRoleParam) => {
-    return request<PageResponse<SecRole>>(`${RoleService.url}/list`, {
+    return request<ResponseBody<PageResponse<SecRole>>>(`${RoleService.url}/page`, {
       method: 'GET',
       params: param,
     }).then((res) => {
       const result = {
-        data: res.records,
-        total: res.total,
-        pageSize: res.size,
-        current: res.current,
+        data: res.data?.records,
+        total: res.data?.total,
+        pageSize: res.data?.size,
+        current: res.data?.current,
       };
       return result;
     });
@@ -28,19 +28,19 @@ export const RoleService = {
 
   addRole: async (row: SecRole) => {
     return request<ResponseBody<any>>(`${RoleService.url}`, {
-      method: 'POST',
+      method: 'PUT',
       data: row,
     });
   },
   updateRole: async (row: SecRole) => {
     return request<ResponseBody<any>>(`${RoleService.url}`, {
-      method: 'PUT',
+      method: 'POST',
       data: row,
     });
   },
 
   deleteRole: async (row: SecRole) => {
-    return request<ResponseBody<any>>(`${RoleService.url}/` + row.id, {
+    return request<ResponseBody<any>>(`${RoleService.url}/${row.id}`, {
       method: 'DELETE',
     });
   },

@@ -1,6 +1,6 @@
 import {PageResponse, ResponseBody, TreeNode} from '@/typings';
 import {request} from '@umijs/max';
-import {SecDept, SecDeptParam, SecDeptTree, SecDeptTreeNode} from './typings';
+import {SecDept, SecDeptParam, SecDeptTree, SecDeptTreeNode} from '../typings';
 
 export const DeptService = {
   url: '/api/admin/dept',
@@ -50,10 +50,6 @@ export const DeptService = {
       tree.push(node);
     });
     return tree;
-  },
-
-  listChildDept: async (pid: string) => {
-    return request<SecDeptTreeNode[]>(`${DeptService.url}/` + pid);
   },
 
   addDept: async (row: SecDept) => {

@@ -10,18 +10,17 @@ export default {
   'pages.admin.user': '用户',
   'pages.admin.user.type': '用户类型',
   'pages.admin.user.userName': '用户名',
+  'pages.admin.user.password': '密码',
   'pages.admin.user.nickName': '昵称',
   'pages.admin.user.avatar': '头像',
   'pages.admin.user.email': '邮箱',
   'pages.admin.user.phone': '手机',
-  'pages.admin.user.gender': '性别',
-  'pages.admin.user.address': '地址',
-  'pages.admin.user.summary': '简介',
   'pages.admin.user.status': '状态',
+  'pages.admin.user.order': '排序号',
   'pages.admin.user.awaitGrant': '待授权',
   'pages.admin.user.granted': '已授权',
 
-  'pages.admin.role': '角色管理',
+  'pages.admin.role': '角色',
   'pages.admin.role.code': '角色编码',
   'pages.admin.role.name': '角色名称',
   'pages.admin.role.type': '角色类型',
@@ -30,9 +29,17 @@ export default {
   'pages.admin.resource': '资源管理',
   'pages.admin.resource.type': '资源类型',
   'pages.admin.resource.web': 'Web 资源',
+  'pages.admin.resource.web.value': '标识',
+  'pages.admin.resource.web.label': '名称',
+  'pages.admin.resource.web.path': '路径',
+  'pages.admin.resource.web.order': '排序',
+  'pages.admin.resource.web.status': '状态',
+
+
+
   'pages.admin.resource.web.name': '名称',
   'pages.admin.resource.web.menuName': '目录',
-  'pages.admin.resource.web.path': '路径',
+
   'pages.admin.resource.web.redirect': 'Redirect',
   'pages.admin.resource.web.layout': 'Layout',
   'pages.admin.resource.web.icon': 'Icon',
@@ -44,7 +51,7 @@ export default {
   'pages.admin.resource.pid': '父级资源',
   'pages.admin.resource.data': '数据资源',
 
-
+  'pages.admin.security.authorization.role2users': '角色分配用户',
 
   'pages.admin.dept': '部门管理',
   'pages.admin.dept.deptName': '名称',

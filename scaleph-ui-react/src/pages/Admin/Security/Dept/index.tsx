@@ -5,8 +5,8 @@ import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "
 import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {SecDeptTree} from "@/services/admin/typings";
-import {DeptService} from "@/services/admin/dept.service";
-import DeptForm from "@/pages/Admin/Dept/components/DeptForm";
+import {DeptService} from "@/services/admin/security/dept.service";
+import DeptForm from "@/pages/Admin/Security/Dept/components/DeptForm";
 
 const DeptWeb: React.FC = () => {
   const intl = useIntl();
@@ -87,6 +87,7 @@ const DeptWeb: React.FC = () => {
                 <Button
                   shape="default"
                   type="link"
+                  danger
                   icon={<DeleteOutlined/>}
                   onClick={() => {
                     Modal.confirm({
@@ -144,6 +145,7 @@ const DeptWeb: React.FC = () => {
               <Button
                 key="del"
                 type="default"
+                danger
                 disabled={selectedRows.length < 1}
                 onClick={() => {
                   Modal.confirm({
