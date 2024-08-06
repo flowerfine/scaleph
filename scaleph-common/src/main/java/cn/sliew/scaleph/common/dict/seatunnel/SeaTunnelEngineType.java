@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.common.dict.seatunnel;
 
-import cn.sliew.scaleph.common.dict.DictInstance;
+import cn.sliew.carp.framework.common.dict.DictInstance;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;

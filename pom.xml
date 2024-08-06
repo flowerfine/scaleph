@@ -496,6 +496,11 @@
 
             <dependency>
                 <groupId>cn.sliew</groupId>
+                <artifactId>carp-framework-common</artifactId>
+                <version>${carp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.sliew</groupId>
                 <artifactId>carp-module-security-spring</artifactId>
                 <version>${carp.version}</version>
             </dependency>

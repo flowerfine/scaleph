@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.system.service;
 
-import cn.sliew.scaleph.common.dict.DictInstance;
+import cn.sliew.carp.framework.common.dict.DictInstance;
 import cn.sliew.scaleph.common.dict.DictType;
 import cn.sliew.scaleph.system.service.dto.SysDictDTO;
 import cn.sliew.scaleph.system.service.param.SysDictParam;

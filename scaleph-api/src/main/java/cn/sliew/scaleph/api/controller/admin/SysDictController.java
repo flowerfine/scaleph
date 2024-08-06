@@ -18,9 +18,9 @@
 
 package cn.sliew.scaleph.api.controller.admin;
 
+import cn.sliew.carp.framework.common.dict.DictInstance;
 import cn.sliew.scaleph.api.annotation.AnonymousAccess;
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.common.dict.DictInstance;
 import cn.sliew.scaleph.common.dict.DictType;
 import cn.sliew.scaleph.system.service.SysDictService;
 import cn.sliew.scaleph.system.service.SysDictTypeService;

@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.system.service.vo;
 
-import cn.sliew.scaleph.common.dict.DictInstance;
+import cn.sliew.carp.framework.common.dict.DictInstance;
 import cn.sliew.scaleph.common.dict.DictType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
