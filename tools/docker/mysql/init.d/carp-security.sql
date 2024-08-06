@@ -113,6 +113,28 @@ create table carp_sec_resource_web
     unique key (type, pid, path)
 ) engine = innodb comment = '资源-web';
 
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (1, '0', 0, 'studio', '工作台', '/studio', 0, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (10000000, '0', 0, 'project', '项目', '/project', 1, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (20000000, '0', 0, 'oam', 'OAM', '/oam', 2, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (30000000, '0', 0, 'resource', '资源', '/resource', 3, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (40000000, '0', 0, 'metadata', '元数据', '/metadata', 4, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (50000000, '0', 0, 'stdata', '数据标准', '/stdata', 5, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (60000000, '0', 0, 'admin', '系统管理', '/admin', 6, '1', NULL, 'sys', 'sys');
+
 drop table if exists carp_sec_resource_web_role;
 create table carp_sec_resource_web_role
 (

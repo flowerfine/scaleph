@@ -49,6 +49,7 @@ const WebResourceWeb: React.FC = () => {
     {
       title: intl.formatMessage({id: 'pages.admin.resource.web.value'}),
       dataIndex: 'value',
+      hideInSearch: true,
     },
     {
       title: intl.formatMessage({id: 'pages.admin.resource.web.label'}),
