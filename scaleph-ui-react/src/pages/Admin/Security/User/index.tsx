@@ -5,13 +5,14 @@ import {DeleteOutlined, EditOutlined, FormOutlined} from '@ant-design/icons';
 import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {DICT_TYPE} from '@/constants/dictType';
 import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
+import {SysDictService} from "@/services/admin/system/sysDict.service";
 import {DeptService} from '@/services/admin/security/dept.service';
-import {DictDataService} from '@/services/admin/dictData.service';
 import {RoleService} from '@/services/admin/security/role.service';
 import {SecRole, SecUser} from '@/services/admin/typings';
 import {UserService} from '@/services/admin/security/user.service';
 import {TreeNode} from '@/typings';
 import UserForm from "@/pages/Admin/Security/User/components/UserForm";
+
 
 const User: React.FC = () => {
   const intl = useIntl();
@@ -39,7 +40,7 @@ const User: React.FC = () => {
         return (<Tag>{entity.type?.label}</Tag>)
       },
       request: (params, props) => {
-        return DictDataService.listDictDataByType2(DICT_TYPE.userType)
+        return SysDictService.listDictByDefinition(DICT_TYPE.carpSecUserType)
       },
       width: 100
     },
@@ -68,7 +69,7 @@ const User: React.FC = () => {
         return (<Tag>{record.status?.label}</Tag>)
       },
       request: (params, props) => {
-        return DictDataService.listDictDataByType2(DICT_TYPE.userStatus)
+        return SysDictService.listDictByDefinition(DICT_TYPE.carpSecUserStatus)
       }
     },
     {

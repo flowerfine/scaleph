@@ -2,7 +2,7 @@ import {Form, message} from 'antd';
 import {ModalForm, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import {useIntl} from '@umijs/max';
 import {DICT_TYPE} from "@/constants/dictType";
-import {DictDataService} from "@/services/admin/dictData.service";
+import {SysDictService} from "@/services/admin/system/sysDict.service";
 import {RoleService} from "@/services/admin/security/role.service";
 import {SecRole} from "@/services/admin/typings";
 import {ModalFormProps} from '@/typings';
@@ -77,12 +77,12 @@ const RoleForm: React.FC<ModalFormProps<SecRole>> = ({data, visible, onVisibleCh
         rules={[{required: true}]}
         initialValue={"02"}
         disabled={true}
-        request={() => DictDataService.listDictDataByType2(DICT_TYPE.roleType)}
+        request={() => SysDictService.listDictByDefinition(DICT_TYPE.roleType)}
       />
       <ProFormSelect
         name={"status"}
         label={intl.formatMessage({id: 'pages.admin.role.status'})}
-        request={() => DictDataService.listDictDataByType2(DICT_TYPE.roleStatus)}
+        request={() => SysDictService.listDictByDefinition(DICT_TYPE.roleStatus)}
         allowClear={false}
         rules={[{required: true}]}
       />

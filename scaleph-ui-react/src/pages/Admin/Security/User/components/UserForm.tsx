@@ -10,7 +10,7 @@ import {
 } from "@ant-design/pro-components";
 import {useIntl} from '@umijs/max';
 import {DICT_TYPE} from '@/constants/dictType';
-import {DictDataService} from '@/services/admin/dictData.service';
+import {SysDictService} from "@/services/admin/system/sysDict.service";
 import {SecUser} from '@/services/admin/typings';
 import {UserService} from '@/services/admin/security/user.service';
 import {ModalFormProps} from '@/typings';
@@ -93,7 +93,7 @@ const UserForm: React.FC<ModalFormProps<SecUser>> = ({data, visible, onOK, onCan
           rules={[{required: true}]}
           disabled={data.id ? true : false}
           request={() => {
-            return DictDataService.listDictDataByType2(DICT_TYPE.userType)
+            return SysDictService.listDictByDefinition(DICT_TYPE.carpSecUserType)
           }}
         />
         <ProFormText
@@ -145,7 +145,7 @@ const UserForm: React.FC<ModalFormProps<SecUser>> = ({data, visible, onOK, onCan
           label={intl.formatMessage({id: 'pages.admin.user.status'})}
           rules={[{required: true}]}
           request={() => {
-            return DictDataService.listDictDataByType2(DICT_TYPE.userStatus)
+            return SysDictService.listDictByDefinition(DICT_TYPE.carpSecUserStatus)
           }}
         />
         <ProFormDigit

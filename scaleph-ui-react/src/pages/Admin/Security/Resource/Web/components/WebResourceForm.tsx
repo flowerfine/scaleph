@@ -122,7 +122,6 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
       </ProForm>
     </Modal>
   );
-
 }
 
 export default WebResourceForm;

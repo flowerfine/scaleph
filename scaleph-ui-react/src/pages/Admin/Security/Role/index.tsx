@@ -5,7 +5,7 @@ import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable,} from 
 import {useAccess, useIntl} from '@umijs/max';
 import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
 import {DICT_TYPE} from '@/constants/dictType';
-import {DictDataService} from '@/services/admin/dictData.service';
+import {SysDictService} from "@/services/admin/system/sysDict.service";
 import {RoleService} from '@/services/admin/security/role.service';
 import {SecRole} from '@/services/admin/typings';
 import RoleForm from '@/pages/Admin/Security/Role/components/RoleForm';
@@ -52,7 +52,7 @@ const RoleWeb: React.FC = () => {
         return <Tag>{entity.type?.label}</Tag>;
       },
       request: (params, props) => {
-        return DictDataService.listDictDataByType2(DICT_TYPE.roleType)
+        return SysDictService.listDictByDefinition(DICT_TYPE.carpSecRoleType)
       },
       width: 200,
     },
@@ -63,7 +63,7 @@ const RoleWeb: React.FC = () => {
         return <Tag>{entity.status?.label}</Tag>;
       },
       request: (params, props) => {
-        return DictDataService.listDictDataByType2(DICT_TYPE.roleStatus)
+        return SysDictService.listDictByDefinition(DICT_TYPE.carpSecRoleStatus)
       },
       width: 200,
     },
