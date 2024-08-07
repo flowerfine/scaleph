@@ -35,8 +35,6 @@ export default {
   'pages.admin.resource.web.order': '排序',
   'pages.admin.resource.status': '状态',
 
-
-
   'pages.admin.resource.web.name': '名称',
   'pages.admin.resource.web.menuName': '目录',
 
@@ -52,6 +50,7 @@ export default {
   'pages.admin.resource.data': '数据资源',
 
   'pages.admin.security.authorization.role2users': '角色分配用户',
+  'pages.admin.security.authorization.resourceWeb2Roles': 'Web 资源分配角色',
 
   'pages.admin.dept': '部门管理',
   'pages.admin.dept.deptName': '名称',

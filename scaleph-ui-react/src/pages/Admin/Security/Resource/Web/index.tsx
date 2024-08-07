@@ -10,6 +10,7 @@ import {PrivilegeService} from '@/services/admin/privilege.service';
 import {ResourceWebService} from '@/services/admin/security/resourceWeb.service';
 import {SecResourceWeb} from '@/services/admin/typings';
 import {isEmpty} from 'lodash';
+import ResourceWebAssignRoleForm from "@/pages/Admin/Security/Resource/Web/components/ResourceWebAssignRoleForm";
 
 const WebResourceWeb: React.FC = () => {
   const intl = useIntl();
@@ -238,11 +239,11 @@ const WebResourceWeb: React.FC = () => {
       )}
 
       {webAssignRoles.visiable && (
-        <WebAssugnRoles
+        <ResourceWebAssignRoleForm
           visible={webAssignRoles.visiable}
           onCancel={() => setWebAssignRoles({visiable: false, data: {}})}
-          onVisibleChange={(visiable) => {
-            setWebAssignRoles({visiable: visiable, data: {}});
+          onOK={(values) => {
+            setWebAssignRoles({visiable: false, data: {}});
             actionRef.current?.reload();
           }}
           data={webAssignRoles.data}
