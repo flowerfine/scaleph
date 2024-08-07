@@ -1,4 +1,4 @@
-import {Dict, PageResponse} from '@/typings';
+import {PageResponse} from '@/typings';
 import {request} from '@umijs/max';
 import {SysDictType, SysDictTypeParam} from './typings';
 
@@ -17,12 +17,6 @@ export const DictTypeService = {
         current: res.current,
       };
       return result;
-    });
-  },
-
-  listAllDictType: async () => {
-    return request<Dict[]>(`${DictTypeService.url}/all`, {
-      method: 'GET',
     });
   },
 

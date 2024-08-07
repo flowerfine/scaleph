@@ -19,7 +19,7 @@
 
 package cn.sliew.scaleph.engine.sql.gateway.services.dto.factory;
 
-import cn.sliew.scaleph.common.dict.DictInstance;
+import cn.sliew.carp.framework.common.dict.DictInstance;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.flink.table.factories.Factory;

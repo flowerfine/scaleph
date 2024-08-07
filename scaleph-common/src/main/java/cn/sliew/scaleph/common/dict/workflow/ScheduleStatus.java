@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.common.dict.workflow;
 
-import cn.sliew.scaleph.common.dict.DictInstance;
+import cn.sliew.carp.framework.common.dict.DictInstance;
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;

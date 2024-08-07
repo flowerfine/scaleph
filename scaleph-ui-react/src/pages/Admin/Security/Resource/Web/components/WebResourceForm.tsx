@@ -1,9 +1,9 @@
 import {useIntl} from '@umijs/max';
 import {Form, message, Modal} from 'antd';
-import {ProForm, ProFormDigit, ProFormSelect, ProFormSwitch, ProFormText} from "@ant-design/pro-components";
+import {ProForm, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import {SecResourceWeb} from "@/services/admin/typings";
-import {DictDataService} from "@/services/admin/dictData.service";
 import {DICT_TYPE} from "@/constants/dictType";
+import {SysDictService} from "@/services/admin/system/sysDict.service";
 import {ResourceWebService} from "@/services/admin/security/resourceWeb.service";
 
 interface ModalFormParentProps<T> {
@@ -70,13 +70,11 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
           id: data.id,
           pid: parent?.id ? parent.id : (data?.pid ? data.pid : 0),
           type: data.type?.value,
-          name: data.name,
-          menuName: data.menuName,
+          value: data.value,
+          label: data.label,
           path: data.path,
-          redirect: data.redirect,
-          layout: data.layout,
-          icon: data.icon,
-          component: data.component,
+          order: data.order,
+          status: data.status?.value,
           remark: data.remark
         }}
       >
@@ -89,7 +87,7 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
         <ProFormSelect
           name={"type"}
           label={intl.formatMessage({id: 'pages.admin.resource.type'})}
-          request={() => DictDataService.listDictDataByType2(DICT_TYPE.resourceType)}
+          request={() => SysDictService.listDictByDefinition(DICT_TYPE.carpSecResourceWebType)}
           allowClear={false}
           rules={[{required: true}]}
         />
@@ -112,19 +110,18 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
         />
         <ProFormSelect
           name={"status"}
-          label={intl.formatMessage({id: 'pages.admin.resource.web.status'})}
-          request={() => DictDataService.listDictDataByType2(DICT_TYPE.resourceType)}
+          label={intl.formatMessage({id: 'pages.admin.resource.status'})}
+          request={() => SysDictService.listDictByDefinition(DICT_TYPE.carpSecResourceStatus)}
           allowClear={false}
           rules={[{required: true}]}
         />
-        <ProFormText
+        <ProFormTextArea
           name={"remark"}
           label={intl.formatMessage({id: 'app.common.data.remark'})}
         />
       </ProForm>
     </Modal>
   );
-
 }
 
 export default WebResourceForm;
