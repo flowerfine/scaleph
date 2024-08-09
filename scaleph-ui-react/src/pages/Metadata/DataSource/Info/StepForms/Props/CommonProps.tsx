@@ -3,20 +3,20 @@ import {Form} from "antd";
 import {ProFormGroup, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import {useIntl} from "@umijs/max";
 import {DsCategoryService} from "@/services/datasource/category.service";
-import {DsType} from "@/services/datasource/typings";
+import {DataSourceProps, DsType} from "@/services/datasource/typings";
 
-const CommonItem: React.FC<{type?: DsType}> = ({type}) => {
+const CommonItem: React.FC<DataSourceProps> = ({prefix, type}) => {
   const intl = useIntl();
   const form = Form.useFormInstance()
 
   useEffect(() => {
-    form.setFieldValue("type", type?.type?.value)
+    form.setFieldValue([prefix, "type"], type?.type?.value)
     form.setFieldValue("dsTypeId", type?.id)
   }, [])
 
   return (
     <ProFormGroup>
-      <ProFormText name="type" hidden/>
+      <ProFormText name={[prefix, "type"]} hidden/>
       <ProFormSelect
         name="dsTypeId"
         label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.type'})}

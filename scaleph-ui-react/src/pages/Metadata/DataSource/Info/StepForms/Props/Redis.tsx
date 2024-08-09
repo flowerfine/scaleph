@@ -22,7 +22,7 @@ const RedisForm: React.FC<DataSourceProps> = ({prefix, type}) => {
       <ProCard
         headerBordered={true}
         style={{width: 1000}}>
-        <CommonItem type={type}/>
+        <CommonItem prefix={prefix} type={type}/>
         <ProFormText
           name={[prefix, "host"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.redis.host'})}

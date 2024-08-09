@@ -12,7 +12,7 @@ const HttpForm: React.FC<DataSourceProps> = ({prefix, type}) => {
       <ProCard
         headerBordered={true}
         style={{width: 1000}}>
-        <CommonItem type={type}/>
+        <CommonItem prefix={prefix} type={type}/>
         <ProFormSelect
           name={[prefix, "method"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.http.method'})}

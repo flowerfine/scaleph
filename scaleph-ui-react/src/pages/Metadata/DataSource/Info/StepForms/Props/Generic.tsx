@@ -21,7 +21,7 @@ const GenericForm: React.FC<DataSourceProps> = ({prefix, type}) => {
 
   const columns: ProFormColumnsType[] = [
     {
-      dataIndex: 'type',
+      dataIndex: [prefix, 'type'],
       valueType: 'text',
       hideInForm: true
     },
