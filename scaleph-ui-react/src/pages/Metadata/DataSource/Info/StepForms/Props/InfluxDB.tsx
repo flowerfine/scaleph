@@ -14,19 +14,19 @@ const InfluxDBForm: React.FC<DataSourceProps> = ({prefix, type}) => {
         style={{width: 1000}}>
         <CommonItem type={type}/>
         <ProFormText
-          name="url"
+          name={[prefix, "url"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.influxdb.url'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
           initialValue={"http://influxdb-host:8086"}
         />
         <ProFormText
-          name="username"
+          name={[prefix, "username"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.influxdb.username'})}
           colProps={{span: 21, offset: 1}}
         />
         <ProFormText
-          name="password"
+          name={[prefix, "password"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.influxdb.password'})}
           colProps={{span: 21, offset: 1}}
         />

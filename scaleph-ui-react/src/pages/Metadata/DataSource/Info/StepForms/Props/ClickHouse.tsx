@@ -14,28 +14,28 @@ const ClickHouseForm: React.FC<DataSourceProps> = ({prefix, type}) => {
         style={{width: 1000}}>
         <CommonItem type={type}/>
         <ProFormText
-          name="host"
+          name={[prefix, "host"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.clickhouse.host'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
           initialValue={"localhost:8123"}
         />
         <ProFormText
-          name="database"
+          name={[prefix, "database"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.clickhouse.database'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
           initialValue={"default"}
         />
         <ProFormText
-          name="username"
+          name={[prefix, "username"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.clickhouse.username'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
           initialValue={"default"}
         />
         <ProFormText
-          name="password"
+          name={[prefix, "password"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.clickhouse.password'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}

@@ -14,7 +14,7 @@ const HttpForm: React.FC<DataSourceProps> = ({prefix, type}) => {
         style={{width: 1000}}>
         <CommonItem type={type}/>
         <ProFormSelect
-          name={"method"}
+          name={[prefix, "method"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.http.method'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
@@ -22,7 +22,7 @@ const HttpForm: React.FC<DataSourceProps> = ({prefix, type}) => {
           options={["GET", "POST"]}
         />
         <ProFormText
-          name={"url"}
+          name={[prefix, "url"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.http.url'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}

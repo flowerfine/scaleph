@@ -14,12 +14,12 @@ const HDFSForm: React.FC<DataSourceProps> = ({prefix, type}) => {
         style={{width: 1000}}>
         <CommonItem type={type}/>
         <ProFormText
-          name="hdfsSitePath"
+          name={[prefix, "hdfsSitePath"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.hdfs.hdfsSitePath'})}
           colProps={{span: 21, offset: 1}}
         />
         <ProFormText
-          name="fsDefaultFS"
+          name={[prefix, "fsDefaultFS"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.hdfs.fsDefaultFs'})}
           placeholder={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.hdfs.fsDefaultFs.placeholder'})}
           colProps={{span: 21, offset: 1}}

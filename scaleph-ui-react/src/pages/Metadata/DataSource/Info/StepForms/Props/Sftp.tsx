@@ -14,14 +14,14 @@ const SftpForm: React.FC<DataSourceProps> = ({prefix, type}) => {
         style={{width: 1000}}>
         <CommonItem type={type}/>
         <ProFormText
-          name="host"
+          name={[prefix, "host"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.sftp.host'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
           initialValue={"localhost"}
         />
         <ProFormDigit
-          name="port"
+          name={[prefix, "port"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.sftp.port'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
@@ -32,13 +32,13 @@ const SftpForm: React.FC<DataSourceProps> = ({prefix, type}) => {
           }}
         />
         <ProFormText
-          name="username"
+          name={[prefix, "username"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.sftp.username'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
         />
         <ProFormText
-          name="password"
+          name={[prefix, "password"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.sftp.password'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}

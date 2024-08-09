@@ -14,19 +14,19 @@ const ElasticsearchForm: React.FC<DataSourceProps> = ({prefix, type}) => {
         style={{width: 1000}}>
         <CommonItem type={type}/>
         <ProFormText
-          name={"hosts"}
+          name={[prefix, "hosts"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.elasticsearch.hosts'})}
           placeholder={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.elasticsearch.hosts.placeholder'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
         />
         <ProFormText
-          name="username"
+          name={[prefix, "username"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.elasticsearch.username'})}
           colProps={{span: 21, offset: 1}}
         />
         <ProFormText
-          name="password"
+          name={[prefix, "password"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.elasticsearch.password'})}
           colProps={{span: 21, offset: 1}}
         />

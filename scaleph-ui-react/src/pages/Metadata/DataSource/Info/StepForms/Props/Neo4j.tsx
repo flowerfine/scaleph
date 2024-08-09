@@ -14,29 +14,29 @@ const Neo4jForm: React.FC<DataSourceProps> = ({prefix, type}) => {
         style={{width: 1000}}>
         <CommonItem type={type}/>
         <ProFormText
-          name="uri"
+          name={[prefix, "uri"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.neo4j.uri'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
           initialValue={"neo4j://localhost:7687"}
         />
         <ProFormText
-          name="username"
+          name={[prefix, "username"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.neo4j.username'})}
           colProps={{span: 21, offset: 1}}
         />
         <ProFormText
-          name="password"
+          name={[prefix, "password"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.neo4j.password'})}
           colProps={{span: 21, offset: 1}}
         />
         <ProFormText
-          name="bearerToken"
+          name={[prefix, "bearerToken"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.neo4j.bearerToken'})}
           colProps={{span: 21, offset: 1}}
         />
         <ProFormText
-          name="kerberosTicket"
+          name={[prefix, "kerberosTicket"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.neo4j.kerberosTicket'})}
           colProps={{span: 21, offset: 1}}
         />

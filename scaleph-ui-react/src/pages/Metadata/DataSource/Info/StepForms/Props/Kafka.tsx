@@ -14,7 +14,7 @@ const KafkaForm: React.FC<DataSourceProps> = ({prefix, type}) => {
         style={{width: 1000}}>
         <CommonItem type={type}/>
         <ProFormText
-          name="bootstrapServers"
+          name={[prefix, "bootstrapServers"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.kafka.bootstrapServers'})}
           placeholder={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.kafka.bootstrapServers.placeholder'})}
           colProps={{span: 21, offset: 1}}

@@ -14,14 +14,14 @@ const SocketForm: React.FC<DataSourceProps> = ({prefix, type}) => {
         style={{width: 1000}}>
         <CommonItem type={type}/>
         <ProFormText
-          name={"host"}
+          name={[prefix, "host"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.socket.host'})}
           rules={[{required: true}]}
           colProps={{span: 21, offset: 1}}
           initialValue={"127.0.0.1"}
         />
         <ProFormDigit
-          name={"port"}
+          name={[prefix, "port"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.socket.port'})}
           rules={[{required: true}]}
           colProps={{span: 21, offset: 1}}

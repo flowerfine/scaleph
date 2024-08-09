@@ -14,20 +14,20 @@ const IoTDBForm: React.FC<DataSourceProps> = ({prefix, type}) => {
         style={{width: 1000}}>
         <CommonItem type={type}/>
         <ProFormText
-          name="nodeUrls"
+          name={[prefix, "nodeUrls"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.iotdb.nodeUrls'})}
           placeholder={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.iotdb.nodeUrls.placeholder'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
         />
         <ProFormText
-          name="username"
+          name={[prefix, "username"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.iotdb.username'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
         />
         <ProFormText
-          name="password"
+          name={[prefix, "password"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.iotdb.password'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}

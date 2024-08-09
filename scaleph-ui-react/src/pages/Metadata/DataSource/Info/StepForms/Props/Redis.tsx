@@ -24,14 +24,14 @@ const RedisForm: React.FC<DataSourceProps> = ({prefix, type}) => {
         style={{width: 1000}}>
         <CommonItem type={type}/>
         <ProFormText
-          name="host"
+          name={[prefix, "host"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.redis.host'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
           initialValue={"localhost"}
         />
         <ProFormDigit
-          name="port"
+          name={[prefix, "port"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.redis.port'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
@@ -42,17 +42,17 @@ const RedisForm: React.FC<DataSourceProps> = ({prefix, type}) => {
           }}
         />
         <ProFormText
-          name="user"
+          name={[prefix, "user"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.redis.user'})}
           colProps={{span: 21, offset: 1}}
         />
         <ProFormText
-          name="password"
+          name={[prefix, "password"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.redis.password'})}
           colProps={{span: 21, offset: 1}}
         />
         <ProFormSelect
-          name={"mode"}
+          name={[prefix, "mode"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.redis.mode'})}
           colProps={{span: 21, offset: 1}}
           request={() => SysDictService.listDictByDefinition(DICT_TYPE.carpDataSourceRedisMode)}
@@ -62,11 +62,11 @@ const RedisForm: React.FC<DataSourceProps> = ({prefix, type}) => {
             if (mode == 'cluster') {
               return (
                 <ProFormGroup
-                  label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.redis.nodes'})}
+                  title={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.redis.nodes'})}
                   colProps={{span: 21, offset: 1}}
                 >
                   <ProFormList
-                    name={"nodes"}
+                    name={[prefix, "nodes"]}
                     copyIconProps={false}
                     creatorButtonProps={{
                       creatorButtonText: intl.formatMessage({id: 'pages.metadata.dataSource.step.props.redis.nodes.list'}),

@@ -14,7 +14,7 @@ const MongoDBForm: React.FC<DataSourceProps> = ({prefix, type}) => {
         style={{width: 1000}}>
         <CommonItem type={type}/>
         <ProFormText
-          name={"uri"}
+          name={[prefix, "uri"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.mongodb.uri'})}
           placeholder={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.mongodb.uri.placeholder'})}
           colProps={{span: 21, offset: 1}}

@@ -14,26 +14,26 @@ const PulsarForm: React.FC<DataSourceProps> = ({prefix, type}) => {
         style={{width: 1000}}>
         <CommonItem type={type}/>
         <ProFormText
-          name="webServiceUrl"
+          name={[prefix, "webServiceUrl"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.pulsar.webServiceUrl'})}
           placeholder={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.pulsar.webServiceUrl.placeholder'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
         />
         <ProFormText
-          name="clientServiceUrl"
+          name={[prefix, "clientServiceUrl"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.pulsar.clientServiceUrl'})}
           placeholder={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.pulsar.clientServiceUrl.placeholder'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
         />
         <ProFormText
-          name="authPlugin"
+          name={[prefix, "authPlugin"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.pulsar.authPlugin'})}
           colProps={{span: 21, offset: 1}}
         />
         <ProFormText
-          name="authParams"
+          name={[prefix, "authParams"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.pulsar.authParams'})}
           placeholder={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.pulsar.authParams.placeholder'})}
           colProps={{span: 21, offset: 1}}

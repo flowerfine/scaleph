@@ -14,19 +14,19 @@ const S3Form: React.FC<DataSourceProps> = ({prefix, type}) => {
         style={{width: 1000}}>
         <CommonItem type={type}/>
         <ProFormText
-          name="bucket"
+          name={[prefix, "bucket"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.s3.bucket'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
         />
         <ProFormText
-          name="accessKey"
+          name={[prefix, "accessKey"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.s3.accessKey'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
         />
         <ProFormText
-          name="accessSecret"
+          name={[prefix, "accessSecret"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.s3.accessSecret'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}

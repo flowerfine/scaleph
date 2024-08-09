@@ -14,7 +14,7 @@ const HiveForm: React.FC<DataSourceProps> = ({prefix, type}) => {
         style={{width: 1000}}>
         <CommonItem type={type}/>
         <ProFormText
-          name="metastoreUri"
+          name={[prefix, "metastoreUri"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.hive.metastoreUri'})}
           placeholder={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.hive.metastoreUri.placeholder'})}
           colProps={{span: 21, offset: 1}}

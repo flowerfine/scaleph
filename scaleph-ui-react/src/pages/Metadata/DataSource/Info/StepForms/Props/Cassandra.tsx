@@ -14,7 +14,7 @@ const CassandraForm: React.FC<DataSourceProps> = ({prefix, type}) => {
         style={{width: 1000}}>
         <CommonItem type={type}/>
         <ProFormText
-          name="host"
+          name={[prefix, "host"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.cassandra.host'})}
           placeholder={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.cassandra.host.placeholoder'})}
           colProps={{span: 21, offset: 1}}
@@ -22,24 +22,24 @@ const CassandraForm: React.FC<DataSourceProps> = ({prefix, type}) => {
           initialValue={"localhost:9042"}
         />
         <ProFormText
-          name="keyspace"
+          name={[prefix, "keyspace"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.cassandra.keyspace'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
           initialValue={"test"}
         />
         <ProFormText
-          name="username"
+          name={[prefix, "username"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.cassandra.username'})}
           colProps={{span: 21, offset: 1}}
         />
         <ProFormText
-          name="password"
+          name={[prefix, "password"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.cassandra.password'})}
           colProps={{span: 21, offset: 1}}
         />
         <ProFormText
-          name="datacenter"
+          name={[prefix, "datacenter"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.cassandra.datacenter'})}
           colProps={{span: 21, offset: 1}}
         />

@@ -14,7 +14,7 @@ const KuduForm: React.FC<DataSourceProps> = ({prefix, type}) => {
         style={{width: 1000}}>
         <CommonItem type={type}/>
         <ProFormText
-          name="masters"
+          name={[prefix, "masters"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.kudu.masters'})}
           placeholder={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.kudu.masters.placeholder'})}
           colProps={{span: 21, offset: 1}}

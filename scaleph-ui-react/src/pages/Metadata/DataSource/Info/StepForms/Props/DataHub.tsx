@@ -14,19 +14,19 @@ const DataHubForm: React.FC<DataSourceProps> = ({prefix, type}) => {
         style={{width: 1000}}>
         <CommonItem type={type}/>
         <ProFormText
-          name="endpoint"
+          name={[prefix, "endpoint"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.datahub.endpoint'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
         />
         <ProFormText
-          name="accessId"
+          name={[prefix, "accessId"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.datahub.accessId'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
         />
         <ProFormText
-          name="accessKey"
+          name={[prefix, "accessKey"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.datahub.accessKey'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}

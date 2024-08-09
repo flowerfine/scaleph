@@ -14,7 +14,7 @@ const StarRocksForm: React.FC<DataSourceProps> = ({prefix, type}) => {
         style={{width: 1000}}>
         <CommonItem type={type}/>
         <ProFormText
-          name="nodeUrls"
+          name={[prefix, "nodeUrls"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.starrocks.nodeUrls'})}
           placeholder={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.starrocks.nodeUrls.placeholder'})}
           colProps={{span: 21, offset: 1}}
@@ -22,13 +22,13 @@ const StarRocksForm: React.FC<DataSourceProps> = ({prefix, type}) => {
           initialValue={"localhost:8030"}
         />
         <ProFormText
-          name="username"
+          name={[prefix, "username"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.starrocks.username'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
         />
         <ProFormText
-          name="password"
+          name={[prefix, "password"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.starrocks.password'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
