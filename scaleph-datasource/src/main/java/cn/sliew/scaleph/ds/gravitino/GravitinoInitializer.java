@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.ds.gravitino;
 
 import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
-import cn.sliew.carp.module.datasource.service.DsInfoService;
+import cn.sliew.carp.module.datasource.service.CarpDsInfoService;
 import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
@@ -46,7 +46,7 @@ public class GravitinoInitializer implements InitializingBean {
     @Autowired
     private GravitinoAdminClient adminClient;
     @Autowired
-    private DsInfoService dsInfoService;
+    private CarpDsInfoService dsInfoService;
 
     @Override
     public void afterPropertiesSet() throws Exception {

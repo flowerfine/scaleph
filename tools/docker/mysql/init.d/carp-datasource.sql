@@ -262,34 +262,46 @@ CREATE TABLE `carp_ds_info`
     KEY              idx_datasource (`name`)
 ) ENGINE = InnoDB COMMENT ='data source info';
 
-INSERT INTO `carp_ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`, `editor`)
+INSERT INTO `carp_ds_info` (`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`,
+                            `editor`)
 VALUES (1, 1, NULL, 'docker_data_service',
-        'eyJkcml2ZXJDbGFzc05hbWUiOiJjb20ubXlzcWwuY2ouamRiYy5Ecml2ZXIiLCJ1c2VyIjoicm9vdCIsInBhc3N3b3JkIjoiMTIzNDU2IiwidXJsIjoiamRiYzpteXNxbDovL215c3FsOjMzMDYvZGF0YV9zZXJ2aWNlIn0=',
+        'eyJ0eXBlIjoiTXlTUUwiLCJkcml2ZXJDbGFzc05hbWUiOiJjb20ubXlzcWwuY2ouamRiYy5Ecml2ZXIiLCJ1cmwiOiJqZGJjOm15c3FsOi8vbXlzcWw6MzMwNi9kYXRhX3NlcnZpY2UiLCJ1c2VyIjoicm9vdCIsInBhc3N3b3JkIjoiMTIzNDU2In0=',
         NULL, NULL, 'sys', 'sys');
-INSERT INTO `carp_ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`, `editor`)
+INSERT INTO `carp_ds_info` (`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`,
+                            `editor`)
 VALUES (2, 1, NULL, 'local_data_service',
-        'eyJkcml2ZXJDbGFzc05hbWUiOiJjb20ubXlzcWwuY2ouamRiYy5Ecml2ZXIiLCJ1c2VyIjoicm9vdCIsInBhc3N3b3JkIjoiMTIzNDU2IiwidXJsIjoiamRiYzpteXNxbDovL2xvY2FsaG9zdDozMzA2L2RhdGFfc2VydmljZSJ9',
+        'eyJ0eXBlIjoiTXlTUUwiLCJkcml2ZXJDbGFzc05hbWUiOiJjb20ubXlzcWwuY2ouamRiYy5Ecml2ZXIiLCJ1cmwiOiJqZGJjOm15c3FsOi8vbG9jYWxob3N0OjMzMDYvZGF0YV9zZXJ2aWNlIiwidXNlciI6InJvb3QiLCJwYXNzd29yZCI6IjEyMzQ1NiJ9',
         NULL, NULL, 'sys', 'sys');
-INSERT INTO `carp_ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`, `editor`)
-VALUES (3, 9, NULL, 'docker_redis', 'eyJwYXNzd29yZCI6IkVuY3J5cHRlZDpNVEl6TkRVMiIsInBvcnQiOjYzNzksImhvc3QiOiJyZWRpcyJ9',
-        NULL, NULL, 'sys', 'sys');
-INSERT INTO `carp_ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`, `editor`)
-VALUES (4, 9, NULL, 'local_redis',
-        'eyJwYXNzd29yZCI6IkVuY3J5cHRlZDpNVEl6TkRVMiIsInBvcnQiOjYzNzksImhvc3QiOiJsb2NhbGhvc3QifQ==', NULL, NULL, 'sys',
+INSERT INTO `carp_ds_info` (`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`,
+                            `editor`)
+VALUES (3, 9, NULL, 'docker_redis',
+        'eyJ0eXBlIjoiUmVkaXMiLCJob3N0IjoicmVkaXMiLCJwb3J0Ijo2Mzc5LCJwYXNzd29yZCI6IjEyMzQ1NiJ9', NULL, NULL, 'sys',
         'sys');
-INSERT INTO `carp_ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`, `editor`)
+INSERT INTO `carp_ds_info` (`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`,
+                            `editor`)
+VALUES (4, 9, NULL, 'local_redis',
+        'eyJ0eXBlIjoiUmVkaXMiLCJob3N0IjoibG9jYWxob3N0IiwicG9ydCI6NjM3OSwicGFzc3dvcmQiOiIxMjM0NTYifQ==', NULL, NULL,
+        'sys', 'sys');
+INSERT INTO `carp_ds_info` (`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`,
+                            `editor`)
 VALUES (5, 20, NULL, 'docker_minio',
-        'eyJhY2Nlc3NTZWNyZXQiOiJFbmNyeXB0ZWQ6Y0dGemMzZHZjbVE9IiwiYnVja2V0IjoiczNuOi8vbWluaW86OTAwMC9zY2FsZXBoIiwiYWNjZXNzS2V5IjoiRW5jcnlwdGVkOllXUnRhVzQ9In0=',
+        'eyJ0eXBlIjoiUzMiLCJidWNrZXQiOiJzM246Ly9taW5pbzo5MDAwL3NjYWxlcGgiLCJhY2Nlc3NLZXkiOiJhZG1pbiIsImFjY2Vzc1NlY3JldCI6InBhc3N3b3JkIn0=',
         NULL, NULL, 'sys', 'sys');
-INSERT INTO `carp_ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`, `editor`)
+INSERT INTO `carp_ds_info` (`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`,
+                            `editor`)
 VALUES (6, 20, NULL, 'local_minio',
-        'eyJhY2Nlc3NTZWNyZXQiOiJFbmNyeXB0ZWQ6Y0dGemMzZHZjbVE9IiwiYnVja2V0IjoiczNuOi8vbG9jYWxob3N0OjkwMDAvc2NhbGVwaCIsImFjY2Vzc0tleSI6IkVuY3J5cHRlZDpZV1J0YVc0PSJ9',
+        'eyJ0eXBlIjoiUzMiLCJidWNrZXQiOiJzM246Ly9sb2NhbGhvc3Q6OTAwMC9zY2FsZXBoIiwiYWNjZXNzS2V5IjoiYWRtaW4iLCJhY2Nlc3NTZWNyZXQiOiJwYXNzd29yZCJ9',
         NULL, NULL, 'sys', 'sys');
-INSERT INTO `carp_ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`, `editor`)
-VALUES (7, 14, NULL, 'local_kafka', 'eyJib290c3RyYXBTZXJ2ZXJzIjoibG9jYWxob3N0OjkwOTIifQ==', NULL, NULL, 'sys', 'sys');
-INSERT INTO `carp_ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`, `editor`)
-VALUES (8, 10, NULL, 'local_elasticsearch', 'eyJob3N0cyI6ImxvY2FsaG9zdDo5MjAwIn0=', NULL, NULL, 'sys', 'sys');
-INSERT INTO `carp_ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`, `editor`)
+INSERT INTO `carp_ds_info` (`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`,
+                            `editor`)
+VALUES (7, 14, NULL, 'local_kafka', 'eyJ0eXBlIjoiS2Fma2EiLCJib290c3RyYXBTZXJ2ZXJzIjoibG9jYWxob3N0OjkwOTIifQ==', NULL,
+        NULL, 'sys', 'sys');
+INSERT INTO `carp_ds_info` (`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`,
+                            `editor`)
+VALUES (8, 10, NULL, 'local_elasticsearch', 'eyJ0eXBlIjoiRWxhc3RpY3NlYXJjaCIsImhvc3RzIjoibG9jYWxob3N0OjkyMDAifQ==',
+        NULL, NULL, 'sys', 'sys');
+INSERT INTO `carp_ds_info` (`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`,
+                            `editor`)
 VALUES (9, 25, NULL, 'local_doris',
-        'eyJwYXNzd29yZCI6IkVuY3J5cHRlZDpjR0Z6YzNkdmNtUT0iLCJxdWVyeVBvcnQiOjkwMzAsIm5vZGVVcmxzIjoibG9jYWxob3N0OjgwMzAiLCJ1c2VybmFtZSI6InJvb3QifQ==',
+        'eyJ0eXBlIjoiRG9yaXMiLCJub2RlVXJscyI6ImxvY2FsaG9zdDo4MDMwIiwidXNlcm5hbWUiOiJyb290IiwicGFzc3dvcmQiOiJcIlwiIiwicXVlcnlQb3J0Ijo5MDMwfQ==',
         NULL, NULL, 'sys', 'sys');

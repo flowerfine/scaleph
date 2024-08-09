@@ -1,5 +1,4 @@
-import {useModel} from "@umijs/max";
-import {DsType} from "@/services/datasource/typings";
+import {DataSourceProps} from "@/services/datasource/typings";
 import JdbcForm from "@/pages/Metadata/DataSource/Info/StepForms/Props/Jdbc";
 import FtpForm from "@/pages/Metadata/DataSource/Info/StepForms/Props/Ftp";
 import OSSForm from "@/pages/Metadata/DataSource/Info/StepForms/Props/OSS";
@@ -27,13 +26,9 @@ import StarRocksForm from "@/pages/Metadata/DataSource/Info/StepForms/Props/Star
 import MaxComputeForm from "@/pages/Metadata/DataSource/Info/StepForms/Props/MaxCompute";
 import GenericForm from "@/pages/Metadata/DataSource/Info/StepForms/Props/Generic";
 
-const DataSourceForm: React.FC = () => {
+const DataSourceForm: React.FC<DataSourceProps> = ({prefix, type}) => {
 
-  const {dsType} = useModel('dataSourceType', (model) => ({
-    dsType: model.dsType
-  }));
-
-  const formView = (prefix: string, type?: DsType) => {
+  const formView = () => {
     if (type?.type.value) {
       switch (type?.type.value) {
         case 'MySQL':
@@ -44,63 +39,63 @@ const DataSourceForm: React.FC = () => {
         case 'GBase8a':
         case 'Greenplum':
         case 'Phoenix':
-          return <JdbcForm prefix={prefix} type={type} />
+          return <JdbcForm prefix={prefix} type={type}/>
         case 'Ftp':
-          return <FtpForm prefix={prefix} type={type} />
+          return <FtpForm prefix={prefix} type={type}/>
         case 'Sftp':
-          return <SftpForm prefix={prefix} type={type} />
+          return <SftpForm prefix={prefix} type={type}/>
         case 'OSS':
-          return <OSSForm prefix={prefix} type={type} />
+          return <OSSForm prefix={prefix} type={type}/>
         case 'OSSJindo':
-          return <OSSJindoForm prefix={prefix} type={type} />
+          return <OSSJindoForm prefix={prefix} type={type}/>
         case 'S3':
-          return <S3Form prefix={prefix} type={type} />
+          return <S3Form prefix={prefix} type={type}/>
         case 'HDFS':
-          return <HDFSForm prefix={prefix} type={type} />
+          return <HDFSForm prefix={prefix} type={type}/>
         case 'Hive':
-          return <HiveForm prefix={prefix} type={type} />
+          return <HiveForm prefix={prefix} type={type}/>
         case 'Redis':
-          return <RedisForm prefix={prefix} type={type} />
+          return <RedisForm prefix={prefix} type={type}/>
         case 'Elasticsearch':
-          return <ElasticsearchForm prefix={prefix} type={type} />
+          return <ElasticsearchForm prefix={prefix} type={type}/>
         case 'MongoDB':
-          return <MongoDBForm prefix={prefix} type={type} />
+          return <MongoDBForm prefix={prefix} type={type}/>
         case 'Cassandra':
-          return <CassandraForm prefix={prefix} type={type} />
+          return <CassandraForm prefix={prefix} type={type}/>
         case 'Kafka':
-          return <KafkaForm prefix={prefix} type={type} />
+          return <KafkaForm prefix={prefix} type={type}/>
         case 'Pulsar':
-          return <PulsarForm prefix={prefix} type={type} />
+          return <PulsarForm prefix={prefix} type={type}/>
         case 'DataHub':
-          return <DataHubForm prefix={prefix} type={type} />
+          return <DataHubForm prefix={prefix} type={type}/>
         case 'Doris':
-          return <DorisForm prefix={prefix} type={type} />
+          return <DorisForm prefix={prefix} type={type}/>
         case 'StarRocks':
-          return <StarRocksForm prefix={prefix} type={type} />
+          return <StarRocksForm prefix={prefix} type={type}/>
         case 'ClickHouse':
-          return <ClickHouseForm prefix={prefix} type={type} />
+          return <ClickHouseForm prefix={prefix} type={type}/>
         case 'Kudu':
-          return <KuduForm prefix={prefix} type={type} />
+          return <KuduForm prefix={prefix} type={type}/>
         case 'MaxCompute':
-          return <MaxComputeForm prefix={prefix} type={type} />
+          return <MaxComputeForm prefix={prefix} type={type}/>
         case 'IoTDB':
-          return <IoTDBForm prefix={prefix} type={type} />
+          return <IoTDBForm prefix={prefix} type={type}/>
         case 'Neo4j':
-          return <Neo4jForm prefix={prefix} type={type} />
+          return <Neo4jForm prefix={prefix} type={type}/>
         case 'InfluxDB':
-          return <InfluxDBForm prefix={prefix} type={type} />
+          return <InfluxDBForm prefix={prefix} type={type}/>
         case 'Socket':
-          return <SocketForm prefix={prefix} type={type} />
+          return <SocketForm prefix={prefix} type={type}/>
         case 'Http':
-          return <HttpForm prefix={prefix} type={type} />
+          return <HttpForm prefix={prefix} type={type}/>
         default:
-          return <GenericForm prefix={prefix} type={type} />
+          return <GenericForm prefix={prefix} type={type}/>
       }
     }
     return <div>动态渲染数据源表单失败</div>
   }
 
-  return (<div>{formView('props', dsType)}</div>);
+  return (<div>{formView()}</div>);
 }
 
 export default DataSourceForm;

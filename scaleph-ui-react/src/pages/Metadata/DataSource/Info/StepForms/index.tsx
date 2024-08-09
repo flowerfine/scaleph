@@ -61,7 +61,7 @@ const DataSourceStepForms: React.FC = () => {
           wrapperCol={{span: 21}}
           layout={'horizontal'}
           style={{width: 1000}}>
-          <DataSourceForm/>
+          <DataSourceForm prefix={"props"} type={dsType}/>
         </StepsForm.StepForm>
       </StepsForm>
     </ProCard>

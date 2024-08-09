@@ -1,13 +1,14 @@
 import {history, useAccess, useIntl} from "@umijs/max";
-import {useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import {Button, Image, message, Modal, Space, Tooltip} from "antd";
-import {DeleteOutlined} from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {DICT_TYPE} from "@/constants/dictType";
 import {SysDictService} from "@/services/admin/system/sysDict.service";
 import {DsInfo} from "@/services/datasource/typings";
 import {DsInfoService} from "@/services/datasource/info.service";
+import DataSourceUpdateForm from "@/pages/Metadata/DataSource/Info/DataSourceUpdateForm";
 
 const DataSourceListWeb: React.FC = () => {
   const intl = useIntl();
@@ -15,6 +16,10 @@ const DataSourceListWeb: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<DsInfo[]>([]);
+  const [formData, setFormData] = useState<{ visible: boolean; data: DsInfo }>({
+    visible: false,
+    data: {}
+  });
 
   const tableColumns: ProColumns<DsInfo>[] = [
     {
@@ -81,6 +86,16 @@ const DataSourceListWeb: React.FC = () => {
       render: (_, record) => (
         <>
           <Space>
+            {access.canAccess(PRIVILEGE_CODE.userEdit) && (
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
+                <Button
+                  shape="default"
+                  type="link"
+                  icon={<EditOutlined/>}
+                  onClick={() => setFormData({visible: true, data: record})}
+                ></Button>
+              </Tooltip>
+            )}
             {access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
               <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
                 <Button
@@ -179,6 +194,19 @@ const DataSourceListWeb: React.FC = () => {
         tableAlertRender={false}
         tableAlertOptionRender={false}
       />
+      {formData.visible ? (
+        <DataSourceUpdateForm
+          visible={formData.visible}
+          data={formData.data}
+          onCancel={() => {
+            setFormData({visible: false, data: {}});
+          }}
+          onOK={(values) => {
+            setFormData({visible: false, data: {}});
+            actionRef.current?.reload();
+          }}
+        />
+      ) : null}
     </PageContainer>
   );
 }

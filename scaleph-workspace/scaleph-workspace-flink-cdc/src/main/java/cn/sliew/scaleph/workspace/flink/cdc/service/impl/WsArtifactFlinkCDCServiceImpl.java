@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.workspace.flink.cdc.service.impl;
 
-import cn.sliew.carp.module.datasource.service.DsInfoService;
+import cn.sliew.carp.module.datasource.service.CarpDsInfoService;
 import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
@@ -71,7 +71,7 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
     @Autowired
     private FlinkCDCConnectorService flinkCDCConnectorService;
     @Autowired
-    private DsInfoService dsInfoService;
+    private CarpDsInfoService dsInfoService;
 
     @Override
     public Page<WsArtifactFlinkCDCDTO> list(WsArtifactFlinkCDCListParam param) {
