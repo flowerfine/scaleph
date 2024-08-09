@@ -57,8 +57,10 @@ const RedisForm: React.FC<DataSourceProps> = ({prefix, type}) => {
           colProps={{span: 21, offset: 1}}
           request={() => SysDictService.listDictByDefinition(DICT_TYPE.carpDataSourceRedisMode)}
         />
-        <ProFormDependency name={['mode']}>
-          {({mode}) => {
+        <ProFormDependency name={[[prefix,'mode']]}>
+          {(depValues) => {
+            const prefixValue = depValues[prefix]
+            const mode = prefixValue['mode']
             if (mode == 'cluster') {
               return (
                 <ProFormGroup
