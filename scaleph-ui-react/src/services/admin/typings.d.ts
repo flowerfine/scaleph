@@ -83,7 +83,6 @@ export type SecRole = {
   name?: string;
   order?: number;
   status?: Dict;
-  showOpIcon?: boolean;
   remark?: string;
   createTime: Date;
   updateTime: Date;

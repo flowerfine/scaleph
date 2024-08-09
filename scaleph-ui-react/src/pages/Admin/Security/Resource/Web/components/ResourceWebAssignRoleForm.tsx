@@ -1,28 +1,30 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {Button, Card, Form, message, Modal, Space} from 'antd';
+import {Button, Card, Form, message, Modal, Space, TableColumnsType} from 'antd';
 import {useIntl} from '@umijs/max';
 import mainHeight from '@/models/useMainSize';
 import {ModalFormProps} from "@/typings";
 import {SecResourceWeb} from '@/services/admin/typings';
 import {AuthService} from '@/services/auth';
-import TableTransfer from './TransferTable';
+import TableTransfer, {DataType} from "@/components/TableTransfer";
+import {AuthenticationService} from "@/services/admin/security/authentication.service";
+import {AuthorizationService} from "@/services/admin/security/authorization.service";
 
 const ResourceWebAssignRoleForm: React.FC<ModalFormProps<SecResourceWeb>> = ({data, visible, onCancel, onOK}) => {
   const intl = useIntl();
   const [form] = Form.useForm();
   const containerInfo = mainHeight('.ant-layout-content');
-  const [roleLists, setRoleLists] = useState<Role[]>([]);
+  const [roleLists, setRoleLists] = useState<DataType[]>([]);
 
   // 角色表格列配置
-  const tableColumns = [
+  const tableColumns: TableColumnsType<DataType> = [
     {
       dataIndex: 'name',
-      title: '角色名称',
+      title: intl.formatMessage({id: 'pages.admin.role.name'}),
       width: 300,
     },
     {
       dataIndex: 'desc',
-      title: '描述',
+      title: intl.formatMessage({id: 'app.common.data.remark'}),
       width: 300,
     },
   ];
@@ -36,23 +38,43 @@ const ResourceWebAssignRoleForm: React.FC<ModalFormProps<SecResourceWeb>> = ({da
   }
 
   // 合并数组
-  function mergeArrays(array1: Role[], array2: Role[]): Role[] {
-    array1.forEach((obj, index) => {
+  function mergeArrays(unauthorized: DataType[], authorized: DataType[]): DataType[] {
+    unauthorized.forEach((obj, index) => {
       obj.checkOut = 0;
     });
-    array2.forEach((obj, index) => {
+    authorized.forEach((obj, index) => {
       obj.checkOut = 1;
     });
-    return [...array1, ...array2];
+    return [...unauthorized, ...authorized];
   }
 
   // 异步获取数据
   const fetchData = useCallback(async () => {
     try {
-      const res1 = await AuthService.unauthorizedRoles({resourceWebId: data?.id});
-      const res2 = await AuthService.authorizedRoles({resourceWebId: data?.id});
-      if (res1?.records && res2?.records) {
-        const mergedArray = mergeArrays(res1.records, res2.records);
+      const unauthorized = await AuthorizationService.listUnauthorizedRolesByResourceWebId({resourceWebId: data?.id})
+        .then(response => {
+          return response.data?.records.map(role => {
+            const dataType: DataType = {
+              id: role.id,
+              name: role.name,
+              remark: role.remark
+            }
+            return dataType;
+          })
+        });
+      const authorized = await AuthorizationService.listAuthorizedRolesByResourceWebId({resourceWebId: data?.id})
+        .then(response => {
+          return response.data?.records.map(role => {
+            const dataType: DataType = {
+              id: role.id,
+              name: role.name,
+              remark: role.remark
+            }
+            return dataType;
+          })
+        });
+      if (unauthorized && authorized) {
+        const mergedArray = mergeArrays(unauthorized, authorized);
         setRoleLists(mergedArray);
       }
     } catch (error) {
@@ -70,7 +92,7 @@ const ResourceWebAssignRoleForm: React.FC<ModalFormProps<SecResourceWeb>> = ({da
   const returnTitle = useMemo(() => {
     return (
       <Space direction="vertical">
-        <span>{` ${intl.formatMessage({id: `menu.${data?.label}`})}-资源分配详情`}</span>
+        <span>{` ${intl.formatMessage({id: `menu.${data?.value}`})}-资源分配详情`}</span>
       </Space>
     );
   }, [data, intl]);

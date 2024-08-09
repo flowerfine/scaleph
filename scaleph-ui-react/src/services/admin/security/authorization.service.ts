@@ -5,18 +5,20 @@ import {SecRole, SecUser} from "@/services/admin/typings";
 export const AuthorizationService = {
   url: '/api/carp/security/authorization',
 
-  unauthorizedRoles: async (param: any) => {
-    return request<ResponseBody<PageResponse<SecRole>>>(`${AuthorizationService.url}/resource-web/unauthorized-roles`, {
-      method: 'GET',
-      params: param,
-    });
-  },
-  authorizedRoles: async (param: any) => {
+  listAuthorizedRolesByResourceWebId: async (param: any) => {
     return request<ResponseBody<PageResponse<SecRole>>>(`${AuthorizationService.url}/resource-web/authorized-roles`, {
       method: 'GET',
       params: param,
     });
   },
+
+  listUnauthorizedRolesByResourceWebId: async (param: any) => {
+    return request<ResponseBody<PageResponse<SecRole>>>(`${AuthorizationService.url}/resource-web/unauthorized-roles`, {
+      method: 'GET',
+      params: param,
+    });
+  },
+
 
   resourceWebRoles: async (param: any) => {
     return request<ResponseBody<any>>(`${AuthorizationService.url}/resource-web/roles`, {
