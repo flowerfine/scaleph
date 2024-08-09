@@ -39,7 +39,7 @@ const DataSourceStepForms: React.FC = () => {
           }
         }}
         onFinish={(values) => {
-          const dsInfo = {...values, type: dsType?.type.value}
+          const dsInfo = {...values}
           return DsInfoService.add(dsInfo).then((response) => {
             if (response.success) {
               history.back()

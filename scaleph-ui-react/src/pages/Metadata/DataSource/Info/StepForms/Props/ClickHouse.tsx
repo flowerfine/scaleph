@@ -1,20 +1,18 @@
 import {ProCard, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
-import {useIntl, useModel} from "@umijs/max";
+import {useIntl} from "@umijs/max";
 import {DsCategoryService} from "@/services/datasource/category.service";
 import {useEffect} from "react";
 import {Form} from "antd";
+import {DataSourceProps} from "@/services/datasource/typings";
 
-const ClickHouseForm: React.FC = () => {
+const ClickHouseForm: React.FC<DataSourceProps> = ({prefix, type}) => {
   const intl = useIntl();
   const form = Form.useFormInstance()
 
-  const {dsType} = useModel('dataSourceType', (model) => ({
-    dsType: model.dsType
-  }));
-
   useEffect(() => {
-    form.setFieldValue("dsTypeId", dsType?.id)
-  }, [dsType])
+    form.setFieldValue("type", type?.type?.value)
+    form.setFieldValue("dsTypeId", type?.id)
+  }, [])
 
   return (
     <div>

@@ -33,7 +33,7 @@ const DataSourceForm: React.FC = () => {
     dsType: model.dsType
   }));
 
-  const formView = (type?: DsType) => {
+  const formView = (prefix: string, type?: DsType) => {
     if (type?.type.value) {
       switch (type?.type.value) {
         case 'MySQL':
@@ -44,63 +44,63 @@ const DataSourceForm: React.FC = () => {
         case 'GBase8a':
         case 'Greenplum':
         case 'Phoenix':
-          return <JdbcForm/>
+          return <JdbcForm prefix={prefix} type={type} />
         case 'Ftp':
-          return <FtpForm/>
+          return <FtpForm prefix={prefix} type={type} />
         case 'Sftp':
-          return <SftpForm/>
+          return <SftpForm prefix={prefix} type={type} />
         case 'OSS':
-          return <OSSForm/>
+          return <OSSForm prefix={prefix} type={type} />
         case 'OSSJindo':
-          return <OSSJindoForm/>
+          return <OSSJindoForm prefix={prefix} type={type} />
         case 'S3':
-          return <S3Form/>
+          return <S3Form prefix={prefix} type={type} />
         case 'HDFS':
-          return <HDFSForm/>
+          return <HDFSForm prefix={prefix} type={type} />
         case 'Hive':
-          return <HiveForm/>
+          return <HiveForm prefix={prefix} type={type} />
         case 'Redis':
-          return <RedisForm/>
+          return <RedisForm prefix={prefix} type={type} />
         case 'Elasticsearch':
-          return <ElasticsearchForm/>
+          return <ElasticsearchForm prefix={prefix} type={type} />
         case 'MongoDB':
-          return <MongoDBForm/>
+          return <MongoDBForm prefix={prefix} type={type} />
         case 'Cassandra':
-          return <CassandraForm/>
+          return <CassandraForm prefix={prefix} type={type} />
         case 'Kafka':
-          return <KafkaForm/>
+          return <KafkaForm prefix={prefix} type={type} />
         case 'Pulsar':
-          return <PulsarForm/>
+          return <PulsarForm prefix={prefix} type={type} />
         case 'DataHub':
-          return <DataHubForm/>
+          return <DataHubForm prefix={prefix} type={type} />
         case 'Doris':
-          return <DorisForm/>
+          return <DorisForm prefix={prefix} type={type} />
         case 'StarRocks':
-          return <StarRocksForm/>
+          return <StarRocksForm prefix={prefix} type={type} />
         case 'ClickHouse':
-          return <ClickHouseForm/>
+          return <ClickHouseForm prefix={prefix} type={type} />
         case 'Kudu':
-          return <KuduForm/>
+          return <KuduForm prefix={prefix} type={type} />
         case 'MaxCompute':
-          return <MaxComputeForm/>
+          return <MaxComputeForm prefix={prefix} type={type} />
         case 'IoTDB':
-          return <IoTDBForm/>
+          return <IoTDBForm prefix={prefix} type={type} />
         case 'Neo4j':
-          return <Neo4jForm/>
+          return <Neo4jForm prefix={prefix} type={type} />
         case 'InfluxDB':
-          return <InfluxDBForm/>
+          return <InfluxDBForm prefix={prefix} type={type} />
         case 'Socket':
-          return <SocketForm/>
+          return <SocketForm prefix={prefix} type={type} />
         case 'Http':
-          return <HttpForm/>
+          return <HttpForm prefix={prefix} type={type} />
         default:
-          return <GenericForm/>
+          return <GenericForm prefix={prefix} type={type} />
       }
     }
     return <div>动态渲染数据源表单失败</div>
   }
 
-  return (<div>{formView(dsType)}</div>);
+  return (<div>{formView('props', dsType)}</div>);
 }
 
 export default DataSourceForm;

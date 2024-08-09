@@ -1,5 +1,10 @@
 import {Dict, QueryParam} from "@/typings";
 
+export type DataSourceProps = {
+  prefix: string;
+  type?: DsType
+}
+
 export type DsCategory = {
   id: number;
   name?: string;

@@ -1,3 +1,5 @@
+import React, {useEffect} from "react";
+import {Form} from "antd";
 import {
   ProCard,
   ProFormGroup,
@@ -6,28 +8,25 @@ import {
   ProFormText,
   ProFormTextArea
 } from "@ant-design/pro-components";
-import {useIntl, useModel} from "@umijs/max";
+import {useIntl} from "@umijs/max";
 import {DsCategoryService} from "@/services/datasource/category.service";
-import {useEffect} from "react";
-import {Form} from "antd";
+import {DataSourceProps} from "@/services/datasource/typings";
 
-const JdbcForm: React.FC = () => {
+const JdbcForm: React.FC<DataSourceProps> = ({prefix, type}) => {
   const intl = useIntl();
   const form = Form.useFormInstance()
 
-  const {dsType} = useModel('dataSourceType', (model) => ({
-    dsType: model.dsType
-  }));
-
   useEffect(() => {
-    form.setFieldValue("dsTypeId", dsType?.id)
-  }, [dsType])
+    form.setFieldValue("type", type?.type?.value)
+    form.setFieldValue("dsTypeId", type?.id)
+  }, [])
 
   return (
     <div>
       <ProCard
         headerBordered={true}
         style={{width: 1000}}>
+        <ProFormText name="type" hidden/>
         <ProFormSelect
           name="dsTypeId"
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.type'})}
@@ -65,25 +64,25 @@ const JdbcForm: React.FC = () => {
           }}
         />
         <ProFormText
-          name="driverClassName"
+          name={[prefix, "driverClassName"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.jdbc.driverClassName'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
         />
         <ProFormText
-          name="url"
+          name={[prefix, "url"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.jdbc.url'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
         />
         <ProFormText
-          name="user"
+          name={[prefix, "user"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.jdbc.user'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
         />
         <ProFormText
-          name="password"
+          name={[prefix, "password"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.jdbc.password'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}

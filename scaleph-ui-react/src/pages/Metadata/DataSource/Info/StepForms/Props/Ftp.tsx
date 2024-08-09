@@ -1,26 +1,25 @@
-import {useIntl, useModel} from "@umijs/max";
+import {useIntl} from "@umijs/max";
 import {Form} from "antd";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import {ProCard, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import {DsCategoryService} from "@/services/datasource/category.service";
+import {DataSourceProps} from "@/services/datasource/typings";
 
-const FtpForm: React.FC = () => {
+const FtpForm: React.FC<DataSourceProps> = ({prefix, type}) => {
   const intl = useIntl();
   const form = Form.useFormInstance()
 
-  const {dsType} = useModel('dataSourceType', (model) => ({
-    dsType: model.dsType
-  }));
-
   useEffect(() => {
-    form.setFieldValue("dsTypeId", dsType?.id)
-  }, [dsType])
+    form.setFieldValue("type", type?.type?.value)
+    form.setFieldValue("dsTypeId", type?.id)
+  }, [])
 
   return (
     <div>
       <ProCard
         headerBordered={true}
         style={{width: 1000}}>
+        <ProFormText name="type" hidden/>
         <ProFormSelect
           name="dsTypeId"
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.type'})}
@@ -58,14 +57,14 @@ const FtpForm: React.FC = () => {
           }}
         />
         <ProFormText
-          name="host"
+          name={[prefix, "host"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.ftp.host'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
           initialValue={"localhost"}
         />
         <ProFormDigit
-          name="port"
+          name={[prefix, "port"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.ftp.port'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
@@ -76,13 +75,13 @@ const FtpForm: React.FC = () => {
           }}
         />
         <ProFormText
-          name="username"
+          name={[prefix, "username"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.ftp.username'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
         />
         <ProFormText
-          name="password"
+          name={[prefix, "password"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.ftp.password'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}

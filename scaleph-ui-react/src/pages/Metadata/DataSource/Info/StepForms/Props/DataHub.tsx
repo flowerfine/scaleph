@@ -1,26 +1,25 @@
-import {useIntl, useModel} from "@umijs/max";
+import {useIntl} from "@umijs/max";
 import {Form} from "antd";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import {ProCard, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import {DsCategoryService} from "@/services/datasource/category.service";
+import {DataSourceProps} from "@/services/datasource/typings";
 
-const DataHubForm: React.FC = () => {
+const DataHubForm: React.FC<DataSourceProps> = ({prefix, type}) => {
   const intl = useIntl();
   const form = Form.useFormInstance()
 
-  const {dsType} = useModel('dataSourceType', (model) => ({
-    dsType: model.dsType
-  }));
-
   useEffect(() => {
-    form.setFieldValue("dsTypeId", dsType?.id)
-  }, [dsType])
+    form.setFieldValue("type", type?.type?.value)
+    form.setFieldValue("dsTypeId", type?.id)
+  }, [])
 
   return (
     <div>
       <ProCard
         headerBordered={true}
         style={{width: 1000}}>
+        <ProFormText name="type" hidden/>
         <ProFormSelect
           name="dsTypeId"
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.type'})}
