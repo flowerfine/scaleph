@@ -5,7 +5,7 @@ import {useIntl} from "@umijs/max";
 import {DsCategoryService} from "@/services/datasource/category.service";
 import {DsType} from "@/services/datasource/typings";
 
-const CommonItem: React.FC<{type: DsType}> = ({type}) => {
+const CommonItem: React.FC<{type?: DsType}> = ({type}) => {
   const intl = useIntl();
   const form = Form.useFormInstance()
 

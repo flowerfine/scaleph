@@ -21,6 +21,11 @@ const GenericForm: React.FC<DataSourceProps> = ({prefix, type}) => {
 
   const columns: ProFormColumnsType[] = [
     {
+      dataIndex: 'type',
+      valueType: 'text',
+      hideInForm: true
+    },
+    {
       title: intl.formatMessage({id: 'pages.metadata.dataSource.step.props.type'}),
       dataIndex: 'dsTypeId',
       colProps: {span: 21, offset: 1},
