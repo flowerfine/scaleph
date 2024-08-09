@@ -12,8 +12,8 @@ import {
   ProFormTextArea
 } from "@ant-design/pro-components";
 import {DsCategoryService} from "@/services/datasource/category.service";
-import {DictDataService} from "@/services/admin/dictData.service";
 import {DICT_TYPE} from "@/constants/dictType";
+import {SysDictService} from "@/services/admin/system/sysDict.service";
 
 const RedisForm: React.FC = () => {
   const intl = useIntl();
@@ -100,7 +100,7 @@ const RedisForm: React.FC = () => {
           name={"mode"}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.redis.mode'})}
           colProps={{span: 21, offset: 1}}
-          request={() => DictDataService.listDictDataByType2(DICT_TYPE.redisMode)}
+          request={() => SysDictService.listDictByDefinition(DICT_TYPE.carpDataSourceRedisMode)}
         />
         <ProFormDependency name={['mode']}>
           {({mode}) => {

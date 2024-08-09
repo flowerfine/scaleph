@@ -5,9 +5,9 @@ import {DeleteOutlined} from "@ant-design/icons";
 import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {PRIVILEGE_CODE} from "@/constants/privilegeCode";
 import {DICT_TYPE} from "@/constants/dictType";
+import {SysDictService} from "@/services/admin/system/sysDict.service";
 import {DsInfo} from "@/services/datasource/typings";
 import {DsInfoService} from "@/services/datasource/info.service";
-import {DictDataService} from "@/services/admin/dictData.service";
 
 const DataSourceListWeb: React.FC = () => {
   const intl = useIntl();
@@ -45,7 +45,7 @@ const DataSourceListWeb: React.FC = () => {
         return entity.dsType?.type.label
       },
       request: (params, props) => {
-        return DictDataService.listDictDataByType2(DICT_TYPE.datasourceType)
+        return SysDictService.listDictByDefinition(DICT_TYPE.carpDataSourceType)
       }
     },
     {
@@ -86,6 +86,7 @@ const DataSourceListWeb: React.FC = () => {
                 <Button
                   shape="default"
                   type="link"
+                  danger
                   icon={<DeleteOutlined/>}
                   onClick={() => {
                     Modal.confirm({
@@ -143,6 +144,7 @@ const DataSourceListWeb: React.FC = () => {
               <Button
                 key="del"
                 type="default"
+                danger
                 disabled={selectedRows.length < 1}
                 onClick={() => {
                   Modal.confirm({

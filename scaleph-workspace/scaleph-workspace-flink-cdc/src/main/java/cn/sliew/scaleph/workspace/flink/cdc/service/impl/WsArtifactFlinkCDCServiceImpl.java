@@ -18,6 +18,8 @@
 
 package cn.sliew.scaleph.workspace.flink.cdc.service.impl;
 
+import cn.sliew.carp.module.datasource.service.DsInfoService;
+import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
@@ -25,13 +27,10 @@ import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCPluginName;
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCPluginType;
 import cn.sliew.scaleph.common.dict.flink.cdc.FlinkCDCVersion;
-import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.common.util.PropertyUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsArtifactFlinkCDC;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsArtifactFlinkCDCMapper;
-import cn.sliew.scaleph.ds.service.DsInfoService;
-import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.plugin.flink.cdc.FlinkCDCPipilineConnectorPlugin;
 import cn.sliew.scaleph.plugin.flink.cdc.connectors.CommonProperties;
 import cn.sliew.scaleph.plugin.flink.cdc.pipeline.PipelineProperties;
@@ -171,8 +170,8 @@ public class WsArtifactFlinkCDCServiceImpl implements WsArtifactFlinkCDCService 
     }
 
     private Optional<FlinkCDCPluginName> convertPluginName(DsInfoDTO dsInfoDTO) {
-        DataSourceType type = dsInfoDTO.getDsType().getType();
-        return Optional.ofNullable(EnumUtils.getEnumIgnoreCase(FlinkCDCPluginName.class, type.name()));
+        String name = dsInfoDTO.getDsType().getType().name();
+        return Optional.ofNullable(EnumUtils.getEnumIgnoreCase(FlinkCDCPluginName.class, name));
     }
 
     private Properties mergeJobAttrs(FlinkCDCPluginType pluginType, FlinkCDCPluginName pluginName, DsInfoDTO dsInfoDTO, JsonNode config) throws PluginException {

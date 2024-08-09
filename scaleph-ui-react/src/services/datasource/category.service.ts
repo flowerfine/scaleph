@@ -5,7 +5,7 @@ import {DsCategory, DsType, DsTypeParam} from './typings';
 const {PUBLIC_PATH} = process.env
 
 export const DsCategoryService = {
-  url: '/api/ds/category',
+  url: '/api/carp/datasource/category',
 
   list: async () => {
     return request<ResponseBody<Array<DsCategory>>>(`${DsCategoryService.url}`, {
