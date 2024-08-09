@@ -1,9 +1,9 @@
+import {useEffect, useRef, useState} from "react";
+import {useModel} from "@umijs/max";
+import {Image} from "antd";
 import {ActionType, ProFormInstance, ProList, ProListMetas} from "@ant-design/pro-components";
 import {DsType} from "@/services/datasource/typings";
-import {useEffect, useRef, useState} from "react";
 import {DsCategoryService} from "@/services/datasource/category.service";
-import {Image} from "antd";
-import {useModel} from "@umijs/max";
 
 const DataSourceTypeWeb: React.FC<{ categoryId?: number, onTypeSelect: () => void }> = ({
                                                                                                     categoryId,

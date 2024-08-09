@@ -11,6 +11,9 @@ export const DICT_TYPE = {
   carpSecResourceDataType: 'sec_resource_data_type',
   carpSecResourceStatus: 'sec_resource_status',
 
+  carpDataSourceType: 'datasource_type',
+  carpDataSourceRedisMode: 'datasource_redis_mode',
+
   roleType: 'role_type',
   roleStatus: 'role_status',
   userType: 'user_type',

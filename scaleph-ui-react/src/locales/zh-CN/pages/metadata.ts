@@ -3,6 +3,7 @@ export default {
 
   'pages.metadata.dataSource.category': '分类',
   'pages.metadata.dataSource.type.logo': '类型 LOGO',
+  'pages.metadata.dataSource.info': '数据源',
   'pages.metadata.dataSource.info.name': '数据源',
   'pages.metadata.dataSource.info.type': '类型',
   'pages.metadata.dataSource.info.version': '版本',

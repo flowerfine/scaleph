@@ -1,64 +1,20 @@
-import {useIntl, useModel} from "@umijs/max";
-import {Form} from "antd";
-import {useEffect} from "react";
-import {ProCard, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
-import {DsCategoryService} from "@/services/datasource/category.service";
+import {useIntl} from "@umijs/max";
+import React from "react";
+import {ProCard, ProFormSelect, ProFormText} from "@ant-design/pro-components";
+import {DataSourceProps} from "@/services/datasource/typings";
+import CommonItem from "@/pages/Metadata/DataSource/Info/StepForms/Props/CommonProps";
 
-const HttpForm: React.FC = () => {
+const HttpForm: React.FC<DataSourceProps> = ({prefix, type}) => {
   const intl = useIntl();
-  const form = Form.useFormInstance()
-
-  const {dsType} = useModel('dataSourceType', (model) => ({
-    dsType: model.dsType
-  }));
-
-  useEffect(() => {
-    form.setFieldValue("dsTypeId", dsType?.id)
-  }, [dsType])
 
   return (
     <div>
       <ProCard
         headerBordered={true}
         style={{width: 1000}}>
+        <CommonItem prefix={prefix} type={type}/>
         <ProFormSelect
-          name="dsTypeId"
-          label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.type'})}
-          colProps={{span: 21, offset: 1}}
-          disabled
-          showSearch={false}
-          request={() => {
-            return DsCategoryService.listTypes({}).then((response) => {
-              if (response.data) {
-                return response.data.map((item) => {
-                  return {label: item.type.label, value: item.id, item: item};
-                });
-              }
-              return []
-            })
-          }}
-        />
-        <ProFormText
-          name="version"
-          label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.version'})}
-          colProps={{span: 21, offset: 1}}
-        />
-        <ProFormText
-          name="name"
-          label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.name'})}
-          colProps={{span: 21, offset: 1}}
-          rules={[{required: true}]}
-        />
-        <ProFormTextArea
-          name="remark"
-          label={intl.formatMessage({id: 'app.common.data.remark'})}
-          colProps={{span: 21, offset: 1}}
-          fieldProps={{
-            rows: 5
-          }}
-        />
-        <ProFormSelect
-          name={"method"}
+          name={[prefix, "method"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.http.method'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
@@ -66,7 +22,7 @@ const HttpForm: React.FC = () => {
           options={["GET", "POST"]}
         />
         <ProFormText
-          name={"url"}
+          name={[prefix, "url"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.http.url'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}

@@ -38,6 +38,11 @@
         </dependency>
 
         <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-module-datasource</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.datastrato.gravitino</groupId>
             <artifactId>client-java-runtime</artifactId>
 <!--            <optional>true</optional>-->
