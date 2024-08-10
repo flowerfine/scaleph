@@ -113,6 +113,191 @@ create table carp_sec_resource_web
     unique key (type, pid, path)
 ) engine = innodb comment = 'security web resource';
 
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (1, '0', 0, 'studio', '工作台', '/studio', 0, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (2, '2', 1, 'databoard', '数据看班', '/studio/databoard', 0, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (10000000, '0', 0, 'project', '项目', '/project', 1, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (10000001, '1', 10000000, 'project.engine', '引擎管理', '/workspace/engine', 0, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (10000002, '1', 10000001, 'lake', '数据湖', '/workspace/engine/lake', 0, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (10000003, '2', 10000002, 'iceberg', 'Iceberg', '/workspace/engine/lake/iceberg', 0, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (10000004, '2', 10000002, 'paimon', 'Paimon', '/workspace/engine/lake/paimon', 1, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (10100000, '1', 10000001, 'olap', 'OLAP引擎', '/workspace/engine/olap', 1, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (10100001, '1', 10100000, 'doris', 'Doris', '/workspace/engine/olap/doris', 0, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (10100002, '2', 10100001, 'template', '部署模板', '/workspace/engine/olap/doris/template', 0, '1', NULL, 'sys',
+        'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (10100003, '2', 10100001, 'instance', '部署实例', '/workspace/engine/olap/doris/instance', 1, '1', NULL, 'sys',
+        'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (10110000, '2', 10100000, 'starrocks', 'StarRocks', '/workspace/engine/olap/starrocks', 1, '1', NULL, 'sys',
+        'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (10200000, '1', 10000001, 'compute', '计算引擎', '/workspace/engine/compute', 2, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (10200001, '1', 10200000, 'flink', 'Flink', '/workspace/engine/compute/flink', 0, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (10200002, '2', 10200001, 'template', '部署模板', '/workspace/engine/compute/flink/template', 0, '1', NULL,
+        'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (10200003, '2', 10200001, 'session-cluster', 'Session 集群', '/workspace/engine/compute/flink/session-cluster',
+        1, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (10200004, '2', 10200001, 'deployment', 'Deployment', '/workspace/engine/compute/flink/deployment', 2, '1', NULL,
+        'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (11000000, '1', 10000000, 'project.data-integration', '数据集成', '/workspace/data-integration', 1, '1', NULL,
+        'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (11000001, '2', 11000000, 'seatunnel', 'SeaTunnel', '/workspace/data-integration/seatunnel', 0, '1', NULL, 'sys',
+        'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (11000002, '2', 11000000, 'flink-cdc', 'Flink CDC', '/workspace/data-integration/flink-cdc', 1, '1', NULL, 'sys',
+        'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (12000000, '1', 10000000, 'project.data-develop', '数据开发', '/workspace/data-develop', 2, '1', NULL, 'sys',
+        'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (12000001, '2', 12000000, 'flink-jar', 'Flink Jar', '/workspace/data-develop/flink/jar', 0, '1', NULL, 'sys',
+        'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (12000002, '2', 12000000, 'flink-sql', 'Flink SQL', '/workspace/data-develop/flink/sql', 1, '1', NULL, 'sys',
+        'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (13000000, '1', 10000000, 'project.dag-scheduler', 'DAG 调度', '/workspace/dag-scheduler', 3, '1', NULL, 'sys',
+        'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (14000000, '1', 10000000, 'project.data-service', '数据服务', '/workspace/data-service', 4, '1', NULL, 'sys',
+        'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (14000001, '2', 14000000, 'config', '接口配置', '/workspace/data-service/config', 0, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (15000000, '1', 10000000, 'project.operation', '运维中心', '/workspace/operation', 5, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (15000001, '2', 15000000, 'flink', 'Flink任务', '/workspace/operation/compute/flink/job', 0, '1', NULL, 'sys',
+        'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (20000000, '0', 0, 'oam', 'OAM', '/oam', 2, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (20000001, '2', 20000000, 'definition', 'XDefinition', '/oam/definitin', 0, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (30000000, '0', 0, 'resource', '资源', '/resource', 3, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (30000001, '2', 30000000, 'jar', '公共 Jar', '/resource/jar', 0, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (30000002, '2', 30000000, 'flinkRelease', 'Flink Release', '/resource/flink-release', 1, '1', NULL, 'sys',
+        'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (30000003, '2', 30000000, 'seatunnelRelease', 'SeaTunnel Release', '/resource/seatunnel-release', 2, '1', NULL,
+        'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (30000004, '2', 30000000, 'kerberos', 'Kerberos', '/resource/kerberos', 3, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (30000005, '2', 30000000, 'clusterCredential', 'Cluster Credential', '/resource/cluster-credential', 4, '1',
+        NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (40000000, '0', 0, 'metadata', '元数据', '/metadata', 4, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (40000001, '1', 40000000, 'data-source', '数据源', '/metadata/data-source', 0, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (40000002, '2', 40000001, 'info', '数据源信息', '/metadata/data-source/info', 0, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (41000000, '1', 40000000, 'gravitino', 'Gravitino', '/metadata/gravitino', 1, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (41000001, '2', 41000000, 'catalog', 'Catalog', '/metadata/gravitino/catelog', 0, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (50000000, '0', 0, 'stdata', '数据标准', '/stdata', 5, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (50000001, '2', 50000000, 'system', '业务系统', '/stdata/system', 0, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (50000002, '2', 50000000, 'dataElement', '数据元', '/stdata/dataElement', 1, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (50000003, '2', 50000000, 'refdata', '参考数据', '/stdata/refdata', 2, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (50000004, '2', 50000000, 'refdataMap', '数据映射', '/stdata/refdataMap', 3, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (60000000, '0', 0, 'admin', '系统管理', '/admin', 6, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (60000001, '1', 60000000, 'security', '安全管理', '/admin/security', 0, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (60000002, '2', 60000001, 'dept', '部门管理', '/admin/security/dept', 0, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (60000003, '2', 60000001, 'role', '角色管理', '/admin/security/role', 1, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (60000004, '2', 60000001, 'user', '用户管理', '/admin/security/user', 2, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (60000005, '2', 60000001, 'resource.web', 'Web 资源', '/admin/security/resource/web', 3, '1', NULL, 'sys',
+        'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (61000000, '2', 60000000, 'quartz', '系统任务', '/admin/workflow/quartz', 1, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (62000000, '2', 60000000, 'dict', '数据字典', '/admin/dict', 2, '1', NULL, 'sys', 'sys');
+INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
+                                     `creator`, `editor`)
+VALUES (63000000, '2', 60000000, 'setting', '系统设置', '/admin/setting', 3, '1', NULL, 'sys', 'sys');
+
 drop table if exists carp_sec_resource_web_role;
 create table carp_sec_resource_web_role
 (
