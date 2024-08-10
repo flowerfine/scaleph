@@ -1,7 +1,5 @@
 import React from 'react';
 import {GetProp, Table, TableColumnsType, TableProps, Transfer, TransferProps} from 'antd';
-import {ProTable} from "@ant-design/pro-components";
-import {difference} from 'lodash'; // 注意这里改为大写的Difference
 
 type TransferItem = GetProp<TransferProps, 'dataSource'>[number];
 type TableRowSelection<T extends object> = TableProps<T>['rowSelection'];

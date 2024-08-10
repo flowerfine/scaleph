@@ -50,7 +50,11 @@ export default {
   'pages.admin.resource.data': '数据资源',
 
   'pages.admin.security.authorization.role2users': '角色分配用户',
+  'pages.admin.security.authorization.role2users.authorized': '已授权用户',
+  'pages.admin.security.authorization.role2users.unauthorized': '未授权用户',
   'pages.admin.security.authorization.resourceWeb2Roles': 'Web 资源分配角色',
+  'pages.admin.security.authorization.resourceWeb2Roles.authorized': '已授权角色',
+  'pages.admin.security.authorization.resourceWeb2Roles.unauthorized': '未授权角色',
 
   'pages.admin.dept': '部门管理',
   'pages.admin.dept.deptName': '名称',

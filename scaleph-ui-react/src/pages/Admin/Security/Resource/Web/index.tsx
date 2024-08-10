@@ -4,7 +4,6 @@ import {DeleteOutlined, EditOutlined, FormOutlined, PlusOutlined} from '@ant-des
 import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {useAccess, useIntl} from '@umijs/max';
 import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
-import WebAssugnRoles from '@/pages/Admin/Security/Resource/Web/components/WebAssugnRoles';
 import WebResourceForm from '@/pages/Admin/Security/Resource/Web/components/WebResourceForm';
 import {PrivilegeService} from '@/services/admin/privilege.service';
 import {ResourceWebService} from '@/services/admin/security/resourceWeb.service';
