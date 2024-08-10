@@ -39,7 +39,6 @@ const WebResourceWeb: React.FC = () => {
     {
       title: intl.formatMessage({id: 'pages.admin.resource.type'}),
       dataIndex: 'type',
-      width: 120,
       render: (dom, entity) => {
         return <Tag>{entity.type?.label}</Tag>;
       },

@@ -1,6 +1,6 @@
 import {PageResponse, ResponseBody} from '@/typings';
 import {request} from '@umijs/max';
-import {SecRole, SecUser} from "@/services/admin/typings";
+import {SecResourceWeb, SecRole, SecUser} from "@/services/admin/typings";
 
 export const AuthorizationService = {
   url: '/api/carp/security/authorization',
@@ -84,7 +84,7 @@ export const AuthorizationService = {
 
   //查询所有 资源-web 和指定角色绑定状态
   requestResourceWebs: async (param: any) => {
-    return request<ResponseBody<any>>(`${AuthorizationService.url}/role/resource-webs`, {
+    return request<ResponseBody<Array<SecResourceWeb>>>(`${AuthorizationService.url}/role/resource-webs`, {
       method: 'GET',
       params: param,
     });

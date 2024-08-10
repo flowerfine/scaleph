@@ -174,7 +174,8 @@ export type SecResourceWeb = {
   order?: number;
   status: Dict;
   remark?: string;
-  children?: SecResourceWeb[]
+  children?: SecResourceWeb[];
+  authorized?: Dict
 };
 
 export type SecResourceWebParam = QueryParam & {

@@ -52,6 +52,7 @@ export default {
   'pages.admin.security.authorization.role2users': '角色分配用户',
   'pages.admin.security.authorization.role2users.authorized': '已授权用户',
   'pages.admin.security.authorization.role2users.unauthorized': '未授权用户',
+  'pages.admin.security.authorization.role2ResourceWebs': '角色配置web资源',
   'pages.admin.security.authorization.user2Roles': '用户授权角色',
   'pages.admin.security.authorization.user2Roles.authorized': '已授权角色',
   'pages.admin.security.authorization.user2Roles.unauthorized': '未授权角色',
