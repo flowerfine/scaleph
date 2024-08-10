@@ -11,14 +11,12 @@ export const AuthorizationService = {
       params: param,
     });
   },
-
   listUnauthorizedRolesByResourceWebId: async (param: any) => {
     return request<ResponseBody<PageResponse<SecRole>>>(`${AuthorizationService.url}/resource-web/unauthorized-roles`, {
       method: 'GET',
       params: param,
     });
   },
-
   authorizeResourceWeb2Roles: async (param: any) => {
     return request<ResponseBody<any>>(`${AuthorizationService.url}/resource-web/roles`, {
       method: 'PUT',
@@ -32,27 +30,25 @@ export const AuthorizationService = {
     });
   },
 
+
   listAuthorizedUsersByRoleId: async (param: any) => {
     return request<ResponseBody<PageResponse<SecUser>>>(`${AuthorizationService.url}/role/authorized-users`, {
       method: 'GET',
       params: param,
     });
   },
-
   listUnauthorizedUsersByRoleId: async (param: any) => {
     return request<ResponseBody<PageResponse<SecUser>>>(`${AuthorizationService.url}/role/unauthorized-users`, {
       method: 'GET',
       params: param,
     });
   },
-
   authorizeRole2Users: async (param: any) => {
     return request<ResponseBody<any>>(`${AuthorizationService.url}/role/users`, {
       method: 'PUT',
       data: param,
     });
   },
-  //批量为角色解除用户绑定
   unauthorizeRole2Users: async (param: any) => {
     return request<ResponseBody<any>>(`${AuthorizationService.url}/role/users`, {
       method: 'DELETE',
@@ -60,31 +56,26 @@ export const AuthorizationService = {
     });
   },
 
-  //查询用户未绑定角色列表
-  requestUnauthorizedRoles: async (param: any) => {
-    return request<ResponseBody<any>>(`${AuthorizationService.url}/user/unauthorized-roles`, {
-      method: 'GET',
-      params: param,
-    });
-  },
-  //查询角色绑定用户列表
-  requestUserAuthorizedRoles: async (param: any) => {
-    return request<ResponseBody<any>>(`${AuthorizationService.url}/user/authorized-roles`, {
-      method: 'GET',
-      params: param,
-    });
-  },
 
-  //批量为用户绑定角色
-  requestUserRoles: async (param: any) => {
+  listUnauthorizedRolesByUserId: async (param: any) => {
+    return request<ResponseBody<Array<SecRole>>>(`${AuthorizationService.url}/user/unauthorized-roles`, {
+      method: 'GET',
+      params: param,
+    });
+  },
+  listAuthorizedRolesByUserId: async (param: any) => {
+    return request<ResponseBody<Array<SecRole>>>(`${AuthorizationService.url}/user/authorized-roles`, {
+      method: 'GET',
+      params: param,
+    });
+  },
+  authorizeUser2Roles: async (param: any) => {
     return request<ResponseBody<any>>(`${AuthorizationService.url}/user/roles`, {
       method: 'PUT',
       data: param,
     });
   },
-
-  //批量为用户解除角色绑定
-  requestDeleteUserRoles: async (param: any) => {
+  unauthorizeUser2Roles: async (param: any) => {
     return request<ResponseBody<any>>(`${AuthorizationService.url}/user/roles`, {
       method: 'DELETE',
       data: param,

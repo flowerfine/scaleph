@@ -46,6 +46,7 @@ const ResourceWebAssignRoleForm: React.FC<ModalFormProps<SecResourceWeb>> = ({da
             const dataType: DataType = {
               id: role.id,
               name: role.name,
+              status: role.status?.label,
               remark: role.remark
             }
             return dataType;
@@ -57,6 +58,7 @@ const ResourceWebAssignRoleForm: React.FC<ModalFormProps<SecResourceWeb>> = ({da
             const dataType: DataType = {
               id: role.id,
               name: role.name,
+              status: role.status?.label,
               remark: role.remark
             }
             return dataType;

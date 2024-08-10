@@ -1,28 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Button, Card, Form, message, Modal, Space } from 'antd';
-import { useIntl } from '@umijs/max';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {Button, Card, Form, message, Modal, Space} from 'antd';
+import {useIntl} from '@umijs/max';
 import mainHeight from '@/models/useMainSize';
-import TableTransfer from '@/pages/Admin/Security/Resource/Web/components/TransferTable';
-import { SecResourceWeb } from '@/services/admin/typings';
-import { AuthService } from '@/services/auth';
+import {SecResourceWeb} from '@/services/admin/typings';
+import {AuthService} from '@/services/auth';
+import {ModalFormProps} from "@/typings";
+import TableTransfer from "@/components/TableTransfer";
 
-// 定义组件 Props 类型
-interface ModalFormParentProps<T> {
-  data: T;
-  visible: boolean;
-  onVisibleChange?: (visible: boolean) => void;
-  onCancel: () => void;
-  onOK?: (values: any) => void;
-}
-
-const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
-  data,
-  visible,
-  onVisibleChange,
-  onCancel,
-}) => {
+const WebResourceForm: React.FC<ModalFormProps<SecResourceWeb>> = ({data,visible,onCancel}) => {
   const intl = useIntl();
-  const [form] = Form.useForm();
   const containerInfo = mainHeight('.ant-layout-content');
   const [roleLists, setRoleLists] = useState<Role[]>([]);
 
@@ -37,7 +23,9 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
       dataIndex: 'status.label',
       title: '角色状态',
       width: 300,
-      render: (text: any, record: { status: { label: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; }; }) => (
+      render: (text: any, record: {
+        status: { label: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; };
+      }) => (
         <span>{record.status.label}</span>
       ),
     },
@@ -61,11 +49,12 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
     });
     return [...array1, ...array2];
   }
+
   // 异步获取数据
   const fetchData = useCallback(async () => {
     try {
-      const res1 = await AuthService.requestUnauthorizedRoles({ userId: data?.id });
-      const res2 = await AuthService.requestUserAuthorizedRoles({ userId: data?.id });
+      const res1 = await AuthService.requestUnauthorizedRoles({userId: data?.id});
+      const res2 = await AuthService.requestUserAuthorizedRoles({userId: data?.id});
       if (res1 && res2) {
         const mergedArray = mergeArrays(res1, res2);
         setRoleLists(mergedArray);
@@ -85,7 +74,7 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
   const returnTitle = useMemo(() => {
     return (
       <Space direction="vertical">
-        <span>{` ${intl.formatMessage({ id: `menu.${data?.userName}` })}-${intl.formatMessage({ id: 'app.common.operate.new.roles' })}`}</span>
+        <span>{` ${intl.formatMessage({id: `menu.${data?.userName}`})}-${intl.formatMessage({id: 'app.common.operate.new.roles'})}`}</span>
       </Space>
     );
   }, [data, intl]);
@@ -112,13 +101,13 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
         // 批量为角色绑定用户
         await AuthService.requestUserRoles(params).then((res) => {
           if (res?.success) {
-            message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }), 2);
+            message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}), 2);
           }
         });
       } else {
         // 批量为角色解除用户绑定
         await AuthService.requestDeleteUserRoles(params).then((res) => {
-          message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }), 2);
+          message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}), 2);
         });
       }
       fetchData();
@@ -129,15 +118,15 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
   return (
     <Modal
       open={visible}
-      title={data.id ? intl.formatMessage({ id: 'app.common.operate.new.rolesUser' }) : ''}
+      title={data.id ? intl.formatMessage({id: 'app.common.operate.new.rolesUser'}) : ''}
       width={1100}
       destroyOnClose={true}
       onCancel={onCancel}
-      cancelText={intl.formatMessage({ id: 'app.common.operate.close.label' })}
+      cancelText={intl.formatMessage({id: 'app.common.operate.close.label'})}
       centered
       footer={[
         <Button type="primary" onClick={onCancel}>
-          {intl.formatMessage({ id: 'app.common.operate.close.label' })}
+          {intl.formatMessage({id: 'app.common.operate.close.label'})}
         </Button>,
       ]}
     >
@@ -150,7 +139,7 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
         >
           <TableTransfer
             containerHeight={containerInfo.height}
-            titles={[intl.formatMessage({ id: 'app.common.operate.new.notAccreditRoles' }), intl.formatMessage({ id: 'app.common.operate.new.accreditRoles' })]}
+            titles={[intl.formatMessage({id: 'app.common.operate.new.notAccreditRoles'}), intl.formatMessage({id: 'app.common.operate.new.accreditRoles'})]}
             dataSource={roleLists}
             targetKeys={originTargetKeys}
             showSearch={true}

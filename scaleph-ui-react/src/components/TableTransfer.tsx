@@ -7,6 +7,7 @@ type TableRowSelection<T extends object> = TableProps<T>['rowSelection'];
 export interface DataType {
   id?: number;
   name?: string;
+  status?: string;
   remark?: string;
   checkOut?: number;
 }

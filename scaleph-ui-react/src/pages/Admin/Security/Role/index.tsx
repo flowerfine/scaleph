@@ -9,8 +9,8 @@ import {SysDictService} from "@/services/admin/system/sysDict.service";
 import {RoleService} from '@/services/admin/security/role.service';
 import {SecRole} from '@/services/admin/typings';
 import RoleForm from '@/pages/Admin/Security/Role/components/RoleForm';
-import ResourceWebs from './components/ResourceWebs';
 import RoleAssignUserForm from "@/pages/Admin/Security/Role/components/RoleAssignUserForm";
+import RoleAssignResourceWebForm from "@/pages/Admin/Security/Role/components/RoleAssignResourceWebForm";
 
 const RoleWeb: React.FC = () => {
   const intl = useIntl();
@@ -28,10 +28,10 @@ const RoleWeb: React.FC = () => {
     data: SecRole;
   }>({visiable: false, parent: {}, data: {}});
 
-  const [resourceWebs, setResourceWebs] = useState<{
+  const [roleAssginResourceWeb, setRoleAssginResourceWeb] = useState<{
     visiable: boolean;
     data: SecRole;
-  }>({visiable: false, parent: {}, data: {}});
+  }>({visiable: false, data: {}});
 
   const tableColumns: ProColumns<SecRole>[] = [
     {
@@ -111,7 +111,7 @@ const RoleWeb: React.FC = () => {
                   shape="default"
                   type="link"
                   icon={<SelectOutlined/>}
-                  onClick={() => setResourceWebs({visiable: true, data: record})}
+                  onClick={() => setRoleAssginResourceWeb({visiable: true, data: record})}
                 />
               </Tooltip>
             )}
@@ -240,15 +240,11 @@ const RoleWeb: React.FC = () => {
           data={roleAssignUser.data}
         />
       )}
-      {resourceWebs.visiable && (
-        <ResourceWebs
-          visible={resourceWebs.visiable}
-          onCancel={() => setResourceWebs({visiable: false, data: {}})}
-          onVisibleChange={(visiable) => {
-            setResourceWebs({visiable: visiable, data: {}});
-            actionRef.current?.reload();
-          }}
-          data={resourceWebs.data}
+      {roleAssginResourceWeb.visiable && (
+        <RoleAssignResourceWebForm
+          visible={roleAssginResourceWeb.visiable}
+          onCancel={() => setRoleAssginResourceWeb({visiable: false, data: {}})}
+          data={roleAssginResourceWeb.data}
         />
       )}
     </PageContainer>

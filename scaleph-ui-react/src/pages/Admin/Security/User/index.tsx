@@ -12,21 +12,26 @@ import {SecRole, SecUser} from '@/services/admin/typings';
 import {UserService} from '@/services/admin/security/user.service';
 import {TreeNode} from '@/typings';
 import UserForm from "@/pages/Admin/Security/User/components/UserForm";
-
+import UserAssignRoleForm from "@/pages/Admin/Security/User/components/UserAssignRoleForm";
 
 const User: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
+  const [selectedRows, setSelectedRows] = useState<SecUser[]>([]);
   const [roleList, setRoleList] = useState<SecRole[]>([]);
   const [deptTreeList, setDeptTreeList] = useState<TreeNode[]>([]);
-  const [selectedRows, setSelectedRows] = useState<SecUser[]>([]);
 
   const [userFormData, setUserFormData] = useState<{ visible: boolean; data: SecUser }>({
     visible: false,
     data: {},
   });
+  const [userAssignRole, setUserAssignRole] = useState<{
+    visiable: boolean;
+    data: SecUser;
+  }>({visiable: false, data: {}});
+
   const [webAssignRoles, setWebAssignRoles] = useState<{
     visiable: boolean;
     data: SecRole;
@@ -106,7 +111,7 @@ const User: React.FC = () => {
                   shape="default"
                   type="link"
                   icon={<FormOutlined/>}
-                  onClick={() => setWebAssignRoles({visiable: true, data: record})}
+                  onClick={() => setUserAssignRole({visiable: true, data: record})}
                 />
               </Tooltip>
             )}
@@ -269,6 +274,15 @@ const User: React.FC = () => {
             actionRef.current?.reload();
           }}
           data={userFormData.data}
+        />
+      ) : null}
+      {userAssignRole.visiable ? (
+        <UserAssignRoleForm
+          visible={userAssignRole.visiable}
+          onCancel={() => {
+            setUserAssignRole({visiable: false, data: {}});
+          }}
+          data={userAssignRole.data}
         />
       ) : null}
     </PageContainer>
