@@ -58,13 +58,13 @@ export const AuthorizationService = {
 
 
   listUnauthorizedRolesByUserId: async (param: any) => {
-    return request<ResponseBody<Array<SecRole>>>(`${AuthorizationService.url}/user/unauthorized-roles`, {
+    return request<ResponseBody<PageResponse<SecRole>>>(`${AuthorizationService.url}/user/unauthorized-roles`, {
       method: 'GET',
       params: param,
     });
   },
   listAuthorizedRolesByUserId: async (param: any) => {
-    return request<ResponseBody<Array<SecRole>>>(`${AuthorizationService.url}/user/authorized-roles`, {
+    return request<ResponseBody<PageResponse<SecRole>>>(`${AuthorizationService.url}/user/authorized-roles`, {
       method: 'GET',
       params: param,
     });

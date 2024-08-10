@@ -1,16 +1,13 @@
 import {useAccess, useIntl} from '@umijs/max';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {Button, message, Modal, Space, Tag, Tooltip,} from 'antd';
 import {DeleteOutlined, EditOutlined, FormOutlined} from '@ant-design/icons';
 import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {DICT_TYPE} from '@/constants/dictType';
 import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
 import {SysDictService} from "@/services/admin/system/sysDict.service";
-import {DeptService} from '@/services/admin/security/dept.service';
-import {RoleService} from '@/services/admin/security/role.service';
-import {SecRole, SecUser} from '@/services/admin/typings';
+import {SecUser} from '@/services/admin/typings';
 import {UserService} from '@/services/admin/security/user.service';
-import {TreeNode} from '@/typings';
 import UserForm from "@/pages/Admin/Security/User/components/UserForm";
 import UserAssignRoleForm from "@/pages/Admin/Security/User/components/UserAssignRoleForm";
 
@@ -20,9 +17,6 @@ const User: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<SecUser[]>([]);
-  const [roleList, setRoleList] = useState<SecRole[]>([]);
-  const [deptTreeList, setDeptTreeList] = useState<TreeNode[]>([]);
-
   const [userFormData, setUserFormData] = useState<{ visible: boolean; data: SecUser }>({
     visible: false,
     data: {},
@@ -31,11 +25,6 @@ const User: React.FC = () => {
     visiable: boolean;
     data: SecUser;
   }>({visiable: false, data: {}});
-
-  const [webAssignRoles, setWebAssignRoles] = useState<{
-    visiable: boolean;
-    data: SecRole;
-  }>({visiable: false, parent: {}, data: {}});
 
   const tableColumns: ProColumns<SecUser>[] = [
     {
@@ -163,37 +152,6 @@ const User: React.FC = () => {
       ),
     },
   ];
-
-  //init data
-  useEffect(() => {
-    refreshRoles();
-    refreshDepts();
-  }, []);
-
-  const refreshRoles = () => {
-    RoleService.listAllRole().then((d) => {
-      setRoleList(d);
-    });
-  };
-
-  const refreshDepts = () => {
-    DeptService.listAllDept().then((d) => {
-      setDeptTreeList(DeptService.buildTree(d));
-    });
-  };
-
-  let keys: React.Key[] = [];
-  const buildExpandKeys = (data: TreeNode[], value: string): React.Key[] => {
-    data.forEach((dept) => {
-      if (dept.children) {
-        buildExpandKeys(dept.children, value);
-      }
-      if (dept.title?.toString().includes(value)) {
-        keys.push(dept.key + '');
-      }
-    });
-    return keys;
-  };
 
   return (
     <PageContainer title={false}>

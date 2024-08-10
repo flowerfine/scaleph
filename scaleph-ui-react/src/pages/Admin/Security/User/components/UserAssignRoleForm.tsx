@@ -42,7 +42,7 @@ const UserAssignRoleForm: React.FC<ModalFormProps<SecUser>> = ({data, visible, o
         try {
             const unauthorized = await AuthorizationService.listUnauthorizedRolesByUserId({userId: data?.id})
                 .then(response => {
-                    return response.data?.map(role => {
+                    return response.data?.records.map(role => {
                         const dataType: DataType = {
                             id: role.id,
                             name: role.name,
@@ -54,7 +54,7 @@ const UserAssignRoleForm: React.FC<ModalFormProps<SecUser>> = ({data, visible, o
                 });
             const authorized = await AuthorizationService.listAuthorizedRolesByUserId({userId: data?.id})
                 .then(response => {
-                    return response.data?.map(role => {
+                    return response.data?.records.map(role => {
                         const dataType: DataType = {
                             id: role.id,
                             name: role.name,
