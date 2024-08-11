@@ -1,38 +1,32 @@
-import {SecResourceWeb} from '@/services/admin/typings';
-import {AuthService} from '@/services/auth';
+import React, {useCallback, useEffect, useState} from 'react';
 import {message, Modal, Tree} from 'antd';
 import type {TreeProps} from 'antd/es/tree';
-import React, {useCallback, useEffect, useState} from 'react';
 import {useIntl} from '@umijs/max';
-import {ResponseBody} from '@/typings';
+import {ModalFormProps} from '@/typings';
+import {SecResourceWeb, SecRole} from '@/services/admin/typings';
+import {AuthorizationService} from "@/services/admin/security/authorization.service";
 
-// 定义组件 Props 类型
-interface ModalFormParentProps<T> {
-  data: T;
-  visible: boolean;
-  onVisibleChange?: (visible: boolean) => void;
-  onCancel: () => void;
-  onOK?: (values: any) => void;
+// 树节点类型
+interface TreeNode {
+  key: number;
+  title: string;
+  authorized?: string | number;
+  children?: TreeNode[];
 }
 
-// WebResourceForm 组件
-const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
-                                                                           data,
-                                                                           visible,
-                                                                           onCancel,
-                                                                         }) => {
+const RoleAssignResourceWebForm: React.FC<ModalFormProps<SecRole>> = ({data, visible, onCancel}) => {
   const intl = useIntl();
-  const [roleLists, setRoleLists] = useState<any[]>([]);
+  const [treeData, setTreeData] = useState<TreeNode[]>([]);
   const [menuId, setMenuId] = useState<number[]>([]);
   const [menuIdTotal, setMenuIdTotal] = useState<number[]>([]);
 
   // 数据转换函数
-  function convertData(data: any[] | ResponseBody<any>): any[] {
-    return data.map((item) => {
-      const newItem = {
-        title: item.name,
-        key: String(item.id),
-        authorized: item.authorized.value,
+  function convertData(secResourceWebList: SecResourceWeb[]): any[] {
+    return secResourceWebList.map((item) => {
+      const newItem: TreeNode = {
+        key: item.id,
+        title: item.label,
+        authorized: item.authorized?.value
       };
       if (item.children && item.children.length > 0) {
         newItem.children = convertData(item.children);
@@ -41,16 +35,8 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
     });
   }
 
-  // 树节点类型
-  interface TreeNode {
-    title: string;
-    key: number;
-    authorized: boolean;
-    children?: TreeNode[];
-  }
-
   // 根据权限值查找节点的键
-  function findKeysByAuthorized(data: TreeNode[], authorizedValue: boolean): number[] {
+  function findKeysByAuthorized(data: TreeNode[], authorizedValue: string): number[] {
     const result: number[] = [];
 
     function traverse(node: TreeNode) {
@@ -69,10 +55,10 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
   // 异步获取数据
   const fetchData = useCallback(async () => {
     try {
-      const res1 = await AuthService.requestResourceWebs({roleId: data?.id});
-      const treeData = convertData(res1);
+      const secResourceWebList = await AuthorizationService.requestResourceWebs({roleId: data?.id}).then(response => response.data);
+      const treeData = convertData(secResourceWebList);
       const filteredIds = findKeysByAuthorized(treeData, '1');
-      setRoleLists(res1 || []);
+      setTreeData(treeData || []);
       setMenuId(filteredIds || []);
       setMenuIdTotal(filteredIds || []);
     } catch (error) {
@@ -97,7 +83,7 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
     const extraValues = menuId.filter((item) => !menuIdTotal.includes(item)); // 批量为角色绑定
 
     if (diffValues.length !== 0) {
-      await AuthService.requestDeleteRoleResourceWebs({
+      await AuthorizationService.requestDeleteRoleResourceWebs({
         roleId: data?.id,
         resourceWebIds: diffValues,
       }).then((res) => {
@@ -108,7 +94,7 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
     }
 
     if (extraValues.length !== 0) {
-      await AuthService.requestRoleResourceWebs({
+      await AuthorizationService.requestRoleResourceWebs({
         roleId: data?.id,
         resourceWebIds: extraValues,
       }).then((res) => {
@@ -123,7 +109,7 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
   return (
     <Modal
       open={visible}
-      title={data.id ? intl.formatMessage({id: 'app.common.operate.new.rolesWeb'}) : ''}
+      title={data.id ? intl.formatMessage({id: 'pages.admin.security.authorization.role2ResourceWebs'}) : ''}
       width={500}
       destroyOnClose={true}
       onCancel={onCancel}
@@ -141,17 +127,12 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecResourceWeb>> = ({
           checkable
           onCheck={onCheck}
           checkedKeys={menuId}
-          treeData={roleLists}
+          treeData={treeData}
           defaultExpandAll
-          fieldNames={{
-            title: 'name',
-            key: 'id',
-            children: 'children',
-          }}
         />
       </div>
     </Modal>
   );
 };
 
-export default WebResourceForm;
+export default RoleAssignResourceWebForm;

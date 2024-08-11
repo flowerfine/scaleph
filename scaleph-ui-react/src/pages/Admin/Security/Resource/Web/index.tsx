@@ -4,12 +4,12 @@ import {DeleteOutlined, EditOutlined, FormOutlined, PlusOutlined} from '@ant-des
 import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {useAccess, useIntl} from '@umijs/max';
 import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
-import WebAssugnRoles from '@/pages/Admin/Security/Resource/Web/components/WebAssugnRoles';
 import WebResourceForm from '@/pages/Admin/Security/Resource/Web/components/WebResourceForm';
 import {PrivilegeService} from '@/services/admin/privilege.service';
 import {ResourceWebService} from '@/services/admin/security/resourceWeb.service';
 import {SecResourceWeb} from '@/services/admin/typings';
 import {isEmpty} from 'lodash';
+import ResourceWebAssignRoleForm from "@/pages/Admin/Security/Resource/Web/components/ResourceWebAssignRoleForm";
 
 const WebResourceWeb: React.FC = () => {
   const intl = useIntl();
@@ -39,7 +39,6 @@ const WebResourceWeb: React.FC = () => {
     {
       title: intl.formatMessage({id: 'pages.admin.resource.type'}),
       dataIndex: 'type',
-      width: 120,
       render: (dom, entity) => {
         return <Tag>{entity.type?.label}</Tag>;
       },
@@ -238,11 +237,11 @@ const WebResourceWeb: React.FC = () => {
       )}
 
       {webAssignRoles.visiable && (
-        <WebAssugnRoles
+        <ResourceWebAssignRoleForm
           visible={webAssignRoles.visiable}
           onCancel={() => setWebAssignRoles({visiable: false, data: {}})}
-          onVisibleChange={(visiable) => {
-            setWebAssignRoles({visiable: visiable, data: {}});
+          onOK={(values) => {
+            setWebAssignRoles({visiable: false, data: {}});
             actionRef.current?.reload();
           }}
           data={webAssignRoles.data}

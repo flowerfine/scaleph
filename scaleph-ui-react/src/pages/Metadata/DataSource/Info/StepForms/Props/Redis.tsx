@@ -1,6 +1,5 @@
-import {useIntl, useModel} from "@umijs/max";
-import {Form} from "antd";
-import {useEffect} from "react";
+import {useIntl} from "@umijs/max";
+import React from "react";
 import {
   ProCard,
   ProFormDependency,
@@ -8,75 +7,31 @@ import {
   ProFormGroup,
   ProFormList,
   ProFormSelect,
-  ProFormText,
-  ProFormTextArea
+  ProFormText
 } from "@ant-design/pro-components";
-import {DsCategoryService} from "@/services/datasource/category.service";
-import {DictDataService} from "@/services/admin/dictData.service";
 import {DICT_TYPE} from "@/constants/dictType";
+import {SysDictService} from "@/services/admin/system/sysDict.service";
+import {DataSourceProps} from "@/services/datasource/typings";
+import CommonItem from "@/pages/Metadata/DataSource/Info/StepForms/Props/CommonProps";
 
-const RedisForm: React.FC = () => {
+const RedisForm: React.FC<DataSourceProps> = ({prefix, type}) => {
   const intl = useIntl();
-  const form = Form.useFormInstance()
-
-  const {dsType} = useModel('dataSourceType', (model) => ({
-    dsType: model.dsType
-  }));
-
-  useEffect(() => {
-    form.setFieldValue("dsTypeId", dsType?.id)
-  }, [dsType])
 
   return (
     <div>
       <ProCard
         headerBordered={true}
         style={{width: 1000}}>
-        <ProFormSelect
-          name="dsTypeId"
-          label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.type'})}
-          colProps={{span: 21, offset: 1}}
-          disabled
-          showSearch={false}
-          request={() => {
-            return DsCategoryService.listTypes({}).then((response) => {
-              if (response.data) {
-                return response.data.map((item) => {
-                  return {label: item.type.label, value: item.id, item: item};
-                });
-              }
-              return []
-            })
-          }}
-        />
+        <CommonItem prefix={prefix} type={type}/>
         <ProFormText
-          name="version"
-          label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.version'})}
-          colProps={{span: 21, offset: 1}}
-        />
-        <ProFormText
-          name="name"
-          label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.name'})}
-          colProps={{span: 21, offset: 1}}
-          rules={[{required: true}]}
-        />
-        <ProFormTextArea
-          name="remark"
-          label={intl.formatMessage({id: 'app.common.data.remark'})}
-          colProps={{span: 21, offset: 1}}
-          fieldProps={{
-            rows: 5
-          }}
-        />
-        <ProFormText
-          name="host"
+          name={[prefix, "host"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.redis.host'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
           initialValue={"localhost"}
         />
         <ProFormDigit
-          name="port"
+          name={[prefix, "port"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.redis.port'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
@@ -87,31 +42,33 @@ const RedisForm: React.FC = () => {
           }}
         />
         <ProFormText
-          name="user"
+          name={[prefix, "user"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.redis.user'})}
           colProps={{span: 21, offset: 1}}
         />
         <ProFormText
-          name="password"
+          name={[prefix, "password"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.redis.password'})}
           colProps={{span: 21, offset: 1}}
         />
         <ProFormSelect
-          name={"mode"}
+          name={[prefix, "mode"]}
           label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.redis.mode'})}
           colProps={{span: 21, offset: 1}}
-          request={() => DictDataService.listDictDataByType2(DICT_TYPE.redisMode)}
+          request={() => SysDictService.listDictByDefinition(DICT_TYPE.carpDataSourceRedisMode)}
         />
-        <ProFormDependency name={['mode']}>
-          {({mode}) => {
+        <ProFormDependency name={[[prefix,'mode']]}>
+          {(depValues) => {
+            const prefixValue = depValues[prefix]
+            const mode = prefixValue['mode']
             if (mode == 'cluster') {
               return (
                 <ProFormGroup
-                  label={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.redis.nodes'})}
+                  title={intl.formatMessage({id: 'pages.metadata.dataSource.step.props.redis.nodes'})}
                   colProps={{span: 21, offset: 1}}
                 >
                   <ProFormList
-                    name={"nodes"}
+                    name={[prefix, "nodes"]}
                     copyIconProps={false}
                     creatorButtonProps={{
                       creatorButtonText: intl.formatMessage({id: 'pages.metadata.dataSource.step.props.redis.nodes.list'}),

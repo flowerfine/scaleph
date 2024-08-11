@@ -21,10 +21,10 @@ export default {
   'pages.admin.user.granted': '已授权',
 
   'pages.admin.role': '角色',
-  'pages.admin.role.code': '角色编码',
-  'pages.admin.role.name': '角色名称',
-  'pages.admin.role.type': '角色类型',
-  'pages.admin.role.status': '角色状态',
+  'pages.admin.role.code': '编码',
+  'pages.admin.role.name': '名称',
+  'pages.admin.role.type': '类型',
+  'pages.admin.role.status': '状态',
 
   'pages.admin.resource': '资源管理',
   'pages.admin.resource.type': '资源类型',
@@ -34,8 +34,6 @@ export default {
   'pages.admin.resource.web.path': '路径',
   'pages.admin.resource.web.order': '排序',
   'pages.admin.resource.status': '状态',
-
-
 
   'pages.admin.resource.web.name': '名称',
   'pages.admin.resource.web.menuName': '目录',
@@ -52,6 +50,15 @@ export default {
   'pages.admin.resource.data': '数据资源',
 
   'pages.admin.security.authorization.role2users': '角色分配用户',
+  'pages.admin.security.authorization.role2users.authorized': '已授权用户',
+  'pages.admin.security.authorization.role2users.unauthorized': '未授权用户',
+  'pages.admin.security.authorization.role2ResourceWebs': '角色配置web资源',
+  'pages.admin.security.authorization.user2Roles': '用户授权角色',
+  'pages.admin.security.authorization.user2Roles.authorized': '已授权角色',
+  'pages.admin.security.authorization.user2Roles.unauthorized': '未授权角色',
+  'pages.admin.security.authorization.resourceWeb2Roles': 'Web 资源分配角色',
+  'pages.admin.security.authorization.resourceWeb2Roles.authorized': '已授权角色',
+  'pages.admin.security.authorization.resourceWeb2Roles.unauthorized': '未授权角色',
 
   'pages.admin.dept': '部门管理',
   'pages.admin.dept.deptName': '名称',

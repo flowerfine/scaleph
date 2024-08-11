@@ -1,36 +1,30 @@
 import {useAccess, useIntl} from '@umijs/max';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {Button, message, Modal, Space, Tag, Tooltip,} from 'antd';
 import {DeleteOutlined, EditOutlined, FormOutlined} from '@ant-design/icons';
 import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {DICT_TYPE} from '@/constants/dictType';
 import {PRIVILEGE_CODE} from '@/constants/privilegeCode';
 import {SysDictService} from "@/services/admin/system/sysDict.service";
-import {DeptService} from '@/services/admin/security/dept.service';
-import {RoleService} from '@/services/admin/security/role.service';
-import {SecRole, SecUser} from '@/services/admin/typings';
+import {SecUser} from '@/services/admin/typings';
 import {UserService} from '@/services/admin/security/user.service';
-import {TreeNode} from '@/typings';
 import UserForm from "@/pages/Admin/Security/User/components/UserForm";
-
+import UserAssignRoleForm from "@/pages/Admin/Security/User/components/UserAssignRoleForm";
 
 const User: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [roleList, setRoleList] = useState<SecRole[]>([]);
-  const [deptTreeList, setDeptTreeList] = useState<TreeNode[]>([]);
   const [selectedRows, setSelectedRows] = useState<SecUser[]>([]);
-
   const [userFormData, setUserFormData] = useState<{ visible: boolean; data: SecUser }>({
     visible: false,
     data: {},
   });
-  const [webAssignRoles, setWebAssignRoles] = useState<{
+  const [userAssignRole, setUserAssignRole] = useState<{
     visiable: boolean;
-    data: SecRole;
-  }>({visiable: false, parent: {}, data: {}});
+    data: SecUser;
+  }>({visiable: false, data: {}});
 
   const tableColumns: ProColumns<SecUser>[] = [
     {
@@ -106,7 +100,7 @@ const User: React.FC = () => {
                   shape="default"
                   type="link"
                   icon={<FormOutlined/>}
-                  onClick={() => setWebAssignRoles({visiable: true, data: record})}
+                  onClick={() => setUserAssignRole({visiable: true, data: record})}
                 />
               </Tooltip>
             )}
@@ -158,37 +152,6 @@ const User: React.FC = () => {
       ),
     },
   ];
-
-  //init data
-  useEffect(() => {
-    refreshRoles();
-    refreshDepts();
-  }, []);
-
-  const refreshRoles = () => {
-    RoleService.listAllRole().then((d) => {
-      setRoleList(d);
-    });
-  };
-
-  const refreshDepts = () => {
-    DeptService.listAllDept().then((d) => {
-      setDeptTreeList(DeptService.buildTree(d));
-    });
-  };
-
-  let keys: React.Key[] = [];
-  const buildExpandKeys = (data: TreeNode[], value: string): React.Key[] => {
-    data.forEach((dept) => {
-      if (dept.children) {
-        buildExpandKeys(dept.children, value);
-      }
-      if (dept.title?.toString().includes(value)) {
-        keys.push(dept.key + '');
-      }
-    });
-    return keys;
-  };
 
   return (
     <PageContainer title={false}>
@@ -269,6 +232,15 @@ const User: React.FC = () => {
             actionRef.current?.reload();
           }}
           data={userFormData.data}
+        />
+      ) : null}
+      {userAssignRole.visiable ? (
+        <UserAssignRoleForm
+          visible={userAssignRole.visiable}
+          onCancel={() => {
+            setUserAssignRole({visiable: false, data: {}});
+          }}
+          data={userAssignRole.data}
         />
       ) : null}
     </PageContainer>

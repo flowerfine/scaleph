@@ -4,8 +4,9 @@ import {BetaSchemaForm} from "@ant-design/pro-form";
 import {ProCard, ProFormColumnsType} from "@ant-design/pro-components";
 import {useIntl, useModel} from "@umijs/max";
 import {DsCategoryService} from "@/services/datasource/category.service";
+import {DataSourceProps} from "@/services/datasource/typings";
 
-const GenericForm: React.FC = () => {
+const GenericForm: React.FC<DataSourceProps> = ({prefix, type}) => {
   const intl = useIntl();
   const formRef = useRef<FormInstance>();
 
@@ -14,10 +15,16 @@ const GenericForm: React.FC = () => {
   }));
 
   useEffect(() => {
-    formRef.current?.setFieldValue("dsTypeId", dsType?.id)
+    formRef.current?.setFieldValue("type", type?.type?.value)
+    formRef.current?.setFieldValue("dsTypeId", type?.id)
   }, [dsType])
 
   const columns: ProFormColumnsType[] = [
+    {
+      dataIndex: [prefix, 'type'],
+      valueType: 'text',
+      hideInForm: true
+    },
     {
       title: intl.formatMessage({id: 'pages.metadata.dataSource.step.props.type'}),
       dataIndex: 'dsTypeId',

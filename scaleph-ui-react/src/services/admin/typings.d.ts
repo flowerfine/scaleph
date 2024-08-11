@@ -83,7 +83,6 @@ export type SecRole = {
   name?: string;
   order?: number;
   status?: Dict;
-  showOpIcon?: boolean;
   remark?: string;
   createTime: Date;
   updateTime: Date;
@@ -175,7 +174,8 @@ export type SecResourceWeb = {
   order?: number;
   status: Dict;
   remark?: string;
-  children?: SecResourceWeb[]
+  children?: SecResourceWeb[];
+  authorized?: Dict
 };
 
 export type SecResourceWebParam = QueryParam & {

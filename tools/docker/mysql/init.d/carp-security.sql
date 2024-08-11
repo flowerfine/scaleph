@@ -84,7 +84,7 @@ create table carp_sec_role
     primary key (id),
     unique key (code),
     key (update_time)
-) engine = innodb comment = '角色表';
+) engine = innodb comment = 'security role';
 
 insert into carp_sec_role (id, type, `code`, `name`, `order`, `status`, `creator`, `editor`)
 values (1, '01', 'sys_super_admin', '超级系统管理员', 0, '1', 'sys', 'sys');
@@ -111,7 +111,7 @@ create table carp_sec_resource_web
     `update_time` datetime     not null default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique key (type, pid, path)
-) engine = innodb comment = '资源-web';
+) engine = innodb comment = 'security web resource';
 
 INSERT INTO `carp_sec_resource_web` (`id`, `type`, `pid`, `value`, `label`, `path`, `order`, `status`, `remark`,
                                      `creator`, `editor`)
@@ -310,7 +310,7 @@ create table carp_sec_resource_web_role
     `update_time`     datetime not null default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique key (resource_web_id, role_id)
-) engine = innodb comment = '资源-web与角色关联表';
+) engine = innodb comment = 'security resource-web and role relation';
 
 insert into carp_sec_resource_web_role (resource_web_id, role_id, creator, editor)
 select t1.id as resource_web_id,
@@ -335,7 +335,7 @@ create table carp_sec_user_role
     primary key (id),
     unique key (user_id, role_id),
     key (update_time)
-) engine = innodb comment = 'security user-role relation';
+) engine = innodb comment = 'security user and role relation';
 
 insert into carp_sec_user_role (id, user_id, role_id, creator, editor)
 values (1, 1, 1, 'sys', 'sys');

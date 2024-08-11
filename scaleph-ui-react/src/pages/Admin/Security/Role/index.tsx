@@ -9,8 +9,8 @@ import {SysDictService} from "@/services/admin/system/sysDict.service";
 import {RoleService} from '@/services/admin/security/role.service';
 import {SecRole} from '@/services/admin/typings';
 import RoleForm from '@/pages/Admin/Security/Role/components/RoleForm';
-import WebAssugnRoles from './components/WebAssugnRoles';
-import ResourceWebs from './components/ResourceWebs';
+import RoleAssignUserForm from "@/pages/Admin/Security/Role/components/RoleAssignUserForm";
+import RoleAssignResourceWebForm from "@/pages/Admin/Security/Role/components/RoleAssignResourceWebForm";
 
 const RoleWeb: React.FC = () => {
   const intl = useIntl();
@@ -23,15 +23,15 @@ const RoleWeb: React.FC = () => {
     data: SecRole;
   }>({visiable: false, data: {}});
 
-  const [webAssignRoles, setWebAssignRoles] = useState<{
+  const [roleAssignUser, setRoleAssignUser] = useState<{
     visiable: boolean;
     data: SecRole;
   }>({visiable: false, parent: {}, data: {}});
 
-  const [resourceWebs, setResourceWebs] = useState<{
+  const [roleAssginResourceWeb, setRoleAssginResourceWeb] = useState<{
     visiable: boolean;
     data: SecRole;
-  }>({visiable: false, parent: {}, data: {}});
+  }>({visiable: false, data: {}});
 
   const tableColumns: ProColumns<SecRole>[] = [
     {
@@ -101,7 +101,7 @@ const RoleWeb: React.FC = () => {
                   shape="default"
                   type="link"
                   icon={<FormOutlined/>}
-                  onClick={() => setWebAssignRoles({visiable: true, data: record})}
+                  onClick={() => setRoleAssignUser({visiable: true, data: record})}
                 />
               </Tooltip>
             )}
@@ -111,7 +111,7 @@ const RoleWeb: React.FC = () => {
                   shape="default"
                   type="link"
                   icon={<SelectOutlined/>}
-                  onClick={() => setResourceWebs({visiable: true, data: record})}
+                  onClick={() => setRoleAssginResourceWeb({visiable: true, data: record})}
                 />
               </Tooltip>
             )}
@@ -233,23 +233,18 @@ const RoleWeb: React.FC = () => {
           data={roleFormData.data}
         />
       )}
-      {webAssignRoles.visiable && (
-        <WebAssugnRoles
-          visible={webAssignRoles.visiable}
-          onCancel={() => setWebAssignRoles({visiable: false, data: {}})}
-          onOK={(values) => setWebAssignRoles({visiable: false, data: {}})}
-          data={webAssignRoles.data}
+      {roleAssignUser.visiable && (
+        <RoleAssignUserForm
+          visible={roleAssignUser.visiable}
+          onCancel={() => setRoleAssignUser({visiable: false, data: {}})}
+          data={roleAssignUser.data}
         />
       )}
-      {resourceWebs.visiable && (
-        <ResourceWebs
-          visible={resourceWebs.visiable}
-          onCancel={() => setResourceWebs({visiable: false, data: {}})}
-          onVisibleChange={(visiable) => {
-            setResourceWebs({visiable: visiable, data: {}});
-            actionRef.current?.reload();
-          }}
-          data={resourceWebs.data}
+      {roleAssginResourceWeb.visiable && (
+        <RoleAssignResourceWebForm
+          visible={roleAssginResourceWeb.visiable}
+          onCancel={() => setRoleAssginResourceWeb({visiable: false, data: {}})}
+          data={roleAssginResourceWeb.data}
         />
       )}
     </PageContainer>
