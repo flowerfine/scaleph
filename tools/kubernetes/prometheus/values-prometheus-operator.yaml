@@ -75,13 +75,13 @@ alertmanager:
       routes:
         - receiver: 'wechat'
           matchers:
-            - alertname = "Watchdog"
+            - severity = "critical"
     receivers:
       - name: 'wechat'
         webhook-configs:
           send-resolved: true
           # 替换企微机器人的真正key
-#          url: https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=<wechat-robot-key>
+          url: https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=eba69f6b-7e24-4fe0-b0ee-baf0072d2c05
     templates:
       - '/etc/alertmanager/config/*.tmpl'
 
@@ -263,15 +263,17 @@ prometheus:
       # path: /metrics
 
 
-  additionalPodMonitors: []
+  additionalPodMonitors:
     ## Name of the PodMonitor to create
     ##
-    # - name: ""
+    - name: "flink-kubernetes-operator-metrics"
 
     ## Additional labels to set used for the PodMonitorSelector. Together with standard labels from
     ## the chart
     ##
-    # additionalLabels: {}
+      additionalLabels:
+       group: flink-kubernetes-operator-metrics
+       platform: scaleph
 
     ## Pod label for use in assembling a job name of the form <label value>-<port>
     ## If no label is specified, the pod endpoint name is used.
@@ -280,7 +282,9 @@ prometheus:
 
     ## Label selector for pods to which this PodMonitor applies
     ##
-    # selector: {}
+      selector:
+        matchLabels:
+          app.kubernetes.io/name: flink-kubernetes-operator
 
     ## PodTargetLabels transfers labels on the Kubernetes Pod onto the target.
     ##
@@ -304,4 +308,5 @@ prometheus:
     ## Endpoints of the selected pods to be monitored
     ## https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#podmetricsendpoint
     ##
-    # podMetricsEndpoints: []
+      podMetricsEndpoints:
+        - port: metrics
