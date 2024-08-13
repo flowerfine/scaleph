@@ -82,7 +82,6 @@ alertmanager:
           send-resolved: true
           # 替换企微机器人的真正key
 #          url: https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=<wechat-robot-key>
-
     templates:
       - '/etc/alertmanager/config/*.tmpl'
 
