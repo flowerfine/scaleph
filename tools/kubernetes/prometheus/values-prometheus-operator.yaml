@@ -23,22 +23,8 @@ defaultRules:
 ## Configuration for alertmanager
 ## ref: https://prometheus.io/docs/alerting/alertmanager/
 alertmanager:
+  ## Deploy alertmanager
   enabled: true
-  ## Configuration for Alertmanager service
-  service:
-    ## Port for Alertmanager Service to listen on
-    port: 9093
-    ## To be used with a proxy extraContainer port
-    targetPort: 9093
-    ## Port to expose on each node
-    ## Only used if service.type is 'NodePort'
-    nodePort: 30903
-    ## Service type
-    type: NodePort
-  ## Configuration for creating a ServiceMonitor for AlertManager
-  serviceMonitor:
-    ## If true, a ServiceMonitor will be created for the AlertManager service.
-    selfMonitor: false
   ## Alertmanager configuration directives
   ## ref: https://prometheus.io/docs/alerting/configuration/#configuration-file
   ##      https://prometheus.io/webtools/alerting/routing-tree-editor/
@@ -74,16 +60,29 @@ alertmanager:
       receiver: 'wechat'
       routes:
         - receiver: 'wechat'
-          matchers:
-            - severity = "critical"
     receivers:
       - name: 'wechat'
         webhook-configs:
           send-resolved: true
           # 替换企微机器人的真正key
-          url: https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=eba69f6b-7e24-4fe0-b0ee-baf0072d2c05
+    #          url: https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=eba69f6b-7e24-4fe0-b0ee-baf0072d2c05
     templates:
       - '/etc/alertmanager/config/*.tmpl'
+  ## Configuration for Alertmanager service
+  service:
+    ## Port for Alertmanager Service to listen on
+    port: 9093
+    ## To be used with a proxy extraContainer port
+    targetPort: 9093
+    ## Port to expose on each node
+    ## Only used if service.type is 'NodePort'
+    nodePort: 30903
+    ## Service type
+    type: NodePort
+  ## Configuration for creating a ServiceMonitor for AlertManager
+  serviceMonitor:
+    ## If true, a ServiceMonitor will be created for the AlertManager service.
+    selfMonitor: false
 
 ## Using default values from https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
 ## Grafana isn't managed by prometheus
