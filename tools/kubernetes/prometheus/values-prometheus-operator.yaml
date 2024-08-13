@@ -261,7 +261,20 @@ prometheus:
           interval: 10s
       ## HTTP path to scrape for metrics
       # path: /metrics
-
+    - name: flink-kubernetes-operator-service-metrics
+      additionalLabels:
+        group: flink-kubernetes-operator-metrics
+        platform: scaleph
+      ## todo 后续在 scaleph 可以增加更多的 labels 到 flink pods 中，通过这种方式传到 prometheus 和 grafana 中去
+      podTargetLabels: []
+      selector:
+        matchLabels:
+          app: flink-kubernetes-operator-metrics
+          component: metrics
+          platform: scaleph
+      endpoints:
+        - port: prom-metrics
+          interval: 10s
 
   additionalPodMonitors:
     ## Name of the PodMonitor to create
@@ -272,7 +285,7 @@ prometheus:
     ## the chart
     ##
       additionalLabels:
-       group: flink-kubernetes-operator-metrics
+       group: flink-kubernetes-operator-pod-metrics
        platform: scaleph
 
     ## Pod label for use in assembling a job name of the form <label value>-<port>
