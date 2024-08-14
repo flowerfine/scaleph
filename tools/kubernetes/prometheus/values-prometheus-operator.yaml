@@ -23,7 +23,28 @@ defaultRules:
 ## Configuration for alertmanager
 ## ref: https://prometheus.io/docs/alerting/alertmanager/
 alertmanager:
+  ## Deploy alertmanager
   enabled: true
+  ## Alertmanager configuration directives
+  ## ref: https://prometheus.io/docs/alerting/configuration/#configuration-file
+  ##      https://prometheus.io/webtools/alerting/routing-tree-editor/
+  config:
+    route:
+      group_by: ['namespace']
+      group_wait: 10s
+      group_interval: 10s
+      repeat_interval: 12h
+      receiver: 'webhook'
+      routes:
+        - receiver: 'webhook'
+          matchers:
+            - alertname="Watchdog"
+    receivers:
+      - name: 'webhook'
+        webhook_configs:
+          - send_resolved: false
+            url: http://10.10.18.163:8080/carp/api/carp/alert
+
   ## Configuration for Alertmanager service
   service:
     ## Port for Alertmanager Service to listen on
@@ -39,52 +60,6 @@ alertmanager:
   serviceMonitor:
     ## If true, a ServiceMonitor will be created for the AlertManager service.
     selfMonitor: false
-  ## Alertmanager configuration directives
-  ## ref: https://prometheus.io/docs/alerting/configuration/#configuration-file
-  ##      https://prometheus.io/webtools/alerting/routing-tree-editor/
-  config:
-    inhibit_rules:
-      - source_matchers:
-          - 'severity = critical'
-        target_matchers:
-          - 'severity =~ warning|info'
-        equal:
-          - 'namespace'
-          - 'alertname'
-      - source_matchers:
-          - 'severity = warning'
-        target_matchers:
-          - 'severity = info'
-        equal:
-          - 'namespace'
-          - 'alertname'
-      - source_matchers:
-          - 'alertname = InfoInhibitor'
-        target_matchers:
-          - 'severity = info'
-        equal:
-          - 'namespace'
-      - target_matchers:
-          - 'alertname = InfoInhibitor'
-    route:
-      group_by: ['namespace']
-      group_wait: 30s
-      group_interval: 5m
-      repeat_interval: 12h
-      receiver: 'wechat'
-      routes:
-        - receiver: 'wechat'
-          matchers:
-            - alertname = "Watchdog"
-    receivers:
-      - name: 'wechat'
-        webhook-configs:
-          send-resolved: true
-          # 替换企微机器人的真正key
-#          url: https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=<wechat-robot-key>
-
-    templates:
-      - '/etc/alertmanager/config/*.tmpl'
 
 ## Using default values from https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
 ## Grafana isn't managed by prometheus
@@ -262,17 +237,32 @@ prometheus:
           interval: 10s
       ## HTTP path to scrape for metrics
       # path: /metrics
+#    - name: flink-kubernetes-operator-service-metrics
+#      additionalLabels:
+#        group: flink-kubernetes-operator-metrics
+#        platform: scaleph
+      ## todo 后续在 scaleph 可以增加更多的 labels 到 flink pods 中，通过这种方式传到 prometheus 和 grafana 中去
+#      podTargetLabels: []
+#      selector:
+#        matchLabels:
+#          app: flink-kubernetes-operator-metrics
+#          component: metrics
+#          platform: scaleph
+#      endpoints:
+#        - port: prom-metrics
+#          interval: 10s
 
-
-  additionalPodMonitors: []
+  additionalPodMonitors:
     ## Name of the PodMonitor to create
     ##
-    # - name: ""
+    - name: "flink-kubernetes-operator-metrics"
 
     ## Additional labels to set used for the PodMonitorSelector. Together with standard labels from
     ## the chart
     ##
-    # additionalLabels: {}
+      additionalLabels:
+       group: flink-kubernetes-operator-pod-metrics
+       platform: scaleph
 
     ## Pod label for use in assembling a job name of the form <label value>-<port>
     ## If no label is specified, the pod endpoint name is used.
@@ -281,7 +271,9 @@ prometheus:
 
     ## Label selector for pods to which this PodMonitor applies
     ##
-    # selector: {}
+      selector:
+        matchLabels:
+          app.kubernetes.io/name: flink-kubernetes-operator
 
     ## PodTargetLabels transfers labels on the Kubernetes Pod onto the target.
     ##
@@ -305,4 +297,5 @@ prometheus:
     ## Endpoints of the selected pods to be monitored
     ## https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#podmetricsendpoint
     ##
-    # podMetricsEndpoints: []
+      podMetricsEndpoints:
+        - port: metrics
