@@ -18,7 +18,22 @@
 
 ## Create default rules for monitoring the cluster
 defaultRules:
-  create: false
+  create: true
+
+## Provide custom recording or alerting rules to be deployed into the cluster.
+##
+#additionalPrometheusRulesMap:
+#  rule-name:
+#    groups:
+#    - name: example.rules
+#      rules:
+#      - alert: ExampleAlert
+#        expr: flink_k8soperator_namespace_Count > 0
+#        for: 1m
+#        labels:
+#          severity: critical
+#        annotations:
+#          summary: An example rule for test.
 
 ## Configuration for alertmanager
 ## ref: https://prometheus.io/docs/alerting/alertmanager/
