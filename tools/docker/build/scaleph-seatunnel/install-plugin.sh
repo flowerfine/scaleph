@@ -30,7 +30,7 @@ if [ -n "$1" ]; then
     version="$1"
 fi
 
-echo "Install SeaTunnel plugin dependencis"
+echo "Install SeaTunnel plugin dependencies"
 mkdir -p ${SEATUNNEL_HOME}/plugins/mysql-cdc/lib
 ${SEATUNNEL_HOME}/mvnw dependency:get -DgroupId=mysql -DartifactId=mysql-connector-java -Dversion=8.0.28 -Dtransitive=false -Ddest=${SEATUNNEL_HOME}/plugins/mysql-cdc/lib
 mkdir -p ${SEATUNNEL_HOME}/plugins/jdbc/lib
