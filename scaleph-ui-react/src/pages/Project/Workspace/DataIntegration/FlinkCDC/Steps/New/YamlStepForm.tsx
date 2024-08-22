@@ -1,7 +1,7 @@
 import React, {useEffect, useRef} from "react";
 import {ProCard} from "@ant-design/pro-components";
-import {useIntl, connect} from "@umijs/max";
-import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
+import {connect, useIntl} from "@umijs/max";
+import Editor, {loader, Monaco, useMonaco} from "@monaco-editor/react";
 
 const DataIntegrationFlinkCDCStepYaml: React.FC = (props: any) => {
   const intl = useIntl();
@@ -11,6 +11,9 @@ const DataIntegrationFlinkCDCStepYaml: React.FC = (props: any) => {
   useEffect(() => {
     // do conditional chaining
     monaco?.languages.typescript.javascriptDefaults.setEagerModelSync(true);
+    if (monaco) {
+      loader.config({monaco})
+    }
   }, [monaco]);
 
   const handleEditorDidMount = (editor, monaco: Monaco) => {
