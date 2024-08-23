@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Drawer} from "antd";
-import Editor, {useMonaco} from "@monaco-editor/react";
+import Editor, {loader, useMonaco} from "@monaco-editor/react";
+import * as monaco from "monaco-editor";
 import {ModalFormProps} from "@/typings";
 import {WsArtifactSeaTunnel} from "@/services/project/typings";
 import {WsArtifactSeaTunnelService} from "@/services/project/WsArtifactSeaTunnelService";
@@ -20,6 +21,7 @@ const SeaTunnelConfModal: React.FC<ModalFormProps<WsArtifactSeaTunnel>> = ({
     monaco?.languages.typescript.javascriptDefaults.setEagerModelSync(true);
     // or make sure that it exists by other ways
     if (monaco) {
+      loader.config({ monaco })
       // console.log("here is the monaco instance:", monaco);
     }
   }, [monaco]);

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, message } from 'antd';
 import { useIntl, useModel, useLocation } from '@umijs/max';
-import { Editor } from '@monaco-editor/react';
+import Editor, {loader, useMonaco} from '@monaco-editor/react';
 import { language } from 'monaco-editor/esm/vs/basic-languages/sql/sql';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import * as sqlFormatter from 'sql-formatter';
@@ -25,6 +25,7 @@ const CodeEditor: React.FC = () => {
   const { setExecutionData } = useModel('executionResult'); //存储执行结果
 
   useEffect(() => {
+    loader.config({monaco})
     setSqlScript(flinkArtifactSql?.script);
     const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
     (async () => {

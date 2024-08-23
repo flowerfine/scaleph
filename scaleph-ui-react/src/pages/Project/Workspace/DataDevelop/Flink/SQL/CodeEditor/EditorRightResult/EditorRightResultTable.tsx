@@ -1,6 +1,7 @@
-import {Editor} from '@monaco-editor/react';
-import {Button, message, Modal, Table, Typography} from 'antd';
 import React, {useEffect, useMemo, useState} from 'react';
+import {Button, message, Modal, Table, Typography} from 'antd';
+import Editor, {loader, useMonaco} from "@monaco-editor/react";
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import styles from './index.less';
 
 interface IViewTableCellData {
@@ -16,6 +17,7 @@ const EditorRightResultTable: React.FC = ({result, lastOneData, verticalSplitSiz
   // const heightTable = useRef()
 
   useEffect(() => {
+    loader.config({monaco})
     const data = result?.columns?.map((item: any) => ({
       dataType: item?.dataType,
       name: item?.columnName,
