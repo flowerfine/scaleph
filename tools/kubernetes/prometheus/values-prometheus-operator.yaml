@@ -18,7 +18,58 @@
 
 ## Create default rules for monitoring the cluster
 defaultRules:
-  create: false
+  create: true
+  rules:
+    alertmanager: false
+    etcd: false
+    configReloaders: false
+    # 启用 watchdog，测试 alert 通道
+    general: true
+    k8sContainerCpuUsageSecondsTotal: false
+    k8sContainerMemoryCache: false
+    k8sContainerMemoryRss: false
+    k8sContainerMemorySwap: false
+    k8sContainerResource: false
+    k8sContainerMemoryWorkingSetBytes: false
+    k8sPodOwner: false
+    kubeApiserverAvailability: false
+    kubeApiserverBurnrate: false
+    kubeApiserverHistogram: false
+    kubeApiserverSlos: false
+    kubeControllerManager: false
+    kubelet: false
+    kubeProxy: false
+    kubePrometheusGeneral: false
+    kubePrometheusNodeRecording: false
+    kubernetesApps: false
+    kubernetesResources: false
+    kubernetesStorage: false
+    kubernetesSystem: false
+    kubeSchedulerAlerting: false
+    kubeSchedulerRecording: false
+    kubeStateMetrics: false
+    network: false
+    node: false
+    nodeExporterAlerting: false
+    nodeExporterRecording: false
+    prometheus: false
+    prometheusOperator: false
+    windows: false
+
+## Provide custom recording or alerting rules to be deployed into the cluster.
+##
+#additionalPrometheusRulesMap:
+#  rule-name:
+#    groups:
+#    - name: example.rules
+#      rules:
+#      - alert: ExampleAlert
+#        expr: flink_k8soperator_namespace_Count > 0
+#        for: 1m
+#        labels:
+#          severity: critical
+#        annotations:
+#          summary: An example rule for test.
 
 ## Configuration for alertmanager
 ## ref: https://prometheus.io/docs/alerting/alertmanager/
@@ -30,7 +81,7 @@ alertmanager:
   ##      https://prometheus.io/webtools/alerting/routing-tree-editor/
   config:
     route:
-      group_by: ['namespace']
+      group_by: [ 'namespace' ]
       group_wait: 10s
       group_interval: 10s
       repeat_interval: 10s
@@ -158,19 +209,19 @@ prometheus:
   prometheusSpec:
     ## ServiceMonitors to be selected for target discovery.
     ## If {}, select all ServiceMonitors
-    serviceMonitorSelector: {}
-      ## Example which selects ServiceMonitors with label "prometheus" set to "somelabel"
-#      matchLabels:
-#        group: flink-jobs
-#        platform: scaleph
+    serviceMonitorSelector: { }
+    ## Example which selects ServiceMonitors with label "prometheus" set to "somelabel"
+    #      matchLabels:
+    #        group: flink-jobs
+    #        platform: scaleph
 
     ## PodMonitors to be selected for target discovery.
     ## If {}, select all PodMonitors
-    podMonitorSelector: {}
-      ## Example which selects PodMonitors with label "prometheus" set to "somelabel"
-#      matchLabels:
-#        group: flink-jobs
-#        platform: scaleph
+    podMonitorSelector: { }
+    ## Example which selects PodMonitors with label "prometheus" set to "somelabel"
+    #      matchLabels:
+    #        group: flink-jobs
+    #        platform: scaleph
 
     ## Interval between consecutive scrapes.
     ## Defaults to 30s.
@@ -230,70 +281,70 @@ prometheus:
           platform: scaleph
       ## Endpoints of the selected service to be monitored
       endpoints:
-      ## Name of the endpoint's service port
+        ## Name of the endpoint's service port
         - port: prom-metrics
           interval: 10s
       ## HTTP path to scrape for metrics
       # path: /metrics
-#    - name: flink-kubernetes-operator-service-metrics
-#      additionalLabels:
-#        group: flink-kubernetes-operator-metrics
-#        platform: scaleph
+      #    - name: flink-kubernetes-operator-service-metrics
+      #      additionalLabels:
+      #        group: flink-kubernetes-operator-metrics
+      #        platform: scaleph
       ## todo 后续在 scaleph 可以增加更多的 labels 到 flink pods 中，通过这种方式传到 prometheus 和 grafana 中去
-#      podTargetLabels: []
-#      selector:
-#        matchLabels:
-#          app: flink-kubernetes-operator-metrics
-#          component: metrics
-#          platform: scaleph
-#      endpoints:
-#        - port: prom-metrics
-#          interval: 10s
+  #      podTargetLabels: []
+  #      selector:
+  #        matchLabels:
+  #          app: flink-kubernetes-operator-metrics
+  #          component: metrics
+  #          platform: scaleph
+  #      endpoints:
+  #        - port: prom-metrics
+  #          interval: 10s
 
   additionalPodMonitors:
     ## Name of the PodMonitor to create
     ##
     - name: "flink-kubernetes-operator-metrics"
 
-    ## Additional labels to set used for the PodMonitorSelector. Together with standard labels from
-    ## the chart
-    ##
+      ## Additional labels to set used for the PodMonitorSelector. Together with standard labels from
+      ## the chart
+      ##
       additionalLabels:
-       group: flink-kubernetes-operator-pod-metrics
-       platform: scaleph
+        group: flink-kubernetes-operator-pod-metrics
+        platform: scaleph
 
-    ## Pod label for use in assembling a job name of the form <label value>-<port>
-    ## If no label is specified, the pod endpoint name is used.
-    ##
-    # jobLabel: ""
+      ## Pod label for use in assembling a job name of the form <label value>-<port>
+      ## If no label is specified, the pod endpoint name is used.
+      ##
+      # jobLabel: ""
 
-    ## Label selector for pods to which this PodMonitor applies
-    ##
+      ## Label selector for pods to which this PodMonitor applies
+      ##
       selector:
         matchLabels:
           app.kubernetes.io/name: flink-kubernetes-operator
 
-    ## PodTargetLabels transfers labels on the Kubernetes Pod onto the target.
-    ##
-    # podTargetLabels: {}
+      ## PodTargetLabels transfers labels on the Kubernetes Pod onto the target.
+      ##
+      # podTargetLabels: {}
 
-    ## SampleLimit defines per-scrape limit on number of scraped samples that will be accepted.
-    ##
-    # sampleLimit: 0
+      ## SampleLimit defines per-scrape limit on number of scraped samples that will be accepted.
+      ##
+      # sampleLimit: 0
 
-    ## Namespaces from which pods are selected
-    ##
-    # namespaceSelector:
-    ## Match any namespace
-    ##
-    # any: false
+      ## Namespaces from which pods are selected
+      ##
+      # namespaceSelector:
+      ## Match any namespace
+      ##
+      # any: false
 
-    ## Explicit list of namespace names to select
-    ##
-    # matchNames: []
+      ## Explicit list of namespace names to select
+      ##
+      # matchNames: []
 
-    ## Endpoints of the selected pods to be monitored
-    ## https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#podmetricsendpoint
-    ##
+      ## Endpoints of the selected pods to be monitored
+      ## https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#podmetricsendpoint
+      ##
       podMetricsEndpoints:
         - port: metrics

@@ -36,7 +36,10 @@ public enum SeaTunnelPluginName implements DictInstance {
     SLACK("SlackSink", "Slack"),
     HTTP("Http", "Http"),
     FEISHU("Feishu", "Feishu"),
+
+    @Deprecated
     WECHAT("WeChat", "WeChat"),
+
     DINGTALK("DingTalk", "DingTalk"),
     MYHOURS("MyHours", "MyHours"),
     LEMLIST("Lemlist", "Lemlist"),
@@ -56,6 +59,7 @@ public enum SeaTunnelPluginName implements DictInstance {
     OSS_FILE("OssFile", "OssFile"),
     OSS_JINDO_FILE("OssJindoFile", "OssJindoFile"),
     COS_FILE("CosFile", "CosFile"),
+    OBS_FILE("ObsFile", "ObsFile"),
 
     KAFKA("Kafka", "Kafka"),
     PULSAR("Pulsar", "Pulsar"),
@@ -63,6 +67,7 @@ public enum SeaTunnelPluginName implements DictInstance {
     DATAHUB("DataHub", "DataHub"),
     AMAZON_SQS("AmazonSqs", "AmazonSQS"),
     RABBITMQ("RabbitMQ", "RabbitMQ"),
+    ACTIVEMQ("ActiveMQ", "ActiveMQ"),
 
     JDBC("Jdbc", "Jdbc"),
     REDIS("Redis", "Redis"),
@@ -93,11 +98,17 @@ public enum SeaTunnelPluginName implements DictInstance {
     MAXCOMPUTE("Maxcompute", "MaxCompute"),
     HBASE("Hbase", "Hbase"),
     KUDU("Kudu", "Kudu"),
+    DRUID("Druid", "Druid"),
+
     IOTDB("IoTDB", "IoTDB"),
     OPENMLDB("OpenMldb", "OpenMldb"),
     NEO4J("Neo4j", "Neo4j"),
     INFLUXDB("InfluxDB", "InfluxDB"),
     TDENGINE("TDengine", "TDengine"),
+    SLS("Sls", "Sls"),
+
+    MILVUS("Milvus", "Milvus"),
+    WEB3J("Web3j", "Web3j"),
 
     SENTRY("Sentry", "Sentry"),
     GOOGLE_SHEETS("GoogleSheets", "GoogleSheets"),
@@ -109,6 +120,9 @@ public enum SeaTunnelPluginName implements DictInstance {
     REPLACE("Replace", "Replace"),
     SPLIT("Split", "Split"),
     SQL("Sql", "Sql"),
+    JSON_PATH("JsonPath", "JsonPath"),
+    DYNAMIC_COMPILE("DynamicCompile", "DynamicCompile"),
+    LLM("LLM", "LLM"),
     ;
 
     @JsonCreator
