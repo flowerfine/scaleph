@@ -1,12 +1,15 @@
-import {useIntl, useLocation} from "umi";
 import React, {useEffect, useRef, useState} from "react";
-import {WsDorisOperatorTemplate} from "@/services/project/typings";
-import {PageContainer, ProCard, StatisticCard} from "@ant-design/pro-components";
 import {Divider, Space, Statistic} from "antd";
+import {useIntl, useLocation} from "umi";
+import {PageContainer, ProCard, StatisticCard} from "@ant-design/pro-components";
 import RcResizeObserver from 'rc-resize-observer';
-import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
-import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";
+import Editor, {loader, Monaco, useMonaco} from "@monaco-editor/react";
+import * as monaco from "monaco-editor";
 import YAML from "yaml";
+import {WsDorisOperatorTemplateService} from "@/services/project/WsDorisOperatorTemplateService";
+import {WsDorisOperatorTemplate} from "@/services/project/typings";
+
+loader.config({monaco})
 
 const DorisTemplateDetailWeb: React.FC = () => {
   const intl = useIntl();

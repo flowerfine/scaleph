@@ -32,6 +32,7 @@ public enum SeaTunnelVersion implements DictInstance {
     V_2_3_4("2.3.4", "2.3.4"),
     V_2_3_5("2.3.5", "2.3.5"),
     V_2_3_6("2.3.6", "2.3.6"),
+    V_2_3_7("2.3.7", "2.3.7"),
     ;
 
     @JsonCreator

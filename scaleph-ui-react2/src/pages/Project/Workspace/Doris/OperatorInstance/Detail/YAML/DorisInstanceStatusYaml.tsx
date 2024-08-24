@@ -1,8 +1,11 @@
 import React, {useEffect, useRef} from "react";
+import {connect} from "umi";
 import Editor, {Monaco, loader, useMonaco} from "@monaco-editor/react";
+import * as monaco from "monaco-editor";
 import {Props} from '@/app.d';
 import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
-import {connect} from "umi";
+
+loader.config({monaco})
 
 const DorisInstanceDetailYAMLStatus: React.FC<Props<WsFlinkKubernetesTemplate>> = (props: any) => {
   const editorRef = useRef(null);
@@ -12,7 +15,6 @@ const DorisInstanceDetailYAMLStatus: React.FC<Props<WsFlinkKubernetesTemplate>> 
     // do conditional chaining
     monaco?.languages.typescript.javascriptDefaults.setEagerModelSync(true);
     if (monaco) {
-      loader.config({monaco})
     }
   }, [monaco]);
 

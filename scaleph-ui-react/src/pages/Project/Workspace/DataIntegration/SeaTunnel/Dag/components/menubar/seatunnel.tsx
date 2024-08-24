@@ -6,6 +6,8 @@ import {ModalFormProps} from "@/typings";
 import {WsArtifactSeaTunnel} from "@/services/project/typings";
 import {WsArtifactSeaTunnelService} from "@/services/project/WsArtifactSeaTunnelService";
 
+loader.config({monaco})
+
 const SeaTunnelConfModal: React.FC<ModalFormProps<WsArtifactSeaTunnel>> = ({
                                                                              visible,
                                                                              onVisibleChange,
@@ -21,7 +23,7 @@ const SeaTunnelConfModal: React.FC<ModalFormProps<WsArtifactSeaTunnel>> = ({
     monaco?.languages.typescript.javascriptDefaults.setEagerModelSync(true);
     // or make sure that it exists by other ways
     if (monaco) {
-      loader.config({ monaco })
+
       // console.log("here is the monaco instance:", monaco);
     }
   }, [monaco]);
