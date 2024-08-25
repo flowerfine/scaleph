@@ -1,21 +1,21 @@
-import { Editor } from '@monaco-editor/react';
-import { Button, message } from 'antd';
-import { language } from 'monaco-editor/esm/vs/basic-languages/sql/sql';
+import React, {useEffect, useRef, useState} from 'react';
+import {Button, message} from 'antd';
+import {useIntl, useLocation, useModel} from 'umi';
+import {Editor, loader} from '@monaco-editor/react';
+import {language} from 'monaco-editor/esm/vs/basic-languages/sql/sql';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
-import React, { useEffect, useRef, useState } from 'react';
 import * as sqlFormatter from 'sql-formatter';
-import { useIntl, useModel } from 'umi';
-
-import { WORKSPACE_CONF } from '@/constants/constant';
-import { WsFlinkArtifactSql } from '@/services/project/typings';
-import { FlinkArtifactSqlService } from '@/services/project/WsFlinkArtifactSqlService';
-import { WsFlinkKubernetesSessionClusterService } from '@/services/project/WsFlinkKubernetesSessionClusterService';
-import { WsFlinkSqlGatewayService } from '@/services/project/WsFlinkSqlGatewayService';
-import { useLocation } from 'react-router-dom';
+import {WORKSPACE_CONF} from '@/constants/constant';
+import {WsFlinkArtifactSql} from '@/services/project/typings';
+import {FlinkArtifactSqlService} from '@/services/project/WsFlinkArtifactSqlService';
+import {WsFlinkKubernetesSessionClusterService} from '@/services/project/WsFlinkKubernetesSessionClusterService';
+import {WsFlinkSqlGatewayService} from '@/services/project/WsFlinkSqlGatewayService';
 import styles from './index.less';
 
+loader.config({monaco})
+
 // 定义 SQL 语法提示关键字列表
-const { keywords: SQLKeys } = language;
+const {keywords: SQLKeys} = language;
 
 const CodeEditor: React.FC = () => {
   const urlParams = useLocation();
@@ -24,7 +24,7 @@ const CodeEditor: React.FC = () => {
   const intl = useIntl(); //语言切换
   const [sessionClusterId, setSessionClusterId] = useState<string>();
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
-  const { setExecutionData } = useModel('executionResult'); //存储执行结果
+  const {setExecutionData} = useModel('executionResult'); //存储执行结果
 
   useEffect(() => {
     setSqlScript(flinkArtifactSql?.script);
@@ -52,7 +52,7 @@ const CodeEditor: React.FC = () => {
         configuration: {},
       });
       if (catalogArray) {
-        message.success(`${intl.formatMessage({ id: 'RequestSuccessful' })}`, 1);
+        message.success(`${intl.formatMessage({id: 'RequestSuccessful'})}`, 1);
         setExecutionData(catalogArray);
       }
     } else {
@@ -68,15 +68,15 @@ const CodeEditor: React.FC = () => {
       script: sqlScript,
     });
     if (resultData.success) {
-      message.success(`${intl.formatMessage({ id: 'SaveSuccessful' })}`, 1);
+      message.success(`${intl.formatMessage({id: 'SaveSuccessful'})}`, 1);
     }
   };
 
   // 点击格式化按钮
   const onFormat = (): void => {
-    const formattedScript = sqlFormatter.format(sqlScript, { language: 'sql' });
+    const formattedScript = sqlFormatter.format(sqlScript, {language: 'sql'});
     setSqlScript(formattedScript);
-    message.success(`${intl.formatMessage({ id: 'FormatSuccessful' })}`, 1);
+    message.success(`${intl.formatMessage({id: 'FormatSuccessful'})}`, 1);
   };
 
   // 获取 SQL 语法提示
@@ -99,13 +99,13 @@ const CodeEditor: React.FC = () => {
   };
 
   return (
-    <div style={{ overflow: 'hidden', height: '100%', width: '100%', position: 'relative' }}>
+    <div style={{overflow: 'hidden', height: '100%', width: '100%', position: 'relative'}}>
       <Editor
         language="sql"
         value={sqlScript}
         width="100%"
         theme="vs"
-        options={{ minimap: { autohide: true, side: 'right' } }}
+        options={{minimap: {autohide: true, side: 'right'}}}
         beforeMount={(monaco) => {
           // 注册代码补全提供者
           monaco.languages.registerCompletionItemProvider('sql', {
@@ -120,15 +120,15 @@ const CodeEditor: React.FC = () => {
       <div className={styles.consoleOptionsWrapper}>
         <div className={styles.consoleOptionsLeft}>
           <Button type="primary" className={styles.runButton} onClick={onRun}>
-            <img src="/images/EditorResult/播放.svg" alt="" />
-            {intl.formatMessage({ id: 'Run' })}
+            <img src="/images/EditorResult/播放.svg" alt=""/>
+            {intl.formatMessage({id: 'Run'})}
           </Button>
           <Button type="default" className={styles.saveButton} onClick={onSave}>
-            {intl.formatMessage({ id: 'Save' })}
+            {intl.formatMessage({id: 'Save'})}
           </Button>
         </div>
         <Button type="text" onClick={onFormat}>
-          {intl.formatMessage({ id: 'Format' })}
+          {intl.formatMessage({id: 'Format'})}
         </Button>
       </div>
     </div>

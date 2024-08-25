@@ -1,8 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Drawer} from "antd";
 import {useGraphStore} from '@antv/xflow';
-import Editor, {useMonaco} from "@monaco-editor/react";
+import Editor, {loader, useMonaco} from "@monaco-editor/react";
+import * as monaco from "monaco-editor";
 import {ModalFormProps} from "@/typings";
+
+loader.config({monaco})
 
 const JSONDebugModal: React.FC<ModalFormProps<null>> = ({visible, onVisibleChange, onCancel}) => {
   const nodes = useGraphStore((state) => state.nodes);

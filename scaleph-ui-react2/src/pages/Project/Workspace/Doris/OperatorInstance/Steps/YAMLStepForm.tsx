@@ -1,7 +1,10 @@
 import React, {useEffect, useRef} from "react";
-import {ProCard} from "@ant-design/pro-components";
-import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
 import {connect} from "umi";
+import {ProCard} from "@ant-design/pro-components";
+import Editor, {loader, Monaco, useMonaco} from "@monaco-editor/react";
+import * as monaco from "monaco-editor";
+
+loader.config({monaco})
 
 const DorisInstanceYAML: React.FC = (props: any) => {
   const editorRef = useRef(null);

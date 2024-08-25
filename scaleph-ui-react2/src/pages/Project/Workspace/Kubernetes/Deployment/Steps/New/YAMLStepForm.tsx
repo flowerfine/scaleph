@@ -1,9 +1,12 @@
 import {connect} from "umi";
 import React, {useEffect, useRef, useState} from "react";
 import {ProCard} from "@ant-design/pro-components";
-import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
+import Editor, {loader, Monaco, useMonaco} from "@monaco-editor/react";
+import * as monaco from "monaco-editor";
 import YAML from "yaml";
 import {WsFlinkKubernetesDeploymentService} from "@/services/project/WsFlinkKubernetesDeploymentService";
+
+loader.config({monaco})
 
 const DeploymentYAMLStepForm: React.FC = (props: any) => {
   const editorRef = useRef(null);

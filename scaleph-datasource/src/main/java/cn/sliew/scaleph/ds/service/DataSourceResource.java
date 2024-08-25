@@ -16,17 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.resource.service.param;
+package cn.sliew.scaleph.ds.service;
 
-import cn.sliew.carp.framework.common.model.PageParam;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
+import cn.sliew.scaleph.resource.service.ResourceDescriptor;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class ResourceListParam extends PageParam {
+public interface DataSourceResource extends ResourceDescriptor<DsInfoDTO> {
 
-    private String label;
-
-    private String name;
 }

@@ -1,14 +1,16 @@
-import { compareStrings } from '@/pages/Project/Workspace/Artifact/Sql/CodeEditor/components/sort';
-import { Editor } from '@monaco-editor/react';
-import { ArtColumn, BaseTable, features, useTablePipeline } from 'ali-react-table';
-import { Button, message, Modal, Typography, Table } from 'antd';
-import React, { useEffect, useMemo, useState, useRef } from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
+import {Button, message, Modal, Table, Typography} from 'antd';
+import {Editor, loader} from '@monaco-editor/react';
+import * as monaco from "monaco-editor";
+import {features, useTablePipeline} from 'ali-react-table';
 import styles from './index.less';
 
 interface IViewTableCellData {
   name: string;
   value: any;
 }
+
+loader.config({monaco})
 
 const EditorRightResultTable: React.FC = ({ result, lastOneData, verticalSplitSizes }: any) => {
   const { Paragraph, Text } = Typography;
