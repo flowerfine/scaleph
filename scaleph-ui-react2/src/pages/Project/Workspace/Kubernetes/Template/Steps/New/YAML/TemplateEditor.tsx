@@ -1,8 +1,11 @@
 import React, {useEffect, useRef} from "react";
-import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
+import {connect} from "umi";
+import Editor, {loader, Monaco, useMonaco} from "@monaco-editor/react";
+import * as monaco from "monaco-editor";
 import {Props} from '@/app';
 import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
-import {connect} from "umi";
+
+loader.config({monaco})
 
 const FlinkKubernetesTemplateYAMLStepEditor: React.FC<Props<WsFlinkKubernetesTemplate>> = (props: any) => {
   const editorRef = useRef(null);
