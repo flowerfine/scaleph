@@ -114,7 +114,7 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
                     public void onResponse(ActionResult result) {
                         try {
                             ActionContext context = result.getContext();
-                            log.debug("workflow task {} run success!, globalInputs: {}, inputs: {}, outputs: {}",
+                            log.info("workflow task {} run success!, globalInputs: {}, inputs: {}, outputs: {}",
                                     configStepDTO.getStepName(), JacksonUtil.toJsonString(context.getGlobalInputs()), JacksonUtil.toJsonString(context.getInputs()), JacksonUtil.toJsonString(context.getOutputs()));
                             // 记录输出
                             DagStepDTO dagStepSuccessParam = new DagStepDTO();
