@@ -18,17 +18,16 @@
 
 package cn.sliew.scaleph.workflow.simple.listener.taskinstance;
 
+import cn.sliew.carp.framework.dag.service.DagConfigStepService;
+import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
+import cn.sliew.carp.framework.dag.service.DagStepService;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.common.jackson.JsonMerger;
 import cn.sliew.scaleph.common.util.SpringApplicationContextUtil;
-import cn.sliew.scaleph.dag.service.DagConfigStepService;
-import cn.sliew.scaleph.dag.service.DagInstanceComplexService;
-import cn.sliew.scaleph.dag.service.DagStepService;
-import cn.sliew.scaleph.dag.service.dto.DagConfigStepDTO;
-import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
-import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
 import cn.sliew.scaleph.queue.MessageListener;
 import cn.sliew.scaleph.workflow.engine.Engine;
 import cn.sliew.scaleph.workflow.engine.EngineBuilder;
@@ -36,12 +35,10 @@ import cn.sliew.scaleph.workflow.engine.action.Action;
 import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import cn.sliew.scaleph.workflow.engine.action.ActionContextBuilder;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
-import cn.sliew.scaleph.workflow.engine.workflow.ParallelFlow;
 import cn.sliew.scaleph.workflow.engine.workflow.SequentialFlow;
 import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionMeta;
 import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowTaskInstanceStateMachine;
-import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.annotation.RInject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,9 +97,9 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
             dagStepUpdateParam.setStartTime(new Date());
             dagStepService.update(dagStepUpdateParam);
 
-            DagStepDTO stepDTO = dagStepService.selectOne(event.getWorkflowTaskInstanceId());
+            DagStepDTO stepDTO = dagStepService.get(event.getWorkflowTaskInstanceId());
             DagInstanceDTO dagInstanceDTO = dagInstanceComplexService.selectSimpleOne(stepDTO.getDagInstanceId());
-            DagConfigStepDTO configStepDTO = dagConfigStepService.selectOne(stepDTO.getDagConfigStep().getId());
+            DagConfigStepDTO configStepDTO = dagConfigStepService.get(stepDTO.getDagConfigStep().getId());
             WorkflowTaskDefinitionMeta workflowTaskDefinitionMeta = JacksonUtil.toObject(configStepDTO.getStepMeta(), WorkflowTaskDefinitionMeta.class);
             try {
                 Class<?> clazz = ClassUtils.forName(workflowTaskDefinitionMeta.getHandler(), ClassUtils.getDefaultClassLoader());
@@ -125,7 +122,7 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
                             dagStepSuccessParam.setOutputs(JacksonUtil.toJsonNode(context.getOutputs()));
                             dagStepService.update(dagStepSuccessParam);
                             // 通知成功
-                            stateMachine.onSuccess(dagStepService.selectOne(event.getWorkflowTaskInstanceId()));
+                            stateMachine.onSuccess(dagStepService.get(event.getWorkflowTaskInstanceId()));
                         } catch (Exception e) {
                             onFailure(e);
                         }
@@ -135,7 +132,7 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
                     public void onFailure(Throwable e) {
                         log.error("workflow task {} run failure!", configStepDTO.getStepName(), e);
                         // 通知失败
-                        stateMachine.onFailure(dagStepService.selectOne(event.getWorkflowTaskInstanceId()), e);
+                        stateMachine.onFailure(dagStepService.get(event.getWorkflowTaskInstanceId()), e);
                     }
                 });
             } catch (ClassNotFoundException e) {

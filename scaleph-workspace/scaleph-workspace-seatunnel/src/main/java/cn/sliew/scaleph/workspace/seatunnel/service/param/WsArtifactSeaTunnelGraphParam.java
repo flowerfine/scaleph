@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.workspace.seatunnel.service.param;
 
-import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
+import cn.sliew.carp.framework.dag.x6.graph.DagGraphVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

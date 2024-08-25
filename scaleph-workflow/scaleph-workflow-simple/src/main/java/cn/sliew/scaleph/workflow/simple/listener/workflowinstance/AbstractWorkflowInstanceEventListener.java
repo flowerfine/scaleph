@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.workflow.simple.listener.workflowinstance;
 
-import cn.sliew.scaleph.dag.service.DagInstanceComplexService;
+import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
 import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RScheduledExecutorService;

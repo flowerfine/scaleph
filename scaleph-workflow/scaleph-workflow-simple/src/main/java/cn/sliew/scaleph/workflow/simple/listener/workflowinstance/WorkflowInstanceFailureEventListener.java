@@ -18,9 +18,9 @@
 
 package cn.sliew.scaleph.workflow.simple.listener.workflowinstance;
 
+import cn.sliew.carp.framework.dag.service.DagInstanceService;
+import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
-import cn.sliew.scaleph.dag.service.DagInstanceService;
-import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
 import cn.sliew.scaleph.queue.MessageListener;
 import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowInstanceStateMachine;
 import org.springframework.beans.factory.annotation.Autowired;

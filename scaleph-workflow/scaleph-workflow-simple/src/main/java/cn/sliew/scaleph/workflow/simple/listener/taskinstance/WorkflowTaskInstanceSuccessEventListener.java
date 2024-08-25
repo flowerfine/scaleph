@@ -18,9 +18,9 @@
 
 package cn.sliew.scaleph.workflow.simple.listener.taskinstance;
 
+import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
-import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
-import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
 import cn.sliew.scaleph.queue.MessageListener;
 import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowTaskInstanceStateMachine;
 
@@ -54,7 +54,7 @@ public class WorkflowTaskInstanceSuccessEventListener extends AbstractWorkflowTa
             dagStepUpdateParam.setEndTime(new Date());
             dagStepService.update(dagStepUpdateParam);
 
-            DagStepDTO stepDTO = dagStepService.selectOne(workflowTaskInstanceId);
+            DagStepDTO stepDTO = dagStepService.get(workflowTaskInstanceId);
             DagInstanceDTO instanceDTO = dagInstanceComplexService.selectSimpleOne(stepDTO.getDagInstanceId());
             workflowInstanceStateMachine.onTaskChange(instanceDTO);
         }

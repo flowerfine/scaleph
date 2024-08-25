@@ -18,11 +18,11 @@
 
 package cn.sliew.scaleph.workspace.seatunnel.service.dto;
 
+import cn.sliew.carp.framework.dag.service.dto.DagConfigComplexDTO;
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelVersion;
-import cn.sliew.scaleph.dag.service.dto.DagConfigComplexDTO;
 import cn.sliew.scaleph.system.model.BaseDTO;
 import cn.sliew.scaleph.workspace.project.service.dto.WsArtifactDTO;
 import io.swagger.v3.oas.annotations.media.Schema;

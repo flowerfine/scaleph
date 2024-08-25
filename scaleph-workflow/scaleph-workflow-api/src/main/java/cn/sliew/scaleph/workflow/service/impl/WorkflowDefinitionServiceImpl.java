@@ -18,9 +18,9 @@
 
 package cn.sliew.scaleph.workflow.service.impl;
 
-import cn.sliew.scaleph.dag.service.dto.DagConfigComplexDTO;
-import cn.sliew.scaleph.dag.service.dto.DagConfigLinkDTO;
-import cn.sliew.scaleph.dag.service.dto.DagConfigStepDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigComplexDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigLinkDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowDefinition;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowDefinitionVO;
 import cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowDefinitionMapper;
