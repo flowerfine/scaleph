@@ -18,9 +18,9 @@
 
 package cn.sliew.scaleph.workflow.service;
 
-import cn.sliew.scaleph.dag.service.dto.DagConfigComplexDTO;
-import cn.sliew.scaleph.dag.service.dto.DagConfigStepDTO;
-import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigComplexDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
+import cn.sliew.carp.framework.dag.x6.graph.DagGraphVO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
 
 import java.util.List;

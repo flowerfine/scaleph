@@ -29,6 +29,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-dag</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-queue</artifactId>
         </dependency>

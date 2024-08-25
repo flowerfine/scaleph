@@ -18,10 +18,10 @@
 
 package cn.sliew.scaleph.workflow.simple.statemachine;
 
+import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceEvent;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
-import cn.sliew.scaleph.dag.service.dto.DagStepDTO;
 import cn.sliew.scaleph.queue.Message;
 import cn.sliew.scaleph.queue.Queue;
 import cn.sliew.scaleph.queue.QueueFactory;
@@ -123,7 +123,8 @@ public class WorkflowTaskInstanceStateMachine implements InitializingBean {
     }
 
     public void deploy(DagStepDTO dagStepDTO) {
-        WorkflowTaskInstanceStage stage = WorkflowTaskInstanceStage.of(dagStepDTO.getStatus());
+
+        WorkflowTaskInstanceStage stage = WorkflowTaskInstanceStage.PENDING;
         stateMachine.fireEvent(stage, WorkflowTaskInstanceEvent.COMMAND_DEPLOY, Pair.of(dagStepDTO.getId(), null));
     }
 
