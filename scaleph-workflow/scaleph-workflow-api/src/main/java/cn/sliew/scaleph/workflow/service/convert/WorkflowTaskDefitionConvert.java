@@ -18,9 +18,9 @@
 
 package cn.sliew.scaleph.workflow.service.convert;
 
+import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionAttrs;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionMeta;

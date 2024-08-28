@@ -18,12 +18,12 @@
 
 package cn.sliew.scaleph.workflow.service.impl;
 
-import cn.sliew.scaleph.dag.service.DagConfigComplexService;
-import cn.sliew.scaleph.dag.service.DagConfigStepService;
-import cn.sliew.scaleph.dag.service.dto.DagConfigComplexDTO;
-import cn.sliew.scaleph.dag.service.dto.DagConfigStepDTO;
-import cn.sliew.scaleph.dag.service.param.DagConfigSimpleAddParam;
-import cn.sliew.scaleph.dag.service.vo.DagGraphVO;
+import cn.sliew.carp.framework.dag.service.DagConfigComplexService;
+import cn.sliew.carp.framework.dag.service.DagConfigStepService;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigComplexDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
+import cn.sliew.carp.framework.dag.service.param.DagConfigSimpleAddParam;
+import cn.sliew.carp.framework.dag.x6.graph.DagGraphVO;
 import cn.sliew.scaleph.dag.xflow.dnd.DndDTO;
 import cn.sliew.scaleph.workflow.service.WorkflowDagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +61,7 @@ public class WorkflowDagServiceImpl implements WorkflowDagService {
 
     @Override
     public DagConfigStepDTO getStep(Long stepId) {
-        return dagConfigStepService.selectOne(stepId);
+        return dagConfigStepService.get(stepId);
     }
 
     @Override

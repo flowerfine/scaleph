@@ -18,9 +18,9 @@
 
 package cn.sliew.scaleph.workflow.service.convert;
 
+import cn.sliew.carp.framework.dag.service.dto.DagConfigComplexDTO;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dag.service.dto.DagConfigComplexDTO;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowDefinition;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import com.fasterxml.jackson.core.type.TypeReference;

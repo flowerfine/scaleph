@@ -18,8 +18,8 @@
 
 package cn.sliew.scaleph.workflow.simple.manager;
 
-import cn.sliew.scaleph.dag.service.DagInstanceComplexService;
-import cn.sliew.scaleph.dag.service.dto.DagInstanceDTO;
+import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
+import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.scaleph.workflow.manager.WorkflowInstanceManager;
 import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
