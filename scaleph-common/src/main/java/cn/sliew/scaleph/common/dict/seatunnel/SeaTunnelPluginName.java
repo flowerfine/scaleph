@@ -36,7 +36,6 @@ public enum SeaTunnelPluginName implements DictInstance {
     SLACK("SlackSink", "Slack"),
     HTTP("Http", "Http"),
     FEISHU("Feishu", "Feishu"),
-
     @Deprecated
     WECHAT("WeChat", "WeChat"),
 
@@ -83,6 +82,7 @@ public enum SeaTunnelPluginName implements DictInstance {
     SQLSERVER_CDC("SqlServer-CDC", "SqlServer-CDC"),
     ORACLE_CDC("Oracle-CDC", "Oracle-CDC"),
     POSTGRESQL_CDC("Postgres-CDC", "PostgreSQL-CDC"),
+    OPENGAUSS_CDC("Opengauss-CDC", "Opengauss-CDC"),
     MONGODB_CDC("MongoDB-CDC", "MongoDB-CDC"),
 
     HIVE("Hive", "Hive"),
