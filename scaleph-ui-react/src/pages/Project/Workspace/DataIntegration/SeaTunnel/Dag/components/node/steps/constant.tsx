@@ -702,6 +702,12 @@ export const CDCParams = {
   format: 'format',
 };
 
+export const OracleCDCParams = {
+  schemaNames: 'schema-names',
+  useSelectCount: 'use_select_count',
+  skipAnalyze: 'skip_analyze',
+};
+
 export const MongoDBCDCParams = {
   hosts: 'hosts',
   username: 'username',

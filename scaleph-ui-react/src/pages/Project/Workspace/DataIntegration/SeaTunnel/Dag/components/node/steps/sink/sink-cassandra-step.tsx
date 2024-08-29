@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {Form} from 'antd';
+import {InfoCircleOutlined} from "@ant-design/icons";
 import {
   DrawerForm,
   ProFormDigit,
@@ -15,7 +16,6 @@ import {CassandraParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from "../helper";
 import DataSourceItem from "../dataSource";
 import CommonListItem from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/list";
-import {InfoCircleOutlined} from "@ant-design/icons";
 
 const SinkCassandraStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());

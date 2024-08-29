@@ -45,6 +45,8 @@ public class OracleCDCSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(PASSWORD);
         props.add(DATABASE);
         props.add(OracleCDCSourceProperties.SCHEMA);
+        props.add(OracleCDCSourceProperties.USE_SELECT_COUNT);
+        props.add(OracleCDCSourceProperties.SKIP_ANALYZE);
         props.add(TABLE);
         props.add(TABLE_CONFIG);
         props.add(STARTUP_MODE);
