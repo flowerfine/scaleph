@@ -17,9 +17,10 @@
  */
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cassandra.source;
 
+import cn.sliew.carp.module.datasource.modal.DataSourceInfo;
+import cn.sliew.carp.module.datasource.modal.nosql.CassandraDataSourceProperties;
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
-import cn.sliew.scaleph.ds.modal.AbstractDataSource;
-import cn.sliew.scaleph.ds.modal.nosql.CassandraDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
@@ -63,17 +64,19 @@ public class CassandraSourcePlugin extends SeaTunnelConnectorPlugin {
     public ObjectNode createConf() {
         ObjectNode conf = super.createConf();
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
-        CassandraDataSource dataSource = (CassandraDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
-        conf.putPOJO(HOST.getName(), dataSource.getHost());
-        conf.putPOJO(KEYSPACE.getName(), dataSource.getKeyspace());
-        if (StringUtils.hasText(dataSource.getUsername())) {
-            conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
+
+        DataSourceInfo dataSourceInfo = JacksonUtil.toObject(jsonNode, DataSourceInfo.class);
+        CassandraDataSourceProperties props = (CassandraDataSourceProperties) dataSourceInfo.getProps();
+        conf.putPOJO(HOST.getName(), props.getHost());
+        conf.putPOJO(KEYSPACE.getName(), props.getKeyspace());
+        if (StringUtils.hasText(props.getUsername())) {
+            conf.putPOJO(USERNAME.getName(), props.getUsername());
         }
-        if (StringUtils.hasText(dataSource.getPassword())) {
-            conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
+        if (StringUtils.hasText(props.getPassword())) {
+            conf.putPOJO(PASSWORD.getName(), props.getPassword());
         }
-        if (StringUtils.hasText(dataSource.getDatacenter())) {
-            conf.putPOJO(DATACENTER.getName(), dataSource.getDatacenter());
+        if (StringUtils.hasText(props.getDatacenter())) {
+            conf.putPOJO(DATACENTER.getName(), props.getDatacenter());
         }
         return conf;
     }
