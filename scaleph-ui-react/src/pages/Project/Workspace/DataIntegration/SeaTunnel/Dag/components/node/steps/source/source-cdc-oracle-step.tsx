@@ -14,7 +14,7 @@ import {
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
-import {CDCParams, STEP_ATTR_TYPE} from '../constant';
+import {CDCParams, OracleCDCParams, STEP_ATTR_TYPE} from '../constant';
 import {StepSchemaService} from '../helper';
 import {DictDataService} from "@/services/admin/dictData.service";
 import {DICT_TYPE} from "@/constants/dictType";
@@ -83,9 +83,9 @@ const SourceCDCOracleStepForm: React.FC<ModalFormProps<Node>> = ({data, visible,
           colProps={{span: 8}}
         />
         <ProFormText
-          name={CDCParams.schemas}
-          label={intl.formatMessage({id: 'pages.project.di.step.cdc.schemas'})}
-          placeholder={intl.formatMessage({id: 'pages.project.di.step.cdc.schemas.placeholder'})}
+          name={OracleCDCParams.schemaNames}
+          label={intl.formatMessage({id: 'pages.project.di.step.oracle-cdc.schemaNames'})}
+          placeholder={intl.formatMessage({id: 'pages.project.di.step.oracle-cdc.schemaNames.placeholder'})}
           colProps={{span: 8}}
         />
         <ProFormText
@@ -297,6 +297,16 @@ const SourceCDCOracleStepForm: React.FC<ModalFormProps<Node>> = ({data, visible,
           request={() => {
             return DictDataService.listDictDataByType2(DICT_TYPE.seatunnelCDCFormat)
           }}
+        />
+        <ProFormSwitch
+          name={OracleCDCParams.useSelectCount}
+          label={intl.formatMessage({id: 'pages.project.di.step.oracle-cdc.useSelectCount'})}
+          colProps={{span: 12}}
+        />
+        <ProFormSwitch
+          name={OracleCDCParams.skipAnalyze}
+          label={intl.formatMessage({id: 'pages.project.di.step.oracle-cdc.skipAnalyze'})}
+          colProps={{span: 12}}
         />
       </DrawerForm>
     </XFlow>

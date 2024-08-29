@@ -35,4 +35,20 @@ public enum OracleCDCSourceProperties {
             .parser(Parsers.STRING_ARRAY_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
+
+    public static final PropertyDescriptor<Boolean> USE_SELECT_COUNT = new PropertyDescriptor.Builder()
+            .name("use_select_count")
+            .description("Use select count for table count rather then other methods in full stage.In this scenario, select count directly is used when it is faster to update statistics using sql from analysis table")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .addValidator(Validators.BOOLEAN_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Boolean> SKIP_ANALYZE = new PropertyDescriptor.Builder()
+            .name("skip_analyze")
+            .description("Skip the analysis of table count in full stage.In this scenario, you schedule analysis table sql to update related table statistics periodically or your table data does not change frequently")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .addValidator(Validators.BOOLEAN_VALIDATOR)
+            .validateAndBuild();
 }

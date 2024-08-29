@@ -793,8 +793,6 @@ export default {
   'pages.project.di.step.cdc.password': '密码',
   'pages.project.di.step.cdc.databases': '数据库',
   'pages.project.di.step.cdc.databases.placeholder': 'db1, db2',
-  'pages.project.di.step.cdc.schemas': 'Schema',
-  'pages.project.di.step.cdc.schemas.placeholder': 'DEBEZIUM1, DEBEZIUM2',
   'pages.project.di.step.cdc.tables': '表',
   'pages.project.di.step.cdc.tables.placeholder': 'table1, table2',
   'pages.project.di.step.cdc.tableConfig': '表配置',
@@ -831,6 +829,12 @@ export default {
   'pages.project.di.step.cdc.debeziums.value': '值',
   'pages.project.di.step.cdc.debeziums.value.placeholder': 'never',
   'pages.project.di.step.cdc.format': 'CDC 格式',
+
+  // oracle-cdc
+  'pages.project.di.step.oracle-cdc.schemaNames': 'Schema',
+  'pages.project.di.step.oracle-cdc.schemaNames.placeholder': 'DEBEZIUM1, DEBEZIUM2',
+  'pages.project.di.step.oracle-cdc.useSelectCount': '使用 select count()',
+  'pages.project.di.step.oracle-cdc.skipAnalyze': '跳过表 analysis',
 
   // mongodb-cdc
   'pages.project.di.step.mongodb-cdc.hosts': '服务器地址',
