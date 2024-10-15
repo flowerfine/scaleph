@@ -1,12 +1,14 @@
 import React, {useEffect} from 'react';
 import {Form} from 'antd';
 import {InfoCircleOutlined} from "@ant-design/icons";
-import {DrawerForm, ProFormText, ProFormTextArea,} from '@ant-design/pro-components';
+import {DrawerForm, ProFormGroup, ProFormText, ProFormTextArea,} from '@ant-design/pro-components';
 import {getIntl, getLocale} from "@umijs/max";
 import {Node, XFlow} from '@antv/xflow';
 import {ModalFormProps} from '@/typings';
 import {ClickHouseParams, STEP_ATTR_TYPE} from '../constant';
 import DataSourceItem from "../dataSource";
+import CommonConfigItem
+  from "@/pages/Project/Workspace/DataIntegration/SeaTunnel/Dag/components/node/steps/common/config/commonConfig";
 
 const SourceClickHouseStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
   const intl = getIntl(getLocale());
@@ -58,6 +60,17 @@ const SourceClickHouseStepForm: React.FC<ModalFormProps<Node>> = ({data, visible
             icon: <InfoCircleOutlined/>,
           }}
         />
+        <ProFormGroup
+          title={intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          collapsible={true}
+          defaultCollapsed={true}
+        >
+          <CommonConfigItem data={ClickHouseParams.clickhouseConf}/>
+        </ProFormGroup>
       </DrawerForm>
     </XFlow>
   );

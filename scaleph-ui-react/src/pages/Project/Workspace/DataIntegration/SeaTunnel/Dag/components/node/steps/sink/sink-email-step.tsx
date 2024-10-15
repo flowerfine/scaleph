@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Form} from 'antd';
 import {
   DrawerForm,
-  ProFormDependency,
+  ProFormDependency, ProFormDigit,
   ProFormGroup,
   ProFormSelect,
   ProFormSwitch,
@@ -81,6 +81,12 @@ const SinkEmailStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVis
                       if (email_smtp_auth) {
                         return (
                           <ProFormGroup>
+                            <ProFormDigit
+                              name={EmailParams.emailSmtpPort}
+                              label={intl.formatMessage({id: 'pages.project.di.step.email.emailSmtpPort'})}
+                              min={0}
+                              initialValue={465}
+                            />
                             <ProFormTextArea
                               name={EmailParams.emailAuthorizationCode}
                               label={intl.formatMessage({id: 'pages.project.di.step.email.emailAuthorizationCode'})}

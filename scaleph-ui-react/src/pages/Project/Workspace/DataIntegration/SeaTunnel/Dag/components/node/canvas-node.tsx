@@ -64,7 +64,7 @@ const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
       >
         <Popover title={<div>
           <Typography.Text>{node.data.label}</Typography.Text>
-          <a href="https://seatunnel.apache.org/docs/2.3.7/about/" target="_blank">
+          <a href="https://seatunnel.apache.org/docs/2.3.8/about/" target="_blank">
             <Button shape="default" type="link" icon={<InfoCircleOutlined/>}/>
           </a>
         </div>}

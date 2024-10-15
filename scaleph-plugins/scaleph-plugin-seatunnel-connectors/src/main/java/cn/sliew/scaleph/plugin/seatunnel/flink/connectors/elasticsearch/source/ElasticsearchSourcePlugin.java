@@ -47,8 +47,10 @@ public class ElasticsearchSourcePlugin extends SeaTunnelConnectorPlugin {
                 "Used to read data from Elasticsearch. support version >= 2.x and < 8.x.",
                 ElasticsearchSourcePlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
+        props.add(INDEX_LIST);
         props.add(INDEX);
         props.add(SOURCE);
+        props.add(ARRAY_COLUMN);
         props.add(QUERY);
         props.add(SCROLL_TIME);
         props.add(SCROLL_SIZE);

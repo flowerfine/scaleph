@@ -88,7 +88,12 @@ const SourceElasticsearchStepForm: React.FC<ModalFormProps<Node>> = ({data, visi
         >
           <CommonListItem data={ElasticsearchParams.source}/>
         </ProFormGroup>
-        <FieldItem/>
+        <ProFormText
+          name={ElasticsearchParams.arrayColumn}
+          label={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.arrayColumn'})}
+          placeholder={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.arrayColumn.placeholder'})}
+        />
+        {/*<FieldItem/>*/}
       </DrawerForm>
     </XFlow>
   );

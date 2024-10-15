@@ -27,11 +27,27 @@ import com.fasterxml.jackson.databind.JsonNode;
 public enum ElasticsearchSourceProperties {
     ;
 
+    public static final PropertyDescriptor<JsonNode> INDEX_LIST = new PropertyDescriptor.Builder()
+            .name("index_list")
+            .description("The index_list is used to define multi-index synchronization tasks")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<JsonNode> SOURCE = new PropertyDescriptor.Builder()
             .name("source")
             .description("The fields of index.")
             .type(PropertyType.OBJECT)
             .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> ARRAY_COLUMN = new PropertyDescriptor.Builder()
+            .name("array_column")
+            .description("The fields of array type")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

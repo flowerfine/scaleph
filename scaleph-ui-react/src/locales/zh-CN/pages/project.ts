@@ -334,6 +334,7 @@ export default {
   'pages.project.di.step.email.emailTransportProtocol': '邮件传输协议',
   'pages.project.di.step.email.emailFromAddress': '邮件发送者地址',
   'pages.project.di.step.email.emailSmtpAuth': '启用SMTP认证',
+  'pages.project.di.step.email.emailSmtpPort': 'SMTP端口号',
   'pages.project.di.step.email.emailAuthorizationCode': 'SMTP认证代码',
   'pages.project.di.step.email.emailToAddress': '邮件接收者地址',
   'pages.project.di.step.email.emailMessageHeadline': '邮件标题',
@@ -611,6 +612,8 @@ export default {
   'pages.project.di.step.elasticsearch.scrollSize': '滚动大小',
   'pages.project.di.step.elasticsearch.source': '字段列表',
   'pages.project.di.step.elasticsearch.source.tooltip': '字段列表',
+  'pages.project.di.step.elasticsearch.arrayColumn': '数组字段',
+  'pages.project.di.step.elasticsearch.arrayColumn.placeholder': '{tags = "array<string>",phones = "array<string>"}',
 
   // neo4j
   'pages.project.di.step.neo4j.uri': 'URI',
@@ -679,7 +682,7 @@ export default {
   'pages.project.di.step.doris.sinkMaxRetries': '重试次数',
   'pages.project.di.step.doris.sinkBufferSize': 'Buffer 大小',
   'pages.project.di.step.doris.sinkBufferCount': 'Buffer 数量',
-  'pages.project.di.step.doris.dorisBatchSize': '批量写入数量',
+  'pages.project.di.step.doris.dorisBatchSize': '批量读取或写入数量',
   'pages.project.di.step.doris.needsUnsupportedTypeCasting': '启用类型转换',
   'pages.project.di.step.doris.needsUnsupportedTypeCasting.tooltip': '上游数据类型和 Doris 数据类型不匹配时，将上游数据转换成 Doris 支持的数据类型。如 Decimal64 转换成 Double',
   'pages.project.di.step.doris.saveModeCreateTemplate': 'Schema 创建模板',

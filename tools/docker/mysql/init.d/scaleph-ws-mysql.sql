@@ -176,25 +176,25 @@ create table ws_artifact_seatunnel
 ) engine = innodb comment 'artifact seatunnel';
 INSERT INTO ws_artifact_seatunnel(id, artifact_id, seatunnel_engine, flink_version, seatunnel_version, dag_id, current,
                                   creator, editor)
-VALUES (1, 4, 'seatunnel', '1.16.3', '2.3.7', 1, 1, 'sys', 'sys');
+VALUES (1, 4, 'seatunnel', '1.16.3', '2.3.8', 1, 1, 'sys', 'sys');
 INSERT INTO ws_artifact_seatunnel(id, artifact_id, seatunnel_engine, flink_version, seatunnel_version, dag_id, current,
                                   creator, editor)
-VALUES (2, 5, 'seatunnel', '1.16.3', '2.3.7', 2, 1, 'sys', 'sys');
+VALUES (2, 5, 'seatunnel', '1.16.3', '2.3.8', 2, 1, 'sys', 'sys');
 INSERT INTO ws_artifact_seatunnel(id, artifact_id, seatunnel_engine, flink_version, seatunnel_version, dag_id, current,
                                   creator, editor)
-VALUES (3, 11, 'seatunnel', '1.16.3', '2.3.7', 8, 1, 'sys', 'sys');
+VALUES (3, 11, 'seatunnel', '1.16.3', '2.3.8', 8, 1, 'sys', 'sys');
 INSERT INTO ws_artifact_seatunnel(id, artifact_id, seatunnel_engine, flink_version, seatunnel_version, dag_id, current,
                                   creator, editor)
-VALUES (4, 12, 'seatunnel', '1.16.3', '2.3.7', 9, '1', 'sys', 'sys');
+VALUES (4, 12, 'seatunnel', '1.16.3', '2.3.8', 9, '1', 'sys', 'sys');
 INSERT INTO `ws_artifact_seatunnel`(`id`, `artifact_id`, `seatunnel_engine`, `flink_version`, `seatunnel_version`,
                                     `dag_id`, `current`, `creator`, `editor`)
-VALUES (5, 13, 'seatunnel', '1.16.3', '2.3.7', 10, '1', 'sys', 'sys');
+VALUES (5, 13, 'seatunnel', '1.16.3', '2.3.8', 10, '1', 'sys', 'sys');
 INSERT INTO `ws_artifact_seatunnel`(`id`, `artifact_id`, `seatunnel_engine`, `flink_version`, `seatunnel_version`,
                                     `dag_id`, `current`, `creator`, `editor`)
-VALUES (6, 14, 'seatunnel', '1.16.3', '2.3.7', 11, '1', 'sys', 'sys');
+VALUES (6, 14, 'seatunnel', '1.16.3', '2.3.8', 11, '1', 'sys', 'sys');
 INSERT INTO `ws_artifact_seatunnel`(`id`, `artifact_id`, `seatunnel_engine`, `flink_version`, `seatunnel_version`,
                                     `dag_id`, `current`, `creator`, `editor`)
-VALUES (7, 15, 'seatunnel', '1.16.3', '2.3.7', 12, '1', 'sys', 'sys');
+VALUES (7, 15, 'seatunnel', '1.16.3', '2.3.8', 12, '1', 'sys', 'sys');
 
 DROP TABLE IF EXISTS ws_flink_kubernetes_template;
 CREATE TABLE ws_flink_kubernetes_template

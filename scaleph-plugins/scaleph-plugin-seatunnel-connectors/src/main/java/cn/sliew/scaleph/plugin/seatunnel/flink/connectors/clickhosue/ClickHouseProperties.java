@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.clickhosue;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
+import org.codehaus.jackson.JsonNode;
 
 public enum ClickHouseProperties {
     ;
@@ -58,6 +59,15 @@ public enum ClickHouseProperties {
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required, Property.Sensitive)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> CLICKHOUSE_CONFIG = new PropertyDescriptor.Builder()
+            .name("clickhouse.config")
+            .description(
+                    "clickhouse.* The way to specify the parameter is to add the prefix clickhouse. to the original parameter name. For example, the way to specify socket_timeout is: clickhouse.socket_timeout = 50000 . "
+                            + "If these non-essential parameters are not specified, they will use the default values given by clickhouse-jdbc.\n")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
             .validateAndBuild();
 
 }
