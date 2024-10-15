@@ -246,6 +246,7 @@ export const EmailParams = {
   emailTransportProtocol: 'email_transport_protocol',
   emailFromAddress: 'email_from_address',
   emailSmtpAuth: 'email_smtp_auth',
+  emailSmtpPort: 'email_smtp_port',
   emailAuthorizationCode: 'email_authorization_code',
   emailToAddress: 'email_to_address',
   emailMessageHeadline: 'email_message_headline',

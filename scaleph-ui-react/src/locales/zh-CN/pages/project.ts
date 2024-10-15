@@ -334,6 +334,7 @@ export default {
   'pages.project.di.step.email.emailTransportProtocol': '邮件传输协议',
   'pages.project.di.step.email.emailFromAddress': '邮件发送者地址',
   'pages.project.di.step.email.emailSmtpAuth': '启用SMTP认证',
+  'pages.project.di.step.email.emailSmtpPort': 'SMTP端口号',
   'pages.project.di.step.email.emailAuthorizationCode': 'SMTP认证代码',
   'pages.project.di.step.email.emailToAddress': '邮件接收者地址',
   'pages.project.di.step.email.emailMessageHeadline': '邮件标题',

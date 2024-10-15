@@ -43,6 +43,7 @@ public class EmailSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(EMAIL_TRANSPORT_PROTOCOL);
         props.add(EMAIL_FROM_ADDRESS);
         props.add(EMAIL_SMTP_AUTH);
+        props.add(EMAIL_SMTP_PORT);
         props.add(EMAIL_AUTHORIZATION_CODE);
         props.add(EMAIL_TO_ADDRESS);
         props.add(EMAIL_MESSAGE_HEADLINE);
