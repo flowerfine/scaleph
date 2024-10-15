@@ -37,6 +37,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.doris.DorisProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.doris.DorisProperties.DORIS_BATCH_SIZE;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.doris.source.DorisSourceProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
@@ -51,6 +52,7 @@ public class DorisSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(TABLE);
         props.add(DORIS_READ_FIELD);
         props.add(DORIS_FILTER_QUERY);
+        props.add(DORIS_BATCH_SIZE);
         props.add(DORIS_REQUEST_CONNECT_TIMEOUT_MS);
         props.add(DORIS_REQUEST_QUERY_TIMEOUT_S);
         props.add(DORIS_REQUEST_READ_TIMEOUT_MS);

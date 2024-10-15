@@ -36,7 +36,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.clickhosue.ClickHouseProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.clickhosue.sink.ClickHouseSinkProperties.CLICKHOUSE_CONFIG;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.clickhosue.source.ClickHouseSourceProperties.SERVER_TIME_ZONE;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.clickhosue.source.ClickHouseSourceProperties.SQL;
 

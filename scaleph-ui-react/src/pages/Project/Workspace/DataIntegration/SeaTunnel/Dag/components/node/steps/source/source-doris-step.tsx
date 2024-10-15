@@ -70,6 +70,15 @@ const SourceDorisStepForm: React.FC<ModalFormProps<Node>> = ({data, visible, onV
           colProps={{span: 12}}
         />
         <ProFormDigit
+          name={DorisParams.dorisBatchSize}
+          label={intl.formatMessage({id: 'pages.project.di.step.doris.dorisBatchSize'})}
+          initialValue={1024}
+          fieldProps={{
+            step: 1024,
+            min: 1
+          }}
+        />
+        <ProFormDigit
           name={DorisParams.dorisRequestConnectTimeoutMs}
           label={intl.formatMessage({id: 'pages.project.di.step.doris.dorisRequestConnectTimeoutMs'})}
           colProps={{span: 8}}
