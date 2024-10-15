@@ -13,7 +13,7 @@ Scaleph is driven by personal interest and evolves actively through faithful dev
 * Data Integration
   * Web-ui click-and-drag data integration ways backended by [Apache SeaTunnel](https://seatunnel.apache.org/) on Flink engine.
   
-  * Support the latest 2.3.7 V2 out-of-the-box connectors and transforms.
+  * Support the latest 2.3.8 V2 out-of-the-box connectors and transforms.
 
   * DataSource management.
   
