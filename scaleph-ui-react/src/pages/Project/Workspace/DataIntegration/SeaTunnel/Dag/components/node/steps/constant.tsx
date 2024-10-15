@@ -500,6 +500,7 @@ export const ElasticsearchParams = {
   scrollTime: "scroll_time",
   scrollSize: "scroll_size",
   source: "source",
+  arrayColumn: "array_column",
   schema: "schema"
 };
 

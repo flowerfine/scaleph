@@ -611,6 +611,8 @@ export default {
   'pages.project.di.step.elasticsearch.scrollSize': '滚动大小',
   'pages.project.di.step.elasticsearch.source': '字段列表',
   'pages.project.di.step.elasticsearch.source.tooltip': '字段列表',
+  'pages.project.di.step.elasticsearch.arrayColumn': '数组字段',
+  'pages.project.di.step.elasticsearch.arrayColumn.placeholder': '{tags = "array<string>",phones = "array<string>"}',
 
   // neo4j
   'pages.project.di.step.neo4j.uri': 'URI',
