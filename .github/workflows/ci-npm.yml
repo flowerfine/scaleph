@@ -32,8 +32,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Build scaleph-ui-react-dist
-        run: mvn -B -U package -pl scaleph-ui-react -am -DskipTests
+#      - name: Build scaleph-ui-react-dist
+#        run: ./mvnw -B -U package -pl scaleph-ui-react -am -DskipTests
       - name: Build with NPM
         timeout-minutes: 360
         run: cd scaleph-ui-react && npm install && npm run build --prod
