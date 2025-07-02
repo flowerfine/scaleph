@@ -86,7 +86,7 @@ services:
       - scaleph
 
   minio:
-    image: bitnami/minio:2023.3.24
+    image: bitnami/minio:2025.4.8
     container_name: minio
     environment:
       - MINIO_ROOT_USER=admin
@@ -104,7 +104,7 @@ services:
       - scaleph
 
   gravitino:
-    image: datastrato/gravitino:0.5.1
+    image: apache/gravitino:0.9.0-incubating
     container_name: gravitino
     ports:
       - 8090:8090
