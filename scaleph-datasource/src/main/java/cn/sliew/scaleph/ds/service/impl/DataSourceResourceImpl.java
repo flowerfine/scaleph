@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.ds.service.impl;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.datasource.service.CarpDsInfoService;
 import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
@@ -45,7 +45,7 @@ public class DataSourceResourceImpl implements DataSourceResource {
     @Override
     public Page<DsInfoDTO> list(ResourceListParam param) {
         DsInfoListParam target = BeanUtil.copy(param, new DsInfoListParam());
-        target.setDsType(DataSourceType.of(param.getLabel()));
+        target.setDsType(CarpDataSourceType.of(param.getLabel()));
         PageResult<DsInfoDTO> pageResult = carpDsInfoService.list(target);
         Page<DsInfoDTO> page = new Page<>(pageResult.getCurrent(), pageResult.getSize(), pageResult.getTotal());
         page.setRecords(pageResult.getRecords());

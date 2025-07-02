@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.clickhosue;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public enum ClickHouseProperties {
     ;

@@ -54,10 +54,11 @@ import java.util.stream.Collectors;
  *
  * @author liyu
  */
+@Deprecated
 @RestController
 @RequestMapping("/api/admin/dept")
 @Tag(name = "系统管理-部门管理")
-public class SecDeptController {
+public class ScalephSecDeptController {
 
     @Autowired
     private SecDeptService secDeptService;

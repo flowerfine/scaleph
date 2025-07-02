@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.common.dict;
 
-import cn.sliew.carp.framework.common.dict.EnumDictRegistry;
+import cn.sliew.carp.framework.common.dict.CarpEnumDictRegistry;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
@@ -33,7 +33,7 @@ public class DictRegister implements InitializingBean {
         List<DictType> enumList = EnumUtils.getEnumList(DictType.class);
         for (DictType dictType : enumList) {
             List values = EnumUtils.getEnumList(dictType.getInstanceClass());
-            EnumDictRegistry.register(dictType, values);
+            CarpEnumDictRegistry.register(dictType, values);
         }
     }
 }

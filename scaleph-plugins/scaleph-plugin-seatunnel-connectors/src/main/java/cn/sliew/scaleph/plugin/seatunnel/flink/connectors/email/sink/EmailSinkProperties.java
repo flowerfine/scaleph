@@ -19,7 +19,6 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.email.sink;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
-import com.amazonaws.services.dynamodbv2.xspec.BOOL;
 
 public enum EmailSinkProperties {
     ;
@@ -51,7 +50,7 @@ public enum EmailSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<BOOL> EMAIL_SMTP_AUTH = new PropertyDescriptor.Builder()
+    public static final PropertyDescriptor<Boolean> EMAIL_SMTP_AUTH = new PropertyDescriptor.Builder()
             .name("email_smtp_auth")
             .description("Whether to authenticate the customer")
             .type(PropertyType.BOOLEAN)

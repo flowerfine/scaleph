@@ -48,7 +48,7 @@ import java.util.List;
  * @since 2021-08-01
  */
 @Service
-public class SecDeptServiceImpl implements SecDeptService {
+public class ScalephSecDeptServiceImpl implements SecDeptService {
 
     @Autowired
     private SecDeptMapper secDeptMapper;

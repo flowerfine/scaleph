@@ -19,7 +19,6 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.clickhosue.sink;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
-import org.codehaus.jackson.JsonNode;
 
 public enum ClickHouseSinkProperties {
     ;

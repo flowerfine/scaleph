@@ -58,7 +58,7 @@ public class WorkflowTaskInstanceFailureEventListener extends AbstractWorkflowTa
             dagStepService.update(dagStepUpdateParam);
 
             DagStepDTO stepDTO = dagStepService.get(workflowTaskInstanceId);
-            DagInstanceDTO instanceDTO = dagInstanceComplexService.selectSimpleOne(stepDTO.getDagInstanceId());
+            DagInstanceDTO instanceDTO = dagInstanceComplexService.selectSimpleOne(stepDTO.getDagInstance().getId());
             workflowInstanceStateMachine.onTaskChange(instanceDTO);
         }
     }

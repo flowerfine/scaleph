@@ -20,14 +20,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>cn.sliew</groupId>
-        <artifactId>carp-spring-boot-parent</artifactId>
-        <version>0.0.32</version>
-    </parent>
     <groupId>cn.sliew</groupId>
     <artifactId>scaleph</artifactId>
-    <version>2.0.6-SNAPSHOT</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
     <name>scaleph</name>
     <description>Scaleph System</description>
@@ -85,6 +80,7 @@
         <module>scaleph-ui-react</module>
         <module>scaleph-ui-react2</module>
 
+        <module>scaleph-dependencies</module>
         <module>scaleph-common</module>
         <module>scaleph-dao</module>
         <module>scaleph-security</module>
@@ -108,389 +104,25 @@
     </modules>
 
     <properties>
+        <revision>2.0.6-SNAPSHOT</revision>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <scala.binary.version>2.12</scala.binary.version>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <maven.plugin.compiler.version>3.8.1</maven.plugin.compiler.version>
-        <maven.plugin.frontend.version>1.6</maven.plugin.frontend.version>
-        <maven.plugin.assembly.version>3.5.0</maven.plugin.assembly.version>
 
-        <docker.hub>flowerfine</docker.hub>
-        <docker.repo>${project.name}</docker.repo>
-        <docker.tag>${project.version}</docker.tag>
-        <docker.build.skip>true</docker.build.skip>
-        <docker.push.skip>true</docker.push.skip>
-
-        <org.mapstruct.extensions.spring.version>0.1.1</org.mapstruct.extensions.spring.version>
-        <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+        <maven.test.skip>true</maven.test.skip>
+        <maven.deploy.skip>false</maven.deploy.skip>
+        <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
+        <mapstruct.version>1.4.2.Final</mapstruct.version>
         <mapstruct.lombok.binding.version>0.2.0</mapstruct.lombok.binding.version>
-        <org.projectlombok.version>1.18.24</org.projectlombok.version>
-        <auto-service.version>1.0.1</auto-service.version>
-        <carp.version>0.0.23</carp.version>
-        <milky.version>1.0.13</milky.version>
-
-        <ojdbc.version>21.1.0.0</ojdbc.version>
-        <clickhouse-jdbc.version>0.3.2</clickhouse-jdbc.version>
-        <doris.version>5.1.26</doris.version>
-        <druid.version>0.22.1</druid.version>
-        <calcite-druid.version>1.29.0</calcite-druid.version>
-        <config.version>1.4.3</config.version>
-
-        <sakura.version>1.0.2</sakura.version>
-        <hadoop.version>3.3.4</hadoop.version>
-        <hive.version>3.1.3</hive.version>
-        <flink.version>1.18.1</flink.version>
-        <flink.base.version>1.18</flink.base.version>
-        <flink-jdbc.version>3.1.2</flink-jdbc.version>
-        <paimon.version>0.7.0-incubating</paimon.version>
-
-        <netty.version>4.1.82.Final</netty.version>
-        <kogito.version>2.44.0.Alpha</kogito.version>
-        <fury.version>0.4.1</fury.version>
-        <disruptor.version>4.0.0</disruptor.version>
+        <lombok.version>1.18.38</lombok.version>
+        <auto-service.version>1.1.1</auto-service.version>
+        <pf4j.version>3.12.1</pf4j.version>
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-common</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-dao</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-security</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-kubernetes</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-resource</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-config</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-dataservice</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-datasource</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-meta</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-workspace-project</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-workspace-flink</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-workspace-flink-sql</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-workspace-flink-cdc</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-workspace-seatunnel</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-workspace-schedule</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-application-oam</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-application-flink</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-application-doris</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-engine-flink-client</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-engine-sql-gateway</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-cache</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-log</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-mail</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-privilege</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-storage</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-system</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-dag</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-queue</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-plugin-framework</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-plugin-datasource-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-plugin-flinkcdc</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-plugin-seatunnel-native-flink</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-plugin-seatunnel-connectors</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-plugin-file-fetcher-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-workflow-quartz</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.kafka</groupId>
-                <artifactId>kafka-clients</artifactId>
-                <version>2.8.1</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mapstruct.extensions.spring</groupId>
-                <artifactId>mapstruct-spring-annotations</artifactId>
-                <version>${org.mapstruct.extensions.spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mapstruct</groupId>
-                <artifactId>mapstruct</artifactId>
-                <version>${org.mapstruct.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.lmax</groupId>
-                <artifactId>disruptor</artifactId>
-                <version>${disruptor.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.sliew</groupId>
-                <artifactId>carp-module-security-spring</artifactId>
-                <version>${carp.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.sliew</groupId>
-                <artifactId>carp-module-scheduler-manage</artifactId>
-                <version>${carp.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.sliew</groupId>
-                <artifactId>carp-module-system</artifactId>
-                <version>${carp.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.sliew</groupId>
-                <artifactId>carp-module-datasource</artifactId>
-                <version>${carp.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.sliew</groupId>
-                <artifactId>milky-common</artifactId>
-                <version>${milky.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.sliew</groupId>
-                <artifactId>milky-dsl</artifactId>
-                <version>${milky.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.sliew</groupId>
-                <artifactId>milky-test</artifactId>
-                <version>${milky.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.flink</groupId>
-                <artifactId>flink-clients</artifactId>
-                <version>${flink.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.flink</groupId>
-                <artifactId>flink-sql-gateway</artifactId>
-                <version>${flink.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.flink</groupId>
-                <artifactId>flink-table-api-java</artifactId>
-                <version>${flink.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.flink</groupId>
-                <artifactId>flink-table-runtime</artifactId>
-                <version>${flink.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.flink</groupId>
-                <artifactId>flink-table-planner-loader</artifactId>
-                <version>${flink.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.flink</groupId>
-                <artifactId>flink-table-planner_2.12</artifactId>
-                <version>${flink.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.flink</groupId>
-                <artifactId>flink-kubernetes</artifactId>
-                <version>${flink.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.flink</groupId>
-                <artifactId>flink-connector-jdbc</artifactId>
-                <version>${flink-jdbc.version}-${flink.base.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.paimon</groupId>
-                <artifactId>paimon-flink-1.17</artifactId>
-                <version>${paimon.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.sliew</groupId>
-                <artifactId>sakura-catalog-flink</artifactId>
-                <version>${sakura.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.typesafe</groupId>
-                <artifactId>config</artifactId>
-                <version>${config.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.oracle.database.jdbc</groupId>
-                <artifactId>ojdbc8</artifactId>
-                <version>${ojdbc.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-all</artifactId>
-                <version>${netty.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kie.kogito</groupId>
-                <artifactId>kogito-spring-boot-starter</artifactId>
-                <version>${kogito.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.kie.kogito</groupId>
-                <artifactId>kogito-serverless-workflow-runtime</artifactId>
-                <version>${kogito.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.furyio</groupId>
-                <artifactId>fury-core</artifactId>
-                <version>${fury.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <finalName>${project.artifactId}</finalName>
@@ -519,26 +151,6 @@
             </resource>
         </resources>
 
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>com.github.eirslett</groupId>
-                    <artifactId>frontend-maven-plugin</artifactId>
-                    <version>${maven.plugin.frontend.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${maven.plugin.compiler.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>${maven.plugin.assembly.version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -547,16 +159,21 @@
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                     <encoding>${maven.compiler.encoding}</encoding>
+                    <!-- 不加此参数，编译的方法会丢失方法名，反射无法通过 name 获取到参数名，只能拿到 arg0 这种 -->
+                    <!-- 导致所有依赖反射获取方法名的功能都无法使用，比如 mybatis 方法都需要指定 @Param -->
+                    <!-- @Controller 都需要指定 @PathVariable、@RequestParam，aop 需要添加 argNames = 'name' -->
+                    <!-- 如 say(String name) -> say(String arg0) -->
+                    <parameters>true</parameters>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
-                            <version>${org.mapstruct.version}</version>
+                            <version>${mapstruct.version}</version>
                         </path>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>${org.projectlombok.version}</version>
+                            <version>${lombok.version}</version>
                         </path>
                         <path>
                             <groupId>org.projectlombok</groupId>
@@ -571,20 +188,33 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>${flatten-maven-plugin.version}</version>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten-clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>java17</id>
-            <activation>
-                <jdk>17</jdk>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <java.version>17</java.version>
-            </properties>
-        </profile>
-    </profiles>
 
 </project>
