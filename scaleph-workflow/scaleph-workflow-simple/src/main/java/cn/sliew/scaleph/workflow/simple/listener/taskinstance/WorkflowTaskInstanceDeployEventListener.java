@@ -98,7 +98,7 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
             dagStepService.update(dagStepUpdateParam);
 
             DagStepDTO stepDTO = dagStepService.get(event.getWorkflowTaskInstanceId());
-            DagInstanceDTO dagInstanceDTO = dagInstanceComplexService.selectSimpleOne(stepDTO.getDagInstanceId());
+            DagInstanceDTO dagInstanceDTO = dagInstanceComplexService.selectSimpleOne(stepDTO.getDagInstance().getId());
             DagConfigStepDTO configStepDTO = dagConfigStepService.get(stepDTO.getDagConfigStep().getId());
             WorkflowTaskDefinitionMeta workflowTaskDefinitionMeta = JacksonUtil.toObject(configStepDTO.getStepMeta(), WorkflowTaskDefinitionMeta.class);
             try {
@@ -151,7 +151,7 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
             }
             return ActionContextBuilder.newBuilder()
                     .withWorkflowDefinitionId(dagInstanceDTO.getDagConfig().getId())
-                    .withWorkflowInstanceId(stepDTO.getDagInstanceId())
+                    .withWorkflowInstanceId(stepDTO.getDagInstance().getId())
                     .withWorkflowTaskDefinitionId(stepDTO.getDagConfigStep().getId())
                     .withWorkflowTaskInstanceId(stepDTO.getId())
                     .withGlobalInputs(globalInputs)
