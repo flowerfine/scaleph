@@ -41,7 +41,7 @@ jobs:
           cache: maven
       - name: Build with Maven
         timeout-minutes: 360
-        run: mvn -B -U -T 4C clean package -Pdist -Dfast
+        run: ./mvnw -B -U -T 4C clean package -Pdist -Dfast
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
