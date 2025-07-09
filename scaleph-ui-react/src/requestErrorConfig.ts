@@ -78,7 +78,7 @@ const handleError = (
     message.warning(errorMessage, 2);
   } else if (showType == "2") {
     message.error(errorMessage, 2);
-  } else if (showType == "4") {
+  } else if (showType == "3") {
     notification.error({
       message: "Error:" + errorCode,
       description: errorMessage,

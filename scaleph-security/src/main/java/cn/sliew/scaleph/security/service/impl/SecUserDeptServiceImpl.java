@@ -22,7 +22,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import cn.sliew.scaleph.dao.entity.master.security.SecUserDept;
-import cn.sliew.scaleph.dao.mapper.master.security.SecUserDeptMapper;
+import cn.sliew.scaleph.dao.mapper.master.security.ScalephSecUserDeptMapper;
 import cn.sliew.scaleph.security.service.SecUserDeptService;
 import cn.sliew.scaleph.security.service.convert.SecUserDeptConvert;
 import cn.sliew.scaleph.security.service.dto.SecUserDeptDTO;
@@ -42,7 +42,7 @@ import org.springframework.stereotype.Service;
 public class SecUserDeptServiceImpl implements SecUserDeptService {
 
     @Autowired
-    private SecUserDeptMapper secUserDeptMapper;
+    private ScalephSecUserDeptMapper secUserDeptMapper;
 
     @Override
     public int insert(SecUserDeptDTO secUserDeptDTO) {

@@ -20,7 +20,7 @@ package cn.sliew.scaleph.security.service.impl;
 
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.security.SecDept;
-import cn.sliew.scaleph.dao.mapper.master.security.SecDeptMapper;
+import cn.sliew.scaleph.dao.mapper.master.security.ScalephSecDeptMapper;
 import cn.sliew.scaleph.security.service.SecDeptRoleService;
 import cn.sliew.scaleph.security.service.SecDeptService;
 import cn.sliew.scaleph.security.service.SecUserDeptService;
@@ -51,7 +51,7 @@ import java.util.List;
 public class ScalephSecDeptServiceImpl implements SecDeptService {
 
     @Autowired
-    private SecDeptMapper secDeptMapper;
+    private ScalephSecDeptMapper secDeptMapper;
     @Autowired
     private SecUserDeptService secUserDeptService;
     @Autowired

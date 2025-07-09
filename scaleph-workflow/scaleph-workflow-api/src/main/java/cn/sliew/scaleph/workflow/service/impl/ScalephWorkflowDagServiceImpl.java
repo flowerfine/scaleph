@@ -33,7 +33,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-public class WorkflowDagServiceImpl implements WorkflowDagService {
+public class ScalephWorkflowDagServiceImpl implements WorkflowDagService {
 
     @Autowired
     private DagConfigComplexService dagConfigComplexService;

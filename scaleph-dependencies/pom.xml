@@ -30,21 +30,9 @@
     <packaging>pom</packaging>
 
     <properties>
-        <docker.hub>flowerfine</docker.hub>
-        <docker.repo>${project.name}</docker.repo>
-        <docker.tag>${project.version}</docker.tag>
-        <docker.build.skip>true</docker.build.skip>
-        <docker.push.skip>true</docker.push.skip>
-
-        <carp-parent.version>0.0.85</carp-parent.version>
-        <carp.version>0.0.32</carp.version>
+        <carp-parent.version>0.0.86</carp-parent.version>
+        <carp.version>0.0.34</carp.version>
         <milky.version>1.0.16</milky.version>
-
-        <org.mapstruct.extensions.spring.version>0.1.1</org.mapstruct.extensions.spring.version>
-        <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
-        <mapstruct.lombok.binding.version>0.2.0</mapstruct.lombok.binding.version>
-        <org.projectlombok.version>1.18.24</org.projectlombok.version>
-        <auto-service.version>1.0.1</auto-service.version>
 
         <ojdbc.version>21.1.0.0</ojdbc.version>
         <clickhouse-jdbc.version>0.3.2</clickhouse-jdbc.version>
@@ -271,12 +259,12 @@
             <dependency>
                 <groupId>org.mapstruct.extensions.spring</groupId>
                 <artifactId>mapstruct-spring-annotations</artifactId>
-                <version>${org.mapstruct.extensions.spring.version}</version>
+                <version>${mapstruct.extensions.spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct</artifactId>
-                <version>${org.mapstruct.version}</version>
+                <version>${mapstruct.version}</version>
             </dependency>
 
             <dependency>
