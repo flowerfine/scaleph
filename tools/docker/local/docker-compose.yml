@@ -42,7 +42,7 @@ services:
       - scaleph
 
   redis:
-    image: bitnami/redis:7.0.10
+    image: soldevelo/redis:7.0.15
     container_name: redis
     environment:
       - REDIS_PORT_NUMBER=6379
