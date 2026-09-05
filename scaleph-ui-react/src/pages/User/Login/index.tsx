@@ -5,8 +5,6 @@ import {useEmotionCss} from "@ant-design/use-emotion-css";
 import {Helmet, SelectLang, useIntl, useModel, useNavigate} from "@umijs/max";
 import {PATTERNS, USER_AUTH} from "@/constants";
 import AppsLogo from "@/components/AppLogoComponent";
-import {AuthService} from "@/services/auth";
-import {UserService} from "@/services/admin/security/user.service";
 import styles from "../index.less";
 import { AuthCode,LoginInfo } from "@/typings";
 import {AuthenticationService} from "@/services/admin/security/authentication.service";
@@ -109,6 +107,7 @@ const Login: React.FC = () => {
                   message: intl.formatMessage({id: "pages.common.validate.characterWord"}),
                 },
               ]}
+              initialValue={"sys_admin"}
             >
               <Input
                 placeholder={intl.formatMessage({id: "pages.user.login.userName.placeholder"})}
@@ -118,6 +117,7 @@ const Login: React.FC = () => {
               name="password"
               label={intl.formatMessage({id: "pages.user.login.password"})}
               rules={[{required: true, min: 6, max: 32}]}
+              initialValue={"123456"}
             >
               <Input.Password
                 placeholder={intl.formatMessage({id: "pages.user.login.password.placeholder"})}

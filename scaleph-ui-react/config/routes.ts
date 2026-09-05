@@ -254,6 +254,12 @@ export default [
           {
             path: '/workspace/data-develop/flink/sql/editor',
             component: './Project/Workspace/DataDevelop/Flink/SQL/CodeEditor',
+          },
+          {
+            name: 'flink-cep',
+            path: '/workspace/data-develop/flink-cep',
+            icon: 'safety',
+            component: './Project/Workspace/DataDevelop/Flink/Cep',
           }
         ]
       },

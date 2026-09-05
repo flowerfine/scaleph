@@ -23,6 +23,7 @@ export default {
   'menu.project.data-develop': '数据开发',
   'menu.project.data-develop.flink-jar': 'Flink Jar',
   'menu.project.data-develop.flink-sql': 'Flink SQL',
+  'menu.project.data-develop.flink-cep': 'Flink CEP',
   'menu.project.schedule': '调度',
   'menu.project.schedule.group': '分组管理',
   'menu.project.schedule.job': '任务管理',
