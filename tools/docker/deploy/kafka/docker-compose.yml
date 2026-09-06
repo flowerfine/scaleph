@@ -16,7 +16,7 @@
 
 services:
   zookeeper:
-    image: bitnami/zookeeper:3.9.2
+    image: bitnamilegacy/zookeeper:3.9.2
     container_name: zookeeper
     ports:
       - 2181:2181
@@ -28,7 +28,7 @@ services:
       - scaleph
 
   kafka:
-    image: bitnami/kafka:3.7
+    image: bitnamilegacy/kafka:3.7
     container_name: kafka
     depends_on:
       - zookeeper

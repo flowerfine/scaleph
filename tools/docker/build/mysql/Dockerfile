@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM bitnami/mysql:8.0
+FROM bitnamilegacy/mysql:8.0
 
 COPY ./tools/docker/mysql/init.d /docker-entrypoint-initdb.d
 COPY ./tools/docker/mysql/my_custom.cnf /opt/bitnami/mysql/conf/my_custom.cnf
