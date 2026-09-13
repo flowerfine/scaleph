@@ -75,7 +75,7 @@ services:
       - scaleph
 
   redis:
-    image: bitnami/redis:7.0.10
+    image: bitnamilegacy/redis:7.0.10
     container_name: redis
     environment:
       - REDIS_PORT_NUMBER=6379
@@ -86,7 +86,7 @@ services:
       - scaleph
 
   minio:
-    image: bitnami/minio:2025.4.8
+    image: bitnamilegacy/minio:2025.4.8
     container_name: minio
     environment:
       - MINIO_ROOT_USER=admin

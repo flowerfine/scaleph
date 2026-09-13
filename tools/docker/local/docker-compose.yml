@@ -19,7 +19,7 @@ version: "3.8"
 services:
 
   mysql:
-    image: bitnami/mysql:8.0
+    image: bitnamilegacy/mysql:8.0
     container_name: mysql
     environment:
       - TZ=Asia/Shanghai
@@ -42,7 +42,7 @@ services:
       - scaleph
 
   redis:
-    image: bitnami/redis:7.0.10
+    image: bitnamilegacy/redis:7.0.10
     container_name: redis
     environment:
       - REDIS_PORT_NUMBER=6379
@@ -53,7 +53,7 @@ services:
       - scaleph
 
   minio:
-    image: bitnami/minio:2025.4.8
+    image: bitnamilegacy/minio:2025.4.8
     container_name: minio
     environment:
       - MINIO_ROOT_USER=admin
